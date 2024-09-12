@@ -1,5 +1,8 @@
+using Application;
+using Domain;
+using Infrastructure;
 
-namespace WebApplication1
+namespace BackEnd
 {
     public class Program
     {
@@ -8,6 +11,10 @@ namespace WebApplication1
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.DomainConfiguration();
+            builder.Services.ApplicationConfiguration();
+            builder.Services.InfrastructureConfiguration();
+
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
