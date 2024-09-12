@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Infrastructure.MsSqlDatabase;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure
 {
@@ -6,7 +7,7 @@ namespace Infrastructure
     {
         public static IServiceCollection InfrastructureConfiguration(this IServiceCollection serviceCollection)
         {
-
+            serviceCollection.AddTransient<DiplomaProjectContext, DiplomaProjectMsSqlContext>();
 
             return serviceCollection;
         }
