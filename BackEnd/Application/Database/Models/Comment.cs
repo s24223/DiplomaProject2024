@@ -9,7 +9,7 @@ public partial class Comment
 
     public int CommentTypeId { get; set; }
 
-    public DateTime ReleaseDate { get; set; }
+    public DateTime Published { get; set; }
 
     public string Description { get; set; } = null!;
 

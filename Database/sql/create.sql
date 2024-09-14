@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2024-09-12 09:08:59.937
+-- Last modification date: 2024-09-14 13:10:45.729
 
 -- tables
 -- Table: Address
@@ -18,7 +18,6 @@ CREATE TABLE AdministrativeDivision (
     Id int  NOT NULL,
     Name nvarchar(100)  NOT NULL,
     ParentDivisionId int  NULL,
-    CountryId int  NOT NULL,
     AdministrativeTypeId int  NOT NULL,
     CONSTRAINT AdministrativeDivision_pk PRIMARY KEY  (Id)
 );
@@ -34,25 +33,32 @@ CREATE TABLE AdministrativeType (
 CREATE TABLE Branch (
     Id uniqueidentifier  NOT NULL,
     CompanyId uniqueidentifier  NOT NULL,
+    AddressId uniqueidentifier  NOT NULL,
+    UrlSegment varchar(100)  NULL,
     Name nvarchar(100)  NOT NULL,
     Description ntext  NULL,
-    AddressId uniqueidentifier  NOT NULL,
     CONSTRAINT Branch_pk PRIMARY KEY  (Id)
 );
 
 -- Table: BranchCharacteristicsList
 CREATE TABLE BranchCharacteristicsList (
-    BranchId uniqueidentifier  NOT NULL,
-    QualityId int  NOT NULL,
     CharacteristicId int  NOT NULL,
-    CONSTRAINT BranchCharacteristicsList_pk PRIMARY KEY  (QualityId,CharacteristicId,BranchId)
+    BranchId uniqueidentifier  NOT NULL,
+    QualityId int  NULL,
+    CONSTRAINT BranchCharacteristicsList_pk PRIMARY KEY  (CharacteristicId,BranchId)
 );
 
 -- Table: BranchOffer
 CREATE TABLE BranchOffer (
     BranchId uniqueidentifier  NOT NULL,
     OfferId uniqueidentifier  NOT NULL,
-    CONSTRAINT BranchOffer_pk PRIMARY KEY  (BranchId,OfferId)
+    Created datetime  NOT NULL,
+    PublishStart datetime  NOT NULL,
+    PublishEnd datetime  NULL,
+    WorkStart date  NULL,
+    WorkEnd date  NULL,
+    LastUpdate datetime  NOT NULL,
+    CONSTRAINT BranchOffer_pk PRIMARY KEY  (BranchId,OfferId,Created)
 );
 
 -- Table: Characteristic
@@ -83,7 +89,7 @@ CREATE TABLE CharacteristicType (
 CREATE TABLE Comment (
     InternshipId uniqueidentifier  NOT NULL,
     CommentTypeId int  NOT NULL,
-    ReleaseDate datetime  NOT NULL,
+    Published datetime  NOT NULL,
     Description ntext  NOT NULL,
     CONSTRAINT Comment_pk PRIMARY KEY  (CommentTypeId,InternshipId)
 );
@@ -98,15 +104,14 @@ CREATE TABLE CommentType (
 -- Table: Company
 CREATE TABLE Company (
     UserId uniqueidentifier  NOT NULL,
+    Logo image  NULL,
+    UrlSegment varchar(100)  NULL,
+    CreateDate date  NOT NULL,
+    ContactEmail nvarchar(100)  NOT NULL,
     Name nvarchar(100)  NOT NULL,
+    Regon varchar(50)  NOT NULL,
+    Description ntext  NULL,
     CONSTRAINT Company_pk PRIMARY KEY  (UserId)
-);
-
--- Table: Country
-CREATE TABLE Country (
-    Id int  NOT NULL,
-    Name nvarchar(100)  NOT NULL,
-    CONSTRAINT Country_pk PRIMARY KEY  (Id)
 );
 
 -- Table: DivisionStreet
@@ -116,48 +121,70 @@ CREATE TABLE DivisionStreet (
     CONSTRAINT DivisionStreet_pk PRIMARY KEY  (DivisionId,StreetId)
 );
 
+-- Table: Exception
+CREATE TABLE Exception (
+    Id uniqueidentifier  NOT NULL,
+    DateTime datetime  NOT NULL,
+    ExceptionType varchar(100)  NOT NULL,
+    Message ntext  NOT NULL,
+    AdditionalData ntext  NULL,
+    CONSTRAINT Exception_pk PRIMARY KEY  (Id)
+);
+
 -- Table: Internship
 CREATE TABLE Internship (
     Id uniqueidentifier  NOT NULL,
-    OfferId uniqueidentifier  NOT NULL,
-    PersonId uniqueidentifier  NOT NULL,
     ContractNumber nvarchar(100)  NOT NULL,
+    PersonId uniqueidentifier  NOT NULL,
+    BranchId uniqueidentifier  NOT NULL,
+    OfferId uniqueidentifier  NOT NULL,
+    Created datetime  NOT NULL,
     CONSTRAINT Internship_pk PRIMARY KEY  (Id)
 );
 
 -- Table: Offer
 CREATE TABLE Offer (
     Id uniqueidentifier  NOT NULL,
-    Name varchar(100)  NOT NULL,
+    Name nvarchar(100)  NOT NULL,
     Description ntext  NOT NULL,
-    WorkStart  date  NULL,
-    WorkEnd  date  NULL,
-    PublishStart  datetime  NOT NULL,
-    PublishEnd  datetime  NULL,
-    Paid  char(1)  NOT NULL,
-    NegotiatedSalary char(1)  NULL,
     MinSalary money  NULL,
     MaxSalary money  NULL,
-    RemoteWork char(1)  NOT NULL,
-    LastUpdate  datetime  NOT NULL,
-    PrivateStatus char(1)  NOT NULL,
+    NegotiatedSalary char(1)  NULL,
+    ForStudents char(1)  NOT NULL,
     CONSTRAINT Offer_pk PRIMARY KEY  (Id)
 );
 
 -- Table: OfferCharacteristicsList
 CREATE TABLE OfferCharacteristicsList (
-    OfferId uniqueidentifier  NOT NULL,
-    QualityId int  NOT NULL,
     CharacteristicId int  NOT NULL,
-    CONSTRAINT OfferCharacteristicsList_pk PRIMARY KEY  (CharacteristicId,QualityId,OfferId)
+    OfferId uniqueidentifier  NOT NULL,
+    QualityId int  NULL,
+    CONSTRAINT OfferCharacteristicsList_pk PRIMARY KEY  (CharacteristicId,OfferId)
 );
 
 -- Table: Person
 CREATE TABLE Person (
     UserId uniqueidentifier  NOT NULL,
+    Logo image  NULL,
+    UrlSegment varchar(100)  NULL,
+    CreateDate date  NOT NULL,
+    ContactEmail nvarchar(100)  NOT NULL,
     Name nvarchar(100)  NOT NULL,
     Surname nvarchar(100)  NOT NULL,
+    BirthDate date  NULL,
+    ContactPhoneNum varchar(20)  NULL,
+    Description ntext  NULL,
+    IsStudent char(1)  NOT NULL,
+    AddressId uniqueidentifier  NULL,
     CONSTRAINT Person_pk PRIMARY KEY  (UserId)
+);
+
+-- Table: PersonCharacteristicsList
+CREATE TABLE PersonCharacteristicsList (
+    CharacteristicId int  NOT NULL,
+    PersonId uniqueidentifier  NOT NULL,
+    QualityId int  NULL,
+    CONSTRAINT PersonCharacteristicsList_pk PRIMARY KEY  (CharacteristicId,PersonId)
 );
 
 -- Table: Quality
@@ -171,12 +198,16 @@ CREATE TABLE Quality (
 
 -- Table: Recruitment
 CREATE TABLE Recruitment (
-    OfferId uniqueidentifier  NOT NULL,
     PersonId uniqueidentifier  NOT NULL,
+    BranchId uniqueidentifier  NOT NULL,
+    OfferId uniqueidentifier  NOT NULL,
+    Created datetime  NOT NULL,
     ApplicationDate datetime  NOT NULL,
-    AcceptedRejected char(1)  NOT NULL,
-    Comment ntext  NULL,
-    CONSTRAINT Recruitment_pk PRIMARY KEY  (OfferId,PersonId)
+    CV image  NULL,
+    PersonMessage ntext  NULL,
+    CompanyResponse ntext  NULL,
+    AcceptedRejected char(1)  NULL,
+    CONSTRAINT Recruitment_pk PRIMARY KEY  (PersonId,BranchId,OfferId,Created)
 );
 
 -- Table: Street
@@ -187,43 +218,48 @@ CREATE TABLE Street (
     CONSTRAINT Street_pk PRIMARY KEY  (Id)
 );
 
--- Table: TypeURL
-CREATE TABLE TypeURL (
+-- Table: Url
+CREATE TABLE Url (
+    UserId uniqueidentifier  NOT NULL,
+    UrlTypeId int  NOT NULL,
+    PublishDate datetime  NOT NULL,
+    Url ntext  NOT NULL,
+    Name nvarchar(100)  NULL,
+    Description ntext  NULL,
+    CONSTRAINT Url_pk PRIMARY KEY  (PublishDate,UrlTypeId,UserId)
+);
+
+-- Table: UrlType
+CREATE TABLE UrlType (
     Id int  NOT NULL,
     Name nvarchar(100)  NOT NULL,
     Description ntext  NOT NULL,
-    CONSTRAINT TypeURL_pk PRIMARY KEY  (Id)
-);
-
--- Table: URLs
-CREATE TABLE URLs (
-    UserId uniqueidentifier  NOT NULL,
-    TypeURLId int  NOT NULL,
-    PublishDate datetime  NOT NULL,
-    Description ntext  NOT NULL,
-    CONSTRAINT URLs_pk PRIMARY KEY  (TypeURLId,PublishDate,UserId)
+    CONSTRAINT UrlType_pk PRIMARY KEY  (Id)
 );
 
 -- Table: User
 CREATE TABLE "User" (
     Id uniqueidentifier  NOT NULL,
-    Email nvarchar(100)  NOT NULL,
-    Logo image  NULL,
-    CeateDate datetime  NOT NULL,
-    Description ntext  NULL,
+    LoginEmail nvarchar(100)  NOT NULL,
     Password nvarchar(max)  NOT NULL,
     Salt nvarchar(max)  NOT NULL,
-    RefreshToken nvarchar(max)  NOT NULL,
-    ExpiredToken datetime  NOT NULL,
+    RefreshToken nvarchar(max)  NULL,
+    ExpiredToken datetime  NULL,
+    LastLoginIn datetime  NULL,
+    LastUpdatePassword datetime  NOT NULL,
     CONSTRAINT User_pk PRIMARY KEY  (Id)
 );
 
--- Table: UserCharacteristicsList
-CREATE TABLE UserCharacteristicsList (
-    UserId uniqueidentifier  NOT NULL,
-    QualityId int  NOT NULL,
-    CharacteristicId int  NOT NULL,
-    CONSTRAINT UserCharacteristicsList_pk PRIMARY KEY  (QualityId,CharacteristicId,UserId)
+-- Table: UserProblem
+CREATE TABLE UserProblem (
+    Id uniqueidentifier  NOT NULL,
+    DateTime datetime  NOT NULL,
+    UserMessage ntext  NOT NULL,
+    Response ntext  NULL,
+    PreviousProblemId uniqueidentifier  NULL,
+    UserId uniqueidentifier  NULL,
+    Email nvarchar(100)  NULL,
+    CONSTRAINT UserProblem_pk PRIMARY KEY  (Id)
 );
 
 -- foreign keys
@@ -236,11 +272,6 @@ ALTER TABLE Address ADD CONSTRAINT Address_Division
 ALTER TABLE AdministrativeDivision ADD CONSTRAINT AdministrativeDivision_AdministrativeType
     FOREIGN KEY (AdministrativeTypeId)
     REFERENCES AdministrativeType (Id);
-
--- Reference: AdministrativeDivision_Country (table: AdministrativeDivision)
-ALTER TABLE AdministrativeDivision ADD CONSTRAINT AdministrativeDivision_Country
-    FOREIGN KEY (CountryId)
-    REFERENCES Country (Id);
 
 -- Reference: BranchCharacteristicsList_Branch (table: BranchCharacteristicsList)
 ALTER TABLE BranchCharacteristicsList ADD CONSTRAINT BranchCharacteristicsList_Branch
@@ -329,8 +360,8 @@ ALTER TABLE AdministrativeDivision ADD CONSTRAINT Division_Division
 
 -- Reference: Internship_Recruitment (table: Internship)
 ALTER TABLE Internship ADD CONSTRAINT Internship_Recruitment
-    FOREIGN KEY (OfferId,PersonId)
-    REFERENCES Recruitment (OfferId,PersonId);
+    FOREIGN KEY (PersonId,BranchId,OfferId,Created)
+    REFERENCES Recruitment (PersonId,BranchId,OfferId,Created);
 
 -- Reference: OfferCharacteristicsList_Characteristic (table: OfferCharacteristicsList)
 ALTER TABLE OfferCharacteristicsList ADD CONSTRAINT OfferCharacteristicsList_Characteristic
@@ -347,6 +378,26 @@ ALTER TABLE OfferCharacteristicsList ADD CONSTRAINT OfferCharacteristicsList_Qua
     FOREIGN KEY (QualityId)
     REFERENCES Quality (Id);
 
+-- Reference: PersonCharacteristicsList_Characteristic (table: PersonCharacteristicsList)
+ALTER TABLE PersonCharacteristicsList ADD CONSTRAINT PersonCharacteristicsList_Characteristic
+    FOREIGN KEY (CharacteristicId)
+    REFERENCES Characteristic (Id);
+
+-- Reference: PersonCharacteristicsList_Person (table: PersonCharacteristicsList)
+ALTER TABLE PersonCharacteristicsList ADD CONSTRAINT PersonCharacteristicsList_Person
+    FOREIGN KEY (PersonId)
+    REFERENCES Person (UserId);
+
+-- Reference: PersonCharacteristicsList_Quality (table: PersonCharacteristicsList)
+ALTER TABLE PersonCharacteristicsList ADD CONSTRAINT PersonCharacteristicsList_Quality
+    FOREIGN KEY (QualityId)
+    REFERENCES Quality (Id);
+
+-- Reference: Person_Address (table: Person)
+ALTER TABLE Person ADD CONSTRAINT Person_Address
+    FOREIGN KEY (AddressId)
+    REFERENCES Address (Id);
+
 -- Reference: Person_User (table: Person)
 ALTER TABLE Person ADD CONSTRAINT Person_User
     FOREIGN KEY (UserId)
@@ -357,10 +408,10 @@ ALTER TABLE Quality ADD CONSTRAINT Quality_CharacteristicType
     FOREIGN KEY (CharacteristicTypeId)
     REFERENCES CharacteristicType (Id);
 
--- Reference: Recruitment_Offer (table: Recruitment)
-ALTER TABLE Recruitment ADD CONSTRAINT Recruitment_Offer
-    FOREIGN KEY (OfferId)
-    REFERENCES Offer (Id);
+-- Reference: Recruitment_BranchOffer (table: Recruitment)
+ALTER TABLE Recruitment ADD CONSTRAINT Recruitment_BranchOffer
+    FOREIGN KEY (BranchId,OfferId,Created)
+    REFERENCES BranchOffer (BranchId,OfferId,Created);
 
 -- Reference: Recruitment_Person (table: Recruitment)
 ALTER TABLE Recruitment ADD CONSTRAINT Recruitment_Person
@@ -372,28 +423,18 @@ ALTER TABLE Street ADD CONSTRAINT Street_AdministrativeType
     FOREIGN KEY (AdministrativeTypeId)
     REFERENCES AdministrativeType (Id);
 
--- Reference: URLs_TypeURL (table: URLs)
-ALTER TABLE URLs ADD CONSTRAINT URLs_TypeURL
-    FOREIGN KEY (TypeURLId)
-    REFERENCES TypeURL (Id);
+-- Reference: Url_UrlType (table: Url)
+ALTER TABLE Url ADD CONSTRAINT Url_UrlType
+    FOREIGN KEY (UrlTypeId)
+    REFERENCES UrlType (Id);
 
--- Reference: URLs_User (table: URLs)
-ALTER TABLE URLs ADD CONSTRAINT URLs_User
+-- Reference: Url_User (table: Url)
+ALTER TABLE Url ADD CONSTRAINT Url_User
     FOREIGN KEY (UserId)
     REFERENCES "User" (Id);
 
--- Reference: UserCharacteristicsList_Characteristic (table: UserCharacteristicsList)
-ALTER TABLE UserCharacteristicsList ADD CONSTRAINT UserCharacteristicsList_Characteristic
-    FOREIGN KEY (CharacteristicId)
-    REFERENCES Characteristic (Id);
-
--- Reference: UserCharacteristicsList_Quality (table: UserCharacteristicsList)
-ALTER TABLE UserCharacteristicsList ADD CONSTRAINT UserCharacteristicsList_Quality
-    FOREIGN KEY (QualityId)
-    REFERENCES Quality (Id);
-
--- Reference: UserCharacteristicsList_User (table: UserCharacteristicsList)
-ALTER TABLE UserCharacteristicsList ADD CONSTRAINT UserCharacteristicsList_User
+-- Reference: UserProblem_User (table: UserProblem)
+ALTER TABLE UserProblem ADD CONSTRAINT UserProblem_User
     FOREIGN KEY (UserId)
     REFERENCES "User" (Id);
 

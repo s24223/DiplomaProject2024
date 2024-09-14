@@ -19,7 +19,7 @@ public partial class Characteristic
 
     public virtual ICollection<OfferCharacteristicsList> OfferCharacteristicsLists { get; set; } = new List<OfferCharacteristicsList>();
 
-    public virtual ICollection<UserCharacteristicsList> UserCharacteristicsLists { get; set; } = new List<UserCharacteristicsList>();
+    public virtual ICollection<PersonCharacteristicsList> PersonCharacteristicsLists { get; set; } = new List<PersonCharacteristicsList>();
 
     public virtual ICollection<Characteristic> ChildCharacteristics { get; set; } = new List<Characteristic>();
 

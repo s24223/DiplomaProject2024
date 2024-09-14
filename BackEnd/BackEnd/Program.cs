@@ -11,9 +11,9 @@ namespace BackEnd
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.DomainConfiguration();
-            builder.Services.ApplicationConfiguration();
-            builder.Services.InfrastructureConfiguration();
+            builder.Services.DomainConfiguration(builder.Configuration);
+            builder.Services.ApplicationConfiguration(builder.Configuration);
+            builder.Services.InfrastructureConfiguration(builder.Configuration);
 
 
             builder.Services.AddControllers();

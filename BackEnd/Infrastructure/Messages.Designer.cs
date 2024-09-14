@@ -59,5 +59,14 @@ namespace Infrastructure {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skonfihuruj UserSecrest w Infrastructure.
+        /// </summary>
+        internal static string NotConfiguredUserSecretsForDbConnection {
+            get {
+                return ResourceManager.GetString("NotConfiguredUserSecretsForDbConnection", resourceCulture);
+            }
+        }
     }
 }

@@ -1,12 +1,10 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2024-09-12 09:08:59.937
+-- Last modification date: 2024-09-14 13:10:45.729
 
 -- foreign keys
 ALTER TABLE Address DROP CONSTRAINT Address_Division;
 
 ALTER TABLE AdministrativeDivision DROP CONSTRAINT AdministrativeDivision_AdministrativeType;
-
-ALTER TABLE AdministrativeDivision DROP CONSTRAINT AdministrativeDivision_Country;
 
 ALTER TABLE BranchCharacteristicsList DROP CONSTRAINT BranchCharacteristicsList_Branch;
 
@@ -50,25 +48,29 @@ ALTER TABLE OfferCharacteristicsList DROP CONSTRAINT OfferCharacteristicsList_Of
 
 ALTER TABLE OfferCharacteristicsList DROP CONSTRAINT OfferCharacteristicsList_Quality;
 
+ALTER TABLE PersonCharacteristicsList DROP CONSTRAINT PersonCharacteristicsList_Characteristic;
+
+ALTER TABLE PersonCharacteristicsList DROP CONSTRAINT PersonCharacteristicsList_Person;
+
+ALTER TABLE PersonCharacteristicsList DROP CONSTRAINT PersonCharacteristicsList_Quality;
+
+ALTER TABLE Person DROP CONSTRAINT Person_Address;
+
 ALTER TABLE Person DROP CONSTRAINT Person_User;
 
 ALTER TABLE Quality DROP CONSTRAINT Quality_CharacteristicType;
 
-ALTER TABLE Recruitment DROP CONSTRAINT Recruitment_Offer;
+ALTER TABLE Recruitment DROP CONSTRAINT Recruitment_BranchOffer;
 
 ALTER TABLE Recruitment DROP CONSTRAINT Recruitment_Person;
 
 ALTER TABLE Street DROP CONSTRAINT Street_AdministrativeType;
 
-ALTER TABLE URLs DROP CONSTRAINT URLs_TypeURL;
+ALTER TABLE Url DROP CONSTRAINT Url_UrlType;
 
-ALTER TABLE URLs DROP CONSTRAINT URLs_User;
+ALTER TABLE Url DROP CONSTRAINT Url_User;
 
-ALTER TABLE UserCharacteristicsList DROP CONSTRAINT UserCharacteristicsList_Characteristic;
-
-ALTER TABLE UserCharacteristicsList DROP CONSTRAINT UserCharacteristicsList_Quality;
-
-ALTER TABLE UserCharacteristicsList DROP CONSTRAINT UserCharacteristicsList_User;
+ALTER TABLE UserProblem DROP CONSTRAINT UserProblem_User;
 
 -- tables
 DROP TABLE Address;
@@ -95,9 +97,9 @@ DROP TABLE CommentType;
 
 DROP TABLE Company;
 
-DROP TABLE Country;
-
 DROP TABLE DivisionStreet;
+
+DROP TABLE Exception;
 
 DROP TABLE Internship;
 
@@ -107,19 +109,21 @@ DROP TABLE OfferCharacteristicsList;
 
 DROP TABLE Person;
 
+DROP TABLE PersonCharacteristicsList;
+
 DROP TABLE Quality;
 
 DROP TABLE Recruitment;
 
 DROP TABLE Street;
 
-DROP TABLE TypeURL;
+DROP TABLE Url;
 
-DROP TABLE URLs;
+DROP TABLE UrlType;
 
 DROP TABLE "User";
 
-DROP TABLE UserCharacteristicsList;
+DROP TABLE UserProblem;
 
 -- End of file.
 

@@ -19,5 +19,5 @@ public partial class Quality
 
     public virtual ICollection<OfferCharacteristicsList> OfferCharacteristicsLists { get; set; } = new List<OfferCharacteristicsList>();
 
-    public virtual ICollection<UserCharacteristicsList> UserCharacteristicsLists { get; set; } = new List<UserCharacteristicsList>();
+    public virtual ICollection<PersonCharacteristicsList> PersonCharacteristicsLists { get; set; } = new List<PersonCharacteristicsList>();
 }

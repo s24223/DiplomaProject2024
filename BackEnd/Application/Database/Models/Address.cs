@@ -18,5 +18,7 @@ public partial class Address
 
     public virtual AdministrativeDivision Division { get; set; } = null!;
 
+    public virtual ICollection<Person> People { get; set; } = new List<Person>();
+
     public virtual Street Street { get; set; } = null!;
 }

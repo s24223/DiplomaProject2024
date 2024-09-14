@@ -1,30 +1,50 @@
-﻿using Application.Database.Models;
+﻿using Application.Database;
+using Application.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Reflection;
 
 namespace Infrastructure.MsSqlDatabase;
 
+/// <summary>
+/// 
+/// </summary>
+/// <exception cref="NotImplementedException"></exception>
+
 public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
 {
+    private readonly IConfiguration _configuration;
+
+    public DiplomaProjectMsSqlContext(IConfiguration configuration)
+    {
+        _configuration = configuration;
+    }
+
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
         {
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddUserSecrets<DiplomaProjectMsSqlContext>() // Pobierz konfigurację z User Secrets
-                .Build();
+            var connectionString = _configuration.GetConnectionString("DbString");
 
-            var connectionString = configuration.GetConnectionString("DbString");
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                Console.WriteLine("Connection string is empty or null.");
+            }
+
             optionsBuilder.UseSqlServer(connectionString);
         }
         else
         {
-            throw new NotImplementedException("Configure UserSecrets");
+            var type = this.GetType().FullName;
+            Console.WriteLine($"{type}");
+            var method = MethodBase.GetCurrentMethod().Name;
+            Console.WriteLine($"{method}");
+
+            throw new NotImplementedException(Messages.NotConfiguredUserSecretsForDbConnection);
         }
         base.OnConfiguring(optionsBuilder);
     }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Address>(entity =>
@@ -62,11 +82,6 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
                 .HasForeignKey(d => d.AdministrativeTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("AdministrativeDivision_AdministrativeType");
-
-            entity.HasOne(d => d.Country).WithMany(p => p.AdministrativeDivisions)
-                .HasForeignKey(d => d.CountryId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("AdministrativeDivision_Country");
 
             entity.HasOne(d => d.ParentDivision).WithMany(p => p.InverseParentDivision)
                 .HasForeignKey(d => d.ParentDivisionId)
@@ -109,6 +124,9 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Description).HasColumnType("ntext");
             entity.Property(e => e.Name).HasMaxLength(100);
+            entity.Property(e => e.UrlSegment)
+                .HasMaxLength(100)
+                .IsUnicode(false);
 
             entity.HasOne(d => d.Address).WithMany(p => p.Branches)
                 .HasForeignKey(d => d.AddressId)
@@ -119,28 +137,11 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
                 .HasForeignKey(d => d.CompanyId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Branch_Company");
-
-            entity.HasMany(d => d.Offers).WithMany(p => p.Branches)
-                .UsingEntity<Dictionary<string, object>>(
-                    "BranchOffer",
-                    r => r.HasOne<Offer>().WithMany()
-                        .HasForeignKey("OfferId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("BranchOffer_Offer"),
-                    l => l.HasOne<Branch>().WithMany()
-                        .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("BranchOffer_Branch"),
-                    j =>
-                    {
-                        j.HasKey("BranchId", "OfferId").HasName("BranchOffer_pk");
-                        j.ToTable("BranchOffer");
-                    });
         });
 
         modelBuilder.Entity<BranchCharacteristicsList>(entity =>
         {
-            entity.HasKey(e => new { e.QualityId, e.CharacteristicId, e.BranchId }).HasName("BranchCharacteristicsList_pk");
+            entity.HasKey(e => new { e.CharacteristicId, e.BranchId }).HasName("BranchCharacteristicsList_pk");
 
             entity.ToTable("BranchCharacteristicsList");
 
@@ -156,8 +157,29 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
 
             entity.HasOne(d => d.Quality).WithMany(p => p.BranchCharacteristicsLists)
                 .HasForeignKey(d => d.QualityId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("BranchCharacteristicsList_Quality");
+        });
+
+        modelBuilder.Entity<BranchOffer>(entity =>
+        {
+            entity.HasKey(e => new { e.BranchId, e.OfferId, e.Created }).HasName("BranchOffer_pk");
+
+            entity.ToTable("BranchOffer");
+
+            entity.Property(e => e.Created).HasColumnType("datetime");
+            entity.Property(e => e.LastUpdate).HasColumnType("datetime");
+            entity.Property(e => e.PublishEnd).HasColumnType("datetime");
+            entity.Property(e => e.PublishStart).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Branch).WithMany(p => p.BranchOffers)
+                .HasForeignKey(d => d.BranchId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("BranchOffer_Branch");
+
+            entity.HasOne(d => d.Offer).WithMany(p => p.BranchOffers)
+                .HasForeignKey(d => d.OfferId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("BranchOffer_Offer");
         });
 
         modelBuilder.Entity<Characteristic>(entity =>
@@ -228,7 +250,7 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
             entity.ToTable("Comment");
 
             entity.Property(e => e.Description).HasColumnType("ntext");
-            entity.Property(e => e.ReleaseDate).HasColumnType("datetime");
+            entity.Property(e => e.Published).HasColumnType("datetime");
 
             entity.HasOne(d => d.CommentType).WithMany(p => p.Comments)
                 .HasForeignKey(d => d.CommentTypeId)
@@ -258,7 +280,16 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
             entity.ToTable("Company");
 
             entity.Property(e => e.UserId).ValueGeneratedNever();
+            entity.Property(e => e.ContactEmail).HasMaxLength(100);
+            entity.Property(e => e.Description).HasColumnType("ntext");
+            entity.Property(e => e.Logo).HasColumnType("image");
             entity.Property(e => e.Name).HasMaxLength(100);
+            entity.Property(e => e.Regon)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.UrlSegment)
+                .HasMaxLength(100)
+                .IsUnicode(false);
 
             entity.HasOne(d => d.User).WithOne(p => p.Company)
                 .HasForeignKey<Company>(d => d.UserId)
@@ -266,14 +297,19 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
                 .HasConstraintName("Company_User");
         });
 
-        modelBuilder.Entity<Country>(entity =>
+        modelBuilder.Entity<Application.Database.Models.Exception>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("Country_pk");
+            entity.HasKey(e => e.Id).HasName("Exception_pk");
 
-            entity.ToTable("Country");
+            entity.ToTable("Exception");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
-            entity.Property(e => e.Name).HasMaxLength(100);
+            entity.Property(e => e.AdditionalData).HasColumnType("ntext");
+            entity.Property(e => e.DateTime).HasColumnType("datetime");
+            entity.Property(e => e.ExceptionType)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.Message).HasColumnType("ntext");
         });
 
         modelBuilder.Entity<Internship>(entity =>
@@ -284,9 +320,10 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
 
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.ContractNumber).HasMaxLength(100);
+            entity.Property(e => e.Created).HasColumnType("datetime");
 
             entity.HasOne(d => d.Recruitment).WithMany(p => p.Internships)
-                .HasForeignKey(d => new { d.OfferId, d.PersonId })
+                .HasForeignKey(d => new { d.PersonId, d.BranchId, d.OfferId, d.Created })
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Internship_Recruitment");
         });
@@ -299,27 +336,14 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
 
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Description).HasColumnType("ntext");
-            entity.Property(e => e.LastUpdate).HasColumnType("datetime");
+            entity.Property(e => e.ForStudents)
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .IsFixedLength();
             entity.Property(e => e.MaxSalary).HasColumnType("money");
             entity.Property(e => e.MinSalary).HasColumnType("money");
-            entity.Property(e => e.Name)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+            entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.NegotiatedSalary)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .IsFixedLength();
-            entity.Property(e => e.Paid)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .IsFixedLength();
-            entity.Property(e => e.PrivateStatus)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .IsFixedLength();
-            entity.Property(e => e.PublishEnd).HasColumnType("datetime");
-            entity.Property(e => e.PublishStart).HasColumnType("datetime");
-            entity.Property(e => e.RemoteWork)
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .IsFixedLength();
@@ -327,7 +351,7 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
 
         modelBuilder.Entity<OfferCharacteristicsList>(entity =>
         {
-            entity.HasKey(e => new { e.CharacteristicId, e.QualityId, e.OfferId }).HasName("OfferCharacteristicsList_pk");
+            entity.HasKey(e => new { e.CharacteristicId, e.OfferId }).HasName("OfferCharacteristicsList_pk");
 
             entity.ToTable("OfferCharacteristicsList");
 
@@ -343,7 +367,6 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
 
             entity.HasOne(d => d.Quality).WithMany(p => p.OfferCharacteristicsLists)
                 .HasForeignKey(d => d.QualityId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("OfferCharacteristicsList_Quality");
         });
 
@@ -354,13 +377,51 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
             entity.ToTable("Person");
 
             entity.Property(e => e.UserId).ValueGeneratedNever();
+            entity.Property(e => e.ContactEmail).HasMaxLength(100);
+            entity.Property(e => e.ContactPhoneNum)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Description).HasColumnType("ntext");
+            entity.Property(e => e.IsStudent)
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .IsFixedLength();
+            entity.Property(e => e.Logo).HasColumnType("image");
             entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.Surname).HasMaxLength(100);
+            entity.Property(e => e.UrlSegment)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.Address).WithMany(p => p.People)
+                .HasForeignKey(d => d.AddressId)
+                .HasConstraintName("Person_Address");
 
             entity.HasOne(d => d.User).WithOne(p => p.Person)
                 .HasForeignKey<Person>(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Person_User");
+        });
+
+        modelBuilder.Entity<PersonCharacteristicsList>(entity =>
+        {
+            entity.HasKey(e => new { e.CharacteristicId, e.PersonId }).HasName("PersonCharacteristicsList_pk");
+
+            entity.ToTable("PersonCharacteristicsList");
+
+            entity.HasOne(d => d.Characteristic).WithMany(p => p.PersonCharacteristicsLists)
+                .HasForeignKey(d => d.CharacteristicId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("PersonCharacteristicsList_Characteristic");
+
+            entity.HasOne(d => d.Person).WithMany(p => p.PersonCharacteristicsLists)
+                .HasForeignKey(d => d.PersonId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("PersonCharacteristicsList_Person");
+
+            entity.HasOne(d => d.Quality).WithMany(p => p.PersonCharacteristicsLists)
+                .HasForeignKey(d => d.QualityId)
+                .HasConstraintName("PersonCharacteristicsList_Quality");
         });
 
         modelBuilder.Entity<Quality>(entity =>
@@ -380,26 +441,31 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
 
         modelBuilder.Entity<Recruitment>(entity =>
         {
-            entity.HasKey(e => new { e.OfferId, e.PersonId }).HasName("Recruitment_pk");
+            entity.HasKey(e => new { e.PersonId, e.BranchId, e.OfferId, e.Created }).HasName("Recruitment_pk");
 
             entity.ToTable("Recruitment");
 
+            entity.Property(e => e.Created).HasColumnType("datetime");
             entity.Property(e => e.AcceptedRejected)
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .IsFixedLength();
             entity.Property(e => e.ApplicationDate).HasColumnType("datetime");
-            entity.Property(e => e.Comment).HasColumnType("ntext");
-
-            entity.HasOne(d => d.Offer).WithMany(p => p.Recruitments)
-                .HasForeignKey(d => d.OfferId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("Recruitment_Offer");
+            entity.Property(e => e.CompanyResponse).HasColumnType("ntext");
+            entity.Property(e => e.Cv)
+                .HasColumnType("image")
+                .HasColumnName("CV");
+            entity.Property(e => e.PersonMessage).HasColumnType("ntext");
 
             entity.HasOne(d => d.Person).WithMany(p => p.Recruitments)
                 .HasForeignKey(d => d.PersonId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Recruitment_Person");
+
+            entity.HasOne(d => d.BranchOffer).WithMany(p => p.Recruitments)
+                .HasForeignKey(d => new { d.BranchId, d.OfferId, d.Created })
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Recruitment_BranchOffer");
         });
 
         modelBuilder.Entity<Street>(entity =>
@@ -416,36 +482,39 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
                 .HasConstraintName("Street_AdministrativeType");
         });
 
-        modelBuilder.Entity<TypeUrl>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("TypeURL_pk");
-
-            entity.ToTable("TypeURL");
-
-            entity.Property(e => e.Id).ValueGeneratedNever();
-            entity.Property(e => e.Description).HasColumnType("ntext");
-            entity.Property(e => e.Name).HasMaxLength(100);
-        });
-
         modelBuilder.Entity<Url>(entity =>
         {
-            entity.HasKey(e => new { e.TypeUrlid, e.PublishDate, e.UserId }).HasName("URLs_pk");
+            entity.HasKey(e => new { e.PublishDate, e.UrlTypeId, e.UserId }).HasName("Url_pk");
 
-            entity.ToTable("URLs");
+            entity.ToTable("Url");
 
-            entity.Property(e => e.TypeUrlid).HasColumnName("TypeURLId");
             entity.Property(e => e.PublishDate).HasColumnType("datetime");
             entity.Property(e => e.Description).HasColumnType("ntext");
+            entity.Property(e => e.Name).HasMaxLength(100);
+            entity.Property(e => e.Url1)
+                .HasColumnType("ntext")
+                .HasColumnName("Url");
 
-            entity.HasOne(d => d.TypeUrl).WithMany(p => p.Urls)
-                .HasForeignKey(d => d.TypeUrlid)
+            entity.HasOne(d => d.UrlType).WithMany(p => p.Urls)
+                .HasForeignKey(d => d.UrlTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("URLs_TypeURL");
+                .HasConstraintName("Url_UrlType");
 
             entity.HasOne(d => d.User).WithMany(p => p.Urls)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("URLs_User");
+                .HasConstraintName("Url_User");
+        });
+
+        modelBuilder.Entity<UrlType>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("UrlType_pk");
+
+            entity.ToTable("UrlType");
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Description).HasColumnType("ntext");
+            entity.Property(e => e.Name).HasMaxLength(100);
         });
 
         modelBuilder.Entity<User>(entity =>
@@ -455,33 +524,27 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
             entity.ToTable("User");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
-            entity.Property(e => e.CeateDate).HasColumnType("datetime");
-            entity.Property(e => e.Description).HasColumnType("ntext");
-            entity.Property(e => e.Email).HasMaxLength(100);
             entity.Property(e => e.ExpiredToken).HasColumnType("datetime");
-            entity.Property(e => e.Logo).HasColumnType("image");
+            entity.Property(e => e.LastLoginIn).HasColumnType("datetime");
+            entity.Property(e => e.LastUpdatePassword).HasColumnType("datetime");
+            entity.Property(e => e.LoginEmail).HasMaxLength(100);
         });
 
-        modelBuilder.Entity<UserCharacteristicsList>(entity =>
+        modelBuilder.Entity<UserProblem>(entity =>
         {
-            entity.HasKey(e => new { e.QualityId, e.CharacteristicId, e.UserId }).HasName("UserCharacteristicsList_pk");
+            entity.HasKey(e => e.Id).HasName("UserProblem_pk");
 
-            entity.ToTable("UserCharacteristicsList");
+            entity.ToTable("UserProblem");
 
-            entity.HasOne(d => d.Characteristic).WithMany(p => p.UserCharacteristicsLists)
-                .HasForeignKey(d => d.CharacteristicId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("UserCharacteristicsList_Characteristic");
+            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.DateTime).HasColumnType("datetime");
+            entity.Property(e => e.Email).HasMaxLength(100);
+            entity.Property(e => e.Response).HasColumnType("ntext");
+            entity.Property(e => e.UserMessage).HasColumnType("ntext");
 
-            entity.HasOne(d => d.Quality).WithMany(p => p.UserCharacteristicsLists)
-                .HasForeignKey(d => d.QualityId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("UserCharacteristicsList_Quality");
-
-            entity.HasOne(d => d.User).WithMany(p => p.UserCharacteristicsLists)
+            entity.HasOne(d => d.User).WithMany(p => p.UserProblems)
                 .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("UserCharacteristicsList_User");
+                .HasConstraintName("UserProblem_User");
         });
 
         OnModelCreatingPartial(modelBuilder);
