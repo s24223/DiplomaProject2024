@@ -59,5 +59,32 @@ namespace BackEnd {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uzupełnij w Secretach Audience.
+        /// </summary>
+        internal static string NotConfiguredAudience {
+            get {
+                return ResourceManager.GetString("NotConfiguredAudience", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uzupełnij w Secretach Issuer.
+        /// </summary>
+        internal static string NotConfiguredIssuer {
+            get {
+                return ResourceManager.GetString("NotConfiguredIssuer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uzupełnij w Secretach Secret.
+        /// </summary>
+        internal static string NotConfiguredSecret {
+            get {
+                return ResourceManager.GetString("NotConfiguredSecret", resourceCulture);
+            }
+        }
     }
 }

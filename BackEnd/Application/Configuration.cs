@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Application.SharedRepositories.Authentication;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application
@@ -13,6 +14,7 @@ namespace Application
         {
             // Rejestracja IConfiguration jako Singleton
             serviceCollection.AddSingleton<IConfiguration>(configuration);
+            serviceCollection.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
 
             return serviceCollection;
         }
