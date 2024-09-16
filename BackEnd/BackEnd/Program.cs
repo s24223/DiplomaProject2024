@@ -114,10 +114,10 @@ namespace BackEnd
             }
 
             app.UseHttpsRedirection();
+            app.UseAuthenticationWerifier();
 
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseAuthenticationWerifier();
 
             app.MapControllers();
 

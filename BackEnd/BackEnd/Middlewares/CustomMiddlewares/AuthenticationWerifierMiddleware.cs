@@ -60,8 +60,9 @@ namespace BackEnd.Middlewares.CustomMiddlewares
                     user.ExpiredToken <= domainRepository.GetTimeRepository().GetDateTimeNow()
                     )
                 {
-                    context.Response.StatusCode = 401;
-                    return;
+                    /*context.Response.StatusCode = 401;
+                    return;*/
+                    context.Request.Headers.Remove("Authorization");
                 }
             }
             await _next(context);
