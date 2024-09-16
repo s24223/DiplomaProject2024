@@ -63,9 +63,18 @@ namespace Infrastructure {
         /// <summary>
         ///   Looks up a localized string similar to Skonfihuruj UserSecrest w Infrastructure.
         /// </summary>
-        internal static string NotConfiguredUserSecretsForDbConnection {
+        internal static string DbConnectionStringIsNotConfiguredInUserSecrets {
             get {
-                return ResourceManager.GetString("NotConfiguredUserSecretsForDbConnection", resourceCulture);
+                return ResourceManager.GetString("DbConnectionStringIsNotConfiguredInUserSecrets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connection string is empty or null..
+        /// </summary>
+        internal static string DbConnectionStringIsNullOrWhiteSpace {
+            get {
+                return ResourceManager.GetString("DbConnectionStringIsNullOrWhiteSpace", resourceCulture);
             }
         }
     }

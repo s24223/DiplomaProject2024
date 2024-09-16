@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace Application.SharedRepositories.Authentication
+namespace Application.Shared.Repositories.Authentication
 {
     public interface IAuthenticationRepository
     {
@@ -22,5 +22,6 @@ namespace Application.SharedRepositories.Authentication
         //Getters
         IEnumerable<Claim> GetClaimsFromJWT(string jwt);
         string GetNameFromClaims(IEnumerable<Claim> claims);
+        int GetTimeInHourValidRefreshToken();
     }
 }

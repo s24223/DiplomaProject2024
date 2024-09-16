@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+﻿using Domain.Repositories.ExceptionMessage;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -6,25 +7,31 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Application.SharedRepositories.Authentication
+namespace Application.Shared.Repositories.Authentication
 {
     public class AuthenticationRepository : IAuthenticationRepository
     {
         //Values
         private readonly IConfiguration _configuration;
+        private readonly IExceptionMessageRepository _exceptionRepository;
+
         private readonly string _issuer;
         private readonly string _audience;
         private readonly string _secret;
 
         private readonly int _iterationCountOfHashPassword = 10000;
         private readonly int _timeInMinutesValidJWT = 10;
+        private readonly int _timeInHourValidRefreshToken = 48;
 
         //Constructor
         public AuthenticationRepository(
-            IConfiguration configuration
+            IConfiguration configuration,
+            IExceptionMessageRepository exceptionRepository
             )
         {
             _configuration = configuration;
+            _exceptionRepository = exceptionRepository;
+
             var jwtSection = _configuration.GetSection("JwtData");
 
             var issuer = jwtSection["Issuer"];
@@ -33,15 +40,33 @@ namespace Application.SharedRepositories.Authentication
 
             if (string.IsNullOrWhiteSpace(issuer))
             {
-                throw new NotImplementedException(Messages.NotConfiguredIssuer);
+                var message = _exceptionRepository.GenerateExceptionMessage
+                    (
+                    Messages.NotConfiguredIssuer,
+                    GetType(),
+                    null
+                    );
+                throw new NotImplementedException(message);
             }
             if (string.IsNullOrWhiteSpace(audience))
             {
-                throw new NotImplementedException(Messages.NotConfiguredAudience);
+                var message = _exceptionRepository.GenerateExceptionMessage
+                    (
+                    Messages.NotConfiguredAudience,
+                    GetType(),
+                    null
+                    );
+                throw new NotImplementedException(message);
             }
             if (string.IsNullOrWhiteSpace(secret))
             {
-                throw new NotImplementedException(Messages.NotConfiguredSecret);
+                var message = _exceptionRepository.GenerateExceptionMessage
+                    (
+                    Messages.NotConfiguredSecret,
+                    GetType(),
+                    null
+                    );
+                throw new NotImplementedException(message);
             }
 
             _issuer = issuer;
@@ -179,6 +204,8 @@ namespace Application.SharedRepositories.Authentication
             }
             return name;
         }
+
+        public int GetTimeInHourValidRefreshToken() => _timeInHourValidRefreshToken;
 
         //================================================================================================
         //Private Methods

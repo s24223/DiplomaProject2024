@@ -1,5 +1,6 @@
 ﻿using Application.Database;
 using Application.Database.Models;
+using Domain.Repositories.ExceptionMessage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
@@ -14,10 +15,16 @@ namespace Infrastructure.MsSqlDatabase;
 public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
 {
     private readonly IConfiguration _configuration;
+    private readonly IExceptionMessageRepository _exceptionRepository;
 
-    public DiplomaProjectMsSqlContext(IConfiguration configuration)
+    public DiplomaProjectMsSqlContext
+        (
+        IConfiguration configuration,
+        IExceptionMessageRepository exceptionRepository
+        )
     {
         _configuration = configuration;
+        _exceptionRepository = exceptionRepository;
     }
 
 
@@ -27,21 +34,27 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
         {
             var connectionString = _configuration.GetConnectionString("DbString");
 
-            if (string.IsNullOrEmpty(connectionString))
+            if (string.IsNullOrWhiteSpace(connectionString))
             {
-                Console.WriteLine("Connection string is empty or null.");
+                var message = _exceptionRepository.GenerateExceptionMessage
+                (
+                Messages.DbConnectionStringIsNullOrWhiteSpace,
+                 this.GetType(),
+                 MethodBase.GetCurrentMethod()
+                );
+                throw new NotImplementedException(message);
             }
-
             optionsBuilder.UseSqlServer(connectionString);
         }
         else
         {
-            var type = this.GetType().FullName;
-            Console.WriteLine($"{type}");
-            var method = MethodBase.GetCurrentMethod().Name;
-            Console.WriteLine($"{method}");
-
-            throw new NotImplementedException(Messages.NotConfiguredUserSecretsForDbConnection);
+            var message = _exceptionRepository.GenerateExceptionMessage
+                (
+                Messages.DbConnectionStringIsNotConfiguredInUserSecrets,
+                 this.GetType(),
+                 MethodBase.GetCurrentMethod()
+                );
+            throw new NotImplementedException(message);
         }
         base.OnConfiguring(optionsBuilder);
     }

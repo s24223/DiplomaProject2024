@@ -1,4 +1,5 @@
 using Application;
+using BackEnd.Middlewares;
 using Domain;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -116,7 +117,7 @@ namespace BackEnd
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseAuthenticationWerifier();
 
             app.MapControllers();
 

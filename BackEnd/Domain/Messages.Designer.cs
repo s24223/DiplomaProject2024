@@ -59,5 +59,14 @@ namespace Domain {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Niepoprwanie podany Email.
+        /// </summary>
+        internal static string InValidEmail {
+            get {
+                return ResourceManager.GetString("InValidEmail", resourceCulture);
+            }
+        }
     }
 }

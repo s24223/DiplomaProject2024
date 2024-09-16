@@ -86,5 +86,248 @@ namespace Application {
                 return ResourceManager.GetString("NotConfiguredSecret", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Response {
+            get {
+                return ResourceManager.GetString("Response", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponseCreateProfileAppProblemForAdmin {
+            get {
+                return ResourceManager.GetString("ResponseCreateProfileAppProblemForAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponseCreateProfileAppProblemForUser {
+            get {
+                return ResourceManager.GetString("ResponseCreateProfileAppProblemForUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponseCreateProfileExistEmailForAdmin {
+            get {
+                return ResourceManager.GetString("ResponseCreateProfileExistEmailForAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponseCreateProfileExistEmailForUser {
+            get {
+                return ResourceManager.GetString("ResponseCreateProfileExistEmailForUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponseCreateProfileIncorrectEmailForAdmin {
+            get {
+                return ResourceManager.GetString("ResponseCreateProfileIncorrectEmailForAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponseCreateProfileIncorrectEmailForUser {
+            get {
+                return ResourceManager.GetString("ResponseCreateProfileIncorrectEmailForUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponseCreateProfileSucessForAdmin {
+            get {
+                return ResourceManager.GetString("ResponseCreateProfileSucessForAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponseCreateProfileSucessForUser {
+            get {
+                return ResourceManager.GetString("ResponseCreateProfileSucessForUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponseLoginInCorrectForAdmin {
+            get {
+                return ResourceManager.GetString("ResponseLoginInCorrectForAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponseLoginInCorrectForUser {
+            get {
+                return ResourceManager.GetString("ResponseLoginInCorrectForUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponseLoginInNotCorrecLoginEmailForAdmin {
+            get {
+                return ResourceManager.GetString("ResponseLoginInNotCorrecLoginEmailForAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponseLoginInNotCorrecPasswordForAdmin {
+            get {
+                return ResourceManager.GetString("ResponseLoginInNotCorrecPasswordForAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponseLoginInNotCorrectLoginEmailForUser {
+            get {
+                return ResourceManager.GetString("ResponseLoginInNotCorrectLoginEmailForUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponseLoginInNotCorrectPasswordForUser {
+            get {
+                return ResourceManager.GetString("ResponseLoginInNotCorrectPasswordForUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponseRefreshCorrectForAdmin {
+            get {
+                return ResourceManager.GetString("ResponseRefreshCorrectForAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponseRefreshCorrectForUser {
+            get {
+                return ResourceManager.GetString("ResponseRefreshCorrectForUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponseRefreshExpieredForAdmin {
+            get {
+                return ResourceManager.GetString("ResponseRefreshExpieredForAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponseRefreshExpieredForUser {
+            get {
+                return ResourceManager.GetString("ResponseRefreshExpieredForUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponseRefreshJwtNotOfThisServerForAdmin {
+            get {
+                return ResourceManager.GetString("ResponseRefreshJwtNotOfThisServerForAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponseRefreshNotSameForAdmin {
+            get {
+                return ResourceManager.GetString("ResponseRefreshNotSameForAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponseRefreshNotSameForUser {
+            get {
+                return ResourceManager.GetString("ResponseRefreshNotSameForUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponseRefreshUserLogOutForAdmin {
+            get {
+                return ResourceManager.GetString("ResponseRefreshUserLogOutForAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponseRefreshUserLogOutForUser {
+            get {
+                return ResourceManager.GetString("ResponseRefreshUserLogOutForUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponseRefreshUserNotExistForAdmin {
+            get {
+                return ResourceManager.GetString("ResponseRefreshUserNotExistForAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponseRefreshUserNotExistForUser {
+            get {
+                return ResourceManager.GetString("ResponseRefreshUserNotExistForUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string ResponsRefreshJwtNotOfThisServerForUser {
+            get {
+                return ResourceManager.GetString("ResponsRefreshJwtNotOfThisServerForUser", resourceCulture);
+            }
+        }
     }
 }
