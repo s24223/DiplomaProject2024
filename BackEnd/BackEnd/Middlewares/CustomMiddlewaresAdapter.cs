@@ -8,5 +8,10 @@ namespace BackEnd.Middlewares
         {
             return builder.UseMiddleware<AuthenticationWerifierMiddleware>();
         }
+
+        public static IApplicationBuilder UseGlobalExceptionHandler(this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<GlobalExceptionsHandlerMiddleware>();
+        }
     }
 }

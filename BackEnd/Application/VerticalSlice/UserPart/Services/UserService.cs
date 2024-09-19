@@ -1,12 +1,15 @@
 ﻿using Application.Shared.DTOs.Response;
-using Application.Shared.Repositories.Authentication;
+using Application.Shared.Exceptions.UserExceptions;
+using Application.Shared.Services.Authentication;
 using Application.VerticalSlice.UserPart.DTOs.CreateProfile;
 using Application.VerticalSlice.UserPart.DTOs.LoginIn;
 using Application.VerticalSlice.UserPart.DTOs.Refresh;
 using Application.VerticalSlice.UserPart.Interfaces;
+using Domain.Exceptions.UserExceptions;
 using Domain.Factories;
-using Domain.Repositories;
-using Domain.ValueObjects.ValueEmail;
+using Domain.Providers;
+using Domain.ValueObjects;
+using Domain.ValueObjects.EntityIdentificators;
 using System.Security.Claims;
 
 namespace Application.VerticalSlice.UserPart.Services
@@ -15,18 +18,16 @@ namespace Application.VerticalSlice.UserPart.Services
     {
         private readonly IUserRepository _repository;
         private readonly IDomainFactory _domainFactory;
-        private readonly IAuthenticationRepository _authenticationRepository;
-        private readonly IDomainRepository _domainRepository;
+        private readonly IAuthenticationService _authenticationRepository;
+        private readonly IDomainProvider _domainRepository;
 
-        private readonly string _personRole = "person";
-        private readonly string _companyRole = "company";
 
         public UserService
             (
             IUserRepository repository,
-            IAuthenticationRepository authentication,
+            IAuthenticationService authentication,
             IDomainFactory domainFactory,
-            IDomainRepository domainRepository
+            IDomainProvider domainRepository
             )
         {
             _repository = repository;
@@ -42,60 +43,30 @@ namespace Application.VerticalSlice.UserPart.Services
             CancellationToken cancellation
             )
         {
-            try
-            {
-                var domainUser = _domainFactory.CreateUser(null, dto.Email, null, null);
-                var isExistEmail = await _repository.IsExistLoginEmailAsync(domainUser.LoginEmail, cancellation);
+            var domainUser = _domainFactory.CreateDomainUser
+                (
+                null,
+                dto.Email,
+                null,
+                _domainRepository.GetTimeProvider().GetDateTimeNow()
+                );
 
-                if (isExistEmail)
-                {
-                    return new Response
-                    {
-                        IsSuccess = false,
-                        IsServerFault = false,
-                        IsUserFault = true,
-                        MessageForAdmin = Messages.ResponseCreateProfileExistEmailForAdmin,
-                        MessageForUser = Messages.ResponseCreateProfileExistEmailForUser,
-                    };
-                }
+            var isExistEmail = await _repository.IsExistLoginAsync(domainUser.Login, cancellation);
 
-                var salt = _authenticationRepository.GenerateSalt();
-                var password = _authenticationRepository.HashPassword(dto.Password, salt);
-                var now = _domainRepository.GetTimeRepository().GetDateTimeNow();
+            if (isExistEmail)
+            {
+                throw new EmailException(Messages.ExeptionMessageUserWithThisEmailExist);
+            }
 
-                await _repository.SetUserAsync(domainUser, password, salt, now, cancellation);
-                return new Response
-                {
-                    IsSuccess = true,
-                    IsServerFault = false,
-                    IsUserFault = false,
-                    MessageForAdmin = Messages.ResponseCreateProfileSucessForAdmin,
-                    MessageForUser = Messages.ResponseCreateProfileSucessForUser,
-                };
-            }
-            catch (EmailException)
+            var salt = _authenticationRepository.GenerateSalt();
+            var password = _authenticationRepository.HashPassword(dto.Password, salt);
+
+            await _repository.CreateUserAsync(domainUser, password, salt, cancellation);
+            return new Response
             {
-                return new Response
-                {
-                    IsSuccess = false,
-                    IsServerFault = false,
-                    IsUserFault = true,
-                    MessageForAdmin = Messages.ResponseCreateProfileIncorrectEmailForAdmin,
-                    MessageForUser = Messages.ResponseCreateProfileIncorrectEmailForUser,
-                };
-            }
-            catch (Exception ex)
-            {
-#warning finish thgis
-                return new Response
-                {
-                    IsSuccess = false,
-                    IsServerFault = true,
-                    IsUserFault = false,
-                    MessageForAdmin = Messages.ResponseCreateProfileAppProblemForAdmin,
-                    MessageForUser = Messages.ResponseCreateProfileAppProblemForUser,
-                };
-            }
+                Status = EnumResponseStatus.Success,
+                Message = Messages.ResponseSuccess,
+            };
         }
 
         public async Task<ItemResponse<LoginInResponseDto>> LoginInAsync
@@ -104,73 +75,52 @@ namespace Application.VerticalSlice.UserPart.Services
             CancellationToken cancellation
             )
         {
-            var user = await _repository.GetUserByLoginEmailAsync(dto.Email, cancellation);
-            if (user == null)
-            {
-                //Not Exist
-                return new ItemResponse<LoginInResponseDto>
-                {
-                    IsSuccess = false,
-                    IsUserFault = true,
-                    IsServerFault = false,
-                    MessageForUser = Messages.ResponseLoginInNotCorrectLoginEmailForUser,
-                    MessageForAdmin = Messages.ResponseLoginInNotCorrecPasswordForAdmin,
-                    Item = null,
-                };
-            }
+            var data = await _repository.GetUserDataByLoginEmailAsync(new Email(dto.Email), cancellation);
 
-            var hashedInputPassword = _authenticationRepository.HashPassword(dto.Password, user.Salt);
-
-            if (hashedInputPassword != user.Password)
+            var hashedInputPassword = _authenticationRepository.HashPassword(dto.Password, data.Salt);
+            if (hashedInputPassword != data.Password)
             {
                 //Uncorrect Password
-                return new ItemResponse<LoginInResponseDto>
-                {
-                    IsSuccess = false,
-                    IsUserFault = true,
-                    IsServerFault = false,
-                    MessageForUser = Messages.ResponseLoginInNotCorrectPasswordForUser,
-                    MessageForAdmin = Messages.ResponseLoginInNotCorrecPasswordForAdmin,
-                    Item = null,
-                };
+                throw new UnauthorizedUserException();
             }
 
             var roles = new List<string>();
-            if (user.Company != null)
+            /*if (user.Company != null)
             {
-                roles.Add(_companyRole);
+                roles.Add(_authenticationRepository.GetCompanyRole());
             }
             if (user.Person != null)
             {
-                roles.Add(_personRole);
-            }
-            var jwt = _authenticationRepository.GenerateJWTStringAndDateTimeValidTo(user.Id.ToString(), roles);
-            var refresh = _authenticationRepository.GenerateRefreshToken();
-            var validToRefreshToken = _domainRepository.GetTimeRepository().GetDateTimeNow()
-                .AddHours(_authenticationRepository.GetTimeInHourValidRefreshToken());
+                roles.Add(_authenticationRepository.GetPersonRole());
+            }*/
 
-            await _repository.SetRefreshTokenDataLoginInAsync
+            var jwt = _authenticationRepository.GenerateJwtStringAndDateTimeValidTo
                 (
-                user,
-                refresh,
-                validToRefreshToken,
-                _domainRepository.GetTimeRepository().GetDateTimeNow()
+                data.User.Id.Value.ToString(),
+                roles
+                );
+            var refresh = _authenticationRepository.GenerateRefreshTokendAndDateTimeValidTo();
+
+            await _repository.UpdateRefreshTokenAsync
+                (
+                data.User,
+                refresh.RefreshToken,
+                refresh.ValidTo,
+                _domainRepository.GetTimeProvider().GetDateTimeNow(),
+                cancellation
                 );
 
             //Correct
             return new ItemResponse<LoginInResponseDto>
             {
-                IsSuccess = true,
-                IsUserFault = false,
-                IsServerFault = false,
-                MessageForUser = Messages.ResponseLoginInCorrectForUser,
-                MessageForAdmin = Messages.ResponseLoginInCorrectForAdmin,
+                Status = EnumResponseStatus.Success,
+                Message = Messages.ResponseSuccess,
                 Item = new LoginInResponseDto
                 {
-                    Jwt = jwt.Item1,
-                    JwtValidTo = jwt.Item2,
-                    RefereshToken = refresh,
-                    RefereshTokenValidTo = validToRefreshToken,
+                    Jwt = jwt.Jwt,
+                    JwtValidTo = jwt.ValidTo,
+                    RefereshToken = refresh.RefreshToken,
+                    RefereshTokenValidTo = refresh.ValidTo,
                 },
             };
         }
@@ -182,99 +132,42 @@ namespace Application.VerticalSlice.UserPart.Services
             CancellationToken cancellation
             )
         {
-            try
+            var id = _authenticationRepository.GetIdNameFromJwt(jwtFromHeader);
+            var data = await _repository.GetUserDataByIdAsync(new UserId(id), cancellation);
+
+            if (
+                data.ExpiredToken == null ||
+                data.ExpiredToken <= _domainRepository.GetTimeProvider().GetDateTimeNow() ||
+                data.RefreshToken != dto.RefreshToken
+                )
             {
-                var userFaultResponse = new ItemResponse<RefreshResponseDto>
-                {
-                    IsSuccess = false,
-                    IsUserFault = true,
-                    IsServerFault = false,
-                    Item = null,
-                };
+                throw new UnauthorizedUserException();
+            };
 
-                var isJwtOfthisServer = _authenticationRepository.IsJWTGeneratedByThisServer(jwtFromHeader);
-
-                if (!isJwtOfthisServer)
-                {
-                    userFaultResponse.MessageForUser = Messages.ResponsRefreshJwtNotOfThisServerForUser;
-                    userFaultResponse.MessageForAdmin = Messages.ResponseRefreshJwtNotOfThisServerForAdmin;
-                    return userFaultResponse;
-                }
-
-                var claims = _authenticationRepository.GetClaimsFromJWT(jwtFromHeader);
-                var id = _authenticationRepository.GetNameFromClaims(claims);
-                var user = await _repository.GetUserByIdAsync(Guid.Parse(id), cancellation);
-
-                if (user == null)
-                {
-                    //Not Exist User Probably 
-                    userFaultResponse.MessageForUser = Messages.ResponseRefreshUserNotExistForUser;
-                    userFaultResponse.MessageForAdmin = Messages.ResponseRefreshUserNotExistForAdmin;
-                    return userFaultResponse;
-                }
-                else if (user.ExpiredToken == null)
-                {
-                    //Log Out
-                    userFaultResponse.MessageForUser = Messages.ResponseRefreshUserLogOutForUser;
-                    userFaultResponse.MessageForAdmin = Messages.ResponseRefreshUserLogOutForAdmin;
-                    return userFaultResponse;
-                }
-                else if (user.ExpiredToken <= _domainRepository.GetTimeRepository().GetDateTimeNow())
-                {
-                    //expiered
-                    userFaultResponse.MessageForUser = Messages.ResponseRefreshExpieredForUser;
-                    userFaultResponse.MessageForAdmin = Messages.ResponseRefreshExpieredForAdmin;
-                    return userFaultResponse;
-                }
-                else if (user.RefreshToken != dto.RefreshToken)
-                {
-                    //Not Same
-                    userFaultResponse.MessageForUser = Messages.ResponseRefreshNotSameForUser;
-                    userFaultResponse.MessageForAdmin = Messages.ResponseRefreshNotSameForAdmin;
-                    return userFaultResponse;
-                };
-
-                var roles = new List<string>();
-                if (user.Company != null)
-                {
-                    roles.Add(_companyRole);
-                }
-                if (user.Person != null)
-                {
-                    roles.Add(_personRole);
-                }
-                var jwt = _authenticationRepository.GenerateJWTStringAndDateTimeValidTo(user.Id.ToString(), roles);
-                //Correct
-                return new ItemResponse<RefreshResponseDto>
-                {
-                    IsSuccess = true,
-                    IsUserFault = false,
-                    IsServerFault = false,
-                    MessageForUser = Messages.ResponseRefreshCorrectForUser,
-                    MessageForAdmin = Messages.ResponseRefreshCorrectForAdmin,
-                    Item = new RefreshResponseDto
-                    {
-                        Jwt = jwt.Item1,
-                        JwtValidTo = jwt.Item2,
-                        RefereshToken = user.RefreshToken,
-                        RefereshTokenValidTo = user.ExpiredToken ?? throw new NotImplementedException("Unable"),
-                    },
-                };
-            }
-            catch (Exception)
+            var roles = new List<string>();
+            /*if (user.Company != null)
             {
-#warning Implemented unexpected Exeption
-                //Uncorrect JWT
-                return new ItemResponse<RefreshResponseDto>
-                {
-                    IsSuccess = false,
-                    IsUserFault = false,
-                    IsServerFault = true,
-                    MessageForUser = "",
-                    MessageForAdmin = "",
-                    Item = null,
-                };
+                roles.Add(_companyRole);
             }
+            if (user.Person != null)
+            {
+                roles.Add(_personRole);
+            }
+*/
+            var jwt = _authenticationRepository.GenerateJwtStringAndDateTimeValidTo(data.User.Id.ToString(), roles);
+            //Correct
+            return new ItemResponse<RefreshResponseDto>
+            {
+                Status = EnumResponseStatus.Success,
+                Message = Messages.ResponseSuccess,
+                Item = new RefreshResponseDto
+                {
+                    Jwt = jwt.Jwt,
+                    JwtValidTo = jwt.ValidTo,
+                    RefereshToken = data.RefreshToken,
+                    RefereshTokenValidTo = data.ExpiredToken ?? throw new NotImplementedException("Unable"),
+                },
+            };
         }
 
         public async Task<Response> LogOutAsync
@@ -283,27 +176,12 @@ namespace Application.VerticalSlice.UserPart.Services
             CancellationToken cancellation
             )
         {
-            var id = _authenticationRepository.GetNameFromClaims(claims);
-            var user = await _repository.GetUserByIdAsync(Guid.Parse(id), cancellation);
-            if (user == null)
-            {
-                return new Response
-                {
-                    IsSuccess = false,
-                    IsUserFault = true,
-                    IsServerFault = false,
-                    MessageForAdmin = "",
-                    MessageForUser = "",
-                };
-            }
-            await _repository.SetRefreshTokenDataLogOutAsync(user, cancellation);
+            var id = _authenticationRepository.GetIdNameFromClaims(claims);
+            await _repository.DeleteRefreshTokenDataAsync(new UserId(id), cancellation);
             return new Response
             {
-                IsSuccess = true,
-                IsUserFault = false,
-                IsServerFault = false,
-                MessageForAdmin = "",
-                MessageForUser = "",
+                Status = EnumResponseStatus.Success,
+                Message = Messages.ResponseSuccess,
             };
         }
         //============================================================================================================

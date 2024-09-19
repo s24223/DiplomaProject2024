@@ -1,4 +1,4 @@
-﻿using Application.Shared.Repositories.Authentication;
+﻿using Application.Shared.Services.Authentication;
 using Application.VerticalSlice.UserPart.Interfaces;
 using Application.VerticalSlice.UserPart.Services;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +16,7 @@ namespace Application
         {
             // Rejestracja IConfiguration jako Singleton
             serviceCollection.AddSingleton<IConfiguration>(configuration);
-            serviceCollection.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
+            serviceCollection.AddTransient<IAuthenticationService, AuthenticationService>();
 
             //User Part
             serviceCollection.AddTransient<IUserRepository, UserRepository>();

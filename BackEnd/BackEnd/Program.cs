@@ -112,6 +112,7 @@ namespace BackEnd
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseGlobalExceptionHandler();
 
             app.UseHttpsRedirection();
             app.UseAuthenticationWerifier();

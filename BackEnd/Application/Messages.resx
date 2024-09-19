@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ExeptionMessageUnauthorizedUser" xml:space="preserve">
+    <value>Błędne dane przy uwirzytylnieniu, sprawdż dane i zaloguj sie Ponownie</value>
+  </data>
+  <data name="ExeptionMessageUserWithThisEmailExist" xml:space="preserve">
+    <value>Wybierz Inny Email</value>
+  </data>
   <data name="NotConfiguredAudience" xml:space="preserve">
     <value>Uzupełnij w Secretach Audience</value>
   </data>
@@ -126,85 +132,7 @@
   <data name="NotConfiguredSecret" xml:space="preserve">
     <value>Uzupełnij w Secretach Secret</value>
   </data>
-  <data name="Response" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponseCreateProfileAppProblemForAdmin" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponseCreateProfileAppProblemForUser" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponseCreateProfileExistEmailForAdmin" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponseCreateProfileExistEmailForUser" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponseCreateProfileIncorrectEmailForAdmin" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponseCreateProfileIncorrectEmailForUser" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponseCreateProfileSucessForAdmin" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponseCreateProfileSucessForUser" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponseLoginInCorrectForAdmin" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponseLoginInCorrectForUser" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponseLoginInNotCorrecLoginEmailForAdmin" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponseLoginInNotCorrecPasswordForAdmin" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponseLoginInNotCorrectLoginEmailForUser" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponseLoginInNotCorrectPasswordForUser" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponseRefreshCorrectForAdmin" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponseRefreshCorrectForUser" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponseRefreshExpieredForAdmin" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponseRefreshExpieredForUser" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponseRefreshJwtNotOfThisServerForAdmin" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponseRefreshNotSameForAdmin" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponseRefreshNotSameForUser" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponseRefreshUserLogOutForAdmin" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponseRefreshUserLogOutForUser" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponseRefreshUserNotExistForAdmin" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponseRefreshUserNotExistForUser" xml:space="preserve">
-    <value />
-  </data>
-  <data name="ResponsRefreshJwtNotOfThisServerForUser" xml:space="preserve">
-    <value />
+  <data name="ResponseSuccess" xml:space="preserve">
+    <value>Success</value>
   </data>
 </root>

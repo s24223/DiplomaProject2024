@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Application.Database.Models;
+﻿namespace Application.Database.Models;
 
 public partial class UrlType
 {

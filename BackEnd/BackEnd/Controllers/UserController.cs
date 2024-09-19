@@ -27,18 +27,7 @@ namespace BackEnd.Controllers
             )
         {
             var result = await _userService.CreateProfileAsync(dto, cancellation);
-            if (result.IsSuccess)
-            {
-                return Ok(result.MessageForUser);
-            }
-            else if (result.IsUserFault)
-            {
-                return StatusCode(400, result.MessageForUser);
-            }
-            else
-            {
-                return StatusCode(500, result.MessageForUser);
-            }
+            return StatusCode(201, result);
         }
 
         [AllowAnonymous]
@@ -50,18 +39,7 @@ namespace BackEnd.Controllers
             )
         {
             var result = await _userService.LoginInAsync(dto, cancellation);
-            if (result.IsSuccess)
-            {
-                return Ok(result.Item);
-            }
-            else if (result.IsUserFault)
-            {
-                return StatusCode(400, result.MessageForUser);
-            }
-            else
-            {
-                return StatusCode(500, result.MessageForUser);
-            }
+            return Ok(result.Item);
         }
 
         [AllowAnonymous]
@@ -76,19 +54,7 @@ namespace BackEnd.Controllers
             {
                 var jwt = authorizationHeader.ToString().Replace("Bearer ", "");
                 var result = await _userService.RefreshTokenAsync(jwt, dto, cancellation);
-
-                if (result.IsSuccess)
-                {
-                    return Ok(result.Item);
-                }
-                else if (result.IsUserFault)
-                {
-                    return StatusCode(401, result.MessageForUser);
-                }
-                else
-                {
-                    return StatusCode(500, result.MessageForUser);
-                }
+                return Ok(result.Item);
             }
             return StatusCode(401);
         }
@@ -102,18 +68,7 @@ namespace BackEnd.Controllers
         {
             var claims = User.Claims.ToList();
             var result = await _userService.LogOutAsync(claims, cancellation);
-            if (result.IsSuccess)
-            {
-                return Ok(result.MessageForUser);
-            }
-            else if (result.IsUserFault)
-            {
-                return StatusCode(401, result.MessageForUser);
-            }
-            else
-            {
-                return StatusCode(500, result.MessageForUser);
-            }
+            return Ok(result);
         }
     }
 }

@@ -1,18 +1,18 @@
-﻿using Domain.Entities.UserPart;
-using Domain.Repositories;
+﻿using Domain.Entities;
+using Domain.Providers;
 
 namespace Domain.Factories
 {
     public class DomainFactory : IDomainFactory
     {
-        private readonly IDomainRepository _repository;
+        private readonly IDomainProvider _repository;
 
-        public DomainFactory(IDomainRepository repository)
+        public DomainFactory(IDomainProvider repository)
         {
             _repository = repository;
         }
 
-        public User CreateUser
+        public DomainUser CreateDomainUser
             (
             Guid? id,
             string loginEmail,
@@ -20,7 +20,7 @@ namespace Domain.Factories
             DateTime? lastUpdatePassword
             )
         {
-            return new User(id, loginEmail, lastLoginIn, lastUpdatePassword, _repository);
+            return new DomainUser(id, loginEmail, lastLoginIn, lastUpdatePassword, _repository);
         }
     }
 }

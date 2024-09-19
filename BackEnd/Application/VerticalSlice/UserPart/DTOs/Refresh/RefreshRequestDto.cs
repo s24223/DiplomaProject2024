@@ -5,6 +5,6 @@ namespace Application.VerticalSlice.UserPart.DTOs.Refresh
     public class RefreshRequestDto
     {
         [Required]
-        public string RefreshToken { get; set; } = null!;
+        public required string RefreshToken { get; set; } = null!;
     }
 }

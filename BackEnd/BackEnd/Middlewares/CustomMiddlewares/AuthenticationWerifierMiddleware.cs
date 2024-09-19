@@ -1,6 +1,6 @@
 ﻿using Application.Database;
-using Application.Shared.Repositories.Authentication;
-using Domain.Repositories;
+using Application.Shared.Services.Authentication;
+using Domain.Providers;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Middlewares.CustomMiddlewares
@@ -18,8 +18,8 @@ namespace BackEnd.Middlewares.CustomMiddlewares
             (
             HttpContext context,
             DiplomaProjectContext dBContext,
-            IAuthenticationRepository authenticationRepository,
-            IDomainRepository domainRepository,
+            IAuthenticationService authenticationRepository,
+            IDomainProvider domainRepository,
             IConfiguration configuration
             )
         {
@@ -28,7 +28,7 @@ namespace BackEnd.Middlewares.CustomMiddlewares
                 var jwt = authorizationHeader.ToString().Replace("Bearer ", "");
 
 
-                var isValidJWT = authenticationRepository.IsJWTGeneratedByThisServer(jwt);
+                var isValidJWT = authenticationRepository.IsJwtGeneratedByThisServer(jwt);
 
                 if (!isValidJWT)
                 {
@@ -36,32 +36,16 @@ namespace BackEnd.Middlewares.CustomMiddlewares
                     return;
                 }
 
-                var claims = authenticationRepository.GetClaimsFromJWT(jwt);
-                var name = authenticationRepository.GetNameFromClaims(claims);
-
-                if (string.IsNullOrEmpty(name))
-                {
-                    context.Response.StatusCode = 401;
-                    return;
-                }
-
-                var isParsedToGuid = Guid.TryParse(name, out var id);
-                if (!isParsedToGuid)
-                {
-                    context.Response.StatusCode = 401;
-                    return;
-                }
+                var id = authenticationRepository.GetIdNameFromJwt(jwt);
 
                 var user = await dBContext.Users.Where(x => x.Id == id).AsNoTracking().FirstOrDefaultAsync();
                 if (
                     user == null ||
                     string.IsNullOrEmpty(user.RefreshToken) ||
                     user.ExpiredToken == null ||
-                    user.ExpiredToken <= domainRepository.GetTimeRepository().GetDateTimeNow()
+                    user.ExpiredToken <= domainRepository.GetTimeProvider().GetDateTimeNow()
                     )
                 {
-                    /*context.Response.StatusCode = 401;
-                    return;*/
                     context.Request.Headers.Remove("Authorization");
                 }
             }

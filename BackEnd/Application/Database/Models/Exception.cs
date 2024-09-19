@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Application.Database.Models;
+﻿namespace Application.Database.Models;
 
 public partial class Exception
 {
@@ -14,4 +11,6 @@ public partial class Exception
     public string Message { get; set; } = null!;
 
     public string? AdditionalData { get; set; }
+
+    public string Status { get; set; } = null!;
 }

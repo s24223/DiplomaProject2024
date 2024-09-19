@@ -1,5 +1,5 @@
-﻿using Domain.Entities.UserPart;
-using Domain.ValueObjects.ValueEmail;
+﻿using Domain.Entities;
+using Domain.Exceptions.UserExceptions;
 
 namespace Domain.Factories
 {
@@ -14,7 +14,7 @@ namespace Domain.Factories
         /// <param name="lastUpdatePassword"></param>
         /// <returns></returns>
         /// <exception cref="EmailException"></exception>
-        public User CreateUser
+        public DomainUser CreateDomainUser
            (
            Guid? id,
            string loginEmail,

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Application.Database.Models;
+﻿namespace Application.Database.Models;
 
 public partial class Person
 {
@@ -26,6 +23,8 @@ public partial class Person
     public string? Description { get; set; }
 
     public string IsStudent { get; set; } = null!;
+
+    public string IsPublicProfile { get; set; } = null!;
 
     public Guid? AddressId { get; set; }
 

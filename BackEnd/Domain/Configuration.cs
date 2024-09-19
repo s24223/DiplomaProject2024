@@ -1,7 +1,7 @@
 ﻿using Domain.Factories;
-using Domain.Repositories;
-using Domain.Repositories.ExceptionMessage;
-using Domain.Repositories.Time;
+using Domain.Providers;
+using Domain.Providers.ExceptionMessage;
+using Domain.Providers.Time;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,12 +17,12 @@ namespace Domain
         {
             // Rejestracja IConfiguration jako Singleton
             serviceCollection.AddSingleton<IConfiguration>(configuration);
-            serviceCollection.AddTransient<IDomainRepository, DomainRepository>();
+            serviceCollection.AddTransient<IDomainProvider, DomainProvider>();
             serviceCollection.AddTransient<IDomainFactory, DomainFactory>();
 
 
-            serviceCollection.AddTransient<IExceptionMessageRepository, ExceptionMessageRepository>();
-            serviceCollection.AddTransient<ITimeRepository, TimeRepository>();
+            serviceCollection.AddTransient<IExceptionMessageProvider, ExceptionMessageProvider>();
+            serviceCollection.AddTransient<ITimeProvider, Providers.Time.TimeProvider>();
 
             return serviceCollection;
         }

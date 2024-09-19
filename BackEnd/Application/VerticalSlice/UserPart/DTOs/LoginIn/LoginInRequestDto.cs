@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Application.VerticalSlice.UserPart.DTOs.LoginIn
 {
@@ -7,9 +6,8 @@ namespace Application.VerticalSlice.UserPart.DTOs.LoginIn
     {
         [Required]
         [EmailAddress]
-        public string Email { get; set; } = null!;
+        public required string Email { get; set; } = null!;
         [Required]
-        [PasswordPropertyText]
-        public string Password { get; set; } = null!;
+        public required string Password { get; set; } = null!;
     }
 }

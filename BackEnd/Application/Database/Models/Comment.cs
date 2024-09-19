@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Application.Database.Models;
+﻿namespace Application.Database.Models;
 
 public partial class Comment
 {
@@ -12,6 +9,8 @@ public partial class Comment
     public DateTime Published { get; set; }
 
     public string Description { get; set; } = null!;
+
+    public int? Evaluation { get; set; }
 
     public virtual CommentType CommentType { get; set; } = null!;
 

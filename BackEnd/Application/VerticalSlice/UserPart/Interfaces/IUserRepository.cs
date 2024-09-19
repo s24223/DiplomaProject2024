@@ -1,47 +1,48 @@
-﻿using Domain.Entities.UserPart;
-using Domain.ValueObjects.ValueEmail;
+﻿using Domain.Entities;
+using Domain.ValueObjects;
+using Domain.ValueObjects.EntityIdentificators;
 
 namespace Application.VerticalSlice.UserPart.Interfaces
 {
     public interface IUserRepository
     {
-        Task<bool> IsExistLoginEmailAsync
+        Task<bool> IsExistLoginAsync
             (
             Email loginEmail,
             CancellationToken cancellation
             );
 
-        Task SetUserAsync
-           (
-           User domainUser,
-           string password,
-           string salt,
-           DateTime now,
-           CancellationToken cancellation
-           );
-
-        Task<Application.Database.Models.User?> GetUserByLoginEmailAsync
+        Task CreateUserAsync
             (
-            string LoginEmail,
+            DomainUser user,
+            string password,
+            string salt,
+            CancellationToken cancellation
+        );
+        Task UpdateRefreshTokenAsync
+            (
+            DomainUser user,
+            string refresh,
+            DateTime validTo,
+            DateTime lastLoginIn,
             CancellationToken cancellation
             );
 
-        Task<Application.Database.Models.User?> GetUserByIdAsync
-           (
-           Guid id,
-           CancellationToken cancellation
-           );
-
-        Task SetRefreshTokenDataLoginInAsync
+        Task DeleteRefreshTokenDataAsync
             (
-            Application.Database.Models.User user,
-            string refresh,
-            DateTime validTo,
-            DateTime now
+            UserId id,
+            CancellationToken cancellation
             );
-        Task SetRefreshTokenDataLogOutAsync
+
+        Task<(DomainUser User, string Salt, string Password)> GetUserDataByLoginEmailAsync
+             (
+             Email login,
+             CancellationToken cancellation
+             );
+
+        Task<(DomainUser User, string? RefreshToken, DateTime? ExpiredToken)> GetUserDataByIdAsync
             (
-            Application.Database.Models.User user,
+            UserId id,
             CancellationToken cancellation
             );
     }
