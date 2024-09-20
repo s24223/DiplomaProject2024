@@ -49,7 +49,10 @@ namespace BackEnd.Middlewares.CustomMiddlewares
                 case UnauthorizedUserException:
                     await GenerateUserFaultResponse(response, exception, 401);
                     break;
-                case UriFormatException: //????
+                case RegonException:
+                    await GenerateUserFaultResponse(response, exception, 400);
+                    break;
+                case SegementUrlException:
                     await GenerateUserFaultResponse(response, exception, 400);
                     break;
                 default:

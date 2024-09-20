@@ -1,4 +1,5 @@
-﻿using Domain.Entities.UserPart;
+﻿using Domain.Entities.CompanyPart;
+using Domain.Entities.UserPart;
 using Domain.Exceptions.UserExceptions;
 
 namespace Domain.Factories
@@ -14,12 +15,22 @@ namespace Domain.Factories
         /// <param name="lastUpdatePassword"></param>
         /// <returns></returns>
         /// <exception cref="EmailException"></exception>
-        public DomainUser CreateDomainUser
+        DomainUser CreateDomainUser
            (
            Guid? id,
            string loginEmail,
            DateTime? lastLoginIn,
            DateTime? lastUpdatePassword
            );
+        DomainCompany CreateDomainCompany
+            (
+            Guid id,
+            string? urlSegment,
+            string contactEmail,
+            string name,
+            string regon,
+            string? description,
+            DateOnly? createDate
+            );
     }
 }

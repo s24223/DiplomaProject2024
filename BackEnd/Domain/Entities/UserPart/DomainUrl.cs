@@ -1,4 +1,5 @@
-﻿using Domain.Providers;
+﻿using Domain.Exceptions.UserExceptions;
+using Domain.Providers;
 using Domain.Templates.Entities;
 using Domain.ValueObjects.EntityIdentificators;
 using Domain.ValueObjects.UrlTypePart;
@@ -32,7 +33,14 @@ namespace Domain.Entities.UserPart
                 publishDate
                 ), provider)
         {
-            Url = new Uri(url);
+            try
+            {
+                Url = new Uri(url);
+            }
+            catch (Exception)
+            {
+                throw new UrlException(Messages.InValidUrl);
+            }
             Name = name;
             Description = description;
         }

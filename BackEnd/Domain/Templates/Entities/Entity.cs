@@ -6,7 +6,7 @@ namespace Domain.Templates.Entities
     {
         protected readonly IDomainProvider _provider;
 
-        public TId Id { get; protected set; }
+        public TId Id { get; private set; }
 
         public Entity(TId id, IDomainProvider provider)
         {

@@ -132,6 +132,9 @@
   <data name="InValidSegmentUrl" xml:space="preserve">
     <value>Segment może zawieac tylko małe i duże łacinskie znaki, - _ </value>
   </data>
+  <data name="InValidUrl" xml:space="preserve">
+    <value>Niepoprawny typ URL</value>
+  </data>
   <data name="UndefinedUrlType" xml:space="preserve">
     <value>Niezdefiniowany Typ Url</value>
   </data>

@@ -106,6 +106,15 @@ namespace Domain {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Niepoprawny typ URL.
+        /// </summary>
+        internal static string InValidUrl {
+            get {
+                return ResourceManager.GetString("InValidUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Niezdefiniowany Typ Url.
         /// </summary>
         internal static string UndefinedUrlType {

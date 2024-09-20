@@ -1,4 +1,6 @@
 ﻿using Application.Shared.Services.Authentication;
+using Application.VerticalSlice.CompanyPart.Interfaces;
+using Application.VerticalSlice.CompanyPart.Services;
 using Application.VerticalSlice.UserPart.Interfaces;
 using Application.VerticalSlice.UserPart.Services;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +23,10 @@ namespace Application
             //User Part
             serviceCollection.AddTransient<IUserRepository, UserRepository>();
             serviceCollection.AddTransient<IUserService, UserService>();
+
+            //Company Part 
+            serviceCollection.AddTransient<ICompanyRepository, CompanyRepository>();
+            serviceCollection.AddTransient<ICompanyService, CompanyService>();
 
 
             return serviceCollection;
