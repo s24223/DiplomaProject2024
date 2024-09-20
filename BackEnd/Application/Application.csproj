@@ -33,6 +33,7 @@
 
   <ItemGroup>
     <Folder Include="Shared\Exceptions\AppExceptions\" />
+    <Folder Include="VerticalSlice\UserProblemPart\" />
   </ItemGroup>
 
 </Project>

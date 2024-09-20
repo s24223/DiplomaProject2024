@@ -1,4 +1,5 @@
 ﻿using Domain.Entities.CompanyPart;
+using Domain.Entities.PersonPart;
 using Domain.Entities.UserPart;
 using Domain.Providers;
 
@@ -45,6 +46,41 @@ namespace Domain.Factories
                 description,
                 createDate,
         _provider
+                );
+        }
+
+
+        public DomainPerson CreateDomainPerson
+            (
+            Guid id,
+            string? urlSegment,
+            DateOnly? createDate,
+            string contactEmail,
+            string name,
+            string surname,
+            DateOnly? birthDate,
+            string? contactPhoneNum,
+            string? description,
+            string isStudent,
+            string isPublicProfile,
+            Guid? addressId
+            
+            )
+        {
+            return new DomainPerson(
+                id,
+                urlSegment,
+                createDate,
+                contactEmail,
+                name,
+                surname,
+                birthDate,
+                contactPhoneNum,
+                description,
+                isStudent,
+                isPublicProfile,
+                addressId,
+                _provider
                 );
         }
     }
