@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+﻿using Domain.Entities.UserPart;
 using Domain.Exceptions.UserExceptions;
 
 namespace Domain.Factories

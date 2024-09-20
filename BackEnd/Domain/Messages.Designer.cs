@@ -68,5 +68,50 @@ namespace Domain {
                 return ResourceManager.GetString("InValidEmail", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wartość srodka płaniczego nie może był po 2 liczbach po przecinku i nie moze byc ujemna.
+        /// </summary>
+        internal static string InValidMoney {
+            get {
+                return ResourceManager.GetString("InValidMoney", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Niepoprawny nr. telefonu, telefon zawiera tylko 9 cyfr.
+        /// </summary>
+        internal static string InValidPhoneNumber {
+            get {
+                return ResourceManager.GetString("InValidPhoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to REGON, Niepoprawny, REGON, zawiera 9 lub 14 cyfr.
+        /// </summary>
+        internal static string InValidRegon {
+            get {
+                return ResourceManager.GetString("InValidRegon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Segment może zawieac tylko małe i duże łacinskie znaki, - _ .
+        /// </summary>
+        internal static string InValidSegmentUrl {
+            get {
+                return ResourceManager.GetString("InValidSegmentUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Niezdefiniowany Typ Url.
+        /// </summary>
+        internal static string UndefinedUrlType {
+            get {
+                return ResourceManager.GetString("UndefinedUrlType", resourceCulture);
+            }
+        }
     }
 }

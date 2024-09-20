@@ -63,7 +63,7 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
 
             entity.ToTable("Address");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.ApartmentNumber).HasMaxLength(100);
             entity.Property(e => e.BuildingNumber).HasMaxLength(100);
             entity.Property(e => e.ZipCode).HasMaxLength(10);

@@ -2,9 +2,9 @@
 
 namespace Domain.ValueObjects.EntityIdentificators
 {
-    public record UserId : GuidId
+    public record UserProblemId : GuidId
     {
-        public UserId(Guid? value) : base(value)
+        public UserProblemId(Guid? value) : base(value)
         {
         }
     }

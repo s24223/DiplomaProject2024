@@ -1,7 +1,7 @@
 ﻿using Application.Database;
 using Application.Database.Models;
 using Application.Shared.Exceptions.UserExceptions;
-using Domain.Entities;
+using Domain.Entities.UserPart;
 using Domain.Factories;
 using Domain.ValueObjects;
 using Domain.ValueObjects.EntityIdentificators;

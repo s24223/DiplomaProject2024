@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+﻿using Domain.Entities.UserPart;
 using Domain.ValueObjects;
 using Domain.ValueObjects.EntityIdentificators;
 

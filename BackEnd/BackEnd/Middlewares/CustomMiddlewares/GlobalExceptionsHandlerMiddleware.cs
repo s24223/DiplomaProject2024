@@ -43,11 +43,14 @@ namespace BackEnd.Middlewares.CustomMiddlewares
 
             switch (exception)
             {
-                case EmailException emailException:
+                case EmailException:
                     await GenerateUserFaultResponse(response, exception, 400);
                     break;
-                case UnauthorizedUserException unauthorized:
+                case UnauthorizedUserException:
                     await GenerateUserFaultResponse(response, exception, 401);
+                    break;
+                case UriFormatException: //????
+                    await GenerateUserFaultResponse(response, exception, 400);
                     break;
                 default:
                     await GenerateAppFaultResponse(response, exception, dbContext);

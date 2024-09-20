@@ -1,4 +1,4 @@
-﻿namespace Domain.ValueObjects.EntityIdentificators.Templates
+﻿namespace Domain.Templates.ValueObjects.EntityIdentificators
 {
     public record GuidId
     {

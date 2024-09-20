@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+﻿using Domain.Entities.UserPart;
 using Domain.Providers;
 
 namespace Domain.Factories
