@@ -28,5 +28,12 @@ namespace BackEnd.Controllers
             await _companyService.CreateCompanyProfileAsync(claims, dto, cancellation);
             return Created();
         }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetCompaniesAsync()
+        {
+            return Ok();
+        }
     }
 }
