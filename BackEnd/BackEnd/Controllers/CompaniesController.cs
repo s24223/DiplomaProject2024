@@ -29,18 +29,21 @@ namespace BackEnd.Controllers
             return Created();
         }
 
-<<<<<<< HEAD
+        /// <summary>
+        /// HEAD
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> CreateCompanyAsynczsdawd()
         {
             return Created();
-=======
+        }
+
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetCompaniesAsync()
         {
             return Ok();
->>>>>>> 40e974062ad515713d51e74c8f76e67801fe06ad
         }
     }
 }
