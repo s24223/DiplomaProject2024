@@ -19,11 +19,13 @@ namespace Domain.Entities.UserPart
         public DateTime? LastLoginIn { get; private set; } = null;
         public DateTime LastUpdatePassword { get; private set; }
 
+
         //References
         public DomainPerson? Person { get; set; } = null;
         public DomainCompany? Company { get; set; } = null;
         public Dictionary<UserProblemId, DomainUserProblem> UserProblems { get; private set; } = new();
         public Dictionary<UrlId, DomainUrl> Urls { get; private set; } = new();
+
 
         //Constructor
         public DomainUser

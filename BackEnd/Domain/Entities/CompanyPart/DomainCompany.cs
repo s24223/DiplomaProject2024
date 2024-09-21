@@ -15,8 +15,11 @@ namespace Domain.Entities.CompanyPart
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
 
+
         //Refrences
         public DomainUser User { get; set; } = null!;
+        public Dictionary<BranchId, DomainBranch> Branches { get; private set; } = new();
+
 
         //Constructor
         public DomainCompany

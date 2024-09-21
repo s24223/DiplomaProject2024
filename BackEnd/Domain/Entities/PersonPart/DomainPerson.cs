@@ -19,10 +19,10 @@ namespace Domain.Entities.PersonPart
         public bool IsStudent { get; set; }
         public bool IsPublicProfile { get; set; }
 
+
         //References
         public DomainUser User { get; set; } = null!;
         public AddressId? AddressId { get; set; } = null;
-
 
 
         //Constructor

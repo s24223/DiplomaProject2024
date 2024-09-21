@@ -11,11 +11,14 @@ namespace Domain.Entities.CompanyPart
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
 
+
         //References
-        //Comapny Part
+        //Company References
         public UserId CompanyId { get; private set; } = null!;
         public DomainCompany Company { get; set; } = null!;
-
+        //BarnachOffer References
+        public Dictionary<BranchOfferId, DomainBranchOffer> BranchOffers { get; private set; } = new();
+        //Adress References
         public AddressId AddressId { get; private set; } = null!;
 
 

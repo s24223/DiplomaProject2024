@@ -15,9 +15,11 @@ namespace Domain.Entities.UserPart
         public Email? Email { get; set; }
         public string Status { get; set; } = null!;
 
+
         //References
         public UserId? UserId { get; private set; }
         public DomainUser? User { get; set; }
+
 
         //Constructor
         public DomainUserProblem

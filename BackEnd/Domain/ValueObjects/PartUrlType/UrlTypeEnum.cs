@@ -1,4 +1,4 @@
-﻿namespace Domain.ValueObjects.UrlTypePart
+﻿namespace Domain.ValueObjects.PartUrlType
 {
     public enum UrlTypeEnum
     {

@@ -2,7 +2,7 @@
 using Domain.Providers;
 using Domain.Templates.Entities;
 using Domain.ValueObjects.EntityIdentificators;
-using Domain.ValueObjects.UrlTypePart;
+using Domain.ValueObjects.PartUrlType;
 
 namespace Domain.Entities.UserPart
 {
@@ -13,8 +13,10 @@ namespace Domain.Entities.UserPart
         public string? Name { get; set; }
         public string? Description { get; set; }
 
+
         //References
         public DomainUser User { get; set; } = null!;
+
 
         //Constructor
         public DomainUrl

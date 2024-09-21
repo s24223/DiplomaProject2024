@@ -1,6 +1,6 @@
 ﻿using Domain.Exceptions.UserExceptions;
 
-namespace Domain.ValueObjects.UrlTypePart
+namespace Domain.ValueObjects.PartUrlType
 {
     public record UrlType
     {
@@ -9,6 +9,7 @@ namespace Domain.ValueObjects.UrlTypePart
         public UrlTypeEnum Type { get; private set; }
         public string Name { get; private set; } = null!;
         public string Description { get; private set; } = null!;
+
 
         //Constructors
         public UrlType(int id)
@@ -40,7 +41,7 @@ namespace Domain.ValueObjects.UrlTypePart
 
             foreach (var item in list)
             {
-                _types.Add(((int)item.Type), item);
+                _types.Add((int)item.Type, item);
             }
         }
 
@@ -50,6 +51,7 @@ namespace Domain.ValueObjects.UrlTypePart
             Name = name;
             Description = description;
         }
+
 
         //Methods
         public static Dictionary<int, UrlType> GetTypesDictionary() => _types;

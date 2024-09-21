@@ -15,7 +15,10 @@ namespace Domain.Entities.CompanyPart
         public bool? IsNegotiatedSalary { get; set; }
         public bool ForStudents { get; set; }
 
+
         //References
+        public Dictionary<BranchOfferId, DomainBranchOffer> BranchOffers { get; private set; } = new();
+
 
         //Constructor
         public DomainOffer
