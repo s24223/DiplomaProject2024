@@ -11,10 +11,23 @@ namespace Domain.Entities.RecrutmentPart
 
 
         //Refrences
-        public Dictionary<CommentId, DomainComment> Comments { get; private set; } = new();
+        private Dictionary<CommentId, DomainComment> _comments = new();
+        public IReadOnlyDictionary<CommentId, DomainComment> Comments => _comments;
         //Recrutment Refrences
         public RecrutmentId RecrutmentId { get; private set; }
-        public DomainRecrutment Recrutment { get; set; } = null!;
+        private DomainRecrutment _recrutment = null!;
+        public DomainRecrutment Recrutment
+        {
+            get { return _recrutment; }
+            set
+            {
+                if (_recrutment == null && value != null && value.Id == RecrutmentId)
+                {
+                    _recrutment = value;
+                    _recrutment.Intership = this;
+                }
+            }
+        }
 
 
         //Cosntructor
@@ -38,6 +51,17 @@ namespace Domain.Entities.RecrutmentPart
                     created),
                 new UserId(personId)
                 );
+        }
+
+
+        //Methods
+        public void AddComment(DomainComment domainComment)
+        {
+            if (domainComment.Id.IntershipId == this.Id && !_comments.ContainsKey(domainComment.Id))
+            {
+                _comments.Add(domainComment.Id, domainComment);
+                domainComment.Intership = this;
+            }
         }
     }
 }

@@ -28,22 +28,5 @@ namespace BackEnd.Controllers
             await _companyService.CreateCompanyProfileAsync(claims, dto, cancellation);
             return Created();
         }
-
-        /// <summary>
-        /// HEAD
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public async Task<IActionResult> CreateCompanyAsynczsdawd()
-        {
-            return Created();
-        }
-
-        [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> GetCompaniesAsync()
-        {
-            return Ok();
-        }
     }
 }

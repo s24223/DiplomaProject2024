@@ -1,4 +1,5 @@
-﻿using Domain.Entities.UserPart;
+﻿using Domain.Entities.RecrutmentPart;
+using Domain.Entities.UserPart;
 using Domain.Providers;
 using Domain.Templates.Entities;
 using Domain.ValueObjects;
@@ -9,20 +10,38 @@ namespace Domain.Entities.PersonPart
     {
         //Values
         public SegementUrl? UrlSegment { get; set; }
-        public DateOnly CreateDate { get; set; }
+        public DateOnly CreateDate { get; private set; }
         public Email ContactEmail { get; set; } = null!;
         public string Name { get; set; } = null!;
         public string Surname { get; set; } = null!;
         public DateOnly? BirthDate { get; set; }
         public PhoneNumber? ContactPhoneNum { get; set; }
         public string? Description { get; set; }
-        public bool IsStudent { get; set; }
-        public bool IsPublicProfile { get; set; }
+        public DatabaseBool IsStudent { get; set; }
+        public DatabaseBool IsPublicProfile { get; set; }
 
 
         //References
-        public DomainUser User { get; set; } = null!;
+        private DomainUser _user = null!;
+        public DomainUser User
+        {
+            get { return _user; }
+            set
+            {
+                if (_user == null && value != null && value.Id == this.Id)
+                {
+                    _user = value;
+                    _user.Person = this;
+                }
+            }
+        }
+        //DomainRecrutment
+        private Dictionary<RecrutmentId, DomainRecrutment> _recrutments = new();
+        public IReadOnlyDictionary<RecrutmentId, DomainRecrutment> Recrutments => _recrutments;
+        //
+#warning Add Adress
         public AddressId? AddressId { get; set; } = null;
+
 
 
         //Constructor
@@ -43,18 +62,35 @@ namespace Domain.Entities.PersonPart
             IDomainProvider provider
             ) : base(new UserId(id), provider)
         {
-            UrlSegment = string.IsNullOrWhiteSpace(urlSegment) ? null : new SegementUrl(urlSegment);
-            CreateDate = createDate != null ? createDate.Value : _provider.GetTimeProvider().GetDateOnlyToday();
-            ContactEmail = new Email(contactEmail);
+            //Values with exeptions
+            ContactEmail = new Email(value: contactEmail);
+            IsStudent = new DatabaseBool(isStudent);
+            IsPublicProfile = new DatabaseBool(isPublicProfile);
+            UrlSegment = string.IsNullOrWhiteSpace(urlSegment) ?
+                null : new SegementUrl(urlSegment);
+            ContactPhoneNum = string.IsNullOrWhiteSpace(contactPhoneNum) ?
+                null : new PhoneNumber(contactPhoneNum);
+
+            //Values with no exeptions
             Name = name;
             Surname = surname;
             BirthDate = birthDate;
-            ContactPhoneNum = string.IsNullOrWhiteSpace(contactPhoneNum) ? null : new PhoneNumber(contactPhoneNum);
             Description = description;
+            AddressId = addressId == null ?
+                null : new AddressId(addressId.Value);
+            CreateDate = createDate != null ?
+                createDate.Value : _provider.GetTimeProvider().GetDateOnlyToday();
+        }
 
-            IsStudent = isStudent.ToLower() == "y";
-            IsPublicProfile = isPublicProfile.ToLower() == "y";
-            AddressId = addressId == null ? null : new AddressId(addressId.Value);
+
+        //Methods
+        public void AddRecrutment(DomainRecrutment domainRecrutment)
+        {
+            if (domainRecrutment.Id.PersonId == this.Id && !_recrutments.ContainsKey(domainRecrutment.Id))
+            {
+                _recrutments.Add(domainRecrutment.Id, domainRecrutment);
+                domainRecrutment.Person = this;
+            }
         }
     }
 }

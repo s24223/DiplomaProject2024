@@ -2,6 +2,7 @@
 using Domain.Entities.PersonPart;
 using Domain.Providers;
 using Domain.Templates.Entities;
+using Domain.ValueObjects;
 using Domain.ValueObjects.EntityIdentificators;
 
 namespace Domain.Entities.RecrutmentPart
@@ -10,15 +11,54 @@ namespace Domain.Entities.RecrutmentPart
     {
         //Values
         public DateTime ApplicationDate { get; private set; }
-        public string? PersonMessage { get; set; }
+        public string? PersonMessage { get; private set; }
         public string? CompanyResponse { get; set; }
-        public bool? AcceptedRejected { get; set; }
+        public DatabaseBool? AcceptedRejected { get; set; }
 
 
         //References
-        public DomainPerson Person { get; set; } = null!;
-        public DomainBranchOffer BranchOffer { get; set; } = null!;
-        public DomainIntership? Intership { get; set; } = null;
+        //DomainPerson
+        private DomainPerson _person = null!;
+        public DomainPerson Person
+        {
+            get { return _person; }
+            set
+            {
+                if (_person == null && value != null && value.Id == Id.PersonId)
+                {
+                    _person = value;
+                    _person.AddRecrutment(this);
+                }
+            }
+        }
+        //DomainBranchOffer
+        private DomainBranchOffer _branchOffer = null!;
+        public DomainBranchOffer BranchOffer
+        {
+            get { return _branchOffer; }
+            set
+            {
+                if (_branchOffer == null && value != null && value.Id == Id.BranchOfferId)
+                {
+                    _branchOffer = value;
+                    _branchOffer.AddRecrutment(this);
+                }
+            }
+        }
+        //DomainIntership
+        private DomainIntership? _intership = null;
+        public DomainIntership? Intership
+        {
+            get { return _intership; }
+            set
+            {
+                if (_intership == null && value != null && value.RecrutmentId == Id)
+                {
+                    _intership = value;
+                    _intership.Recrutment = this;
+                }
+            }
+        }
 
 
         //Cosntructor
@@ -51,7 +91,7 @@ namespace Domain.Entities.RecrutmentPart
                 applicationDate.Value : _provider.GetTimeProvider().GetDateTimeNow();
 
             AcceptedRejected = (string.IsNullOrWhiteSpace(acceptedRejected)) ?
-                null : (acceptedRejected.ToLower() == "y");
+                null : new DatabaseBool(acceptedRejected);
         }
     }
 }

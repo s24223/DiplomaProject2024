@@ -15,7 +15,19 @@ namespace Domain.Entities.UserPart
 
 
         //References
-        public DomainUser User { get; set; } = null!;
+        private DomainUser _user = null!;
+        public DomainUser User
+        {
+            get { return _user; }
+            set
+            {
+                if (_user == null && value != null && value.Id == this.Id.UserId)
+                {
+                    _user = value;
+                    _user.AddUrl(this);
+                }
+            }
+        }
 
 
         //Constructor
@@ -35,6 +47,7 @@ namespace Domain.Entities.UserPart
                 publishDate
                 ), provider)
         {
+            //Values with exeptions
             try
             {
                 Url = new Uri(url);
@@ -43,6 +56,8 @@ namespace Domain.Entities.UserPart
             {
                 throw new UrlException(Messages.InValidUrl);
             }
+
+            //Values with no exeptions
             Name = name;
             Description = description;
         }

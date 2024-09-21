@@ -16,9 +16,37 @@ namespace Domain.Entities.CompanyPart
 
 
         //References
-        public DomainBranch Branch { get; set; } = null!;
-        public DomainOffer Offer { get; set; } = null!;
-        public Dictionary<RecrutmentId, DomainRecrutment> Recrutments { get; private set; } = new();
+        //DomainBranch
+        private DomainBranch _branch = null!;
+        public DomainBranch Branch
+        {
+            get { return _branch; }
+            set
+            {
+                if (_branch == null && value != null && value.Id == Id.BranchId)
+                {
+                    _branch = value;
+                    _branch.AddBranchOffer(this);
+                }
+            }
+        }
+        //DomainOffer
+        private DomainOffer _offer = null!;
+        public DomainOffer Offer
+        {
+            get { return _offer; }
+            set
+            {
+                if (_offer == null && value != null && value.Id == Id.OfferId)
+                {
+                    _offer = value;
+                    _branch.AddBranchOffer(this);
+                }
+            }
+        }
+        //DomainRecrutment
+        private Dictionary<RecrutmentId, DomainRecrutment> _recrutments = new();
+        public IReadOnlyDictionary<RecrutmentId, DomainRecrutment> Recrutments => _recrutments;
 
 
         //Constructor
@@ -45,6 +73,20 @@ namespace Domain.Entities.CompanyPart
             WorkStart = workStart;
             WorkEnd = workEnd;
             LastUpdate = lastUpdate;
+        }
+
+
+        //Methods
+        public void AddRecrutment(DomainRecrutment domainRecrutment)
+        {
+            if (
+                domainRecrutment.Id.BranchOfferId == this.Id &&
+                !_recrutments.ContainsKey(domainRecrutment.Id)
+                )
+            {
+                _recrutments.Add(domainRecrutment.Id, domainRecrutment);
+                domainRecrutment.BranchOffer = this;
+            }
         }
     }
 }

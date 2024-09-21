@@ -1,5 +1,6 @@
 ﻿using Domain.Providers;
 using Domain.Templates.Entities;
+using Domain.ValueObjects;
 using Domain.ValueObjects.EntityIdentificators;
 using Domain.ValueObjects.PartCommentType;
 
@@ -9,11 +10,23 @@ namespace Domain.Entities.RecrutmentPart
     {
         //Values
         public string Description { get; set; } = null!;
-        public int? Evaluation { get; set; }
+        public CommentEvaluation? Evaluation { get; set; }
 
 
         //References
-        public DomainIntership Intership { get; set; } = null!;
+        private DomainIntership _intership = null!;
+        public DomainIntership Intership
+        {
+            get { return _intership; }
+            set
+            {
+                if (_intership == null && value != null && value.Id == Id.IntershipId)
+                {
+                    _intership = value;
+                    _intership.AddComment(this);
+                }
+            }
+        }
 
 
         //Constructor
@@ -31,8 +44,10 @@ namespace Domain.Entities.RecrutmentPart
             published
             ), provider)
         {
+            Evaluation = (evaluation == null) ?
+                null : new CommentEvaluation(evaluation.Value);
+
             Description = description;
-            Evaluation = evaluation;
         }
     }
 }

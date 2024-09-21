@@ -17,8 +17,23 @@ namespace Domain.Entities.CompanyPart
 
 
         //Refrences
-        public DomainUser User { get; set; } = null!;
-        public Dictionary<BranchId, DomainBranch> Branches { get; private set; } = new();
+        //DomainUser
+        private DomainUser _user = null!;
+        public DomainUser User
+        {
+            get { return _user; }
+            set
+            {
+                if (_user == null && value != null && value.Id == this.Id)
+                {
+                    _user = value;
+                    _user.Company = this;
+                }
+            }
+        }
+        //DomainBranch
+        private Dictionary<BranchId, DomainBranch> _branches = new();
+        public IReadOnlyDictionary<BranchId, DomainBranch> Branches => _branches;
 
 
         //Constructor
@@ -34,12 +49,28 @@ namespace Domain.Entities.CompanyPart
             IDomainProvider provider
             ) : base(new UserId(id), provider)
         {
-            UrlSegment = string.IsNullOrWhiteSpace(urlSegment) ? null : new SegementUrl(urlSegment);
-            CreateDate = createDate != null ? createDate.Value : _provider.GetTimeProvider().GetDateOnlyToday();
-            ContactEmail = new Email(contactEmail);
-            Name = name;
+            //Values with exeptions
             Regon = new Regon(regon);
+            ContactEmail = new Email(contactEmail);
+            UrlSegment = string.IsNullOrWhiteSpace(urlSegment) ?
+                null : new SegementUrl(urlSegment);
+
+            //Values with no exeptions
+            Name = name;
             Description = description;
+            CreateDate = createDate != null ?
+                createDate.Value : _provider.GetTimeProvider().GetDateOnlyToday();
+        }
+
+
+        //Methods
+        public void AddBranch(DomainBranch domainBranch)
+        {
+            if (domainBranch.CompanyId == this.Id && !_branches.ContainsKey(domainBranch.Id))
+            {
+                _branches.Add(domainBranch.Id, domainBranch);
+                domainBranch.Company = this;
+            }
         }
     }
 }
