@@ -25,6 +25,7 @@ namespace Application
             //User Part
             serviceCollection.AddTransient<IUserRepository, UserRepository>();
             serviceCollection.AddTransient<IUserService, UserService>();
+            serviceCollection.AddTransient<IUserProblem, UserProblem>();
 
             //Company Part 
             serviceCollection.AddTransient<ICompanyRepository, CompanyRepository>();

@@ -20,6 +20,7 @@ namespace Application.VerticalSlice.UserPart.Services
         private readonly IDomainFactory _domainFactory;
         private readonly IAuthenticationService _authenticationRepository;
         private readonly IDomainProvider _domainRepository;
+        private readonly IUserProblem _userProblem;
 
 
         public UserService
@@ -27,13 +28,15 @@ namespace Application.VerticalSlice.UserPart.Services
             IUserRepository repository,
             IAuthenticationService authentication,
             IDomainFactory domainFactory,
-            IDomainProvider domainRepository
+            IDomainProvider domainRepository,
+            IUserProblem userProblem
             )
         {
             _repository = repository;
             _domainFactory = domainFactory;
             _authenticationRepository = authentication;
             _domainRepository = domainRepository;
+            _userProblem = userProblem;
         }
 
 
@@ -184,6 +187,20 @@ namespace Application.VerticalSlice.UserPart.Services
                 Message = Messages.ResponseSuccess,
             };
         }
+
+        public async Task<Response> CreateUserProblemAuthorizedAsync(IEnumerable<Claim> claims, string userMessage, CancellationToken cancellationToken)
+        {
+            await _userProblem.CreateUserProblemAuthorizedAsync(claims, userMessage, cancellationToken);
+            return new Response { Status = EnumResponseStatus.Success, Message = Messages.ResponseSuccess, };
+        }
+
+        public async Task<Response> CreateUserProblemUnauthorizedAsync(string userMessage, Email email, CancellationToken cancelToken)
+        {
+            await _userProblem.CreateUserProblemUnauthorizedAsync (userMessage, email, cancelToken);
+            return new Response { Status = EnumResponseStatus.Success, Message= Messages.ResponseSuccess, };
+        }
+
+
         //============================================================================================================
         //Private Methods
 
