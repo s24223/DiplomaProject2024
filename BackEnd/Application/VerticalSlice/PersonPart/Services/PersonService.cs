@@ -3,7 +3,6 @@ using Application.VerticalSlice.PersonPart.DTOs.CreateProfile;
 using Application.VerticalSlice.PersonPart.Interfaces;
 using Domain.Factories;
 using Domain.Providers;
-using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 
 namespace Application.VerticalSlice.PersonPart.Services
@@ -34,9 +33,9 @@ namespace Application.VerticalSlice.PersonPart.Services
             IEnumerable<Claim> claims,
             CreatePersonProfileRequestDto dto,
             CancellationToken cancellation
-            ) 
-        { 
-            var id =_authenticationRepository.GetIdNameFromClaims(claims );
+            )
+        {
+            var id = _authenticationRepository.GetIdNameFromClaims(claims);
             var domainPerson = _domainFactory.CreateDomainPerson
                 (
                  id,
@@ -50,8 +49,8 @@ namespace Application.VerticalSlice.PersonPart.Services
                  dto.Description,
                  dto.IsStudent,
                  dto.IsPublicProfile,
-                 null 
-                 /*dto.AddressId*/
+                 null
+                /*dto.AddressId*/
 
                 );
             await _repository.CreatePersonProfileAsync(domainPerson, cancellation);

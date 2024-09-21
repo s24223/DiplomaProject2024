@@ -1,5 +1,4 @@
-﻿using Application.Database.Models;
-using Application.VerticalSlice.PersonPart.DTOs.CreateProfile;
+﻿using Application.VerticalSlice.PersonPart.DTOs.CreateProfile;
 using Application.VerticalSlice.PersonPart.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

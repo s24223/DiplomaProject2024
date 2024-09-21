@@ -2,7 +2,7 @@
 using Domain.Providers;
 using Domain.Templates.Entities;
 using Domain.ValueObjects.EntityIdentificators;
-using Domain.ValueObjects.UrlTypePart;
+using Domain.ValueObjects.PartUrlType;
 
 namespace Domain.Entities.UserPart
 {
@@ -13,8 +13,22 @@ namespace Domain.Entities.UserPart
         public string? Name { get; set; }
         public string? Description { get; set; }
 
+
         //References
-        public DomainUser User { get; set; } = null!;
+        private DomainUser _user = null!;
+        public DomainUser User
+        {
+            get { return _user; }
+            set
+            {
+                if (_user == null && value != null && value.Id == this.Id.UserId)
+                {
+                    _user = value;
+                    _user.AddUrl(this);
+                }
+            }
+        }
+
 
         //Constructor
         public DomainUrl
@@ -33,6 +47,7 @@ namespace Domain.Entities.UserPart
                 publishDate
                 ), provider)
         {
+            //Values with exeptions
             try
             {
                 Url = new Uri(url);
@@ -41,6 +56,8 @@ namespace Domain.Entities.UserPart
             {
                 throw new UrlException(Messages.InValidUrl);
             }
+
+            //Values with no exeptions
             Name = name;
             Description = description;
         }

@@ -1,4 +1,4 @@
-﻿using Domain.ValueObjects.UrlTypePart;
+﻿using Domain.ValueObjects.PartUrlType;
 
 namespace Domain.ValueObjects.EntityIdentificators
 {

@@ -11,11 +11,28 @@ namespace Domain.Entities.CompanyPart
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
 
-        //References
-        //Comapny Part
-        public UserId CompanyId { get; private set; } = null!;
-        public DomainCompany Company { get; set; } = null!;
 
+        //References
+        //DomainCompany
+        public UserId CompanyId { get; private set; } = null!;
+        private DomainCompany _company = null!;
+        public DomainCompany Company
+        {
+            get { return _company; }
+            set
+            {
+                if (_company == null && value != null && value.Id == CompanyId)
+                {
+                    _company = value;
+                    _company.AddBranch(this);
+                }
+            }
+        }
+        //BarnachOffer 
+        private Dictionary<BranchOfferId, DomainBranchOffer> _branchOffers = new();
+        public IReadOnlyDictionary<BranchOfferId, DomainBranchOffer> BranchOffers => _branchOffers;
+        //Adress
+#warning Add adress
         public AddressId AddressId { get; private set; } = null!;
 
 
@@ -31,11 +48,29 @@ namespace Domain.Entities.CompanyPart
             IDomainProvider provider
             ) : base(new BranchId(id), provider)
         {
+            //Values with exeptions
+            UrlSegment = (string.IsNullOrWhiteSpace(urlSegment)) ?
+                null : new SegementUrl(urlSegment);
+
+            //Values with no exeptions
+            Name = name;
             CompanyId = new UserId(companyId);
             AddressId = new AddressId(addressId);
-            UrlSegment = (string.IsNullOrWhiteSpace(urlSegment)) ? null : new SegementUrl(urlSegment);
-            Name = name;
             Description = description;
+        }
+
+
+        //Methods
+        public void AddBranchOffer(DomainBranchOffer domainBranchOffer)
+        {
+            if (
+                domainBranchOffer.Id.BranchId == this.Id &&
+                !_branchOffers.ContainsKey(domainBranchOffer.Id)
+                )
+            {
+                _branchOffers.Add(domainBranchOffer.Id, domainBranchOffer);
+                domainBranchOffer.Branch = this;
+            }
         }
     }
 }
