@@ -123,6 +123,9 @@
   <data name="InValidCommentType" xml:space="preserve">
     <value>za podanymi danymi CommentType nie istnieje</value>
   </data>
+  <data name="InValidDatabaseBool" xml:space="preserve">
+    <value>Typ może byc "y" lub "n"</value>
+  </data>
   <data name="InValidEmail" xml:space="preserve">
     <value>Niepoprwanie podany Email</value>
   </data>

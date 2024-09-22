@@ -5,6 +5,9 @@ namespace Domain.ValueObjects
     public record CommentEvaluation
     {
         public int Value { get; private set; }
+
+
+        //Cosntructor
         public CommentEvaluation(int value)
         {
             if (value > 5 || value <= 0)

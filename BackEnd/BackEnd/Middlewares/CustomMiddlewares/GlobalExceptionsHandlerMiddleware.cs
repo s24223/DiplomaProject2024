@@ -43,17 +43,41 @@ namespace BackEnd.Middlewares.CustomMiddlewares
 
             switch (exception)
             {
+                case CommentEvaluationException:
+                    await GenerateUserFaultResponse(response, exception, 400);
+                    break;
+                case CommentTypeException:
+                    await GenerateUserFaultResponse(response, exception, 400);
+                    break;
+                case DatabaseBoolException:
+                    await GenerateUserFaultResponse(response, exception, 400);
+                    break;
                 case EmailException:
                     await GenerateUserFaultResponse(response, exception, 400);
                     break;
-                case UnauthorizedUserException:
-                    await GenerateUserFaultResponse(response, exception, 401);
+                case MoneyException:
+                    await GenerateUserFaultResponse(response, exception, 400);
+                    break;
+                case PhoneNumberException:
+                    await GenerateUserFaultResponse(response, exception, 400);
                     break;
                 case RegonException:
                     await GenerateUserFaultResponse(response, exception, 400);
                     break;
                 case SegementUrlException:
                     await GenerateUserFaultResponse(response, exception, 400);
+                    break;
+                case UrlException:
+                    await GenerateUserFaultResponse(response, exception, 400);
+                    break;
+                case UrlTypeException:
+                    await GenerateUserFaultResponse(response, exception, 400);
+                    break;
+                case UserProblemStatusException:
+                    await GenerateUserFaultResponse(response, exception, 400);
+                    break;
+                case UnauthorizedUserException:
+                    await GenerateUserFaultResponse(response, exception, 401);
                     break;
                 default:
                     await GenerateAppFaultResponse(response, exception, dbContext);

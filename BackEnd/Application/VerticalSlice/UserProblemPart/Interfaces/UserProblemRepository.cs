@@ -1,5 +1,6 @@
 ﻿using Application.Database;
 using Application.Database.Models;
+using Application.Shared.Exceptions.UserExceptions;
 using Domain.Entities.UserPart;
 using Domain.Factories;
 using Microsoft.EntityFrameworkCore;
@@ -20,34 +21,6 @@ namespace Application.VerticalSlice.UserProblemPart.Interfaces
             _domainFactory = domainFactory;
         }
 
-        /*public async Task CreateUserProblemAuthorizedAsync(IEnumerable<Claim> claims, string userMessage, CancellationToken cancellationToken)
-        {
-            var id = _authentication.GetIdNameFromClaims(claims);
-            var tuple = await _userRepository.GetUserDataByIdAsync(new UserId(id), cancellationToken);
-            var mail = tuple.User.Login;
-            await _context.UserProblems.AddAsync(new Database.Models.UserProblem
-            {
-                DateTime = DateTime.Now,
-                UserMessage = userMessage,
-                UserId = id,
-                Email = mail.Value,
-                Status = "C"
-            });
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task CreateUserProblemUnauthorizedAsync(string userMessage, Email email, CancellationToken cancelToken)
-        {
-            await _context.UserProblems.AddAsync(new Database.Models.UserProblem
-            {
-                DateTime = DateTime.Now,
-                UserMessage = userMessage,
-                Email = email.Value,
-                Status = "C"
-            });
-            await _context.SaveChangesAsync();
-        }*/
-
         public async Task<Guid> CreateUserProblemAndReturnIdAsync
             (
             DomainUserProblem userProblem,
@@ -62,7 +35,7 @@ namespace Application.VerticalSlice.UserProblemPart.Interfaces
                     .FirstOrDefaultAsync(cancellation);
                 if (databaseUser == null)
                 {
-                    throw new UnauthorizedAccessException();
+                    throw new UnauthorizedUserException();
                 }
             }
             var databaseUserProblem = new UserProblem

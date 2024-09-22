@@ -72,7 +72,7 @@ namespace Domain.Entities.RecrutmentPart
             string? personMessage,
             string? companyResponse,
             string? acceptedRejected,
-        IDomainProvider provider
+            IDomainProvider provider
             ) : base(new RecrutmentId
                 (
                 new BranchOfferId(

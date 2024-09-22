@@ -79,6 +79,15 @@ namespace Domain {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Typ może byc &quot;y&quot; lub &quot;n&quot;.
+        /// </summary>
+        internal static string InValidDatabaseBool {
+            get {
+                return ResourceManager.GetString("InValidDatabaseBool", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Niepoprwanie podany Email.
         /// </summary>
         internal static string InValidEmail {
