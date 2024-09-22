@@ -61,6 +61,24 @@ namespace Domain {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ocena nie może być poniżej 1 i nie może być powyżej 5.
+        /// </summary>
+        internal static string InValidCommentEvaluation {
+            get {
+                return ResourceManager.GetString("InValidCommentEvaluation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to za podanymi danymi CommentType nie istnieje.
+        /// </summary>
+        internal static string InValidCommentType {
+            get {
+                return ResourceManager.GetString("InValidCommentType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Niepoprwanie podany Email.
         /// </summary>
         internal static string InValidEmail {
@@ -111,6 +129,15 @@ namespace Domain {
         internal static string InValidUrl {
             get {
                 return ResourceManager.GetString("InValidUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string NotExistUserProblemStatus {
+            get {
+                return ResourceManager.GetString("NotExistUserProblemStatus", resourceCulture);
             }
         }
         

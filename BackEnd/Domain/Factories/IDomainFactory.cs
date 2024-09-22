@@ -48,5 +48,17 @@ namespace Domain.Factories
             string isPublicProfile,
             Guid? addressId
             );
+
+        DomainUserProblem CreateDomainUserProblem
+           (
+           Guid? id,
+           DateTime? dateTime,
+           string userMessage,
+           string? response,
+           Guid? previousProblemId,
+           string? email,
+           string? status,
+           Guid? userId
+           );
     }
 }

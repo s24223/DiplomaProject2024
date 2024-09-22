@@ -1,12 +1,6 @@
 ﻿using Application.Database;
 using Domain.Entities.PersonPart;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.VerticalSlice.PersonPart.Interfaces
 {
@@ -15,7 +9,7 @@ namespace Application.VerticalSlice.PersonPart.Interfaces
         private readonly DiplomaProjectContext _context;
         public PersonRepository(DiplomaProjectContext context)
         {
-            _context=context;
+            _context = context;
         }
 
         public async Task CreatePersonProfileAsync(DomainPerson person, CancellationToken cancellation)
@@ -23,7 +17,7 @@ namespace Application.VerticalSlice.PersonPart.Interfaces
             var databasePerson = await _context.People
                 .Where(x => x.UserId == person.Id.Value)
                 .FirstOrDefaultAsync(cancellation);
-            
+
             if (databasePerson != null)
             {
                 //exception
@@ -44,12 +38,12 @@ namespace Application.VerticalSlice.PersonPart.Interfaces
                 User = databaseUser,
                 UrlSegment = (person.UrlSegment == null) ? null : person.UrlSegment.Value,
                 CreateDate = person.CreateDate,
-                ContactEmail=person.ContactEmail.Value,
-                Name=person.Name,
-                Surname=person.Surname,
-                BirthDate= (person.BirthDate == null) ? null : person.BirthDate.Value,
-                ContactPhoneNum= (person.ContactPhoneNum == null) ? null : person.ContactPhoneNum.Value,
-                Description=person.Description, 
+                ContactEmail = person.ContactEmail.Value,
+                Name = person.Name,
+                Surname = person.Surname,
+                BirthDate = (person.BirthDate == null) ? null : person.BirthDate.Value,
+                ContactPhoneNum = (person.ContactPhoneNum == null) ? null : person.ContactPhoneNum.Value,
+                Description = person.Description,
                 IsStudent = "y", //person.IsStudent, // tu w Domain person jest bool a w Person string jak to zamienic
                 IsPublicProfile = "n",// person.IsPublicProfile
             }, cancellation);

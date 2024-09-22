@@ -2,10 +2,18 @@
 {
     public record DatabaseBool
     {
-#warning Implement
+        public bool Value { get; private set; }
+
         public DatabaseBool(string value)
         {
-            //isStudent.ToLower() == "y";
+            if (value.ToLower() == "y")
+            {
+                Value = true;
+            }
+            else
+            {
+                Value = false;
+            }
         }
     }
 }

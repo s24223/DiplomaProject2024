@@ -64,7 +64,7 @@ namespace Domain.Factories
             string isStudent,
             string isPublicProfile,
             Guid? addressId
-            
+
             )
         {
             return new DomainPerson(
@@ -83,5 +83,33 @@ namespace Domain.Factories
                 _provider
                 );
         }
+
+        public DomainUserProblem CreateDomainUserProblem
+            (
+            Guid? id,
+            DateTime? dateTime,
+            string userMessage,
+            string? response,
+            Guid? previousProblemId,
+            string? email,
+            string? status,
+            Guid? userId
+            )
+        {
+            return new DomainUserProblem
+                (
+                id,
+                dateTime,
+                userMessage,
+                response,
+                previousProblemId,
+                email,
+                status,
+                userId,
+            _provider
+            );
+        }
+
+
     }
 }

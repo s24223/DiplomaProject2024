@@ -5,6 +5,7 @@ using Application.VerticalSlice.UserPart.DTOs.CreateProfile;
 using Application.VerticalSlice.UserPart.DTOs.LoginIn;
 using Application.VerticalSlice.UserPart.DTOs.Refresh;
 using Application.VerticalSlice.UserPart.Interfaces;
+using Application.VerticalSlice.UserProblemPart.Interfaces;
 using Domain.Exceptions.UserExceptions;
 using Domain.Factories;
 using Domain.Providers;
@@ -20,7 +21,7 @@ namespace Application.VerticalSlice.UserPart.Services
         private readonly IDomainFactory _domainFactory;
         private readonly IAuthenticationService _authenticationRepository;
         private readonly IDomainProvider _domainRepository;
-        private readonly IUserProblem _userProblem;
+        private readonly IUserProblemRepository _userProblem;
 
 
         public UserService
@@ -29,7 +30,7 @@ namespace Application.VerticalSlice.UserPart.Services
             IAuthenticationService authentication,
             IDomainFactory domainFactory,
             IDomainProvider domainRepository,
-            IUserProblem userProblem
+            IUserProblemRepository userProblem
             )
         {
             _repository = repository;
@@ -90,11 +91,11 @@ namespace Application.VerticalSlice.UserPart.Services
             var roles = new List<string>();
             /*if (user.Company != null)
             {
-                roles.Add(_authenticationRepository.GetCompanyRole());
+                roles.Add(_authenticationService.GetCompanyRole());
             }
             if (user.Person != null)
             {
-                roles.Add(_authenticationRepository.GetPersonRole());
+                roles.Add(_authenticationService.GetPersonRole());
             }*/
 
             var jwt = _authenticationRepository.GenerateJwtStringAndDateTimeValidTo
@@ -188,17 +189,7 @@ namespace Application.VerticalSlice.UserPart.Services
             };
         }
 
-        public async Task<Response> CreateUserProblemAuthorizedAsync(IEnumerable<Claim> claims, string userMessage, CancellationToken cancellationToken)
-        {
-            await _userProblem.CreateUserProblemAuthorizedAsync(claims, userMessage, cancellationToken);
-            return new Response { Status = EnumResponseStatus.Success, Message = Messages.ResponseSuccess, };
-        }
 
-        public async Task<Response> CreateUserProblemUnauthorizedAsync(string userMessage, Email email, CancellationToken cancelToken)
-        {
-            await _userProblem.CreateUserProblemUnauthorizedAsync (userMessage, email, cancelToken);
-            return new Response { Status = EnumResponseStatus.Success, Message= Messages.ResponseSuccess, };
-        }
 
 
         //============================================================================================================

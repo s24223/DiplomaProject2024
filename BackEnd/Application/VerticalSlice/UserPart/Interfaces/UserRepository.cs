@@ -132,7 +132,7 @@ namespace Application.VerticalSlice.UserPart.Interfaces
         //==========================================================================================================================================
         //Private Methods
 
-        private async Task<Application.Database.Models.User> GetDatabaseUserAsync
+        private async Task<User> GetDatabaseUserAsync
             (
             UserId id,
             CancellationToken cancellation
@@ -147,7 +147,7 @@ namespace Application.VerticalSlice.UserPart.Interfaces
             return databaseUser;
         }
 
-        private async Task<Application.Database.Models.User> GetDatabaseUserAsync
+        private async Task<User> GetDatabaseUserAsync
             (
             Email email,
             CancellationToken cancellation

@@ -2,8 +2,8 @@
 {
     public enum UserProblemStatusEnum
     {
-        New = 1,
-        Verifying = 2,
+        Created = 1,
+        Verifing = 2,
         Done = 3,
     }
 }

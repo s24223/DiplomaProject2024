@@ -5,6 +5,8 @@ using Application.VerticalSlice.PersonPart.Interfaces;
 using Application.VerticalSlice.PersonPart.Services;
 using Application.VerticalSlice.UserPart.Interfaces;
 using Application.VerticalSlice.UserPart.Services;
+using Application.VerticalSlice.UserProblemPart.Interfaces;
+using Application.VerticalSlice.UserProblemPart.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,12 +27,15 @@ namespace Application
             //User Part
             serviceCollection.AddTransient<IUserRepository, UserRepository>();
             serviceCollection.AddTransient<IUserService, UserService>();
-            serviceCollection.AddTransient<IUserProblem, UserProblem>();
+
+            //UserProblem Part
+            serviceCollection.AddTransient<IUserProblemRepository, UserProblemRepository>(); //OK
+            serviceCollection.AddTransient<IUserProblemService, UserProblemService>(); //Better
 
             //Company Part 
             serviceCollection.AddTransient<ICompanyRepository, CompanyRepository>();
             serviceCollection.AddTransient<ICompanyService, CompanyService>();
-            
+
             //Person Part 
             serviceCollection.AddTransient<IPersonRepository, PersonRepository>();
             serviceCollection.AddTransient<IPersonService, PersonService>();

@@ -37,8 +37,8 @@ namespace Domain.Entities.UserPart
         //Constructor
         public DomainUserProblem
             (
-            Guid id,
-            DateTime dateTime,
+            Guid? id,
+            DateTime? dateTime,
             string userMessage,
             string? response,
             Guid? previousProblemId,
@@ -54,7 +54,8 @@ namespace Domain.Entities.UserPart
             Status = new UserProblemStatus(status);
 
             //Values with no exeptions
-            DateTime = dateTime;
+            DateTime = (dateTime != null)
+                ? dateTime.Value : _provider.GetTimeProvider().GetDateTimeNow();
             UserMessage = userMessage;
             Response = response;
             PreviousProblemId = (previousProblemId == null) ?
