@@ -10,11 +10,11 @@ using System.Text;
 
 namespace Application.VerticalSlice.AddressPart.Interfaces
 {
-    public class AddressRepository : IAddressRepository
+    public class AddressSqlClientRepository : IAddressSqlClientRepository
     {
         private readonly string _connectionString;
         private readonly IDomainProvider _provider;
-        public AddressRepository
+        public AddressSqlClientRepository
             (
             IConfiguration configuration,
             IDomainProvider provider

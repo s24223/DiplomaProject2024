@@ -1,4 +1,5 @@
-﻿using Domain.Entities.CompanyPart;
+﻿using Domain.Entities.AddressPart;
+using Domain.Entities.CompanyPart;
 using Domain.Entities.PersonPart;
 using Domain.Entities.RecrutmentPart;
 using Domain.Entities.UserPart;
@@ -286,5 +287,31 @@ namespace Domain.Factories
             );
         }
         //=================================================================================================
+        //=================================================================================================
+        //=================================================================================================
+        //Address Part
+        public DomainAddress CreateDomainAddress
+            (
+            Guid? id,
+            int divisionId,
+            int streetId,
+            string buildingNumber,
+            string? apartmentNumber,
+            string zipCode
+            )
+        {
+            return new DomainAddress
+                (
+                id,
+                divisionId,
+                streetId,
+                buildingNumber,
+                apartmentNumber,
+                zipCode,
+            _provider
+            );
+        }
+
+
     }
 }

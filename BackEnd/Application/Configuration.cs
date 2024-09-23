@@ -1,4 +1,5 @@
 ﻿using Application.Shared.Services.Authentication;
+using Application.VerticalSlice.AddressPart.Interfaces;
 using Application.VerticalSlice.AddressPart.Services;
 using Application.VerticalSlice.CompanyPart.Interfaces;
 using Application.VerticalSlice.CompanyPart.Services;
@@ -42,6 +43,7 @@ namespace Application
             serviceCollection.AddTransient<IPersonService, PersonService>();
 
             //Address Part
+            serviceCollection.AddTransient<IAddressEFRepository, AddressEFRepository>();
             serviceCollection.AddTransient<IAddressService, AddressService>();
 
             return serviceCollection;

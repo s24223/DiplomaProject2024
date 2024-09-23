@@ -33,7 +33,6 @@
 
   <ItemGroup>
     <Folder Include="Shared\Exceptions\AppExceptions\" />
-    <Folder Include="VerticalSlice\AddressPart\DTOs\UserDTOs\" />
   </ItemGroup>
 
 </Project>

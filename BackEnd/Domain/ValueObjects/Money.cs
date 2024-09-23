@@ -23,5 +23,25 @@ namespace Domain.ValueObjects
             }
             return true;
         }
+
+        public static bool operator >(Money money1, Money money2)
+        {
+            return money1.Value > money2.Value;
+        }
+
+        public static bool operator <(Money money1, Money money2)
+        {
+            return money1.Value < money2.Value;
+        }
+
+        public static bool operator >=(Money money1, Money money2)
+        {
+            return money1.Value >= money2.Value;
+        }
+
+        public static bool operator <=(Money money1, Money money2)
+        {
+            return money1.Value <= money2.Value;
+        }
     }
 }

@@ -61,6 +61,24 @@ namespace Domain {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Numer mieszkania może zawierac tylko liczby od 1.
+        /// </summary>
+        internal static string InValidApartmentNumber {
+            get {
+                return ResourceManager.GetString("InValidApartmentNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Niepoprawny nr budynku.
+        /// </summary>
+        internal static string InValidBuildingNumber {
+            get {
+                return ResourceManager.GetString("InValidBuildingNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ocena nie może być poniżej 1 i nie może być powyżej 5.
         /// </summary>
         internal static string InValidCommentEvaluation {
@@ -138,6 +156,15 @@ namespace Domain {
         internal static string InValidUrl {
             get {
                 return ResourceManager.GetString("InValidUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Niepoprawny Kod pocztowy, on zwiera tylko 5 cyfr.
+        /// </summary>
+        internal static string InValidZipCode {
+            get {
+                return ResourceManager.GetString("InValidZipCode", resourceCulture);
             }
         }
         

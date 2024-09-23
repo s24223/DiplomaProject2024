@@ -18,7 +18,7 @@ namespace Infrastructure
             serviceCollection.AddSingleton<IConfiguration>(configuration);
 
             //Address Part from Application
-            serviceCollection.AddTransient<IAddressRepository, AddressRepository>();
+            serviceCollection.AddTransient<IAddressSqlClientRepository, AddressSqlClientRepository>();
 
 
             serviceCollection.AddTransient<DiplomaProjectContext, DiplomaProjectMsSqlContext>();

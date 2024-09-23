@@ -41,6 +41,7 @@ namespace Domain.Entities.CompanyPart
             ForStudents = new DatabaseBool(forStudents);
             IsNegotiatedSalary = (string.IsNullOrWhiteSpace(isNegotiatedSalary)) ?
                 null : new DatabaseBool(isNegotiatedSalary);
+            //
 
             //Values with  no exeptions
             Name = name;

@@ -83,7 +83,7 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
         {
             entity.HasKey(e => e.Id).HasName("AdministrativeDivision_pk");
 
-            entity.ToTable("AdministrativeDivision");
+            entity.ToTable("DomainAdministrativeDivision");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Name).HasMaxLength(100);

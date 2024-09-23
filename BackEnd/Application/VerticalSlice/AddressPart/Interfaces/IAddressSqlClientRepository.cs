@@ -2,7 +2,7 @@
 
 namespace Application.VerticalSlice.AddressPart.Interfaces
 {
-    public interface IAddressRepository
+    public interface IAddressSqlClientRepository
     {
         Task<ICollection<PartialAddressDto>> GetDivisionsStreetsAsync
             (

@@ -43,6 +43,12 @@ namespace BackEnd.Middlewares.CustomMiddlewares
 
             switch (exception)
             {
+                case ApartmentNumberException:
+                    await GenerateUserFaultResponse(response, exception, 400);
+                    break;
+                case BuildingNumberException:
+                    await GenerateUserFaultResponse(response, exception, 400);
+                    break;
                 case CommentEvaluationException:
                     await GenerateUserFaultResponse(response, exception, 400);
                     break;
@@ -74,6 +80,9 @@ namespace BackEnd.Middlewares.CustomMiddlewares
                     await GenerateUserFaultResponse(response, exception, 400);
                     break;
                 case UserProblemStatusException:
+                    await GenerateUserFaultResponse(response, exception, 400);
+                    break;
+                case ZipCodeException:
                     await GenerateUserFaultResponse(response, exception, 400);
                     break;
                 case UnauthorizedUserException:

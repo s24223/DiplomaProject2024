@@ -7,8 +7,8 @@ namespace BackEnd.Controllers
     [ApiController]
     public class AddressController : ControllerBase
     {
-        public IAddressRepository _repository;
-        public AddressController(IAddressRepository repository)
+        public IAddressSqlClientRepository _repository;
+        public AddressController(IAddressSqlClientRepository repository)
         {
             _repository = repository;
         }
