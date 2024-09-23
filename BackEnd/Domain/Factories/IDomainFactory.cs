@@ -73,8 +73,8 @@ namespace Domain.Factories
            string forStudents
            );
         
-     }
-        DomainUrl CreateDomainUrl
+     
+    DomainUrl CreateDomainUrl
             (
             Guid UserId,
             UrlType urlType,

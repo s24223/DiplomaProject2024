@@ -24,7 +24,7 @@ namespace BackEnd.Controllers
             CancellationToken cancellation
             )
         {
-            var claims = User.Claims.ToList();
+           // var claims = User.Claims.ToList();
             await _offerService.CreateOfferProfileAsync(/*claims,*/ dto, cancellation);
             return Created();
         }
