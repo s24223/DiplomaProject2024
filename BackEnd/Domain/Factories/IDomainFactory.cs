@@ -2,6 +2,8 @@
 using Domain.Entities.PersonPart;
 using Domain.Entities.UserPart;
 using Domain.Exceptions.UserExceptions;
+using Domain.Providers;
+using Domain.ValueObjects.PartUrlType;
 
 namespace Domain.Factories
 {
@@ -72,4 +74,15 @@ namespace Domain.Factories
            );
         
      }
+        DomainUrl CreateDomainUrl
+            (
+            Guid UserId,
+            UrlType urlType,
+            DateTime publishDate,
+            string url,
+            string? name,
+            string? description,
+            IDomainProvider provider
+            );
+    }
 }

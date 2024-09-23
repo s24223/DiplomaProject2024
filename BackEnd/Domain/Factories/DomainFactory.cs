@@ -3,6 +3,7 @@ using Domain.Entities.PersonPart;
 using Domain.Entities.RecrutmentPart;
 using Domain.Entities.UserPart;
 using Domain.Providers;
+using Domain.ValueObjects.PartUrlType;
 
 namespace Domain.Factories
 {
@@ -285,6 +286,34 @@ namespace Domain.Factories
             _provider
             );
         }
+
+
+        //=================================================================================================
+        //=================================================================================================
+        //=================================================================================================
+        //UrlPart
+
+        public DomainUrl CreateDomainUrl(
+            Guid UserId, 
+            UrlType urlType,
+            DateTime publishDate, 
+            string url, 
+            string? name, 
+            string? description, 
+            IDomainProvider provider)
+        {
+            return new DomainUrl
+                (
+                UserId,
+                (int) urlType.Type,
+                publishDate,
+                url,
+                name,
+                description,
+                provider
+                );
+        }
+
         //=================================================================================================
     }
 }
