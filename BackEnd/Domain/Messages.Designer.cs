@@ -61,7 +61,6 @@ namespace Domain {
         }
         
         /// <summary>
-<<<<<<< HEAD
         ///   Looks up a localized string similar to Numer mieszkania może zawierac tylko liczby od 1.
         /// </summary>
         internal static string InValidApartmentNumber {
@@ -73,16 +72,18 @@ namespace Domain {
         /// <summary>
         ///   Looks up a localized string similar to Niepoprawny nr budynku.
         /// </summary>
-        internal static string InValidBuildingNumber {
-            get {
+        internal static string InValidBuildingNumber
+        {
+            get
+            {
                 return ResourceManager.GetString("InValidBuildingNumber", resourceCulture);
-=======
+            }
+        }
         ///   Looks up a localized string similar to .
         /// </summary>
         internal static string IncorrectlementationBySqlClient {
             get {
                 return ResourceManager.GetString("IncorrectlementationBySqlClient", resourceCulture);
->>>>>>> f6fddde1e373503f64b13b26b5c4a50fdf3a43d7
             }
         }
         

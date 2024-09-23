@@ -27,7 +27,7 @@ namespace Application.VerticalSlice.OfferPart.Interfaces
                 CancellationToken cancellation
             )
         {
-            if(offer != null)
+            if (offer != null)
             {
                 var databaseOffer = await _context.Offers
                     .Where(x => x.Id == offer.Id.Value).FirstOrDefaultAsync(cancellation);
@@ -39,10 +39,10 @@ namespace Application.VerticalSlice.OfferPart.Interfaces
             await _context.Offers.AddAsync(new Offer
             {
                 Name = offer.Name,
-                MinSalary = (offer.MinSalary==null )? null : offer.MinSalary.Value,
-                MaxSalary = (offer.MaxSalary ==null)? null : offer.MaxSalary.Value,
-                NegotiatedSalary = offer.NegotiatedSalary.Code,
-                ForStudents=offer.ForStudents.Code
+                MinSalary = (offer.MinSalary == null) ? null : offer.MinSalary.Value,
+                MaxSalary = (offer.MaxSalary == null) ? null : offer.MaxSalary.Value,
+                NegotiatedSalary = (offer.IsNegotiatedSalary == null) ? null : offer.IsNegotiatedSalary.Code,
+                ForStudents = offer.ForStudents.Code
 
             }, cancellation);
             await _context.SaveChangesAsync(cancellation);
