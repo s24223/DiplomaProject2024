@@ -99,7 +99,7 @@ namespace Domain.Factories
            string description,
            decimal? minSalary,
            decimal? maxSalary,
-           string? isNegotiatedSalary,
+           string? NegotiatedSalary,
            string forStudents
            )
         {
@@ -110,7 +110,7 @@ namespace Domain.Factories
                 description,
                 minSalary,
                 maxSalary,
-                isNegotiatedSalary,
+                NegotiatedSalary,
                 forStudents,
             _provider
            );

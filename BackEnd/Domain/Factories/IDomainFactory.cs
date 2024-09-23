@@ -60,5 +60,16 @@ namespace Domain.Factories
            string? status,
            Guid? userId
            );
-    }
+        DomainOffer CreateDomainOffer
+           (
+           Guid? id,
+           string name,
+           string description,
+           decimal? minSalary,
+           decimal? maxSalary,
+           string? isNegotiatedSalary,
+           string forStudents
+           );
+        
+     }
 }

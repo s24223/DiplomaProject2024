@@ -150,4 +150,7 @@
   <data name="UndefinedUrlType" xml:space="preserve">
     <value>Niezdefiniowany Typ Url</value>
   </data>
+  <data name="IncorrectlementationBySqlClient" xml:space="preserve">
+    <value />
+  </data>
 </root>

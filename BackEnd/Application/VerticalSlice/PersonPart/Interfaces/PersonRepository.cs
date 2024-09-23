@@ -44,8 +44,8 @@ namespace Application.VerticalSlice.PersonPart.Interfaces
                 BirthDate = (person.BirthDate == null) ? null : person.BirthDate.Value,
                 ContactPhoneNum = (person.ContactPhoneNum == null) ? null : person.ContactPhoneNum.Value,
                 Description = person.Description,
-                IsStudent = "y", //person.IsStudent, // tu w Domain person jest bool a w Person string jak to zamienic
-                IsPublicProfile = "n",// person.IsPublicProfile
+                IsStudent = person.IsStudent.Code, //person.IsStudent, // tu w Domain person jest bool a w Person string jak to zamienic
+                IsPublicProfile = person.IsPublicProfile.Code,// person.IsPublicProfile
             }, cancellation);
             await _context.SaveChangesAsync(cancellation);
         }

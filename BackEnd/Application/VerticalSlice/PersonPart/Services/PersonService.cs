@@ -51,7 +51,6 @@ namespace Application.VerticalSlice.PersonPart.Services
                  dto.IsPublicProfile,
                  null
                 /*dto.AddressId*/
-
                 );
             await _repository.CreatePersonProfileAsync(domainPerson, cancellation);
         }

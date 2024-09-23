@@ -61,6 +61,15 @@ namespace Domain {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string IncorrectlementationBySqlClient {
+            get {
+                return ResourceManager.GetString("IncorrectlementationBySqlClient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ocena nie może być poniżej 1 i nie może być powyżej 5.
         /// </summary>
         internal static string InValidCommentEvaluation {
