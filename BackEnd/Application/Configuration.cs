@@ -3,8 +3,12 @@ using Application.VerticalSlice.AddressPart.Interfaces;
 using Application.VerticalSlice.AddressPart.Services;
 using Application.VerticalSlice.CompanyPart.Interfaces;
 using Application.VerticalSlice.CompanyPart.Services;
+using Application.VerticalSlice.OfferPart.Interfaces;
+using Application.VerticalSlice.OfferPart.Services;
 using Application.VerticalSlice.PersonPart.Interfaces;
 using Application.VerticalSlice.PersonPart.Services;
+using Application.VerticalSlice.UrlPart.Interfaces;
+using Application.VerticalSlice.UrlPart.Services;
 using Application.VerticalSlice.UserPart.Interfaces;
 using Application.VerticalSlice.UserPart.Services;
 using Application.VerticalSlice.UserProblemPart.Interfaces;
@@ -45,6 +49,14 @@ namespace Application
             //Address Part
             serviceCollection.AddTransient<IAddressEFRepository, AddressEFRepository>();
             serviceCollection.AddTransient<IAddressService, AddressService>();
+
+            //Url Part
+            serviceCollection.AddTransient<IUrlRepository, UrlRepository>();
+            serviceCollection.AddTransient<IUrlService, UrlService>();
+
+            //Offer Part 
+            serviceCollection.AddTransient<IOfferRepository, OfferRepository>();
+            serviceCollection.AddTransient<IOfferService, OfferService>();
 
             return serviceCollection;
         }

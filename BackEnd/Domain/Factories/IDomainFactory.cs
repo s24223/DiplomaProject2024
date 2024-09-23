@@ -2,6 +2,8 @@
 using Domain.Entities.PersonPart;
 using Domain.Entities.UserPart;
 using Domain.Exceptions.UserExceptions;
+using Domain.Providers;
+using Domain.ValueObjects.PartUrlType;
 
 namespace Domain.Factories
 {
@@ -60,5 +62,27 @@ namespace Domain.Factories
            string? status,
            Guid? userId
            );
+        DomainOffer CreateDomainOffer
+           (
+           Guid? id,
+           string name,
+           string description,
+           decimal? minSalary,
+           decimal? maxSalary,
+           string? isNegotiatedSalary,
+           string forStudents
+           );
+        
+     
+    DomainUrl CreateDomainUrl
+            (
+            Guid UserId,
+            UrlType urlType,
+            DateTime publishDate,
+            string url,
+            string? name,
+            string? description,
+            IDomainProvider provider
+            );
     }
 }

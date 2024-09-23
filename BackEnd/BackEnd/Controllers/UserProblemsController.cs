@@ -22,7 +22,7 @@ namespace BackEnd.Controllers
 
         [AllowAnonymous]
         [HttpPost("createForUnauthorized")]
-        public async Task<IActionResult> SubmitProblem
+        public async Task<IActionResult> SubmitProblemAsync
             (
             CreateUnauthorizedUserProblemRequestDto dto,
             CancellationToken cancellation
@@ -34,7 +34,7 @@ namespace BackEnd.Controllers
 
         [Authorize]
         [HttpPost("createForAuthorized")]
-        public async Task<IActionResult> SubmitProblem
+        public async Task<IActionResult> SubmitProblemAsync
             (
             CreateAuthorizedUserProblemRequestDto dto,
             CancellationToken cancellation

@@ -12,7 +12,7 @@ namespace Domain.Entities.CompanyPart
         public string Description { get; set; } = null!;
         public Money? MinSalary { get; set; }
         public Money? MaxSalary { get; set; }
-        public DatabaseBool? IsNegotiatedSalary { get; set; }
+        public DatabaseBool? NegotiatedSalary { get; set; }
         public DatabaseBool ForStudents { get; set; }
 
 
@@ -30,7 +30,7 @@ namespace Domain.Entities.CompanyPart
             string description,
             decimal? minSalary,
             decimal? maxSalary,
-            string? isNegotiatedSalary,
+            string? NegotiatedSalary,
             string forStudents,
             IDomainProvider provider
             ) : base(new OfferId(id), provider)
@@ -39,9 +39,14 @@ namespace Domain.Entities.CompanyPart
             MinSalary = (minSalary == null) ? null : new Money(minSalary.Value);
             MaxSalary = (maxSalary == null) ? null : new Money(maxSalary.Value);
             ForStudents = new DatabaseBool(forStudents);
+<<<<<<< HEAD
             IsNegotiatedSalary = (string.IsNullOrWhiteSpace(isNegotiatedSalary)) ?
                 null : new DatabaseBool(isNegotiatedSalary);
             //
+=======
+            this.NegotiatedSalary = (string.IsNullOrWhiteSpace(NegotiatedSalary)) ?
+                null : new DatabaseBool(NegotiatedSalary);
+>>>>>>> f6fddde1e373503f64b13b26b5c4a50fdf3a43d7
 
             //Values with  no exeptions
             Name = name;
