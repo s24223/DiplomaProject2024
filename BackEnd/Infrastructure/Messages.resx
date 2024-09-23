@@ -125,4 +125,7 @@
     <value>Connection string is empty or null.</value>
     <comment>Nie jest skonfigurowany w UserSecrets Connectionstring do BD</comment>
   </data>
+  <data name="IncorrectlementationBySqlClient" xml:space="preserve">
+    <value>Niepoprawne implementacja przy uzyciu Microsoft.Data.SqlClient</value>
+  </data>
 </root>

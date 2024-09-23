@@ -70,6 +70,15 @@ namespace BackEnd {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Uzupełnij pola w  ConnectionStrings.
+        /// </summary>
+        internal static string NotConfiguredConnectionString {
+            get {
+                return ResourceManager.GetString("NotConfiguredConnectionString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Uzupełnij w Secretach Issuer.
         /// </summary>
         internal static string NotConfiguredIssuer {

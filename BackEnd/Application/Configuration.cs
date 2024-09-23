@@ -1,4 +1,5 @@
 ﻿using Application.Shared.Services.Authentication;
+using Application.VerticalSlice.AddressPart.Services;
 using Application.VerticalSlice.CompanyPart.Interfaces;
 using Application.VerticalSlice.CompanyPart.Services;
 using Application.VerticalSlice.PersonPart.Interfaces;
@@ -29,8 +30,8 @@ namespace Application
             serviceCollection.AddTransient<IUserService, UserService>();
 
             //UserProblem Part
-            serviceCollection.AddTransient<IUserProblemRepository, UserProblemRepository>(); //OK
-            serviceCollection.AddTransient<IUserProblemService, UserProblemService>(); //Better
+            serviceCollection.AddTransient<IUserProblemRepository, UserProblemRepository>();
+            serviceCollection.AddTransient<IUserProblemService, UserProblemService>();
 
             //Company Part 
             serviceCollection.AddTransient<ICompanyRepository, CompanyRepository>();
@@ -40,6 +41,8 @@ namespace Application
             serviceCollection.AddTransient<IPersonRepository, PersonRepository>();
             serviceCollection.AddTransient<IPersonService, PersonService>();
 
+            //Address Part
+            serviceCollection.AddTransient<IAddressService, AddressService>();
 
             return serviceCollection;
         }

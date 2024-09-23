@@ -77,5 +77,14 @@ namespace Infrastructure {
                 return ResourceManager.GetString("DbConnectionStringIsNullOrWhiteSpace", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Niepoprawne implementacja przy uzyciu Microsoft.Data.SqlClient.
+        /// </summary>
+        internal static string IncorrectlementationBySqlClient {
+            get {
+                return ResourceManager.GetString("IncorrectlementationBySqlClient", resourceCulture);
+            }
+        }
     }
 }

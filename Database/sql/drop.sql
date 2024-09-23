@@ -1,6 +1,11 @@
 -- Created by Vertabelo (http://vertabelo.com)
 -- Last modification date: 2024-09-19 12:19:12.976
 
+-- procedures
+DROP PROCEDURE SelectByStreetNameAndDivisionName;
+
+DROP PROCEDURE SelectAdministrativeDivisionUp;
+
 -- foreign keys
 ALTER TABLE Address DROP CONSTRAINT Address_Division;
 
@@ -71,6 +76,7 @@ ALTER TABLE Url DROP CONSTRAINT Url_UrlType;
 ALTER TABLE Url DROP CONSTRAINT Url_User;
 
 ALTER TABLE UserProblem DROP CONSTRAINT UserProblem_User;
+
 
 -- tables
 DROP TABLE Address;

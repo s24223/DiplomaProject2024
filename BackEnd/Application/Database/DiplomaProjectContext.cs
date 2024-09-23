@@ -1,6 +1,5 @@
 ﻿using Application.Database.Models;
 using Microsoft.EntityFrameworkCore;
-
 namespace Application.Database;
 
 public partial class DiplomaProjectContext : DbContext

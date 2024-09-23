@@ -17,9 +17,12 @@ namespace BackEnd
 
             //JWT data from UserSecret
             var jwtSection = builder.Configuration.GetSection("JwtData");
+            var connectionStringsSection = builder.Configuration.GetSection("ConnectionStrings");
+
             var issuer = jwtSection["Issuer"];
             var audience = jwtSection["Audience"];
             var secret = jwtSection["Secret"];
+            var connectionString = connectionStringsSection["DbString"];
 
             if (string.IsNullOrWhiteSpace(issuer))
             {
@@ -30,6 +33,10 @@ namespace BackEnd
                 throw new NotImplementedException(Messages.NotConfiguredAudience);
             }
             if (string.IsNullOrWhiteSpace(secret))
+            {
+                throw new NotImplementedException(Messages.NotConfiguredSecret);
+            }
+            if (string.IsNullOrWhiteSpace(connectionString))
             {
                 throw new NotImplementedException(Messages.NotConfiguredSecret);
             }

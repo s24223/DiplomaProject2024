@@ -9,7 +9,13 @@ namespace Domain.Providers.ExceptionMessage
         private readonly string _method = "Method";
         private readonly string _inputData = "Input Data";
 
-        public string GenerateExceptionMessage(string message, Type classType, MethodBase? method, string inputData)
+        public string GenerateExceptionMessage
+            (
+            string message,
+            Type classType,
+            MethodBase? method,
+            string inputData
+            )
         {
             var className = classType.FullName;
             if (method != null)
@@ -23,7 +29,12 @@ namespace Domain.Providers.ExceptionMessage
             }
         }
 
-        public string GenerateExceptionMessage(string message, Type classType, MethodBase? method)
+        public string GenerateExceptionMessage
+            (
+            string message,
+            Type classType,
+            MethodBase? method
+            )
         {
             var className = classType.FullName;
             if (method != null)
@@ -35,6 +46,30 @@ namespace Domain.Providers.ExceptionMessage
             {
                 return $"{_message}: {message}; {_class}: {className};";
             }
+        }
+
+        public string GenerateExceptionMessage
+            (
+            string message,
+            Type classType,
+            MethodBase? method,
+            string inputData,
+            Exception exception
+            )
+        {
+            return $"{GenerateExceptionMessage(message, classType, method, inputData)}; Exception Message: {exception.Message};";
+        }
+
+        public string GenerateExceptionMessage
+            (
+            string message,
+            Type classType,
+            MethodBase? method,
+            string inputData,
+            string exceptionMessage
+            )
+        {
+            return $"{GenerateExceptionMessage(message, classType, method, inputData)}; Exception Message: {exceptionMessage};";
         }
     }
 }
