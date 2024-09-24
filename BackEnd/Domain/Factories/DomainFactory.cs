@@ -341,6 +341,22 @@ namespace Domain.Factories
             );
         }
 
-
+        //=================================================================================================
+        //=================================================================================================
+        //=================================================================================================
+        //BranchOffer Part
+        public DomainBranchOffer CreateDomainBranchOffer(Guid branchId, Guid offerId, DateTime created, DateTime publishStart, DateTime? publishEnd, DateOnly? workStart, DateOnly? workEnd, DateTime lastUpdate, IDomainProvider provider)
+        {
+            return new DomainBranchOffer(
+                branchId,
+                offerId,
+                created,
+                publishStart,
+                publishEnd,
+                workStart,
+                workEnd,
+                lastUpdate,
+                provider);
+        }
     }
 }

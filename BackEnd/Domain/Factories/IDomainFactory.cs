@@ -74,7 +74,7 @@ namespace Domain.Factories
            );
         
      
-    DomainUrl CreateDomainUrl
+        DomainUrl CreateDomainUrl
             (
             Guid UserId,
             UrlType urlType,
@@ -82,6 +82,19 @@ namespace Domain.Factories
             string url,
             string? name,
             string? description,
+            IDomainProvider provider
+            );
+
+        DomainBranchOffer CreateDomainBranchOffer
+            (
+            Guid branchId,
+            Guid offerId,
+            DateTime created,
+            DateTime publishStart,
+            DateTime? publishEnd,
+            DateOnly? workStart,
+            DateOnly? workEnd,
+            DateTime lastUpdate,
             IDomainProvider provider
             );
     }
