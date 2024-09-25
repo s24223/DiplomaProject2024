@@ -21,7 +21,8 @@ namespace Application.VerticalSlice.OfferBranchPart.Services
 
         public async Task<Response> CreateBranchOfferAsync(CreateBranchOfferDto dto, CancellationToken cancellation)
         {
-            var offerBranch = _domainFactory.CreateDomainBranchOffer(dto.BranchId, 
+            var offerBranch = _domainFactory.CreateDomainBranchOffer(
+                dto.BranchId, 
                 dto.OfferId, 
                 dto.Created, 
                 dto.PublishStart, 

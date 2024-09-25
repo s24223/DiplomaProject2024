@@ -1,5 +1,6 @@
 ﻿using Domain.Entities.CompanyPart;
 using Domain.Entities.PersonPart;
+using Domain.Entities.RecrutmentPart;
 using Domain.Entities.UserPart;
 using Domain.Exceptions.UserExceptions;
 using Domain.Providers;
@@ -97,5 +98,17 @@ namespace Domain.Factories
             DateTime lastUpdate,
             IDomainProvider provider
             );
-    }
+        DomainRecruitment CreateDomainRecrutment
+            (
+            Guid personId,
+            Guid branchId,
+            Guid offerId,
+            DateTime created,
+            DateTime? applicationDate,
+            string? personMessage,
+            string? companyResponse,
+            string? acceptedRejected
+            );
+        
+     }
 }

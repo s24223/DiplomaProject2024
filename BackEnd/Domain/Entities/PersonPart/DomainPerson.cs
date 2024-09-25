@@ -36,8 +36,8 @@ namespace Domain.Entities.PersonPart
             }
         }
         //DomainRecrutment
-        private Dictionary<RecrutmentId, DomainRecrutment> _recrutments = new();
-        public IReadOnlyDictionary<RecrutmentId, DomainRecrutment> Recrutments => _recrutments;
+        private Dictionary<RecrutmentId, DomainRecruitment> _recrutments = new();
+        public IReadOnlyDictionary<RecrutmentId, DomainRecruitment> Recrutments => _recrutments;
         //
 #warning Add Adress
         public AddressId? AddressId { get; set; } = null;
@@ -84,7 +84,7 @@ namespace Domain.Entities.PersonPart
 
 
         //Methods
-        public void AddRecrutment(DomainRecrutment domainRecrutment)
+        public void AddRecrutment(DomainRecruitment domainRecrutment)
         {
             if (domainRecrutment.Id.PersonId == this.Id && !_recrutments.ContainsKey(domainRecrutment.Id))
             {

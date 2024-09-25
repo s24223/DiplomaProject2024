@@ -37,7 +37,7 @@ namespace Application.VerticalSlice.OfferPart.Services
         public async Task CreateOfferProfileAsync
             (
             //IEnumerable<Claim> claims,
-            CreateOfferProfileRequestDto dto,
+            CreateOfferRequestDto dto,
             CancellationToken cancellation
             )
         {

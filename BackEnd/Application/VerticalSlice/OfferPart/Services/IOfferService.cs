@@ -12,7 +12,7 @@ namespace Application.VerticalSlice.OfferPart.Services
     {
         Task CreateOfferProfileAsync
              (
-             CreateOfferProfileRequestDto dto,
+             CreateOfferRequestDto dto,
              CancellationToken cancellation
              );
     }

@@ -9,6 +9,8 @@ using Application.VerticalSlice.OfferPart.Interfaces;
 using Application.VerticalSlice.OfferPart.Services;
 using Application.VerticalSlice.PersonPart.Interfaces;
 using Application.VerticalSlice.PersonPart.Services;
+using Application.VerticalSlice.RecrutmentPart.Interfaces;
+using Application.VerticalSlice.RecrutmentPart.Services;
 using Application.VerticalSlice.UrlPart.Interfaces;
 using Application.VerticalSlice.UrlPart.Services;
 using Application.VerticalSlice.UserPart.Interfaces;
@@ -63,6 +65,11 @@ namespace Application
             //OfferBranch Part
             serviceCollection.AddTransient<IBranchOfferRepository, OfferBranchRepository>();
             serviceCollection.AddTransient<IBranchOfferService, BranchOfferService>();
+
+            //Recruitment
+            serviceCollection.AddTransient<IRecruitmentRepository, RecruitmentRepository>();
+            serviceCollection.AddTransient<IRecruitmentService, RecruitmentService>();
+
 
             return serviceCollection;
         }

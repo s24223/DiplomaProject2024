@@ -1,4 +1,5 @@
-﻿using Application.Shared.Services.Authentication;
+﻿using Application.Shared.DTOs.Response;
+using Application.Shared.Services.Authentication;
 using Application.VerticalSlice.PersonPart.DTOs.CreateProfile;
 using Application.VerticalSlice.PersonPart.Interfaces;
 using Domain.Factories;
@@ -29,7 +30,7 @@ namespace Application.VerticalSlice.PersonPart.Services
             _domainProvider = domainProvider;
         }
 
-        public async Task CreatePersonProfileAsync(
+        public async Task<Response> CreatePersonProfileAsync(
             IEnumerable<Claim> claims,
             CreatePersonProfileRequestDto dto,
             CancellationToken cancellation
@@ -53,6 +54,11 @@ namespace Application.VerticalSlice.PersonPart.Services
                 /*dto.AddressId*/
                 );
             await _repository.CreatePersonProfileAsync(domainPerson, cancellation);
+            return new Response
+            {
+                Status = EnumResponseStatus.Success,
+                Message = Messages.ResponseSuccess
+            };
         }
     }
 }

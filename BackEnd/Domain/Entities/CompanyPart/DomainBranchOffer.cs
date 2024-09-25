@@ -45,8 +45,8 @@ namespace Domain.Entities.CompanyPart
             }
         }
         //DomainRecrutment
-        private Dictionary<RecrutmentId, DomainRecrutment> _recrutments = new();
-        public IReadOnlyDictionary<RecrutmentId, DomainRecrutment> Recrutments => _recrutments;
+        private Dictionary<RecrutmentId, DomainRecruitment> _recrutments = new();
+        public IReadOnlyDictionary<RecrutmentId, DomainRecruitment> Recrutments => _recrutments;
 
 
         //Constructor
@@ -77,7 +77,7 @@ namespace Domain.Entities.CompanyPart
 
 
         //Methods
-        public void AddRecrutment(DomainRecrutment domainRecrutment)
+        public void AddRecrutment(DomainRecruitment domainRecrutment)
         {
             if (
                 domainRecrutment.Id.BranchOfferId == this.Id &&

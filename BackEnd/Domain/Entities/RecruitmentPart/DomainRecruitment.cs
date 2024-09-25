@@ -7,7 +7,7 @@ using Domain.ValueObjects.EntityIdentificators;
 
 namespace Domain.Entities.RecrutmentPart
 {
-    public class DomainRecrutment : Entity<RecrutmentId>
+    public class DomainRecruitment : Entity<RecrutmentId>
     {
         //Values
         public DateTime ApplicationDate { get; private set; }
@@ -62,7 +62,7 @@ namespace Domain.Entities.RecrutmentPart
 
 
         //Cosntructor
-        public DomainRecrutment
+        public DomainRecruitment
             (
             Guid personId,
             Guid branchId,

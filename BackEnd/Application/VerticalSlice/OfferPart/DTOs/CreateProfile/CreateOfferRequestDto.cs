@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.VerticalSlice.OfferPart.DTOs.CreateProfile
 {
-    public class CreateOfferProfileRequestDto
+    public class CreateOfferRequestDto
     {
         public Guid Id { get; set; }
 

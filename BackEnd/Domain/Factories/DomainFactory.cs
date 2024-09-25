@@ -200,7 +200,7 @@ namespace Domain.Factories
             );
         }
 
-        public DomainRecrutment CreateDomainRecrutment
+        public DomainRecruitment CreateDomainRecruitment
             (
             Guid personId,
             Guid branchId,
@@ -212,7 +212,7 @@ namespace Domain.Factories
             string? acceptedRejected
             )
         {
-            return new DomainRecrutment
+            return new DomainRecruitment
                 (
                  personId,
                  branchId,
@@ -357,6 +357,31 @@ namespace Domain.Factories
                 workEnd,
                 lastUpdate,
                 provider);
+        }
+
+        public DomainRecruitment CreateDomainRecrutment(
+            Guid personId, 
+            Guid branchId,
+            Guid offerId,
+            DateTime created,
+            DateTime? applicationDate,
+            string? personMessage, 
+            string? companyResponse,
+            string? acceptedRejected
+        )
+        {
+            return new DomainRecruitment
+                (
+                 personId,
+                 branchId,
+                 offerId,
+                 created,
+                 applicationDate,
+                 personMessage,
+                 companyResponse,
+                 acceptedRejected,
+                 _provider
+            );
         }
     }
 }

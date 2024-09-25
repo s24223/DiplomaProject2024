@@ -15,8 +15,8 @@ namespace Domain.Entities.RecrutmentPart
         public IReadOnlyDictionary<CommentId, DomainComment> Comments => _comments;
         //Recrutment Refrences
         public RecrutmentId RecrutmentId { get; private set; }
-        private DomainRecrutment _recrutment = null!;
-        public DomainRecrutment Recrutment
+        private DomainRecruitment _recrutment = null!;
+        public DomainRecruitment Recrutment
         {
             get { return _recrutment; }
             set

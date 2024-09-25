@@ -20,7 +20,7 @@ namespace BackEnd.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> CreateOfferAsync
             (
-            CreateOfferProfileRequestDto dto,
+            CreateOfferRequestDto dto,
             CancellationToken cancellation
             )
         {
