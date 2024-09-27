@@ -1,5 +1,5 @@
 ﻿using Application.Shared.DTOs.Response;
-using Application.VerticalSlice.UserPart.DTOs.CreateProfile;
+using Application.VerticalSlice.UserPart.DTOs.Create;
 using Application.VerticalSlice.UserPart.DTOs.LoginIn;
 using Application.VerticalSlice.UserPart.DTOs.Refresh;
 using System.Security.Claims;
@@ -10,7 +10,7 @@ namespace Application.VerticalSlice.UserPart.Services
     {
         Task<Response> CreateProfileAsync
             (
-            CreateProfileRequestDto dto,
+            CreateUserRequestDto dto,
             CancellationToken cancellation
             );
         Task<ItemResponse<LoginInResponseDto>> LoginInAsync

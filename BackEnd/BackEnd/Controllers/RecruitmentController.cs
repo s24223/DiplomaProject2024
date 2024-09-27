@@ -1,8 +1,6 @@
-﻿using Application.VerticalSlice.PersonPart.DTOs.CreateProfile;
-using Application.VerticalSlice.RecrutmentPart.DTOs.CreateProfile;
+﻿using Application.VerticalSlice.RecrutmentPart.DTOs.Create;
 using Application.VerticalSlice.RecrutmentPart.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackEnd.Controllers
@@ -26,7 +24,7 @@ namespace BackEnd.Controllers
             )
         {
             var claims = User.Claims.ToList();
-            await _recruitmentService.CreateRecruitmentAsync(dto, cancellation);
+            await _recruitmentService.CreateAsync(claims, dto, cancellation);
             return Created();
         }
     }

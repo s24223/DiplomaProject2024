@@ -70,11 +70,20 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wybierz Inny Email.
+        ///   Looks up a localized string similar to Firma istnieje nie mozna utworzyc ponownie.
         /// </summary>
-        internal static string ExeptionMessageUserWithThisEmailExist {
+        internal static string IsExistCompany {
             get {
-                return ResourceManager.GetString("ExeptionMessageUserWithThisEmailExist", resourceCulture);
+                return ResourceManager.GetString("IsExistCompany", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Osoba istnieje niemożiwe ponowne utworzenie.
+        /// </summary>
+        internal static string IsExistPerson {
+            get {
+                return ResourceManager.GetString("IsExistPerson", resourceCulture);
             }
         }
         
@@ -102,6 +111,42 @@ namespace Application {
         internal static string NotConfiguredSecret {
             get {
                 return ResourceManager.GetString("NotConfiguredSecret", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nie istnieje BranchOffer.
+        /// </summary>
+        internal static string NotExistBranchOffer {
+            get {
+                return ResourceManager.GetString("NotExistBranchOffer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wybairze inny Email daress.
+        /// </summary>
+        internal static string NotUniqueContactEmail {
+            get {
+                return ResourceManager.GetString("NotUniqueContactEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wybierz Inny Email.
+        /// </summary>
+        internal static string NotUniqueEmail {
+            get {
+                return ResourceManager.GetString("NotUniqueEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wybierzinny url segment.
+        /// </summary>
+        internal static string NotUniqueUrlSegment {
+            get {
+                return ResourceManager.GetString("NotUniqueUrlSegment", resourceCulture);
             }
         }
         

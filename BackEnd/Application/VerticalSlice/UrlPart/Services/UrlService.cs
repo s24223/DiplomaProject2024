@@ -1,6 +1,7 @@
 ﻿using Application.Shared.DTOs.Response;
 using Application.Shared.Services.Authentication;
 using Application.VerticalSlice.UrlPart.DTOs;
+using Application.VerticalSlice.UrlPart.DTOs.Create;
 using Application.VerticalSlice.UrlPart.Interfaces;
 using Domain.Factories;
 using Domain.Providers;
@@ -17,7 +18,7 @@ namespace Application.VerticalSlice.UrlPart.Services
         private readonly IUrlRepository _urlRepository;
 
         public UrlService(
-            IDomainFactory domainFactory, 
+            IDomainFactory domainFactory,
             IAuthenticationService authentication,
             IDomainProvider domainProvider,
             IUrlRepository urlRepository
@@ -29,27 +30,37 @@ namespace Application.VerticalSlice.UrlPart.Services
             _urlRepository = urlRepository;
         }
 
-        public async Task<Response> CreateUrlAsync(IEnumerable<Claim> claims, 
-            CreateUrlDto dto, 
-            CancellationToken cancellation)
+        public async Task<Response> CreateAsync
+            (
+            IEnumerable<Claim> claims,
+            CreateUrlRequestDto dto,
+            CancellationToken cancellation
+            )
         {
             var userId = _authentication.GetIdNameFromClaims(claims);
             var url = _domainFactory.CreateDomainUrl
                 (
                 userId,
-                new UrlType(dto.UrlType.Id),
-                dto.DateTime,
+                dto.UrlTypeId,
+                _domainProvider.GetTimeProvider().GetDateTimeNow(),
                 dto.Url,
                 dto.Name,
-                dto.Description,
-                _domainProvider
+                dto.Description
                 );
-            await _urlRepository.CreateUrlAsync(url, cancellation);
+            await _urlRepository.CreateAsync(url, cancellation);
             return new Response
             {
                 Status = EnumResponseStatus.Success,
                 Message = Messages.ResponseSuccess,
             };
         }
+
+        public IEnumerable<UrlTypeResponseDto> GetUrlTypes() =>
+            UrlType.GetTypesDictionary().Values.Select(x => new UrlTypeResponseDto
+            {
+                Id = (int)x.Type,
+                Name = x.Name,
+                Description = x.Description,
+            }).ToList();
     }
 }

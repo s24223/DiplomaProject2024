@@ -1,4 +1,5 @@
-﻿using Application.Shared.Services.Authentication;
+﻿using Application.Shared.DTOs.Response;
+using Application.Shared.Services.Authentication;
 using Application.VerticalSlice.CompanyPart.DTOs.CreateProfile;
 using Application.VerticalSlice.CompanyPart.Interfaces;
 using Domain.Factories;
@@ -29,7 +30,7 @@ namespace Application.VerticalSlice.CompanyPart.Services
             _domainProvider = domainProvider;
         }
 
-        public async Task CreateCompanyProfileAsync
+        public async Task<Response> CreateCompanyProfileAsync
             (
             IEnumerable<Claim> claims,
             CreateCompanyProfileRequestDto dto,
@@ -48,6 +49,11 @@ namespace Application.VerticalSlice.CompanyPart.Services
                 _domainProvider.GetTimeProvider().GetDateOnlyToday()
                 );
             await _repository.CreateCompanyProfileAsync(domainComapany, cancellation);
+            return new Response
+            {
+                Status = EnumResponseStatus.Success,
+                Message = Messages.ResponseSuccess,
+            };
         }
     }
 }

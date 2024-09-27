@@ -1,4 +1,4 @@
-﻿using Application.VerticalSlice.OfferPart.DTOs.CreateProfile;
+﻿using Application.VerticalSlice.OfferPart.DTOs.Create;
 using Application.VerticalSlice.OfferPart.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

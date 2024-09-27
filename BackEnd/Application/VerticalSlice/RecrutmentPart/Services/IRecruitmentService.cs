@@ -1,17 +1,16 @@
 ﻿using Application.Shared.DTOs.Response;
-using Application.VerticalSlice.RecrutmentPart.DTOs.CreateProfile;
-using Application.VerticalSlice.RecrutmentPart.Interfaces;
-using Domain.Factories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Application.VerticalSlice.RecrutmentPart.DTOs.Create;
+using System.Security.Claims;
 
 namespace Application.VerticalSlice.RecrutmentPart.Services
 {
     public interface IRecruitmentService
     {
-        Task<Response> CreateRecruitmentAsync(CreateRecruitmentRequestDto dto, CancellationToken cancellation);
+        Task<Response> CreateAsync
+            (
+            IEnumerable<Claim> claims,
+            CreateRecruitmentRequestDto dto,
+            CancellationToken cancellation
+            );
     }
 }

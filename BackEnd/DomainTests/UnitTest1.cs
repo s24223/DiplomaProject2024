@@ -1,4 +1,4 @@
-using Domain.Exceptions.UserExceptions;
+using Domain.Exceptions.UserExceptions.ValueObjectsExceptions;
 using Domain.ValueObjects;
 
 namespace DomainTests

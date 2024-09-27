@@ -9,6 +9,6 @@ namespace Application.VerticalSlice.RecrutmentPart.Interfaces
 {
     public interface IRecruitmentRepository
     {
-        Task CreateRecruitmentAsync(DomainRecruitment recruitment, CancellationToken cancellation);
+        Task CreateAsync(DomainRecruitment recruitment, CancellationToken cancellation);
     }
 }

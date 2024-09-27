@@ -1,19 +1,20 @@
 ﻿using Application.Shared.DTOs.Response;
-using Application.VerticalSlice.UserProblemPart.DTOs.CreateUserProblemAuthorized;
-using Application.VerticalSlice.UserProblemPart.DTOs.CreateUserProblemUnauthorized;
+using Application.VerticalSlice.UserProblemPart.DTOs.Create;
+using Application.VerticalSlice.UserProblemPart.DTOs.Create.Authorized;
+using Application.VerticalSlice.UserProblemPart.DTOs.Create.Unauthorized;
 using System.Security.Claims;
 
 namespace Application.VerticalSlice.UserProblemPart.Services
 {
     public interface IUserProblemService
     {
-        Task<ItemResponse<Guid>> CreateForAuthorizedAsync
+        Task<ItemResponse<CreateUserProblemResponseDto>> CreateForAuthorizedAsync
             (
             IEnumerable<Claim> claims,
             CreateAuthorizedUserProblemRequestDto dto,
             CancellationToken cancellation
             );
-        Task<ItemResponse<Guid>> CreateForUnauthorizedAsync
+        Task<ItemResponse<CreateUserProblemResponseDto>> CreateForUnauthorizedAsync
             (
             CreateUnauthorizedUserProblemRequestDto dto,
             CancellationToken cancellation

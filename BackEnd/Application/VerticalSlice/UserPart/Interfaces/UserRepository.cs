@@ -54,8 +54,8 @@ namespace Application.VerticalSlice.UserPart.Interfaces
                 Password = password,
                 Salt = salt,
                 LastUpdatePassword = user.LastUpdatePassword,
-            });
-            await _context.SaveChangesAsync();
+            }, cancellation);
+            await _context.SaveChangesAsync(cancellation);
         }
 
         public async Task UpdateRefreshTokenAsync
@@ -72,7 +72,7 @@ namespace Application.VerticalSlice.UserPart.Interfaces
             databaseUser.ExpiredToken = validTo;
             databaseUser.LastLoginIn = lastLoginIn;
 
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellation);
         }
 
         public async Task DeleteRefreshTokenDataAsync
@@ -86,7 +86,7 @@ namespace Application.VerticalSlice.UserPart.Interfaces
             databaseUser.RefreshToken = null;
             databaseUser.ExpiredToken = null;
 
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellation);
         }
 
         //==========================================================================================================================================

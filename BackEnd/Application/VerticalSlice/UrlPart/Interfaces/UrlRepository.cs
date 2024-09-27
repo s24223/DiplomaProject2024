@@ -1,7 +1,6 @@
 ﻿using Application.Database;
 using Application.Database.Models;
 using Domain.Entities.UserPart;
-using Domain.Factories;
 
 namespace Application.VerticalSlice.UrlPart.Interfaces
 {
@@ -9,17 +8,21 @@ namespace Application.VerticalSlice.UrlPart.Interfaces
     {
         private readonly DiplomaProjectContext _context;
 
-        public UrlRepository(
+        public UrlRepository
+            (
             DiplomaProjectContext context
             )
         {
             _context = context;
         }
 
-        public async Task CreateUrlAsync(DomainUrl url,
-            CancellationToken cancellation)
+        public async Task CreateAsync
+            (
+            DomainUrl url,
+            CancellationToken cancellation
+            )
         {
-            await _context.Urls.AddAsync(new Url
+            var databaseUrl = new Url
             {
                 UserId = url.Id.UserId.Value,
                 UrlTypeId = (int)url.Id.UrlType.Type,
@@ -27,8 +30,9 @@ namespace Application.VerticalSlice.UrlPart.Interfaces
                 Url1 = url.Url.AbsoluteUri,
                 Name = url.Name,
                 Description = url.Description,
-            });
-            await _context.SaveChangesAsync();
+            };
+            await _context.Urls.AddAsync(databaseUrl, cancellation);
+            await _context.SaveChangesAsync(cancellation);
         }
     }
 }

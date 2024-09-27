@@ -4,13 +4,13 @@ using Domain.Entities.PersonPart;
 using Domain.Entities.RecrutmentPart;
 using Domain.Entities.UserPart;
 using Domain.Providers;
-using Domain.ValueObjects.PartUrlType;
 
 namespace Domain.Factories
 {
     public class DomainFactory : IDomainFactory
     {
         private readonly IDomainProvider _provider;
+
 
         public DomainFactory(IDomainProvider provider)
         {
@@ -157,7 +157,7 @@ namespace Domain.Factories
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================
-        //Person Part
+        //Recruitment Part
         public DomainComment CreateDomainComment
             (
             Guid internshipId,
@@ -288,33 +288,6 @@ namespace Domain.Factories
             );
         }
 
-
-        //=================================================================================================
-        //=================================================================================================
-        //=================================================================================================
-        //UrlPart
-
-        public DomainUrl CreateDomainUrl(
-            Guid UserId, 
-            UrlType urlType,
-            DateTime publishDate, 
-            string url, 
-            string? name, 
-            string? description, 
-            IDomainProvider provider)
-        {
-            return new DomainUrl
-                (
-                UserId,
-                (int) urlType.Type,
-                publishDate,
-                url,
-                name,
-                description,
-                provider
-                );
-        }
-
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================
@@ -338,49 +311,6 @@ namespace Domain.Factories
                 apartmentNumber,
                 zipCode,
             _provider
-            );
-        }
-
-        //=================================================================================================
-        //=================================================================================================
-        //=================================================================================================
-        //BranchOffer Part
-        public DomainBranchOffer CreateDomainBranchOffer(Guid branchId, Guid offerId, DateTime created, DateTime publishStart, DateTime? publishEnd, DateOnly? workStart, DateOnly? workEnd, DateTime lastUpdate, IDomainProvider provider)
-        {
-            return new DomainBranchOffer(
-                branchId,
-                offerId,
-                created,
-                publishStart,
-                publishEnd,
-                workStart,
-                workEnd,
-                lastUpdate,
-                provider);
-        }
-
-        public DomainRecruitment CreateDomainRecrutment(
-            Guid personId, 
-            Guid branchId,
-            Guid offerId,
-            DateTime created,
-            DateTime? applicationDate,
-            string? personMessage, 
-            string? companyResponse,
-            string? acceptedRejected
-        )
-        {
-            return new DomainRecruitment
-                (
-                 personId,
-                 branchId,
-                 offerId,
-                 created,
-                 applicationDate,
-                 personMessage,
-                 companyResponse,
-                 acceptedRejected,
-                 _provider
             );
         }
     }

@@ -1,5 +1,5 @@
-﻿using Application.VerticalSlice.UserProblemPart.DTOs.CreateUserProblemAuthorized;
-using Application.VerticalSlice.UserProblemPart.DTOs.CreateUserProblemUnauthorized;
+﻿using Application.VerticalSlice.UserProblemPart.DTOs.Create.Authorized;
+using Application.VerticalSlice.UserProblemPart.DTOs.Create.Unauthorized;
 using Application.VerticalSlice.UserProblemPart.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

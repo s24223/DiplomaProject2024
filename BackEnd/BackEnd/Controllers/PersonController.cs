@@ -1,4 +1,4 @@
-﻿using Application.VerticalSlice.PersonPart.DTOs.CreateProfile;
+﻿using Application.VerticalSlice.PersonPart.DTOs.Create;
 using Application.VerticalSlice.PersonPart.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +19,7 @@ namespace BackEnd.Controllers
         [HttpPost("created")]
         public async Task<IActionResult> CreatePersonAsync
             (
-            CreatePersonProfileRequestDto dto,
+            CreatePersonRequestDto dto,
             CancellationToken cancellation
             )
         {

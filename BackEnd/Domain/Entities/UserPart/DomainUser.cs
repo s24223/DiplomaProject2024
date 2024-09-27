@@ -1,6 +1,6 @@
 ﻿using Domain.Entities.CompanyPart;
 using Domain.Entities.PersonPart;
-using Domain.Exceptions.UserExceptions;
+using Domain.Exceptions.UserExceptions.ValueObjectsExceptions;
 using Domain.Providers;
 using Domain.Templates.Entities;
 using Domain.ValueObjects;

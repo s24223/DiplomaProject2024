@@ -120,8 +120,11 @@
   <data name="ExeptionMessageUnauthorizedUser" xml:space="preserve">
     <value>Błędne dane przy uwirzytylnieniu, sprawdż dane i zaloguj sie Ponownie</value>
   </data>
-  <data name="ExeptionMessageUserWithThisEmailExist" xml:space="preserve">
-    <value>Wybierz Inny Email</value>
+  <data name="IsExistCompany" xml:space="preserve">
+    <value>Firma istnieje nie mozna utworzyc ponownie</value>
+  </data>
+  <data name="IsExistPerson" xml:space="preserve">
+    <value>Osoba istnieje niemożiwe ponowne utworzenie</value>
   </data>
   <data name="NotConfiguredAudience" xml:space="preserve">
     <value>Uzupełnij w Secretach Audience</value>
@@ -131,6 +134,18 @@
   </data>
   <data name="NotConfiguredSecret" xml:space="preserve">
     <value>Uzupełnij w Secretach Secret</value>
+  </data>
+  <data name="NotExistBranchOffer" xml:space="preserve">
+    <value>Nie istnieje BranchOffer</value>
+  </data>
+  <data name="NotUniqueContactEmail" xml:space="preserve">
+    <value>Wybairze inny Email daress</value>
+  </data>
+  <data name="NotUniqueEmail" xml:space="preserve">
+    <value>Wybierz Inny Email</value>
+  </data>
+  <data name="NotUniqueUrlSegment" xml:space="preserve">
+    <value>Wybierzinny url segment</value>
   </data>
   <data name="ResponseSuccess" xml:space="preserve">
     <value>Success</value>

@@ -1,43 +1,53 @@
 ﻿using Application.Shared.DTOs.Response;
-using Application.VerticalSlice.OfferBranchPart.Interfaces;
-using Application.VerticalSlice.RecrutmentPart.DTOs.CreateProfile;
+using Application.Shared.Services.Authentication;
+using Application.VerticalSlice.RecrutmentPart.DTOs.Create;
 using Application.VerticalSlice.RecrutmentPart.Interfaces;
 using Domain.Factories;
 using Domain.Providers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace Application.VerticalSlice.RecrutmentPart.Services
 {
     public class RecruitmentService : IRecruitmentService
     {
-        private readonly IRecruitmentRepository _recruitmentRepository;
         private readonly IDomainFactory _domainFactory;
         private readonly IDomainProvider _domainProvider;
+        private readonly IAuthenticationService _authentication;
+        private readonly IRecruitmentRepository _repository;
 
-        public RecruitmentService(IRecruitmentRepository recruitmentRepository,
-            IDomainFactory domainFactory)
+        public RecruitmentService(
+            IDomainFactory domainFactory,
+            IAuthenticationService authentication,
+            IDomainProvider domainProvider,
+            IRecruitmentRepository repository
+            )
         {
-            _recruitmentRepository = recruitmentRepository;
             _domainFactory = domainFactory;
+            _authentication = authentication;
+            _domainProvider = domainProvider;
+            _repository = repository;
         }
-        public async Task<Response> CreateRecruitmentAsync(CreateRecruitmentRequestDto dto, CancellationToken cancellation)
+
+
+        public async Task<Response> CreateAsync
+            (
+            IEnumerable<Claim> claims,
+            CreateRecruitmentRequestDto dto,
+            CancellationToken cancellation
+            )
         {
-            var recruitment = _domainFactory.CreateDomainRecrutment(
-                    dto.PersonId,
+            var personId = _authentication.GetIdNameFromClaims(claims);
+            var recruitment = _domainFactory.CreateDomainRecruitment(
+                    personId,
                     dto.BranchId,
                     dto.OfferId,
                     dto.Created,
-                    dto.ApplicationDate,
+                    null,
                     dto.PersonMessage,
-                    dto.CompanyResponse,
-                    dto.AcceptedRejected
-                    
+                    null,
+                    null
                 );
-            await _recruitmentRepository.CreateRecruitmentAsync(recruitment, cancellation);
+            await _repository.CreateAsync(recruitment, cancellation);
             return new Response
             {
                 Status = EnumResponseStatus.Success,

@@ -22,15 +22,15 @@ namespace Application.VerticalSlice.OfferBranchPart.Services
         public async Task<Response> CreateBranchOfferAsync(CreateBranchOfferDto dto, CancellationToken cancellation)
         {
             var offerBranch = _domainFactory.CreateDomainBranchOffer(
-                dto.BranchId, 
-                dto.OfferId, 
-                dto.Created, 
-                dto.PublishStart, 
-                dto.PublishEnd, 
-                dto.WorkStart, 
+                dto.BranchId,
+                dto.OfferId,
+                dto.Created,
+                dto.PublishStart,
+                dto.PublishEnd,
+                dto.WorkStart,
                 dto.WorkEnd,
-                dto.LastUpdate, 
-                _domainProvider);
+                dto.LastUpdate
+                );
 
             await _branchOfferRepository.CreateBranchOfferAsync(offerBranch, cancellation);
             return new Response

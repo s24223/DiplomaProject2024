@@ -1,6 +1,6 @@
 ﻿
 using Application.Shared.Services.Authentication;
-using Application.VerticalSlice.OfferPart.DTOs.CreateProfile;
+using Application.VerticalSlice.OfferPart.DTOs.Create;
 using Application.VerticalSlice.OfferPart.Interfaces;
 using Domain.Entities.CompanyPart;
 using Domain.Factories;

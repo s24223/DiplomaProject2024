@@ -7,7 +7,7 @@ namespace Domain.Entities.CompanyPart
     public class DomainBranch : Entity<BranchId>
     {
         //Values
-        public SegementUrl? UrlSegment { get; set; }
+        public UrlSegment? UrlSegment { get; set; }
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
 
@@ -50,7 +50,7 @@ namespace Domain.Entities.CompanyPart
         {
             //Values with exeptions
             UrlSegment = (string.IsNullOrWhiteSpace(urlSegment)) ?
-                null : new SegementUrl(urlSegment);
+                null : new UrlSegment(urlSegment);
 
             //Values with no exeptions
             Name = name;

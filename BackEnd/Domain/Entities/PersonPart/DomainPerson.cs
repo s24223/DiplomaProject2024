@@ -9,7 +9,7 @@ namespace Domain.Entities.PersonPart
     public class DomainPerson : Entity<UserId>
     {
         //Values
-        public SegementUrl? UrlSegment { get; set; }
+        public UrlSegment? UrlSegment { get; set; }
         public DateOnly CreateDate { get; private set; }
         public Email ContactEmail { get; set; } = null!;
         public string Name { get; set; } = null!;
@@ -67,7 +67,7 @@ namespace Domain.Entities.PersonPart
             IsStudent = new DatabaseBool(isStudent);
             IsPublicProfile = new DatabaseBool(isPublicProfile);
             UrlSegment = string.IsNullOrWhiteSpace(urlSegment) ?
-                null : new SegementUrl(urlSegment);
+                null : new UrlSegment(urlSegment);
             ContactPhoneNum = string.IsNullOrWhiteSpace(contactPhoneNum) ?
                 null : new PhoneNumber(contactPhoneNum);
 

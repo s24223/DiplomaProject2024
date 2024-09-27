@@ -1,4 +1,4 @@
-﻿using Application.VerticalSlice.UrlPart.DTOs;
+﻿using Application.VerticalSlice.UrlPart.DTOs.Create;
 using Application.VerticalSlice.UrlPart.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -19,11 +19,11 @@ namespace BackEnd.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> CreateUrlAsync(CreateUrlDto dto,
+        public async Task<IActionResult> CreateUrlAsync(CreateUrlRequestDto dto,
             CancellationToken cancellation)
         {
             var claims = User.Claims.ToList();
-            return Ok(await _urlService.CreateUrlAsync(claims, dto, cancellation));
+            return Ok(await _urlService.CreateAsync(claims, dto, cancellation));
         }
     }
 }

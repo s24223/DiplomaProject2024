@@ -1,7 +1,8 @@
 ﻿using Application.Shared.DTOs.Response;
 using Application.Shared.Services.Authentication;
-using Application.VerticalSlice.UserProblemPart.DTOs.CreateUserProblemAuthorized;
-using Application.VerticalSlice.UserProblemPart.DTOs.CreateUserProblemUnauthorized;
+using Application.VerticalSlice.UserProblemPart.DTOs.Create;
+using Application.VerticalSlice.UserProblemPart.DTOs.Create.Authorized;
+using Application.VerticalSlice.UserProblemPart.DTOs.Create.Unauthorized;
 using Application.VerticalSlice.UserProblemPart.Interfaces;
 using Domain.Factories;
 using Domain.Providers;
@@ -31,7 +32,7 @@ namespace Application.VerticalSlice.UserProblemPart.Services
             _userProblem = userProblem;
         }
 
-        public async Task<ItemResponse<Guid>> CreateForAuthorizedAsync
+        public async Task<ItemResponse<CreateUserProblemResponseDto>> CreateForAuthorizedAsync
             (
             IEnumerable<Claim> claims,
             CreateAuthorizedUserProblemRequestDto dto,
@@ -50,16 +51,23 @@ namespace Application.VerticalSlice.UserProblemPart.Services
                 null,
                 userId
                 );
-            var id = await _userProblem.CreateUserProblemAndReturnIdAsync(problem, cancellation);
-            return new ItemResponse<Guid>
+            var idUserProblem = await _userProblem.CreateUserProblemAndReturnIdAsync
+                (
+                problem,
+                cancellation
+                );
+            return new ItemResponse<CreateUserProblemResponseDto>
             {
                 Status = EnumResponseStatus.Success,
                 Message = Messages.ResponseSuccess,
-                Item = id,
+                Item = new CreateUserProblemResponseDto
+                {
+                    IdUserProblem = idUserProblem,
+                },
             };
         }
 
-        public async Task<ItemResponse<Guid>> CreateForUnauthorizedAsync
+        public async Task<ItemResponse<CreateUserProblemResponseDto>> CreateForUnauthorizedAsync
             (
             CreateUnauthorizedUserProblemRequestDto dto,
             CancellationToken cancellation
@@ -76,12 +84,19 @@ namespace Application.VerticalSlice.UserProblemPart.Services
                 null,
                 null
                 );
-            var id = await _userProblem.CreateUserProblemAndReturnIdAsync(problem, cancellation);
-            return new ItemResponse<Guid>
+            var idUserProblem = await _userProblem.CreateUserProblemAndReturnIdAsync
+                (
+                problem,
+                cancellation
+                );
+            return new ItemResponse<CreateUserProblemResponseDto>
             {
                 Status = EnumResponseStatus.Success,
                 Message = Messages.ResponseSuccess,
-                Item = id,
+                Item = new CreateUserProblemResponseDto
+                {
+                    IdUserProblem = idUserProblem,
+                },
             };
         }
     }

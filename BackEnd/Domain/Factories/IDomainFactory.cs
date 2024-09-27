@@ -2,30 +2,37 @@
 using Domain.Entities.PersonPart;
 using Domain.Entities.RecrutmentPart;
 using Domain.Entities.UserPart;
-using Domain.Exceptions.UserExceptions;
-using Domain.Providers;
-using Domain.ValueObjects.PartUrlType;
 
 namespace Domain.Factories
 {
     public interface IDomainFactory
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="loginEmail"></param>
-        /// <param name="lastLoginIn"></param>
-        /// <param name="lastUpdatePassword"></param>
-        /// <returns></returns>
-        /// <exception cref="EmailException"></exception>
-        DomainUser CreateDomainUser
+        //=================================================================================================
+        //=================================================================================================
+        //=================================================================================================
+        //Company Part
+        DomainBranch CreateDomainBranch
+            (
+            Guid? id,
+            Guid companyId,
+            Guid addressId,
+            string? urlSegment,
+            string name,
+            string? description
+            );
+
+        DomainBranchOffer CreateDomainBranchOffer
            (
-           Guid? id,
-           string loginEmail,
-           DateTime? lastLoginIn,
-           DateTime? lastUpdatePassword
+           Guid branchId,
+           Guid offerId,
+           DateTime created,
+           DateTime publishStart,
+           DateTime? publishEnd,
+           DateOnly? workStart,
+           DateOnly? workEnd,
+           DateTime lastUpdate
            );
+
         DomainCompany CreateDomainCompany
             (
             Guid id,
@@ -36,6 +43,23 @@ namespace Domain.Factories
             string? description,
             DateOnly? createDate
             );
+
+        DomainOffer CreateDomainOffer
+           (
+           Guid? id,
+           string name,
+           string description,
+           decimal? minSalary,
+           decimal? maxSalary,
+           string? NegotiatedSalary,
+           string forStudents
+           );
+
+
+        //=================================================================================================
+        //=================================================================================================
+        //=================================================================================================
+        //Person Part
         DomainPerson CreateDomainPerson
             (
             Guid id,
@@ -51,54 +75,30 @@ namespace Domain.Factories
             string isPublicProfile,
             Guid? addressId
             );
-
-        DomainUserProblem CreateDomainUserProblem
-           (
-           Guid? id,
-           DateTime? dateTime,
-           string userMessage,
-           string? response,
-           Guid? previousProblemId,
-           string? email,
-           string? status,
-           Guid? userId
-           );
-        DomainOffer CreateDomainOffer
-           (
-           Guid? id,
-           string name,
-           string description,
-           decimal? minSalary,
-           decimal? maxSalary,
-           string? isNegotiatedSalary,
-           string forStudents
-           );
-        
-     
-        DomainUrl CreateDomainUrl
+        //=================================================================================================
+        //=================================================================================================
+        //=================================================================================================
+        //Recruitment Part
+        DomainComment CreateDomainComment
             (
-            Guid UserId,
-            UrlType urlType,
-            DateTime publishDate,
-            string url,
-            string? name,
-            string? description,
-            IDomainProvider provider
+            Guid internshipId,
+            int commentTypeId,
+            DateTime published,
+            string description,
+            int? evaluation
             );
 
-        DomainBranchOffer CreateDomainBranchOffer
+        DomainIntership CreateDomainIntership
             (
+            Guid? id,
+            Guid personId,
             Guid branchId,
             Guid offerId,
             DateTime created,
-            DateTime publishStart,
-            DateTime? publishEnd,
-            DateOnly? workStart,
-            DateOnly? workEnd,
-            DateTime lastUpdate,
-            IDomainProvider provider
+            string contractNumber
             );
-        DomainRecruitment CreateDomainRecrutment
+
+        DomainRecruitment CreateDomainRecruitment
             (
             Guid personId,
             Guid branchId,
@@ -109,6 +109,39 @@ namespace Domain.Factories
             string? companyResponse,
             string? acceptedRejected
             );
-        
-     }
+
+        //=================================================================================================
+        //=================================================================================================
+        //=================================================================================================
+        //User Part
+        DomainUrl CreateDomainUrl
+            (
+            Guid userId,
+            int urlTypeId,
+            DateTime publishDate,
+            string url,
+            string? name,
+            string? description
+            );
+
+        DomainUser CreateDomainUser
+            (
+            Guid? id,
+            string loginEmail,
+            DateTime? lastLoginIn,
+            DateTime? lastUpdatePassword
+            );
+
+        DomainUserProblem CreateDomainUserProblem
+            (
+            Guid? id,
+            DateTime? dateTime,
+            string userMessage,
+            string? response,
+            Guid? previousProblemId,
+            string? email,
+            string? status,
+            Guid? userId
+            );
+    }
 }

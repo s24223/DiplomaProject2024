@@ -1,4 +1,4 @@
-﻿using Application.VerticalSlice.OfferPart.DTOs.CreateProfile;
+﻿using Application.VerticalSlice.OfferPart.DTOs.Create;
 using Domain.Entities.CompanyPart;
 using System;
 using System.Collections.Generic;

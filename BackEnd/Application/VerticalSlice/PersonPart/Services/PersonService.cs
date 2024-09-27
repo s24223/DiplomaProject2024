@@ -1,9 +1,10 @@
 ﻿using Application.Shared.DTOs.Response;
 using Application.Shared.Services.Authentication;
-using Application.VerticalSlice.PersonPart.DTOs.CreateProfile;
+using Application.VerticalSlice.PersonPart.DTOs.Create;
 using Application.VerticalSlice.PersonPart.Interfaces;
 using Domain.Factories;
 using Domain.Providers;
+using Domain.ValueObjects;
 using System.Security.Claims;
 
 namespace Application.VerticalSlice.PersonPart.Services
@@ -30,9 +31,10 @@ namespace Application.VerticalSlice.PersonPart.Services
             _domainProvider = domainProvider;
         }
 
-        public async Task<Response> CreatePersonProfileAsync(
+        public async Task<Response> CreatePersonProfileAsync
+            (
             IEnumerable<Claim> claims,
-            CreatePersonProfileRequestDto dto,
+            CreatePersonRequestDto dto,
             CancellationToken cancellation
             )
         {
@@ -48,10 +50,9 @@ namespace Application.VerticalSlice.PersonPart.Services
                  dto.BirthDate,
                  dto.ContactPhoneNum,
                  dto.Description,
-                 dto.IsStudent,
+                 new DatabaseBool(dto.IsStudent).Code,
                  dto.IsPublicProfile,
                  null
-                /*dto.AddressId*/
                 );
             await _repository.CreatePersonProfileAsync(domainPerson, cancellation);
             return new Response

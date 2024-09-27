@@ -1,6 +1,7 @@
 ﻿using Application.Database;
-using Application.Shared.Exceptions.UserExceptions;
 using Domain.Entities.CompanyPart;
+using Domain.Exceptions.UserExceptions.EntitiesExceptions;
+using Domain.Exceptions.UserExceptions.ValueObjectsExceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.VerticalSlice.CompanyPart.Interfaces
@@ -18,30 +19,45 @@ namespace Application.VerticalSlice.CompanyPart.Interfaces
         {
             var databaseCompany = await _context.Companies
                 .Where(x => x.UserId == company.Id.Value)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(cancellation);
             if (databaseCompany != null)
             {
-                //exeption
+                throw new CompanyException(Messages.IsExistCompany);
             }
-            var databaseUser = await _context.Users
-                .Where(x => x.Id == company.Id.Value)
-                .FirstOrDefaultAsync(cancellation);
 
-            if (databaseUser == null)
+            if (company.UrlSegment != null)
             {
-                throw new UnauthorizedUserException();
+                var databaseCompanyWithSameUrlSegment = await _context.Companies
+                    .Where(x => x.UrlSegment == company.UrlSegment.Value)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(cancellation);
+                if (databaseCompanyWithSameUrlSegment != null)
+                {
+                    throw new UrlSegmentException(Messages.NotUniqueUrlSegment);
+                }
+            }
+
+            var databaseCompanyWithSameContactEmail = await _context.Companies
+                    .Where(x => x.ContactEmail == company.ContactEmail.Value)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(cancellation);
+            if (databaseCompanyWithSameContactEmail != null)
+            {
+                throw new EmailException(Messages.NotUniqueEmail);
             }
 
             //Uerl segment, Emaiil Unique 
-            await _context.Companies.AddAsync(new Database.Models.Company
+            var inputDatabaseCompany = new Database.Models.Company
             {
-                User = databaseUser,
+                UserId = company.Id.Value,
                 UrlSegment = (company.UrlSegment == null) ? null : company.UrlSegment.Value,
                 CreateDate = company.CreateDate,
                 ContactEmail = company.ContactEmail.Value,
                 Name = company.Name,
                 Regon = company.Regon.Value,
-            }, cancellation);
+            };
+            await _context.Companies.AddAsync(inputDatabaseCompany, cancellation);
             await _context.SaveChangesAsync(cancellation);
         }
     }

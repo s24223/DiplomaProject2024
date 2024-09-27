@@ -1,9 +1,7 @@
 ﻿using Application.Database;
 using Application.Database.Models;
-using Application.Shared.Exceptions.UserExceptions;
 using Domain.Entities.UserPart;
 using Domain.Factories;
-using Microsoft.EntityFrameworkCore;
 
 namespace Application.VerticalSlice.UserProblemPart.Interfaces
 {
@@ -27,17 +25,6 @@ namespace Application.VerticalSlice.UserProblemPart.Interfaces
             CancellationToken cancellation
             )
         {
-            if (userProblem.UserId != null)
-            {
-                var databaseUser = await _context.Users
-                    .Where(x => x.Id == userProblem.UserId.Value)
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync(cancellation);
-                if (databaseUser == null)
-                {
-                    throw new UnauthorizedUserException();
-                }
-            }
             var databaseUserProblem = new UserProblem
             {
                 DateTime = userProblem.DateTime,
@@ -50,8 +37,8 @@ namespace Application.VerticalSlice.UserProblemPart.Interfaces
                 null : userProblem.Email.Value,
                 Status = userProblem.Status.Code,
             };
-            await _context.UserProblems.AddAsync(databaseUserProblem);
-            await _context.SaveChangesAsync();
+            await _context.UserProblems.AddAsync(databaseUserProblem, cancellation);
+            await _context.SaveChangesAsync(cancellation);
             return databaseUserProblem.Id;
         }
     }

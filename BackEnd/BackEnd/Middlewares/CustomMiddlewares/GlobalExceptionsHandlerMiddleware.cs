@@ -1,7 +1,7 @@
 ﻿using Application.Database;
 using Application.Shared.DTOs.Response;
 using Application.Shared.Exceptions.UserExceptions;
-using Domain.Exceptions.UserExceptions;
+using Domain.Exceptions.UserExceptions.ValueObjectsExceptions;
 using System.Text.Json;
 
 namespace BackEnd.Middlewares.CustomMiddlewares
@@ -70,7 +70,7 @@ namespace BackEnd.Middlewares.CustomMiddlewares
                 case RegonException:
                     await GenerateUserFaultResponse(response, exception, 400);
                     break;
-                case SegementUrlException:
+                case UrlSegmentException:
                     await GenerateUserFaultResponse(response, exception, 400);
                     break;
                 case UrlException:

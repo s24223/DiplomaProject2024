@@ -1,4 +1,4 @@
-﻿using Application.VerticalSlice.UserPart.DTOs.CreateProfile;
+﻿using Application.VerticalSlice.UserPart.DTOs.Create;
 using Application.VerticalSlice.UserPart.DTOs.LoginIn;
 using Application.VerticalSlice.UserPart.DTOs.Refresh;
 using Application.VerticalSlice.UserPart.Services;
@@ -23,7 +23,7 @@ namespace BackEnd.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> CreateUserProfileAsync
             (
-            CreateProfileRequestDto dto,
+            CreateUserRequestDto dto,
             CancellationToken cancellation
             )
         {

@@ -9,7 +9,7 @@ namespace Domain.Entities.CompanyPart
     {
         //Values
         public DateOnly CreateDate { get; private set; }
-        public SegementUrl? UrlSegment { get; set; } = null;
+        public UrlSegment? UrlSegment { get; set; } = null;
         public Email ContactEmail { get; set; } = null!;
         public Regon Regon { get; set; } = null!;
         public string Name { get; set; } = null!;
@@ -53,7 +53,7 @@ namespace Domain.Entities.CompanyPart
             Regon = new Regon(regon);
             ContactEmail = new Email(contactEmail);
             UrlSegment = string.IsNullOrWhiteSpace(urlSegment) ?
-                null : new SegementUrl(urlSegment);
+                null : new UrlSegment(urlSegment);
 
             //Values with no exeptions
             Name = name;

@@ -1,5 +1,7 @@
 ﻿using Application.Database;
 using Domain.Entities.PersonPart;
+using Domain.Exceptions.UserExceptions.EntitiesExceptions;
+using Domain.Exceptions.UserExceptions.ValueObjectsExceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.VerticalSlice.PersonPart.Interfaces
@@ -12,30 +14,49 @@ namespace Application.VerticalSlice.PersonPart.Interfaces
             _context = context;
         }
 
-        public async Task CreatePersonProfileAsync(DomainPerson person, CancellationToken cancellation)
+        public async Task CreatePersonProfileAsync
+            (
+            DomainPerson person,
+            CancellationToken cancellation
+            )
         {
             var databasePerson = await _context.People
                 .Where(x => x.UserId == person.Id.Value)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(cancellation);
 
             if (databasePerson != null)
             {
-                //exception
+                throw new PersonException(Messages.IsExistPerson);
             }
-            var databaseUser = await _context.Users
-               .Where(x => x.Id == person.Id.Value)
+
+            if (person.UrlSegment != null)
+            {
+                var personWithSameUrlSegment = await _context.People
+               .Where(x => x.UrlSegment == person.UrlSegment.Value)
+               .AsNoTracking()
                .FirstOrDefaultAsync(cancellation);
 
-            if (databaseUser == null)
+                if (personWithSameUrlSegment != null)
+                {
+                    throw new UrlSegmentException(Messages.NotUniqueUrlSegment);
+                }
+            }
+
+            var personWithSameContactEmail = await _context.People
+           .Where(x => x.UrlSegment == person.ContactEmail.Value)
+           .AsNoTracking()
+           .FirstOrDefaultAsync(cancellation);
+
+            if (personWithSameContactEmail != null)
             {
-                throw new UnauthorizedAccessException();
-                //exception
+                throw new EmailException(Messages.NotUniqueContactEmail);
             }
 
             //Url Segment, email unique
-            await _context.People.AddAsync(new Database.Models.Person
+            var inputDatabasePerson = new Database.Models.Person
             {
-                User = databaseUser,
+                UserId = person.Id.Value,
                 UrlSegment = (person.UrlSegment == null) ? null : person.UrlSegment.Value,
                 CreateDate = person.CreateDate,
                 ContactEmail = person.ContactEmail.Value,
@@ -46,7 +67,8 @@ namespace Application.VerticalSlice.PersonPart.Interfaces
                 Description = person.Description,
                 IsStudent = person.IsStudent.Code, //person.IsStudent, // tu w Domain person jest bool a w Person string jak to zamienic
                 IsPublicProfile = person.IsPublicProfile.Code,// person.IsPublicProfile
-            }, cancellation);
+            };
+            await _context.People.AddAsync(inputDatabasePerson, cancellation);
             await _context.SaveChangesAsync(cancellation);
         }
     }

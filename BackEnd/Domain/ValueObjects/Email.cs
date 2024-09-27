@@ -1,5 +1,5 @@
 ﻿using System.Text.RegularExpressions;
-using Domain.Exceptions.UserExceptions;
+using Domain.Exceptions.UserExceptions.ValueObjectsExceptions;
 
 namespace Domain.ValueObjects
 {

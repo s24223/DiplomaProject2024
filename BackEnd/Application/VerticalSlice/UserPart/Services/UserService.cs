@@ -1,12 +1,12 @@
 ﻿using Application.Shared.DTOs.Response;
 using Application.Shared.Exceptions.UserExceptions;
 using Application.Shared.Services.Authentication;
-using Application.VerticalSlice.UserPart.DTOs.CreateProfile;
+using Application.VerticalSlice.UserPart.DTOs.Create;
 using Application.VerticalSlice.UserPart.DTOs.LoginIn;
 using Application.VerticalSlice.UserPart.DTOs.Refresh;
 using Application.VerticalSlice.UserPart.Interfaces;
 using Application.VerticalSlice.UserProblemPart.Interfaces;
-using Domain.Exceptions.UserExceptions;
+using Domain.Exceptions.UserExceptions.ValueObjectsExceptions;
 using Domain.Factories;
 using Domain.Providers;
 using Domain.ValueObjects;
@@ -43,7 +43,7 @@ namespace Application.VerticalSlice.UserPart.Services
 
         public async Task<Response> CreateProfileAsync
             (
-            CreateProfileRequestDto dto,
+            CreateUserRequestDto dto,
             CancellationToken cancellation
             )
         {
@@ -59,7 +59,7 @@ namespace Application.VerticalSlice.UserPart.Services
 
             if (isExistEmail)
             {
-                throw new EmailException(Messages.ExeptionMessageUserWithThisEmailExist);
+                throw new EmailException(Messages.NotUniqueEmail);
             }
 
             var salt = _authenticationRepository.GenerateSalt();
@@ -188,13 +188,7 @@ namespace Application.VerticalSlice.UserPart.Services
                 Message = Messages.ResponseSuccess,
             };
         }
-
-
-
-
         //============================================================================================================
         //Private Methods
-
-
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Application.Shared.DTOs.Response;
 using Application.VerticalSlice.CompanyPart.DTOs.CreateProfile;
-using Application.VerticalSlice.PersonPart.DTOs.CreateProfile;
+using Application.VerticalSlice.PersonPart.DTOs.Create;
 using System.Security.Claims;
 
 
@@ -11,7 +11,7 @@ namespace Application.VerticalSlice.PersonPart.Services
         Task<Response> CreatePersonProfileAsync
             (
             IEnumerable<Claim> claims,
-            CreatePersonProfileRequestDto dto,
+            CreatePersonRequestDto dto,
             CancellationToken cancellation
             );
     }
