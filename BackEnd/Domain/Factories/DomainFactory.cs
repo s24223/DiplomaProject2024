@@ -313,5 +313,23 @@ namespace Domain.Factories
             _provider
             );
         }
+
+        //=================================================================================================
+        //=================================================================================================
+        //=================================================================================================
+        //Internship Part
+
+        public DomainIntership CreateDomainInternship(string contactNumber, Guid personId, Guid branchId, Guid offerId, DateTime created)
+        {
+            return new DomainIntership(
+                null,
+                personId,
+                branchId,
+                offerId,
+                created,
+                contactNumber,
+                _provider
+                );
+        }
     }
 }

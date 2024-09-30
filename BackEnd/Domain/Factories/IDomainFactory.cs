@@ -143,5 +143,13 @@ namespace Domain.Factories
             string? status,
             Guid? userId
             );
+
+        DomainIntership CreateDomainInternship(
+            string contactNumber,
+            Guid personId,
+            Guid branchId,
+            Guid offerId,
+            DateTime created
+            );
     }
 }

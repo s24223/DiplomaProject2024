@@ -3,6 +3,8 @@ using Application.VerticalSlice.AddressPart.Interfaces;
 using Application.VerticalSlice.AddressPart.Services;
 using Application.VerticalSlice.CompanyPart.Interfaces;
 using Application.VerticalSlice.CompanyPart.Services;
+using Application.VerticalSlice.InternshipPart.Interfaces;
+using Application.VerticalSlice.InternshipPart.Services;
 using Application.VerticalSlice.OfferBranchPart.Interfaces;
 using Application.VerticalSlice.OfferBranchPart.Services;
 using Application.VerticalSlice.OfferPart.Interfaces;
@@ -69,6 +71,10 @@ namespace Application
             //Recruitment
             serviceCollection.AddTransient<IRecruitmentRepository, RecruitmentRepository>();
             serviceCollection.AddTransient<IRecruitmentService, RecruitmentService>();
+
+            //Internship Part
+            serviceCollection.AddTransient<IInternshipRepository, InternshipRepository>();
+            serviceCollection.AddTransient<IInternshipService, InternshipService>();
 
 
             return serviceCollection;

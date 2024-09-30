@@ -9,7 +9,6 @@
         public DateOnly? WorkStart { get; set; }
         public DateOnly? WorkEnd { get; set; }
         public DateTime Created { get; } = DateTime.Now;
-        //Triger in DB???
         public DateTime LastUpdate { get; } = DateTime.Now;
     }
 }
