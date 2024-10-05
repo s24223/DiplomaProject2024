@@ -1,7 +1,11 @@
-﻿using Domain.Exceptions.UserExceptions.ValueObjectsExceptions;
+﻿using Domain.Exceptions.AppExceptions.ValueObjectsExceptions.ValueObjectsExceptions;
 
 namespace Domain.ValueObjects
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <exception cref="CommentEvaluationException"></exception>
     public record CommentEvaluation
     {
         public int Value { get; private set; }

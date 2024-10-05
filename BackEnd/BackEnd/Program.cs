@@ -15,7 +15,7 @@ namespace BackEnd
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            //JWT data from UserSecret
+            //Werify is exist Important data in UserSecret
             var jwtSection = builder.Configuration.GetSection("JwtData");
             var connectionStringsSection = builder.Configuration.GetSection("ConnectionStrings");
 
@@ -40,6 +40,7 @@ namespace BackEnd
             {
                 throw new NotImplementedException(Messages.NotConfiguredSecret);
             }
+
 
             // Add services to the container.
             //Injected IConfiguration from this Project

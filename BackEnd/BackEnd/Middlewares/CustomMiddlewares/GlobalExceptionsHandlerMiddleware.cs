@@ -1,7 +1,9 @@
 ﻿using Application.Database;
 using Application.Shared.DTOs.Response;
 using Application.Shared.Exceptions.UserExceptions;
+using Domain.Exceptions.UserExceptions.EntitiesExceptions;
 using Domain.Exceptions.UserExceptions.ValueObjectsExceptions;
+using Infrastructure.Exceptions.AppExceptions;
 using System.Text.Json;
 
 namespace BackEnd.Middlewares.CustomMiddlewares
@@ -34,62 +36,43 @@ namespace BackEnd.Middlewares.CustomMiddlewares
         private async Task HandleExeptionAsync
             (
             HttpContext context,
-            Exception exception,
+            Exception ex,
             DiplomaProjectContext dbContext
             )
         {
             var response = context.Response;
 
-
-            switch (exception)
+            switch (ex)
             {
-                case ApartmentNumberException:
-                    await GenerateUserFaultResponse(response, exception, 400);
+                case UnauthorizedUserException:
+                    await GenerateUserFaultResponse(response, ex, 401);
                     break;
-                case BuildingNumberException:
-                    await GenerateUserFaultResponse(response, exception, 400);
-                    break;
-                case CommentEvaluationException:
-                    await GenerateUserFaultResponse(response, exception, 400);
-                    break;
-                case CommentTypeException:
-                    await GenerateUserFaultResponse(response, exception, 400);
-                    break;
-                case DatabaseBoolException:
-                    await GenerateUserFaultResponse(response, exception, 400);
-                    break;
-                case EmailException:
-                    await GenerateUserFaultResponse(response, exception, 400);
-                    break;
-                case MoneyException:
-                    await GenerateUserFaultResponse(response, exception, 400);
-                    break;
-                case PhoneNumberException:
-                    await GenerateUserFaultResponse(response, exception, 400);
-                    break;
-                case RegonException:
-                    await GenerateUserFaultResponse(response, exception, 400);
-                    break;
-                case UrlSegmentException:
-                    await GenerateUserFaultResponse(response, exception, 400);
-                    break;
+
+                //========================================================================================
+                //Domain Entities Exceptions
                 case UrlException:
-                    await GenerateUserFaultResponse(response, exception, 400);
+                    await GenerateUserFaultResponse(response, ex, 400);
+                    break;
+                case UserProblemException:
+                    await GenerateUserFaultResponse(response, ex, 400);
+                    break;
+
+                //========================================================================================
+                //Domain ValueObjects Exceptions
+                case EmailException:
+                    await GenerateUserFaultResponse(response, ex, 400);
                     break;
                 case UrlTypeException:
-                    await GenerateUserFaultResponse(response, exception, 400);
+                    await GenerateUserFaultResponse(response, ex, 400);
                     break;
                 case UserProblemStatusException:
-                    await GenerateUserFaultResponse(response, exception, 400);
+                    await GenerateUserFaultResponse(response, ex, 400);
                     break;
-                case ZipCodeException:
-                    await GenerateUserFaultResponse(response, exception, 400);
-                    break;
-                case UnauthorizedUserException:
-                    await GenerateUserFaultResponse(response, exception, 401);
-                    break;
+
+                //========================================================================================
+                //App Exceptions
                 default:
-                    await GenerateAppFaultResponse(response, exception, dbContext);
+                    await GenerateAppFaultResponse(response, ex, dbContext);
                     break;
             }
         }
@@ -97,7 +80,7 @@ namespace BackEnd.Middlewares.CustomMiddlewares
         private async Task GenerateUserFaultResponse
             (
             HttpResponse response,
-            Exception exception,
+            Exception ex,
             int statusCode
             )
         {
@@ -107,7 +90,7 @@ namespace BackEnd.Middlewares.CustomMiddlewares
             var errorResponse = new Application.Shared.DTOs.Response.Response
             {
                 Status = EnumResponseStatus.UserFault,
-                Message = exception.Message
+                Message = ex.Message
             };
 
             var result = JsonSerializer.Serialize(errorResponse);
@@ -117,17 +100,24 @@ namespace BackEnd.Middlewares.CustomMiddlewares
         private async Task GenerateAppFaultResponse
             (
             HttpResponse response,
-            Exception exception,
+            Exception ex,
             DiplomaProjectContext dbContext
             )
         {
+            switch (ex)
+            {
+                case InfrastructureException:
+                    Console.WriteLine(ex.Message);
+                    break;
+            }
+
             response.ContentType = "application/json";
             response.StatusCode = 500;
 
             var errorResponse = new Application.Shared.DTOs.Response.AppExceptionResponse
             {
                 Status = EnumResponseStatus.AppFault,
-                Message = exception.Message,
+                Message = ex.Message,
                 Id = Guid.NewGuid()
             };
 

@@ -61,29 +61,20 @@ namespace Infrastructure {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Skonfihuruj UserSecrest w Infrastructure.
+        ///   Looks up a localized string similar to Sprawdż strukturę UserSecrets, najprawdopodobnej ona zmieniła się w kontekscie: ConnectionStrings : DbString.
         /// </summary>
-        internal static string DbConnectionStringIsNotConfiguredInUserSecrets {
+        internal static string NotConfiguredConnectionString {
             get {
-                return ResourceManager.GetString("DbConnectionStringIsNotConfiguredInUserSecrets", resourceCulture);
+                return ResourceManager.GetString("NotConfiguredConnectionString", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Connection string is empty or null..
+        ///   Looks up a localized string similar to Sprawdż UserSecrets, najprawdopodobnej one nie zostały skonfigurowane w UI/UX projekcie.
         /// </summary>
-        internal static string DbConnectionStringIsNullOrWhiteSpace {
+        internal static string NotConfiguredUserSecrets {
             get {
-                return ResourceManager.GetString("DbConnectionStringIsNullOrWhiteSpace", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Niepoprawne implementacja przy uzyciu Microsoft.Data.SqlClient.
-        /// </summary>
-        internal static string IncorrectlementationBySqlClient {
-            get {
-                return ResourceManager.GetString("IncorrectlementationBySqlClient", resourceCulture);
+                return ResourceManager.GetString("NotConfiguredUserSecrets", resourceCulture);
             }
         }
     }

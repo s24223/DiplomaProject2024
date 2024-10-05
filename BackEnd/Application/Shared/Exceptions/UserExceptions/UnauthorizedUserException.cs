@@ -2,7 +2,7 @@
 {
     public class UnauthorizedUserException : Exception
     {
-        public UnauthorizedUserException() : base(Messages.ExeptionMessageUnauthorizedUser)
+        public UnauthorizedUserException() : base(Messages.UnauthorizedUser)
         {
         }
 

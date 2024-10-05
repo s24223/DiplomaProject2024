@@ -1,7 +1,11 @@
-﻿using Domain.Exceptions.UserExceptions.ValueObjectsExceptions;
+﻿using Domain.Exceptions.AppExceptions.ValueObjectsExceptions.ValueObjectsExceptions;
 
 namespace Domain.ValueObjects
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <exception cref="MoneyException"></exception>
     public record Money
     {
         public decimal Value { get; private set; }

@@ -1,10 +1,13 @@
-﻿namespace Application.Database.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Application.Database.Models;
 
 public partial class User
 {
     public Guid Id { get; set; }
 
-    public string LoginEmail { get; set; } = null!;
+    public string Login { get; set; } = null!;
 
     public string Password { get; set; } = null!;
 
@@ -16,7 +19,7 @@ public partial class User
 
     public DateTime? LastLoginIn { get; set; }
 
-    public DateTime LastUpdatePassword { get; set; }
+    public DateTime LastPasswordUpdate { get; set; }
 
     public virtual Company? Company { get; set; }
 

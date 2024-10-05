@@ -2,11 +2,11 @@
 {
     public interface ITimeProvider
     {
-        //DateTime Part
+        //Created Part
         DateTime GetDateTimeNow();
         DateTime GetDateTimeToday();
 
-        //DateTime Part
+        //Created Part
         DateOnly GetDateOnlyToday();
 
     }

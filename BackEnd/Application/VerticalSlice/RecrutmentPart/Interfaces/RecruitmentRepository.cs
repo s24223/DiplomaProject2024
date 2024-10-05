@@ -1,6 +1,6 @@
 ﻿using Application.Database;
-using Application.Shared.Exceptions.UserExceptions;
 using Domain.Entities.RecrutmentPart;
+using Domain.Exceptions.AppExceptions.EntitiesExceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.VerticalSlice.RecrutmentPart.Interfaces
@@ -28,7 +28,7 @@ namespace Application.VerticalSlice.RecrutmentPart.Interfaces
 
             if (branchOffer == null)
             {
-                throw new BranchOfferException(Messages.NotExistBranchOffer);
+                throw new BranchOfferException("Messages.NotExistBranchOffer");
             }
 
             var databaseRecrutment = new Database.Models.Recruitment

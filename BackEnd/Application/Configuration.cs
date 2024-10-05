@@ -1,4 +1,5 @@
-﻿using Application.Shared.Services.Authentication;
+﻿using Application.Shared.Interfaces.Exceptions;
+using Application.Shared.Services.Authentication;
 using Application.VerticalSlice.AddressPart.Interfaces;
 using Application.VerticalSlice.AddressPart.Services;
 using Application.VerticalSlice.CompanyPart.Interfaces;
@@ -35,6 +36,8 @@ namespace Application
             // Rejestracja IConfiguration jako Singleton
             serviceCollection.AddSingleton<IConfiguration>(configuration);
             serviceCollection.AddTransient<IAuthenticationService, AuthenticationService>();
+            serviceCollection.AddTransient<IExceptionsRepository, ExceptionsRepository>();
+
 
             //User Part
             serviceCollection.AddTransient<IUserRepository, UserRepository>();
@@ -56,7 +59,7 @@ namespace Application
             serviceCollection.AddTransient<IAddressEFRepository, AddressEFRepository>();
             serviceCollection.AddTransient<IAddressService, AddressService>();
 
-            //Url Part
+            //Url1 Part
             serviceCollection.AddTransient<IUrlRepository, UrlRepository>();
             serviceCollection.AddTransient<IUrlService, UrlService>();
 

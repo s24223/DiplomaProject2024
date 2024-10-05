@@ -1,6 +1,7 @@
 ﻿using Application.Database;
 using Application.Database.Models;
 using Domain.Providers.ExceptionMessage;
+using Infrastructure.Exceptions.AppExceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
@@ -9,9 +10,12 @@ namespace Infrastructure.MsSqlDatabase;
 
 public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
 {
+    //Values
     private readonly IConfiguration _configuration;
     private readonly IExceptionMessageProvider _exceptionRepository;
 
+
+    //Cosntructor
     public DiplomaProjectMsSqlContext
         (
         IConfiguration configuration,
@@ -22,21 +26,25 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
         _exceptionRepository = exceptionRepository;
     }
 
+
+    //Methods
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
         {
-            var connectionString = _configuration.GetConnectionString("DbString");
+            var connectionString = _configuration.GetSection("ConnectionStrings")["DbString"];
 
             if (string.IsNullOrWhiteSpace(connectionString))
             {
                 var message = _exceptionRepository.GenerateExceptionMessage
-                (
-                Messages.DbConnectionStringIsNullOrWhiteSpace,
-                 this.GetType(),
-                 MethodBase.GetCurrentMethod()
-                );
-                throw new NotImplementedException(message);
+                    (
+                     this.GetType(),
+                     MethodBase.GetCurrentMethod(),
+                     null,
+                     Messages.NotConfiguredConnectionString
+                    );
+
+                throw new InfrastructureException(message);
             }
             optionsBuilder.UseSqlServer(connectionString);
             //.LogTo(Console.WriteLine);
@@ -46,11 +54,12 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
         {
             var message = _exceptionRepository.GenerateExceptionMessage
                 (
-                Messages.DbConnectionStringIsNotConfiguredInUserSecrets,
                  this.GetType(),
-                 MethodBase.GetCurrentMethod()
+                 MethodBase.GetCurrentMethod(),
+                 null,
+                 Messages.NotConfiguredUserSecrets
                 );
-            throw new NotImplementedException(message);
+            throw new InfrastructureException(message);
         }
         base.OnConfiguring(optionsBuilder);
     }
@@ -263,11 +272,11 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
 
         modelBuilder.Entity<Comment>(entity =>
         {
-            entity.HasKey(e => new { e.CommentTypeId, e.InternshipId, e.Published }).HasName("Comment_pk");
+            entity.HasKey(e => new { e.CommentTypeId, e.InternshipId, e.Created }).HasName("Comment_pk");
 
             entity.ToTable("Comment");
 
-            entity.Property(e => e.Published).HasColumnType("datetime");
+            entity.Property(e => e.Created).HasColumnType("datetime");
             entity.Property(e => e.Description).HasColumnType("ntext");
 
             entity.HasOne(d => d.CommentType).WithMany(p => p.Comments)
@@ -288,6 +297,7 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
             entity.ToTable("CommentType");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Description).HasMaxLength(200);
             entity.Property(e => e.Name).HasMaxLength(100);
         });
 
@@ -307,12 +317,12 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
 
             entity.Property(e => e.UserId).ValueGeneratedNever();
             entity.Property(e => e.ContactEmail).HasMaxLength(100);
-            entity.Property(e => e.CreateDate).HasDefaultValueSql("(CONVERT([date],getdate()))");
+            entity.Property(e => e.Created).HasDefaultValueSql("(CONVERT([date],getdate()))");
             entity.Property(e => e.Description).HasColumnType("ntext");
             entity.Property(e => e.Logo).HasColumnType("image");
             entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.Regon)
-                .HasMaxLength(50)
+                .HasMaxLength(15)
                 .IsUnicode(false);
             entity.Property(e => e.UrlSegment)
                 .HasMaxLength(100)
@@ -332,7 +342,7 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
 
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.AdditionalData).HasColumnType("ntext");
-            entity.Property(e => e.DateTime)
+            entity.Property(e => e.Created)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.ExceptionType)
@@ -370,18 +380,18 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
 
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.Description).HasColumnType("ntext");
-            entity.Property(e => e.ForStudents)
+            entity.Property(e => e.IsForStudents)
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .HasDefaultValue("N")
                 .IsFixedLength();
-            entity.Property(e => e.MaxSalary).HasColumnType("money");
-            entity.Property(e => e.MinSalary).HasColumnType("money");
-            entity.Property(e => e.Name).HasMaxLength(100);
-            entity.Property(e => e.NegotiatedSalary)
+            entity.Property(e => e.IsNegotiatedSalary)
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .IsFixedLength();
+            entity.Property(e => e.MaxSalary).HasColumnType("money");
+            entity.Property(e => e.MinSalary).HasColumnType("money");
+            entity.Property(e => e.Name).HasMaxLength(100);
         });
 
         modelBuilder.Entity<OfferCharacteristicsList>(entity =>
@@ -420,7 +430,7 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
             entity.Property(e => e.ContactPhoneNum)
                 .HasMaxLength(20)
                 .IsUnicode(false);
-            entity.Property(e => e.CreateDate).HasDefaultValueSql("(CONVERT([date],getdate()))");
+            entity.Property(e => e.Created).HasDefaultValueSql("(CONVERT([date],getdate()))");
             entity.Property(e => e.Description).HasColumnType("ntext");
             entity.Property(e => e.IsPublicProfile)
                 .HasMaxLength(1)
@@ -492,10 +502,6 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
             entity.ToTable("Recruitment");
 
             entity.Property(e => e.Created).HasColumnType("datetime");
-            entity.Property(e => e.AcceptedRejected)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .IsFixedLength();
             entity.Property(e => e.ApplicationDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
@@ -503,6 +509,10 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
             entity.Property(e => e.Cv)
                 .HasColumnType("image")
                 .HasColumnName("CV");
+            entity.Property(e => e.IsAccepted)
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .IsFixedLength();
             entity.Property(e => e.PersonMessage).HasColumnType("ntext");
 
             entity.HasOne(d => d.Person).WithMany(p => p.Recruitments)
@@ -532,18 +542,16 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
 
         modelBuilder.Entity<Url>(entity =>
         {
-            entity.HasKey(e => new { e.PublishDate, e.UrlTypeId, e.UserId }).HasName("Url_pk");
+            entity.HasKey(e => new { e.Created, e.UrlTypeId, e.UserId }).HasName("Url_pk");
 
             entity.ToTable("Url");
 
-            entity.Property(e => e.PublishDate)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
+            entity.HasIndex(e => new { e.Path, e.UserId }, "UNIQUE_Url_Path").IsUnique();
+
+            entity.Property(e => e.Created).HasColumnType("datetime");
             entity.Property(e => e.Description).HasColumnType("ntext");
             entity.Property(e => e.Name).HasMaxLength(100);
-            entity.Property(e => e.Url1)
-                .HasColumnType("ntext")
-                .HasColumnName("Url");
+            entity.Property(e => e.Path).HasMaxLength(800);
 
             entity.HasOne(d => d.UrlType).WithMany(p => p.Urls)
                 .HasForeignKey(d => d.UrlTypeId)
@@ -563,7 +571,7 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
             entity.ToTable("UrlType");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
-            entity.Property(e => e.Description).HasColumnType("ntext");
+            entity.Property(e => e.Description).HasMaxLength(200);
             entity.Property(e => e.Name).HasMaxLength(100);
         });
 
@@ -573,17 +581,15 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
 
             entity.ToTable("User");
 
-            entity.HasIndex(e => e.LoginEmail, "INDEX_UNIQUE_User_LoginEmail").IsUnique();
-
-            entity.HasIndex(e => e.LoginEmail, "UNIQUE_User_LoginEmail").IsUnique();
+            entity.HasIndex(e => e.Login, "UNIQUE_User_Login").IsUnique();
 
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.ExpiredToken).HasColumnType("datetime");
             entity.Property(e => e.LastLoginIn).HasColumnType("datetime");
-            entity.Property(e => e.LastUpdatePassword)
+            entity.Property(e => e.LastPasswordUpdate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.LoginEmail).HasMaxLength(100);
+            entity.Property(e => e.Login).HasMaxLength(100);
         });
 
         modelBuilder.Entity<UserProblem>(entity =>
@@ -593,7 +599,7 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
             entity.ToTable("UserProblem");
 
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
-            entity.Property(e => e.DateTime)
+            entity.Property(e => e.Created)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.Email).HasMaxLength(100);

@@ -1,4 +1,5 @@
-﻿using Domain.Providers;
+﻿using Domain.Exceptions.UserExceptions.EntitiesExceptions;
+using Domain.Providers;
 using Domain.Templates.Entities;
 using Domain.ValueObjects;
 using Domain.ValueObjects.EntityIdentificators;
@@ -9,7 +10,7 @@ namespace Domain.Entities.UserPart
     public class DomainUserProblem : Entity<UserProblemId>
     {
         //Values
-        public DateTime DateTime { get; private set; }
+        public DateTime Created { get; private set; }
         public string UserMessage { get; private set; } = null!;
         public string? Response { get; set; }
         public UserProblemId? PreviousProblemId { get; private set; }
@@ -38,7 +39,7 @@ namespace Domain.Entities.UserPart
         public DomainUserProblem
             (
             Guid? id,
-            DateTime? dateTime,
+            DateTime? created,
             string userMessage,
             string? response,
             Guid? previousProblemId,
@@ -54,14 +55,28 @@ namespace Domain.Entities.UserPart
             Status = new UserProblemStatus(status);
 
             //Values with no exeptions
-            DateTime = (dateTime != null)
-                ? dateTime.Value : _provider.GetTimeProvider().GetDateTimeNow();
+            Created = (created != null)
+                ? created.Value : _provider.GetTimeProvider().GetDateTimeNow();
             UserMessage = userMessage;
             Response = response;
             PreviousProblemId = (previousProblemId == null) ?
                 null : new UserProblemId(previousProblemId);
             UserId = (userId == null) ?
                 null : new UserId(userId);
+        }
+
+
+        //Methods
+        public void Annul()
+        {
+            if (
+                Status == new UserProblemStatus("d") ||
+                Status == new UserProblemStatus("a")
+                )
+            {
+                throw new UserProblemException(Messages.DomainUserProblemCannotAnnulTaskClosed);
+            }
+            Status = new UserProblemStatus("a");
         }
     }
 }

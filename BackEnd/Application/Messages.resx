@@ -117,37 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ExeptionMessageUnauthorizedUser" xml:space="preserve">
-    <value>Błędne dane przy uwirzytylnieniu, sprawdż dane i zaloguj sie Ponownie</value>
-  </data>
-  <data name="IsExistCompany" xml:space="preserve">
-    <value>Firma istnieje nie mozna utworzyc ponownie</value>
-  </data>
-  <data name="IsExistPerson" xml:space="preserve">
-    <value>Osoba istnieje niemożiwe ponowne utworzenie</value>
+  <data name="IncorrectJwtUserName" xml:space="preserve">
+    <value>Njprawdopodobnej zaistniały zmiany w kodzie w ramach implementacji Name w JWT, zweryfikuj i popraw</value>
   </data>
   <data name="NotConfiguredAudience" xml:space="preserve">
-    <value>Uzupełnij w Secretach Audience</value>
+    <value>Sprawdż strukturę UserSecrets, najprawdopodobnej ona zmieniła się w kontekscie: JwtData : Audience</value>
   </data>
   <data name="NotConfiguredIssuer" xml:space="preserve">
-    <value>Uzupełnij w Secretach Issuer</value>
+    <value>Sprawdż strukturę UserSecrets, najprawdopodobnej ona zmieniła się w kontekscie: JwtData : Issuer</value>
   </data>
   <data name="NotConfiguredSecret" xml:space="preserve">
-    <value>Uzupełnij w Secretach Secret</value>
+    <value>Sprawdż strukturę UserSecrets, najprawdopodobnej ona zmieniła się w kontekscie: JwtData : Secret</value>
   </data>
-  <data name="NotExistBranchOffer" xml:space="preserve">
-    <value>Nie istnieje BranchOffer</value>
+  <data name="NotExistUrl" xml:space="preserve">
+    <value>Za podanymi danymi nie istnieje URL</value>
   </data>
-  <data name="NotUniqueContactEmail" xml:space="preserve">
-    <value>Wybairze inny Email daress</value>
+  <data name="NotExistUserProblem" xml:space="preserve">
+    <value>Nie istnieje zgłoszonego problemu za podanym Id, lub ono nie nalezy do danego urzytkownika</value>
   </data>
-  <data name="NotUniqueEmail" xml:space="preserve">
-    <value>Wybierz Inny Email</value>
+  <data name="NotUniqueUrlPath" xml:space="preserve">
+    <value>Podany Url już istnieje</value>
   </data>
-  <data name="NotUniqueUrlSegment" xml:space="preserve">
-    <value>Wybierzinny url segment</value>
+  <data name="NotUniqueUserEmailLogin" xml:space="preserve">
+    <value>Wybierz inny Login / E-mail</value>
   </data>
   <data name="ResponseSuccess" xml:space="preserve">
     <value>Success</value>
+  </data>
+  <data name="UnauthorizedUser" xml:space="preserve">
+    <value>Urzytkownik nie jest uwierzytelniony, sprawdż dane i zaloguj sie ponownie</value>
   </data>
 </root>

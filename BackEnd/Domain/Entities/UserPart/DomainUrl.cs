@@ -1,4 +1,4 @@
-﻿using Domain.Exceptions.UserExceptions.ValueObjectsExceptions;
+﻿using Domain.Exceptions.UserExceptions.EntitiesExceptions;
 using Domain.Providers;
 using Domain.Templates.Entities;
 using Domain.ValueObjects.EntityIdentificators;
@@ -9,7 +9,7 @@ namespace Domain.Entities.UserPart
     public class DomainUrl : Entity<UrlId>
     {
         //Values
-        public Uri Url { get; set; } = null!;
+        public Uri Path { get; set; } = null!;
         public string? Name { get; set; }
         public string? Description { get; set; }
 
@@ -35,8 +35,8 @@ namespace Domain.Entities.UserPart
             (
             Guid userId,
             int urlTypeId,
-            DateTime publishDate,
-            string url,
+            DateTime created,
+            string path,
             string? name,
             string? description,
             IDomainProvider provider
@@ -44,13 +44,13 @@ namespace Domain.Entities.UserPart
                 (
                 new UserId(userId),
                 new UrlType(urlTypeId),
-                publishDate
+                created
                 ), provider)
         {
             //Values with exeptions
             try
             {
-                Url = new Uri(url);
+                Path = new Uri(path);
             }
             catch (Exception)
             {

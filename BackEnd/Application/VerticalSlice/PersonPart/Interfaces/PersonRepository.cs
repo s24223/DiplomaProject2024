@@ -1,6 +1,7 @@
 ﻿using Application.Database;
 using Domain.Entities.PersonPart;
-using Domain.Exceptions.UserExceptions.EntitiesExceptions;
+using Domain.Exceptions.AppExceptions.EntitiesExceptions;
+using Domain.Exceptions.AppExceptions.ValueObjectsExceptions.ValueObjectsExceptions;
 using Domain.Exceptions.UserExceptions.ValueObjectsExceptions;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,7 +28,7 @@ namespace Application.VerticalSlice.PersonPart.Interfaces
 
             if (databasePerson != null)
             {
-                throw new PersonException(Messages.IsExistPerson);
+                throw new PersonException("Messages.IsExistPerson");
             }
 
             if (person.UrlSegment != null)
@@ -39,7 +40,7 @@ namespace Application.VerticalSlice.PersonPart.Interfaces
 
                 if (personWithSameUrlSegment != null)
                 {
-                    throw new UrlSegmentException(Messages.NotUniqueUrlSegment);
+                    throw new UrlSegmentException("Messages.NotUniqueUrlSegment");
                 }
             }
 
@@ -50,15 +51,15 @@ namespace Application.VerticalSlice.PersonPart.Interfaces
 
             if (personWithSameContactEmail != null)
             {
-                throw new EmailException(Messages.NotUniqueContactEmail);
+                throw new EmailException("Messages.NotUniqueContactEmail");
             }
 
-            //Url Segment, email unique
+            //Url1 Segment, email unique
             var inputDatabasePerson = new Database.Models.Person
             {
                 UserId = person.Id.Value,
                 UrlSegment = (person.UrlSegment == null) ? null : person.UrlSegment.Value,
-                CreateDate = person.CreateDate,
+                Created = person.CreateDate,
                 ContactEmail = person.ContactEmail.Value,
                 Name = person.Name,
                 Surname = person.Surname,

@@ -1,12 +1,15 @@
-﻿namespace Application.Database.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Application.Database.Models;
 
 public partial class Branch
 {
-    public Guid Id { get; set; }
-
     public Guid CompanyId { get; set; }
 
     public Guid AddressId { get; set; }
+
+    public Guid Id { get; set; }
 
     public string? UrlSegment { get; set; }
 

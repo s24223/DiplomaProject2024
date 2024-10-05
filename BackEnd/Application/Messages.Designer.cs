@@ -61,34 +61,16 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Błędne dane przy uwirzytylnieniu, sprawdż dane i zaloguj sie Ponownie.
+        ///   Looks up a localized string similar to Njprawdopodobnej zaistniały zmiany w kodzie w ramach implementacji Name w JWT, zweryfikuj i popraw.
         /// </summary>
-        internal static string ExeptionMessageUnauthorizedUser {
+        internal static string IncorrectJwtUserName {
             get {
-                return ResourceManager.GetString("ExeptionMessageUnauthorizedUser", resourceCulture);
+                return ResourceManager.GetString("IncorrectJwtUserName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Firma istnieje nie mozna utworzyc ponownie.
-        /// </summary>
-        internal static string IsExistCompany {
-            get {
-                return ResourceManager.GetString("IsExistCompany", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Osoba istnieje niemożiwe ponowne utworzenie.
-        /// </summary>
-        internal static string IsExistPerson {
-            get {
-                return ResourceManager.GetString("IsExistPerson", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Uzupełnij w Secretach Audience.
+        ///   Looks up a localized string similar to Sprawdż strukturę UserSecrets, najprawdopodobnej ona zmieniła się w kontekscie: JwtData : Audience.
         /// </summary>
         internal static string NotConfiguredAudience {
             get {
@@ -97,7 +79,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Uzupełnij w Secretach Issuer.
+        ///   Looks up a localized string similar to Sprawdż strukturę UserSecrets, najprawdopodobnej ona zmieniła się w kontekscie: JwtData : Issuer.
         /// </summary>
         internal static string NotConfiguredIssuer {
             get {
@@ -106,7 +88,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Uzupełnij w Secretach Secret.
+        ///   Looks up a localized string similar to Sprawdż strukturę UserSecrets, najprawdopodobnej ona zmieniła się w kontekscie: JwtData : Secret.
         /// </summary>
         internal static string NotConfiguredSecret {
             get {
@@ -115,38 +97,38 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nie istnieje BranchOffer.
+        ///   Looks up a localized string similar to Za podanymi danymi nie istnieje URL.
         /// </summary>
-        internal static string NotExistBranchOffer {
+        internal static string NotExistUrl {
             get {
-                return ResourceManager.GetString("NotExistBranchOffer", resourceCulture);
+                return ResourceManager.GetString("NotExistUrl", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wybairze inny Email daress.
+        ///   Looks up a localized string similar to Nie istnieje zgłoszonego problemu za podanym Id, lub ono nie nalezy do danego urzytkownika.
         /// </summary>
-        internal static string NotUniqueContactEmail {
+        internal static string NotExistUserProblem {
             get {
-                return ResourceManager.GetString("NotUniqueContactEmail", resourceCulture);
+                return ResourceManager.GetString("NotExistUserProblem", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wybierz Inny Email.
+        ///   Looks up a localized string similar to Podany Url już istnieje.
         /// </summary>
-        internal static string NotUniqueEmail {
+        internal static string NotUniqueUrlPath {
             get {
-                return ResourceManager.GetString("NotUniqueEmail", resourceCulture);
+                return ResourceManager.GetString("NotUniqueUrlPath", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wybierzinny url segment.
+        ///   Looks up a localized string similar to Wybierz inny Login / E-mail.
         /// </summary>
-        internal static string NotUniqueUrlSegment {
+        internal static string NotUniqueUserEmailLogin {
             get {
-                return ResourceManager.GetString("NotUniqueUrlSegment", resourceCulture);
+                return ResourceManager.GetString("NotUniqueUserEmailLogin", resourceCulture);
             }
         }
         
@@ -156,6 +138,15 @@ namespace Application {
         internal static string ResponseSuccess {
             get {
                 return ResourceManager.GetString("ResponseSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Urzytkownik nie jest uwierzytelniony, sprawdż dane i zaloguj sie ponownie.
+        /// </summary>
+        internal static string UnauthorizedUser {
+            get {
+                return ResourceManager.GetString("UnauthorizedUser", resourceCulture);
             }
         }
     }

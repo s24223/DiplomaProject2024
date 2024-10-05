@@ -4,68 +4,56 @@ using Application.Shared.Services.Authentication;
 using Application.VerticalSlice.UserPart.DTOs.Create;
 using Application.VerticalSlice.UserPart.DTOs.LoginIn;
 using Application.VerticalSlice.UserPart.DTOs.Refresh;
+using Application.VerticalSlice.UserPart.DTOs.UpdateLogin;
+using Application.VerticalSlice.UserPart.DTOs.UpdatePassword;
 using Application.VerticalSlice.UserPart.Interfaces;
-using Application.VerticalSlice.UserProblemPart.Interfaces;
-using Domain.Exceptions.UserExceptions.ValueObjectsExceptions;
 using Domain.Factories;
 using Domain.Providers;
 using Domain.ValueObjects;
-using Domain.ValueObjects.EntityIdentificators;
 using System.Security.Claims;
 
 namespace Application.VerticalSlice.UserPart.Services
 {
     public class UserService : IUserService
     {
+        //Values
         private readonly IUserRepository _repository;
         private readonly IDomainFactory _domainFactory;
+        private readonly IDomainProvider _domainProvider;
         private readonly IAuthenticationService _authenticationRepository;
-        private readonly IDomainProvider _domainRepository;
-        private readonly IUserProblemRepository _userProblem;
 
 
+        //Constructor
         public UserService
             (
             IUserRepository repository,
-            IAuthenticationService authentication,
             IDomainFactory domainFactory,
-            IDomainProvider domainRepository,
-            IUserProblemRepository userProblem
+            IDomainProvider domainProvider,
+            IAuthenticationService authentication
             )
         {
             _repository = repository;
             _domainFactory = domainFactory;
+            _domainProvider = domainProvider;
             _authenticationRepository = authentication;
-            _domainRepository = domainRepository;
-            _userProblem = userProblem;
         }
 
 
-        public async Task<Response> CreateProfileAsync
+        //Methods
+        //==========================================================================================================================================
+        //Data Part
+        public async Task<Response> CreateAsync
             (
             CreateUserRequestDto dto,
             CancellationToken cancellation
             )
         {
-            var domainUser = _domainFactory.CreateDomainUser
-                (
-                null,
-                dto.Email,
-                null,
-                _domainRepository.GetTimeProvider().GetDateTimeNow()
-                );
-
-            var isExistEmail = await _repository.IsExistLoginAsync(domainUser.Login, cancellation);
-
-            if (isExistEmail)
-            {
-                throw new EmailException(Messages.NotUniqueEmail);
-            }
-
+            var domainUser = _domainFactory.CreateDomainUser(dto.Email);
             var salt = _authenticationRepository.GenerateSalt();
             var password = _authenticationRepository.HashPassword(dto.Password, salt);
 
             await _repository.CreateUserAsync(domainUser, password, salt, cancellation);
+
             return new Response
             {
                 Status = EnumResponseStatus.Success,
@@ -73,44 +61,128 @@ namespace Application.VerticalSlice.UserPart.Services
             };
         }
 
+        public async Task<Response> UpdateLoginAsync
+            (
+            IEnumerable<Claim> claims,
+            UpdateLoginRequestDto dto,
+            CancellationToken cancellation
+            )
+        {
+            var id = _authenticationRepository.GetIdNameFromClaims(claims);
+            var userData = await _repository.GetUserDataByIdAsync(id, cancellation);
+            userData.User.Login = new Email(dto.NewLogin);
+
+            await _repository.UpdateAsync
+                (
+                userData.User,
+                userData.Password,
+                userData.Salt,
+                userData.RefreshToken,
+                userData.ExpiredToken,
+                cancellation
+               );
+
+            return new Response
+            {
+                Status = EnumResponseStatus.Success,
+                Message = Messages.ResponseSuccess,
+            };
+        }
+
+        public async Task<Response> UpdatePasswordAsync
+            (
+            IEnumerable<Claim> claims,
+            UpdatePasswordRequestDto dto,
+            CancellationToken cancellation
+            )
+        {
+            var id = _authenticationRepository.GetIdNameFromClaims(claims);
+            var userData = await _repository.GetUserDataByIdAsync(id, cancellation);
+            userData.User.LastPasswordUpdate = _domainProvider.GetTimeProvider().GetDateTimeNow();
+
+            var salt = _authenticationRepository.GenerateSalt();
+            var password = _authenticationRepository.HashPassword(dto.NewPassword, salt);
+
+            await _repository.UpdateAsync
+                (
+                userData.User,
+                password,
+                salt,
+                userData.RefreshToken,
+                userData.ExpiredToken,
+                cancellation
+                );
+
+            return new Response
+            {
+                Status = EnumResponseStatus.Success,
+                Message = Messages.ResponseSuccess,
+            };
+        }
+
+        //==========================================================================================================================================
+        //Authetication Part
         public async Task<ItemResponse<LoginInResponseDto>> LoginInAsync
             (
             LoginInRequestDto dto,
             CancellationToken cancellation
             )
         {
-            var data = await _repository.GetUserDataByLoginEmailAsync(new Email(dto.Email), cancellation);
+            var userData = await _repository.GetUserDataByLoginEmailAsync
+                (
+                new Email(dto.Email),
+                cancellation
+                );
+            userData.User.LastLoginIn = _domainProvider.GetTimeProvider().GetDateTimeNow();
 
-            var hashedInputPassword = _authenticationRepository.HashPassword(dto.Password, data.Salt);
-            if (hashedInputPassword != data.Password)
+
+            var hashedInputPassword = _authenticationRepository.HashPassword
+                (
+                dto.Password,
+                userData.Salt
+                );
+            if (hashedInputPassword != userData.Password)
             {
-                //Uncorrect Password
+                //Incorrect Password
                 throw new UnauthorizedUserException();
             }
 
+
             var roles = new List<string>();
-            /*if (user.Company != null)
+            if (userData.User.Company != null)
             {
-                roles.Add(_authenticationService.GetCompanyRole());
+                roles.Add(_authenticationRepository.GetCompanyRole());
             }
-            if (user.Person != null)
+            if (userData.User.Person != null)
             {
-                roles.Add(_authenticationService.GetPersonRole());
-            }*/
+                roles.Add(_authenticationRepository.GetPersonRole());
+            }
+
 
             var jwt = _authenticationRepository.GenerateJwtStringAndDateTimeValidTo
                 (
-                data.User.Id.Value.ToString(),
+                userData.User.Id.Value.ToString(),
                 roles
                 );
-            var refresh = _authenticationRepository.GenerateRefreshTokendAndDateTimeValidTo();
 
-            await _repository.UpdateRefreshTokenAsync
+            if (
+                string.IsNullOrWhiteSpace(userData.RefreshToken) ||
+                userData.ExpiredToken == null ||
+                userData.ExpiredToken <= _domainProvider.GetTimeProvider().GetDateTimeNow()
+                )
+            {
+                var refresh = _authenticationRepository.GenerateRefreshTokendAndDateTimeValidTo();
+                userData.RefreshToken = refresh.RefreshToken;
+                userData.ExpiredToken = refresh.ValidTo;
+            }
+
+            await _repository.UpdateAsync
                 (
-                data.User,
-                refresh.RefreshToken,
-                refresh.ValidTo,
-                _domainRepository.GetTimeProvider().GetDateTimeNow(),
+                userData.User,
+                userData.Password,
+                userData.Salt,
+                userData.RefreshToken,
+                userData.ExpiredToken,
                 cancellation
                 );
 
@@ -123,8 +195,8 @@ namespace Application.VerticalSlice.UserPart.Services
                 {
                     Jwt = jwt.Jwt,
                     JwtValidTo = jwt.ValidTo,
-                    RefereshToken = refresh.RefreshToken,
-                    RefereshTokenValidTo = refresh.ValidTo,
+                    RefereshToken = userData.RefreshToken,
+                    RefereshTokenValidTo = userData.ExpiredToken.Value,
                 },
             };
         }
@@ -136,30 +208,41 @@ namespace Application.VerticalSlice.UserPart.Services
             CancellationToken cancellation
             )
         {
+            if (string.IsNullOrWhiteSpace(dto.RefreshToken))
+            {
+                throw new UnauthorizedUserException();
+            }
+
             var id = _authenticationRepository.GetIdNameFromJwt(jwtFromHeader);
-            var data = await _repository.GetUserDataByIdAsync(new UserId(id), cancellation);
+            var data = await _repository.GetUserDataByIdAsync(id, cancellation);
 
             if (
                 data.ExpiredToken == null ||
-                data.ExpiredToken <= _domainRepository.GetTimeProvider().GetDateTimeNow() ||
-                data.RefreshToken != dto.RefreshToken
+                data.ExpiredToken <= _domainProvider.GetTimeProvider().GetDateTimeNow() ||
+                string.IsNullOrWhiteSpace(data.RefreshToken) ||
+                dto.RefreshToken != data.RefreshToken
                 )
             {
                 throw new UnauthorizedUserException();
-            };
+            }
+
 
             var roles = new List<string>();
-            /*if (user.Company != null)
+            if (data.User.Company != null)
             {
-                roles.Add(_companyRole);
+                roles.Add(_authenticationRepository.GetCompanyRole());
             }
-            if (user.Person != null)
+            if (data.User.Person != null)
             {
-                roles.Add(_personRole);
+                roles.Add(_authenticationRepository.GetPersonRole());
             }
-*/
-            var jwt = _authenticationRepository.GenerateJwtStringAndDateTimeValidTo(data.User.Id.ToString(), roles);
-            //Correct
+
+            var jwt = _authenticationRepository.GenerateJwtStringAndDateTimeValidTo
+                (
+                data.User.Id.ToString(),
+                roles
+                );
+
             return new ItemResponse<RefreshResponseDto>
             {
                 Status = EnumResponseStatus.Success,
@@ -169,7 +252,7 @@ namespace Application.VerticalSlice.UserPart.Services
                     Jwt = jwt.Jwt,
                     JwtValidTo = jwt.ValidTo,
                     RefereshToken = data.RefreshToken,
-                    RefereshTokenValidTo = data.ExpiredToken ?? throw new NotImplementedException("Unable"),
+                    RefereshTokenValidTo = data.ExpiredToken.Value,
                 },
             };
         }
@@ -181,13 +264,16 @@ namespace Application.VerticalSlice.UserPart.Services
             )
         {
             var id = _authenticationRepository.GetIdNameFromClaims(claims);
-            await _repository.DeleteRefreshTokenDataAsync(new UserId(id), cancellation);
+            await _repository.LogOutAndDeleteRefreshTokenDataAsync(id, cancellation);
             return new Response
             {
                 Status = EnumResponseStatus.Success,
                 Message = Messages.ResponseSuccess,
             };
         }
+
+        //============================================================================================================
+        //============================================================================================================
         //============================================================================================================
         //Private Methods
     }

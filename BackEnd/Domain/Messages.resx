@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DomainUserProblemCannotAnnulTaskClosed" xml:space="preserve">
+    <value>Nie można anulować, sprawa zamknieta</value>
+    <comment>x</comment>
+  </data>
   <data name="InValidApartmentNumber" xml:space="preserve">
     <value>Numer mieszkania może zawierac tylko liczby od 1</value>
   </data>
@@ -158,8 +162,5 @@
   </data>
   <data name="UndefinedUrlType" xml:space="preserve">
     <value>Niezdefiniowany Typ Url</value>
-  </data>
-  <data name="IncorrectlementationBySqlClient" xml:space="preserve">
-    <value />
   </data>
 </root>

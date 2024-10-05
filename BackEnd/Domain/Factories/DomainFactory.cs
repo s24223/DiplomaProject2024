@@ -9,14 +9,146 @@ namespace Domain.Factories
 {
     public class DomainFactory : IDomainFactory
     {
+        //Values
         private readonly IDomainProvider _provider;
 
 
+        //Constructor
         public DomainFactory(IDomainProvider provider)
         {
             _provider = provider;
         }
 
+
+        //Methods
+        //=================================================================================================
+        //=================================================================================================
+        //=================================================================================================
+        //User Part
+        public DomainUser CreateDomainUser(string login)
+        {
+            return new DomainUser(null, login, null, null, _provider);
+        }
+
+        public DomainUser CreateDomainUser
+            (
+            Guid id,
+            string login,
+            DateTime? lastLoginIn,
+            DateTime lastPasswordUpdate
+            )
+        {
+            return new DomainUser(id, login, lastLoginIn, lastPasswordUpdate, _provider);
+        }
+
+
+        public DomainUserProblem CreateDomainUserProblem
+            (
+            string userMessage,
+            Guid? previousProblemId,
+            string? email,
+            Guid? userId
+            )
+        {
+            return new DomainUserProblem
+                (
+                null,
+                null,
+                userMessage,
+                null,
+                previousProblemId,
+                email,
+                null,
+                userId,
+            _provider
+            );
+        }
+
+        public DomainUserProblem CreateDomainUserProblem
+            (
+            Guid id,
+            DateTime created,
+            string userMessage,
+            string? response,
+            Guid? previousProblemId,
+            string? email,
+            string status,
+            Guid? userId
+            )
+        {
+            return new DomainUserProblem
+                (
+                id,
+                created,
+                userMessage,
+                response,
+                previousProblemId,
+                email,
+                status,
+                userId,
+            _provider
+            );
+        }
+
+
+        public DomainUrl CreateDomainUrl
+            (
+            Guid userId,
+            int urlTypeId,
+            DateTime created,
+            string path,
+            string? name,
+            string? description
+            )
+        {
+            return new DomainUrl
+                (
+                 userId,
+                 urlTypeId,
+                 created,
+                 path,
+                 name,
+                 description,
+                _provider
+            );
+        }
+
+        //=================================================================================================
+        //=================================================================================================
+        //=================================================================================================
+        //Person Part
+        public DomainPerson CreateDomainPerson
+            (
+            Guid id,
+            string? urlSegment,
+            DateOnly? createDate,
+            string contactEmail,
+            string name,
+            string surname,
+            DateOnly? birthDate,
+            string? contactPhoneNum,
+            string? description,
+            string isStudent,
+            string isPublicProfile,
+            Guid? addressId
+            )
+        {
+            return new DomainPerson(
+                id,
+                urlSegment,
+                createDate,
+                contactEmail,
+                name,
+                surname,
+                birthDate,
+                contactPhoneNum,
+                description,
+                isStudent,
+                isPublicProfile,
+                addressId,
+                _provider
+                );
+        }
 
         //=================================================================================================
         //=================================================================================================
@@ -121,42 +253,6 @@ namespace Domain.Factories
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================
-        //Person Part
-        public DomainPerson CreateDomainPerson
-            (
-            Guid id,
-            string? urlSegment,
-            DateOnly? createDate,
-            string contactEmail,
-            string name,
-            string surname,
-            DateOnly? birthDate,
-            string? contactPhoneNum,
-            string? description,
-            string isStudent,
-            string isPublicProfile,
-            Guid? addressId
-            )
-        {
-            return new DomainPerson(
-                id,
-                urlSegment,
-                createDate,
-                contactEmail,
-                name,
-                surname,
-                birthDate,
-                contactPhoneNum,
-                description,
-                isStudent,
-                isPublicProfile,
-                addressId,
-                _provider
-                );
-        }
-        //=================================================================================================
-        //=================================================================================================
-        //=================================================================================================
         //Recruitment Part
         public DomainComment CreateDomainComment
             (
@@ -199,6 +295,19 @@ namespace Domain.Factories
              _provider
             );
         }
+#warning Werifi
+        public DomainIntership CreateDomainInternship(string contactNumber, Guid personId, Guid branchId, Guid offerId, DateTime created)
+        {
+            return new DomainIntership(
+                null,
+                personId,
+                branchId,
+                offerId,
+                created,
+                contactNumber,
+                _provider
+                );
+        }
 
         public DomainRecruitment CreateDomainRecruitment
             (
@@ -223,68 +332,6 @@ namespace Domain.Factories
                  companyResponse,
                  acceptedRejected,
                  _provider
-            );
-        }
-        //=================================================================================================
-        //=================================================================================================
-        //=================================================================================================
-        //User Part
-        public DomainUrl CreateDomainUrl
-            (
-            Guid userId,
-            int urlTypeId,
-            DateTime publishDate,
-            string url,
-            string? name,
-            string? description
-            )
-        {
-            return new DomainUrl
-                (
-                 userId,
-                 urlTypeId,
-                 publishDate,
-                 url,
-                 name,
-                 description,
-                _provider
-            );
-        }
-
-        public DomainUser CreateDomainUser
-            (
-            Guid? id,
-            string loginEmail,
-            DateTime? lastLoginIn,
-            DateTime? lastUpdatePassword
-            )
-        {
-            return new DomainUser(id, loginEmail, lastLoginIn, lastUpdatePassword, _provider);
-        }
-
-        public DomainUserProblem CreateDomainUserProblem
-            (
-            Guid? id,
-            DateTime? dateTime,
-            string userMessage,
-            string? response,
-            Guid? previousProblemId,
-            string? email,
-            string? status,
-            Guid? userId
-            )
-        {
-            return new DomainUserProblem
-                (
-                id,
-                dateTime,
-                userMessage,
-                response,
-                previousProblemId,
-                email,
-                status,
-                userId,
-            _provider
             );
         }
 
@@ -317,19 +364,5 @@ namespace Domain.Factories
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================
-        //Internship Part
-
-        public DomainIntership CreateDomainInternship(string contactNumber, Guid personId, Guid branchId, Guid offerId, DateTime created)
-        {
-            return new DomainIntership(
-                null,
-                personId,
-                branchId,
-                offerId,
-                created,
-                contactNumber,
-                _provider
-                );
-        }
     }
 }

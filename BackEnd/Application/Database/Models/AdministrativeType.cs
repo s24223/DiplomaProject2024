@@ -1,4 +1,7 @@
-﻿namespace Application.Database.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Application.Database.Models;
 
 public partial class AdministrativeType
 {

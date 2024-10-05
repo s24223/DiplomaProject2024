@@ -1,6 +1,5 @@
 ﻿using Domain.Entities.CompanyPart;
 using Domain.Entities.PersonPart;
-using Domain.Exceptions.UserExceptions.ValueObjectsExceptions;
 using Domain.Providers;
 using Domain.Templates.Entities;
 using Domain.ValueObjects;
@@ -8,16 +7,12 @@ using Domain.ValueObjects.EntityIdentificators;
 
 namespace Domain.Entities.UserPart
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    ///<exception cref="EmailException"></exception>
     public class DomainUser : Entity<UserId>
     {
         //Values
         public Email Login { get; set; } = null!;
         public DateTime? LastLoginIn { get; set; } = null;
-        public DateTime LastUpdatePassword { get; set; }
+        public DateTime LastPasswordUpdate { get; set; }
 
 
         //References
@@ -63,7 +58,7 @@ namespace Domain.Entities.UserPart
             Guid? id,
             string loginEmail,
             DateTime? lastLoginIn,
-            DateTime? lastUpdatePassword,
+            DateTime? lastPasswordUpdate,
             IDomainProvider provider
             )
             : base(id: new UserId(id), provider)
@@ -73,8 +68,8 @@ namespace Domain.Entities.UserPart
 
             //Values with no exeptions
             LastLoginIn = lastLoginIn;
-            LastUpdatePassword = lastUpdatePassword != null ?
-                lastUpdatePassword.Value : _provider.GetTimeProvider().GetDateTimeNow();
+            LastPasswordUpdate = lastPasswordUpdate != null ?
+                lastPasswordUpdate.Value : _provider.GetTimeProvider().GetDateTimeNow();
         }
 
 

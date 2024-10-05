@@ -40,7 +40,7 @@ namespace Application.VerticalSlice.CompanyPart.Services
             var id = _authenticationRepository.GetIdNameFromClaims(claims);
             var domainComapany = _domainFactory.CreateDomainCompany
                 (
-                id,
+                id.Value,
                 dto.UrlSegment,
                 dto.ContactEmail,
                 dto.Name,

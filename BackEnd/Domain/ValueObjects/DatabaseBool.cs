@@ -1,7 +1,11 @@
-﻿using Domain.Exceptions.UserExceptions.ValueObjectsExceptions;
+﻿using Domain.Exceptions.AppExceptions.ValueObjectsExceptions;
 
 namespace Domain.ValueObjects
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <exception cref="DatabaseBoolException"></exception>
     public record DatabaseBool
     {
         public string Code { get; private set; }

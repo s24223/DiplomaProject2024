@@ -41,8 +41,8 @@ namespace Application.VerticalSlice.OfferPart.Interfaces
                 Name = offer.Name,
                 MinSalary = (offer.MinSalary == null) ? null : offer.MinSalary.Value,
                 MaxSalary = (offer.MaxSalary == null) ? null : offer.MaxSalary.Value,
-                NegotiatedSalary = (offer.IsNegotiatedSalary == null) ? null : offer.IsNegotiatedSalary.Code,
-                ForStudents = offer.ForStudents.Code
+                IsNegotiatedSalary = (offer.IsNegotiatedSalary == null) ? null : offer.IsNegotiatedSalary.Code,
+                IsForStudents = offer.ForStudents.Code
 
             }, cancellation);
             await _context.SaveChangesAsync(cancellation);

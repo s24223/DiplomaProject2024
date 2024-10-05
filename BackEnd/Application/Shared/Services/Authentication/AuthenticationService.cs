@@ -1,5 +1,7 @@
-﻿using Application.Shared.Exceptions.UserExceptions;
+﻿using Application.Shared.Exceptions.AppExceptions;
+using Application.Shared.Exceptions.UserExceptions;
 using Domain.Providers;
+using Domain.ValueObjects.EntityIdentificators;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -24,9 +26,9 @@ namespace Application.Shared.Services.Authentication
         private readonly int _timeInMinutesValidJWT = 10;
         private readonly int _timeInHourValidRefreshToken = 48;
 
-
         private readonly string _personRole = "person";
         private readonly string _companyRole = "company";
+
 
         //Constructor
         public AuthenticationService(
@@ -47,9 +49,10 @@ namespace Application.Shared.Services.Authentication
             {
                 var message = _domainProvider.GetExceptionsMessageProvider().GenerateExceptionMessage
                     (
-                    Messages.NotConfiguredIssuer,
-                    GetType(),
-                    null
+                    this.GetType(),
+                    null,
+                    null,
+                    Messages.NotConfiguredIssuer
                     );
                 throw new NotImplementedException(message);
             }
@@ -57,9 +60,10 @@ namespace Application.Shared.Services.Authentication
             {
                 var message = _domainProvider.GetExceptionsMessageProvider().GenerateExceptionMessage
                     (
-                    Messages.NotConfiguredAudience,
-                    GetType(),
-                    null
+                    this.GetType(),
+                    null,
+                    null,
+                    Messages.NotConfiguredAudience
                     );
                 throw new NotImplementedException(message);
             }
@@ -67,9 +71,10 @@ namespace Application.Shared.Services.Authentication
             {
                 var message = _domainProvider.GetExceptionsMessageProvider().GenerateExceptionMessage
                     (
-                    Messages.NotConfiguredSecret,
-                    GetType(),
-                    null
+                    this.GetType(),
+                    null,
+                    null,
+                    Messages.NotConfiguredSecret
                     );
                 throw new NotImplementedException(message);
             }
@@ -78,6 +83,7 @@ namespace Application.Shared.Services.Authentication
             _audience = audience;
             _secret = secret;
         }
+
 
         //Methods
         //Password Part
@@ -187,29 +193,25 @@ namespace Application.Shared.Services.Authentication
         public string GetPersonRole() => _personRole;
         public string GetCompanyRole() => _companyRole;
 
-        public Guid GetIdNameFromJwt(string jwt)
+        public UserId GetIdNameFromJwt(string jwt)
         {
             if (!IsJwtGeneratedByThisServer(jwt))
             {
                 throw new UnauthorizedUserException();
             }
             var claims = GetClaimsFromJwt(jwt);
-            var name = GetNameFromClaims(claims);
-            if (!Guid.TryParse(name, out var id))
-            {
-                throw new UnauthorizedUserException();
-            }
+            var id = GetIdNameFromClaims(claims);
             return id;
         }
 
-        public Guid GetIdNameFromClaims(IEnumerable<Claim> claims)
+        public UserId GetIdNameFromClaims(IEnumerable<Claim> claims)
         {
             var name = GetNameFromClaims(claims);
             if (!Guid.TryParse(name, out var id))
             {
-                throw new UnauthorizedUserException();
+                throw new IncorrectJwtUserNameException();
             }
-            return id;
+            return new UserId(id);
         }
 
         //================================================================================================

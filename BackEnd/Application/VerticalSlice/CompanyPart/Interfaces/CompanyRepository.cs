@@ -1,6 +1,7 @@
 ﻿using Application.Database;
 using Domain.Entities.CompanyPart;
-using Domain.Exceptions.UserExceptions.EntitiesExceptions;
+using Domain.Exceptions.AppExceptions.EntitiesExceptions;
+using Domain.Exceptions.AppExceptions.ValueObjectsExceptions.ValueObjectsExceptions;
 using Domain.Exceptions.UserExceptions.ValueObjectsExceptions;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,7 +24,7 @@ namespace Application.VerticalSlice.CompanyPart.Interfaces
                 .FirstOrDefaultAsync(cancellation);
             if (databaseCompany != null)
             {
-                throw new CompanyException(Messages.IsExistCompany);
+                throw new CompanyException("/*Messages.IsExistCompany*/");
             }
 
             if (company.UrlSegment != null)
@@ -34,7 +35,7 @@ namespace Application.VerticalSlice.CompanyPart.Interfaces
                     .FirstOrDefaultAsync(cancellation);
                 if (databaseCompanyWithSameUrlSegment != null)
                 {
-                    throw new UrlSegmentException(Messages.NotUniqueUrlSegment);
+                    throw new UrlSegmentException("Messages.NotUniqueUrlSegment");
                 }
             }
 
@@ -44,7 +45,7 @@ namespace Application.VerticalSlice.CompanyPart.Interfaces
                     .FirstOrDefaultAsync(cancellation);
             if (databaseCompanyWithSameContactEmail != null)
             {
-                throw new EmailException(Messages.NotUniqueEmail);
+                throw new EmailException("Messages.NotUniqueMainEmail");
             }
 
             //Uerl segment, Emaiil Unique 
@@ -52,7 +53,7 @@ namespace Application.VerticalSlice.CompanyPart.Interfaces
             {
                 UserId = company.Id.Value,
                 UrlSegment = (company.UrlSegment == null) ? null : company.UrlSegment.Value,
-                CreateDate = company.CreateDate,
+                Created = company.CreateDate,
                 ContactEmail = company.ContactEmail.Value,
                 Name = company.Name,
                 Regon = company.Regon.Value,

@@ -5,5 +5,6 @@
         Created = 1,
         Verifing = 2,
         Done = 3,
+        Annulled = 4,
     }
 }

@@ -1,8 +1,12 @@
-﻿using Domain.Exceptions.UserExceptions.ValueObjectsExceptions;
+﻿using Domain.Exceptions.AppExceptions.ValueObjectsExceptions.ValueObjectsExceptions;
 using System.Text.RegularExpressions;
 
 namespace Domain.ValueObjects
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <exception cref="PhoneNumberException"></exception>
     public record PhoneNumber
     {
         public string Value { get; private set; } = null!;

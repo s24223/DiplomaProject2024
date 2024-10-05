@@ -17,7 +17,7 @@ namespace Application.VerticalSlice.InternshipPart.Services
 
         public InternshipService(
             IDomainFactory domainFactory,
-            IAuthenticationService authentication, 
+            IAuthenticationService authentication,
             IDomainProvider provider,
             IInternshipRepository internshipRepository)
         {
@@ -32,7 +32,7 @@ namespace Application.VerticalSlice.InternshipPart.Services
             var userId = _authentication.GetIdNameFromClaims(claims);
             var internship = _domainFactory.CreateDomainInternship(
                 dto.ContactNumber,
-                userId,
+                userId.Value,
                 dto.BranchId,
                 dto.OfferId,
                 dto.Created

@@ -1,4 +1,4 @@
-﻿using Domain.Exceptions.UserExceptions.ValueObjectsExceptions;
+﻿using Domain.Exceptions.AppExceptions.ValueObjectsExceptions.ValueObjectsExceptions;
 
 namespace Domain.ValueObjects.PartCommentType
 {

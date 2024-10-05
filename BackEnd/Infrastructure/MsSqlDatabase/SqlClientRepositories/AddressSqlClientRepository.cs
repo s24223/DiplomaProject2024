@@ -6,7 +6,6 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Reflection;
-using System.Text;
 
 namespace Application.VerticalSlice.AddressPart.Interfaces
 {
@@ -14,15 +13,27 @@ namespace Application.VerticalSlice.AddressPart.Interfaces
     {
         private readonly string _connectionString;
         private readonly IDomainProvider _provider;
+
+
+        //Constructor
         public AddressSqlClientRepository
             (
-            IConfiguration configuration,
-            IDomainProvider provider
+            IDomainProvider provider,
+            IConfiguration configuration
             )
         {
             _provider = provider;
             _connectionString = configuration.GetSection("ConnectionStrings")["DbString"]
-                ?? throw new NotImplementedException("Imposible");
+                ?? throw new InfrastructureException
+                (
+                    _provider.GetExceptionsMessageProvider().GenerateExceptionMessage
+                    (
+                        this.GetType(),
+                        null,
+                        null,
+                        Messages.NotConfiguredConnectionString
+                        )
+                    );
         }
 
 
@@ -122,11 +133,10 @@ namespace Application.VerticalSlice.AddressPart.Interfaces
                     (
                     _provider.GetExceptionsMessageProvider().GenerateExceptionMessage
                     (
-                    Messages.IncorrectlementationBySqlClient,
                     this.GetType(),
                     MethodBase.GetCurrentMethod(),
-                    $"{administrativeDivisionName}, {streetName}",
-                    PrintSqlExceptionsErrors(ex)
+                    ex,
+                    $"DivisionName - {administrativeDivisionName}, StreetName - {streetName}"
                     )
                     );
             }
@@ -136,32 +146,15 @@ namespace Application.VerticalSlice.AddressPart.Interfaces
                     (
                     _provider.GetExceptionsMessageProvider().GenerateExceptionMessage
                     (
-                    Messages.IncorrectlementationBySqlClient,
                     this.GetType(),
                     MethodBase.GetCurrentMethod(),
-                    $"{administrativeDivisionName}, {streetName}",
-                    ex.ToString()
+                    ex,
+                    $"DivisionName - {administrativeDivisionName}, StreetName - {streetName}"
                     )
                     );
             }
             return list;
         }
 
-
-        private string PrintSqlExceptionsErrors(SqlException ex)
-        {
-            /* https://learn.microsoft.com/pl-pl/dotnet/api/system.data.sqlclient.sqlexception?view=dotnet-plat-ext-8.0
-                    */
-            StringBuilder errorMessages = new StringBuilder();
-            for (int i = 0; i < ex.Errors.Count; i++)
-            {
-                errorMessages.Append("Index #" + i + "\n" +
-                    "Message: " + ex.Errors[i].Message + "\n" +
-                    "LineNumber: " + ex.Errors[i].LineNumber + "\n" +
-                    "Source: " + ex.Errors[i].Source + "\n" +
-                    "Procedure: " + ex.Errors[i].Procedure + "\n");
-            }
-            return errorMessages.ToString();
-        }
     }
 }

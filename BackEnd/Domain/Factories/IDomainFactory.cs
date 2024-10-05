@@ -10,6 +10,107 @@ namespace Domain.Factories
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================
+        //User Part
+        /// <summary>
+        /// For Creating New DomainUser
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
+        DomainUser CreateDomainUser(string login);
+
+        /// <summary>
+        /// For creating Regular DomainUser, mostly for maping from Database on Domain
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="login"></param>
+        /// <param name="lastLoginIn"></param>
+        /// <param name="lastPasswordUpdate"></param>
+        /// <returns></returns>
+        DomainUser CreateDomainUser
+            (
+            Guid id,
+            string login,
+            DateTime? lastLoginIn,
+            DateTime lastPasswordUpdate
+            );
+
+
+        /// <summary>
+        /// For Creating New DomainUserProblem
+        /// </summary>
+        /// <param name="userMessage"></param>
+        /// <param name="previousProblemId"></param>
+        /// <param name="email"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        DomainUserProblem CreateDomainUserProblem
+            (
+            string userMessage,
+            Guid? previousProblemId,
+            string? email,
+            Guid? userId
+            );
+
+        /// <summary>
+        /// For creating Regular DomainUserProblem, mostly for maping from Database on Domain
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="dateTime"></param>
+        /// <param name="userMessage"></param>
+        /// <param name="response"></param>
+        /// <param name="previousProblemId"></param>
+        /// <param name="email"></param>
+        /// <param name="status"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        DomainUserProblem CreateDomainUserProblem
+            (
+            Guid id,
+            DateTime created,
+            string userMessage,
+            string? response,
+            Guid? previousProblemId,
+            string? email,
+            string status,
+            Guid? userId
+            );
+
+
+        DomainUrl CreateDomainUrl
+            (
+            Guid userId,
+            int urlTypeId,
+            DateTime created,
+            string path,
+            string? name,
+            string? description
+            );
+
+
+        //=================================================================================================
+        //=================================================================================================
+        //=================================================================================================
+        //Person Part
+        DomainPerson CreateDomainPerson
+            (
+            Guid id,
+            string? urlSegment,
+            DateOnly? createDate,
+            string contactEmail,
+            string name,
+            string surname,
+            DateOnly? birthDate,
+            string? contactPhoneNum,
+            string? description,
+            string isStudent,
+            string isPublicProfile,
+            Guid? addressId
+            );
+
+
+        //=================================================================================================
+        //=================================================================================================
+        //=================================================================================================
         //Company Part
         DomainBranch CreateDomainBranch
             (
@@ -59,25 +160,6 @@ namespace Domain.Factories
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================
-        //Person Part
-        DomainPerson CreateDomainPerson
-            (
-            Guid id,
-            string? urlSegment,
-            DateOnly? createDate,
-            string contactEmail,
-            string name,
-            string surname,
-            DateOnly? birthDate,
-            string? contactPhoneNum,
-            string? description,
-            string isStudent,
-            string isPublicProfile,
-            Guid? addressId
-            );
-        //=================================================================================================
-        //=================================================================================================
-        //=================================================================================================
         //Recruitment Part
         DomainComment CreateDomainComment
             (
@@ -98,6 +180,14 @@ namespace Domain.Factories
             string contractNumber
             );
 
+        DomainIntership CreateDomainInternship(
+            string contactNumber,
+            Guid personId,
+            Guid branchId,
+            Guid offerId,
+            DateTime created
+            );
+
         DomainRecruitment CreateDomainRecruitment
             (
             Guid personId,
@@ -108,48 +198,6 @@ namespace Domain.Factories
             string? personMessage,
             string? companyResponse,
             string? acceptedRejected
-            );
-
-        //=================================================================================================
-        //=================================================================================================
-        //=================================================================================================
-        //User Part
-        DomainUrl CreateDomainUrl
-            (
-            Guid userId,
-            int urlTypeId,
-            DateTime publishDate,
-            string url,
-            string? name,
-            string? description
-            );
-
-        DomainUser CreateDomainUser
-            (
-            Guid? id,
-            string loginEmail,
-            DateTime? lastLoginIn,
-            DateTime? lastUpdatePassword
-            );
-
-        DomainUserProblem CreateDomainUserProblem
-            (
-            Guid? id,
-            DateTime? dateTime,
-            string userMessage,
-            string? response,
-            Guid? previousProblemId,
-            string? email,
-            string? status,
-            Guid? userId
-            );
-
-        DomainIntership CreateDomainInternship(
-            string contactNumber,
-            Guid personId,
-            Guid branchId,
-            Guid offerId,
-            DateTime created
             );
     }
 }

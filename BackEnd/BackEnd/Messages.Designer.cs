@@ -70,7 +70,7 @@ namespace BackEnd {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Uzupełnij pola w  ConnectionStrings.
+        ///   Looks up a localized string similar to Uzupełnij w Secretach  ConnectionStrings.
         /// </summary>
         internal static string NotConfiguredConnectionString {
             get {

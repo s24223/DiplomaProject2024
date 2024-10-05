@@ -20,6 +20,8 @@ namespace Domain.ValueObjects.PartUserProblemStatus
                 value = "c";
             }
 
+            value = value.ToLower();
+
             if (!_statuses.TryGetValue(value, out var item))
             {
                 throw new UserProblemStatusException(Messages.NotExistUserProblemStatus);
@@ -34,6 +36,7 @@ namespace Domain.ValueObjects.PartUserProblemStatus
             list.Add(new UserProblemStatus("c", UserProblemStatusEnum.Created));
             list.Add(new UserProblemStatus("v", UserProblemStatusEnum.Verifing));
             list.Add(new UserProblemStatus("d", UserProblemStatusEnum.Done));
+            list.Add(new UserProblemStatus("a", UserProblemStatusEnum.Annulled));
 
             foreach (var item in list)
             {

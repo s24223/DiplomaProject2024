@@ -41,7 +41,7 @@ namespace Application.VerticalSlice.PersonPart.Services
             var id = _authenticationRepository.GetIdNameFromClaims(claims);
             var domainPerson = _domainFactory.CreateDomainPerson
                 (
-                 id,
+                 id.Value,
                  dto.UrlSegment,
                  _domainProvider.GetTimeProvider().GetDateOnlyToday(),
                  dto.ContactEmail,

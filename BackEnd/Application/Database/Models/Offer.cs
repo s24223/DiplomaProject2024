@@ -1,4 +1,7 @@
-﻿namespace Application.Database.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Application.Database.Models;
 
 public partial class Offer
 {
@@ -12,9 +15,9 @@ public partial class Offer
 
     public decimal? MaxSalary { get; set; }
 
-    public string? NegotiatedSalary { get; set; }
+    public string? IsNegotiatedSalary { get; set; }
 
-    public string ForStudents { get; set; } = null!;
+    public string IsForStudents { get; set; } = null!;
 
     public virtual ICollection<BranchOffer> BranchOffers { get; set; } = new List<BranchOffer>();
 

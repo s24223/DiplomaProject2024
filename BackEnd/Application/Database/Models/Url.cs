@@ -1,4 +1,7 @@
-﻿namespace Application.Database.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Application.Database.Models;
 
 public partial class Url
 {
@@ -6,9 +9,9 @@ public partial class Url
 
     public int UrlTypeId { get; set; }
 
-    public DateTime PublishDate { get; set; }
+    public DateTime Created { get; set; }
 
-    public string Url1 { get; set; } = null!;
+    public string Path { get; set; } = null!;
 
     public string? Name { get; set; }
 

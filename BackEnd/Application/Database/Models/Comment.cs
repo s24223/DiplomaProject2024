@@ -1,4 +1,7 @@
-﻿namespace Application.Database.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Application.Database.Models;
 
 public partial class Comment
 {
@@ -6,7 +9,7 @@ public partial class Comment
 
     public int CommentTypeId { get; set; }
 
-    public DateTime Published { get; set; }
+    public DateTime Created { get; set; }
 
     public string Description { get; set; } = null!;
 

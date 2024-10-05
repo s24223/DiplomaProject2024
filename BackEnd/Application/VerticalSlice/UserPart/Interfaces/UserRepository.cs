@@ -1,45 +1,41 @@
 ﻿using Application.Database;
 using Application.Database.Models;
 using Application.Shared.Exceptions.UserExceptions;
+using Application.Shared.Interfaces.Exceptions;
 using Domain.Entities.UserPart;
 using Domain.Factories;
 using Domain.ValueObjects;
 using Domain.ValueObjects.EntityIdentificators;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace Application.VerticalSlice.UserPart.Interfaces
 {
     public class UserRepository : IUserRepository
     {
         //Values
-        private readonly DiplomaProjectContext _context;
         private readonly IDomainFactory _domainFactory;
+        private readonly IExceptionsRepository _exceptionRepository;
+        private readonly DiplomaProjectContext _context;
+
 
         //Constructor
         public UserRepository
             (
-            DiplomaProjectContext context,
-            IDomainFactory domainFactory
+            IDomainFactory domainFactory,
+            IExceptionsRepository exceptionRepository,
+            DiplomaProjectContext context
             )
         {
             _context = context;
+            _exceptionRepository = exceptionRepository;
             _domainFactory = domainFactory;
         }
 
         //Methods
-        public async Task<bool> IsExistLoginAsync
-            (
-            Email loginEmail,
-            CancellationToken cancellation
-            )
-        {
-            var result = await _context.Users.Where(x => x.LoginEmail == loginEmail.Value)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(cancellation);
-            return result != null;
-        }
         //==========================================================================================================================================
-        //DDL
+        //DML
+        //Data Part
         public async Task CreateUserAsync
             (
             DomainUser user,
@@ -48,68 +44,115 @@ namespace Application.VerticalSlice.UserPart.Interfaces
             CancellationToken cancellation
             )
         {
-            await _context.Users.AddAsync(new User
+            try
             {
-                LoginEmail = user.Login.Value,
-                Password = password,
-                Salt = salt,
-                LastUpdatePassword = user.LastUpdatePassword,
-            }, cancellation);
-            await _context.SaveChangesAsync(cancellation);
+                var databaseUser = new User
+                {
+                    Login = user.Login.Value,
+                    Password = password,
+                    Salt = salt,
+                    //LastPasswordUpdate by DB Default Default_User_LastUpdatePassword
+                };
+                await _context.Users.AddAsync(databaseUser, cancellation);
+                await _context.SaveChangesAsync(cancellation);
+            }
+            catch (System.Exception ex)
+            {
+                throw _exceptionRepository.ConvertDbException
+                    (
+                    ex,
+                    GetType(),
+                    MethodBase.GetCurrentMethod()
+                    );
+            }
         }
 
-        public async Task UpdateRefreshTokenAsync
+
+        public async Task UpdateAsync
             (
             DomainUser user,
-            string refresh,
-            DateTime validTo,
-            DateTime lastLoginIn,
+            string password,
+            string salt,
+            string? refreshToken,
+            DateTime? expiredToken,
             CancellationToken cancellation
             )
         {
-            var databaseUser = await GetDatabaseUserAsync(user.Id, cancellation);
-            databaseUser.RefreshToken = refresh;
-            databaseUser.ExpiredToken = validTo;
-            databaseUser.LastLoginIn = lastLoginIn;
+            try
+            {
+                var databaseUser = await GetDatabaseUserAsync(user.Id, cancellation);
 
-            await _context.SaveChangesAsync(cancellation);
+                databaseUser.Login = user.Login.Value;
+                databaseUser.Password = password;
+                databaseUser.Salt = salt;
+                databaseUser.RefreshToken = refreshToken;
+                databaseUser.ExpiredToken = expiredToken;
+                databaseUser.LastLoginIn = user.LastLoginIn;
+                databaseUser.LastPasswordUpdate = user.LastPasswordUpdate;
+
+                await _context.SaveChangesAsync(cancellation);
+            }
+            catch (System.Exception ex)
+            {
+                throw _exceptionRepository.ConvertDbException
+                    (
+                    ex,
+                    GetType(),
+                    MethodBase.GetCurrentMethod()
+                    );
+            }
         }
 
-        public async Task DeleteRefreshTokenDataAsync
+
+        //Authentication Part
+        public async Task LogOutAndDeleteRefreshTokenDataAsync
             (
             UserId id,
             CancellationToken cancellation
             )
         {
-            var databaseUser = await GetDatabaseUserAsync(id, cancellation);
+            try
+            {
+                var databaseUser = await GetDatabaseUserAsync(id, cancellation);
 
-            databaseUser.RefreshToken = null;
-            databaseUser.ExpiredToken = null;
+                databaseUser.RefreshToken = null;
+                databaseUser.ExpiredToken = null;
 
-            await _context.SaveChangesAsync(cancellation);
+                await _context.SaveChangesAsync(cancellation);
+            }
+            catch (System.Exception ex)
+            {
+                throw _exceptionRepository.ConvertDbException
+                    (
+                    ex,
+                    GetType(),
+                    MethodBase.GetCurrentMethod()
+                    );
+            }
         }
 
         //==========================================================================================================================================
         //DQL
-        public async Task<(DomainUser User, string Salt, string Password)> GetUserDataByLoginEmailAsync
-            (
-            Email login,
-            CancellationToken cancellation
-            )
+        public async Task<(DomainUser User, string Password, string Salt, string? RefreshToken, DateTime? ExpiredToken)> GetUserDataByLoginEmailAsync
+             (
+             Email login,
+             CancellationToken cancellation
+             )
         {
             var databaseUser = await GetDatabaseUserAsync(login, cancellation);
 
             var domainUser = _domainFactory.CreateDomainUser
                 (
                 databaseUser.Id,
-                databaseUser.LoginEmail,
+                databaseUser.Login,
                 databaseUser.LastLoginIn,
-                databaseUser.LastUpdatePassword
+                databaseUser.LastPasswordUpdate
                 );
 
-            return (domainUser, databaseUser.Salt, databaseUser.Password);
+            return (domainUser, databaseUser.Password, databaseUser.Salt, databaseUser.RefreshToken, databaseUser.ExpiredToken);
         }
-        public async Task<(DomainUser User, string? RefreshToken, DateTime? ExpiredToken)> GetUserDataByIdAsync
+
+        public async Task<(DomainUser User, string Password, string Salt, string? RefreshToken, DateTime? ExpiredToken)> GetUserDataByIdAsync
             (
             UserId id,
             CancellationToken cancellation
@@ -120,23 +163,23 @@ namespace Application.VerticalSlice.UserPart.Interfaces
             var domainUser = _domainFactory.CreateDomainUser
                 (
                 databaseUser.Id,
-                databaseUser.LoginEmail,
+                databaseUser.Login,
                 databaseUser.LastLoginIn,
-                databaseUser.LastUpdatePassword
+                databaseUser.LastPasswordUpdate
                 );
 
-            return (domainUser, databaseUser.RefreshToken, databaseUser.ExpiredToken);
+            return (domainUser, databaseUser.Password, databaseUser.Salt, databaseUser.RefreshToken, databaseUser.ExpiredToken);
         }
+
         //==========================================================================================================================================
         //==========================================================================================================================================
         //==========================================================================================================================================
         //Private Methods
-
         private async Task<User> GetDatabaseUserAsync
             (
             UserId id,
             CancellationToken cancellation
-        )
+            )
         {
             var databaseUser = await _context.Users
                 .FirstOrDefaultAsync(x => x.Id == id.Value, cancellation);
@@ -151,9 +194,9 @@ namespace Application.VerticalSlice.UserPart.Interfaces
             (
             Email email,
             CancellationToken cancellation
-        )
+            )
         {
-            var databaseUser = await _context.Users.Where(x => x.LoginEmail == email.Value)
+            var databaseUser = await _context.Users.Where(x => x.Login == email.Value)
                 .Include(x => x.Person)
                 .Include(x => x.Company)
                 .FirstOrDefaultAsync(cancellation);

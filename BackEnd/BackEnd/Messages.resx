@@ -121,7 +121,7 @@
     <value>Uzupełnij w Secretach Audience</value>
   </data>
   <data name="NotConfiguredConnectionString" xml:space="preserve">
-    <value>Uzupełnij pola w  ConnectionStrings</value>
+    <value>Uzupełnij w Secretach  ConnectionStrings</value>
   </data>
   <data name="NotConfiguredIssuer" xml:space="preserve">
     <value>Uzupełnij w Secretach Issuer</value>

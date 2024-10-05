@@ -1,0 +1,2 @@
+DROP PROCEDURE SelectByStreetNameAndDivisionName;
+DROP PROCEDURE SelectAdministrativeDivisionUp;

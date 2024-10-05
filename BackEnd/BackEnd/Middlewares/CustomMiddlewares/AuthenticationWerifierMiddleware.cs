@@ -38,10 +38,10 @@ namespace BackEnd.Middlewares.CustomMiddlewares
 
                 var id = authenticationRepository.GetIdNameFromJwt(jwt);
 
-                var user = await dBContext.Users.Where(x => x.Id == id).AsNoTracking().FirstOrDefaultAsync();
+                var user = await dBContext.Users.Where(x => x.Id == id.Value).AsNoTracking().FirstOrDefaultAsync();
                 if (
                     user == null ||
-                    string.IsNullOrEmpty(user.RefreshToken) ||
+                    string.IsNullOrWhiteSpace(user.RefreshToken) ||
                     user.ExpiredToken == null ||
                     user.ExpiredToken <= domainRepository.GetTimeProvider().GetDateTimeNow()
                     )

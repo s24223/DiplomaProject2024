@@ -61,11 +61,11 @@ namespace Domain {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Nie można anulować, sprawa zamknieta.
         /// </summary>
-        internal static string IncorrectlementationBySqlClient {
+        internal static string DomainUserProblemCannotAnnulTaskClosed {
             get {
-                return ResourceManager.GetString("IncorrectlementationBySqlClient", resourceCulture);
+                return ResourceManager.GetString("DomainUserProblemCannotAnnulTaskClosed", resourceCulture);
             }
         }
         

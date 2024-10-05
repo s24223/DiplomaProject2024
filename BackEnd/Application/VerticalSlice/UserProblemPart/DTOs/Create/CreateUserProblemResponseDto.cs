@@ -2,6 +2,6 @@
 {
     public class CreateUserProblemResponseDto
     {
-        public Guid IdUserProblem { get; set; }
+        public Guid IdProblem { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Application.Database.Models;
 using Microsoft.EntityFrameworkCore;
+
 namespace Application.Database;
 
 public partial class DiplomaProjectContext : DbContext
@@ -35,7 +36,7 @@ public partial class DiplomaProjectContext : DbContext
 
     public virtual DbSet<Company> Companies { get; set; }
 
-    public virtual DbSet<Application.Database.Models.Exception> Exceptions { get; set; }
+    public virtual DbSet<Models.Exception> Exceptions { get; set; }
 
     public virtual DbSet<Internship> Internships { get; set; }
 

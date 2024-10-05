@@ -1,8 +1,12 @@
-﻿using Domain.Exceptions.UserExceptions.ValueObjectsExceptions;
+﻿using Domain.Exceptions.AppExceptions.ValueObjectsExceptions.ValueObjectsExceptions;
 using System.Text.RegularExpressions;
 
 namespace Domain.ValueObjects
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <exception cref="RegonException"></exception>
     public record Regon
     {
         public string Value { get; private set; }

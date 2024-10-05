@@ -17,9 +17,10 @@ namespace Domain
         {
             // Rejestracja IConfiguration jako Singleton
             serviceCollection.AddSingleton<IConfiguration>(configuration);
-            serviceCollection.AddTransient<IDomainProvider, DomainProvider>();
             serviceCollection.AddTransient<IDomainFactory, DomainFactory>();
 
+            //Providers
+            serviceCollection.AddTransient<IDomainProvider, DomainProvider>();
 
             serviceCollection.AddTransient<IExceptionMessageProvider, ExceptionMessageProvider>();
             serviceCollection.AddTransient<ITimeProvider, Providers.Time.TimeProvider>();

@@ -1,14 +1,19 @@
-﻿namespace Application.Database.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Application.Database.Models;
 
 public partial class Person
 {
     public Guid UserId { get; set; }
 
+    public Guid? AddressId { get; set; }
+
+    public DateOnly Created { get; set; }
+
     public byte[]? Logo { get; set; }
 
     public string? UrlSegment { get; set; }
-
-    public DateOnly CreateDate { get; set; }
 
     public string ContactEmail { get; set; } = null!;
 
@@ -25,8 +30,6 @@ public partial class Person
     public string IsStudent { get; set; } = null!;
 
     public string IsPublicProfile { get; set; } = null!;
-
-    public Guid? AddressId { get; set; }
 
     public virtual Address? Address { get; set; }
 

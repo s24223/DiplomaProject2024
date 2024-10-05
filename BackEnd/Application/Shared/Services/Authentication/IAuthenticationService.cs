@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using Domain.ValueObjects.EntityIdentificators;
+using System.Security.Claims;
 
 namespace Application.Shared.Services.Authentication
 {
@@ -24,7 +25,7 @@ namespace Application.Shared.Services.Authentication
         //Getters
         string GetPersonRole();
         string GetCompanyRole();
-        Guid GetIdNameFromJwt(string jwt);
-        Guid GetIdNameFromClaims(IEnumerable<Claim> claims);
+        UserId GetIdNameFromJwt(string jwt);
+        UserId GetIdNameFromClaims(IEnumerable<Claim> claims);
     }
 }

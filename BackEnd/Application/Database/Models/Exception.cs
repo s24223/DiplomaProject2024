@@ -1,10 +1,13 @@
-﻿namespace Application.Database.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Application.Database.Models;
 
 public partial class Exception
 {
     public Guid Id { get; set; }
 
-    public DateTime DateTime { get; set; }
+    public DateTime Created { get; set; }
 
     public string ExceptionType { get; set; } = null!;
 

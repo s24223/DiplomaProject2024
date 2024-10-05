@@ -38,7 +38,7 @@ namespace Application.VerticalSlice.RecrutmentPart.Services
         {
             var personId = _authentication.GetIdNameFromClaims(claims);
             var recruitment = _domainFactory.CreateDomainRecruitment(
-                    personId,
+                    personId.Value,
                     dto.BranchId,
                     dto.OfferId,
                     dto.Created,

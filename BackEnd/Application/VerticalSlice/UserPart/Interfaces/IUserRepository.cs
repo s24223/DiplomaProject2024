@@ -6,12 +6,9 @@ namespace Application.VerticalSlice.UserPart.Interfaces
 {
     public interface IUserRepository
     {
-        Task<bool> IsExistLoginAsync
-            (
-            Email loginEmail,
-            CancellationToken cancellation
-            );
-
+        //==========================================================================================================================================
+        //DML
+        //Data Part
         Task CreateUserAsync
             (
             DomainUser user,
@@ -19,28 +16,33 @@ namespace Application.VerticalSlice.UserPart.Interfaces
             string salt,
             CancellationToken cancellation
         );
-        Task UpdateRefreshTokenAsync
+
+        Task UpdateAsync
             (
             DomainUser user,
-            string refresh,
-            DateTime validTo,
-            DateTime lastLoginIn,
+            string password,
+            string salt,
+            string? refreshToken,
+            DateTime? expiredToken,
             CancellationToken cancellation
             );
 
-        Task DeleteRefreshTokenDataAsync
+        //Authentication Part
+        Task LogOutAndDeleteRefreshTokenDataAsync
             (
             UserId id,
             CancellationToken cancellation
             );
 
-        Task<(DomainUser User, string Salt, string Password)> GetUserDataByLoginEmailAsync
+        //==========================================================================================================================================
+        //DQL
+        Task<(DomainUser User, string Password, string Salt, string? RefreshToken, DateTime? ExpiredToken)> GetUserDataByLoginEmailAsync
              (
              Email login,
              CancellationToken cancellation
-             );
+        );
 
-        Task<(DomainUser User, string? RefreshToken, DateTime? ExpiredToken)> GetUserDataByIdAsync
+        Task<(DomainUser User, string Password, string Salt, string? RefreshToken, DateTime? ExpiredToken)> GetUserDataByIdAsync
             (
             UserId id,
             CancellationToken cancellation

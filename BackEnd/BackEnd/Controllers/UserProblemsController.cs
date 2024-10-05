@@ -21,8 +21,8 @@ namespace BackEnd.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("createForUnauthorized")]
-        public async Task<IActionResult> SubmitProblemAsync
+        [HttpPost("unauthorizedUser/create")]
+        public async Task<IActionResult> CreateForUnauthorizedAsync
             (
             CreateUnauthorizedUserProblemRequestDto dto,
             CancellationToken cancellation
@@ -33,8 +33,8 @@ namespace BackEnd.Controllers
 
 
         [Authorize]
-        [HttpPost("createForAuthorized")]
-        public async Task<IActionResult> SubmitProblemAsync
+        [HttpPost("authorizedUser/create")]
+        public async Task<IActionResult> CreateForAuthorizedAsync
             (
             CreateAuthorizedUserProblemRequestDto dto,
             CancellationToken cancellation
@@ -42,6 +42,18 @@ namespace BackEnd.Controllers
         {
             var claims = User.Claims.ToList();
             return Ok(await _service.CreateForAuthorizedAsync(claims, dto, cancellation));
+        }
+
+        [Authorize]
+        [HttpPut("authorizedUser/{idUserProblem:guid}/annul")]
+        public async Task<IActionResult> AnnulForAuthorizedAsync
+           (
+           Guid idUserProblem,
+           CancellationToken cancellation
+           )
+        {
+            var claims = User.Claims.ToList();
+            return Ok(await _service.AnnulUserProblemForAuthorizedAsync(claims, idUserProblem, cancellation));
         }
     }
 }
