@@ -57,7 +57,7 @@ namespace Application.VerticalSlice.UrlPart.Interfaces
             }
             catch (System.Exception ex)
             {
-                throw _exceptionsRepository.ConvertDbException
+                throw _exceptionsRepository.ConvertEFDbException
                     (
                     ex,
                     GetType(),
@@ -90,7 +90,7 @@ namespace Application.VerticalSlice.UrlPart.Interfaces
             }
             catch (System.Exception ex)
             {
-                throw _exceptionsRepository.ConvertDbException
+                throw _exceptionsRepository.ConvertEFDbException
                     (
                     ex,
                     GetType(),
@@ -122,7 +122,7 @@ namespace Application.VerticalSlice.UrlPart.Interfaces
             }
             catch (System.Exception ex)
             {
-                throw _exceptionsRepository.ConvertDbException
+                throw _exceptionsRepository.ConvertEFDbException
                     (
                     ex,
                     GetType(),

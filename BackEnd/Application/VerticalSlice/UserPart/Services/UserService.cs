@@ -19,7 +19,7 @@ namespace Application.VerticalSlice.UserPart.Services
         //Values
         private readonly IUserRepository _repository;
         private readonly IDomainFactory _domainFactory;
-        private readonly IDomainProvider _domainProvider;
+        private readonly IProvider _domainProvider;
         private readonly IAuthenticationService _authenticationRepository;
 
 
@@ -28,7 +28,7 @@ namespace Application.VerticalSlice.UserPart.Services
             (
             IUserRepository repository,
             IDomainFactory domainFactory,
-            IDomainProvider domainProvider,
+            IProvider domainProvider,
             IAuthenticationService authentication
             )
         {
@@ -98,7 +98,7 @@ namespace Application.VerticalSlice.UserPart.Services
         {
             var id = _authenticationRepository.GetIdNameFromClaims(claims);
             var userData = await _repository.GetUserDataByIdAsync(id, cancellation);
-            userData.User.LastPasswordUpdate = _domainProvider.GetTimeProvider().GetDateTimeNow();
+            userData.User.LastPasswordUpdate = _domainProvider.TimeProvider().GetDateTimeNow();
 
             var salt = _authenticationRepository.GenerateSalt();
             var password = _authenticationRepository.HashPassword(dto.NewPassword, salt);
@@ -122,7 +122,7 @@ namespace Application.VerticalSlice.UserPart.Services
 
         //==========================================================================================================================================
         //Authetication Part
-        public async Task<ItemResponse<LoginInResponseDto>> LoginInAsync
+        public async Task<ResponseItem<LoginInResponseDto>> LoginInAsync
             (
             LoginInRequestDto dto,
             CancellationToken cancellation
@@ -133,7 +133,7 @@ namespace Application.VerticalSlice.UserPart.Services
                 new Email(dto.Email),
                 cancellation
                 );
-            userData.User.LastLoginIn = _domainProvider.GetTimeProvider().GetDateTimeNow();
+            userData.User.LastLoginIn = _domainProvider.TimeProvider().GetDateTimeNow();
 
 
             var hashedInputPassword = _authenticationRepository.HashPassword
@@ -168,7 +168,7 @@ namespace Application.VerticalSlice.UserPart.Services
             if (
                 string.IsNullOrWhiteSpace(userData.RefreshToken) ||
                 userData.ExpiredToken == null ||
-                userData.ExpiredToken <= _domainProvider.GetTimeProvider().GetDateTimeNow()
+                userData.ExpiredToken <= _domainProvider.TimeProvider().GetDateTimeNow()
                 )
             {
                 var refresh = _authenticationRepository.GenerateRefreshTokendAndDateTimeValidTo();
@@ -187,7 +187,7 @@ namespace Application.VerticalSlice.UserPart.Services
                 );
 
             //Correct
-            return new ItemResponse<LoginInResponseDto>
+            return new ResponseItem<LoginInResponseDto>
             {
                 Status = EnumResponseStatus.Success,
                 Message = Messages.ResponseSuccess,
@@ -201,7 +201,7 @@ namespace Application.VerticalSlice.UserPart.Services
             };
         }
 
-        public async Task<ItemResponse<RefreshResponseDto>> RefreshTokenAsync
+        public async Task<ResponseItem<RefreshResponseDto>> RefreshTokenAsync
             (
             string jwtFromHeader,
             RefreshRequestDto dto,
@@ -218,7 +218,7 @@ namespace Application.VerticalSlice.UserPart.Services
 
             if (
                 data.ExpiredToken == null ||
-                data.ExpiredToken <= _domainProvider.GetTimeProvider().GetDateTimeNow() ||
+                data.ExpiredToken <= _domainProvider.TimeProvider().GetDateTimeNow() ||
                 string.IsNullOrWhiteSpace(data.RefreshToken) ||
                 dto.RefreshToken != data.RefreshToken
                 )
@@ -243,7 +243,7 @@ namespace Application.VerticalSlice.UserPart.Services
                 roles
                 );
 
-            return new ItemResponse<RefreshResponseDto>
+            return new ResponseItem<RefreshResponseDto>
             {
                 Status = EnumResponseStatus.Success,
                 Message = Messages.ResponseSuccess,

@@ -60,7 +60,7 @@ namespace Domain.Entities.CompanyPart
             DateOnly? workStart,
             DateOnly? workEnd,
             DateTime lastUpdate,
-            IDomainProvider provider
+            IProvider provider
             ) : base(new BranchOfferId
                 (
                 new BranchId(branchId),

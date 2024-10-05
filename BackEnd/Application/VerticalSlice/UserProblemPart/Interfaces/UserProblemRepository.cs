@@ -61,7 +61,7 @@ namespace Application.VerticalSlice.UserProblemPart.Interfaces
             }
             catch (System.Exception ex)
             {
-                throw _exceptionRepository.ConvertDbException
+                throw _exceptionRepository.ConvertEFDbException
                     (ex,
                     this.GetType(),
                     MethodBase.GetCurrentMethod()
@@ -85,7 +85,7 @@ namespace Application.VerticalSlice.UserProblemPart.Interfaces
             }
             catch (System.Exception ex)
             {
-                throw _exceptionRepository.ConvertDbException
+                throw _exceptionRepository.ConvertEFDbException
                     (ex,
                     this.GetType(),
                     MethodBase.GetCurrentMethod()

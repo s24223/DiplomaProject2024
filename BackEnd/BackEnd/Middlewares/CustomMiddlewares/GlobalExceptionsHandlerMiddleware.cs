@@ -4,6 +4,7 @@ using Application.Shared.Exceptions.UserExceptions;
 using Domain.Exceptions.UserExceptions.EntitiesExceptions;
 using Domain.Exceptions.UserExceptions.ValueObjectsExceptions;
 using Infrastructure.Exceptions.AppExceptions;
+using System.Diagnostics;
 using System.Text.Json;
 
 namespace BackEnd.Middlewares.CustomMiddlewares
@@ -40,6 +41,16 @@ namespace BackEnd.Middlewares.CustomMiddlewares
             DiplomaProjectContext dbContext
             )
         {
+            var stackTrace = new StackTrace(ex, true);
+            var frame = stackTrace.GetFrame(0);
+            var method = frame.GetMethod();
+            var methodName = method.Name;
+            var className = method.DeclaringType.FullName;
+            var lineNumber = frame.GetFileLineNumber();
+
+            Console.WriteLine($"Exception in {className}.{methodName} at line {lineNumber}: {ex.Message}");
+
+
             var response = context.Response;
 
             switch (ex)
@@ -106,7 +117,7 @@ namespace BackEnd.Middlewares.CustomMiddlewares
         {
             switch (ex)
             {
-                case InfrastructureException:
+                case InfrastructureLayerException:
                     Console.WriteLine(ex.Message);
                     break;
             }
@@ -114,11 +125,11 @@ namespace BackEnd.Middlewares.CustomMiddlewares
             response.ContentType = "application/json";
             response.StatusCode = 500;
 
-            var errorResponse = new Application.Shared.DTOs.Response.AppExceptionResponse
+            var errorResponse = new ResponseAppException
             {
                 Status = EnumResponseStatus.AppFault,
                 Message = ex.Message,
-                Id = Guid.NewGuid()
+                ProblemId = Guid.NewGuid()
             };
 
             var result = JsonSerializer.Serialize(errorResponse);

@@ -1,10 +1,8 @@
 ﻿using Application.Database;
 using Application.Database.Models;
-using Domain.Providers.ExceptionMessage;
 using Infrastructure.Exceptions.AppExceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System.Reflection;
 
 namespace Infrastructure.MsSqlDatabase;
 
@@ -12,21 +10,18 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
 {
     //Values
     private readonly IConfiguration _configuration;
-    private readonly IExceptionMessageProvider _exceptionRepository;
 
 
     //Cosntructor
-    public DiplomaProjectMsSqlContext
-        (
-        IConfiguration configuration,
-        IExceptionMessageProvider exceptionRepository
-        )
+    public DiplomaProjectMsSqlContext(IConfiguration configuration)
     {
         _configuration = configuration;
-        _exceptionRepository = exceptionRepository;
     }
 
 
+    //======================================================================================================
+    //======================================================================================================
+    //======================================================================================================s
     //Methods
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -36,15 +31,7 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
 
             if (string.IsNullOrWhiteSpace(connectionString))
             {
-                var message = _exceptionRepository.GenerateExceptionMessage
-                    (
-                     this.GetType(),
-                     MethodBase.GetCurrentMethod(),
-                     null,
-                     Messages.NotConfiguredConnectionString
-                    );
-
-                throw new InfrastructureException(message);
+                throw new InfrastructureLayerException(Messages.NotConfiguredConnectionString);
             }
             optionsBuilder.UseSqlServer(connectionString);
             //.LogTo(Console.WriteLine);
@@ -52,14 +39,7 @@ public partial class DiplomaProjectMsSqlContext : DiplomaProjectContext
         }
         else
         {
-            var message = _exceptionRepository.GenerateExceptionMessage
-                (
-                 this.GetType(),
-                 MethodBase.GetCurrentMethod(),
-                 null,
-                 Messages.NotConfiguredUserSecrets
-                );
-            throw new InfrastructureException(message);
+            throw new InfrastructureLayerException(Messages.NotConfiguredUserSecrets);
         }
         base.OnConfiguring(optionsBuilder);
     }

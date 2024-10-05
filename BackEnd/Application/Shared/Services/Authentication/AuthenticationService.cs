@@ -16,7 +16,7 @@ namespace Application.Shared.Services.Authentication
     {
         //Values
         private readonly IConfiguration _configuration;
-        private readonly IDomainProvider _domainProvider;
+        private readonly IProvider _domainProvider;
 
         private readonly string _issuer;
         private readonly string _audience;
@@ -33,7 +33,7 @@ namespace Application.Shared.Services.Authentication
         //Constructor
         public AuthenticationService(
             IConfiguration configuration,
-            IDomainProvider domainProvider
+            IProvider domainProvider
             )
         {
             _configuration = configuration;
@@ -47,36 +47,15 @@ namespace Application.Shared.Services.Authentication
 
             if (string.IsNullOrWhiteSpace(issuer))
             {
-                var message = _domainProvider.GetExceptionsMessageProvider().GenerateExceptionMessage
-                    (
-                    this.GetType(),
-                    null,
-                    null,
-                    Messages.NotConfiguredIssuer
-                    );
-                throw new NotImplementedException(message);
+                throw new ApplicationLayerException(Messages.NotConfiguredIssuer);
             }
             if (string.IsNullOrWhiteSpace(audience))
             {
-                var message = _domainProvider.GetExceptionsMessageProvider().GenerateExceptionMessage
-                    (
-                    this.GetType(),
-                    null,
-                    null,
-                    Messages.NotConfiguredAudience
-                    );
-                throw new NotImplementedException(message);
+                throw new ApplicationLayerException(Messages.NotConfiguredAudience);
             }
             if (string.IsNullOrWhiteSpace(secret))
             {
-                var message = _domainProvider.GetExceptionsMessageProvider().GenerateExceptionMessage
-                    (
-                    this.GetType(),
-                    null,
-                    null,
-                    Messages.NotConfiguredSecret
-                    );
-                throw new NotImplementedException(message);
+                throw new ApplicationLayerException(Messages.NotConfiguredSecret);
             }
 
             _issuer = issuer;
@@ -115,7 +94,7 @@ namespace Application.Shared.Services.Authentication
         public (string RefreshToken, DateTime ValidTo) GenerateRefreshTokendAndDateTimeValidTo()
         {
             var refresh = GenerateRefreshToken();
-            var valid = _domainProvider.GetTimeProvider().GetDateTimeNow().AddHours(_timeInHourValidRefreshToken);
+            var valid = _domainProvider.TimeProvider().GetDateTimeNow().AddHours(_timeInHourValidRefreshToken);
             return (refresh, valid);
         }
 

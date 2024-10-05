@@ -1,4 +1,4 @@
-﻿namespace Application.VerticalSlice.AddressPart.DTOs.UserDTOs.CreateAddress
+﻿namespace Application.VerticalSlice.AddressPart.DTOs.Create
 {
     public class CreateAddressRequestDto
     {

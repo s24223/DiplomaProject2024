@@ -59,7 +59,7 @@ namespace Domain.Entities.PersonPart
             string isStudent,
             string isPublicProfile,
             Guid? addressId,
-            IDomainProvider provider
+            IProvider provider
             ) : base(new UserId(id), provider)
         {
             //Values with exeptions
@@ -79,7 +79,7 @@ namespace Domain.Entities.PersonPart
             AddressId = addressId == null ?
                 null : new AddressId(addressId.Value);
             CreateDate = createDate != null ?
-                createDate.Value : _provider.GetTimeProvider().GetDateOnlyToday();
+                createDate.Value : _provider.TimeProvider().GetDateOnlyToday();
         }
 
 

@@ -1,65 +1,58 @@
-﻿using Application.VerticalSlice.AddressPart.DTOs.DatabaseDTOs;
-using Domain.Providers;
+﻿using Application.Database.Models;
+using Application.Shared.Interfaces.Exceptions;
 using Infrastructure;
 using Infrastructure.Exceptions.AppExceptions;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Data;
-using System.Reflection;
 
 namespace Application.VerticalSlice.AddressPart.Interfaces
 {
     public class AddressSqlClientRepository : IAddressSqlClientRepository
     {
+        //Values
         private readonly string _connectionString;
-        private readonly IDomainProvider _provider;
+        private readonly IExceptionsRepository _exceptionsRepository;
 
 
         //Constructor
         public AddressSqlClientRepository
             (
-            IDomainProvider provider,
-            IConfiguration configuration
+            IConfiguration configuration,
+            IExceptionsRepository exceptionsRepository
             )
         {
-            _provider = provider;
-            _connectionString = configuration.GetSection("ConnectionStrings")["DbString"]
-                ?? throw new InfrastructureException
-                (
-                    _provider.GetExceptionsMessageProvider().GenerateExceptionMessage
-                    (
-                        this.GetType(),
-                        null,
-                        null,
-                        Messages.NotConfiguredConnectionString
-                        )
-                    );
+            _exceptionsRepository = exceptionsRepository;
+            _connectionString = configuration.GetSection("ConnectionStrings")["DbString"] ??
+                throw new InfrastructureLayerException(Messages.NotConfiguredConnectionString);
         }
 
 
-        public async Task<ICollection<PartialAddressDto>> GetDivisionsStreetsAsync
+        //=========================================================================================================
+        //=========================================================================================================
+        //=========================================================================================================
+        //Public Methods
+        public async Task<IEnumerable<(int DivisionId, Street Street)>> GetCollocationsAsync
             (
-            string administrativeDivisionName,
+            string divisionName,
             string streetName,
             CancellationToken cancellation
             )
         {
-            var divisionStreetList = new List<AdministrativeDivisionStreetDTO>();
-            var list = new List<PartialAddressDto>();
-
             try
             {
                 await using (SqlConnection con = new SqlConnection(_connectionString))
                 {
                     await using (SqlCommand com = new SqlCommand())
                     {
+                        var collocation = new List<(int DivisionId, Street Street)>();
+
                         com.Connection = con;
-                        //Part 1 
 
                         com.CommandText = "SelectByStreetNameAndDivisionName";
                         com.CommandType = CommandType.StoredProcedure;
 
-                        com.Parameters.AddWithValue("@DivisionName", administrativeDivisionName);
+                        com.Parameters.AddWithValue("@DivisionName", divisionName);
                         com.Parameters.AddWithValue("@StreetName", streetName);
 
                         await con.OpenAsync();
@@ -67,94 +60,110 @@ namespace Application.VerticalSlice.AddressPart.Interfaces
 
                         while (await reader.ReadAsync(cancellation))
                         {
-                            divisionStreetList.Add(new AdministrativeDivisionStreetDTO
+                            if (string.IsNullOrWhiteSpace(reader["StreetAdministrativeTypeId"].ToString()))
                             {
-                                AdministrativeDivisionId = (int)reader["AdministrativeDivisionId"],
-                                StreetId = (int)reader["StreetId"],
-                                StreetName = (string)reader["StreetName"],
-                                StreetAdministrativeTypeId =
-                                (int)reader["StreetAdministrativeTypeId"],
-                                StreetAdministrativeTypeName =
-                                (string)reader["StreetAdministrativeTypeName"],
-                            });
+                                collocation.Add((
+                                    (int)reader["AdministrativeDivisionId"],
+                                    new Street
+                                    {
+                                        Id = (int)reader["StreetId"],
+                                        Name = (string)reader["StreetName"],
+                                        AdministrativeTypeId = null,
+                                    }
+                                ));
+                            }
+                            else
+                            {
+                                collocation.Add((
+                                    (int)reader["AdministrativeDivisionId"],
+                                    new Street
+                                    {
+                                        Id = (int)reader["StreetId"],
+                                        Name = (string)reader["StreetName"],
+                                        AdministrativeTypeId = (int)reader["StreetAdministrativeTypeId"],
+                                        AdministrativeType = new AdministrativeType
+                                        {
+                                            Id = (int)reader["StreetAdministrativeTypeId"],
+                                            Name = (string)reader["StreetAdministrativeTypeName"],
+                                        },
+                                    }
+                                ));
+                            }
                         }
                         reader.Close();
+                        return collocation;
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                throw _exceptionsRepository.ConvertSqlClientDbException
+                    (
+                    ex,
+                    $"DivisionName: {divisionName}, StreetName: {streetName}"
+                    );
+            }
+        }
 
-                        if (!divisionStreetList.Any())
-                        {
-                            return list;
-                        }
+        public async Task<IEnumerable<AdministrativeDivision>> GetDivisionsHierachyUpAsync
+            (
+            int divisionId,
+            CancellationToken cancellation
+            )
+        {
+            try
+            {
+                await using (SqlConnection con = new SqlConnection(_connectionString))
+                {
+                    await con.OpenAsync(cancellation);
+
+                    await using (SqlCommand com = new SqlCommand())
+                    {
+                        var hierarchy = new List<AdministrativeDivision>();
+
+                        com.Connection = con;
 
                         com.CommandText = "SelectAdministrativeDivisionUp";
                         com.CommandType = CommandType.StoredProcedure;
 
-                        foreach (var item in divisionStreetList)
+                        com.Parameters.AddWithValue("@DivisionId", divisionId);
+
+                        await using var reader = await com.ExecuteReaderAsync(cancellation);
+
+                        while (await reader.ReadAsync(cancellation))
                         {
-                            com.Parameters.Clear();
-                            var hierarchy = new List<AdministrativeDivisionDto>();
-
-                            var administrativeDivisionId = item.AdministrativeDivisionId;
-                            com.Parameters.AddWithValue("@DivisionId", administrativeDivisionId);
-
-                            await using var reader2 = await com.ExecuteReaderAsync(cancellation);
-
-                            while (await reader2.ReadAsync(cancellation))
+                            hierarchy.Add(new AdministrativeDivision
                             {
-                                hierarchy.Add(new AdministrativeDivisionDto
+                                Id = (int)reader["Id"],
+                                Name = (string)reader["AdministrativeDivisionName"],
+                                ParentDivisionId = string.IsNullOrWhiteSpace(reader["ParentDivisionId"].ToString()) ?
+                                    null : (int)reader["ParentDivisionId"],
+                                AdministrativeTypeId = (int)reader["AdministrativeTypeId"],
+                                AdministrativeType = new AdministrativeType
                                 {
-                                    Id = (int)reader2["Id"],
-                                    AdministrativeDivisionName =
-                                    (string)reader2["AdministrativeDivisionName"],
-                                    ParentDivisionId =
-                                    string.IsNullOrWhiteSpace(
-                                        reader2["ParentDivisionId"].ToString()
-                                        ) ? null : (int)reader2["ParentDivisionId"],
-                                    AdministrativeTypeId = (int)reader2["AdministrativeTypeId"],
-                                    AdministrativeTypeName = (string)reader2["AdministrativeTypeName"],
-                                });
-                            }
-                            reader2.Close();
-
-                            list.Add(new PartialAddressDto
-                            {
-                                Hierarchy = hierarchy,
-                                StreetId = item.StreetId,
-                                StreetName = item.StreetName,
-                                StreetAdministrativeTypeId = item.StreetAdministrativeTypeId,
-                                StreetAdministrativeTypeName = item.StreetAdministrativeTypeName,
+                                    Id = (int)reader["AdministrativeTypeId"],
+                                    Name = (string)reader["AdministrativeTypeName"],
+                                }
                             });
                         }
+                        reader.Close();
+                        return hierarchy;
                     }
                 }
             }
-            catch (SqlException ex)
+            catch (System.Exception ex)
             {
-                throw new SqlClientImplementationException
+                throw _exceptionsRepository.ConvertSqlClientDbException
                     (
-                    _provider.GetExceptionsMessageProvider().GenerateExceptionMessage
-                    (
-                    this.GetType(),
-                    MethodBase.GetCurrentMethod(),
                     ex,
-                    $"DivisionName - {administrativeDivisionName}, StreetName - {streetName}"
-                    )
+                    $"DivisionId: {divisionId}"
                     );
             }
-            catch (Exception ex)
-            {
-                throw new SqlClientImplementationException
-                    (
-                    _provider.GetExceptionsMessageProvider().GenerateExceptionMessage
-                    (
-                    this.GetType(),
-                    MethodBase.GetCurrentMethod(),
-                    ex,
-                    $"DivisionName - {administrativeDivisionName}, StreetName - {streetName}"
-                    )
-                    );
-            }
-            return list;
         }
 
+        //=========================================================================================================
+        //=========================================================================================================
+        //=========================================================================================================
+        //Private Methods
     }
 }

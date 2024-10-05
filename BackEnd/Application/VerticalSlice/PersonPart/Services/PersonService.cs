@@ -14,7 +14,7 @@ namespace Application.VerticalSlice.PersonPart.Services
         private readonly IPersonRepository _repository;
         private readonly IDomainFactory _domainFactory;
         private readonly IAuthenticationService _authenticationRepository;
-        private readonly IDomainProvider _domainProvider;
+        private readonly IProvider _domainProvider;
 
 
         public PersonService
@@ -22,7 +22,7 @@ namespace Application.VerticalSlice.PersonPart.Services
             IPersonRepository repository,
             IAuthenticationService authentication,
             IDomainFactory domainFactory,
-            IDomainProvider domainProvider
+            IProvider domainProvider
             )
         {
             _repository = repository;
@@ -43,7 +43,7 @@ namespace Application.VerticalSlice.PersonPart.Services
                 (
                  id.Value,
                  dto.UrlSegment,
-                 _domainProvider.GetTimeProvider().GetDateOnlyToday(),
+                 _domainProvider.TimeProvider().GetDateOnlyToday(),
                  dto.ContactEmail,
                  dto.Name,
                  dto.Surname,

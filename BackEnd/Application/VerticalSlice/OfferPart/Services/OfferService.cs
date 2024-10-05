@@ -17,7 +17,7 @@ namespace Application.VerticalSlice.OfferPart.Services
         private readonly IOfferRepository _repository;
         private readonly IDomainFactory _domainFactory;
         private readonly IAuthenticationService _authenticationRepository;
-        private readonly IDomainProvider _domainProvider;
+        private readonly IProvider _domainProvider;
 
 
         public OfferService
@@ -25,7 +25,7 @@ namespace Application.VerticalSlice.OfferPart.Services
             IOfferRepository repository,
             IAuthenticationService authentication,
             IDomainFactory domainFactory,
-            IDomainProvider domainProvider
+            IProvider domainProvider
             )
         {
             _repository = repository;

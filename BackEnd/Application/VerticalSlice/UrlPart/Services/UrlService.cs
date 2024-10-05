@@ -15,13 +15,13 @@ namespace Application.VerticalSlice.UrlPart.Services
     {
         private readonly IDomainFactory _domainFactory;
         private readonly IAuthenticationService _authentication;
-        private readonly IDomainProvider _domainProvider;
+        private readonly IProvider _domainProvider;
         private readonly IUrlRepository _urlRepository;
 
         public UrlService(
             IDomainFactory domainFactory,
             IAuthenticationService authentication,
-            IDomainProvider domainProvider,
+            IProvider domainProvider,
             IUrlRepository urlRepository
             )
         {
@@ -47,7 +47,7 @@ namespace Application.VerticalSlice.UrlPart.Services
                 (
                 userId.Value,
                 dto.UrlTypeId,
-                _domainProvider.GetTimeProvider().GetDateTimeNow(),
+                _domainProvider.TimeProvider().GetDateTimeNow(),
                 dto.Path,
                 dto.Name,
                 dto.Description

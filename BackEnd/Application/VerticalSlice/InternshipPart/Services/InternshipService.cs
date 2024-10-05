@@ -12,13 +12,13 @@ namespace Application.VerticalSlice.InternshipPart.Services
     {
         private readonly IDomainFactory _domainFactory;
         private readonly IAuthenticationService _authentication;
-        private readonly IDomainProvider _provider;
+        private readonly IProvider _provider;
         private readonly IInternshipRepository _internshipRepository;
 
         public InternshipService(
             IDomainFactory domainFactory,
             IAuthenticationService authentication,
-            IDomainProvider provider,
+            IProvider provider,
             IInternshipRepository internshipRepository)
         {
             _domainFactory = domainFactory;

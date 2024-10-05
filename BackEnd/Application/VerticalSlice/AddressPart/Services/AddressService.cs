@@ -10,7 +10,7 @@ namespace Application.VerticalSlice.AddressPart.Services
         private readonly ICompanyRepository _repository;
         private readonly IDomainFactory _domainFactory;
         private readonly IAuthenticationService _authenticationRepository;
-        private readonly IDomainProvider _domainProvider;
+        private readonly IProvider _domainProvider;
 
 
         public AddressService
@@ -18,7 +18,7 @@ namespace Application.VerticalSlice.AddressPart.Services
             ICompanyRepository repository,
             IAuthenticationService authentication,
             IDomainFactory domainFactory,
-            IDomainProvider domainProvider
+            IProvider domainProvider
             )
         {
             _repository = repository;

@@ -13,7 +13,7 @@ namespace Application.VerticalSlice.CompanyPart.Services
         private readonly ICompanyRepository _repository;
         private readonly IDomainFactory _domainFactory;
         private readonly IAuthenticationService _authenticationRepository;
-        private readonly IDomainProvider _domainProvider;
+        private readonly IProvider _domainProvider;
 
 
         public CompanyService
@@ -21,7 +21,7 @@ namespace Application.VerticalSlice.CompanyPart.Services
             ICompanyRepository repository,
             IAuthenticationService authentication,
             IDomainFactory domainFactory,
-            IDomainProvider domainProvider
+            IProvider domainProvider
             )
         {
             _repository = repository;
@@ -46,7 +46,7 @@ namespace Application.VerticalSlice.CompanyPart.Services
                 dto.Name,
                 dto.Regon,
                 dto.Description,
-                _domainProvider.GetTimeProvider().GetDateOnlyToday()
+                _domainProvider.TimeProvider().GetDateOnlyToday()
                 );
             await _repository.CreateCompanyProfileAsync(domainComapany, cancellation);
             return new Response

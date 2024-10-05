@@ -45,7 +45,7 @@ namespace Domain.Entities.CompanyPart
             string? urlSegment,
             string name,
             string? description,
-            IDomainProvider provider
+            IProvider provider
             ) : base(new BranchId(id), provider)
         {
             //Values with exeptions

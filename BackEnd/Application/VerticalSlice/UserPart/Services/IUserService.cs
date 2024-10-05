@@ -34,13 +34,13 @@ namespace Application.VerticalSlice.UserPart.Services
 
         //==========================================================================================================================================
         //Authetication Part
-        Task<ItemResponse<LoginInResponseDto>> LoginInAsync
+        Task<ResponseItem<LoginInResponseDto>> LoginInAsync
             (
             LoginInRequestDto dto,
             CancellationToken cancellation
             );
 
-        Task<ItemResponse<RefreshResponseDto>> RefreshTokenAsync
+        Task<ResponseItem<RefreshResponseDto>> RefreshTokenAsync
             (
             string jwtFromHeader,
             RefreshRequestDto dto,

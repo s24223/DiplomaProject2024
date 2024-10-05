@@ -37,7 +37,7 @@ namespace Domain.Entities.RecrutmentPart
             DateTime published,
             string description,
             int? evaluation,
-            IDomainProvider provider
+            IProvider provider
             ) : base(new CommentId(
             new IntershipId(internshipId),
             new CommentType(commentTypeId),

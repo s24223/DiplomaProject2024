@@ -32,7 +32,7 @@ namespace Domain.Entities.CompanyPart
             decimal? maxSalary,
             string? isNegotiatedSalary,
             string forStudents,
-            IDomainProvider provider
+            IProvider provider
             ) : base(new OfferId(id), provider)
         {
             //Values with exeptions

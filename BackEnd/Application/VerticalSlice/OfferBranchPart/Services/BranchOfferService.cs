@@ -10,7 +10,7 @@ namespace Application.VerticalSlice.OfferBranchPart.Services
     {
         private readonly IBranchOfferRepository _branchOfferRepository;
         private readonly IDomainFactory _domainFactory;
-        private readonly IDomainProvider _domainProvider;
+        private readonly IProvider _domainProvider;
 
         public BranchOfferService(IBranchOfferRepository branchOfferRepository,
             IDomainFactory domainFactory)

@@ -11,14 +11,14 @@ namespace Application.VerticalSlice.RecrutmentPart.Services
     public class RecruitmentService : IRecruitmentService
     {
         private readonly IDomainFactory _domainFactory;
-        private readonly IDomainProvider _domainProvider;
+        private readonly IProvider _domainProvider;
         private readonly IAuthenticationService _authentication;
         private readonly IRecruitmentRepository _repository;
 
         public RecruitmentService(
             IDomainFactory domainFactory,
             IAuthenticationService authentication,
-            IDomainProvider domainProvider,
+            IProvider domainProvider,
             IRecruitmentRepository repository
             )
         {

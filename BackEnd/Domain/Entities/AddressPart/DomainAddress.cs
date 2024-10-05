@@ -29,7 +29,7 @@ namespace Domain.Entities.AddressPart
             string buildingNumber,
             string? apartmentNumber,
             string zipCode,
-            IDomainProvider provider
+            IProvider provider
             ) : base(new AddressId(id), provider)
         {
             //Values with exceptions

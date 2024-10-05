@@ -39,7 +39,7 @@ namespace Domain.Entities.UserPart
             string path,
             string? name,
             string? description,
-            IDomainProvider provider
+            IProvider provider
             ) : base(new UrlId
                 (
                 new UserId(userId),

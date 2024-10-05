@@ -1,13 +1,19 @@
-﻿using Application.VerticalSlice.AddressPart.DTOs.DatabaseDTOs;
+﻿using Application.Database.Models;
 
 namespace Application.VerticalSlice.AddressPart.Interfaces
 {
     public interface IAddressSqlClientRepository
     {
-        Task<ICollection<PartialAddressDto>> GetDivisionsStreetsAsync
+        Task<IEnumerable<(int DivisionId, Street Street)>> GetCollocationsAsync
             (
-            string administrativeDivisionName,
+            string divisionName,
             string streetName,
+            CancellationToken cancellation
+            );
+
+        Task<IEnumerable<AdministrativeDivision>> GetDivisionsHierachyUpAsync
+            (
+            int divisionId,
             CancellationToken cancellation
             );
     }

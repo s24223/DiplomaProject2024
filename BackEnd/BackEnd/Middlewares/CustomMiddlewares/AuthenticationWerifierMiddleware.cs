@@ -19,7 +19,7 @@ namespace BackEnd.Middlewares.CustomMiddlewares
             HttpContext context,
             DiplomaProjectContext dBContext,
             IAuthenticationService authenticationRepository,
-            IDomainProvider domainRepository,
+            IProvider domainRepository,
             IConfiguration configuration
             )
         {
@@ -43,7 +43,7 @@ namespace BackEnd.Middlewares.CustomMiddlewares
                     user == null ||
                     string.IsNullOrWhiteSpace(user.RefreshToken) ||
                     user.ExpiredToken == null ||
-                    user.ExpiredToken <= domainRepository.GetTimeProvider().GetDateTimeNow()
+                    user.ExpiredToken <= domainRepository.TimeProvider().GetDateTimeNow()
                     )
                 {
                     context.Request.Headers.Remove("Authorization");

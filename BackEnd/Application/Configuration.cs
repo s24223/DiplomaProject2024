@@ -47,21 +47,22 @@ namespace Application
             serviceCollection.AddTransient<IUserProblemRepository, UserProblemRepository>();
             serviceCollection.AddTransient<IUserProblemService, UserProblemService>();
 
-            //Company Part 
-            serviceCollection.AddTransient<ICompanyRepository, CompanyRepository>();
-            serviceCollection.AddTransient<ICompanyService, CompanyService>();
+            //Url Part
+            serviceCollection.AddTransient<IUrlRepository, UrlRepository>();
+            serviceCollection.AddTransient<IUrlService, UrlService>();
+
+            //Address Part
+            serviceCollection.AddTransient<IAddressRepository, AddressRepository>();
+            serviceCollection.AddTransient<IAddressService, AddressService>();
 
             //Person Part 
             serviceCollection.AddTransient<IPersonRepository, PersonRepository>();
             serviceCollection.AddTransient<IPersonService, PersonService>();
 
-            //Address Part
-            serviceCollection.AddTransient<IAddressEFRepository, AddressEFRepository>();
-            serviceCollection.AddTransient<IAddressService, AddressService>();
-
-            //Url1 Part
-            serviceCollection.AddTransient<IUrlRepository, UrlRepository>();
-            serviceCollection.AddTransient<IUrlService, UrlService>();
+            //xxx
+            //Company Part 
+            serviceCollection.AddTransient<ICompanyRepository, CompanyRepository>();
+            serviceCollection.AddTransient<ICompanyService, CompanyService>();
 
             //Offer Part 
             serviceCollection.AddTransient<IOfferRepository, OfferRepository>();

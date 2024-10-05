@@ -19,8 +19,8 @@ namespace Domain
             serviceCollection.AddSingleton<IConfiguration>(configuration);
             serviceCollection.AddTransient<IDomainFactory, DomainFactory>();
 
-            //Providers
-            serviceCollection.AddTransient<IDomainProvider, DomainProvider>();
+            //Provider
+            serviceCollection.AddTransient<IProvider, Provider>();
 
             serviceCollection.AddTransient<IExceptionMessageProvider, ExceptionMessageProvider>();
             serviceCollection.AddTransient<ITimeProvider, Providers.Time.TimeProvider>();

@@ -16,7 +16,7 @@ namespace Application.VerticalSlice.UserProblemPart.Services
         //Values
         private readonly IDomainFactory _domainFactory;
         private readonly IAuthenticationService _authenticationService;
-        private readonly IDomainProvider _domainProvider;
+        private readonly IProvider _domainProvider;
         private readonly IUserProblemRepository _userProblem;
 
 
@@ -25,7 +25,7 @@ namespace Application.VerticalSlice.UserProblemPart.Services
             (
             IAuthenticationService authentication,
             IDomainFactory domainFactory,
-            IDomainProvider domainRepository,
+            IProvider domainRepository,
             IUserProblemRepository userProblem
             )
         {
@@ -39,7 +39,7 @@ namespace Application.VerticalSlice.UserProblemPart.Services
         //Methods
         //================================================================================================
         //ForAuthorized
-        public async Task<ItemResponse<CreateUserProblemResponseDto>> CreateForAuthorizedAsync
+        public async Task<ResponseItem<CreateUserProblemResponseDto>> CreateForAuthorizedAsync
             (
             IEnumerable<Claim> claims,
             CreateAuthorizedUserProblemRequestDto dto,
@@ -61,7 +61,7 @@ namespace Application.VerticalSlice.UserProblemPart.Services
                 cancellation
                 );
 
-            return new ItemResponse<CreateUserProblemResponseDto>
+            return new ResponseItem<CreateUserProblemResponseDto>
             {
                 Status = EnumResponseStatus.Success,
                 Message = Messages.ResponseSuccess,
@@ -105,7 +105,7 @@ namespace Application.VerticalSlice.UserProblemPart.Services
 
         //================================================================================================
         //ForUnauthorized
-        public async Task<ItemResponse<CreateUserProblemResponseDto>> CreateForUnauthorizedAsync
+        public async Task<ResponseItem<CreateUserProblemResponseDto>> CreateForUnauthorizedAsync
             (
             CreateUnauthorizedUserProblemRequestDto dto,
             CancellationToken cancellation
@@ -125,7 +125,7 @@ namespace Application.VerticalSlice.UserProblemPart.Services
                 cancellation
                 );
 
-            return new ItemResponse<CreateUserProblemResponseDto>
+            return new ResponseItem<CreateUserProblemResponseDto>
             {
                 Status = EnumResponseStatus.Success,
                 Message = Messages.ResponseSuccess,

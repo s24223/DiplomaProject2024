@@ -46,7 +46,7 @@ namespace Domain.Entities.UserPart
             string? email,
             string? status,
             Guid? userId,
-            IDomainProvider provider
+            IProvider provider
             ) : base(new UserProblemId(id), provider)
         {
             //Values with Exeptions 
@@ -56,7 +56,7 @@ namespace Domain.Entities.UserPart
 
             //Values with no exeptions
             Created = (created != null)
-                ? created.Value : _provider.GetTimeProvider().GetDateTimeNow();
+                ? created.Value : _provider.TimeProvider().GetDateTimeNow();
             UserMessage = userMessage;
             Response = response;
             PreviousProblemId = (previousProblemId == null) ?

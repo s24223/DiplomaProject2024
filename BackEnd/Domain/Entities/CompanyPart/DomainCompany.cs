@@ -46,7 +46,7 @@ namespace Domain.Entities.CompanyPart
             string regon,
             string? description,
             DateOnly? createDate,
-            IDomainProvider provider
+            IProvider provider
             ) : base(new UserId(id), provider)
         {
             //Values with exeptions
@@ -59,7 +59,7 @@ namespace Domain.Entities.CompanyPart
             Name = name;
             Description = description;
             CreateDate = createDate != null ?
-                createDate.Value : _provider.GetTimeProvider().GetDateOnlyToday();
+                createDate.Value : _provider.TimeProvider().GetDateOnlyToday();
         }
 
 

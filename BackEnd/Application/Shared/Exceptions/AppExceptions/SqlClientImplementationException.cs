@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Exceptions.AppExceptions
+﻿namespace Application.Shared.Exceptions.AppExceptions
 {
     public class SqlClientImplementationException : Exception
     {

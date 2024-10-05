@@ -7,22 +7,25 @@ namespace BackEnd.Controllers
     [ApiController]
     public class AddressController : ControllerBase
     {
-        public IAddressSqlClientRepository _repository;
-        public AddressController(IAddressSqlClientRepository repository)
+        public IAddressRepository _repository;
+        public AddressController
+            (
+            IAddressRepository repository
+            )
         {
             _repository = repository;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> aa
+
+        [HttpGet()]
+        public async Task<IActionResult> aaz
             (
-            string administrativeDivisionName,
+            string divisionName,
             string streetName,
             CancellationToken cancellation
             )
         {
-            return Ok(await _repository.GetDivisionsStreetsAsync
-                (administrativeDivisionName, streetName, cancellation));
+            return Ok(await _repository.GetCollocationsAsync(divisionName, streetName, cancellation));
         }
     }
 }

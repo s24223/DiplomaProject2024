@@ -20,8 +20,9 @@ namespace Infrastructure
             //Address Part from Application
             serviceCollection.AddTransient<IAddressSqlClientRepository, AddressSqlClientRepository>();
 
-
+            //DbContext Injection
             serviceCollection.AddTransient<DiplomaProjectContext, DiplomaProjectMsSqlContext>();
+
             return serviceCollection;
         }
     }

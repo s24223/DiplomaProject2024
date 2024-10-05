@@ -39,7 +39,7 @@ namespace Domain.Entities.RecrutmentPart
             Guid offerId,
             DateTime created,
             string contractNumber,
-            IDomainProvider provider
+            IProvider provider
             ) : base(new IntershipId(id), provider)
         {
             ContractNumber = contractNumber;

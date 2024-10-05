@@ -59,7 +59,7 @@ namespace Domain.Entities.UserPart
             string loginEmail,
             DateTime? lastLoginIn,
             DateTime? lastPasswordUpdate,
-            IDomainProvider provider
+            IProvider provider
             )
             : base(id: new UserId(id), provider)
         {
@@ -69,7 +69,7 @@ namespace Domain.Entities.UserPart
             //Values with no exeptions
             LastLoginIn = lastLoginIn;
             LastPasswordUpdate = lastPasswordUpdate != null ?
-                lastPasswordUpdate.Value : _provider.GetTimeProvider().GetDateTimeNow();
+                lastPasswordUpdate.Value : _provider.TimeProvider().GetDateTimeNow();
         }
 
 

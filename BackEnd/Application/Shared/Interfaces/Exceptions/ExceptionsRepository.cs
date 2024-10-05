@@ -1,4 +1,5 @@
-﻿using Domain.Exceptions.UserExceptions.EntitiesExceptions;
+﻿using Application.Shared.Exceptions.AppExceptions;
+using Domain.Exceptions.UserExceptions.EntitiesExceptions;
 using Domain.Exceptions.UserExceptions.ValueObjectsExceptions;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,7 @@ namespace Application.Shared.Interfaces.Exceptions
 {
     public class ExceptionsRepository : IExceptionsRepository
     {
-        public Exception ConvertDbException
+        public Exception ConvertEFDbException
             (
             Exception ex,
             Type classType,
@@ -44,5 +45,35 @@ namespace Application.Shared.Interfaces.Exceptions
             }
             return ex;
         }
+
+
+
+        public Exception ConvertSqlClientDbException
+            (
+            Exception ex,
+            string? inputData = null
+            )
+        {
+            switch (ex)
+            {
+                /*case SqlException:
+                    return new SqlClientImplementationException
+                    (
+                    _provider.ExceptionsMessageProvider().GenerateExceptionMessage
+                        (
+                        GetType(),
+                        method,
+                        ex,
+                        inputData
+                        )
+                    );*/
+                default:
+                    return new SqlClientImplementationException
+                    (
+                    inputData
+                    );
+            }
+        }
+
     }
 }

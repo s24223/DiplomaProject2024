@@ -10,11 +10,11 @@ namespace Domain.Factories
     public class DomainFactory : IDomainFactory
     {
         //Values
-        private readonly IDomainProvider _provider;
+        private readonly IProvider _provider;
 
 
         //Constructor
-        public DomainFactory(IDomainProvider provider)
+        public DomainFactory(IProvider provider)
         {
             _provider = provider;
         }

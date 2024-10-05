@@ -10,7 +10,7 @@ namespace Application.VerticalSlice.UserProblemPart.Services
     {
         //================================================================================================
         //ForAuthorized
-        Task<ItemResponse<CreateUserProblemResponseDto>> CreateForAuthorizedAsync
+        Task<ResponseItem<CreateUserProblemResponseDto>> CreateForAuthorizedAsync
             (
             IEnumerable<Claim> claims,
             CreateAuthorizedUserProblemRequestDto dto,
@@ -25,7 +25,7 @@ namespace Application.VerticalSlice.UserProblemPart.Services
 
         //================================================================================================
         //ForUnauthorized
-        Task<ItemResponse<CreateUserProblemResponseDto>> CreateForUnauthorizedAsync
+        Task<ResponseItem<CreateUserProblemResponseDto>> CreateForUnauthorizedAsync
             (
             CreateUnauthorizedUserProblemRequestDto dto,
             CancellationToken cancellation

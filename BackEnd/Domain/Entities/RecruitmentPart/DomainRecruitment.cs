@@ -72,7 +72,7 @@ namespace Domain.Entities.RecrutmentPart
             string? personMessage,
             string? companyResponse,
             string? acceptedRejected,
-            IDomainProvider provider
+            IProvider provider
             ) : base(new RecrutmentId
                 (
                 new BranchOfferId(
@@ -88,7 +88,7 @@ namespace Domain.Entities.RecrutmentPart
             CompanyResponse = companyResponse;
 
             ApplicationDate = (applicationDate != null) ?
-                applicationDate.Value : _provider.GetTimeProvider().GetDateTimeNow();
+                applicationDate.Value : _provider.TimeProvider().GetDateTimeNow();
 
             AcceptedRejected = (string.IsNullOrWhiteSpace(acceptedRejected)) ?
                 null : new DatabaseBool(acceptedRejected);
