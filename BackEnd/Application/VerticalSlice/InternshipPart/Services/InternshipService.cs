@@ -2,8 +2,8 @@
 using Application.Shared.Services.Authentication;
 using Application.VerticalSlice.InternshipPart.DTOs;
 using Application.VerticalSlice.InternshipPart.Interfaces;
-using Domain.Factories;
-using Domain.Providers;
+using Domain.Shared.Factories;
+using Domain.Shared.Providers;
 using System.Security.Claims;
 
 namespace Application.VerticalSlice.InternshipPart.Services

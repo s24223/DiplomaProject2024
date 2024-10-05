@@ -4,9 +4,9 @@ using Application.VerticalSlice.UrlPart.DTOs;
 using Application.VerticalSlice.UrlPart.DTOs.Create;
 using Application.VerticalSlice.UrlPart.DTOs.Update;
 using Application.VerticalSlice.UrlPart.Interfaces;
-using Domain.Factories;
-using Domain.Providers;
-using Domain.ValueObjects.PartUrlType;
+using Domain.Shared.Factories;
+using Domain.Shared.Providers;
+using Domain.VerticalSlice.UrlPart.ValueObjects.UrlTypePart;
 using System.Security.Claims;
 
 namespace Application.VerticalSlice.UrlPart.Services

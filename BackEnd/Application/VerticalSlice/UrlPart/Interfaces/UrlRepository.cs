@@ -1,10 +1,10 @@
 ﻿using Application.Database;
 using Application.Database.Models;
 using Application.Shared.Interfaces.Exceptions;
-using Domain.Entities.UserPart;
-using Domain.Exceptions.UserExceptions.EntitiesExceptions;
-using Domain.Factories;
-using Domain.ValueObjects.EntityIdentificators;
+using Domain.Shared.Factories;
+using Domain.VerticalSlice.UrlPart.Entities;
+using Domain.VerticalSlice.UrlPart.Exceptions;
+using Domain.VerticalSlice.UserPart.ValueObjects.Identificators;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -102,7 +102,7 @@ namespace Application.VerticalSlice.UrlPart.Interfaces
         public async Task DeleteAsync
             (
             UserId userId,
-            Domain.ValueObjects.PartUrlType.UrlType urlType,
+            Domain.VerticalSlice.UrlPart.ValueObjects.UrlTypePart.UrlType urlType,
             DateTime created,
             CancellationToken cancellation
             )
@@ -136,7 +136,7 @@ namespace Application.VerticalSlice.UrlPart.Interfaces
         public async Task<DomainUrl> GetUrlAsync
             (
             UserId userId,
-            Domain.ValueObjects.PartUrlType.UrlType urlType,
+            Domain.VerticalSlice.UrlPart.ValueObjects.UrlTypePart.UrlType urlType,
             DateTime created,
             CancellationToken cancellation
             )
@@ -184,7 +184,7 @@ namespace Application.VerticalSlice.UrlPart.Interfaces
         private async Task<Url> GetDatabaseUrlAsync
             (
             UserId userId,
-            Domain.ValueObjects.PartUrlType.UrlType urlType,
+            Domain.VerticalSlice.UrlPart.ValueObjects.UrlTypePart.UrlType urlType,
             DateTime created,
             CancellationToken cancellation
             )

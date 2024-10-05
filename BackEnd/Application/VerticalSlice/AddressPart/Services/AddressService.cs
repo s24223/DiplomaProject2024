@@ -1,7 +1,7 @@
 ﻿using Application.Shared.Services.Authentication;
 using Application.VerticalSlice.CompanyPart.Interfaces;
-using Domain.Factories;
-using Domain.Providers;
+using Domain.Shared.Factories;
+using Domain.Shared.Providers;
 
 namespace Application.VerticalSlice.AddressPart.Services
 {

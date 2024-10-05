@@ -1,8 +1,8 @@
 ﻿using Application.Database;
-using Domain.Entities.PersonPart;
-using Domain.Exceptions.AppExceptions.EntitiesExceptions;
-using Domain.Exceptions.AppExceptions.ValueObjectsExceptions.ValueObjectsExceptions;
-using Domain.Exceptions.UserExceptions.ValueObjectsExceptions;
+using Domain.Shared.Exceptions.AppExceptions.ValueObjectsExceptions;
+using Domain.Shared.Exceptions.UserExceptions.ValueObjectsExceptions;
+using Domain.VerticalSlice.PersonPart.Entities;
+using Domain.VerticalSlice.PersonPart.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.VerticalSlice.PersonPart.Interfaces

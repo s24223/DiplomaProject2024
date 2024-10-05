@@ -4,9 +4,9 @@ using Application.VerticalSlice.UserProblemPart.DTOs.Create;
 using Application.VerticalSlice.UserProblemPart.DTOs.Create.Authorized;
 using Application.VerticalSlice.UserProblemPart.DTOs.Create.Unauthorized;
 using Application.VerticalSlice.UserProblemPart.Interfaces;
-using Domain.Factories;
-using Domain.Providers;
-using Domain.ValueObjects.EntityIdentificators;
+using Domain.Shared.Factories;
+using Domain.Shared.Providers;
+using Domain.VerticalSlice.UserProblemPart.ValueObjects.Identificators;
 using System.Security.Claims;
 
 namespace Application.VerticalSlice.UserProblemPart.Services

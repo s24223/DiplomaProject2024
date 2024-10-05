@@ -1,4 +1,4 @@
-﻿using Domain.Entities.CompanyPart;
+﻿using Domain.VerticalSlice.CompanyPart.Entities;
 
 namespace Application.VerticalSlice.CompanyPart.Interfaces
 {

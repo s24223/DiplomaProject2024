@@ -2,13 +2,8 @@
 using Application.Shared.Services.Authentication;
 using Application.VerticalSlice.OfferPart.DTOs.Create;
 using Application.VerticalSlice.OfferPart.Interfaces;
-using Domain.Entities.CompanyPart;
-using Domain.Factories;
-using Domain.Providers;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+using Domain.Shared.Factories;
+using Domain.Shared.Providers;
 
 namespace Application.VerticalSlice.OfferPart.Services
 {
@@ -50,7 +45,7 @@ namespace Application.VerticalSlice.OfferPart.Services
                 dto.MaxSalary,
                 dto.NegotiatedSalary,
                 dto.ForStudents
- 
+
             );
             await _repository.CreateOfferProfileAsync(domainOffer, cancellation);
         }

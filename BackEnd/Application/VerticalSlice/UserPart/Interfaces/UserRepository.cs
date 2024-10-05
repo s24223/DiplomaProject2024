@@ -2,10 +2,10 @@
 using Application.Database.Models;
 using Application.Shared.Exceptions.UserExceptions;
 using Application.Shared.Interfaces.Exceptions;
-using Domain.Entities.UserPart;
-using Domain.Factories;
-using Domain.ValueObjects;
-using Domain.ValueObjects.EntityIdentificators;
+using Domain.Shared.Factories;
+using Domain.Shared.ValueObjects;
+using Domain.VerticalSlice.UserPart.Entities;
+using Domain.VerticalSlice.UserPart.ValueObjects.Identificators;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 

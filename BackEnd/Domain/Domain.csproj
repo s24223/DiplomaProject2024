@@ -28,7 +28,32 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\CharacteristicPart\" />
+    <Folder Include="Shared\Exceptions\AppExceptions\EntitiesExceptions\" />
+    <Folder Include="Shared\Exceptions\UserExceptions\EntitiesExceptions\" />
+    <Folder Include="VerticalSlice\AddressPart\Exceptions\AppExceptions\" />
+    <Folder Include="VerticalSlice\AddressPart\Exceptions\UserExceptions\" />
+    <Folder Include="VerticalSlice\CommentPart\Exceptions\AppExceptions\" />
+    <Folder Include="VerticalSlice\CommentPart\Exceptions\UserExceptions\" />
+    <Folder Include="VerticalSlice\RecruitmentPart\Exceptions\AppExceptions\" />
+    <Folder Include="VerticalSlice\RecruitmentPart\Exceptions\UserExceptions\" />
+    <Folder Include="VerticalSlice\IntershipPart\Exceptions\AppExceptions\" />
+    <Folder Include="VerticalSlice\IntershipPart\Exceptions\UserExceptions\" />
+    <Folder Include="VerticalSlice\OfferPart\Exceptions\AppExceptions\" />
+    <Folder Include="VerticalSlice\OfferPart\Exceptions\UserExceptions\" />
+    <Folder Include="VerticalSlice\BranchPart\Exceptions\AppExceptions\" />
+    <Folder Include="VerticalSlice\BranchPart\Exceptions\UserExceptions\" />
+    <Folder Include="VerticalSlice\CompanyPart\Exceptions\AppExceptions\" />
+    <Folder Include="VerticalSlice\CompanyPart\Exceptions\UserExceptions\" />
+    <Folder Include="VerticalSlice\BranchOfferPart\Exceptions\AppExceptions\" />
+    <Folder Include="VerticalSlice\BranchOfferPart\Exceptions\UserExceptions\" />
+    <Folder Include="VerticalSlice\PersonPart\Exceptions\AppExceptions\" />
+    <Folder Include="VerticalSlice\PersonPart\Exceptions\UserExceptions\" />
+    <Folder Include="VerticalSlice\UserProblemPart\Exceptions\AppExceptions\" />
+    <Folder Include="VerticalSlice\UserProblemPart\Exceptions\UserExceptions\" />
+    <Folder Include="VerticalSlice\UrlPart\Exceptions\AppExceptions\" />
+    <Folder Include="VerticalSlice\UrlPart\Exceptions\UserExceptions\" />
+    <Folder Include="VerticalSlice\UserPart\Exceptions\AppExceptions\" />
+    <Folder Include="VerticalSlice\UserPart\Exceptions\UserExceptions\" />
   </ItemGroup>
 
 </Project>

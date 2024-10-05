@@ -1,5 +1,6 @@
-﻿using Domain.Entities.UserPart;
-using Domain.ValueObjects.EntityIdentificators;
+﻿using Domain.VerticalSlice.UserPart.ValueObjects.Identificators;
+using Domain.VerticalSlice.UserProblemPart.Entities;
+using Domain.VerticalSlice.UserProblemPart.ValueObjects.Identificators;
 
 namespace Application.VerticalSlice.UserProblemPart.Interfaces
 {

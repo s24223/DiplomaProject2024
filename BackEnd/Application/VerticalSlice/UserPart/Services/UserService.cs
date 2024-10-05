@@ -7,9 +7,9 @@ using Application.VerticalSlice.UserPart.DTOs.Refresh;
 using Application.VerticalSlice.UserPart.DTOs.UpdateLogin;
 using Application.VerticalSlice.UserPart.DTOs.UpdatePassword;
 using Application.VerticalSlice.UserPart.Interfaces;
-using Domain.Factories;
-using Domain.Providers;
-using Domain.ValueObjects;
+using Domain.Shared.Factories;
+using Domain.Shared.Providers;
+using Domain.Shared.ValueObjects;
 using System.Security.Claims;
 
 namespace Application.VerticalSlice.UserPart.Services

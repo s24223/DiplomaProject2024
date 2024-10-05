@@ -1,6 +1,6 @@
 ﻿using Application.Database;
 using Application.Database.Models;
-using Domain.Entities.RecrutmentPart;
+using Domain.VerticalSlice.IntershipPart.Entities;
 
 namespace Application.VerticalSlice.InternshipPart.Interfaces
 {

@@ -1,8 +1,7 @@
 ﻿using Application.Database;
 using Application.Database.Models;
 using Application.Shared.Exceptions.UserExceptions;
-using Domain.Entities.CompanyPart;
-
+using Domain.VerticalSlice.OfferPart.Entities;
 using Microsoft.EntityFrameworkCore;
 
 

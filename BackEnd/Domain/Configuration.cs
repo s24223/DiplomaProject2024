@@ -1,7 +1,7 @@
-﻿using Domain.Factories;
-using Domain.Providers;
-using Domain.Providers.ExceptionMessage;
-using Domain.Providers.Time;
+﻿using Domain.Shared.Factories;
+using Domain.Shared.Providers;
+using Domain.Shared.Providers.ExceptionMessage;
+using Domain.Shared.Providers.Time;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,7 +23,7 @@ namespace Domain
             serviceCollection.AddTransient<IProvider, Provider>();
 
             serviceCollection.AddTransient<IExceptionMessageProvider, ExceptionMessageProvider>();
-            serviceCollection.AddTransient<ITimeProvider, Providers.Time.TimeProvider>();
+            serviceCollection.AddTransient<ITimeProvider, Shared.Providers.Time.TimeProvider>();
 
             return serviceCollection;
         }

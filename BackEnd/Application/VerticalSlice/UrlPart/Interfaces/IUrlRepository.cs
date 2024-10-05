@@ -1,5 +1,6 @@
-﻿using Domain.Entities.UserPart;
-using Domain.ValueObjects.EntityIdentificators;
+﻿using Domain.VerticalSlice.UrlPart.Entities;
+using Domain.VerticalSlice.UrlPart.ValueObjects.UrlTypePart;
+using Domain.VerticalSlice.UserPart.ValueObjects.Identificators;
 
 namespace Application.VerticalSlice.UrlPart.Interfaces
 {
@@ -20,7 +21,7 @@ namespace Application.VerticalSlice.UrlPart.Interfaces
         Task DeleteAsync
             (
             UserId userId,
-            Domain.ValueObjects.PartUrlType.UrlType urlType,
+            UrlType urlType,
             DateTime created,
             CancellationToken cancellation
             );
@@ -30,7 +31,7 @@ namespace Application.VerticalSlice.UrlPart.Interfaces
         Task<DomainUrl> GetUrlAsync
             (
             UserId userId,
-            Domain.ValueObjects.PartUrlType.UrlType urlType,
+            UrlType urlType,
             DateTime created,
             CancellationToken cancellation
             );

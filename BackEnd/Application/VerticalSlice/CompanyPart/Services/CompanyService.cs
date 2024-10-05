@@ -2,8 +2,8 @@
 using Application.Shared.Services.Authentication;
 using Application.VerticalSlice.CompanyPart.DTOs.CreateProfile;
 using Application.VerticalSlice.CompanyPart.Interfaces;
-using Domain.Factories;
-using Domain.Providers;
+using Domain.Shared.Factories;
+using Domain.Shared.Providers;
 using System.Security.Claims;
 
 namespace Application.VerticalSlice.CompanyPart.Services

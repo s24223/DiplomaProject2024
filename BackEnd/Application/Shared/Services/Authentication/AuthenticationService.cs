@@ -1,7 +1,7 @@
 ﻿using Application.Shared.Exceptions.AppExceptions;
 using Application.Shared.Exceptions.UserExceptions;
-using Domain.Providers;
-using Domain.ValueObjects.EntityIdentificators;
+using Domain.Shared.Providers;
+using Domain.VerticalSlice.UserPart.ValueObjects.Identificators;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -62,6 +62,7 @@ namespace Application.Shared.Services.Authentication
             _audience = audience;
             _secret = secret;
         }
+
 
 
         //Methods

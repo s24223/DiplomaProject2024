@@ -1,6 +1,6 @@
 ﻿using Application.Database;
 using Application.Shared.Services.Authentication;
-using Domain.Providers;
+using Domain.Shared.Providers;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Middlewares.CustomMiddlewares

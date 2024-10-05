@@ -1,4 +1,4 @@
-﻿using Domain.Entities.CompanyPart;
+﻿using Domain.VerticalSlice.BranchOfferPart.Entities;
 
 namespace Application.VerticalSlice.OfferBranchPart.Interfaces
 {

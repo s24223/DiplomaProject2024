@@ -1,6 +1,6 @@
 ﻿using Application.Database;
 using Application.VerticalSlice.AddressPart.DTOs.Select;
-using Domain.Providers;
+using Domain.Shared.Providers;
 
 namespace Application.VerticalSlice.AddressPart.Interfaces
 {

@@ -1,8 +1,8 @@
 ﻿using Application.Shared.DTOs.Response;
 using Application.VerticalSlice.OfferBranchPart.DTOs;
 using Application.VerticalSlice.OfferBranchPart.Interfaces;
-using Domain.Factories;
-using Domain.Providers;
+using Domain.Shared.Factories;
+using Domain.Shared.Providers;
 
 namespace Application.VerticalSlice.OfferBranchPart.Services
 {

@@ -1,5 +1,4 @@
 ﻿using Application.Shared.DTOs.Response;
-using Application.VerticalSlice.CompanyPart.DTOs.CreateProfile;
 using Application.VerticalSlice.PersonPart.DTOs.Create;
 using System.Security.Claims;
 

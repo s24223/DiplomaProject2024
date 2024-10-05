@@ -1,6 +1,6 @@
 ﻿using Application.Database;
-using Domain.Entities.RecrutmentPart;
-using Domain.Exceptions.AppExceptions.EntitiesExceptions;
+using Domain.VerticalSlice.BranchOfferPart.Exceptions;
+using Domain.VerticalSlice.RecruitmentPart.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.VerticalSlice.RecrutmentPart.Interfaces

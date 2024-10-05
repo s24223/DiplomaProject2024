@@ -2,9 +2,9 @@
 using Application.Shared.Services.Authentication;
 using Application.VerticalSlice.PersonPart.DTOs.Create;
 using Application.VerticalSlice.PersonPart.Interfaces;
-using Domain.Factories;
-using Domain.Providers;
-using Domain.ValueObjects;
+using Domain.Shared.Factories;
+using Domain.Shared.Providers;
+using Domain.Shared.ValueObjects;
 using System.Security.Claims;
 
 namespace Application.VerticalSlice.PersonPart.Services

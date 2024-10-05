@@ -1,4 +1,4 @@
-﻿using Domain.Entities.RecrutmentPart;
+﻿using Domain.VerticalSlice.IntershipPart.Entities;
 
 namespace Application.VerticalSlice.InternshipPart.Interfaces
 {

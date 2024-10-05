@@ -1,4 +1,4 @@
-﻿using Domain.Entities.PersonPart;
+﻿using Domain.VerticalSlice.PersonPart.Entities;
 
 namespace Application.VerticalSlice.PersonPart.Interfaces
 {
