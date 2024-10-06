@@ -1,5 +1,5 @@
-﻿using Application.VerticalSlice.CompanyPart.DTOs.CreateProfile;
-using Application.VerticalSlice.CompanyPart.Services;
+﻿using Application.Features.Company.CompanyPart.DTOs.CreateProfile;
+using Application.Features.Company.CompanyPart.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

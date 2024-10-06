@@ -30,30 +30,30 @@
   <ItemGroup>
     <Folder Include="Shared\Exceptions\AppExceptions\EntitiesExceptions\" />
     <Folder Include="Shared\Exceptions\UserExceptions\EntitiesExceptions\" />
-    <Folder Include="VerticalSlice\AddressPart\Exceptions\AppExceptions\" />
-    <Folder Include="VerticalSlice\AddressPart\Exceptions\UserExceptions\" />
-    <Folder Include="VerticalSlice\CommentPart\Exceptions\AppExceptions\" />
-    <Folder Include="VerticalSlice\CommentPart\Exceptions\UserExceptions\" />
-    <Folder Include="VerticalSlice\RecruitmentPart\Exceptions\AppExceptions\" />
-    <Folder Include="VerticalSlice\RecruitmentPart\Exceptions\UserExceptions\" />
-    <Folder Include="VerticalSlice\IntershipPart\Exceptions\AppExceptions\" />
-    <Folder Include="VerticalSlice\IntershipPart\Exceptions\UserExceptions\" />
-    <Folder Include="VerticalSlice\OfferPart\Exceptions\AppExceptions\" />
-    <Folder Include="VerticalSlice\OfferPart\Exceptions\UserExceptions\" />
-    <Folder Include="VerticalSlice\BranchPart\Exceptions\AppExceptions\" />
-    <Folder Include="VerticalSlice\BranchPart\Exceptions\UserExceptions\" />
-    <Folder Include="VerticalSlice\CompanyPart\Exceptions\AppExceptions\" />
-    <Folder Include="VerticalSlice\CompanyPart\Exceptions\UserExceptions\" />
-    <Folder Include="VerticalSlice\BranchOfferPart\Exceptions\AppExceptions\" />
-    <Folder Include="VerticalSlice\BranchOfferPart\Exceptions\UserExceptions\" />
-    <Folder Include="VerticalSlice\PersonPart\Exceptions\AppExceptions\" />
-    <Folder Include="VerticalSlice\PersonPart\Exceptions\UserExceptions\" />
-    <Folder Include="VerticalSlice\UserProblemPart\Exceptions\AppExceptions\" />
-    <Folder Include="VerticalSlice\UserProblemPart\Exceptions\UserExceptions\" />
-    <Folder Include="VerticalSlice\UrlPart\Exceptions\AppExceptions\" />
-    <Folder Include="VerticalSlice\UrlPart\Exceptions\UserExceptions\" />
-    <Folder Include="VerticalSlice\UserPart\Exceptions\AppExceptions\" />
-    <Folder Include="VerticalSlice\UserPart\Exceptions\UserExceptions\" />
+    <Folder Include="Features\Address\Exceptions\AppExceptions\" />
+    <Folder Include="Features\Address\Exceptions\UserExceptions\" />
+    <Folder Include="Features\Comment\Exceptions\AppExceptions\" />
+    <Folder Include="Features\Comment\Exceptions\UserExceptions\" />
+    <Folder Include="Features\Recruitment\Exceptions\AppExceptions\" />
+    <Folder Include="Features\Recruitment\Exceptions\UserExceptions\" />
+    <Folder Include="Features\Intership\Exceptions\AppExceptions\" />
+    <Folder Include="Features\Intership\Exceptions\UserExceptions\" />
+    <Folder Include="Features\Offer\Exceptions\AppExceptions\" />
+    <Folder Include="Features\Offer\Exceptions\UserExceptions\" />
+    <Folder Include="Features\Branch\Exceptions\AppExceptions\" />
+    <Folder Include="Features\Branch\Exceptions\UserExceptions\" />
+    <Folder Include="Features\Company\Exceptions\AppExceptions\" />
+    <Folder Include="Features\Company\Exceptions\UserExceptions\" />
+    <Folder Include="Features\BranchOffer\Exceptions\AppExceptions\" />
+    <Folder Include="Features\BranchOffer\Exceptions\UserExceptions\" />
+    <Folder Include="Features\Person\Exceptions\AppExceptions\" />
+    <Folder Include="Features\Person\Exceptions\UserExceptions\" />
+    <Folder Include="Features\UserProblem\Exceptions\AppExceptions\" />
+    <Folder Include="Features\UserProblem\Exceptions\UserExceptions\" />
+    <Folder Include="Features\Url\Exceptions\AppExceptions\" />
+    <Folder Include="Features\Url\Exceptions\UserExceptions\" />
+    <Folder Include="Features\User\Exceptions\AppExceptions\" />
+    <Folder Include="Features\User\Exceptions\UserExceptions\" />
   </ItemGroup>
 
 </Project>

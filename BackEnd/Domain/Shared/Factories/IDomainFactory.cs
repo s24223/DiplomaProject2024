@@ -1,14 +1,14 @@
-﻿using Domain.VerticalSlice.BranchOfferPart.Entities;
-using Domain.VerticalSlice.BranchPart.Entities;
-using Domain.VerticalSlice.CommentPart.Entities;
-using Domain.VerticalSlice.CompanyPart.Entities;
-using Domain.VerticalSlice.IntershipPart.Entities;
-using Domain.VerticalSlice.OfferPart.Entities;
-using Domain.VerticalSlice.PersonPart.Entities;
-using Domain.VerticalSlice.RecruitmentPart.Entities;
-using Domain.VerticalSlice.UrlPart.Entities;
-using Domain.VerticalSlice.UserPart.Entities;
-using Domain.VerticalSlice.UserProblemPart.Entities;
+﻿using Domain.Features.Branch.Entities;
+using Domain.Features.BranchOffer.Entities;
+using Domain.Features.Comment.Entities;
+using Domain.Features.Company.Entities;
+using Domain.Features.Intership.Entities;
+using Domain.Features.Offer.Entities;
+using Domain.Features.Person.Entities;
+using Domain.Features.Recruitment.Entities;
+using Domain.Features.Url.Entities;
+using Domain.Features.User.Entities;
+using Domain.Features.UserProblem.Entities;
 
 namespace Domain.Shared.Factories
 {

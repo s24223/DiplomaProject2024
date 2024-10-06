@@ -1,4 +1,4 @@
-﻿using Application.VerticalSlice.AddressPart.Interfaces;
+﻿using Application.Features.Address.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackEnd.Controllers

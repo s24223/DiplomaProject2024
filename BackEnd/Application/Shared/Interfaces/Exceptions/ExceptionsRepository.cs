@@ -1,6 +1,6 @@
 ﻿using Application.Shared.Exceptions.AppExceptions;
+using Domain.Features.Url.Exceptions;
 using Domain.Shared.Exceptions.UserExceptions.ValueObjectsExceptions;
-using Domain.VerticalSlice.UrlPart.Exceptions;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;

@@ -1,9 +1,0 @@
-﻿using Domain.VerticalSlice.BranchOfferPart.Entities;
-
-namespace Application.VerticalSlice.OfferBranchPart.Interfaces
-{
-    public interface IBranchOfferRepository
-    {
-        Task CreateBranchOfferAsync(DomainBranchOffer branchOffer, CancellationToken cancellation);
-    }
-}

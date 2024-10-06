@@ -1,9 +1,9 @@
-﻿using Application.VerticalSlice.UserPart.DTOs.Create;
-using Application.VerticalSlice.UserPart.DTOs.LoginIn;
-using Application.VerticalSlice.UserPart.DTOs.Refresh;
-using Application.VerticalSlice.UserPart.DTOs.UpdateLogin;
-using Application.VerticalSlice.UserPart.DTOs.UpdatePassword;
-using Application.VerticalSlice.UserPart.Services;
+﻿using Application.Features.User.UserPart.DTOs.Create;
+using Application.Features.User.UserPart.DTOs.LoginIn;
+using Application.Features.User.UserPart.DTOs.Refresh;
+using Application.Features.User.UserPart.DTOs.UpdateLogin;
+using Application.Features.User.UserPart.DTOs.UpdatePassword;
+using Application.Features.User.UserPart.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

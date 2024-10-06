@@ -1,7 +1,7 @@
 ﻿using Application.Shared.Exceptions.AppExceptions;
 using Application.Shared.Exceptions.UserExceptions;
+using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Providers;
-using Domain.VerticalSlice.UserPart.ValueObjects.Identificators;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -15,8 +15,8 @@ namespace Application.Shared.Services.Authentication
     public class AuthenticationService : IAuthenticationService
     {
         //Values
+        private readonly IProvider _provider;
         private readonly IConfiguration _configuration;
-        private readonly IProvider _domainProvider;
 
         private readonly string _issuer;
         private readonly string _audience;
@@ -31,13 +31,14 @@ namespace Application.Shared.Services.Authentication
 
 
         //Constructor
-        public AuthenticationService(
-            IConfiguration configuration,
-            IProvider domainProvider
+        public AuthenticationService
+            (
+            IProvider provider,
+            IConfiguration configuration
             )
         {
+            _provider = provider;
             _configuration = configuration;
-            _domainProvider = domainProvider;
 
             var jwtSection = _configuration.GetSection("JwtData");
 
@@ -64,8 +65,10 @@ namespace Application.Shared.Services.Authentication
         }
 
 
-
-        //Methods
+        //=====================================================================================================
+        //=====================================================================================================
+        //=====================================================================================================
+        //Public Methods
         //Password Part
         public string GenerateSalt()
         {
@@ -95,7 +98,7 @@ namespace Application.Shared.Services.Authentication
         public (string RefreshToken, DateTime ValidTo) GenerateRefreshTokendAndDateTimeValidTo()
         {
             var refresh = GenerateRefreshToken();
-            var valid = _domainProvider.TimeProvider().GetDateTimeNow().AddHours(_timeInHourValidRefreshToken);
+            var valid = _provider.TimeProvider().GetDateTimeNow().AddHours(_timeInHourValidRefreshToken);
             return (refresh, valid);
         }
 
@@ -198,7 +201,8 @@ namespace Application.Shared.Services.Authentication
         //================================================================================================
         //================================================================================================
         //Private Methods
-        //================================================================================================
+
+
         //Private part Generators
         private string GenerateRefreshToken()
         {
@@ -241,7 +245,8 @@ namespace Application.Shared.Services.Authentication
             //new("Custom", "SomeData"),
             return claims;
         }
-        //================================================================================================
+
+
         //Private part Getters
         private IEnumerable<Claim> GetClaimsFromJwt(string jwt)
         {
@@ -264,6 +269,5 @@ namespace Application.Shared.Services.Authentication
             }
             return name;
         }
-        //================================================================================================
     }
 }

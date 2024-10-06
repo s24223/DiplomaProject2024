@@ -1,9 +1,9 @@
 ﻿using Application.Database;
 using Application.Shared.DTOs.Response;
 using Application.Shared.Exceptions.UserExceptions;
+using Domain.Features.Url.Exceptions;
+using Domain.Features.UserProblem.Exceptions;
 using Domain.Shared.Exceptions.UserExceptions.ValueObjectsExceptions;
-using Domain.VerticalSlice.UrlPart.Exceptions;
-using Domain.VerticalSlice.UserProblemPart.Exceptions;
 using Infrastructure.Exceptions.AppExceptions;
 using System.Diagnostics;
 using System.Text.Json;

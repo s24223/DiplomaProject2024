@@ -1,4 +1,5 @@
 ﻿using Application.Database.Models;
+using Application.Features.Address.Interfaces;
 using Application.Shared.Interfaces.Exceptions;
 using Infrastructure;
 using Infrastructure.Exceptions.AppExceptions;

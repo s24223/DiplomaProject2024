@@ -1,6 +1,6 @@
-﻿using Application.VerticalSlice.UrlPart.DTOs.Create;
-using Application.VerticalSlice.UrlPart.DTOs.Update;
-using Application.VerticalSlice.UrlPart.Services;
+﻿using Application.Features.User.UrlPart.DTOs.Create;
+using Application.Features.User.UrlPart.DTOs.Update;
+using Application.Features.User.UrlPart.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

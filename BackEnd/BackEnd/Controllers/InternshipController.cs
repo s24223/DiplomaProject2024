@@ -1,5 +1,5 @@
-﻿using Application.VerticalSlice.InternshipPart.DTOs;
-using Application.VerticalSlice.InternshipPart.Services;
+﻿using Application.Features.Internship.InternshipPart.DTOs;
+using Application.Features.Internship.InternshipPart.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

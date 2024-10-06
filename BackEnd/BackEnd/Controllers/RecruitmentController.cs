@@ -1,5 +1,5 @@
-﻿using Application.VerticalSlice.RecrutmentPart.DTOs.Create;
-using Application.VerticalSlice.RecrutmentPart.Services;
+﻿using Application.Features.Internship.RecrutmentPart.DTOs.Create;
+using Application.Features.Internship.RecrutmentPart.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

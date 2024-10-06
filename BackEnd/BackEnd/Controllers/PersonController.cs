@@ -1,5 +1,5 @@
-﻿using Application.VerticalSlice.PersonPart.DTOs.Create;
-using Application.VerticalSlice.PersonPart.Services;
+﻿using Application.Features.Person.DTOs.Create;
+using Application.Features.Person.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

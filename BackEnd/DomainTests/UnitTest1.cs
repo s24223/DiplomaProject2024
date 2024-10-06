@@ -1,5 +1,5 @@
-using Domain.VerticalSlice.OfferPart.Exceptions;
-using Domain.VerticalSlice.OfferPart.ValueObjects;
+using Domain.Features.Offer.Exceptions;
+using Domain.Features.Offer.ValueObjects;
 
 namespace DomainTests
 {

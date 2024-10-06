@@ -1,5 +1,5 @@
-﻿using Application.VerticalSlice.OfferPart.DTOs.Create;
-using Application.VerticalSlice.OfferPart.Services;
+﻿using Application.Features.Company.OfferPart.DTOs.Create;
+using Application.Features.Company.OfferPart.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

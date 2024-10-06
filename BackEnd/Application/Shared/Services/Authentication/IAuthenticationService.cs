@@ -1,4 +1,4 @@
-﻿using Domain.VerticalSlice.UserPart.ValueObjects.Identificators;
+﻿using Domain.Features.User.ValueObjects.Identificators;
 using System.Security.Claims;
 
 namespace Application.Shared.Services.Authentication

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Application.VerticalSlice.OfferBranchPart.Services;
-using Application.VerticalSlice.OfferBranchPart.DTOs;
+using Application.Features.Company.OfferBranchPart.DTOs;
+using Application.Features.Company.OfferBranchPart.Services;
 
 namespace BackEnd.Controllers
 {
