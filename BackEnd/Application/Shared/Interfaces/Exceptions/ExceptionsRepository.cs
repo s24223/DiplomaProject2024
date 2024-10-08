@@ -3,7 +3,6 @@ using Domain.Features.Url.Exceptions;
 using Domain.Shared.Exceptions.UserExceptions.ValueObjectsExceptions;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 
 namespace Application.Shared.Interfaces.Exceptions
 {
@@ -11,9 +10,7 @@ namespace Application.Shared.Interfaces.Exceptions
     {
         public Exception ConvertEFDbException
             (
-            Exception ex,
-            Type classType,
-            MethodBase? method
+            Exception ex
             )
         {
             if (ex is DbUpdateException && ex.InnerException is SqlException sqlEx)
@@ -36,7 +33,8 @@ namespace Application.Shared.Interfaces.Exceptions
                         if (message.Contains("CHECK_UserProblem_Status"))
                         {
                             //throw new UserProblemStatusException(Messages.NotExistUserProblemStatus);
-
+                            //"Copy_of_Address_Street"
+                            //"Address_Division"
                         }
                         break;
                     default:

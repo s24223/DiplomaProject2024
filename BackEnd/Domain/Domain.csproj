@@ -30,8 +30,6 @@
   <ItemGroup>
     <Folder Include="Shared\Exceptions\AppExceptions\EntitiesExceptions\" />
     <Folder Include="Shared\Exceptions\UserExceptions\EntitiesExceptions\" />
-    <Folder Include="Features\Address\Exceptions\AppExceptions\" />
-    <Folder Include="Features\Address\Exceptions\UserExceptions\" />
     <Folder Include="Features\Comment\Exceptions\AppExceptions\" />
     <Folder Include="Features\Comment\Exceptions\UserExceptions\" />
     <Folder Include="Features\Recruitment\Exceptions\AppExceptions\" />

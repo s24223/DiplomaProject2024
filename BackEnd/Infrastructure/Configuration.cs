@@ -1,5 +1,5 @@
 ﻿using Application.Database;
-using Application.Features.Address.Interfaces;
+using Application.Features.Addresses.Interfaces;
 using Application.VerticalSlice.AddressPart.Interfaces;
 using Infrastructure.MsSqlDatabase;
 using Microsoft.Extensions.Configuration;

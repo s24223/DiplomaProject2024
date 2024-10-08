@@ -135,6 +135,12 @@
   <data name="NotExistUserProblem" xml:space="preserve">
     <value>Nie istnieje zgłoszonego problemu za podanym Id, lub ono nie nalezy do danego urzytkownika</value>
   </data>
+  <data name="NotFoundAddress" xml:space="preserve">
+    <value>Za podanymi danymi adresu nie istnieje</value>
+  </data>
+  <data name="NotFoundAddressCollocation" xml:space="preserve">
+    <value>Za podanymi danymi nie istnieje połaczenia</value>
+  </data>
   <data name="NotUniqueUrlPath" xml:space="preserve">
     <value>Podany Url już istnieje</value>
   </data>

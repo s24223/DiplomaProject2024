@@ -1,4 +1,4 @@
-﻿using Domain.Features.Address.Exceptions;
+﻿using Domain.Features.Address.Exceptions.ValueObjects;
 using System.Text.RegularExpressions;
 
 namespace Domain.Features.Address.ValueObjects

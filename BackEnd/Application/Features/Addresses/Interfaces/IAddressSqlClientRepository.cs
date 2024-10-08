@@ -1,6 +1,6 @@
 ﻿using Application.Database.Models;
 
-namespace Application.Features.Address.Interfaces
+namespace Application.Features.Addresses.Interfaces
 {
     public interface IAddressSqlClientRepository
     {

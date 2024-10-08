@@ -367,6 +367,35 @@ namespace Domain.Shared.Factories
             _provider
             );
         }
+        /// <summary>
+        /// For creating new DomainAddress
+        /// </summary>
+        /// <param name="divisionId"></param>
+        /// <param name="streetId"></param>
+        /// <param name="buildingNumber"></param>
+        /// <param name="apartmentNumber"></param>
+        /// <param name="zipCode"></param>
+        /// <returns></returns>
+        public DomainAddress CreateDomainAddress
+            (
+            int divisionId,
+            int streetId,
+            string buildingNumber,
+            string? apartmentNumber,
+            string zipCode
+            )
+        {
+            return new DomainAddress
+                (
+                null,
+                divisionId,
+                streetId,
+                buildingNumber,
+                apartmentNumber,
+                zipCode,
+            _provider
+            );
+        }
 
         //=================================================================================================
         //=================================================================================================

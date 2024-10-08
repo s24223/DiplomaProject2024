@@ -1,4 +1,4 @@
-﻿using Domain.Features.Address.Exceptions;
+﻿using Domain.Features.Address.Exceptions.ValueObjects;
 using System.Text.RegularExpressions;
 
 namespace Domain.Features.Address.ValueObjects
@@ -9,7 +9,7 @@ namespace Domain.Features.Address.ValueObjects
 
         public BuildingNumber(string value)
         {
-            if (IsValidBuildingNumber(value))
+            if (!IsValidBuildingNumber(value))
             {
                 throw new BuildingNumberException();
             }

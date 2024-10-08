@@ -6,7 +6,6 @@ using Domain.Features.Url.Exceptions;
 using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Factories;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 
 namespace Application.Features.User.UrlPart.Interfaces
 {
@@ -59,9 +58,7 @@ namespace Application.Features.User.UrlPart.Interfaces
             {
                 throw _exceptionsRepository.ConvertEFDbException
                     (
-                    ex,
-                    GetType(),
-                    MethodBase.GetCurrentMethod()
+                    ex
                     );
             }
         }
@@ -92,9 +89,7 @@ namespace Application.Features.User.UrlPart.Interfaces
             {
                 throw _exceptionsRepository.ConvertEFDbException
                     (
-                    ex,
-                    GetType(),
-                    MethodBase.GetCurrentMethod()
+                    ex
                     );
             }
         }
@@ -124,9 +119,7 @@ namespace Application.Features.User.UrlPart.Interfaces
             {
                 throw _exceptionsRepository.ConvertEFDbException
                     (
-                    ex,
-                    GetType(),
-                    MethodBase.GetCurrentMethod()
+                    ex
                     );
             }
         }

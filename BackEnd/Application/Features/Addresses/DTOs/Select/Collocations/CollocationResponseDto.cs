@@ -1,4 +1,6 @@
-﻿namespace Application.Features.Address.DTOs.Select
+﻿using Application.Features.Addresses.DTOs.Select.Shared;
+
+namespace Application.Features.Addresses.DTOs.Select.Collocations
 {
     public class CollocationResponseDto
     {

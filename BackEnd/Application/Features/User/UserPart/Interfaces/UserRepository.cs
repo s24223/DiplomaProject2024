@@ -6,7 +6,6 @@ using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Factories;
 using Domain.Shared.ValueObjects;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 
 namespace Application.Features.User.UserPart.Interfaces
 {
@@ -60,9 +59,7 @@ namespace Application.Features.User.UserPart.Interfaces
             {
                 throw _exceptionRepository.ConvertEFDbException
                     (
-                    ex,
-                    GetType(),
-                    MethodBase.GetCurrentMethod()
+                    ex
                     );
             }
         }
@@ -96,9 +93,7 @@ namespace Application.Features.User.UserPart.Interfaces
             {
                 throw _exceptionRepository.ConvertEFDbException
                     (
-                    ex,
-                    GetType(),
-                    MethodBase.GetCurrentMethod()
+                    ex
                     );
             }
         }
@@ -124,9 +119,7 @@ namespace Application.Features.User.UserPart.Interfaces
             {
                 throw _exceptionRepository.ConvertEFDbException
                     (
-                    ex,
-                    GetType(),
-                    MethodBase.GetCurrentMethod()
+                    ex
                     );
             }
         }

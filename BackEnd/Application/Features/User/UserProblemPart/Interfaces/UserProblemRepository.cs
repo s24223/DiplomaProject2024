@@ -7,7 +7,6 @@ using Domain.Features.UserProblem.Exceptions;
 using Domain.Features.UserProblem.ValueObjects.Identificators;
 using Domain.Shared.Factories;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 
 namespace Application.Features.User.UserProblemPart.Interfaces
 {
@@ -67,9 +66,7 @@ namespace Application.Features.User.UserProblemPart.Interfaces
             {
                 throw _exceptionRepository.ConvertEFDbException
                     (
-                    ex,
-                    GetType(),
-                    MethodBase.GetCurrentMethod()
+                    ex
                     );
             }
         }
@@ -92,9 +89,7 @@ namespace Application.Features.User.UserProblemPart.Interfaces
             {
                 throw _exceptionRepository.ConvertEFDbException
                     (
-                    ex,
-                    GetType(),
-                    MethodBase.GetCurrentMethod()
+                    ex
                     );
             }
         }

@@ -151,6 +151,12 @@
   <data name="InValidSegmentUrl" xml:space="preserve">
     <value>Segment może zawieac tylko małe i duże łacinskie znaki, - _ </value>
   </data>
+  <data name="InValidSetDivisionId" xml:space="preserve">
+    <value>Dane DivisionId i w liscie Division nie ma takich samych </value>
+  </data>
+  <data name="InValidSetStreetId" xml:space="preserve">
+    <value>Dane StreetId i Street.Id nie zgadaja sie </value>
+  </data>
   <data name="InValidUrl" xml:space="preserve">
     <value>Niepoprawny typ URL</value>
   </data>

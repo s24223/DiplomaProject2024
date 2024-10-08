@@ -2,10 +2,13 @@
 
 namespace Application.Shared.DTOs.Response
 {
+    /// <summary>
+    /// Default Success
+    /// </summary>
     public class Response
     {
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public required EnumResponseStatus Status { get; set; }
-        public required string Message { get; set; } = null!;
+        public EnumResponseStatus Status { get; set; } = EnumResponseStatus.Success;
+        public string Message { get; set; } = Messages.ResponseSuccess;
     }
 }

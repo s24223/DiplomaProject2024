@@ -1,5 +1,5 @@
-﻿using Application.Features.Address.Interfaces;
-using Application.Features.Address.Services;
+﻿using Application.Features.Addresses.Interfaces;
+using Application.Features.Addresses.Services;
 using Application.Features.Company.CompanyPart.Interfaces;
 using Application.Features.Company.CompanyPart.Services;
 using Application.Features.Company.OfferBranchPart.Interfaces;

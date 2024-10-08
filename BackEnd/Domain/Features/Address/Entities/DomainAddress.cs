@@ -1,23 +1,45 @@
-﻿using Domain.Features.Address.ValueObjects;
+﻿using Domain.Features.Address.Exceptions.EntitiesExceptions;
+using Domain.Features.Address.ValueObjects;
 using Domain.Features.Address.ValueObjects.Identificators;
 using Domain.Shared.Providers;
-using Domain.Shared.Templates.Entities;
+using Domain.Shared.Templates.Exceptions;
 
 namespace Domain.Features.Address.Entities
 {
-    public class DomainAddress : Entity<AddressId>
+    public class DomainAddress
     {
         //Values
-        public DivisionId DivisionId { get; private set; }
-        public StreetId StreetId { get; private set; }
+        public AddressId Id { get; private set; }
         public BuildingNumber BuildingNumber { get; private set; } = null!;
         public ApartmentNumber? ApartmentNumber { get; private set; }
         public ZipCode ZipCode { get; set; } = null!;
 
 
         //References
+        //Division 
+        public DivisionId DivisionId { get; private set; }
         private List<DomainAdministrativeDivision> _hierarchy = new();
         public IReadOnlyCollection<DomainAdministrativeDivision> Hierarchy => _hierarchy;
+
+        //Street 
+        public StreetId StreetId { get; private set; }
+        private DomainStreet _street = null!;
+        public DomainStreet Street
+        {
+            get { return _street; }
+            set
+            {
+                if (StreetId != value.Id)
+                {
+                    throw new AddressException
+                        (
+                        Messages.InValidSetStreetId,
+                        DomainExceptionTypeEnum.AppProblem
+                        );
+                }
+                _street = value;
+            }
+        }
 
 
         //Constructor
@@ -30,18 +52,43 @@ namespace Domain.Features.Address.Entities
             string? apartmentNumber,
             string zipCode,
             IProvider provider
-            ) : base(new AddressId(id), provider)
+            )
         {
             //Values with exceptions
-
+            ZipCode = new ZipCode(zipCode);
             BuildingNumber = new BuildingNumber(buildingNumber);
             ApartmentNumber = string.IsNullOrWhiteSpace(apartmentNumber) ?
                 null : new ApartmentNumber(apartmentNumber);
-            ZipCode = new ZipCode(zipCode);
 
             //values with no exceptions
-            DivisionId = new DivisionId(divisionId);
+            Id = new AddressId(id);
             StreetId = new StreetId(streetId);
+            DivisionId = new DivisionId(divisionId);
         }
+
+
+        //====================================================================================================
+        //====================================================================================================
+        //====================================================================================================
+        //Public Methods
+        public void SetHierarchy(IEnumerable<DomainAdministrativeDivision> hierarchy)
+        {
+            var divisionWithSameDivisionId = hierarchy
+                .Any(x => x.Id == DivisionId);
+            if (!divisionWithSameDivisionId)
+            {
+                throw new AddressException
+                    (
+                    Messages.InValidSetDivisionId,
+                    DomainExceptionTypeEnum.AppProblem
+                    );
+            }
+            _hierarchy = hierarchy.ToList();
+        }
+
+        //====================================================================================================
+        //====================================================================================================
+        //====================================================================================================
+        //Private Methods
     }
 }

@@ -115,6 +115,24 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Za podanymi danymi adresu nie istnieje.
+        /// </summary>
+        internal static string NotFoundAddress {
+            get {
+                return ResourceManager.GetString("NotFoundAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Za podanymi danymi nie istnieje połaczenia.
+        /// </summary>
+        internal static string NotFoundAddressCollocation {
+            get {
+                return ResourceManager.GetString("NotFoundAddressCollocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Podany Url już istnieje.
         /// </summary>
         internal static string NotUniqueUrlPath {

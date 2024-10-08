@@ -1,4 +1,5 @@
-﻿using Domain.Features.Branch.Entities;
+﻿using Domain.Features.Address.Entities;
+using Domain.Features.Branch.Entities;
 using Domain.Features.BranchOffer.Entities;
 using Domain.Features.Comment.Entities;
 using Domain.Features.Company.Entities;
@@ -206,5 +207,28 @@ namespace Domain.Shared.Factories
             string? companyResponse,
             string? acceptedRejected
             );
+        //=================================================================================================
+        //=================================================================================================
+        //=================================================================================================
+        //Address Part
+        DomainAddress CreateDomainAddress
+            (
+            Guid? id,
+            int divisionId,
+            int streetId,
+            string buildingNumber,
+            string? apartmentNumber,
+            string zipCode
+            );
+
+        DomainAddress CreateDomainAddress
+            (
+            int divisionId,
+            int streetId,
+            string buildingNumber,
+            string? apartmentNumber,
+            string zipCode
+            );
+
     }
 }

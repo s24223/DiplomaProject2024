@@ -4,9 +4,12 @@ namespace Application.Features.User.UserProblemPart.DTOs.Create.Authorized
 {
     public class CreateUnauthorizedUserProblemRequestDto
     {
+        [Required]
         public required string UserMessage { get; set; } = null!;
-        public Guid? PreviousProblemId { get; set; }
+        [Required]
         [EmailAddress]
-        public required string? Email { get; set; }
+        public required string Email { get; set; } = null!;
+        public Guid? PreviousProblemId { get; set; } = null;
+
     }
 }

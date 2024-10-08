@@ -1,27 +1,43 @@
-﻿namespace Domain.Features.Address.Entities
+﻿using Domain.Features.Address.ValueObjects.Identificators;
+
+namespace Domain.Features.Address.Entities
 {
     public class DomainAdministrativeDivision
     {
-        public int Id { get; private set; }
-        public string AdministrativeDivisionName { get; private set; } = null!;
+        //Values
+        public DivisionId Id { get; private set; }
+        public string Name { get; private set; } = null!;
         public int? ParentDivisionId { get; private set; } = null;
-        public int AdministrativeTypeId { get; private set; }
-        public string AdministrativeTypeName { get; private set; } = null!;
 
+
+        //References
+        public DomainAdministrativeType DivisionType { get; private set; } = null!;
+
+
+        //Cosntructor
         public DomainAdministrativeDivision
             (
             int id,
-            string administrativeDivisionName,
+            string name,
             int? parentDivisionId,
-            int administrativeTypeId,
-            string administrativeTypeName
+            int divisionTypeId,
+            string divisionTypeName
             )
         {
-            Id = id;
-            AdministrativeDivisionName = administrativeDivisionName;
+            Id = new DivisionId(id);
+            Name = name;
             ParentDivisionId = parentDivisionId;
-            AdministrativeTypeId = administrativeTypeId;
-            AdministrativeTypeName = administrativeTypeName;
+            DivisionType = new DomainAdministrativeType
+                (
+                divisionTypeId,
+                divisionTypeName
+                );
         }
+
+
+        //==================================================================================================
+        //==================================================================================================
+        //==================================================================================================
+        //Public Methods
     }
 }

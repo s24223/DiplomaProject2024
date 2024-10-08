@@ -160,6 +160,24 @@ namespace Domain {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dane DivisionId i w liscie Division nie ma takich samych .
+        /// </summary>
+        internal static string InValidSetDivisionId {
+            get {
+                return ResourceManager.GetString("InValidSetDivisionId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dane StreetId i Street.Id nie zgadaja sie .
+        /// </summary>
+        internal static string InValidSetStreetId {
+            get {
+                return ResourceManager.GetString("InValidSetStreetId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Niepoprawny typ URL.
         /// </summary>
         internal static string InValidUrl {

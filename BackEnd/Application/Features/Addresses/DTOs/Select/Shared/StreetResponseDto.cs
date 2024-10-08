@@ -1,4 +1,4 @@
-﻿namespace Application.Features.Address.DTOs.Select
+﻿namespace Application.Features.Addresses.DTOs.Select.Shared
 {
     public class StreetResponseDto
     {
