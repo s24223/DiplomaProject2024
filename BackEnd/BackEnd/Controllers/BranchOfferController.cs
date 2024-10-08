@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Application.Features.Company.OfferBranchPart.DTOs;
 using Application.Features.Company.OfferBranchPart.Services;
+using Application.Features.Company.BranchOfferPart.DTOs.CreateProfile;
 
 namespace BackEnd.Controllers
 {
@@ -17,9 +17,11 @@ namespace BackEnd.Controllers
         }
 
         [HttpPost]
+        [HttpPost("create")]
         public async Task<IActionResult> CreateBranchOfferAsync(CreateBranchOfferDto dto, CancellationToken cancellation)
         {
-            return Ok(await _service.CreateBranchOfferAsync(dto, cancellation));
+            await _service.CreateBranchOfferAsync(dto, cancellation);
+            return Created();
         }
     }
 }

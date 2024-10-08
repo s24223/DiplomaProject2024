@@ -1,5 +1,7 @@
 ﻿using Application.Database;
+using Application.Database.Models;
 using Domain.Features.BranchOffer.Entities;
+using Domain.Features.Url.Entities;
 
 namespace Application.Features.Company.OfferBranchPart.Interfaces
 {
@@ -28,5 +30,26 @@ namespace Application.Features.Company.OfferBranchPart.Interfaces
                 });
             await _context.SaveChangesAsync();
         }
-    }
+
+
+        /*public async Task UpdateAsync
+            (
+           //Guid id,
+            DomainBranchOffer branchOffer,
+            CancellationToken cancellation
+            )
+        {
+            try
+            {
+                var databaseOffer = await _context.Offers
+                   .Where(x => x.Creted==)
+                   .FirstOrDefaultAsync(
+                   cancellation);
+            }
+            catch (System.Exception ex)
+            {
+
+            }*/
+        }
+        
 }

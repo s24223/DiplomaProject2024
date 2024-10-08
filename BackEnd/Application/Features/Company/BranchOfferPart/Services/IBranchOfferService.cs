@@ -1,4 +1,4 @@
-﻿using Application.Features.Company.OfferBranchPart.DTOs;
+﻿using Application.Features.Company.BranchOfferPart.DTOs.CreateProfile;
 using Application.Shared.DTOs.Response;
 
 namespace Application.Features.Company.OfferBranchPart.Services

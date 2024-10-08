@@ -1,4 +1,4 @@
-﻿namespace Application.Features.Company.OfferBranchPart.DTOs
+﻿namespace Application.Features.Company.BranchOfferPart.DTOs.CreateProfile
 {
     public class CreateBranchOfferDto
     {

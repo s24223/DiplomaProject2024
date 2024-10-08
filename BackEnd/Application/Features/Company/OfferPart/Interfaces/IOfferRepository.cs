@@ -5,5 +5,10 @@ namespace Application.Features.Company.OfferPart.Interfaces
     public interface IOfferRepository
     {
         Task CreateOfferProfileAsync(DomainOffer offer, CancellationToken cancellation);
+        Task UpdateOfferProfileAsync
+            (
+                DomainOffer offer,
+                CancellationToken cancellation
+            );
     }
 }

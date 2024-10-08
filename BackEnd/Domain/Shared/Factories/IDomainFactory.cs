@@ -207,6 +207,7 @@ namespace Domain.Shared.Factories
             string? companyResponse,
             string? acceptedRejected
             );
+<<<<<<< HEAD
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================
@@ -230,5 +231,8 @@ namespace Domain.Shared.Factories
             string zipCode
             );
 
+=======
+        DomainBranch CreateDomainBranch(Guid id, string? urlSegment, string name, string? description);
+>>>>>>> 45b4c34e689973bf399a85f1b89f5308ade02bfe
     }
 }

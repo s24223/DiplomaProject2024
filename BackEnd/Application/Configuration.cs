@@ -1,5 +1,12 @@
+<<<<<<< HEAD
 ﻿using Application.Features.Addresses.Interfaces;
 using Application.Features.Addresses.Services;
+=======
+﻿using Application.Features.Address.Interfaces;
+using Application.Features.Address.Services;
+using Application.Features.Company.BranchPart.Interfaces;
+using Application.Features.Company.BranchPart.Services;
+>>>>>>> 45b4c34e689973bf399a85f1b89f5308ade02bfe
 using Application.Features.Company.CompanyPart.Interfaces;
 using Application.Features.Company.CompanyPart.Services;
 using Application.Features.Company.OfferBranchPart.Interfaces;
@@ -68,6 +75,10 @@ namespace Application
             serviceCollection.AddTransient<IOfferRepository, OfferRepository>();
             serviceCollection.AddTransient<IOfferService, OfferService>();
 
+            //Branch Part
+            serviceCollection.AddTransient<IBranchRepository,BranchRepository>();
+            serviceCollection.AddTransient<IBranchService, BranchService>(); 
+            
             //OfferBranch Part
             serviceCollection.AddTransient<IBranchOfferRepository, OfferBranchRepository>();
             serviceCollection.AddTransient<IBranchOfferService, BranchOfferService>();

@@ -1,4 +1,5 @@
 ﻿using Application.Features.Company.OfferPart.DTOs.Create;
+using Application.Features.Company.OfferPart.DTOs.Update;
 
 namespace Application.Features.Company.OfferPart.Services
 {
@@ -9,5 +10,12 @@ namespace Application.Features.Company.OfferPart.Services
              CreateOfferRequestDto dto,
              CancellationToken cancellation
              );
+        Task UpdateOfferProfileAsync
+            (
+
+            Guid id,
+            UpdateOfferRequestDto dto,
+            CancellationToken cancellation
+            );
     }
 }
