@@ -206,5 +206,6 @@ namespace Domain.Shared.Factories
             string? companyResponse,
             string? acceptedRejected
             );
+        DomainBranch CreateDomainBranch(Guid id, string? urlSegment, string name, string? description);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Application.Features.Company.OfferPart.DTOs.Create;
+using Application.Features.Company.OfferPart.DTOs.Update;
 using Application.Features.Company.OfferPart.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,19 @@ namespace BackEnd.Controllers
         {
            // var claims = User.Claims.ToList();
             await _offerService.CreateOfferProfileAsync(/*claims,*/ dto, cancellation);
+            return Created();
+        }
+        [Authorize]
+        [HttpPut("{id:guid}/update")]
+        public async Task<IActionResult> UpdateOfferAsync
+            (
+            UpdateOfferRequestDto dto,
+            Guid id,
+            CancellationToken cancellation
+            )
+        {
+           // var claims = User.Claims.ToList();
+            await _offerService.UpdateOfferProfileAsync(id, dto, cancellation);
             return Created();
         }
     }

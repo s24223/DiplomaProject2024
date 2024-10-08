@@ -1,4 +1,6 @@
-﻿using Application.Features.Company.OfferPart.DTOs.Create;
+﻿using Application.Database.Models;
+using Application.Features.Company.OfferPart.DTOs.Create;
+using Application.Features.Company.OfferPart.DTOs.Update;
 using Application.Features.Company.OfferPart.Interfaces;
 using Application.Shared.Services.Authentication;
 using Domain.Shared.Factories;
@@ -45,6 +47,26 @@ namespace Application.Features.Company.OfferPart.Services
                 dto.NegotiatedSalary,
                 dto.ForStudents
 
+            );
+            await _repository.CreateOfferProfileAsync(domainOffer, cancellation);
+        }
+        public async Task UpdateOfferProfileAsync
+            (
+            //IEnumerable<Claim> claims,
+            Guid id,
+            UpdateOfferRequestDto dto,
+            CancellationToken cancellation
+            )
+        {
+            //var id = _authenticationRepository.GetIdNameFromClaims(claims);
+            var domainOffer = _domainFactory.CreateDomainOffer(
+                id,
+                dto.Name,
+                dto.Description,
+                dto.MinSalary,
+                dto.MaxSalary,
+                dto.NegotiatedSalary,
+                dto.ForStudents
             );
             await _repository.CreateOfferProfileAsync(domainOffer, cancellation);
         }

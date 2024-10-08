@@ -46,5 +46,24 @@ namespace Application.Features.Company.OfferPart.Interfaces
             }, cancellation);
             await _context.SaveChangesAsync(cancellation);
         }
+        public async Task UpdateOfferProfileAsync
+            (
+                DomainOffer offer,
+                CancellationToken cancellation
+            )
+        {
+            try
+            {
+                var databaseOffer = await _context.Offers
+                    .Where(x => x.Id == offer.Id.Value)
+                    .FirstOrDefaultAsync(
+                    cancellation);
+            }
+            catch (System.Exception ex)
+            {
+
+            }
+
+        }
     }
 }

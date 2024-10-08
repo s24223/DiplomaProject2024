@@ -19,7 +19,7 @@ namespace BackEnd.Controllers
         }
 
         [Authorize]
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<IActionResult> CreateInternshipAsync(CreateInternshipDto dto,
             CancellationToken cancellation)
         {
