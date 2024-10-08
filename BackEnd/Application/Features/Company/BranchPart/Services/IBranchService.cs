@@ -1,10 +1,5 @@
 ﻿using Application.Features.Company.BranchPart.DTOs.CreateProfile;
 using Application.Features.Company.BranchPart.DTOs.UpdateProfile;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.Company.BranchPart.Services
 {
@@ -21,6 +16,6 @@ namespace Application.Features.Company.BranchPart.Services
             UpdateBranchProfileRequestDto dto,
             CancellationToken cancellation
             );
-        
+
     }
 }

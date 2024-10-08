@@ -161,6 +161,54 @@ namespace Domain.Shared.Factories
         //=================================================================================================
         //=================================================================================================
         //Company Part
+        public DomainCompany CreateDomainCompany
+            (
+            Guid id,
+            string? urlSegment,
+            string contactEmail,
+            string name,
+            string regon,
+            string? description
+            )
+        {
+            return new DomainCompany
+                (
+                id,
+                urlSegment,
+                contactEmail,
+                name,
+                regon,
+                description,
+                null,
+        _provider
+                );
+        }
+
+        public DomainCompany CreateDomainCompany
+            (
+            Guid id,
+            string? urlSegment,
+            string contactEmail,
+            string name,
+            string regon,
+            string? description,
+            DateOnly? created
+            )
+        {
+            return new DomainCompany
+                (
+                id,
+                urlSegment,
+                contactEmail,
+                name,
+                regon,
+                description,
+                created,
+        _provider
+                );
+        }
+
+
         public DomainBranch CreateDomainBranch
             (
             Guid? id,
@@ -213,29 +261,6 @@ namespace Domain.Shared.Factories
            );
         }
 
-        public DomainCompany CreateDomainCompany
-            (
-            Guid id,
-            string? urlSegment,
-            string contactEmail,
-            string name,
-            string regon,
-            string? description,
-            DateOnly? createDate
-            )
-        {
-            return new DomainCompany
-                (
-                id,
-                urlSegment,
-                contactEmail,
-                name,
-                regon,
-                description,
-                createDate,
-        _provider
-                );
-        }
 
         public DomainOffer CreateDomainOffer
            (

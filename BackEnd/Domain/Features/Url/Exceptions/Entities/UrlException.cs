@@ -1,10 +1,10 @@
 ﻿using Domain.Shared.Templates.Exceptions;
 
-namespace Domain.Features.Address.Exceptions.EntitiesExceptions
+namespace Domain.Features.Url.Exceptions.Entities
 {
-    public class AddressException : DomainException
+    public class UrlException : DomainException
     {
-        public AddressException
+        public UrlException
             (
             string? message,
             DomainExceptionTypeEnum type = DomainExceptionTypeEnum.BadInputData

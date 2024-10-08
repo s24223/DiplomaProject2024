@@ -1,6 +1,6 @@
 ﻿using Application.Database;
 using Domain.Features.Branch.Entities;
-using Domain.Features.Url.Exceptions;
+using Domain.Features.Url.Exceptions.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Company.BranchPart.Interfaces
@@ -22,12 +22,12 @@ namespace Application.Features.Company.BranchPart.Interfaces
                 (
                 new Database.Models.Branch
                 {
-                    CompanyId=branch.CompanyId.Value,
-                    AddressId=branch.AddressId.Value,
-                    Id=branch.Id.Value,
-                    UrlSegment=branch.UrlSegment.Value,
-                    Name=branch.Name,
-                    Description=branch.Description
+                    CompanyId = branch.CompanyId.Value,
+                    AddressId = branch.AddressId.Value,
+                    Id = branch.Id.Value,
+                    UrlSegment = branch.UrlSegment.Value,
+                    Name = branch.Name,
+                    Description = branch.Description
 
                 });
             await _context.SaveChangesAsync();
@@ -43,7 +43,7 @@ namespace Application.Features.Company.BranchPart.Interfaces
 
         /// <summary>
         /// TU TRZEBA POPRAWIĆ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-   
+
         public async Task UpdateBranchProfileAsync
             (
 
@@ -62,7 +62,7 @@ namespace Application.Features.Company.BranchPart.Interfaces
                     cancellation);
                 if (databaseBranch == null)
                 {
-                    throw new UrlException(Messages.NotExistUrl);
+                    throw new UrlException(Messages.NotFoundUrl);
                 }
             }
             catch (System.Exception ex)

@@ -1,4 +1,4 @@
-﻿using Domain.Features.Address.Exceptions.EntitiesExceptions;
+﻿using Domain.Features.Address.Exceptions.Entities;
 using Domain.Features.Address.ValueObjects;
 using Domain.Features.Address.ValueObjects.Identificators;
 using Domain.Shared.Providers;

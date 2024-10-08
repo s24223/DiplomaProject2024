@@ -1,9 +1,19 @@
 ﻿using Domain.Features.Company.Entities;
+using Domain.Features.User.ValueObjects.Identificators;
 
 namespace Application.Features.Company.CompanyPart.Interfaces
 {
     public interface ICompanyRepository
     {
-        Task CreateCompanyProfileAsync(DomainCompany company, CancellationToken cancellation);
+        //DML
+        Task CreateCompanyAsync(DomainCompany company, CancellationToken cancellation);
+        Task UpdateCompanyAsync(DomainCompany company, CancellationToken cancellation);
+
+        //DQL
+        Task<DomainCompany> GetDomainCompanyAsync
+           (
+           UserId id,
+           CancellationToken cancellation
+           );
     }
 }

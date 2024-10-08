@@ -3,7 +3,7 @@ using Application.Features.Addresses.DTOs.Select.Collocations;
 using Application.Features.Addresses.DTOs.Select.Shared;
 using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.Address.Entities;
-using Domain.Features.Address.Exceptions.EntitiesExceptions;
+using Domain.Features.Address.Exceptions.Entities;
 using Domain.Shared.Factories;
 using Domain.Shared.Providers;
 using Domain.Shared.Templates.Exceptions;

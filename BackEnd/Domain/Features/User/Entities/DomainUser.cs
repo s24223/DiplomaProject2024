@@ -72,12 +72,14 @@ namespace Domain.Features.User.Entities
 
             //Values with no exeptions
             LastLoginIn = lastLoginIn;
-            LastPasswordUpdate = lastPasswordUpdate != null ?
-                lastPasswordUpdate.Value : _provider.TimeProvider().GetDateTimeNow();
+            LastPasswordUpdate = lastPasswordUpdate ?? _provider.TimeProvider().GetDateTimeNow();
         }
 
 
-        //Methods
+        //==================================================================================================
+        //==================================================================================================
+        //==================================================================================================
+        //Public Methods
         public void AddUserProblem(DomainUserProblem userProblem)
         {
             if (userProblem.UserId == Id && !_userProblems.ContainsKey(userProblem.Id))
@@ -95,5 +97,10 @@ namespace Domain.Features.User.Entities
                 domainUrl.User = this;
             }
         }
+
+        //==================================================================================================
+        //==================================================================================================
+        //==================================================================================================
+        //Pivate Methods
     }
 }

@@ -56,11 +56,7 @@ namespace Application.Features.User.UserPart.Services
 
             await _repository.CreateUserAsync(domainUser, password, salt, cancellation);
 
-            return new Response
-            {
-                Status = EnumResponseStatus.Success,
-                Message = Messages.ResponseSuccess,
-            };
+            return new Response { };
         }
 
         public async Task<Response> UpdateLoginAsync
@@ -84,11 +80,7 @@ namespace Application.Features.User.UserPart.Services
                 cancellation
                );
 
-            return new Response
-            {
-                Status = EnumResponseStatus.Success,
-                Message = Messages.ResponseSuccess,
-            };
+            return new Response { };
         }
 
         public async Task<Response> UpdatePasswordAsync
@@ -115,11 +107,7 @@ namespace Application.Features.User.UserPart.Services
                 cancellation
                 );
 
-            return new Response
-            {
-                Status = EnumResponseStatus.Success,
-                Message = Messages.ResponseSuccess,
-            };
+            return new Response { };
         }
 
         //==========================================================================================================================================
@@ -191,8 +179,6 @@ namespace Application.Features.User.UserPart.Services
             //Correct
             return new ResponseItem<LoginInResponseDto>
             {
-                Status = EnumResponseStatus.Success,
-                Message = Messages.ResponseSuccess,
                 Item = new LoginInResponseDto
                 {
                     Jwt = jwt.Jwt,
@@ -247,8 +233,6 @@ namespace Application.Features.User.UserPart.Services
 
             return new ResponseItem<RefreshResponseDto>
             {
-                Status = EnumResponseStatus.Success,
-                Message = Messages.ResponseSuccess,
                 Item = new RefreshResponseDto
                 {
                     Jwt = jwt.Jwt,
@@ -267,11 +251,7 @@ namespace Application.Features.User.UserPart.Services
         {
             var id = _authenticationRepository.GetIdNameFromClaims(claims);
             await _repository.LogOutAndDeleteRefreshTokenDataAsync(id, cancellation);
-            return new Response
-            {
-                Status = EnumResponseStatus.Success,
-                Message = Messages.ResponseSuccess,
-            };
+            return new Response { };
         }
 
         //============================================================================================================

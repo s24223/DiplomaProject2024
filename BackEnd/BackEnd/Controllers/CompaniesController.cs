@@ -1,4 +1,5 @@
-﻿using Application.Features.Company.CompanyPart.DTOs.CreateProfile;
+﻿using Application.Features.Company.CompanyPart.DTOs.Create;
+using Application.Features.Company.CompanyPart.DTOs.Update;
 using Application.Features.Company.CompanyPart.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,12 +21,25 @@ namespace BackEnd.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> CreateCompanyAsync
             (
-            CreateCompanyProfileRequestDto dto,
+            CreateCompanyRequestDto dto,
             CancellationToken cancellation
             )
         {
             var claims = User.Claims.ToList();
-            await _companyService.CreateCompanyProfileAsync(claims, dto, cancellation);
+            await _companyService.CreateCompanyAsync(claims, dto, cancellation);
+            return Created();
+        }
+
+        [Authorize]
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateCompanyAsync
+            (
+            UpdateCompanyRequestDto dto,
+            CancellationToken cancellation
+            )
+        {
+            var claims = User.Claims.ToList();
+            await _companyService.UpdateCompanyAsync(claims, dto, cancellation);
             return Created();
         }
     }

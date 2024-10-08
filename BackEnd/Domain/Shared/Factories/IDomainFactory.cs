@@ -120,6 +120,48 @@ namespace Domain.Shared.Factories
         //=================================================================================================
         //=================================================================================================
         //Company Part
+        /// <summary>
+        /// For Creating New DomainCompany
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="urlSegment"></param>
+        /// <param name="contactEmail"></param>
+        /// <param name="name"></param>
+        /// <param name="regon"></param>
+        /// <param name="description"></param>
+        /// <returns></returns>
+        DomainCompany CreateDomainCompany
+            (
+            Guid id,
+            string? urlSegment,
+            string contactEmail,
+            string name,
+            string regon,
+            string? description
+            );
+        /// <summary>
+        /// For creating Regular DomainCompany, mostly for maping from Database on Domain
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="urlSegment"></param>
+        /// <param name="contactEmail"></param>
+        /// <param name="name"></param>
+        /// <param name="regon"></param>
+        /// <param name="description"></param>
+        /// <param name="createDate"></param>
+        /// <returns></returns>
+        DomainCompany CreateDomainCompany
+            (
+            Guid id,
+            string? urlSegment,
+            string contactEmail,
+            string name,
+            string regon,
+            string? description,
+            DateOnly? created
+            );
+
+
         DomainBranch CreateDomainBranch
             (
             Guid? id,
@@ -143,16 +185,7 @@ namespace Domain.Shared.Factories
            DateTime lastUpdate
            );
 
-        DomainCompany CreateDomainCompany
-            (
-            Guid id,
-            string? urlSegment,
-            string contactEmail,
-            string name,
-            string regon,
-            string? description,
-            DateOnly? createDate
-            );
+
 
         DomainOffer CreateDomainOffer
            (

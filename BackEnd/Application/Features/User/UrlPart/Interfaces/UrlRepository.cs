@@ -2,16 +2,17 @@
 using Application.Database.Models;
 using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.Url.Entities;
-using Domain.Features.Url.Exceptions;
+using Domain.Features.Url.Exceptions.Entities;
 using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Factories;
+using Domain.Shared.Templates.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.User.UrlPart.Interfaces
 {
     public class UrlRepository : IUrlRepository
     {
-        //vaues
+        //Vaues
         private readonly IDomainFactory _domainFactory;
         private readonly IExceptionsRepository _exceptionsRepository;
         private readonly DiplomaProjectContext _context;
@@ -31,8 +32,10 @@ namespace Application.Features.User.UrlPart.Interfaces
         }
 
 
-        //Methods
         //===================================================================================================
+        //===================================================================================================
+        //===================================================================================================
+        //Methods
         //DML
         public async Task CreateAsync
             (
@@ -56,10 +59,7 @@ namespace Application.Features.User.UrlPart.Interfaces
             }
             catch (System.Exception ex)
             {
-                throw _exceptionsRepository.ConvertEFDbException
-                    (
-                    ex
-                    );
+                throw _exceptionsRepository.ConvertEFDbException(ex);
             }
         }
 
@@ -87,10 +87,7 @@ namespace Application.Features.User.UrlPart.Interfaces
             }
             catch (System.Exception ex)
             {
-                throw _exceptionsRepository.ConvertEFDbException
-                    (
-                    ex
-                    );
+                throw _exceptionsRepository.ConvertEFDbException(ex);
             }
         }
 
@@ -117,10 +114,7 @@ namespace Application.Features.User.UrlPart.Interfaces
             }
             catch (System.Exception ex)
             {
-                throw _exceptionsRepository.ConvertEFDbException
-                    (
-                    ex
-                    );
+                throw _exceptionsRepository.ConvertEFDbException(ex);
             }
         }
 
@@ -190,10 +184,13 @@ namespace Application.Features.User.UrlPart.Interfaces
                 ).FirstOrDefaultAsync(cancellation);
             if (url == null)
             {
-                throw new UrlException(Messages.NotExistUrl);
+                throw new UrlException
+                    (
+                    Messages.NotFoundUrl,
+                    DomainExceptionTypeEnum.NotFound
+                    );
             }
             return url;
         }
-
     }
 }

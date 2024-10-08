@@ -1,4 +1,4 @@
-﻿using Domain.Features.Company.Exceptions;
+﻿using Domain.Features.Company.Exceptions.ValueObjects;
 using System.Text.RegularExpressions;
 
 namespace Domain.Features.Company.ValueObjects
@@ -9,8 +9,11 @@ namespace Domain.Features.Company.ValueObjects
     /// <exception cref="RegonException"></exception>
     public record Regon
     {
+        //Values
         public string Value { get; private set; }
 
+
+        //Cosntructors
         public Regon(string value)
         {
             if (!IsValidRegon(value))
@@ -20,6 +23,11 @@ namespace Domain.Features.Company.ValueObjects
             Value = value;
         }
 
+
+        //==================================================================================================
+        //==================================================================================================
+        //==================================================================================================
+        //Private Methods
         private bool IsValidRegon(string regon)
         {
             return Regex.IsMatch(regon, @"^[0-9]{9}$") ||

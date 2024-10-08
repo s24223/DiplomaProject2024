@@ -13,11 +13,14 @@ namespace Application.Features.User.UrlPart.Services
 {
     public class UrlService : IUrlService
     {
+        //Values
         private readonly IDomainFactory _domainFactory;
         private readonly IAuthenticationService _authentication;
         private readonly IProvider _domainProvider;
         private readonly IUrlRepository _urlRepository;
 
+
+        //Cosntructor
         public UrlService(
             IDomainFactory domainFactory,
             IAuthenticationService authentication,
@@ -32,8 +35,10 @@ namespace Application.Features.User.UrlPart.Services
         }
 
 
-        //Methods
         //===================================================================================================
+        //===================================================================================================
+        //===================================================================================================
+        //Public Methods
         //DML
         public async Task<Response> CreateAsync
             (
@@ -117,7 +122,6 @@ namespace Application.Features.User.UrlPart.Services
             };
         }
 
-        //===================================================================================================
         //DQL
         public async Task<IEnumerable<UrlResponseDto>> GetUrlsAsync
             (

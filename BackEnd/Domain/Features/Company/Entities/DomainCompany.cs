@@ -11,12 +11,12 @@ namespace Domain.Features.Company.Entities
     public class DomainCompany : Entity<UserId>
     {
         //Values
-        public DateOnly CreateDate { get; private set; }
-        public UrlSegment? UrlSegment { get; set; } = null;
-        public Email ContactEmail { get; set; } = null!;
-        public Regon Regon { get; set; } = null!;
-        public string Name { get; set; } = null!;
-        public string? Description { get; set; }
+        public DateOnly Created { get; private set; }
+        public UrlSegment? UrlSegment { get; private set; } = null;
+        public Email ContactEmail { get; private set; } = null!;
+        public Regon Regon { get; private set; } = null!;
+        public string Name { get; private set; } = null!;
+        public string? Description { get; private set; }
 
 
         //Refrences
@@ -48,7 +48,7 @@ namespace Domain.Features.Company.Entities
             string name,
             string regon,
             string? description,
-            DateOnly? createDate,
+            DateOnly? created,
             IProvider provider
             ) : base(new UserId(id), provider)
         {
@@ -61,12 +61,14 @@ namespace Domain.Features.Company.Entities
             //Values with no exeptions
             Name = name;
             Description = description;
-            CreateDate = createDate != null ?
-                createDate.Value : _provider.TimeProvider().GetDateOnlyToday();
+            Created = created ?? provider.TimeProvider().GetDateOnlyToday();
         }
 
 
-        //Methods
+        //==================================================================================================
+        //==================================================================================================
+        //==================================================================================================
+        //Public Methods
         public void AddBranch(DomainBranch domainBranch)
         {
             if (domainBranch.CompanyId == Id && !_branches.ContainsKey(domainBranch.Id))
@@ -75,5 +77,28 @@ namespace Domain.Features.Company.Entities
                 domainBranch.Company = this;
             }
         }
+
+        public void UpdateData
+            (
+            string? urlSegment,
+            string contactEmail,
+            string name,
+            string? description
+            )
+        {
+            //Values with exeptions
+            ContactEmail = new Email(contactEmail);
+            UrlSegment = string.IsNullOrWhiteSpace(urlSegment) ?
+                null : new UrlSegment(urlSegment);
+
+            //Values with no exeptions
+            Name = name;
+            Description = description;
+        }
+
+        //==================================================================================================
+        //==================================================================================================
+        //==================================================================================================
+        //Public Methods
     }
 }

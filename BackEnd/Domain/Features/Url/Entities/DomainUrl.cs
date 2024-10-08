@@ -1,4 +1,4 @@
-﻿using Domain.Features.Url.Exceptions;
+﻿using Domain.Features.Url.Exceptions.Entities;
 using Domain.Features.Url.ValueObjects.Identificators;
 using Domain.Features.Url.ValueObjects.UrlTypePart;
 using Domain.Features.User.Entities;
@@ -64,5 +64,10 @@ namespace Domain.Features.Url.Entities
             Description = description;
         }
 
+
+        //==================================================================================================
+        //==================================================================================================
+        //==================================================================================================
+        //Public Methods
     }
 }

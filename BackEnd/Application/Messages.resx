@@ -120,6 +120,9 @@
   <data name="IncorrectJwtUserName" xml:space="preserve">
     <value>Njprawdopodobnej zaistniały zmiany w kodzie w ramach implementacji Name w JWT, zweryfikuj i popraw</value>
   </data>
+  <data name="IsExistCompany" xml:space="preserve">
+    <value>Firma istnieje nie można wkleic ponownie</value>
+  </data>
   <data name="NotConfiguredAudience" xml:space="preserve">
     <value>Sprawdż strukturę UserSecrets, najprawdopodobnej ona zmieniła się w kontekscie: JwtData : Audience</value>
   </data>
@@ -129,17 +132,20 @@
   <data name="NotConfiguredSecret" xml:space="preserve">
     <value>Sprawdż strukturę UserSecrets, najprawdopodobnej ona zmieniła się w kontekscie: JwtData : Secret</value>
   </data>
-  <data name="NotExistUrl" xml:space="preserve">
-    <value>Za podanymi danymi nie istnieje URL</value>
-  </data>
-  <data name="NotExistUserProblem" xml:space="preserve">
-    <value>Nie istnieje zgłoszonego problemu za podanym Id, lub ono nie nalezy do danego urzytkownika</value>
-  </data>
   <data name="NotFoundAddress" xml:space="preserve">
     <value>Za podanymi danymi adresu nie istnieje</value>
   </data>
   <data name="NotFoundAddressCollocation" xml:space="preserve">
     <value>Za podanymi danymi nie istnieje połaczenia</value>
+  </data>
+  <data name="NotFoundCompany" xml:space="preserve">
+    <value>Za podanymi danymi firma nie istnieje</value>
+  </data>
+  <data name="NotFoundUrl" xml:space="preserve">
+    <value>Za podanymi danymi nie istnieje URL</value>
+  </data>
+  <data name="NotFoundUserProblem" xml:space="preserve">
+    <value>Nie istnieje zgłoszonego problemu za podanym Id, lub ono nie nalezy do danego urzytkownika</value>
   </data>
   <data name="NotUniqueUrlPath" xml:space="preserve">
     <value>Podany Url już istnieje</value>

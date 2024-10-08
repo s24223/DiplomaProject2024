@@ -1,4 +1,5 @@
-﻿using Application.Features.Company.CompanyPart.DTOs.CreateProfile;
+﻿using Application.Features.Company.CompanyPart.DTOs.Create;
+using Application.Features.Company.CompanyPart.DTOs.Update;
 using Application.Features.Company.CompanyPart.Interfaces;
 using Application.Shared.DTOs.Response;
 using Application.Shared.Services.Authentication;
@@ -10,12 +11,14 @@ namespace Application.Features.Company.CompanyPart.Services
 {
     public class CompanyService : ICompanyService
     {
+        //Values
         private readonly ICompanyRepository _repository;
         private readonly IDomainFactory _domainFactory;
         private readonly IAuthenticationService _authenticationRepository;
         private readonly IProvider _domainProvider;
 
 
+        //Cosntructor
         public CompanyService
             (
             ICompanyRepository repository,
@@ -30,10 +33,16 @@ namespace Application.Features.Company.CompanyPart.Services
             _domainProvider = domainProvider;
         }
 
-        public async Task<Response> CreateCompanyProfileAsync
+
+        //=========================================================================================================
+        //=========================================================================================================
+        //=========================================================================================================
+        //Public Methods
+        //DML
+        public async Task<Response> CreateCompanyAsync
             (
             IEnumerable<Claim> claims,
-            CreateCompanyProfileRequestDto dto,
+            CreateCompanyRequestDto dto,
             CancellationToken cancellation
             )
         {
@@ -45,15 +54,41 @@ namespace Application.Features.Company.CompanyPart.Services
                 dto.ContactEmail,
                 dto.Name,
                 dto.Regon,
-                dto.Description,
-                _domainProvider.TimeProvider().GetDateOnlyToday()
+                dto.Description
                 );
-            await _repository.CreateCompanyProfileAsync(domainComapany, cancellation);
-            return new Response
-            {
-                Status = EnumResponseStatus.Success,
-                Message = Messages.ResponseSuccess,
-            };
+            await _repository.CreateCompanyAsync(domainComapany, cancellation);
+            return new Response { };
         }
+
+        public async Task<Response> UpdateCompanyAsync
+            (
+            IEnumerable<Claim> claims,
+            UpdateCompanyRequestDto dto,
+            CancellationToken cancellation
+            )
+        {
+            var id = _authenticationRepository.GetIdNameFromClaims(claims);
+
+            var domainCompany = await _repository.GetDomainCompanyAsync
+                (
+                id,
+                cancellation
+                );
+
+            domainCompany.UpdateData
+                (
+                dto.UrlSegment,
+                dto.ContactEmail,
+                dto.Name,
+                dto.Description
+                );
+
+            await _repository.UpdateCompanyAsync(domainCompany, cancellation);
+            return new Response { };
+        }
+        //=========================================================================================================
+        //=========================================================================================================
+        //=========================================================================================================
+        //Private Methods
     }
 }

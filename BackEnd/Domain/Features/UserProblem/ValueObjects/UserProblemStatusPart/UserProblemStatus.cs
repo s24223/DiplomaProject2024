@@ -1,13 +1,12 @@
-﻿using Domain.Features.UserProblem.Exceptions;
+﻿using Domain.Features.UserProblem.Exceptions.ValueObjects;
 
 namespace Domain.Features.UserProblem.ValueObjects.UserProblemStatusPart
 {
     public record UserProblemStatus
     {
+        //Values
         private static Dictionary<string, UserProblemStatus> _statuses = new();
 
-
-        //Values
         public string Code { get; private set; }
         public UserProblemStatusEnum Name { get; private set; }
 
@@ -51,7 +50,15 @@ namespace Domain.Features.UserProblem.ValueObjects.UserProblemStatusPart
         }
 
 
-        //Methods
+        //==================================================================================================
+        //==================================================================================================
+        //==================================================================================================
+        //Public Methods
         public static IReadOnlyDictionary<string, UserProblemStatus> GetStatuses() => _statuses;
+
+        //==================================================================================================
+        //==================================================================================================
+        //==================================================================================================
+        //Public Methods
     }
 }

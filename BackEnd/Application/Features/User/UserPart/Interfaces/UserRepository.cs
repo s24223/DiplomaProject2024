@@ -55,12 +55,9 @@ namespace Application.Features.User.UserPart.Interfaces
                 await _context.Users.AddAsync(databaseUser, cancellation);
                 await _context.SaveChangesAsync(cancellation);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                throw _exceptionRepository.ConvertEFDbException
-                    (
-                    ex
-                    );
+                throw _exceptionRepository.ConvertEFDbException(ex);
             }
         }
 
@@ -89,12 +86,9 @@ namespace Application.Features.User.UserPart.Interfaces
 
                 await _context.SaveChangesAsync(cancellation);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                throw _exceptionRepository.ConvertEFDbException
-                    (
-                    ex
-                    );
+                throw _exceptionRepository.ConvertEFDbException(ex);
             }
         }
 
@@ -115,16 +109,12 @@ namespace Application.Features.User.UserPart.Interfaces
 
                 await _context.SaveChangesAsync(cancellation);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
-                throw _exceptionRepository.ConvertEFDbException
-                    (
-                    ex
-                    );
+                throw _exceptionRepository.ConvertEFDbException(ex);
             }
         }
 
-        //==========================================================================================================================================
         //DQL
         public async Task<(DomainUser User, string Password, string Salt, string? RefreshToken, DateTime? ExpiredToken)> GetUserDataByLoginEmailAsync
              (

@@ -1,9 +1,13 @@
 ﻿using Application.Database;
 using Application.Shared.DTOs.Response;
+using Application.Shared.Exceptions.AppExceptions;
 using Application.Shared.Exceptions.UserExceptions;
-using Domain.Features.Url.Exceptions;
-using Domain.Features.UserProblem.Exceptions;
-using Domain.Shared.Exceptions.UserExceptions.ValueObjectsExceptions;
+using Domain.Features.Address.Exceptions.Entities;
+using Domain.Features.Address.Exceptions.ValueObjects;
+using Domain.Features.Url.Exceptions.Entities;
+using Domain.Features.Url.Exceptions.ValueObjects;
+using Domain.Features.UserProblem.Exceptions.Entities;
+using Domain.Features.UserProblem.Exceptions.ValueObjects;
 using Infrastructure.Exceptions.AppExceptions;
 using System.Diagnostics;
 using System.Text.Json;
@@ -56,31 +60,58 @@ namespace BackEnd.Middlewares.CustomMiddlewares
 
             switch (ex)
             {
-                case UnauthorizedUserException:
+
+                //========================================================================================
+                //Address Module
+                case AddressException:
+                    await GenerateUserFaultResponse(response, ex, 401);
+                    break;
+                case ApartmentNumberException:
+                    await GenerateUserFaultResponse(response, ex, 401);
+                    break;
+                case BuildingNumberException:
+                    await GenerateUserFaultResponse(response, ex, 401);
+                    break;
+                case ZipCodeException:
                     await GenerateUserFaultResponse(response, ex, 401);
                     break;
 
                 //========================================================================================
-                //Domain Entities Exceptions
+                //User Module
                 case UrlException:
-                    await GenerateUserFaultResponse(response, ex, 400);
+                    await GenerateUserFaultResponse(response, ex, 401);
+                    break;
+                case UrlTypeException:
+                    await GenerateUserFaultResponse(response, ex, 401);
                     break;
                 case UserProblemException:
-                    await GenerateUserFaultResponse(response, ex, 400);
+                    await GenerateUserFaultResponse(response, ex, 401);
+                    break;
+                case UserProblemStatusException:
+                    await GenerateUserFaultResponse(response, ex, 401);
                     break;
 
                 //========================================================================================
-                //Domain ValueObjects Exceptions
-                case EmailException:
-                    await GenerateUserFaultResponse(response, ex, 400);
-                    break;
-                case UrlTypeException:
-                    await GenerateUserFaultResponse(response, ex, 400);
-                    break;
-                case UserProblemStatusException:
-                    await GenerateUserFaultResponse(response, ex, 400);
+                //Application
+                case UnauthorizedUserException:
+                    await GenerateUserFaultResponse(response, ex, 401);
                     break;
 
+
+                case SqlClientImplementationException:
+                    await GenerateUserFaultResponse(response, ex, 500);
+                    break;
+                case IncorrectJwtUserNameException:
+                    await GenerateUserFaultResponse(response, ex, 500);
+                    break;
+                case ApplicationLayerException:
+                    await GenerateUserFaultResponse(response, ex, 500);
+                    break;
+                //========================================================================================
+                //Infrastructure
+                case InfrastructureLayerException:
+                    await GenerateUserFaultResponse(response, ex, 401);
+                    break;
                 //========================================================================================
                 //App Exceptions
                 default:

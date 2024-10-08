@@ -1,4 +1,4 @@
-﻿using Domain.Features.Url.Exceptions;
+﻿using Domain.Features.Url.Exceptions.ValueObjects;
 
 namespace Domain.Features.Url.ValueObjects.UrlTypePart
 {
@@ -53,7 +53,15 @@ namespace Domain.Features.Url.ValueObjects.UrlTypePart
         }
 
 
-        //Methods
-        public static Dictionary<int, UrlType> GetTypesDictionary() => _types;
+        //==================================================================================================
+        //==================================================================================================
+        //==================================================================================================
+        //Public Methods
+        public static IReadOnlyDictionary<int, UrlType> GetTypesDictionary() => _types;
+
+        //==================================================================================================
+        //==================================================================================================
+        //==================================================================================================
+        //Private Methods
     }
 }

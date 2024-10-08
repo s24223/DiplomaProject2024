@@ -3,9 +3,10 @@ using Application.Database.Models;
 using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Features.UserProblem.Entities;
-using Domain.Features.UserProblem.Exceptions;
+using Domain.Features.UserProblem.Exceptions.Entities;
 using Domain.Features.UserProblem.ValueObjects.Identificators;
 using Domain.Shared.Factories;
+using Domain.Shared.Templates.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.User.UserProblemPart.Interfaces
@@ -64,10 +65,7 @@ namespace Application.Features.User.UserProblemPart.Interfaces
             }
             catch (System.Exception ex)
             {
-                throw _exceptionRepository.ConvertEFDbException
-                    (
-                    ex
-                    );
+                throw _exceptionRepository.ConvertEFDbException(ex);
             }
         }
 
@@ -87,10 +85,7 @@ namespace Application.Features.User.UserProblemPart.Interfaces
             }
             catch (System.Exception ex)
             {
-                throw _exceptionRepository.ConvertEFDbException
-                    (
-                    ex
-                    );
+                throw _exceptionRepository.ConvertEFDbException(ex);
             }
         }
 
@@ -117,6 +112,7 @@ namespace Application.Features.User.UserProblemPart.Interfaces
                 databaseUserProblem.UserId
                 );
         }
+
         //==============================================================================================
         //==============================================================================================
         //==============================================================================================
@@ -133,7 +129,11 @@ namespace Application.Features.User.UserProblemPart.Interfaces
                 .FirstOrDefaultAsync(cancellation);
             if (databaseUserProblem == null)
             {
-                throw new UserProblemException(Messages.NotExistUserProblem);
+                throw new UserProblemException
+                    (
+                    Messages.NotFoundUserProblem,
+                    DomainExceptionTypeEnum.NotFound
+                    );
             }
             return databaseUserProblem;
         }
@@ -149,7 +149,11 @@ namespace Application.Features.User.UserProblemPart.Interfaces
                 .FirstOrDefaultAsync(cancellation);
             if (databaseUserProblem == null)
             {
-                throw new UserProblemException(Messages.NotExistUserProblem);
+                throw new UserProblemException
+                    (
+                    Messages.NotFoundUserProblem,
+                    DomainExceptionTypeEnum.NotFound
+                    );
             }
             return databaseUserProblem;
         }

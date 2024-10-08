@@ -1,6 +1,6 @@
 ﻿using Domain.Features.User.Entities;
 using Domain.Features.User.ValueObjects.Identificators;
-using Domain.Features.UserProblem.Exceptions;
+using Domain.Features.UserProblem.Exceptions.Entities;
 using Domain.Features.UserProblem.ValueObjects.Identificators;
 using Domain.Features.UserProblem.ValueObjects.UserProblemStatusPart;
 using Domain.Shared.Providers;
@@ -57,8 +57,7 @@ namespace Domain.Features.UserProblem.Entities
             Status = new UserProblemStatus(status);
 
             //Values with no exeptions
-            Created = created != null
-                ? created.Value : _provider.TimeProvider().GetDateTimeNow();
+            Created = created ?? _provider.TimeProvider().GetDateTimeNow();
             UserMessage = userMessage;
             Response = response;
             PreviousProblemId = previousProblemId == null ?
@@ -68,7 +67,10 @@ namespace Domain.Features.UserProblem.Entities
         }
 
 
-        //Methods
+        //=================================================================================================
+        //=================================================================================================
+        //=================================================================================================
+        //Public Methods
         public void Annul()
         {
             if (
@@ -80,5 +82,10 @@ namespace Domain.Features.UserProblem.Entities
             }
             Status = new UserProblemStatus("a");
         }
+
+        //=================================================================================================
+        //=================================================================================================
+        //=================================================================================================
+        //Private Methods
     }
 }

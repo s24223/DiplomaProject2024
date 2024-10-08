@@ -67,8 +67,6 @@ namespace Application.Features.User.UserProblemPart.Services
 
             return new ResponseItem<CreateUserProblemResponseDto>
             {
-                Status = EnumResponseStatus.Success,
-                Message = Messages.ResponseSuccess,
                 Item = new CreateUserProblemResponseDto
                 {
                     IdProblem = idUserProblem,
@@ -100,13 +98,9 @@ namespace Application.Features.User.UserProblemPart.Services
                 cancellation
                 );
 
-            return new Response
-            {
-                Status = EnumResponseStatus.Success,
-                Message = Messages.ResponseSuccess,
-            };
+            return new Response { };
         }
-        //================================================================================================
+
         //ForUnauthorized
         public async Task<ResponseItem<CreateUserProblemResponseDto>> CreateForUnauthorizedAsync
             (
@@ -130,8 +124,6 @@ namespace Application.Features.User.UserProblemPart.Services
 
             return new ResponseItem<CreateUserProblemResponseDto>
             {
-                Status = EnumResponseStatus.Success,
-                Message = Messages.ResponseSuccess,
                 Item = new CreateUserProblemResponseDto
                 {
                     IdProblem = idUserProblem,

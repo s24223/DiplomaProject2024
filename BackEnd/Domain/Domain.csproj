@@ -28,6 +28,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\User\Exceptions\Entities\" />
+    <Folder Include="Features\User\Exceptions\ValueObjects\" />
     <Folder Include="Shared\Exceptions\AppExceptions\EntitiesExceptions\" />
     <Folder Include="Shared\Exceptions\UserExceptions\EntitiesExceptions\" />
     <Folder Include="Features\Comment\Exceptions\AppExceptions\" />
@@ -40,18 +42,10 @@
     <Folder Include="Features\Offer\Exceptions\UserExceptions\" />
     <Folder Include="Features\Branch\Exceptions\AppExceptions\" />
     <Folder Include="Features\Branch\Exceptions\UserExceptions\" />
-    <Folder Include="Features\Company\Exceptions\AppExceptions\" />
-    <Folder Include="Features\Company\Exceptions\UserExceptions\" />
     <Folder Include="Features\BranchOffer\Exceptions\AppExceptions\" />
     <Folder Include="Features\BranchOffer\Exceptions\UserExceptions\" />
     <Folder Include="Features\Person\Exceptions\AppExceptions\" />
     <Folder Include="Features\Person\Exceptions\UserExceptions\" />
-    <Folder Include="Features\UserProblem\Exceptions\AppExceptions\" />
-    <Folder Include="Features\UserProblem\Exceptions\UserExceptions\" />
-    <Folder Include="Features\Url\Exceptions\AppExceptions\" />
-    <Folder Include="Features\Url\Exceptions\UserExceptions\" />
-    <Folder Include="Features\User\Exceptions\AppExceptions\" />
-    <Folder Include="Features\User\Exceptions\UserExceptions\" />
   </ItemGroup>
 
 </Project>

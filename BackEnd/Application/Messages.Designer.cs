@@ -70,6 +70,15 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Firma istnieje nie można wkleic ponownie.
+        /// </summary>
+        internal static string IsExistCompany {
+            get {
+                return ResourceManager.GetString("IsExistCompany", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sprawdż strukturę UserSecrets, najprawdopodobnej ona zmieniła się w kontekscie: JwtData : Audience.
         /// </summary>
         internal static string NotConfiguredAudience {
@@ -97,24 +106,6 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi nie istnieje URL.
-        /// </summary>
-        internal static string NotExistUrl {
-            get {
-                return ResourceManager.GetString("NotExistUrl", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Nie istnieje zgłoszonego problemu za podanym Id, lub ono nie nalezy do danego urzytkownika.
-        /// </summary>
-        internal static string NotExistUserProblem {
-            get {
-                return ResourceManager.GetString("NotExistUserProblem", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Za podanymi danymi adresu nie istnieje.
         /// </summary>
         internal static string NotFoundAddress {
@@ -129,6 +120,33 @@ namespace Application {
         internal static string NotFoundAddressCollocation {
             get {
                 return ResourceManager.GetString("NotFoundAddressCollocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Za podanymi danymi firma nie istnieje.
+        /// </summary>
+        internal static string NotFoundCompany {
+            get {
+                return ResourceManager.GetString("NotFoundCompany", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Za podanymi danymi nie istnieje URL.
+        /// </summary>
+        internal static string NotFoundUrl {
+            get {
+                return ResourceManager.GetString("NotFoundUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nie istnieje zgłoszonego problemu za podanym Id, lub ono nie nalezy do danego urzytkownika.
+        /// </summary>
+        internal static string NotFoundUserProblem {
+            get {
+                return ResourceManager.GetString("NotFoundUserProblem", resourceCulture);
             }
         }
         

@@ -1,5 +1,6 @@
 ﻿using Application.Shared.Exceptions.AppExceptions;
-using Domain.Features.Url.Exceptions;
+using Domain.Features.Company.Exceptions.Entities;
+using Domain.Features.Url.Exceptions.Entities;
 using Domain.Shared.Exceptions.UserExceptions.ValueObjectsExceptions;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -28,14 +29,20 @@ namespace Application.Shared.Interfaces.Exceptions
                         {
                             return new UrlException(Messages.NotUniqueUrlPath);
                         }
+                        else if (message.Contains("Company_pk"))
+                        {
+                            return new CompanyException(Messages.IsExistCompany);
+                        }
                         break;
                     case 547: // Naruszenie klucza obcego lub CHECK
+                        Console.WriteLine(ex.Message);
                         if (message.Contains("CHECK_UserProblem_Status"))
                         {
                             //throw new UserProblemStatusException(Messages.NotExistUserProblemStatus);
                             //"Copy_of_Address_Street"
                             //"Address_Division"
                         }
+
                         break;
                     default:
                         return ex;
