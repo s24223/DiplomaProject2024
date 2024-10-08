@@ -25,7 +25,7 @@ namespace BackEnd.Controllers
             CancellationToken cancellation
             )
         {
-           // var claims = User.Claims.ToList();
+            // var claims = User.Claims.ToList();
             await _offerService.CreateOfferProfileAsync(/*claims,*/ dto, cancellation);
             return Created();
         }
@@ -38,7 +38,7 @@ namespace BackEnd.Controllers
             CancellationToken cancellation
             )
         {
-           // var claims = User.Claims.ToList();
+            // var claims = User.Claims.ToList();
             await _offerService.UpdateOfferProfileAsync(id, dto, cancellation);
             return Created();
         }

@@ -183,6 +183,10 @@ namespace Domain.Shared.Factories
                 );
         }
 
+        public DomainBranch CreateDomainBranch(Guid id, string? urlSegment, string name, string? description)
+        {
+            throw new NotImplementedException();
+        }
         public DomainBranchOffer CreateDomainBranchOffer
            (
            Guid branchId,
@@ -302,7 +306,7 @@ namespace Domain.Shared.Factories
              _provider
             );
         }
-#warning Werifi
+
         public DomainIntership CreateDomainInternship(string contactNumber, Guid personId, Guid branchId, Guid offerId, DateTime created)
         {
             return new DomainIntership(
@@ -396,6 +400,7 @@ namespace Domain.Shared.Factories
             _provider
             );
         }
+
 
         //=================================================================================================
         //=================================================================================================
