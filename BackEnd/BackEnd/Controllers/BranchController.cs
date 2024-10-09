@@ -1,8 +1,8 @@
-﻿using Application.Features.Company.BranchPart.DTOs.CreateProfile;
-using Application.Features.Company.BranchPart.Services;
-using Application.Features.Company.BranchPart.DTOs.UpdateProfile;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Application.Features.Companies.BranchPart.Services;
+using Application.Features.Companies.BranchPart.DTOs.CreateProfile;
+using Application.Features.Companies.BranchPart.DTOs.UpdateProfile;
 
 namespace BackEnd.Controllers
 {

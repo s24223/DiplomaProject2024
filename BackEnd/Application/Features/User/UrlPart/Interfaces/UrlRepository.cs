@@ -145,25 +145,6 @@ namespace Application.Features.User.UrlPart.Interfaces
                 databaseUrl.Description
                 );
         }
-        public async Task<IEnumerable<DomainUrl>> GetUrlsAsync
-            (
-            UserId userId,
-            CancellationToken cancellation
-            )
-        {
-            return await _context.Urls
-                .Where(x => x.UserId == userId.Value)
-                .Select(databaseUrl => _domainFactory.CreateDomainUrl
-                (
-                databaseUrl.UserId,
-                databaseUrl.UrlTypeId,
-                databaseUrl.Created,
-                databaseUrl.Path,
-                databaseUrl.Name,
-                databaseUrl.Description
-                )).ToListAsync(cancellation);
-        }
-
         //====================================================================================================
         //====================================================================================================
         //====================================================================================================

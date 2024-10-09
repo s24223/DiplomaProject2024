@@ -1,5 +1,7 @@
 ﻿using Application.Features.Addresses.DTOs.Select.Collocations;
+using Application.Features.Addresses.DTOs.Select.Shared;
 using Domain.Features.Address.Entities;
+using Domain.Features.Address.ValueObjects.Identificators;
 
 namespace Application.Features.Addresses.Interfaces
 {
@@ -28,7 +30,13 @@ namespace Application.Features.Addresses.Interfaces
 
         Task<DomainAddress> GetAddressAsync
             (
-            Guid id,
+            AddressId id,
+            CancellationToken cancellation
+            );
+
+        Task<IEnumerable<DivisionResponseDto>> GetDivisionsDownAsync
+            (
+            DivisionId? id,
             CancellationToken cancellation
             );
     }

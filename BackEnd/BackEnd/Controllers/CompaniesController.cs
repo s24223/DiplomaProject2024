@@ -1,6 +1,6 @@
-﻿using Application.Features.Company.CompanyPart.DTOs.Create;
-using Application.Features.Company.CompanyPart.DTOs.Update;
-using Application.Features.Company.CompanyPart.Services;
+﻿using Application.Features.Companies.CompanyPart.DTOs.Create;
+using Application.Features.Companies.CompanyPart.DTOs.Update;
+using Application.Features.Companies.CompanyPart.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,7 +26,7 @@ namespace BackEnd.Controllers
             )
         {
             var claims = User.Claims.ToList();
-            await _companyService.CreateCompanyAsync(claims, dto, cancellation);
+            await _companyService.CreateAsync(claims, dto, cancellation);
             return Created();
         }
 
@@ -39,7 +39,7 @@ namespace BackEnd.Controllers
             )
         {
             var claims = User.Claims.ToList();
-            await _companyService.UpdateCompanyAsync(claims, dto, cancellation);
+            await _companyService.UpdateAsync(claims, dto, cancellation);
             return Created();
         }
     }

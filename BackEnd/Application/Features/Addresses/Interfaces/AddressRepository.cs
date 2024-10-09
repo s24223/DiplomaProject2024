@@ -1,11 +1,12 @@
 ﻿using Application.Database;
+using Application.Database.Models;
 using Application.Features.Addresses.DTOs.Select.Collocations;
 using Application.Features.Addresses.DTOs.Select.Shared;
 using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.Address.Entities;
 using Domain.Features.Address.Exceptions.Entities;
+using Domain.Features.Address.ValueObjects.Identificators;
 using Domain.Shared.Factories;
-using Domain.Shared.Providers;
 using Domain.Shared.Templates.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +15,7 @@ namespace Application.Features.Addresses.Interfaces
     public class AddressRepository : IAddressRepository
     {
         //Values
-        private readonly IProvider _provider;
+        //private readonly IProvider _provider;
         private readonly IDomainFactory _domainFactory;
         private readonly IAddressSqlClientRepository _sql;
         private readonly IExceptionsRepository _exceptionsRepository;
@@ -24,7 +25,7 @@ namespace Application.Features.Addresses.Interfaces
         //Cosntructor
         public AddressRepository
             (
-            IProvider provider,
+            //IProvider provider,
             IDomainFactory domainFactory,
             IAddressSqlClientRepository sql,
             IExceptionsRepository exceptionsRepository,
@@ -32,7 +33,7 @@ namespace Application.Features.Addresses.Interfaces
             )
         {
             _sql = sql;
-            _provider = provider;
+            //_provider = provider;
             _domainFactory = domainFactory;
             _exceptionsRepository = exceptionsRepository;
             _context = context;
@@ -62,6 +63,12 @@ namespace Application.Features.Addresses.Interfaces
 
                 if (redundancy != null)
                 {
+                    //updating Zip Code Thinking a new is correct
+                    if (redundancy.ZipCode != address.ZipCode.Value)
+                    {
+                        redundancy.ZipCode = address.ZipCode.Value;
+                        await _context.SaveChangesAsync(cancellation);
+                    }
                     return redundancy.Id;
                 }
 
@@ -71,6 +78,7 @@ namespace Application.Features.Addresses.Interfaces
                     x.Id == address.StreetId.Value &&
                     x.Divisions.Any(y => y.Id == address.DivisionId.Value)
                     )
+                    .AsNoTracking()
                     .FirstOrDefaultAsync(cancellation);
 
                 if (collocation == null)
@@ -95,32 +103,30 @@ namespace Application.Features.Addresses.Interfaces
                 await _context.SaveChangesAsync(cancellation);
                 return databaseAddress.Id;
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 throw _exceptionsRepository.ConvertEFDbException(ex);
             }
         }
+
         public async Task UpdateAsync
             (
             DomainAddress address,
             CancellationToken cancellation
             )
         {
-            var databaseAddress = await _context.Addresses
-                .Where(x => x.Id == address.Id.Value)
-                .FirstOrDefaultAsync(cancellation);
-
-            if (databaseAddress == null)
+            try
             {
-                throw new AddressException
-                    (
-                    Messages.NotFoundAddress,
-                    DomainExceptionTypeEnum.NotFound
-                    );
-            }
-            databaseAddress.ZipCode = address.ZipCode.Value;
+                var databaseAddress = await GetDatabaseAddress(address.Id, cancellation);
 
-            await _context.SaveChangesAsync(cancellation);
+                databaseAddress.ZipCode = address.ZipCode.Value;
+
+                await _context.SaveChangesAsync(cancellation);
+            }
+            catch (System.Exception ex)
+            {
+                throw _exceptionsRepository.ConvertEFDbException(ex);
+            }
         }
 
         //DQL
@@ -143,44 +149,82 @@ namespace Application.Features.Addresses.Interfaces
                     cancellation
                     );
 
-
-                collocations.Add(new CollocationResponseDto
-                {
-                    Hierarchy = hierarchy.ToList().Select(x => new DivisionResponseDto
-                    {
-                        Id = x.Id,
-                        ParentId = x.ParentDivisionId,
-                        Name = x.Name,
-                        AdministrativeType = new AdministrativeTypeResponseDto
-                        {
-                            Id = x.AdministrativeType.Id,
-                            Name = x.AdministrativeType.Name,
-                        },
-                    }),
-                    Street = new StreetResponseDto
-                    {
-                        Id = street.Id,
-                        Name = street.Name,
-                        AdministrativeType = street.AdministrativeType == null ?
-                            null : new AdministrativeTypeResponseDto
-                            {
-                                Id = street.AdministrativeType.Id,
-                                Name = street.AdministrativeType.Name,
-                            },
-                    },
-                });
+                collocations.Add(new CollocationResponseDto(hierarchy, street));
             }
             return collocations;
         }
 
         public async Task<DomainAddress> GetAddressAsync
             (
-            Guid id,
+            AddressId id,
+            CancellationToken cancellation
+            )
+        {
+            var databaseAddress = await GetDatabaseAddress(id, cancellation);
+            var databseHierarchy = await _sql
+                .GetDivisionsHierachyUpAsync(databaseAddress.DivisionId, cancellation);
+
+            return ConvertToDomainAddress(databaseAddress, databseHierarchy);
+        }
+
+        public async Task<IEnumerable<DivisionResponseDto>> GetDivisionsDownAsync
+            (
+            DivisionId? id,
+            CancellationToken cancellation
+            )
+        {
+            if (id is null)
+            {
+                return await _context.AdministrativeDivisions
+                .Include(x => x.AdministrativeType)
+                .Where(x => x.ParentDivisionId == null)
+                .Select(x => new DivisionResponseDto
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    ParentId = x.ParentDivisionId,
+                    AdministrativeType = new AdministrativeTypeResponseDto
+                    {
+                        Id = x.AdministrativeType.Id,
+                        Name = x.AdministrativeType.Name,
+                    }
+                })
+                .AsNoTracking()
+                .ToListAsync(cancellation);
+            }
+            else
+            {
+                return await _context.AdministrativeDivisions
+                .Include(x => x.AdministrativeType)
+                .Where(x => x.ParentDivisionId == id.Value)
+                .Select(x => new DivisionResponseDto
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    ParentId = x.ParentDivisionId,
+                    AdministrativeType = new AdministrativeTypeResponseDto
+                    {
+                        Id = x.AdministrativeType.Id,
+                        Name = x.AdministrativeType.Name,
+                    }
+                })
+                .AsNoTracking()
+                .ToListAsync(cancellation);
+            }
+        }
+
+        //====================================================================================================
+        //====================================================================================================
+        //====================================================================================================
+        //Private Methods
+        private async Task<Address> GetDatabaseAddress
+            (
+            AddressId id,
             CancellationToken cancellation
             )
         {
             var databaseAddress = await _context.Addresses
-                .Where(x => x.Id == id)
+                .Where(x => x.Id == id.Value)
                 .Include(x => x.Street)
                 .ThenInclude(x => x.AdministrativeType)
                 .FirstOrDefaultAsync(cancellation);
@@ -193,10 +237,15 @@ namespace Application.Features.Addresses.Interfaces
                     DomainExceptionTypeEnum.NotFound
                     );
             }
+            return databaseAddress;
+        }
 
-
-            var databseHierarchy = await _sql
-                .GetDivisionsHierachyUpAsync(databaseAddress.DivisionId, cancellation);
+        private DomainAddress ConvertToDomainAddress
+            (
+            Address databaseAddress,
+            IEnumerable<AdministrativeDivision> databseHierarchy
+            )
+        {
             var domainHierachy = databseHierarchy.Select(x => new DomainAdministrativeDivision
                 (
                 x.Id,
@@ -228,9 +277,5 @@ namespace Application.Features.Addresses.Interfaces
             address.SetHierarchy(domainHierachy);
             return address;
         }
-        //====================================================================================================
-        //====================================================================================================
-        //====================================================================================================
-        //Private Methods
     }
 }

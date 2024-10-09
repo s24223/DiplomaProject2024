@@ -58,11 +58,7 @@ namespace Application.Features.User.UrlPart.Services
                 dto.Description
                 );
             await _urlRepository.CreateAsync(url, cancellation);
-            return new Response
-            {
-                Status = EnumResponseStatus.Success,
-                Message = Messages.ResponseSuccess,
-            };
+            return new Response { };
         }
 
         public async Task<Response> UpdateAsync
@@ -89,12 +85,7 @@ namespace Application.Features.User.UrlPart.Services
             url.Description = dto.Description;
 
             await _urlRepository.UpdateAsync(url, cancellation);
-
-            return new Response
-            {
-                Status = EnumResponseStatus.Success,
-                Message = Messages.ResponseSuccess,
-            };
+            return new Response { };
         }
 
         public async Task<Response> DeleteAsync
@@ -115,43 +106,13 @@ namespace Application.Features.User.UrlPart.Services
                     cancellation
                 );
 
-            return new Response
-            {
-                Status = EnumResponseStatus.Success,
-                Message = Messages.ResponseSuccess,
-            };
+            return new Response { };
         }
 
         //DQL
-        public async Task<IEnumerable<UrlResponseDto>> GetUrlsAsync
-            (
-            IEnumerable<Claim> claims,
-            CancellationToken cancellation
-            )
-        {
-            var userId = _authentication.GetIdNameFromClaims(claims);
-            var list = await _urlRepository.GetUrlsAsync(userId, cancellation);
-
-            return list.Select(x => new UrlResponseDto
-            {
-                UserId = x.Id.UserId.Value,
-                UrlTypeId = (int)x.Id.UrlType.Type,
-                UrlType = x.Id.UrlType.Name,
-                UrlTypeDescription = x.Id.UrlType.Description,
-                Created = x.Id.Created,
-                Path = x.Path.ToString(),
-                Name = x.Name,
-                Description = x.Description,
-            }).ToList();
-        }
-
         public IEnumerable<UrlTypeResponseDto> GetUrlTypes() =>
-            UrlType.GetTypesDictionary().Values.Select(x => new UrlTypeResponseDto
-            {
-                Id = (int)x.Type,
-                Name = x.Name,
-                Description = x.Description,
-            }).ToList();
+            UrlType.GetTypesDictionary().Values
+            .Select(x => new UrlTypeResponseDto(x)).ToList();
 
         //===================================================================================================
         //===================================================================================================

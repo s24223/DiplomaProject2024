@@ -1,4 +1,6 @@
-﻿using Domain.Features.Address.ValueObjects.Identificators;
+﻿using Domain.Features.Address.Entities;
+using Domain.Features.Address.Exceptions.Entities;
+using Domain.Features.Address.ValueObjects.Identificators;
 using Domain.Features.Branch.ValueObjects.Identificators;
 using Domain.Features.BranchOffer.Entities;
 using Domain.Features.BranchOffer.ValueObjects.Identificators;
@@ -6,6 +8,7 @@ using Domain.Features.Company.Entities;
 using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Providers;
 using Domain.Shared.Templates.Entities;
+using Domain.Shared.Templates.Exceptions;
 using Domain.Shared.ValueObjects;
 namespace Domain.Features.Branch.Entities
 {
@@ -36,9 +39,26 @@ namespace Domain.Features.Branch.Entities
         //BarnachOffer 
         private Dictionary<BranchOfferId, DomainBranchOffer> _branchOffers = new();
         public IReadOnlyDictionary<BranchOfferId, DomainBranchOffer> BranchOffers => _branchOffers;
+
         //Adress
-#warning Add adress
         public AddressId AddressId { get; private set; } = null!;
+        private DomainAddress _address = null!;
+        public DomainAddress Address
+        {
+            get { return _address; }
+            set
+            {
+                if (value.Id != AddressId)
+                {
+                    throw new AddressException
+                        (
+                        Messages.AppProblemNotSameAddressId,
+                        DomainExceptionTypeEnum.AppProblem
+                        );
+                }
+                _address = value;
+            }
+        }
 
 
         //Constructor

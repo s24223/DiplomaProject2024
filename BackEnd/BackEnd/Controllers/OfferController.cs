@@ -1,6 +1,6 @@
-﻿using Application.Features.Company.OfferPart.DTOs.Create;
-using Application.Features.Company.OfferPart.DTOs.Update;
-using Application.Features.Company.OfferPart.Services;
+﻿using Application.Features.Companies.OfferPart.DTOs.Create;
+using Application.Features.Companies.OfferPart.DTOs.Update;
+using Application.Features.Companies.OfferPart.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

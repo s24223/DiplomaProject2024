@@ -1,5 +1,5 @@
-﻿using Application.Features.Company.BranchOfferPart.DTOs.CreateProfile;
-using Application.Features.Company.OfferBranchPart.Services;
+﻿using Application.Features.Companies.BranchOfferPart.DTOs.CreateProfile;
+using Application.Features.Companies.BranchOfferPart.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackEnd.Controllers

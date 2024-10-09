@@ -61,6 +61,15 @@ namespace Domain {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Problem aplikacyjny nie takie same id Adress i AddressId z konstruktora.
+        /// </summary>
+        internal static string AppProblemNotSameAddressId {
+            get {
+                return ResourceManager.GetString("AppProblemNotSameAddressId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nie można anulować, sprawa zamknieta.
         /// </summary>
         internal static string DomainUserProblemCannotAnnulTaskClosed {

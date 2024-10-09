@@ -8,13 +8,13 @@ namespace Application.Features.User.UserProblemPart.Interfaces
     {
         //==============================================================================================
         //DML
-        Task<Guid> CreateUserProblemAndReturnIdAsync
+        Task<Guid> CreateAndReturnIdAsync
             (
             DomainUserProblem userProblem,
             CancellationToken cancellation
             );
 
-        Task SetNewStatusUserProblemForAuthorizedAsync
+        Task SetNewStatusForAuthorizedAsync
             (
             DomainUserProblem userProblem,
             CancellationToken cancellation
@@ -22,7 +22,7 @@ namespace Application.Features.User.UserProblemPart.Interfaces
 
         //==============================================================================================
         //DQL
-        Task<DomainUserProblem> GetDomainUserProblemAsync
+        Task<DomainUserProblem> GetProblemAsync
             (
             UserId userId,
             UserProblemId userProblemId,

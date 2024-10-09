@@ -1,4 +1,6 @@
-﻿using Domain.Features.Address.ValueObjects.Identificators;
+﻿using Domain.Features.Address.Entities;
+using Domain.Features.Address.Exceptions.Entities;
+using Domain.Features.Address.ValueObjects.Identificators;
 using Domain.Features.Person.ValueObjects;
 using Domain.Features.Recruitment.Entities;
 using Domain.Features.Recruitment.ValueObjects.Identificators;
@@ -6,6 +8,7 @@ using Domain.Features.User.Entities;
 using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Providers;
 using Domain.Shared.Templates.Entities;
+using Domain.Shared.Templates.Exceptions;
 using Domain.Shared.ValueObjects;
 namespace Domain.Features.Person.Entities
 {
@@ -41,10 +44,26 @@ namespace Domain.Features.Person.Entities
         //DomainRecrutment
         private Dictionary<RecrutmentId, DomainRecruitment> _recrutments = new();
         public IReadOnlyDictionary<RecrutmentId, DomainRecruitment> Recrutments => _recrutments;
-        //
-#warning Add Adress
-        public AddressId? AddressId { get; set; } = null;
 
+        //DomainAddress
+        public AddressId? AddressId { get; private set; } = null;
+        private DomainAddress _address = null!;
+        public DomainAddress Address
+        {
+            get { return _address; }
+            set
+            {
+                if (value.Id != AddressId)
+                {
+                    throw new AddressException
+                        (
+                        Messages.AppProblemNotSameAddressId,
+                        DomainExceptionTypeEnum.AppProblem
+                        );
+                }
+                _address = value;
+            }
+        }
 
 
         //Constructor

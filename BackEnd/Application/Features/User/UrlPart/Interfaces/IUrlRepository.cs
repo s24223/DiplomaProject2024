@@ -35,11 +35,5 @@ namespace Application.Features.User.UrlPart.Interfaces
             DateTime created,
             CancellationToken cancellation
             );
-
-        Task<IEnumerable<DomainUrl>> GetUrlsAsync
-            (
-            UserId userId,
-            CancellationToken cancellation
-            );
     }
 }

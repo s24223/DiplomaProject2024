@@ -1,6 +1,7 @@
 ﻿using Application.Features.Addresses.DTOs.Create;
 using Application.Features.Addresses.DTOs.Select.Address;
 using Application.Features.Addresses.DTOs.Select.Collocations;
+using Application.Features.Addresses.DTOs.Select.Shared;
 using Application.Features.Addresses.DTOs.Update;
 using Application.Shared.DTOs.Response;
 
@@ -30,9 +31,15 @@ namespace Application.Features.Addresses.Services
             CancellationToken cancellation
             );
 
-        Task<ResponseItem<GetAddressResponseDto>> GetAddressAsync
+        Task<ResponseItem<AddressResponseDto>> GetAddressAsync
             (
             Guid id,
+            CancellationToken cancellation
+            );
+
+        Task<ResponseItems<DivisionResponseDto>> GetDivisionsDownAsync
+            (
+            int? id,
             CancellationToken cancellation
             );
     }

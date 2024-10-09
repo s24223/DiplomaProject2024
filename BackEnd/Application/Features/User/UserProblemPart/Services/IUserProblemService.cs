@@ -16,7 +16,7 @@ namespace Application.Features.User.UserProblemPart.Services
             CreateAuthorizedUserProblemRequestDto dto,
             CancellationToken cancellation
             );
-        Task<Response> AnnulUserProblemForAuthorizedAsync
+        Task<Response> AnnulForAuthorizedAsync
             (
             IEnumerable<Claim> claims,
             Guid idUserProblem,

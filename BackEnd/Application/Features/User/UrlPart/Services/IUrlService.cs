@@ -37,12 +37,6 @@ namespace Application.Features.User.UrlPart.Services
 
         //====================================================================================================
         //DQL
-        Task<IEnumerable<UrlResponseDto>> GetUrlsAsync
-            (
-            IEnumerable<Claim> claims,
-            CancellationToken cancellation
-            );
-
         IEnumerable<UrlTypeResponseDto> GetUrlTypes();
     }
 }

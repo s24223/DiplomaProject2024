@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Branch\Exceptions\AppExceptions\" />
     <Folder Include="Features\User\Exceptions\Entities\" />
     <Folder Include="Features\User\Exceptions\ValueObjects\" />
     <Folder Include="Shared\Exceptions\AppExceptions\EntitiesExceptions\" />
@@ -40,7 +41,6 @@
     <Folder Include="Features\Intership\Exceptions\UserExceptions\" />
     <Folder Include="Features\Offer\Exceptions\AppExceptions\" />
     <Folder Include="Features\Offer\Exceptions\UserExceptions\" />
-    <Folder Include="Features\Branch\Exceptions\AppExceptions\" />
     <Folder Include="Features\Branch\Exceptions\UserExceptions\" />
     <Folder Include="Features\BranchOffer\Exceptions\AppExceptions\" />
     <Folder Include="Features\BranchOffer\Exceptions\UserExceptions\" />

@@ -7,6 +7,7 @@ using Application.Features.Addresses.Interfaces;
 using Application.Shared.DTOs.Response;
 using Application.Shared.Services.Authentication;
 using Domain.Features.Address.ValueObjects;
+using Domain.Features.Address.ValueObjects.Identificators;
 using Domain.Shared.Factories;
 using Domain.Shared.Providers;
 
@@ -74,7 +75,7 @@ namespace Application.Features.Addresses.Services
             CancellationToken cancellation
             )
         {
-            var address = await _repository.GetAddressAsync(id, cancellation);
+            var address = await _repository.GetAddressAsync(new AddressId(id), cancellation);
             address.ZipCode = new ZipCode(dto.ZipCode);
 
             await _repository.UpdateAsync(address, cancellation);
@@ -97,50 +98,35 @@ namespace Application.Features.Addresses.Services
             };
         }
 
-        public async Task<ResponseItem<GetAddressResponseDto>> GetAddressAsync
+        public async Task<ResponseItem<AddressResponseDto>> GetAddressAsync
             (
             Guid id,
             CancellationToken cancellation
             )
         {
-            var address = await _repository.GetAddressAsync(id, cancellation);
+            var address = await _repository.GetAddressAsync(new AddressId(id), cancellation);
 
-            return new ResponseItem<GetAddressResponseDto>
+            return new ResponseItem<AddressResponseDto>
             {
-                Item = new GetAddressResponseDto
-                {
-                    DivisionId = address.DivisionId.Value,
-                    StreetId = address.StreetId.Value,
-                    BuildingNumber = address.BuildingNumber.Value,
-                    ApartmentNumber = address.ApartmentNumber == null ?
-                    null : address.ApartmentNumber.Value,
-                    ZipCode = address.ZipCode.Value,
-                    Street = new StreetResponseDto
-                    {
-                        Id = address.Street.Id.Value,
-                        Name = address.Street.Name,
-                        AdministrativeType = address.Street.StreetType == null ?
-                        null : new AdministrativeTypeResponseDto
-                        {
-                            Id = address.Street.StreetType.Id,
-                            Name = address.Street.StreetType.Name,
-                        }
-                    },
-                    Hierarchy = address.Hierarchy.Select(x => new DivisionResponseDto
-                    {
-                        Id = x.Id.Value,
-                        Name = x.Name,
-                        ParentId = x.ParentDivisionId,
-                        AdministrativeType = new AdministrativeTypeResponseDto
-                        {
-                            Id = x.DivisionType.Id,
-                            Name = x.DivisionType.Name,
-                        }
-                    }).ToList(),
-                }
+                Item = new AddressResponseDto(address),
             };
         }
 
+
+        public async Task<ResponseItems<DivisionResponseDto>> GetDivisionsDownAsync
+            (
+            int? id,
+            CancellationToken cancellation
+            )
+        {
+            DivisionId? divisionId = (id.HasValue ? new DivisionId(id.Value) : null);
+            var items = await _repository.GetDivisionsDownAsync(divisionId, cancellation);
+
+            return new ResponseItems<DivisionResponseDto>
+            {
+                Items = items.ToList(),
+            };
+        }
         //==================================================================================================
         //==================================================================================================
         //==================================================================================================

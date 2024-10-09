@@ -37,9 +37,8 @@ namespace Application.Features.User.UserProblemPart.Interfaces
         //==============================================================================================
         //==============================================================================================
         //Public Methods
-
         //DML
-        public async Task<Guid> CreateUserProblemAndReturnIdAsync
+        public async Task<Guid> CreateAndReturnIdAsync
             (
             DomainUserProblem userProblem,
             CancellationToken cancellation
@@ -69,7 +68,7 @@ namespace Application.Features.User.UserProblemPart.Interfaces
             }
         }
 
-        public async Task SetNewStatusUserProblemForAuthorizedAsync
+        public async Task SetNewStatusForAuthorizedAsync
             (
             DomainUserProblem userProblem,
             CancellationToken cancellation
@@ -92,7 +91,7 @@ namespace Application.Features.User.UserProblemPart.Interfaces
 
         //==============================================================================================
         //DQL
-        public async Task<DomainUserProblem> GetDomainUserProblemAsync
+        public async Task<DomainUserProblem> GetProblemAsync
             (
             UserId userId,
             UserProblemId userProblemId,
@@ -100,17 +99,7 @@ namespace Application.Features.User.UserProblemPart.Interfaces
             )
         {
             var databaseUserProblem = await GetUserProblemAsync(userId, userProblemId, cancellation);
-            return _domainFactory.CreateDomainUserProblem
-                (
-                databaseUserProblem.Id,
-                databaseUserProblem.Created,
-                databaseUserProblem.UserMessage,
-                databaseUserProblem.Response,
-                databaseUserProblem.PreviousProblemId,
-                databaseUserProblem.Email,
-                databaseUserProblem.Status,
-                databaseUserProblem.UserId
-                );
+            return ConvertToDomainUserProblem(databaseUserProblem);
         }
 
         //==============================================================================================
@@ -156,6 +145,21 @@ namespace Application.Features.User.UserProblemPart.Interfaces
                     );
             }
             return databaseUserProblem;
+        }
+
+        private DomainUserProblem ConvertToDomainUserProblem(UserProblem databaseUserProblem)
+        {
+            return _domainFactory.CreateDomainUserProblem
+                (
+                databaseUserProblem.Id,
+                databaseUserProblem.Created,
+                databaseUserProblem.UserMessage,
+                databaseUserProblem.Response,
+                databaseUserProblem.PreviousProblemId,
+                databaseUserProblem.Email,
+                databaseUserProblem.Status,
+                databaseUserProblem.UserId
+                );
         }
     }
 }

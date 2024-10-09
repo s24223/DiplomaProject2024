@@ -18,6 +18,39 @@ namespace Application.Shared.Interfaces.Exceptions
             {
                 var number = sqlEx.Number;
                 var message = sqlEx.Message;
+                /*
+                UNIQUE_User_Login
+                CHECK_UserProblem_Status
+                UNIQUE_Url_Path
+
+
+
+                CHECK_Person_IsStudent
+                CHECK_Person_IsPublicProfile
+                UNIQUE_Person_UrlSegment
+                UNIQUE_Person_ContactEmail
+
+
+
+                UNIQUE_Company_UrlSegment
+                UNIQUE_Company_ContactEmail
+                UNIQUE_Company_Name
+                UNIQUE_Company_Regon
+                UNIQUE_Branch_UrlSegment
+
+                CHECK_Offer_MinSalary
+                CHECK_Offer_MaxSalary
+                CHECK_Offer_IsNegotiatedSalary
+                CHECK_Offer_IsForStudents
+
+                CHECK_BranchOffer_PublishEnd
+                CHECK_BranchOffer_WorkStart
+                CHECK_BranchOffer_WorkEnd
+
+
+
+                CHECK_Comment_Evaluation
+                 */
                 switch (number)
                 {
                     case 2627: // Naruszenie klucza unikalnego

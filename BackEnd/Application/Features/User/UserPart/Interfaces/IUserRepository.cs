@@ -36,13 +36,15 @@ namespace Application.Features.User.UserPart.Interfaces
 
         //==========================================================================================================================================
         //DQL
-        Task<(DomainUser User, string Password, string Salt, string? RefreshToken, DateTime? ExpiredToken)> GetUserDataByLoginEmailAsync
+        Task<(DomainUser User, string Password, string Salt, string? RefreshToken, DateTime? ExpiredToken)>
+            GetUserDataByLoginEmailAsync
              (
              Email login,
              CancellationToken cancellation
         );
 
-        Task<(DomainUser User, string Password, string Salt, string? RefreshToken, DateTime? ExpiredToken)> GetUserDataByIdAsync
+        Task<(DomainUser User, string Password, string Salt, string? RefreshToken, DateTime? ExpiredToken)>
+            GetUserDataByIdAsync
             (
             UserId id,
             CancellationToken cancellation

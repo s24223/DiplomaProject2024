@@ -59,7 +59,7 @@ namespace Application.Features.User.UserProblemPart.Services
                 userId.Value
                 );
 
-            var idUserProblem = await _userProblem.CreateUserProblemAndReturnIdAsync
+            var idUserProblem = await _userProblem.CreateAndReturnIdAsync
                 (
                 problem,
                 cancellation
@@ -74,7 +74,7 @@ namespace Application.Features.User.UserProblemPart.Services
             };
         }
 
-        public async Task<Response> AnnulUserProblemForAuthorizedAsync
+        public async Task<Response> AnnulForAuthorizedAsync
             (
             IEnumerable<Claim> claims,
             Guid idUserProblem,
@@ -83,7 +83,7 @@ namespace Application.Features.User.UserProblemPart.Services
         {
             var userId = _authentication.GetIdNameFromClaims(claims);
 
-            var domainUserProblem = await _userProblem.GetDomainUserProblemAsync
+            var domainUserProblem = await _userProblem.GetProblemAsync
                 (
                 userId,
                 new UserProblemId(idUserProblem),
@@ -92,7 +92,7 @@ namespace Application.Features.User.UserProblemPart.Services
 
             domainUserProblem.Annul();
 
-            await _userProblem.SetNewStatusUserProblemForAuthorizedAsync
+            await _userProblem.SetNewStatusForAuthorizedAsync
                 (
                 domainUserProblem,
                 cancellation
@@ -116,7 +116,7 @@ namespace Application.Features.User.UserProblemPart.Services
                 null
                 );
 
-            var idUserProblem = await _userProblem.CreateUserProblemAndReturnIdAsync
+            var idUserProblem = await _userProblem.CreateAndReturnIdAsync
                 (
                 problem,
                 cancellation
