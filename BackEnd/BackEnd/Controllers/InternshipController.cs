@@ -27,5 +27,14 @@ namespace BackEnd.Controllers
             return Ok(await _serivce.CreateInternshipAsync(
                 claims, dto, cancellation));
         }
+
+        [Authorize]
+        [HttpPut("{idInternship:guid}")]
+        public async Task<IActionResult> UpdateInternshipAsync(Guid idInternship,
+            UpdateInternshipDto dto, CancellationToken cancellation)
+        {
+            return Ok(await _serivce.UpdateInternshipAsync(
+                idInternship, dto, cancellation));
+        }
     }
 }

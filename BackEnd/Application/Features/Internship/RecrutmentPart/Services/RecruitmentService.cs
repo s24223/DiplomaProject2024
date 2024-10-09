@@ -1,4 +1,5 @@
-﻿using Application.Features.Internship.RecrutmentPart.DTOs.Create;
+﻿using Application.Features.Internship.RecrutmentPart.DTOs;
+using Application.Features.Internship.RecrutmentPart.DTOs.Create;
 using Application.Features.Internship.RecrutmentPart.Interfaces;
 using Application.Shared.DTOs.Response;
 using Application.Shared.Services.Authentication;
@@ -55,5 +56,19 @@ namespace Application.Features.Internship.RecrutmentPart.Services
             };
         }
 
+        public async Task<Response> UpdateRecruitmentAsync(IEnumerable<Claim> claims, UpdateRecrutmentDto dto, CancellationToken cancellation)
+        {
+            var id = _authentication.GetIdNameFromClaims(claims).Value;
+            var recruitment = await _repository.GetRecruitmentAsync(
+                id, cancellation );
+            recruitment.CompanyResponse = dto.CompanyResponse;
+            recruitment.AcceptedRejected = new Domain.Shared.ValueObjects.DatabaseBool(dto.IsAccepted);
+            await _repository.UpdateRecruitmentAsync(recruitment, cancellation );
+            return new Response
+            {
+                Status = EnumResponseStatus.Success,
+                Message = Messages.ResponseSuccess
+            };
+        }
     }
 }

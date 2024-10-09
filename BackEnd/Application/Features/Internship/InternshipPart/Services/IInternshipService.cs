@@ -12,5 +12,10 @@ namespace Application.Features.Internship.InternshipPart.Services
             CreateInternshipDto dto,
             CancellationToken cancellation
             );
+
+        Task<Response> UpdateInternshipAsync(
+            Guid id,
+            UpdateInternshipDto dto,
+            CancellationToken cancellation);
     }
 }

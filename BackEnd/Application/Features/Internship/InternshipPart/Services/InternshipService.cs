@@ -45,5 +45,19 @@ namespace Application.Features.Internship.InternshipPart.Services
                 Message = Messages.ResponseSuccess
             };
         }
+
+        public async Task<Response> UpdateInternshipAsync(Guid id, UpdateInternshipDto dto, CancellationToken cancellation)
+        {
+            var internship = await _internshipRepository
+                .GetInternshipAsync(id, cancellation);
+            internship.ContractNumber = dto.ContractNumber;
+            await _internshipRepository.UpdateInternshipAsync(
+                internship, cancellation);
+            return new Response
+            {
+                Status = EnumResponseStatus.Success,
+                Message = Messages.ResponseSuccess
+            };
+        }
     }
 }
