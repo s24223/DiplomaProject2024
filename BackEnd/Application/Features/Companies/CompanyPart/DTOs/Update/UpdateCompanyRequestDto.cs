@@ -6,6 +6,7 @@ namespace Application.Features.Companies.CompanyPart.DTOs.Update
     {
         public string? UrlSegment { get; set; }
         [Required]
+        [EmailAddress]
         public required string ContactEmail { get; set; } = null!;
         [Required]
         public required string Name { get; set; } = null!;

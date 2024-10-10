@@ -1,4 +1,6 @@
 ﻿using Application.Shared.Exceptions.AppExceptions;
+using Domain.Features.Address.Exceptions.Entities;
+using Domain.Features.Branch.Exceptions.Entities;
 using Domain.Features.Company.Exceptions.Entities;
 using Domain.Features.Url.Exceptions.Entities;
 using Domain.Shared.Exceptions.UserExceptions.ValueObjectsExceptions;
@@ -19,24 +21,15 @@ namespace Application.Shared.Interfaces.Exceptions
                 var number = sqlEx.Number;
                 var message = sqlEx.Message;
                 /*
-                UNIQUE_User_Login
+                 * User Module
                 CHECK_UserProblem_Status
-                UNIQUE_Url_Path
-
-
+                
 
                 CHECK_Person_IsStudent
                 CHECK_Person_IsPublicProfile
                 UNIQUE_Person_UrlSegment
                 UNIQUE_Person_ContactEmail
-
-
-
-                UNIQUE_Company_UrlSegment
-                UNIQUE_Company_ContactEmail
-                UNIQUE_Company_Name
-                UNIQUE_Company_Regon
-                UNIQUE_Branch_UrlSegment
+                
 
                 CHECK_Offer_MinSalary
                 CHECK_Offer_MaxSalary
@@ -54,6 +47,7 @@ namespace Application.Shared.Interfaces.Exceptions
                 switch (number)
                 {
                     case 2627: // Naruszenie klucza unikalnego
+                        //User Module
                         if (message.Contains("UNIQUE_User_Login"))
                         {
                             return new EmailException(Messages.NotUniqueUserEmailLogin);
@@ -62,9 +56,31 @@ namespace Application.Shared.Interfaces.Exceptions
                         {
                             return new UrlException(Messages.NotUniqueUrlPath);
                         }
+
+                        //Company Module
                         else if (message.Contains("Company_pk"))
                         {
                             return new CompanyException(Messages.IsExistCompany);
+                        }
+                        else if (message.Contains("UNIQUE_Company_UrlSegment"))
+                        {
+                            return new CompanyException(Messages.NotUniqueCompanyUrlSegment);
+                        }
+                        else if (message.Contains("UNIQUE_Company_ContactEmail"))
+                        {
+                            return new CompanyException(Messages.NotUniqueCompanyContactEmail);
+                        }
+                        else if (message.Contains("UNIQUE_Company_Name"))
+                        {
+                            return new CompanyException(Messages.NotUniqueCompanyName);
+                        }
+                        else if (message.Contains("UNIQUE_Company_Regon"))
+                        {
+                            return new CompanyException(Messages.NotUniqueCompanyRegon);
+                        }
+                        else if (message.Contains("UNIQUE_Branch_UrlSegment"))
+                        {
+                            return new BranchException(Messages.NotUniqueBranchUrlSegment);
                         }
                         break;
                     case 547: // Naruszenie klucza obcego lub CHECK
@@ -74,8 +90,13 @@ namespace Application.Shared.Interfaces.Exceptions
                             //throw new UserProblemStatusException(Messages.NotExistUserProblemStatus);
                             //"Copy_of_Address_Street"
                             //"Address_Division"
+                            //Branch_Address
                         }
-
+                        //Company Module
+                        else if (message.Contains("Branch_Address"))
+                        {
+                            return new AddressException(Messages.NotFoundAddress);
+                        }
                         break;
                     default:
                         return ex;

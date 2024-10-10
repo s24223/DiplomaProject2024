@@ -138,6 +138,9 @@
   <data name="NotFoundAddressCollocation" xml:space="preserve">
     <value>Za podanymi danymi nie istnieje połaczenia</value>
   </data>
+  <data name="NotFoundBranch" xml:space="preserve">
+    <value>Za podanym danymi nie znaleziono oddziału</value>
+  </data>
   <data name="NotFoundCompany" xml:space="preserve">
     <value>Za podanymi danymi firma nie istnieje</value>
   </data>
@@ -146,6 +149,21 @@
   </data>
   <data name="NotFoundUserProblem" xml:space="preserve">
     <value>Nie istnieje zgłoszonego problemu za podanym Id, lub ono nie nalezy do danego urzytkownika</value>
+  </data>
+  <data name="NotUniqueBranchUrlSegment" xml:space="preserve">
+    <value>W kontekcie firmy UrlSegment powinien byc unikalny wybierz inny</value>
+  </data>
+  <data name="NotUniqueCompanyContactEmail" xml:space="preserve">
+    <value>Wybierz inny Contact Email</value>
+  </data>
+  <data name="NotUniqueCompanyName" xml:space="preserve">
+    <value>Nazwa nie jest unikalna</value>
+  </data>
+  <data name="NotUniqueCompanyRegon" xml:space="preserve">
+    <value>Regon w kontekscie platformy powinien byc unikalny</value>
+  </data>
+  <data name="NotUniqueCompanyUrlSegment" xml:space="preserve">
+    <value>Wybierz inny url</value>
   </data>
   <data name="NotUniqueUrlPath" xml:space="preserve">
     <value>Podany Url już istnieje</value>

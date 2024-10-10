@@ -1,74 +1,146 @@
 ﻿using Application.Database;
+using Application.Database.Models;
+using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.Branch.Entities;
-using Domain.Features.Url.Exceptions.Entities;
+using Domain.Features.Branch.Exceptions.Entities;
+using Domain.Features.Branch.ValueObjects.Identificators;
+using Domain.Features.User.ValueObjects.Identificators;
+using Domain.Shared.Factories;
+using Domain.Shared.Templates.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Companies.BranchPart.Interfaces
 {
     public class BranchRepository : IBranchRepository
     {
+        //Values
+        private readonly IDomainFactory _domainFactory;
+        private readonly IExceptionsRepository _exceptionsRepository;
         private readonly DiplomaProjectContext _context;
-        public BranchRepository(DiplomaProjectContext context)
-        {
-            _context = context;
-        }
-        public async Task CreateBranchProfileAsync
+
+
+        //Constructor
+        public BranchRepository
             (
-            DomainBranch branch,
-            CancellationToken cancellation
+            IDomainFactory domainFactory,
+            IExceptionsRepository exceptionsRepository,
+            DiplomaProjectContext context
             )
         {
-            await _context.Branches.AddAsync
-                (
-                new Database.Models.Branch
-                {
-                    CompanyId = branch.CompanyId.Value,
-                    AddressId = branch.AddressId.Value,
-                    Id = branch.Id.Value,
-                    UrlSegment = branch.UrlSegment.Value,
-                    Name = branch.Name,
-                    Description = branch.Description
-
-                });
-            await _context.SaveChangesAsync();
+            _domainFactory = domainFactory;
+            _exceptionsRepository = exceptionsRepository;
+            _context = context;
         }
 
 
-
-
-
-
-
-
-
-        /// <summary>
-        /// TU TRZEBA POPRAWIĆ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-        public async Task UpdateBranchProfileAsync
+        //======================================================================================================
+        //======================================================================================================
+        //======================================================================================================
+        //Public Methods
+        //DML
+        public async Task CreateAsync
             (
-
             DomainBranch branch,
             CancellationToken cancellation
             )
         {
             try
             {
-                var databaseBranch = await _context.Branches
-                    .Where(x => x.Id == branch.Id.Value /*||
-                        x.CompanyId==branch.CompanyId.Value ||
-                        x.AddressId==branch.AddressId.Value*/
-                    )
-                    .FirstOrDefaultAsync(
-                    cancellation);
-                if (databaseBranch == null)
+                var databaseBranch = new Branch
                 {
-                    throw new UrlException(Messages.NotFoundUrl);
-                }
-            }
-            catch (Exception ex)
-            {
+                    CompanyId = branch.CompanyId.Value,
+                    AddressId = branch.AddressId.Value,
+                    Id = branch.Id.Value,
+                    UrlSegment = branch.UrlSegment == null ?
+                    null : branch.UrlSegment.Value,
+                    Name = branch.Name,
+                    Description = branch.Description
 
+                };
+                await _context.Branches.AddAsync(databaseBranch, cancellation);
+                await _context.SaveChangesAsync(cancellation);
+            }
+            catch (System.Exception ex)
+            {
+                throw _exceptionsRepository.ConvertEFDbException(ex);
             }
         }
+
+        public async Task UpdateAsync
+            (
+            DomainBranch branch,
+            CancellationToken cancellation
+            )
+        {
+            try
+            {
+                var databaseBranch = await GetDatabaseBranchAsync(branch.Id, branch.CompanyId, cancellation);
+
+                databaseBranch.AddressId = branch.AddressId.Value;
+                databaseBranch.UrlSegment = branch.UrlSegment == null
+                    ? null : branch.UrlSegment.Value;
+                databaseBranch.Name = branch.Name;
+                databaseBranch.Description = branch.Description;
+
+                await _context.SaveChangesAsync(cancellation);
+            }
+            catch (System.Exception ex)
+            {
+                throw _exceptionsRepository.ConvertEFDbException(ex);
+            }
+        }
+
+        //DQL 
+        public async Task<DomainBranch> GetBranchAsync
+            (
+            BranchId id,
+            UserId companyId,
+            CancellationToken cancellation
+            )
+        {
+            var databaseBranch = await GetDatabaseBranchAsync(id, companyId, cancellation);
+            return ConvertToDomainBranch(databaseBranch);
+        }
+        //======================================================================================================
+        //======================================================================================================
+        //======================================================================================================
+        //Private Methods
+        private async Task<Branch> GetDatabaseBranchAsync
+            (
+            BranchId id,
+            UserId companyId,
+            CancellationToken cancellation
+            )
+        {
+            var databaseBranch = await _context.Branches
+                .Where(x =>
+                x.Id == id.Value &&
+                x.CompanyId == companyId.Value
+                ).FirstOrDefaultAsync(cancellation);
+
+            if (databaseBranch == null)
+            {
+                throw new BranchException
+                    (
+                    Messages.NotFoundBranch,
+                    DomainExceptionTypeEnum.NotFound
+                    );
+            }
+            return databaseBranch;
+        }
+
+        private DomainBranch ConvertToDomainBranch(Branch branch)
+        {
+            return _domainFactory.CreateDomainBranch
+                (
+                branch.Id,
+                branch.CompanyId,
+                branch.AddressId,
+                branch.UrlSegment,
+                branch.Name,
+                branch.Description
+                );
+        }
+
     }
 }

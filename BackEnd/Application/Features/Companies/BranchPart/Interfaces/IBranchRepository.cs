@@ -1,23 +1,29 @@
 ﻿using Domain.Features.Branch.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Domain.Features.Branch.ValueObjects.Identificators;
+using Domain.Features.User.ValueObjects.Identificators;
 
 namespace Application.Features.Companies.BranchPart.Interfaces
 {
     public interface IBranchRepository
     {
-        Task CreateBranchProfileAsync
+        //DML
+        Task CreateAsync
             (
             DomainBranch branch,
             CancellationToken cancellation
             );
-        Task UpdateBranchProfileAsync
-            (
 
+        Task UpdateAsync
+            (
             DomainBranch branch,
+            CancellationToken cancellation
+            );
+
+        //DQL
+        Task<DomainBranch> GetBranchAsync
+            (
+            BranchId id,
+            UserId companyId,
             CancellationToken cancellation
             );
     }

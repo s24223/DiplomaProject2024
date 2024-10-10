@@ -1,59 +1,94 @@
-﻿using Application.Features.Companies.BranchPart.DTOs.CreateProfile;
-using Application.Features.Companies.BranchPart.DTOs.UpdateProfile;
+﻿using Application.Features.Companies.BranchPart.DTOs.Create;
+using Application.Features.Companies.BranchPart.DTOs.Update;
 using Application.Features.Companies.BranchPart.Interfaces;
+using Application.Shared.DTOs.Response;
+using Application.Shared.Services.Authentication;
+using Domain.Features.Branch.ValueObjects.Identificators;
 using Domain.Shared.Factories;
-using Domain.Shared.Providers;
-
+using System.Security.Claims;
 
 namespace Application.Features.Companies.BranchPart.Services
 {
     public class BranchService : IBranchService
     {
-        private readonly IBranchRepository _branchRepository;
+        //Values
+        //private readonly IProvider _domainProvider;
+        private readonly IBranchRepository _repository;
         private readonly IDomainFactory _domainFactory;
-        private readonly IProvider _domainProvider;
+        private readonly IAuthenticationService _authenticationRepository;
 
-        public BranchService(IBranchRepository branchRepository,
-            IDomainFactory domainFactory)
+
+        //Cosntructor
+        public BranchService
+            (
+            //IProvider domainProvider,
+            IDomainFactory domainFactory,
+            IBranchRepository repository,
+            IAuthenticationService authentication
+            )
         {
-            _branchRepository = branchRepository;
+            _repository = repository;
             _domainFactory = domainFactory;
+            _authenticationRepository = authentication;
+            //_domainProvider = domainProvider;
         }
 
-        public async Task CreateBranchAsync
+
+        //=========================================================================================================
+        //=========================================================================================================
+        //=========================================================================================================
+        //Public Methods
+        //DML
+        public async Task<Response> CreateAsync
             (
-            CreateBranchProfileRequestDto dto,
+            IEnumerable<Claim> claims,
+            CreateBranchRequestDto dto,
             CancellationToken cancellation
             )
         {
-            var branch = _domainFactory.CreateDomainBranch
+            var id = _authenticationRepository.GetIdNameFromClaims(claims);
+            var domainBranch = _domainFactory.CreateDomainBranch
                 (
-                    dto.CompanyId,
-                    dto.AddressId,
-                    dto.Id,
-                    dto.UrlSegment,
-                    dto.Name,
-                    dto.Description
+                id.Value,
+                dto.AddressId,
+                dto.UrlSegment,
+                dto.Name,
+                dto.Description
                 );
-            await _branchRepository.CreateBranchProfileAsync(branch, cancellation);
+            await _repository.CreateAsync(domainBranch, cancellation);
+            return new Response { };
         }
-        public async Task UpdateBranchAsync
+
+        public async Task<Response> UpdateAsync
             (
-            Guid id,
-            UpdateBranchProfileRequestDto dto,
+            IEnumerable<Claim> claims,
+            Guid branchId,
+            UpdateBranchRequestDto dto,
             CancellationToken cancellation
             )
         {
-            var branch = _domainFactory.CreateDomainBranch
+            var id = _authenticationRepository.GetIdNameFromClaims(claims);
+            var domainBranch = await _repository.GetBranchAsync
                 (
-                    id,
-                    dto.UrlSegment,
-                    dto.Name,
-                    dto.Description
+                new BranchId(branchId),
+                id,
+                cancellation
                 );
-            await _branchRepository.CreateBranchProfileAsync(branch, cancellation);
+            domainBranch.UpdateData
+                (
+                dto.AddressId,
+                dto.UrlSegment,
+                dto.Name,
+                dto.Description
+                );
+            await _repository.UpdateAsync(domainBranch, cancellation);
+            return new Response { };
         }
 
-
+        //DQL
+        //=========================================================================================================
+        //=========================================================================================================
+        //=========================================================================================================
+        //Private Methods
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Application.Database;
+using Application.Database.Models;
 using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.Company.Entities;
 using Domain.Features.Company.Exceptions.Entities;
@@ -56,7 +57,7 @@ namespace Application.Features.Companies.CompanyPart.Interfaces
                 await _context.Companies.AddAsync(inputDatabaseCompany, cancellation);
                 await _context.SaveChangesAsync(cancellation);
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 throw _exceptionRepository.ConvertEFDbException(ex);
             }
@@ -70,17 +71,7 @@ namespace Application.Features.Companies.CompanyPart.Interfaces
         {
             try
             {
-                var databaseCompany = await _context.Companies
-                .Where(x => x.UserId == company.Id.Value)
-                .FirstOrDefaultAsync(cancellation);
-                if (databaseCompany == null)
-                {
-                    throw new CompanyException
-                        (
-                        Messages.NotFoundCompany,
-                        DomainExceptionTypeEnum.NotFound
-                        );
-                }
+                var databaseCompany = await GetDatabseCompanyAsync(company.Id, cancellation);
 
                 databaseCompany.UrlSegment = company.UrlSegment == null ?
                     null : company.UrlSegment.Value;
@@ -90,14 +81,41 @@ namespace Application.Features.Companies.CompanyPart.Interfaces
 
                 await _context.SaveChangesAsync(cancellation);
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 throw _exceptionRepository.ConvertEFDbException(ex);
             }
         }
 
         //DQL
-        public async Task<DomainCompany> GetDomainCompanyAsync
+        public async Task<DomainCompany> GetCompanyAsync
+            (
+            UserId id,
+            CancellationToken cancellation
+            )
+        {
+            var databaseCompany = await GetDatabseCompanyAsync(id, cancellation);
+            return ConvertToDomainCompany(databaseCompany);
+        }
+
+        //=========================================================================================================
+        //=========================================================================================================
+        //=========================================================================================================
+        //Private Methods
+        private DomainCompany ConvertToDomainCompany(Company databaseCompany)
+        {
+            return _domainFactory.CreateDomainCompany
+                (
+                databaseCompany.UserId,
+                databaseCompany.UrlSegment,
+                databaseCompany.ContactEmail,
+                databaseCompany.Name,
+                databaseCompany.Regon,
+                databaseCompany.Description
+                );
+        }
+
+        private async Task<Company> GetDatabseCompanyAsync
             (
             UserId id,
             CancellationToken cancellation
@@ -115,24 +133,7 @@ namespace Application.Features.Companies.CompanyPart.Interfaces
                     DomainExceptionTypeEnum.NotFound
                     );
             }
-
-            var domainCompany = _domainFactory.CreateDomainCompany
-                (
-                databaseCompany.UserId,
-                databaseCompany.UrlSegment,
-                databaseCompany.ContactEmail,
-                databaseCompany.Name,
-                databaseCompany.Regon,
-                databaseCompany.Description
-                );
-            return domainCompany;
-
+            return databaseCompany;
         }
-
-        //=========================================================================================================
-        //=========================================================================================================
-        //=========================================================================================================
-        //Private Methods
-
     }
 }

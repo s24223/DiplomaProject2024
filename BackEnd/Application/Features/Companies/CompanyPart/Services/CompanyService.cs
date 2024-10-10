@@ -4,7 +4,6 @@ using Application.Features.Companies.CompanyPart.Interfaces;
 using Application.Shared.DTOs.Response;
 using Application.Shared.Services.Authentication;
 using Domain.Shared.Factories;
-using Domain.Shared.Providers;
 using System.Security.Claims;
 
 namespace Application.Features.Companies.CompanyPart.Services
@@ -12,25 +11,24 @@ namespace Application.Features.Companies.CompanyPart.Services
     public class CompanyService : ICompanyService
     {
         //Values
-        private readonly ICompanyRepository _repository;
+        //private readonly IProvider _domainProvider;
         private readonly IDomainFactory _domainFactory;
+        private readonly ICompanyRepository _repository;
         private readonly IAuthenticationService _authenticationRepository;
-        private readonly IProvider _domainProvider;
-
 
         //Cosntructor
         public CompanyService
             (
-            ICompanyRepository repository,
-            IAuthenticationService authentication,
+            //IProvider domainProvider,
             IDomainFactory domainFactory,
-            IProvider domainProvider
+            ICompanyRepository repository,
+            IAuthenticationService authentication
             )
         {
+            //_domainProvider = domainProvider;
             _repository = repository;
             _domainFactory = domainFactory;
             _authenticationRepository = authentication;
-            _domainProvider = domainProvider;
         }
 
 
@@ -69,7 +67,7 @@ namespace Application.Features.Companies.CompanyPart.Services
         {
             var id = _authenticationRepository.GetIdNameFromClaims(claims);
 
-            var domainCompany = await _repository.GetDomainCompanyAsync
+            var domainCompany = await _repository.GetCompanyAsync
                 (
                 id,
                 cancellation

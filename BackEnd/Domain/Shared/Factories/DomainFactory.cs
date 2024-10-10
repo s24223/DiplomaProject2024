@@ -208,6 +208,26 @@ namespace Domain.Shared.Factories
                 );
         }
 
+        public DomainBranch CreateDomainBranch
+            (
+            Guid companyId,
+            Guid addressId,
+            string? urlSegment,
+            string name,
+            string? description
+            )
+        {
+            return new DomainBranch
+                (
+                null,
+                companyId,
+                addressId,
+                urlSegment,
+                name,
+                description,
+                _provider
+                );
+        }
 
         public DomainBranch CreateDomainBranch
             (
@@ -231,10 +251,6 @@ namespace Domain.Shared.Factories
                 );
         }
 
-        public DomainBranch CreateDomainBranch(Guid id, string? urlSegment, string name, string? description)
-        {
-            throw new NotImplementedException();
-        }
         public DomainBranchOffer CreateDomainBranchOffer
            (
            Guid branchId,

@@ -161,7 +161,34 @@ namespace Domain.Shared.Factories
             DateOnly? created
             );
 
+        /// <summary>
+        /// For Creating New DomainBranch
+        /// </summary>
+        /// <param name="companyId"></param>
+        /// <param name="addressId"></param>
+        /// <param name="urlSegment"></param>
+        /// <param name="name"></param>
+        /// <param name="description"></param>
+        /// <returns></returns>
+        DomainBranch CreateDomainBranch
+            (
+            Guid companyId,
+            Guid addressId,
+            string? urlSegment,
+            string name,
+            string? description
+            );
 
+        /// <summary>
+        /// For creating Regular DomainBranch, mostly for maping from Database on Domain
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="companyId"></param>
+        /// <param name="addressId"></param>
+        /// <param name="urlSegment"></param>
+        /// <param name="name"></param>
+        /// <param name="description"></param>
+        /// <returns></returns>
         DomainBranch CreateDomainBranch
             (
             Guid? id,
@@ -171,7 +198,6 @@ namespace Domain.Shared.Factories
             string name,
             string? description
             );
-        DomainBranch CreateDomainBranch(Guid id, string? urlSegment, string name, string? description);
 
         DomainBranchOffer CreateDomainBranchOffer
            (

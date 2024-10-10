@@ -124,6 +124,15 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Za podanym danymi nie znaleziono oddziału.
+        /// </summary>
+        internal static string NotFoundBranch {
+            get {
+                return ResourceManager.GetString("NotFoundBranch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Za podanymi danymi firma nie istnieje.
         /// </summary>
         internal static string NotFoundCompany {
@@ -147,6 +156,51 @@ namespace Application {
         internal static string NotFoundUserProblem {
             get {
                 return ResourceManager.GetString("NotFoundUserProblem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to W kontekcie firmy UrlSegment powinien byc unikalny wybierz inny.
+        /// </summary>
+        internal static string NotUniqueBranchUrlSegment {
+            get {
+                return ResourceManager.GetString("NotUniqueBranchUrlSegment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wybierz inny Contact Email.
+        /// </summary>
+        internal static string NotUniqueCompanyContactEmail {
+            get {
+                return ResourceManager.GetString("NotUniqueCompanyContactEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nazwa nie jest unikalna.
+        /// </summary>
+        internal static string NotUniqueCompanyName {
+            get {
+                return ResourceManager.GetString("NotUniqueCompanyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Regon w kontekscie platformy powinien byc unikalny.
+        /// </summary>
+        internal static string NotUniqueCompanyRegon {
+            get {
+                return ResourceManager.GetString("NotUniqueCompanyRegon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wybierz inny url.
+        /// </summary>
+        internal static string NotUniqueCompanyUrlSegment {
+            get {
+                return ResourceManager.GetString("NotUniqueCompanyUrlSegment", resourceCulture);
             }
         }
         

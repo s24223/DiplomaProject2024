@@ -10,7 +10,7 @@ namespace Application.Features.Companies.CompanyPart.Interfaces
         Task UpdateAsync(DomainCompany company, CancellationToken cancellation);
 
         //DQL
-        Task<DomainCompany> GetDomainCompanyAsync
+        Task<DomainCompany> GetCompanyAsync
            (
            UserId id,
            CancellationToken cancellation

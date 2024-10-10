@@ -15,9 +15,9 @@ namespace Domain.Features.Branch.Entities
     public class DomainBranch : Entity<BranchId>
     {
         //Values
-        public UrlSegment? UrlSegment { get; set; }
-        public string Name { get; set; } = null!;
-        public string? Description { get; set; }
+        public UrlSegment? UrlSegment { get; private set; }
+        public string Name { get; private set; } = null!;
+        public string? Description { get; private set; }
 
 
         //References
@@ -85,7 +85,10 @@ namespace Domain.Features.Branch.Entities
         }
 
 
-        //Methods
+        //=================================================================================================
+        //=================================================================================================
+        //=================================================================================================
+        //Public Methods
         public void AddBranchOffer(DomainBranchOffer domainBranchOffer)
         {
             if (
@@ -97,5 +100,24 @@ namespace Domain.Features.Branch.Entities
                 domainBranchOffer.Branch = this;
             }
         }
+
+        public void UpdateData
+            (
+            Guid addressId,
+            string? urlSegment,
+            string name,
+            string? description
+            )
+        {
+            AddressId = new AddressId(addressId);
+            UrlSegment = string.IsNullOrWhiteSpace(urlSegment) ?
+                null : new UrlSegment(urlSegment);
+            Name = name;
+            Description = description;
+        }
+        //=================================================================================================
+        //=================================================================================================
+        //=================================================================================================
+        //Private Methods
     }
 }

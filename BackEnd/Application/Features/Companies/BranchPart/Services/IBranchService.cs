@@ -1,21 +1,27 @@
-﻿using Application.Features.Companies.BranchPart.DTOs.CreateProfile;
-using Application.Features.Companies.BranchPart.DTOs.UpdateProfile;
+﻿using Application.Features.Companies.BranchPart.DTOs.Create;
+using Application.Features.Companies.BranchPart.DTOs.Update;
+using Application.Shared.DTOs.Response;
+using System.Security.Claims;
 
 namespace Application.Features.Companies.BranchPart.Services
 {
     public interface IBranchService
     {
-        Task CreateBranchAsync
+        //DML
+        Task<Response> CreateAsync
          (
-         CreateBranchProfileRequestDto dto,
+         IEnumerable<Claim> claims,
+         CreateBranchRequestDto dto,
          CancellationToken cancellation
          );
-        Task UpdateBranchAsync
+
+        Task<Response> UpdateAsync
             (
-            Guid id,
-            UpdateBranchProfileRequestDto dto,
+            IEnumerable<Claim> claims,
+            Guid branchId,
+            UpdateBranchRequestDto dto,
             CancellationToken cancellation
             );
-
+        //DQL
     }
 }
