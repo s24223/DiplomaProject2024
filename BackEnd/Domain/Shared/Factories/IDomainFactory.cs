@@ -199,6 +199,90 @@ namespace Domain.Shared.Factories
             string? description
             );
 
+        /// <summary>
+        /// For Creating New DomainOffer
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="description"></param>
+        /// <param name="minSalary"></param>
+        /// <param name="maxSalary"></param>
+        /// <param name="NegotiatedSalary"></param>
+        /// <param name="forStudents"></param>
+        /// <returns></returns>
+        DomainOffer CreateDomainOffer
+           (
+           string name,
+           string description,
+           decimal? minSalary,
+           decimal? maxSalary,
+           bool? isNegotiatedSalary,
+           bool isForStudents
+           );
+
+        /// <summary>
+        /// For Creating New DomainOffer
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="description"></param>
+        /// <param name="minSalary"></param>
+        /// <param name="maxSalary"></param>
+        /// <param name="NegotiatedSalary"></param>
+        /// <param name="forStudents"></param>
+        /// <returns></returns>
+        DomainOffer CreateDomainOffer
+          (
+           string name,
+           string description,
+           decimal? minSalary,
+           decimal? maxSalary,
+           string? isNegotiatedSalary,
+           string isForStudents
+          );
+
+        /// <summary>
+        /// For creating Regular DomainOffer, mostly for maping from Database on Domain
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="description"></param>
+        /// <param name="minSalary"></param>
+        /// <param name="maxSalary"></param>
+        /// <param name="NegotiatedSalary"></param>
+        /// <param name="forStudents"></param>
+        /// <returns></returns>
+        DomainOffer CreateDomainOffer
+           (
+           Guid? id,
+           string name,
+           string description,
+           decimal? minSalary,
+           decimal? maxSalary,
+           bool? isNegotiatedSalary,
+           bool isForStudents
+           );
+
+        /// <summary>
+        /// For creating Regular DomainOffer, mostly for maping from Database on Domain
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="description"></param>
+        /// <param name="minSalary"></param>
+        /// <param name="maxSalary"></param>
+        /// <param name="NegotiatedSalary"></param>
+        /// <param name="forStudents"></param>
+        /// <returns></returns>
+        DomainOffer CreateDomainOffer
+           (
+           Guid? id,
+           string name,
+           string description,
+           decimal? minSalary,
+           decimal? maxSalary,
+           string? isNegotiatedSalary,
+           string isForStudents
+           );
+
         DomainBranchOffer CreateDomainBranchOffer
            (
            Guid branchId,
@@ -213,16 +297,7 @@ namespace Domain.Shared.Factories
 
 
 
-        DomainOffer CreateDomainOffer
-           (
-           Guid? id,
-           string name,
-           string description,
-           decimal? minSalary,
-           decimal? maxSalary,
-           string? NegotiatedSalary,
-           string forStudents
-           );
+
 
 
         //=================================================================================================

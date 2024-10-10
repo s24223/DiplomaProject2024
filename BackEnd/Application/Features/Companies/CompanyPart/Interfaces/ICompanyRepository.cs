@@ -6,7 +6,7 @@ namespace Application.Features.Companies.CompanyPart.Interfaces
     public interface ICompanyRepository
     {
         //DML
-        Task CreateAsync(DomainCompany company, CancellationToken cancellation);
+        Task<Guid> CreateAsync(DomainCompany company, CancellationToken cancellation);
         Task UpdateAsync(DomainCompany company, CancellationToken cancellation);
 
         //DQL

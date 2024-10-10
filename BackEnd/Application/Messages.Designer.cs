@@ -106,6 +106,15 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nie istnieje żadnego Oddziału, utwórz najpierw oddział a wtedy ofertę.
+        /// </summary>
+        internal static string NotExistAnyBranch {
+            get {
+                return ResourceManager.GetString("NotExistAnyBranch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Za podanymi danymi adresu nie istnieje.
         /// </summary>
         internal static string NotFoundAddress {
@@ -138,6 +147,15 @@ namespace Application {
         internal static string NotFoundCompany {
             get {
                 return ResourceManager.GetString("NotFoundCompany", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Za podanymi danymi nie znalieziono oferty.
+        /// </summary>
+        internal static string NotFoundOffer {
+            get {
+                return ResourceManager.GetString("NotFoundOffer", resourceCulture);
             }
         }
         

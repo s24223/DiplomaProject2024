@@ -11,6 +11,7 @@ using Domain.Features.Url.Entities;
 using Domain.Features.User.Entities;
 using Domain.Features.UserProblem.Entities;
 using Domain.Shared.Providers;
+using Domain.Shared.ValueObjects;
 
 namespace Domain.Shared.Factories
 {
@@ -31,6 +32,8 @@ namespace Domain.Shared.Factories
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================
+        //User Module
+
         //User Part
         public DomainUser CreateDomainUser(string login)
         {
@@ -71,6 +74,7 @@ namespace Domain.Shared.Factories
             );
         }
 
+        //UserProblem Part
         public DomainUserProblem CreateDomainUserProblem
             (
             Guid id,
@@ -97,7 +101,7 @@ namespace Domain.Shared.Factories
             );
         }
 
-
+        //Url Part
         public DomainUrl CreateDomainUrl
             (
             Guid userId,
@@ -123,6 +127,7 @@ namespace Domain.Shared.Factories
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================
+        //Person Module
         //Person Part
         public DomainPerson CreateDomainPerson
             (
@@ -160,6 +165,7 @@ namespace Domain.Shared.Factories
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================
+        //Company Module
         //Company Part
         public DomainCompany CreateDomainCompany
             (
@@ -208,6 +214,7 @@ namespace Domain.Shared.Factories
                 );
         }
 
+        //Branch Part
         public DomainBranch CreateDomainBranch
             (
             Guid companyId,
@@ -251,6 +258,107 @@ namespace Domain.Shared.Factories
                 );
         }
 
+        //Offer Part
+
+        public DomainOffer CreateDomainOffer
+            (
+            string name,
+            string description,
+            decimal? minSalary,
+            decimal? maxSalary,
+            bool? isNegotiatedSalary,
+            bool isForStudents
+            )
+        {
+            return new DomainOffer
+                (
+                null,
+                name,
+                description,
+                minSalary,
+                maxSalary,
+                (isNegotiatedSalary == null ?
+                null : new DatabaseBool(isNegotiatedSalary.Value).Code),
+                new DatabaseBool(isForStudents).Code,
+                _provider
+                );
+        }
+
+        public DomainOffer CreateDomainOffer
+            (
+            string name,
+            string description,
+            decimal? minSalary,
+            decimal? maxSalary,
+            string? isNegotiatedSalary,
+            string isForStudents
+            )
+        {
+            return new DomainOffer
+                (
+                null,
+                name,
+                description,
+                minSalary,
+                maxSalary,
+                isNegotiatedSalary,
+                isForStudents,
+                _provider
+                );
+        }
+
+        public DomainOffer CreateDomainOffer
+            (
+            Guid? id,
+            string name,
+            string description,
+            decimal? minSalary,
+            decimal? maxSalary,
+            bool? isNegotiatedSalary,
+            bool isForStudents
+            )
+        {
+            return new DomainOffer
+                (
+                id,
+                name,
+                description,
+                minSalary,
+                maxSalary,
+                (isNegotiatedSalary == null ?
+                null : new DatabaseBool(isNegotiatedSalary.Value).Code),
+                new DatabaseBool(isForStudents).Code,
+                _provider
+                );
+        }
+
+        public DomainOffer CreateDomainOffer
+            (
+            Guid? id,
+            string name,
+            string description,
+            decimal? minSalary,
+            decimal? maxSalary,
+            string? isNegotiatedSalary,
+            string isForStudents
+            )
+        {
+            return new DomainOffer
+                (
+                id,
+                name,
+                description,
+                minSalary,
+                maxSalary,
+                isNegotiatedSalary,
+                isForStudents,
+                _provider
+                );
+        }
+
+
+
+        //BranchOffer Part
         public DomainBranchOffer CreateDomainBranchOffer
            (
            Guid branchId,
@@ -274,31 +382,6 @@ namespace Domain.Shared.Factories
                 workEnd,
                 lastUpdate,
                 _provider
-           );
-        }
-
-
-        public DomainOffer CreateDomainOffer
-           (
-           Guid? id,
-           string name,
-           string description,
-           decimal? minSalary,
-           decimal? maxSalary,
-           string? NegotiatedSalary,
-           string forStudents
-           )
-        {
-            return new DomainOffer
-                (
-                id,
-                name,
-                description,
-                minSalary,
-                maxSalary,
-                NegotiatedSalary,
-                forStudents,
-            _provider
            );
         }
 
@@ -441,7 +524,6 @@ namespace Domain.Shared.Factories
             _provider
             );
         }
-
 
         //=================================================================================================
         //=================================================================================================

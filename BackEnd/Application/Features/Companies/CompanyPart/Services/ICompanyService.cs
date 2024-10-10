@@ -8,7 +8,7 @@ namespace Application.Features.Companies.CompanyPart.Services
     public interface ICompanyService
     {
         //DML
-        Task<Response> CreateAsync
+        Task<ResponseItem<CreateCompanyResponseDto>> CreateAsync
             (
             IEnumerable<Claim> claims,
             CreateCompanyRequestDto dto,

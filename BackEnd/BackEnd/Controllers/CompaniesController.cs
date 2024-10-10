@@ -4,6 +4,9 @@ using Application.Features.Companies.BranchPart.Services;
 using Application.Features.Companies.CompanyPart.DTOs.Create;
 using Application.Features.Companies.CompanyPart.DTOs.Update;
 using Application.Features.Companies.CompanyPart.Services;
+using Application.Features.Companies.OfferPart.DTOs.Create;
+using Application.Features.Companies.OfferPart.DTOs.Update;
+using Application.Features.Companies.OfferPart.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +17,7 @@ namespace BackEnd.Controllers
     public class CompaniesController : ControllerBase
     {
         //Values
+        private readonly IOfferService _offerService;
         private readonly IBranchService _branchService;
         private readonly ICompanyService _companyService;
 
@@ -22,10 +26,12 @@ namespace BackEnd.Controllers
         //Constrructor
         public CompaniesController
             (
+            IOfferService offerService,
             IBranchService branchService,
             ICompanyService companyService
             )
         {
+            _offerService = offerService;
             _branchService = branchService;
             _companyService = companyService;
         }
@@ -95,6 +101,34 @@ namespace BackEnd.Controllers
             return StatusCode(200, result);
         }
 
+        //Offer Part
+        //DML
+        [Authorize]
+        [HttpPost("offers")]
+        public async Task<IActionResult> CreateOfferAsync
+           (
+           CreateOfferRequestDto dto,
+           CancellationToken cancellation
+           )
+        {
+            var claims = User.Claims.ToList();
+            var result = await _offerService.CreateAsync(claims, dto, cancellation);
+            return StatusCode(201, result);
+        }
+
+        [Authorize]
+        [HttpPut("offers/{offerId:guid}")]
+        public async Task<IActionResult> UpdateOfferAsync
+            (
+            Guid offerId,
+            UpdateOfferRequestDto dto,
+            CancellationToken cancellation
+            )
+        {
+            var claims = User.Claims.ToList();
+            var result = await _offerService.UpdateAsync(claims, offerId, dto, cancellation);
+            return StatusCode(200, result);
+        }
 
     }
 }

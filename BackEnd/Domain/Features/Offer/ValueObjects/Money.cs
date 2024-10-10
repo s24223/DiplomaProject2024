@@ -1,4 +1,4 @@
-﻿using Domain.Features.Offer.Exceptions;
+﻿using Domain.Features.Offer.Exceptions.ValueObjects;
 
 namespace Domain.Features.Offer.ValueObjects
 {

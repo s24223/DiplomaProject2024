@@ -38,8 +38,6 @@
     <Folder Include="Features\Recruitment\Exceptions\UserExceptions\" />
     <Folder Include="Features\Intership\Exceptions\AppExceptions\" />
     <Folder Include="Features\Intership\Exceptions\UserExceptions\" />
-    <Folder Include="Features\Offer\Exceptions\AppExceptions\" />
-    <Folder Include="Features\Offer\Exceptions\UserExceptions\" />
     <Folder Include="Features\Branch\Exceptions\ValueObjects\" />
     <Folder Include="Features\BranchOffer\Exceptions\AppExceptions\" />
     <Folder Include="Features\BranchOffer\Exceptions\UserExceptions\" />

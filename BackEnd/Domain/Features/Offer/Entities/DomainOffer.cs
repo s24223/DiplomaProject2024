@@ -16,7 +16,7 @@ namespace Domain.Features.Offer.Entities
         public Money? MinSalary { get; set; }
         public Money? MaxSalary { get; set; }
         public DatabaseBool? IsNegotiatedSalary { get; set; }
-        public DatabaseBool ForStudents { get; set; }
+        public DatabaseBool IsForStudents { get; set; }
 
 
         //References
@@ -34,18 +34,16 @@ namespace Domain.Features.Offer.Entities
             decimal? minSalary,
             decimal? maxSalary,
             string? isNegotiatedSalary,
-            string forStudents,
+            string isForStudents,
             IProvider provider
             ) : base(new OfferId(id), provider)
         {
             //Values with exeptions
             MinSalary = minSalary == null ? null : new Money(minSalary.Value);
             MaxSalary = maxSalary == null ? null : new Money(maxSalary.Value);
-            ForStudents = new DatabaseBool(forStudents);
-
+            IsForStudents = new DatabaseBool(isForStudents);
             IsNegotiatedSalary = string.IsNullOrWhiteSpace(isNegotiatedSalary) ?
                 null : new DatabaseBool(isNegotiatedSalary);
-            ForStudents = new DatabaseBool(forStudents);
 
             //Values with  no exeptions
             Name = name;
@@ -53,7 +51,10 @@ namespace Domain.Features.Offer.Entities
         }
 
 
-        //Methods
+        //=================================================================================================
+        //=================================================================================================
+        //=================================================================================================
+        //Public Methods
         public void AddAddBranchOffer(DomainBranchOffer domainBranchOffer)
         {
             if (
@@ -65,5 +66,31 @@ namespace Domain.Features.Offer.Entities
                 domainBranchOffer.Offer = this;
             }
         }
+
+        public void Update
+            (
+            string name,
+            string description,
+            decimal? minSalary,
+            decimal? maxSalary,
+            bool? isNegotiatedSalary,
+            bool isForStudents
+            )
+        {
+            //Values with exeptions
+            MinSalary = minSalary == null ? null : new Money(minSalary.Value);
+            MaxSalary = maxSalary == null ? null : new Money(maxSalary.Value);
+            IsForStudents = new DatabaseBool(isForStudents);
+            IsNegotiatedSalary = isNegotiatedSalary == null ?
+                null : new DatabaseBool(isNegotiatedSalary.Value);
+
+            //Values with  no exeptions
+            Name = name;
+            Description = description;
+        }
+        //=================================================================================================
+        //=================================================================================================
+        //=================================================================================================
+        //Private Methods
     }
 }

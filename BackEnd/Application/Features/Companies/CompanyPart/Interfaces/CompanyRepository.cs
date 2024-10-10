@@ -37,7 +37,7 @@ namespace Application.Features.Companies.CompanyPart.Interfaces
         //=========================================================================================================
         //Public Methods
         //DML
-        public async Task CreateAsync
+        public async Task<Guid> CreateAsync
             (
             DomainCompany company,
             CancellationToken cancellation
@@ -56,6 +56,7 @@ namespace Application.Features.Companies.CompanyPart.Interfaces
                 };
                 await _context.Companies.AddAsync(inputDatabaseCompany, cancellation);
                 await _context.SaveChangesAsync(cancellation);
+                return company.Id.Value;
             }
             catch (System.Exception ex)
             {

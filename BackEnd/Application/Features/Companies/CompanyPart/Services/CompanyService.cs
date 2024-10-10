@@ -37,7 +37,7 @@ namespace Application.Features.Companies.CompanyPart.Services
         //=========================================================================================================
         //Public Methods
         //DML
-        public async Task<Response> CreateAsync
+        public async Task<ResponseItem<CreateCompanyResponseDto>> CreateAsync
             (
             IEnumerable<Claim> claims,
             CreateCompanyRequestDto dto,
@@ -54,8 +54,14 @@ namespace Application.Features.Companies.CompanyPart.Services
                 dto.Regon,
                 dto.Description
                 );
-            await _repository.CreateAsync(domainComapany, cancellation);
-            return new Response { };
+            var companyId = await _repository.CreateAsync(domainComapany, cancellation);
+            return new ResponseItem<CreateCompanyResponseDto>
+            {
+                Item = new CreateCompanyResponseDto
+                {
+                    CompanyId = companyId,
+                },
+            };
         }
 
         public async Task<Response> UpdateAsync

@@ -57,7 +57,10 @@ namespace Application.Shared.Interfaces.Exceptions
                             return new UrlException(Messages.NotUniqueUrlPath);
                         }
 
+
+
                         //Company Module
+                        //Company Part
                         else if (message.Contains("Company_pk"))
                         {
                             return new CompanyException(Messages.IsExistCompany);
@@ -78,6 +81,8 @@ namespace Application.Shared.Interfaces.Exceptions
                         {
                             return new CompanyException(Messages.NotUniqueCompanyRegon);
                         }
+
+                        //Branch part
                         else if (message.Contains("UNIQUE_Branch_UrlSegment"))
                         {
                             return new BranchException(Messages.NotUniqueBranchUrlSegment);
@@ -92,10 +97,19 @@ namespace Application.Shared.Interfaces.Exceptions
                             //"Address_Division"
                             //Branch_Address
                         }
+
+
                         //Company Module
+                        //Company Part
                         else if (message.Contains("Branch_Address"))
                         {
                             return new AddressException(Messages.NotFoundAddress);
+                        }
+
+                        //Branch part
+                        else if (message.Contains("Branch_Company"))
+                        {
+                            return new CompanyException(Messages.NotFoundAddress);
                         }
                         break;
                     default:

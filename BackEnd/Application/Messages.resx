@@ -132,6 +132,9 @@
   <data name="NotConfiguredSecret" xml:space="preserve">
     <value>Sprawdż strukturę UserSecrets, najprawdopodobnej ona zmieniła się w kontekscie: JwtData : Secret</value>
   </data>
+  <data name="NotExistAnyBranch" xml:space="preserve">
+    <value>Nie istnieje żadnego Oddziału, utwórz najpierw oddział a wtedy ofertę</value>
+  </data>
   <data name="NotFoundAddress" xml:space="preserve">
     <value>Za podanymi danymi adresu nie istnieje</value>
   </data>
@@ -143,6 +146,9 @@
   </data>
   <data name="NotFoundCompany" xml:space="preserve">
     <value>Za podanymi danymi firma nie istnieje</value>
+  </data>
+  <data name="NotFoundOffer" xml:space="preserve">
+    <value>Za podanymi danymi nie znalieziono oferty</value>
   </data>
   <data name="NotFoundUrl" xml:space="preserve">
     <value>Za podanymi danymi nie istnieje URL</value>
