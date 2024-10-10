@@ -38,7 +38,7 @@ namespace Application.Features.Companies.BranchPart.Interfaces
         //======================================================================================================
         //Public Methods
         //DML
-        public async Task CreateAsync
+        public async Task<Guid> CreateAsync
             (
             DomainBranch branch,
             CancellationToken cancellation
@@ -50,15 +50,14 @@ namespace Application.Features.Companies.BranchPart.Interfaces
                 {
                     CompanyId = branch.CompanyId.Value,
                     AddressId = branch.AddressId.Value,
-                    Id = branch.Id.Value,
                     UrlSegment = branch.UrlSegment == null ?
                     null : branch.UrlSegment.Value,
                     Name = branch.Name,
                     Description = branch.Description
-
                 };
                 await _context.Branches.AddAsync(databaseBranch, cancellation);
                 await _context.SaveChangesAsync(cancellation);
+                return databaseBranch.Id;
             }
             catch (System.Exception ex)
             {
@@ -74,7 +73,12 @@ namespace Application.Features.Companies.BranchPart.Interfaces
         {
             try
             {
-                var databaseBranch = await GetDatabaseBranchAsync(branch.Id, branch.CompanyId, cancellation);
+                var databaseBranch = await GetDatabaseBranchAsync
+                    (
+                    branch.Id,
+                    branch.CompanyId,
+                    cancellation
+                    );
 
                 databaseBranch.AddressId = branch.AddressId.Value;
                 databaseBranch.UrlSegment = branch.UrlSegment == null

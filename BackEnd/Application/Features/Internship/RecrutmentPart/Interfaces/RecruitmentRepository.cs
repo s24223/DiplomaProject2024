@@ -1,5 +1,5 @@
 ﻿using Application.Database;
-using Domain.Features.BranchOffer.Exceptions;
+using Domain.Features.BranchOffer.Exceptions.AppExceptions;
 using Domain.Features.Recruitment.Entities;
 using Domain.Shared.Factories;
 using Microsoft.EntityFrameworkCore;
@@ -52,7 +52,7 @@ namespace Application.Features.Internship.RecrutmentPart.Interfaces
         public async Task<DomainRecruitment> GetRecruitmentAsync(Guid id, CancellationToken cancellation)
         {
             var recruitment = await _context.Recruitments
-                .Where(x => x.PersonId  == id)
+                .Where(x => x.PersonId == id)
                 .FirstOrDefaultAsync(cancellation);
             if (recruitment == null)
                 throw new Exception();

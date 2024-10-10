@@ -19,6 +19,8 @@ namespace Domain.Shared.Factories
         //=================================================================================================
         //=================================================================================================
         //User Part
+
+        //DomainUser Part
         /// <summary>
         /// For Creating New DomainUser
         /// </summary>
@@ -42,7 +44,7 @@ namespace Domain.Shared.Factories
             DateTime lastPasswordUpdate
             );
 
-
+        //UserProblem Part
         /// <summary>
         /// For Creating New DomainUserProblem
         /// </summary>
@@ -83,7 +85,7 @@ namespace Domain.Shared.Factories
             Guid? userId
             );
 
-
+        //DomainUrl Part
         DomainUrl CreateDomainUrl
             (
             Guid userId,
@@ -98,7 +100,7 @@ namespace Domain.Shared.Factories
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================
-        //Person Part
+        //Person Module
         DomainPerson CreateDomainPerson
             (
             Guid id,
@@ -119,6 +121,7 @@ namespace Domain.Shared.Factories
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================
+        //Company Module
         //Company Part
         /// <summary>
         /// For Creating New DomainCompany
@@ -199,6 +202,7 @@ namespace Domain.Shared.Factories
             string? description
             );
 
+        //DomainOffer part
         /// <summary>
         /// For Creating New DomainOffer
         /// </summary>
@@ -283,6 +287,39 @@ namespace Domain.Shared.Factories
            string isForStudents
            );
 
+        //BranchOffer
+        /// <summary>
+        /// For Creating New DomainBranchOffer
+        /// </summary>
+        /// <param name="branchId"></param>
+        /// <param name="offerId"></param>
+        /// <param name="publishStart"></param>
+        /// <param name="publishEnd"></param>
+        /// <param name="workStart"></param>
+        /// <param name="workEnd"></param>
+        /// <returns></returns>
+        DomainBranchOffer CreateDomainBranchOffer
+           (
+           Guid branchId,
+           Guid offerId,
+           DateTime publishStart,
+           DateTime? publishEnd,
+           DateOnly? workStart,
+           DateOnly? workEnd
+           );
+
+        /// <summary>
+        /// For creating Regular DomainBranchOffer, mostly for maping from Database on Domain
+        /// </summary>
+        /// <param name="branchId"></param>
+        /// <param name="offerId"></param>
+        /// <param name="created"></param>
+        /// <param name="publishStart"></param>
+        /// <param name="publishEnd"></param>
+        /// <param name="workStart"></param>
+        /// <param name="workEnd"></param>
+        /// <param name="lastUpdate"></param>
+        /// <returns></returns>
         DomainBranchOffer CreateDomainBranchOffer
            (
            Guid branchId,
@@ -294,11 +331,6 @@ namespace Domain.Shared.Factories
            DateOnly? workEnd,
            DateTime lastUpdate
            );
-
-
-
-
-
 
         //=================================================================================================
         //=================================================================================================

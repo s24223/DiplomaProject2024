@@ -64,7 +64,7 @@ namespace Domain.Features.BranchOffer.Entities
             DateTime? publishEnd,
             DateOnly? workStart,
             DateOnly? workEnd,
-            DateTime lastUpdate,
+            DateTime? lastUpdate,
             IProvider provider
             ) : base(new BranchOfferId
                 (
@@ -77,7 +77,7 @@ namespace Domain.Features.BranchOffer.Entities
             PublishEnd = publishEnd;
             WorkStart = workStart;
             WorkEnd = workEnd;
-            LastUpdate = lastUpdate;
+            LastUpdate = lastUpdate ?? _provider.TimeProvider().GetDateTimeNow();
         }
 
 
@@ -92,6 +92,21 @@ namespace Domain.Features.BranchOffer.Entities
                 _recrutments.Add(domainRecrutment.Id, domainRecrutment);
                 domainRecrutment.BranchOffer = this;
             }
+        }
+
+        public void Update
+            (
+            DateTime publishStart,
+            DateTime? publishEnd,
+            DateOnly? workStart,
+            DateOnly? workEnd
+            )
+        {
+            LastUpdate = _provider.TimeProvider().GetDateTimeNow();
+            PublishStart = publishStart;
+            PublishEnd = publishEnd;
+            WorkStart = workStart;
+            WorkEnd = workEnd;
         }
     }
 }

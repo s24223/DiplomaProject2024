@@ -142,6 +142,15 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to danymi nie znalieziono połczenie Oferty i Oddziału.
+        /// </summary>
+        internal static string NotFoundBranchOffer {
+            get {
+                return ResourceManager.GetString("NotFoundBranchOffer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Za podanymi danymi firma nie istnieje.
         /// </summary>
         internal static string NotFoundCompany {

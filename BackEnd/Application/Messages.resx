@@ -144,6 +144,9 @@
   <data name="NotFoundBranch" xml:space="preserve">
     <value>Za podanym danymi nie znaleziono oddziału</value>
   </data>
+  <data name="NotFoundBranchOffer" xml:space="preserve">
+    <value>danymi nie znalieziono połczenie Oferty i Oddziału</value>
+  </data>
   <data name="NotFoundCompany" xml:space="preserve">
     <value>Za podanymi danymi firma nie istnieje</value>
   </data>

@@ -39,7 +39,7 @@ namespace Application.Features.Companies.BranchPart.Services
         //=========================================================================================================
         //Public Methods
         //DML
-        public async Task<Response> CreateAsync
+        public async Task<ResponseItem<CreateBranchResponseDto>> CreateAsync
             (
             IEnumerable<Claim> claims,
             CreateBranchRequestDto dto,
@@ -55,8 +55,14 @@ namespace Application.Features.Companies.BranchPart.Services
                 dto.Name,
                 dto.Description
                 );
-            await _repository.CreateAsync(domainBranch, cancellation);
-            return new Response { };
+            var branchId = await _repository.CreateAsync(domainBranch, cancellation);
+            return new ResponseItem<CreateBranchResponseDto>
+            {
+                Item = new CreateBranchResponseDto
+                {
+                    BranchId = branchId,
+                },
+            };
         }
 
         public async Task<Response> UpdateAsync
@@ -74,7 +80,7 @@ namespace Application.Features.Companies.BranchPart.Services
                 id,
                 cancellation
                 );
-            domainBranch.UpdateData
+            domainBranch.Update
                 (
                 dto.AddressId,
                 dto.UrlSegment,

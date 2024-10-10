@@ -35,9 +35,21 @@ namespace Domain.Shared.Factories
         //User Module
 
         //User Part
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
         public DomainUser CreateDomainUser(string login)
         {
-            return new DomainUser(null, login, null, null, _provider);
+            return new DomainUser
+                (
+                null,
+                login,
+                null,
+                null,
+                _provider
+                );
         }
 
         public DomainUser CreateDomainUser
@@ -48,7 +60,14 @@ namespace Domain.Shared.Factories
             DateTime lastPasswordUpdate
             )
         {
-            return new DomainUser(id, login, lastLoginIn, lastPasswordUpdate, _provider);
+            return new DomainUser
+                (
+                id,
+                login,
+                lastLoginIn,
+                lastPasswordUpdate,
+                _provider
+                );
         }
 
 
@@ -359,6 +378,31 @@ namespace Domain.Shared.Factories
 
 
         //BranchOffer Part
+        public DomainBranchOffer CreateDomainBranchOffer
+            (
+            Guid branchId,
+            Guid offerId,
+            DateTime publishStart,
+            DateTime? publishEnd,
+            DateOnly? workStart,
+            DateOnly? workEnd
+            )
+        {
+            return new DomainBranchOffer
+                (
+                branchId,
+                offerId,
+                _provider.TimeProvider().GetDateTimeNow(),
+                publishStart,
+                publishEnd,
+                workStart,
+                workEnd,
+                null,
+                _provider
+           );
+        }
+
+
         public DomainBranchOffer CreateDomainBranchOffer
            (
            Guid branchId,

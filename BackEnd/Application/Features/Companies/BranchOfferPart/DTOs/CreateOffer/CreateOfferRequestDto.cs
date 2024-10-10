@@ -1,6 +1,6 @@
-﻿namespace Application.Features.Companies.OfferPart.DTOs.Update
+﻿namespace Application.Features.Companies.BranchOfferPart.DTOs.CreateOffer
 {
-    public class UpdateOfferRequestDto
+    public class CreateOfferRequestDto
     {
         public string Name { get; set; } = null!;
         public string Description { get; set; } = null!;

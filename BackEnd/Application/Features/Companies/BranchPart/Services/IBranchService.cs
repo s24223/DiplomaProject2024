@@ -8,7 +8,7 @@ namespace Application.Features.Companies.BranchPart.Services
     public interface IBranchService
     {
         //DML
-        Task<Response> CreateAsync
+        Task<ResponseItem<CreateBranchResponseDto>> CreateAsync
          (
          IEnumerable<Claim> claims,
          CreateBranchRequestDto dto,

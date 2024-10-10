@@ -1,4 +1,4 @@
-﻿namespace Application.Features.Companies.OfferPart.DTOs.Create
+﻿namespace Application.Features.Companies.BranchOfferPart.DTOs.CreateOffer
 {
     public class CreateOfferResponseDto
     {

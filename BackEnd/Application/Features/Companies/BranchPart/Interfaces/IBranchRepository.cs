@@ -7,7 +7,7 @@ namespace Application.Features.Companies.BranchPart.Interfaces
     public interface IBranchRepository
     {
         //DML
-        Task CreateAsync
+        Task<Guid> CreateAsync
             (
             DomainBranch branch,
             CancellationToken cancellation

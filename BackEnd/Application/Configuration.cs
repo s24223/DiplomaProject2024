@@ -6,8 +6,6 @@ using Application.Features.Companies.BranchPart.Interfaces;
 using Application.Features.Companies.BranchPart.Services;
 using Application.Features.Companies.CompanyPart.Interfaces;
 using Application.Features.Companies.CompanyPart.Services;
-using Application.Features.Companies.OfferPart.Interfaces;
-using Application.Features.Companies.OfferPart.Services;
 using Application.Features.Internship.InternshipPart.Interfaces;
 using Application.Features.Internship.InternshipPart.Services;
 using Application.Features.Internship.RecrutmentPart.Interfaces;
@@ -67,16 +65,12 @@ namespace Application
             serviceCollection.AddTransient<ICompanyService, CompanyService>();
 
             //Offer Part 
-            serviceCollection.AddTransient<IOfferRepository, OfferRepository>();
-            serviceCollection.AddTransient<IOfferService, OfferService>();
+            serviceCollection.AddTransient<IBranchOfferRepository, BranchOfferRepository>();
+            serviceCollection.AddTransient<IBranchOfferService, BranchOfferService>();
 
             //Branch Part
             serviceCollection.AddTransient<IBranchRepository, BranchRepository>();
             serviceCollection.AddTransient<IBranchService, BranchService>();
-
-            //OfferBranch Part
-            serviceCollection.AddTransient<IBranchOfferRepository, OfferBranchRepository>();
-            serviceCollection.AddTransient<IBranchOfferService, BranchOfferService>();
 
             //Recruitment
             serviceCollection.AddTransient<IRecruitmentRepository, RecruitmentRepository>();

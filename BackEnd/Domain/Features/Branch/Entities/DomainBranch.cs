@@ -101,7 +101,7 @@ namespace Domain.Features.Branch.Entities
             }
         }
 
-        public void UpdateData
+        public void Update
             (
             Guid addressId,
             string? urlSegment,
