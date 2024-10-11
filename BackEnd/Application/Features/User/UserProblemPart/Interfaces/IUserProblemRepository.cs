@@ -16,6 +16,7 @@ namespace Application.Features.User.UserProblemPart.Interfaces
 
         Task SetNewStatusForAuthorizedAsync
             (
+            UserId userId,
             DomainUserProblem userProblem,
             CancellationToken cancellation
             );

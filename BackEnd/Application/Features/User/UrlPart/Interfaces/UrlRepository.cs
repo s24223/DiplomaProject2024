@@ -135,15 +135,7 @@ namespace Application.Features.User.UrlPart.Interfaces
                 created,
                 cancellation
                 );
-            return _domainFactory.CreateDomainUrl
-                (
-                databaseUrl.UserId,
-                databaseUrl.UrlTypeId,
-                databaseUrl.Created,
-                databaseUrl.Path,
-                databaseUrl.Name,
-                databaseUrl.Description
-                );
+            return ConvertToDomainUrl(databaseUrl);
         }
         //====================================================================================================
         //====================================================================================================
@@ -159,9 +151,9 @@ namespace Application.Features.User.UrlPart.Interfaces
         {
             var url = await _context.Urls
                 .Where(x =>
-                x.UserId == userId.Value &&
-                x.UrlTypeId == (int)urlType.Type &&
-                x.Created == created
+                    x.UserId == userId.Value &&
+                    x.UrlTypeId == (int)urlType.Type &&
+                    x.Created == created
                 ).FirstOrDefaultAsync(cancellation);
             if (url == null)
             {
@@ -172,6 +164,19 @@ namespace Application.Features.User.UrlPart.Interfaces
                     );
             }
             return url;
+        }
+
+        private DomainUrl ConvertToDomainUrl(Url databaseUrl)
+        {
+            return _domainFactory.CreateDomainUrl
+                (
+                databaseUrl.UserId,
+                databaseUrl.UrlTypeId,
+                databaseUrl.Created,
+                databaseUrl.Path,
+                databaseUrl.Name,
+                databaseUrl.Description
+                );
         }
     }
 }

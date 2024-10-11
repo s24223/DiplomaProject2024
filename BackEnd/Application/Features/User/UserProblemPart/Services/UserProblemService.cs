@@ -94,6 +94,7 @@ namespace Application.Features.User.UserProblemPart.Services
 
             await _userProblem.SetNewStatusForAuthorizedAsync
                 (
+                userId,
                 domainUserProblem,
                 cancellation
                 );

@@ -9,7 +9,6 @@ using Domain.Features.Branch.ValueObjects.Identificators;
 using Domain.Features.BranchOffer.ValueObjects.Identificators;
 using Domain.Features.Offer.ValueObjects.Identificators;
 using Domain.Shared.Factories;
-using Domain.Shared.Providers;
 using System.Security.Claims;
 
 namespace Application.Features.Companies.BranchOfferPart.Services
@@ -17,7 +16,7 @@ namespace Application.Features.Companies.BranchOfferPart.Services
     public class BranchOfferService : IBranchOfferService
     {
         //Values
-        private readonly IProvider _domainProvider;
+        //private readonly IProvider _domainProvider;
         private readonly IBranchOfferRepository _repository;
         private readonly IDomainFactory _domainFactory;
         private readonly IAuthenticationService _authenticationRepository;
@@ -26,7 +25,7 @@ namespace Application.Features.Companies.BranchOfferPart.Services
         //Cosntructor
         public BranchOfferService
             (
-            IProvider domainProvider,
+            //IProvider domainProvider,
             IBranchOfferRepository repository,
             IDomainFactory domainFactory,
             IAuthenticationService authentication
@@ -34,7 +33,7 @@ namespace Application.Features.Companies.BranchOfferPart.Services
         {
             _repository = repository;
             _domainFactory = domainFactory;
-            _domainProvider = domainProvider;
+            //_domainProvider = domainProvider;
             _authenticationRepository = authentication;
         }
 
@@ -54,7 +53,7 @@ namespace Application.Features.Companies.BranchOfferPart.Services
             )
         {
             var companyId = _authenticationRepository.GetIdNameFromClaims(claims);
-            var doaminOffer = _domainFactory.CreateDomainOffer
+            var domainOffer = _domainFactory.CreateDomainOffer
                 (
                 dto.Name,
                 dto.Description,
@@ -63,7 +62,7 @@ namespace Application.Features.Companies.BranchOfferPart.Services
                 dto.IsNegotiatedSalary,
                 dto.IsForStudents
                 );
-            var offerId = await _repository.CreateOfferAsync(companyId, doaminOffer, cancellation);
+            var offerId = await _repository.CreateOfferAsync(companyId, domainOffer, cancellation);
             return new ResponseItem<CreateOfferResponseDto>
             {
                 Item = new CreateOfferResponseDto
@@ -114,7 +113,7 @@ namespace Application.Features.Companies.BranchOfferPart.Services
             )
         {
             var companyId = _authenticationRepository.GetIdNameFromClaims(claims);
-            var domainOfferBranch = _domainFactory.CreateDomainBranchOffer
+            var domainBranchOffer = _domainFactory.CreateDomainBranchOffer
                 (
                 branchId,
                 offerId,
@@ -127,7 +126,7 @@ namespace Application.Features.Companies.BranchOfferPart.Services
             await _repository.CreateBranchOfferAsync
                 (
                 companyId,
-                domainOfferBranch,
+                domainBranchOffer,
                 cancellation
                 );
 
@@ -145,15 +144,16 @@ namespace Application.Features.Companies.BranchOfferPart.Services
             )
         {
             var companyId = _authenticationRepository.GetIdNameFromClaims(claims);
-            var domainBranchOffer = await _repository.GetBranchOfferAsync
-                (
-                companyId,
-                new BranchOfferId
+            var branchOfferId = new BranchOfferId
                     (
                     new BranchId(branchId),
                     new OfferId(offerId),
                     created
-                    ),
+                    );
+            var domainBranchOffer = await _repository.GetBranchOfferAsync
+                (
+                companyId,
+                branchOfferId,
                 cancellation
                 );
 

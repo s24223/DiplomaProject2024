@@ -52,7 +52,6 @@ namespace Application.Features.User.UrlPart.Services
                 (
                 userId.Value,
                 dto.UrlTypeId,
-                _domainProvider.TimeProvider().GetDateTimeNow(),
                 dto.Path,
                 dto.Name,
                 dto.Description
@@ -79,10 +78,7 @@ namespace Application.Features.User.UrlPart.Services
                     created,
                     cancellation
                 );
-
-            url.Path = new Uri(dto.Path);
-            url.Name = dto.Name;
-            url.Description = dto.Description;
+            url.Update(dto.Path, dto.Name, dto.Description);
 
             await _urlRepository.UpdateAsync(url, cancellation);
             return new Response { };

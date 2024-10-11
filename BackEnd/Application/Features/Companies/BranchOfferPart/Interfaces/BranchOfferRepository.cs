@@ -59,23 +59,29 @@ namespace Application.Features.Companies.BranchOfferPart.Interfaces
             {
                 var databaseOffer = new Offer
                 {
+                    //Id Defaul value in DB
                     Name = offer.Name,
                     Description = offer.Description,
                     MinSalary = offer.MinSalary is null
-                ? null : offer.MinSalary.Value,
+                        ? null : offer.MinSalary.Value,
                     MaxSalary = offer.MaxSalary is null
-                ? null : offer.MaxSalary.Value,
+                        ? null : offer.MaxSalary.Value,
                     IsNegotiatedSalary = offer.IsNegotiatedSalary is null ?
-                null : offer.IsNegotiatedSalary.Code,
+                        null : offer.IsNegotiatedSalary.Code,
                     IsForStudents = offer.IsForStudents.Code,
                 };
+
                 var databaseBranch = await _context.Branches
                     .Where(x => x.CompanyId == companyId.Value)
                     .FirstOrDefaultAsync(cancellation);
 
                 if (databaseBranch == null)
                 {
-                    throw new BranchException(Messages.NotExistAnyBranch, DomainExceptionTypeEnum.NotFound);
+                    throw new BranchException
+                        (
+                        Messages.NotExistAnyBranch,
+                        DomainExceptionTypeEnum.NotFound
+                        );
                 }
 
                 var databaseBranchOffer = new BranchOffer
@@ -213,6 +219,7 @@ namespace Application.Features.Companies.BranchOfferPart.Interfaces
 
                 databaseBranchOffer.WorkStart = branchOffer.WorkStart;
                 databaseBranchOffer.WorkEnd = branchOffer.WorkEnd;
+                databaseBranchOffer.LastUpdate = branchOffer.LastUpdate;
 
                 await _context.SaveChangesAsync(cancellation);
             }
@@ -235,15 +242,17 @@ namespace Application.Features.Companies.BranchOfferPart.Interfaces
             return ConvertToDomainOffer(databseOffer);
         }
 
-        public Task<DomainBranchOffer> GetBranchOfferAsync
+        public async Task<DomainBranchOffer> GetBranchOfferAsync
             (
             UserId companyId,
             BranchOfferId id,
             CancellationToken cancellation
             )
         {
-            throw new NotImplementedException();
+            var databaseBranchOffer = await GetDatabaseBranchOfferAsync(companyId, id, cancellation);
+            return ConvertToDomainBranchOffer(databaseBranchOffer);
         }
+
         //==============================================================================================================================================
         //==============================================================================================================================================
         //==============================================================================================================================================
@@ -259,15 +268,18 @@ namespace Application.Features.Companies.BranchOfferPart.Interfaces
                 .Include(x => x.BranchOffers)
                 .ThenInclude(x => x.Offer)
                 .Where(x =>
-                x.CompanyId == companyId.Value &&
-                x.BranchOffers.Any(x => x.OfferId == id.Value)
+                    x.CompanyId == companyId.Value &&
+                    x.BranchOffers.Any(y => y.OfferId == id.Value)
                 ).FirstOrDefaultAsync(cancellation);
 
             if (databseWayToOffer == null)
             {
-                throw new OfferException(Messages.NotFoundOffer, DomainExceptionTypeEnum.NotFound);
+                throw new OfferException
+                    (
+                    Messages.NotFoundOffer,
+                    DomainExceptionTypeEnum.NotFound
+                    );
             }
-
             return databseWayToOffer.BranchOffers.First().Offer;
         }
 
@@ -280,8 +292,8 @@ namespace Application.Features.Companies.BranchOfferPart.Interfaces
         {
             var databaseBranch = await _context.Branches
                 .Where(x =>
-                x.Id == branchId.Value &&
-                x.CompanyId == companyId.Value)
+                    x.Id == branchId.Value &&
+                    x.CompanyId == companyId.Value)
                 .FirstOrDefaultAsync(cancellation);
 
             if (databaseBranch == null)
@@ -292,7 +304,6 @@ namespace Application.Features.Companies.BranchOfferPart.Interfaces
                     DomainExceptionTypeEnum.NotFound
                     );
             }
-
             return databaseBranch;
         }
 
@@ -306,11 +317,11 @@ namespace Application.Features.Companies.BranchOfferPart.Interfaces
             var databaseBranch = await _context.Branches
                 .Include(x => x.BranchOffers)
                 .Where(x =>
-                x.CompanyId == companyId.Value &&
-                x.BranchOffers.Any(y =>
-                    y.BranchId == id.BranchId.Value &&
-                    y.OfferId == id.OfferId.Value &&
-                    y.Created == id.Created
+                    x.CompanyId == companyId.Value &&
+                    x.BranchOffers.Any(y =>
+                        y.BranchId == id.BranchId.Value &&
+                        y.OfferId == id.OfferId.Value &&
+                        y.Created == id.Created
                 )).FirstOrDefaultAsync(cancellation);
 
             if (databaseBranch == null)
@@ -336,6 +347,21 @@ namespace Application.Features.Companies.BranchOfferPart.Interfaces
                 offer.MaxSalary,
                 offer.IsNegotiatedSalary,
                 offer.IsForStudents
+                );
+        }
+
+        private DomainBranchOffer ConvertToDomainBranchOffer(BranchOffer branchOffer)
+        {
+            return _domainFactory.CreateDomainBranchOffer
+                (
+                branchOffer.BranchId,
+                branchOffer.OfferId,
+                branchOffer.Created,
+                branchOffer.PublishStart,
+                branchOffer.PublishEnd,
+                branchOffer.WorkStart,
+                branchOffer.WorkEnd,
+                branchOffer.LastUpdate
                 );
         }
     }

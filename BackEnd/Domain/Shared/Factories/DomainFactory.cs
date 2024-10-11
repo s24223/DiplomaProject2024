@@ -121,6 +121,28 @@ namespace Domain.Shared.Factories
         }
 
         //Url Part
+
+        public DomainUrl CreateDomainUrl
+            (
+            Guid userId,
+            int urlTypeId,
+            string path,
+            string? name,
+            string? description
+            )
+        {
+            return new DomainUrl
+                (
+                 userId,
+                 urlTypeId,
+                 _provider.TimeProvider().GetDateTimeNow(),
+                 path,
+                 name,
+                 description,
+                _provider
+            );
+        }
+
         public DomainUrl CreateDomainUrl
             (
             Guid userId,
@@ -568,6 +590,7 @@ namespace Domain.Shared.Factories
             _provider
             );
         }
+
 
         //=================================================================================================
         //=================================================================================================

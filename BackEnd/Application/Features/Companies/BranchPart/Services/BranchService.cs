@@ -46,10 +46,10 @@ namespace Application.Features.Companies.BranchPart.Services
             CancellationToken cancellation
             )
         {
-            var id = _authenticationRepository.GetIdNameFromClaims(claims);
+            var companyId = _authenticationRepository.GetIdNameFromClaims(claims);
             var domainBranch = _domainFactory.CreateDomainBranch
                 (
-                id.Value,
+                companyId.Value,
                 dto.AddressId,
                 dto.UrlSegment,
                 dto.Name,
@@ -73,11 +73,11 @@ namespace Application.Features.Companies.BranchPart.Services
             CancellationToken cancellation
             )
         {
-            var id = _authenticationRepository.GetIdNameFromClaims(claims);
+            var companyId = _authenticationRepository.GetIdNameFromClaims(claims);
             var domainBranch = await _repository.GetBranchAsync
                 (
                 new BranchId(branchId),
-                id,
+                companyId,
                 cancellation
                 );
             domainBranch.Update

@@ -70,13 +70,19 @@ namespace Application.Features.User.UserProblemPart.Interfaces
 
         public async Task SetNewStatusForAuthorizedAsync
             (
+            UserId userId,
             DomainUserProblem userProblem,
             CancellationToken cancellation
             )
         {
             try
             {
-                var databaseUserProblem = await GetUserProblemAsync(userProblem.Id, cancellation);
+                var databaseUserProblem = await GetUserProblemAsync
+                    (
+                    (userProblem.UserId ?? userId),
+                    userProblem.Id,
+                    cancellation
+                    );
 
                 databaseUserProblem.Status = userProblem.Status.Code;
 
@@ -114,8 +120,10 @@ namespace Application.Features.User.UserProblemPart.Interfaces
             )
         {
             var databaseUserProblem = await _context.UserProblems
-                .Where(x => x.UserId == userId.Value && x.Id == userProblemId.Value)
-                .FirstOrDefaultAsync(cancellation);
+                .Where(x =>
+                    x.UserId == userId.Value &&
+                    x.Id == userProblemId.Value
+                ).FirstOrDefaultAsync(cancellation);
             if (databaseUserProblem == null)
             {
                 throw new UserProblemException
@@ -126,26 +134,26 @@ namespace Application.Features.User.UserProblemPart.Interfaces
             }
             return databaseUserProblem;
         }
-
-        private async Task<UserProblem> GetUserProblemAsync
-            (
-            UserProblemId userProblemId,
-            CancellationToken cancellation
-            )
-        {
-            var databaseUserProblem = await _context.UserProblems
-                .Where(x => x.Id == userProblemId.Value)
-                .FirstOrDefaultAsync(cancellation);
-            if (databaseUserProblem == null)
-            {
-                throw new UserProblemException
+        /*
+                private async Task<UserProblem> GetUserProblemAsync
                     (
-                    Messages.NotFoundUserProblem,
-                    DomainExceptionTypeEnum.NotFound
-                    );
-            }
-            return databaseUserProblem;
-        }
+                    UserProblemId userProblemId,
+                    CancellationToken cancellation
+                    )
+                {
+                    var databaseUserProblem = await _context.UserProblems
+                        .Where(x => x.Id == userProblemId.Value)
+                        .FirstOrDefaultAsync(cancellation);
+                    if (databaseUserProblem == null)
+                    {
+                        throw new UserProblemException
+                            (
+                            Messages.NotFoundUserProblem,
+                            DomainExceptionTypeEnum.NotFound
+                            );
+                    }
+                    return databaseUserProblem;
+                }*/
 
         private DomainUserProblem ConvertToDomainUserProblem(UserProblem databaseUserProblem)
         {

@@ -47,5 +47,9 @@ namespace Application.Features.Companies.BranchOfferPart.Services
             CancellationToken cancellation
             );
         //DQL
+
+        //Offer Part
+        //BranchOffer Part
+
     }
 }

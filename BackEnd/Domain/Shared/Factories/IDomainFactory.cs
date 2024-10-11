@@ -18,9 +18,10 @@ namespace Domain.Shared.Factories
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================
-        //User Part
+        //User Module
 
         //DomainUser Part
+
         /// <summary>
         /// For Creating New DomainUser
         /// </summary>
@@ -44,7 +45,10 @@ namespace Domain.Shared.Factories
             DateTime lastPasswordUpdate
             );
 
+
+
         //UserProblem Part
+
         /// <summary>
         /// For Creating New DomainUserProblem
         /// </summary>
@@ -85,7 +89,38 @@ namespace Domain.Shared.Factories
             Guid? userId
             );
 
+
+
         //DomainUrl Part
+
+        /// <summary>
+        /// For Creating New DomainUrl
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="urlTypeId"></param>
+        /// <param name="path"></param>
+        /// <param name="name"></param>
+        /// <param name="description"></param>
+        /// <returns></returns>
+        DomainUrl CreateDomainUrl
+           (
+           Guid userId,
+           int urlTypeId,
+           string path,
+           string? name,
+           string? description
+           );
+
+        /// <summary>
+        /// For creating Regular DomainUrl, mostly for maping from Database on Domain
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="urlTypeId"></param>
+        /// <param name="created"></param>
+        /// <param name="path"></param>
+        /// <param name="name"></param>
+        /// <param name="description"></param>
+        /// <returns></returns>
         DomainUrl CreateDomainUrl
             (
             Guid userId,
@@ -122,7 +157,9 @@ namespace Domain.Shared.Factories
         //=================================================================================================
         //=================================================================================================
         //Company Module
+
         //Company Part
+
         /// <summary>
         /// For Creating New DomainCompany
         /// </summary>
@@ -142,6 +179,7 @@ namespace Domain.Shared.Factories
             string regon,
             string? description
             );
+
         /// <summary>
         /// For creating Regular DomainCompany, mostly for maping from Database on Domain
         /// </summary>
@@ -202,7 +240,10 @@ namespace Domain.Shared.Factories
             string? description
             );
 
+
+
         //DomainOffer part
+
         /// <summary>
         /// For Creating New DomainOffer
         /// </summary>
@@ -287,7 +328,10 @@ namespace Domain.Shared.Factories
            string isForStudents
            );
 
+
+
         //BranchOffer
+
         /// <summary>
         /// For Creating New DomainBranchOffer
         /// </summary>
@@ -377,7 +421,18 @@ namespace Domain.Shared.Factories
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================
-        //Address Part
+        //Address Module
+
+        /// <summary>
+        /// For Creating New DomainAddress
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="divisionId"></param>
+        /// <param name="streetId"></param>
+        /// <param name="buildingNumber"></param>
+        /// <param name="apartmentNumber"></param>
+        /// <param name="zipCode"></param>
+        /// <returns></returns>
         DomainAddress CreateDomainAddress
             (
             Guid? id,
@@ -388,6 +443,15 @@ namespace Domain.Shared.Factories
             string zipCode
             );
 
+        /// <summary>
+        /// For creating Regular DomainAddress, mostly for maping from Database on Domain
+        /// </summary>
+        /// <param name="divisionId"></param>
+        /// <param name="streetId"></param>
+        /// <param name="buildingNumber"></param>
+        /// <param name="apartmentNumber"></param>
+        /// <param name="zipCode"></param>
+        /// <returns></returns>
         DomainAddress CreateDomainAddress
             (
             int divisionId,
