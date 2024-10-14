@@ -1,8 +1,12 @@
-﻿using Application.Features.Internship.InternshipPart.DTOs;
+﻿using Application.Features.Internship.InternshipPart.DTOs.Create;
+using Application.Features.Internship.InternshipPart.DTOs.Update;
 using Application.Features.Internship.InternshipPart.Services;
+using Application.Features.Internship.RecrutmentPart.DTOs.Create;
+using Application.Features.Internship.RecrutmentPart.DTOs.SetAnswerByCompany;
+using Application.Features.Internship.RecrutmentPart.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace BackEnd.Controllers
 {
@@ -10,31 +14,129 @@ namespace BackEnd.Controllers
     [ApiController]
     public class InternshipController : ControllerBase
     {
-        private readonly IInternshipService _serivce;
+        //Values
+        private readonly IInternshipService _internshipService;
+        private readonly IRecruitmentService _recruitmentService;
 
-        public InternshipController(
-            IInternshipService serivce)
+
+        //Constructor
+        public InternshipController
+            (
+            IInternshipService internshipService,
+            IRecruitmentService recruitmentService
+            )
         {
-            _serivce = serivce;
+            _internshipService = internshipService;
+            _recruitmentService = recruitmentService;
+        }
+
+
+        //==================================================================================================
+        //==================================================================================================
+        //==================================================================================================
+        //Public Methods
+
+        //Recrutment Part
+        [Authorize]
+        [HttpPost("recruitment")]
+        public async Task<IActionResult> CreateRecruitmentByPersonAsync
+            (
+            [Required] Guid branchId,
+            [Required] Guid offerId,
+            [Required] DateTime created,
+            CreateRecruitmentRequestDto dto,
+            CancellationToken cancellation
+            )
+        {
+            var claims = User.Claims.ToList();
+            var result = await _recruitmentService.CreateByPersonAsync
+                (
+                claims,
+                branchId,
+                offerId,
+                created,
+                dto,
+                cancellation
+                );
+            return StatusCode(201, result);
         }
 
         [Authorize]
-        [HttpPost("create")]
-        public async Task<IActionResult> CreateInternshipAsync(CreateInternshipDto dto,
-            CancellationToken cancellation)
+        [HttpPut("recruitment/answer")]
+        public async Task<IActionResult> SetAnswerRecruitmentByCompanyAsync
+            (
+            [Required] Guid branchId,
+            [Required] Guid offerId,
+            [Required] DateTime created,
+            [Required] Guid personId,
+            SetAnswerByCompanyRecrutmentDto dto,
+            CancellationToken cancellation
+            )
         {
             var claims = User.Claims.ToList();
-            return Ok(await _serivce.CreateInternshipAsync(
-                claims, dto, cancellation));
+            var result = await _recruitmentService.SetAnswerByCompanyAsync
+                (
+                claims,
+                branchId,
+                offerId,
+                created,
+                personId,
+                dto,
+                cancellation
+                );
+            return StatusCode(200, result);
+        }
+
+        //Intership Part
+        [Authorize]
+        [HttpPost()]
+        public async Task<IActionResult> CreateInternshipAsync
+            (
+            [Required] Guid branchId,
+            [Required] Guid offerId,
+            [Required] DateTime created,
+            [Required] Guid personId,
+            CreateInternshipRequestDto dto,
+            CancellationToken cancellation
+            )
+        {
+            var claims = User.Claims.ToList();
+            var result = await _internshipService.CreateAsync
+                (
+                claims,
+                branchId,
+                offerId,
+                created,
+                personId,
+                dto,
+                cancellation
+                );
+            return StatusCode(201, result);
         }
 
         [Authorize]
         [HttpPut("{idInternship:guid}")]
-        public async Task<IActionResult> UpdateInternshipAsync(Guid idInternship,
-            UpdateInternshipDto dto, CancellationToken cancellation)
+        public async Task<IActionResult> UpdateInternshipAsync
+            (
+            Guid idInternship,
+            UpdateInternshipRequestDto dto,
+            CancellationToken cancellation
+            )
         {
-            return Ok(await _serivce.UpdateInternshipAsync(
-                idInternship, dto, cancellation));
+            var claims = User.Claims.ToList();
+            var result = await _internshipService.UpdateAsync
+                (
+                claims,
+                idInternship,
+                dto,
+                cancellation
+                );
+            return StatusCode(200, result);
         }
+
+        //==================================================================================================
+        //==================================================================================================
+        //==================================================================================================
+        //Private Methods
     }
 }

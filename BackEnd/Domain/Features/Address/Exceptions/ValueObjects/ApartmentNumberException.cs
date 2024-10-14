@@ -4,7 +4,11 @@ namespace Domain.Features.Address.Exceptions.ValueObjects
 {
     public class ApartmentNumberException : DomainException
     {
-        public ApartmentNumberException() : base(Messages.InValidApartmentNumber)
+        public ApartmentNumberException
+            (
+            string? message,
+            DomainExceptionTypeEnum type = DomainExceptionTypeEnum.BadInputData
+            ) : base(message, type)
         {
         }
     }

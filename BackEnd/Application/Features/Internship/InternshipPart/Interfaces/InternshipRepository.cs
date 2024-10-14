@@ -1,65 +1,179 @@
 ﻿using Application.Database;
-using Application.Features.Internship.InternshipPart.DTOs;
+using Application.Database.Models;
+using Application.Shared.Interfaces.EntityToDomainMappers;
+using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.Intership.Entities;
-using Domain.Shared.Factories;
+using Domain.Features.Intership.Exceptions.Entities;
+using Domain.Features.Intership.ValueObjects.Identificators;
+using Domain.Features.Recruitment.Exceptions.Entities;
+using Domain.Features.Recruitment.ValueObjects.Identificators;
+using Domain.Features.User.ValueObjects.Identificators;
+using Domain.Shared.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Internship.InternshipPart.Interfaces
 {
     public class InternshipRepository : IInternshipRepository
     {
+        //Values
+        private readonly IEntityToDomainMapper _mapper;
+        private readonly IExceptionsRepository _exceptionsRepository;
         private readonly DiplomaProjectContext _context;
-        private readonly IDomainFactory _domainFactory;
 
-        public InternshipRepository(DiplomaProjectContext context,
-            IDomainFactory domainFactory)
+
+        //Cosntructor
+        public InternshipRepository
+            (
+            IEntityToDomainMapper mapper,
+            IExceptionsRepository exceptionsRepository,
+            DiplomaProjectContext context
+            )
         {
+            _mapper = mapper;
+            _exceptionsRepository = exceptionsRepository;
             _context = context;
-            _domainFactory = domainFactory;
         }
-        public async Task CreateInternshipAsync(DomainIntership intership, CancellationToken cancellaction)
+
+
+        //==================================================================================================
+        //==================================================================================================
+        //==================================================================================================
+        //Public Methods
+        public async Task<Guid> CreateAsync
+            (
+            UserId companyId,
+            DomainIntership intership,
+            CancellationToken cancellation
+            )
         {
-            var internshipDb = new Application.Database.Models.Internship
+            try
             {
-                Id = intership.Id.Value,
-                ContractNumber = intership.ContractNumber,
-                PersonId = intership.RecrutmentId.PersonId.Value,
-                BranchId = intership.RecrutmentId.BranchOfferId.BranchId.Value,
-                OfferId = intership.RecrutmentId.BranchOfferId.OfferId.Value,
-                Created = intership.RecrutmentId.BranchOfferId.Created,
-            };
-            await _context.Internships.AddAsync(
-                internshipDb, cancellaction);
-            await _context.SaveChangesAsync(cancellaction);
+                var recrutment = await GetDatabseRecruitmentAsync
+                    (
+                    companyId,
+                    intership.RecrutmentId,
+                    cancellation
+                    );
+
+                var databseIntership = new Application.Database.Models.Internship
+                {
+                    Recruitment = recrutment,
+                    ContractNumber = intership.ContractNumber.Value,
+                };
+
+                await _context.Internships.AddAsync(databseIntership, cancellation);
+                await _context.SaveChangesAsync(cancellation);
+                return databseIntership.Id;
+            }
+            catch (System.Exception ex)
+            {
+                throw _exceptionsRepository.ConvertEFDbException(ex);
+            }
         }
 
-        public async Task<DomainIntership> GetInternshipAsync(Guid id, CancellationToken cancellation)
+        public async Task UpdateAsync
+            (
+            UserId companyId,
+            DomainIntership intership,
+            CancellationToken cancellation
+            )
         {
-            var intership = await _context.Internships.Where(x => x.Id == id)
-                .FirstOrDefaultAsync(cancellation);
-            if (intership == null)
-                throw new Exception();
-            var domainInternship = _domainFactory.CreateDomainInternship(
-                intership.ContractNumber,
-                intership.PersonId,
-                intership.BranchId,
-                intership.OfferId,
-                intership.Created);
-            return domainInternship;
+            try
+            {
+                var databseIntership = await GetDatabseInternshipAsync
+                    (
+                    companyId,
+                    intership.Id,
+                    cancellation
+                    );
+
+                databseIntership.ContractNumber = intership.ContractNumber.Value;
+
+                await _context.SaveChangesAsync(cancellation);
+            }
+            catch (System.Exception ex)
+            {
+                throw _exceptionsRepository.ConvertEFDbException(ex);
+            }
         }
 
-        public async Task UpdateInternshipAsync(DomainIntership intership, CancellationToken cancellaction)
+        //DQL
+        public async Task<DomainIntership> GetInternshipAsync
+            (
+            UserId companyId,
+            IntershipId intershipId,
+            CancellationToken cancellation
+            )
         {
-            var internshipDb = await _context.Internships
-                .Where(x => x.Id == intership.Id.Value)
-                .FirstOrDefaultAsync(cancellaction);
+            var databaseIntership = await GetDatabseInternshipAsync
+                   (
+                   companyId,
+                   intershipId,
+                   cancellation
+                   );
+            return _mapper.ToDomainIntership(databaseIntership);
+        }
 
-            if (internshipDb == null)
-                throw new Exception();
+        //==================================================================================================
+        //==================================================================================================
+        //==================================================================================================
+        //Private Methods
+        private async Task<Recruitment> GetDatabseRecruitmentAsync
+            (
+            UserId companyId,
+            RecrutmentId recrutmentId,
+            CancellationToken cancellation
+            )
+        {
+            var databaseBoolTrue = new DatabaseBool(true).Code;
+            var pathToRecrutment = await _context.Branches
+                .Include(x => x.BranchOffers)
+                .ThenInclude(x => x.Recruitments)
+                .Where(x =>
+                    x.CompanyId == companyId.Value &&
+                    x.BranchOffers.Any(y => y.Recruitments.Any(z =>
+                        z.OfferId == recrutmentId.BranchOfferId.OfferId.Value &&
+                        z.BranchId == recrutmentId.BranchOfferId.BranchId.Value &&
+                        z.Created == recrutmentId.BranchOfferId.Created &&
+                        z.PersonId == recrutmentId.PersonId.Value &&
+                        z.IsAccepted == databaseBoolTrue
+                    ))
+                ).FirstOrDefaultAsync(cancellation);
+            if (pathToRecrutment == null)
+            {
+                throw new RecruitmentException(Messages.Recruitment_IdsAccepted_NotFound);
+            }
 
-            internshipDb.ContractNumber = intership.ContractNumber;
+            return pathToRecrutment.BranchOffers.First().Recruitments.First();
+        }
 
-            await _context.SaveChangesAsync(cancellaction);
+        private async Task<Application.Database.Models.Internship> GetDatabseInternshipAsync
+            (
+            UserId companyId,
+            IntershipId intershipId,
+            CancellationToken cancellation
+            )
+        {
+            var databaseBoolTrue = new DatabaseBool(true).Code;
+            var pathToRecrutment = await _context.Branches
+                .Include(x => x.BranchOffers)
+                .ThenInclude(x => x.Recruitments)
+                .ThenInclude(x => x.Internships)
+                .Where(x =>
+                    x.CompanyId == companyId.Value &&
+                    x.BranchOffers.Any(y =>
+                        y.Recruitments.Any(z =>
+                            z.Internships.Any(e =>
+                                e.Id == intershipId.Value
+
+                    )))
+                ).FirstOrDefaultAsync(cancellation);
+            if (pathToRecrutment == null)
+            {
+                throw new IntershipException(Messages.Intership_Ids_NotFound);
+            }
+
+            return pathToRecrutment.BranchOffers.First().Recruitments.First().Internships.First();
         }
     }
 }

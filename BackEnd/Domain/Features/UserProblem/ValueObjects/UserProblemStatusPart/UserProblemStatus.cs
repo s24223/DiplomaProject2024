@@ -1,12 +1,15 @@
 ﻿using Domain.Features.UserProblem.Exceptions.ValueObjects;
+using Domain.Shared.Templates.Exceptions;
 
 namespace Domain.Features.UserProblem.ValueObjects.UserProblemStatusPart
 {
     public record UserProblemStatus
     {
         //Values
+        //Static
         private static Dictionary<string, UserProblemStatus> _statuses = new();
 
+        //Nonstatic
         public string Code { get; private set; }
         public UserProblemStatusEnum Name { get; private set; }
 
@@ -23,7 +26,11 @@ namespace Domain.Features.UserProblem.ValueObjects.UserProblemStatusPart
 
             if (!_statuses.TryGetValue(value, out var item))
             {
-                throw new UserProblemStatusException(Messages.NotExistUserProblemStatus);
+                throw new UserProblemStatusException
+                    (
+                    $"{Messages.ProblemStatus_Code_NotFound}, Code: {value}",
+                    DomainExceptionTypeEnum.AppProblem
+                    );
             }
             Code = item.Code;
             Name = item.Name;

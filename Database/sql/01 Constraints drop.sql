@@ -40,9 +40,13 @@ CONSTRAINT CHECK_Person_IsStudent;
 ALTER TABLE [dbo].[Person] DROP
 CONSTRAINT CHECK_Person_IsPublicProfile;
 ALTER TABLE [dbo].[Person] DROP
+CONSTRAINT CHECK_Person_BirthDate;
+ALTER TABLE [dbo].[Person] DROP
 CONSTRAINT UNIQUE_Person_UrlSegment;
 ALTER TABLE [dbo].[Person] DROP
 CONSTRAINT UNIQUE_Person_ContactEmail;
+ALTER TABLE [dbo].[Person] DROP
+CONSTRAINT UNIQUE_Person_ContactPhoneNum;
 
 --======================================================================================
 --[Company]

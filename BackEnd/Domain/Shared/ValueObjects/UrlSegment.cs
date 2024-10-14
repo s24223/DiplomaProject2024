@@ -1,4 +1,4 @@
-﻿using Domain.Shared.Exceptions.AppExceptions.ValueObjectsExceptions;
+﻿using Domain.Shared.Exceptions.ValueObjects;
 using System.Text.RegularExpressions;
 
 namespace Domain.Shared.ValueObjects
@@ -15,7 +15,7 @@ namespace Domain.Shared.ValueObjects
         {
             if (!IsValidSegmentUrl(value))
             {
-                throw new UrlSegmentException(Messages.InValidSegmentUrl);
+                throw new UrlSegmentException(Messages.SegmentUrl_Value_Invalid);
             }
             Value = value;
         }

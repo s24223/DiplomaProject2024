@@ -1,4 +1,5 @@
-﻿using Application.Features.Internship.InternshipPart.DTOs;
+﻿using Application.Features.Internship.InternshipPart.DTOs.Create;
+using Application.Features.Internship.InternshipPart.DTOs.Update;
 using Application.Shared.DTOs.Response;
 using System.Security.Claims;
 
@@ -6,16 +7,26 @@ namespace Application.Features.Internship.InternshipPart.Services
 {
     public interface IInternshipService
     {
-        Task<Response> CreateInternshipAsync
+        //DML
+        Task<ResponseItem<CreateInternshipResponseDto>> CreateAsync
             (
             IEnumerable<Claim> claims,
-            CreateInternshipDto dto,
+            Guid branchId,
+            Guid offerId,
+            DateTime created,
+            Guid personId,
+            CreateInternshipRequestDto dto,
             CancellationToken cancellation
             );
 
-        Task<Response> UpdateInternshipAsync(
-            Guid id,
-            UpdateInternshipDto dto,
-            CancellationToken cancellation);
+        Task<Response> UpdateAsync
+            (
+            IEnumerable<Claim> claims,
+            Guid idInternship,
+            UpdateInternshipRequestDto dto,
+            CancellationToken cancellation
+            );
+
+        //DQL
     }
 }

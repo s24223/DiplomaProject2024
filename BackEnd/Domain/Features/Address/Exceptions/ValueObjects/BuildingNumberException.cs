@@ -4,7 +4,11 @@ namespace Domain.Features.Address.Exceptions.ValueObjects
 {
     public class BuildingNumberException : DomainException
     {
-        public BuildingNumberException() : base(Messages.InValidBuildingNumber)
+        public BuildingNumberException
+            (
+            string? message,
+            DomainExceptionTypeEnum type = DomainExceptionTypeEnum.BadInputData
+            ) : base(message, type)
         {
         }
     }

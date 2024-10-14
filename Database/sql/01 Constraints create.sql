@@ -34,8 +34,10 @@ CONSTRAINT Default_Person_IsStudent DEFAULT 'N' FOR [IsStudent],
 CONSTRAINT Default_Person_IsPublicProfile DEFAULT 'N' FOR [IsPublicProfile],
 CONSTRAINT CHECK_Person_IsStudent CHECK (UPPER([IsStudent]) IN ('Y', 'N')),
 CONSTRAINT CHECK_Person_IsPublicProfile CHECK (UPPER([IsPublicProfile]) IN ('Y', 'N')),
+CONSTRAINT CHECK_Person_BirthDate CHECK ([BirthDate] < CAST(GETDATE() AS DATE) OR [BirthDate] IS NULL),
 CONSTRAINT UNIQUE_Person_UrlSegment UNIQUE ([UrlSegment]),
-CONSTRAINT UNIQUE_Person_ContactEmail UNIQUE ([ContactEmail]);
+CONSTRAINT UNIQUE_Person_ContactEmail UNIQUE ([ContactEmail]),
+CONSTRAINT UNIQUE_Person_ContactPhoneNum UNIQUE ([ContactPhoneNum]);
 
 --======================================================================================
 --[Company]

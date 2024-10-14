@@ -1,10 +1,10 @@
 ﻿using Domain.Shared.Templates.Exceptions;
 
-namespace Domain.Features.BranchOffer.Exceptions.AppExceptions
+namespace Domain.Shared.Exceptions.ValueObjects
 {
-    public class BranchOfferException : DomainException
+    public class EmailException : DomainException
     {
-        public BranchOfferException
+        public EmailException
             (
             string? message,
             DomainExceptionTypeEnum type = DomainExceptionTypeEnum.BadInputData

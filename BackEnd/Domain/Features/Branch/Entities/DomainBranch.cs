@@ -36,7 +36,8 @@ namespace Domain.Features.Branch.Entities
                 }
             }
         }
-        //BarnachOffer 
+
+        //BranchOffer 
         private Dictionary<BranchOfferId, DomainBranchOffer> _branchOffers = new();
         public IReadOnlyDictionary<BranchOfferId, DomainBranchOffer> BranchOffers => _branchOffers;
 
@@ -52,7 +53,7 @@ namespace Domain.Features.Branch.Entities
                 {
                     throw new AddressException
                         (
-                        Messages.AppProblemNotSameAddressId,
+                        Messages.Branch_Address_NotSameAddressId,
                         DomainExceptionTypeEnum.AppProblem
                         );
                 }

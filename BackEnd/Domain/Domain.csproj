@@ -28,20 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\User\Exceptions\Entities\" />
+    <Folder Include="Features\BranchOffer\Exceptions\ValueObjects\" />
+    <Folder Include="Features\Comment\Exceptions\Entities\" />
     <Folder Include="Features\User\Exceptions\ValueObjects\" />
-    <Folder Include="Shared\Exceptions\AppExceptions\EntitiesExceptions\" />
-    <Folder Include="Shared\Exceptions\UserExceptions\EntitiesExceptions\" />
-    <Folder Include="Features\Comment\Exceptions\AppExceptions\" />
-    <Folder Include="Features\Comment\Exceptions\UserExceptions\" />
-    <Folder Include="Features\Recruitment\Exceptions\AppExceptions\" />
-    <Folder Include="Features\Recruitment\Exceptions\UserExceptions\" />
-    <Folder Include="Features\Intership\Exceptions\AppExceptions\" />
-    <Folder Include="Features\Intership\Exceptions\UserExceptions\" />
     <Folder Include="Features\Branch\Exceptions\ValueObjects\" />
-    <Folder Include="Features\BranchOffer\Exceptions\UserExceptions\" />
-    <Folder Include="Features\Person\Exceptions\AppExceptions\" />
-    <Folder Include="Features\Person\Exceptions\UserExceptions\" />
   </ItemGroup>
 
 </Project>

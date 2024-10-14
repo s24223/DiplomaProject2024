@@ -112,15 +112,19 @@ namespace Application.Features.Companies.BranchOfferPart.Services
             CancellationToken cancellation
             )
         {
+            DateOnly? workStart = dto.WorkStart == null ? null : (DateOnly)dto.WorkStart;
+            DateOnly? workEnd = dto.WorkEnd == null ? null : (DateOnly)dto.WorkEnd;
             var companyId = _authenticationRepository.GetIdNameFromClaims(claims);
+
+
             var domainBranchOffer = _domainFactory.CreateDomainBranchOffer
                 (
                 branchId,
                 offerId,
                 dto.PublishStart,
                 dto.PublishEnd,
-                dto.WorkStart,
-                dto.WorkEnd
+                workStart,
+                workEnd
                 );
 
             await _repository.CreateBranchOfferAsync
@@ -143,6 +147,8 @@ namespace Application.Features.Companies.BranchOfferPart.Services
             CancellationToken cancellation
             )
         {
+            DateOnly? workStart = dto.WorkStart == null ? null : (DateOnly)dto.WorkStart;
+            DateOnly? workEnd = dto.WorkEnd == null ? null : (DateOnly)dto.WorkEnd;
             var companyId = _authenticationRepository.GetIdNameFromClaims(claims);
             var branchOfferId = new BranchOfferId
                     (
@@ -161,8 +167,8 @@ namespace Application.Features.Companies.BranchOfferPart.Services
                 (
                 dto.PublishStart,
                 dto.PublishEnd,
-                dto.WorkStart,
-                dto.WorkEnd
+                workStart,
+                workEnd
                 );
 
             await _repository.UpdateBranchOfferAsync

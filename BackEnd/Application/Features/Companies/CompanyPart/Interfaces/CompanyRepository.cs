@@ -1,10 +1,10 @@
 ﻿using Application.Database;
 using Application.Database.Models;
+using Application.Shared.Interfaces.EntityToDomainMappers;
 using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.Company.Entities;
 using Domain.Features.Company.Exceptions.Entities;
 using Domain.Features.User.ValueObjects.Identificators;
-using Domain.Shared.Factories;
 using Domain.Shared.Templates.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +13,7 @@ namespace Application.Features.Companies.CompanyPart.Interfaces
     public class CompanyRepository : ICompanyRepository
     {
         //Values
-        private readonly IDomainFactory _domainFactory;
+        private readonly IEntityToDomainMapper _mapper;
         private readonly IExceptionsRepository _exceptionRepository;
         private readonly DiplomaProjectContext _context;
 
@@ -21,12 +21,12 @@ namespace Application.Features.Companies.CompanyPart.Interfaces
         //Cosntructors
         public CompanyRepository
             (
-            IDomainFactory domainFactory,
+            IEntityToDomainMapper mapper,
             IExceptionsRepository exceptionRepository,
             DiplomaProjectContext context
             )
         {
-            _domainFactory = domainFactory;
+            _mapper = mapper;
             _exceptionRepository = exceptionRepository;
             _context = context;
         }
@@ -96,25 +96,13 @@ namespace Application.Features.Companies.CompanyPart.Interfaces
             )
         {
             var databaseCompany = await GetDatabseCompanyAsync(id, cancellation);
-            return ConvertToDomainCompany(databaseCompany);
+            return _mapper.ToDomainCompany(databaseCompany);
         }
 
         //=========================================================================================================
         //=========================================================================================================
         //=========================================================================================================
-        //Private Methods
-        private DomainCompany ConvertToDomainCompany(Company databaseCompany)
-        {
-            return _domainFactory.CreateDomainCompany
-                (
-                databaseCompany.UserId,
-                databaseCompany.UrlSegment,
-                databaseCompany.ContactEmail,
-                databaseCompany.Name,
-                databaseCompany.Regon,
-                databaseCompany.Description
-                );
-        }
+        //Private Methods        
 
         private async Task<Company> GetDatabseCompanyAsync
             (
@@ -130,7 +118,7 @@ namespace Application.Features.Companies.CompanyPart.Interfaces
             {
                 throw new CompanyException
                     (
-                    Messages.NotFoundCompany,
+                    Messages.Company_Ids_NotFound,
                     DomainExceptionTypeEnum.NotFound
                     );
             }

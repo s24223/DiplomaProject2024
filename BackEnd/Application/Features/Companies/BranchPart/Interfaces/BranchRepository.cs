@@ -1,11 +1,11 @@
 ﻿using Application.Database;
 using Application.Database.Models;
+using Application.Shared.Interfaces.EntityToDomainMappers;
 using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.Branch.Entities;
 using Domain.Features.Branch.Exceptions.Entities;
 using Domain.Features.Branch.ValueObjects.Identificators;
 using Domain.Features.User.ValueObjects.Identificators;
-using Domain.Shared.Factories;
 using Domain.Shared.Templates.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +14,7 @@ namespace Application.Features.Companies.BranchPart.Interfaces
     public class BranchRepository : IBranchRepository
     {
         //Values
-        private readonly IDomainFactory _domainFactory;
+        private readonly IEntityToDomainMapper _mapper;
         private readonly IExceptionsRepository _exceptionsRepository;
         private readonly DiplomaProjectContext _context;
 
@@ -22,12 +22,12 @@ namespace Application.Features.Companies.BranchPart.Interfaces
         //Constructor
         public BranchRepository
             (
-            IDomainFactory domainFactory,
+            IEntityToDomainMapper mapper,
             IExceptionsRepository exceptionsRepository,
             DiplomaProjectContext context
             )
         {
-            _domainFactory = domainFactory;
+            _mapper = mapper;
             _exceptionsRepository = exceptionsRepository;
             _context = context;
         }
@@ -103,7 +103,7 @@ namespace Application.Features.Companies.BranchPart.Interfaces
             )
         {
             var databaseBranch = await GetDatabaseBranchAsync(id, companyId, cancellation);
-            return ConvertToDomainBranch(databaseBranch);
+            return _mapper.ToDomainBranch(databaseBranch);
         }
         //======================================================================================================
         //======================================================================================================
@@ -126,24 +126,11 @@ namespace Application.Features.Companies.BranchPart.Interfaces
             {
                 throw new BranchException
                     (
-                    Messages.NotFoundBranch,
+                    Messages.Branch_Id_NotFound,
                     DomainExceptionTypeEnum.NotFound
                     );
             }
             return databaseBranch;
-        }
-
-        private DomainBranch ConvertToDomainBranch(Branch branch)
-        {
-            return _domainFactory.CreateDomainBranch
-                (
-                branch.Id,
-                branch.CompanyId,
-                branch.AddressId,
-                branch.UrlSegment,
-                branch.Name,
-                branch.Description
-                );
         }
 
     }

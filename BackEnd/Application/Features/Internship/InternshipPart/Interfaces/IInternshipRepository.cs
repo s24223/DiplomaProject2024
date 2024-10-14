@@ -1,19 +1,32 @@
-﻿using Application.Features.Internship.InternshipPart.DTOs;
-using Domain.Features.Intership.Entities;
+﻿using Domain.Features.Intership.Entities;
+using Domain.Features.Intership.ValueObjects.Identificators;
+using Domain.Features.User.ValueObjects.Identificators;
 
 namespace Application.Features.Internship.InternshipPart.Interfaces
 {
     public interface IInternshipRepository
     {
-        Task CreateInternshipAsync(
+        //DML
+        Task<Guid> CreateAsync
+            (
+            UserId companyId,
             DomainIntership intership,
-            CancellationToken cancellaction);
+            CancellationToken cancellation
+            );
 
-        Task UpdateInternshipAsync(
+        Task UpdateAsync
+            (
+            UserId companyId,
             DomainIntership intership,
-            CancellationToken cancellaction);
+            CancellationToken cancellation
+            );
 
-        Task<DomainIntership> GetInternshipAsync(Guid id,
-            CancellationToken cancellation);
+        //DQL
+        Task<DomainIntership> GetInternshipAsync
+            (
+            UserId companyId,
+            IntershipId intershipId,
+            CancellationToken cancellation
+            );
     }
 }

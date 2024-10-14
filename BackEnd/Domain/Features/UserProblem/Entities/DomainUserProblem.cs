@@ -14,7 +14,7 @@ namespace Domain.Features.UserProblem.Entities
         //Values
         public DateTime Created { get; private set; }
         public string UserMessage { get; private set; } = null!;
-        public string? Response { get; set; }
+        public string? Response { get; private set; }
         public UserProblemId? PreviousProblemId { get; private set; }
         public Email? Email { get; private set; }
         public UserProblemStatus Status { get; set; } = null!;
@@ -78,11 +78,16 @@ namespace Domain.Features.UserProblem.Entities
                 Status == new UserProblemStatus("a")
                 )
             {
-                throw new UserProblemException(Messages.DomainUserProblemCannotAnnulTaskClosed);
+                throw new UserProblemException(Messages.DomainUserProblem_ProblemStatus_DoneOrAnnulled);
             }
             Status = new UserProblemStatus("a");
         }
 
+        public void SetAnswer(string response)
+        {
+            Status = new UserProblemStatus("d");
+            Response = response;
+        }
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================

@@ -1,5 +1,5 @@
-﻿using System.Text.RegularExpressions;
-using Domain.Shared.Exceptions.UserExceptions.ValueObjectsExceptions;
+﻿using Domain.Shared.Exceptions.ValueObjects;
+using System.Text.RegularExpressions;
 
 namespace Domain.Shared.ValueObjects
 {
@@ -15,7 +15,7 @@ namespace Domain.Shared.ValueObjects
         {
             if (!IsValidEmail(value))
             {
-                throw new EmailException(Messages.InValidEmail);
+                throw new EmailException(Messages.Email_Value_Invalid);
             }
             Value = value;
         }

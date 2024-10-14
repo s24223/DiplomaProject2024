@@ -61,164 +61,236 @@ namespace Domain {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Problem aplikacyjny nie takie same id Adress i AddressId z konstruktora.
+        ///   Looks up a localized string similar to Problem aplikacyjny, w rmach podawanej listy DomainAdministrativeDivision nie istnieje AdministrativeDivisionId podawane w ramach konstruktora.
         /// </summary>
-        internal static string AppProblemNotSameAddressId {
+        internal static string Address_DivisionsHierarchy_NotFound {
             get {
-                return ResourceManager.GetString("AppProblemNotSameAddressId", resourceCulture);
+                return ResourceManager.GetString("Address_DivisionsHierarchy_NotFound", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nie można anulować, sprawa zamknieta.
+        ///   Looks up a localized string similar to Problem aplikacyjny, podawany DomainStreet nie jest tożsamy z DomainStreetId w konstruktorze.
         /// </summary>
-        internal static string DomainUserProblemCannotAnnulTaskClosed {
+        internal static string Address_Street_Invalid {
             get {
-                return ResourceManager.GetString("DomainUserProblemCannotAnnulTaskClosed", resourceCulture);
+                return ResourceManager.GetString("Address_Street_Invalid", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Numer mieszkania może zawierac tylko liczby od 1.
+        ///   Looks up a localized string similar to Podana wartość nr mieszkania nie spełnia wymagań, może byc tylko wartośc liczbowa.
         /// </summary>
-        internal static string InValidApartmentNumber {
+        internal static string ApartmentNumber_Value_Invalid {
             get {
-                return ResourceManager.GetString("InValidApartmentNumber", resourceCulture);
+                return ResourceManager.GetString("ApartmentNumber_Value_Invalid", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Niepoprawny nr budynku.
+        ///   Looks up a localized string similar to Problem aplikacyjny, podawany address nie jest tożsamy z addressId podanym w konstruktorze, kontekst DomainBranch.
         /// </summary>
-        internal static string InValidBuildingNumber {
+        internal static string Branch_Address_NotSameAddressId {
             get {
-                return ResourceManager.GetString("InValidBuildingNumber", resourceCulture);
+                return ResourceManager.GetString("Branch_Address_NotSameAddressId", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ocena nie może być poniżej 1 i nie może być powyżej 5.
+        ///   Looks up a localized string similar to Data zakończenia publikacji nie może być mniejsza data utworzenia.
         /// </summary>
-        internal static string InValidCommentEvaluation {
+        internal static string BranchOffer_PublishEnd_Invalid {
             get {
-                return ResourceManager.GetString("InValidCommentEvaluation", resourceCulture);
+                return ResourceManager.GetString("BranchOffer_PublishEnd_Invalid", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to za podanymi danymi CommentType nie istnieje.
+        ///   Looks up a localized string similar to Data zakonczenia pracy nie może być wczesniej od daty pocztaku pracy.
         /// </summary>
-        internal static string InValidCommentType {
+        internal static string BranchOffer_WorkEnd_Invalid {
             get {
-                return ResourceManager.GetString("InValidCommentType", resourceCulture);
+                return ResourceManager.GetString("BranchOffer_WorkEnd_Invalid", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Typ może byc &quot;y&quot; lub &quot;n&quot;.
+        ///   Looks up a localized string similar to Data poczatku pracy może byc najwcześniej kolejnego dnia po dacie zakończenia publikacji .
         /// </summary>
-        internal static string InValidDatabaseBool {
+        internal static string BranchOffer_WorkStart_Invalid {
             get {
-                return ResourceManager.GetString("InValidDatabaseBool", resourceCulture);
+                return ResourceManager.GetString("BranchOffer_WorkStart_Invalid", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Niepoprwanie podany Email.
+        ///   Looks up a localized string similar to Podana wartosc Nr. budynku jest niepoprawna, powinna zaczynac sie od 1-9  i mogą zawierac sie znaki od A-Z także może byc&apos;/&apos; i numery.
         /// </summary>
-        internal static string InValidEmail {
+        internal static string BuildingNumber_Value_Invalid {
             get {
-                return ResourceManager.GetString("InValidEmail", resourceCulture);
+                return ResourceManager.GetString("BuildingNumber_Value_Invalid", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wartość srodka płaniczego nie może był po 2 liczbach po przecinku i nie moze byc ujemna.
+        ///   Looks up a localized string similar to Podana wartość oceny nie może byc mniejsza 0 i nie może byc większa od 5.
         /// </summary>
-        internal static string InValidMoney {
+        internal static string CommentEvaluation_Value_Invalid {
             get {
-                return ResourceManager.GetString("InValidMoney", resourceCulture);
+                return ResourceManager.GetString("CommentEvaluation_Value_Invalid", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Niepoprawny nr. telefonu, telefon zawiera tylko 9 cyfr.
+        ///   Looks up a localized string similar to Podany Kod typu komentarza nie isntnieje.
         /// </summary>
-        internal static string InValidPhoneNumber {
+        internal static string CommentType_Id_NotFound {
             get {
-                return ResourceManager.GetString("InValidPhoneNumber", resourceCulture);
+                return ResourceManager.GetString("CommentType_Id_NotFound", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to REGON, Niepoprawny, REGON, zawiera 9 lub 14 cyfr.
+        ///   Looks up a localized string similar to Nr. kontraktu nie może być pusty.
         /// </summary>
-        internal static string InValidRegon {
+        internal static string ContractNumber_Value_IsNullOrWhiteSpace {
             get {
-                return ResourceManager.GetString("InValidRegon", resourceCulture);
+                return ResourceManager.GetString("ContractNumber_Value_IsNullOrWhiteSpace", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Segment może zawieac tylko małe i duże łacinskie znaki, - _ .
+        ///   Looks up a localized string similar to Problem aplikacyjny, Podana wartość kodu nie istnieje, sprawdż dane i popraw kod, Problem aplikacyjny związany z rożnymidanymi po stronie bazy danych i Backendzie.
         /// </summary>
-        internal static string InValidSegmentUrl {
+        internal static string DatabaseBool_Code_Invalid {
             get {
-                return ResourceManager.GetString("InValidSegmentUrl", resourceCulture);
+                return ResourceManager.GetString("DatabaseBool_Code_Invalid", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dane DivisionId i w liscie Division nie ma takich samych .
+        ///   Looks up a localized string similar to Brak możliwości zmiany statusu, sprawa została Zmknięta.
         /// </summary>
-        internal static string InValidSetDivisionId {
+        internal static string DomainUserProblem_ProblemStatus_DoneOrAnnulled {
             get {
-                return ResourceManager.GetString("InValidSetDivisionId", resourceCulture);
+                return ResourceManager.GetString("DomainUserProblem_ProblemStatus_DoneOrAnnulled", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dane StreetId i Street.Id nie zgadaja sie .
+        ///   Looks up a localized string similar to Podany adress Email nie spełnia wymagań.
         /// </summary>
-        internal static string InValidSetStreetId {
+        internal static string Email_Value_Invalid {
             get {
-                return ResourceManager.GetString("InValidSetStreetId", resourceCulture);
+                return ResourceManager.GetString("Email_Value_Invalid", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Niepoprawny typ URL.
+        ///   Looks up a localized string similar to Podana wartość srodka płatniczego nie spełnia wymagań, musi być maksymalnie po 2 liczbach po przecinku.
         /// </summary>
-        internal static string InValidUrl {
+        internal static string Money_Value_Invalid {
             get {
-                return ResourceManager.GetString("InValidUrl", resourceCulture);
+                return ResourceManager.GetString("Money_Value_Invalid", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Niepoprawny Kod pocztowy, on zwiera tylko 5 cyfr.
+        ///   Looks up a localized string similar to W ramach podanych nalezy uzupełnić czy dane wynagrodzenie poddjae sie negociacjom.
         /// </summary>
-        internal static string InValidZipCode {
+        internal static string Offer_IsNegotiatedSalary_Empty {
             get {
-                return ResourceManager.GetString("InValidZipCode", resourceCulture);
+                return ResourceManager.GetString("Offer_IsNegotiatedSalary_Empty", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Maksymalne wynagrodzenie nie może być mniejsze od minimalnego wynagrodzenia.
         /// </summary>
-        internal static string NotExistUserProblemStatus {
+        internal static string Offer_MaxSalary_Invalid {
             get {
-                return ResourceManager.GetString("NotExistUserProblemStatus", resourceCulture);
+                return ResourceManager.GetString("Offer_MaxSalary_Invalid", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Niezdefiniowany Typ Url.
+        ///   Looks up a localized string similar to Problem aplikacyjny, podawany address nie jest tożsamy z addressId podanym w konstruktorze, kontekst DomainPerson.
         /// </summary>
-        internal static string UndefinedUrlType {
+        internal static string Person_Address_NotSameAddressId {
             get {
-                return ResourceManager.GetString("UndefinedUrlType", resourceCulture);
+                return ResourceManager.GetString("Person_Address_NotSameAddressId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Podana data urodzenie jest niepoprawna, data urodzenia nie może być w prszyszłości.
+        /// </summary>
+        internal static string Person_BirthDate_InFuture {
+            get {
+                return ResourceManager.GetString("Person_BirthDate_InFuture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Podana wartość nr. telefonu nie spełnia wymagań, powinno zwierać 9 cyfr.
+        /// </summary>
+        internal static string PhoneNumber_Value_Invalid {
+            get {
+                return ResourceManager.GetString("PhoneNumber_Value_Invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Problem aplikacyjny, Podany kod w ramach dostepnych ProblemStatus nie istnieje.
+        /// </summary>
+        internal static string ProblemStatus_Code_NotFound {
+            get {
+                return ResourceManager.GetString("ProblemStatus_Code_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Podany nr. REGON nie spełnia wymagań, powinien zawierac 9 lub 14 cyfr.
+        /// </summary>
+        internal static string Regon_Value_Invalid {
+            get {
+                return ResourceManager.GetString("Regon_Value_Invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Podany Segment Url nie spełnia wymagań, może zawierac zanki małe i duże od a-z i/lub &apos;-&apos;, &apos;_&apos;.
+        /// </summary>
+        internal static string SegmentUrl_Value_Invalid {
+            get {
+                return ResourceManager.GetString("SegmentUrl_Value_Invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to scierza powinna zaczynac sie od https://... lub  http://....
+        /// </summary>
+        internal static string Url_Path_Invalid {
+            get {
+                return ResourceManager.GetString("Url_Path_Invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Podawany id w ramach UrlType nie został znależiony.
+        /// </summary>
+        internal static string UrlType_Id_NotFound {
+            get {
+                return ResourceManager.GetString("UrlType_Id_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Podany Kod pocztowy nie spełnia warunków, powinien zawierać tylko 5 cyfr.
+        /// </summary>
+        internal static string ZipCode_Value_Invalid {
+            get {
+                return ResourceManager.GetString("ZipCode_Value_Invalid", resourceCulture);
             }
         }
     }

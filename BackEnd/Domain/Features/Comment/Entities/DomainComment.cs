@@ -11,8 +11,8 @@ namespace Domain.Features.Comment.Entities
     public class DomainComment : Entity<CommentId>
     {
         //Values
-        public string Description { get; set; } = null!;
-        public CommentEvaluation? Evaluation { get; set; }
+        public string Description { get; private set; } = null!;
+        public CommentEvaluation? Evaluation { get; private set; }
 
 
         //References
@@ -36,14 +36,14 @@ namespace Domain.Features.Comment.Entities
             (
             Guid internshipId,
             int commentTypeId,
-            DateTime published,
+            DateTime created,
             string description,
             int? evaluation,
             IProvider provider
             ) : base(new CommentId(
             new IntershipId(internshipId),
             new CommentType(commentTypeId),
-            published
+            created
             ), provider)
         {
             Evaluation = evaluation == null ?
@@ -51,5 +51,11 @@ namespace Domain.Features.Comment.Entities
 
             Description = description;
         }
+
+
+        //====================================================================================================
+        //====================================================================================================
+        //====================================================================================================
+        //Public Methods
     }
 }

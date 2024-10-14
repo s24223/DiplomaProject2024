@@ -1,6 +1,7 @@
 ﻿using Domain.Features.Address.Entities;
 using Domain.Features.Address.Exceptions.Entities;
 using Domain.Features.Address.ValueObjects.Identificators;
+using Domain.Features.Person.Exceptions.Entities;
 using Domain.Features.Person.ValueObjects;
 using Domain.Features.Recruitment.Entities;
 using Domain.Features.Recruitment.ValueObjects.Identificators;
@@ -15,19 +16,20 @@ namespace Domain.Features.Person.Entities
     public class DomainPerson : Entity<UserId>
     {
         //Values
-        public UrlSegment? UrlSegment { get; set; }
-        public DateOnly CreateDate { get; private set; }
-        public Email ContactEmail { get; set; } = null!;
-        public string Name { get; set; } = null!;
-        public string Surname { get; set; } = null!;
-        public DateOnly? BirthDate { get; set; }
-        public PhoneNumber? ContactPhoneNum { get; set; }
-        public string? Description { get; set; }
-        public DatabaseBool IsStudent { get; set; }
-        public DatabaseBool IsPublicProfile { get; set; }
+        public UrlSegment? UrlSegment { get; private set; }
+        public DateOnly Created { get; private set; }
+        public Email ContactEmail { get; private set; } = null!;
+        public string Name { get; private set; } = null!;
+        public string Surname { get; private set; } = null!;
+        public DateOnly? BirthDate { get; private set; }
+        public PhoneNumber? ContactPhoneNum { get; private set; }
+        public string? Description { get; private set; }
+        public DatabaseBool IsStudent { get; private set; }
+        public DatabaseBool IsPublicProfile { get; private set; }
 
 
         //References
+        //User
         private DomainUser _user = null!;
         public DomainUser User
         {
@@ -41,11 +43,11 @@ namespace Domain.Features.Person.Entities
                 }
             }
         }
-        //DomainRecrutment
+        //Recrutment
         private Dictionary<RecrutmentId, DomainRecruitment> _recrutments = new();
         public IReadOnlyDictionary<RecrutmentId, DomainRecruitment> Recrutments => _recrutments;
 
-        //DomainAddress
+        //Address
         public AddressId? AddressId { get; private set; } = null;
         private DomainAddress _address = null!;
         public DomainAddress Address
@@ -57,7 +59,7 @@ namespace Domain.Features.Person.Entities
                 {
                     throw new AddressException
                         (
-                        Messages.AppProblemNotSameAddressId,
+                        Messages.Person_Address_NotSameAddressId,
                         DomainExceptionTypeEnum.AppProblem
                         );
                 }
@@ -71,7 +73,7 @@ namespace Domain.Features.Person.Entities
             (
             Guid id,
             string? urlSegment,
-            DateOnly? createDate,
+            DateOnly? created,
             string contactEmail,
             string name,
             string surname,
@@ -83,6 +85,57 @@ namespace Domain.Features.Person.Entities
             Guid? addressId,
             IProvider provider
             ) : base(new UserId(id), provider)
+        {
+
+            //Values with exeptions
+            ContactEmail = new Email(value: contactEmail);
+            IsStudent = new DatabaseBool(isStudent);
+            IsPublicProfile = new DatabaseBool(isPublicProfile);
+            UrlSegment = string.IsNullOrWhiteSpace(urlSegment) ?
+                null : new UrlSegment(urlSegment);
+            ContactPhoneNum = string.IsNullOrWhiteSpace(contactPhoneNum) ?
+                null : new PhoneNumber(contactPhoneNum);
+
+            //Values with no exeptions
+            Name = name;
+            Surname = surname;
+            BirthDate = birthDate;
+            Description = description;
+            AddressId = addressId == null ?
+                null : new AddressId(addressId.Value);
+            Created = created ?? _provider.TimeProvider().GetDateOnlyToday();
+
+
+            //ThrowExceptionIfIsNotValid();
+        }
+
+
+        //=================================================================================================
+        //=================================================================================================
+        //=================================================================================================
+        //Public Methods
+        public void AddRecrutment(DomainRecruitment domainRecrutment)
+        {
+            if (domainRecrutment.Id.PersonId == Id && !_recrutments.ContainsKey(domainRecrutment.Id))
+            {
+                _recrutments.Add(domainRecrutment.Id, domainRecrutment);
+                domainRecrutment.Person = this;
+            }
+        }
+
+        public void Update
+            (
+            string? urlSegment,
+            string contactEmail,
+            string name,
+            string surname,
+            DateOnly? birthDate,
+            string? contactPhoneNum,
+            string? description,
+            bool isStudent,
+            bool isPublicProfile,
+            Guid? addressId
+            )
         {
             //Values with exeptions
             ContactEmail = new Email(value: contactEmail);
@@ -100,18 +153,22 @@ namespace Domain.Features.Person.Entities
             Description = description;
             AddressId = addressId == null ?
                 null : new AddressId(addressId.Value);
-            CreateDate = createDate != null ?
-                createDate.Value : _provider.TimeProvider().GetDateOnlyToday();
+
+            ThrowExceptionIfIsNotValid();
         }
 
-
-        //Methods
-        public void AddRecrutment(DomainRecruitment domainRecrutment)
+        //=================================================================================================
+        //=================================================================================================
+        //=================================================================================================
+        //Private Methods
+        private void ThrowExceptionIfIsNotValid()
         {
-            if (domainRecrutment.Id.PersonId == Id && !_recrutments.ContainsKey(domainRecrutment.Id))
+            if (
+                BirthDate is not null &&
+                BirthDate > _provider.TimeProvider().GetDateOnlyToday()
+                )
             {
-                _recrutments.Add(domainRecrutment.Id, domainRecrutment);
-                domainRecrutment.Person = this;
+                throw new PersonException(Messages.Person_BirthDate_InFuture);
             }
         }
     }

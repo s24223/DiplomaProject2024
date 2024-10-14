@@ -8,17 +8,25 @@ namespace Domain.Features.Offer.ValueObjects
     /// <exception cref="MoneyException"></exception>
     public record Money
     {
+        //Values
         public decimal Value { get; private set; }
 
+
+        //Cosntructor
         public Money(decimal value)
         {
             if (!IsValidMoney(value))
             {
-                throw new MoneyException(Messages.InValidMoney);
+                throw new MoneyException(Messages.Money_Value_Invalid);
             }
             Value = value;
         }
 
+
+        //================================================================================================
+        //================================================================================================
+        //================================================================================================
+        //Public Methods
         private bool IsValidMoney(decimal value)
         {
             if (decimal.Round(value, 2) != value || value < 0)
@@ -47,5 +55,10 @@ namespace Domain.Features.Offer.ValueObjects
         {
             return money1.Value <= money2.Value;
         }
+
+        //================================================================================================
+        //================================================================================================
+        //================================================================================================
+        //Private Methods
     }
 }

@@ -18,6 +18,7 @@ using Application.Features.User.UserPart.Interfaces;
 using Application.Features.User.UserPart.Services;
 using Application.Features.User.UserProblemPart.Interfaces;
 using Application.Features.User.UserProblemPart.Services;
+using Application.Shared.Interfaces.EntityToDomainMappers;
 using Application.Shared.Interfaces.Exceptions;
 using Application.Shared.Services.Authentication;
 using Microsoft.Extensions.Configuration;
@@ -37,6 +38,7 @@ namespace Application
             serviceCollection.AddSingleton<IConfiguration>(configuration);
             serviceCollection.AddTransient<IAuthenticationService, AuthenticationService>();
             serviceCollection.AddTransient<IExceptionsRepository, ExceptionsRepository>();
+            serviceCollection.AddTransient<IEntityToDomainMapper, EntityToDomainMapper>();
 
 
             //User Part
@@ -59,7 +61,6 @@ namespace Application
             serviceCollection.AddTransient<IPersonRepository, PersonRepository>();
             serviceCollection.AddTransient<IPersonService, PersonService>();
 
-            //xxx
             //Company Part 
             serviceCollection.AddTransient<ICompanyRepository, CompanyRepository>();
             serviceCollection.AddTransient<ICompanyService, CompanyService>();

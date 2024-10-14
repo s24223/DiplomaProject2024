@@ -1,16 +1,16 @@
 ﻿using Application.Database;
 using Application.Database.Models;
+using Application.Shared.Interfaces.EntityToDomainMappers;
 using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.Branch.Exceptions.Entities;
 using Domain.Features.Branch.ValueObjects.Identificators;
 using Domain.Features.BranchOffer.Entities;
-using Domain.Features.BranchOffer.Exceptions.AppExceptions;
+using Domain.Features.BranchOffer.Exceptions.Entities;
 using Domain.Features.BranchOffer.ValueObjects.Identificators;
 using Domain.Features.Offer.Entities;
 using Domain.Features.Offer.Exceptions.Entities;
 using Domain.Features.Offer.ValueObjects.Identificators;
 using Domain.Features.User.ValueObjects.Identificators;
-using Domain.Shared.Factories;
 using Domain.Shared.Providers;
 using Domain.Shared.Templates.Exceptions;
 using Microsoft.EntityFrameworkCore;
@@ -21,9 +21,10 @@ namespace Application.Features.Companies.BranchOfferPart.Interfaces
     {
         //Values
         private readonly IProvider _provider;
-        private readonly IDomainFactory _domainFactory;
+        private readonly IEntityToDomainMapper _mapper;
         private readonly IExceptionsRepository _exceptionRepository;
         private readonly DiplomaProjectContext _context;
+
         private readonly int _timeMistakeInSeconds = 60;
 
 
@@ -31,13 +32,13 @@ namespace Application.Features.Companies.BranchOfferPart.Interfaces
         public BranchOfferRepository
             (
             IProvider provider,
-            IDomainFactory domainFactory,
+            IEntityToDomainMapper mapper,
             IExceptionsRepository exceptionRepository,
             DiplomaProjectContext context
             )
         {
+            _mapper = mapper;
             _provider = provider;
-            _domainFactory = domainFactory;
             _exceptionRepository = exceptionRepository;
             _context = context;
         }
@@ -79,7 +80,7 @@ namespace Application.Features.Companies.BranchOfferPart.Interfaces
                 {
                     throw new BranchException
                         (
-                        Messages.NotExistAnyBranch,
+                        Messages.BranchOffer_Authorized_NotExistAnyBranchForCreatingOffer,
                         DomainExceptionTypeEnum.NotFound
                         );
                 }
@@ -99,7 +100,7 @@ namespace Application.Features.Companies.BranchOfferPart.Interfaces
                 await _context.Offers.AddAsync(databaseOffer, cancellation);
                 await _context.BranchOffers.AddAsync(databaseBranchOffer, cancellation);
                 await _context.SaveChangesAsync(cancellation);
-                return databaseBranch.Id;
+                return databaseOffer.Id;
             }
             catch (System.Exception ex)
             {
@@ -147,7 +148,6 @@ namespace Application.Features.Companies.BranchOfferPart.Interfaces
         {
             try
             {
-
                 var databaseOffer = await GetDatabseOfferAsync
                     (
                     companyId,
@@ -239,7 +239,7 @@ namespace Application.Features.Companies.BranchOfferPart.Interfaces
             )
         {
             var databseOffer = await GetDatabseOfferAsync(companyId, id, cancellation);
-            return ConvertToDomainOffer(databseOffer);
+            return _mapper.ToDomainOffer(databseOffer);
         }
 
         public async Task<DomainBranchOffer> GetBranchOfferAsync
@@ -250,7 +250,7 @@ namespace Application.Features.Companies.BranchOfferPart.Interfaces
             )
         {
             var databaseBranchOffer = await GetDatabaseBranchOfferAsync(companyId, id, cancellation);
-            return ConvertToDomainBranchOffer(databaseBranchOffer);
+            return _mapper.ToDomainBranchOffer(databaseBranchOffer);
         }
 
         //==============================================================================================================================================
@@ -276,7 +276,7 @@ namespace Application.Features.Companies.BranchOfferPart.Interfaces
             {
                 throw new OfferException
                     (
-                    Messages.NotFoundOffer,
+                    Messages.Offer_Ids_NotFound,
                     DomainExceptionTypeEnum.NotFound
                     );
             }
@@ -300,7 +300,7 @@ namespace Application.Features.Companies.BranchOfferPart.Interfaces
             {
                 throw new BranchException
                     (
-                    Messages.NotFoundBranch,
+                    Messages.Branch_Id_NotFound,
                     DomainExceptionTypeEnum.NotFound
                     );
             }
@@ -328,41 +328,12 @@ namespace Application.Features.Companies.BranchOfferPart.Interfaces
             {
                 throw new BranchOfferException
                     (
-                    Messages.NotFoundBranchOffer,
+                    Messages.BranchOffer_Ids_NotFound,
                     DomainExceptionTypeEnum.NotFound
                     );
             }
 
             return databaseBranch.BranchOffers.First();
-        }
-
-        private DomainOffer ConvertToDomainOffer(Offer offer)
-        {
-            return _domainFactory.CreateDomainOffer
-                (
-                offer.Id,
-                offer.Name,
-                offer.Description,
-                offer.MinSalary,
-                offer.MaxSalary,
-                offer.IsNegotiatedSalary,
-                offer.IsForStudents
-                );
-        }
-
-        private DomainBranchOffer ConvertToDomainBranchOffer(BranchOffer branchOffer)
-        {
-            return _domainFactory.CreateDomainBranchOffer
-                (
-                branchOffer.BranchId,
-                branchOffer.OfferId,
-                branchOffer.Created,
-                branchOffer.PublishStart,
-                branchOffer.PublishEnd,
-                branchOffer.WorkStart,
-                branchOffer.WorkEnd,
-                branchOffer.LastUpdate
-                );
         }
     }
 }

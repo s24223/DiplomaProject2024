@@ -1,13 +1,15 @@
-﻿using Domain.Features.Comment.Exceptions;
+﻿using Domain.Features.Comment.Exceptions.ValueObjects;
+using Domain.Shared.Templates.Exceptions;
 
 namespace Domain.Features.Comment.ValueObjects.CommentTypePart
 {
     public record CommentType
     {
+        //Values
+        //Static
         private static Dictionary<int, CommentType> _commentTypes = new();
 
-
-        //Values
+        //NonStatic
         public int Id { get; private set; }
         public CommentTypeEnum Name { get; private set; }
         public string Description { get; private set; }
@@ -18,11 +20,22 @@ namespace Domain.Features.Comment.ValueObjects.CommentTypePart
         {
             if (!_commentTypes.TryGetValue(id, out var item))
             {
-                throw new CommentTypeException(Messages.InValidCommentType);
+                throw new CommentTypeException
+                    (
+                    Messages.CommentType_Id_NotFound,
+                    DomainExceptionTypeEnum.NotFound
+                    );
             }
             Id = item.Id;
             Name = item.Name;
             Description = item.Description;
+        }
+
+        private CommentType(int id, CommentTypeEnum name, string description)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
         }
 
         static CommentType()
@@ -36,15 +49,16 @@ namespace Domain.Features.Comment.ValueObjects.CommentTypePart
             }
         }
 
-        private CommentType(int id, CommentTypeEnum name, string description)
-        {
-            Id = id;
-            Name = name;
-            Description = description;
-        }
 
-
-        //Methods
+        //=====================================================================================================
+        //=====================================================================================================
+        //=====================================================================================================
+        //Public Methods
         public static IReadOnlyDictionary<int, CommentType> GetCommentTypes() => _commentTypes;
+
+        //=====================================================================================================
+        //=====================================================================================================
+        //=====================================================================================================
+        //Private Methods
     }
 }

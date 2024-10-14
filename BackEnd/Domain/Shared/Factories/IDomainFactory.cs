@@ -136,11 +136,58 @@ namespace Domain.Shared.Factories
         //=================================================================================================
         //=================================================================================================
         //Person Module
+
+        /// <summary>
+        /// For Creating New DomainPerson
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="urlSegment"></param>
+        /// <param name="contactEmail"></param>
+        /// <param name="name"></param>
+        /// <param name="surname"></param>
+        /// <param name="birthDate"></param>
+        /// <param name="contactPhoneNum"></param>
+        /// <param name="description"></param>
+        /// <param name="isStudent"></param>
+        /// <param name="isPublicProfile"></param>
+        /// <param name="addressId"></param>
+        /// <returns></returns>
         DomainPerson CreateDomainPerson
             (
             Guid id,
             string? urlSegment,
-            DateOnly? createDate,
+            string contactEmail,
+            string name,
+            string surname,
+            DateOnly? birthDate,
+            string? contactPhoneNum,
+            string? description,
+            bool isStudent,
+            bool isPublicProfile,
+            Guid? addressId
+            );
+
+        /// <summary>
+        /// For creating Regular DomainPerson, mostly for maping from Database on Domain
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="urlSegment"></param>
+        /// <param name="created"></param>
+        /// <param name="contactEmail"></param>
+        /// <param name="name"></param>
+        /// <param name="surname"></param>
+        /// <param name="birthDate"></param>
+        /// <param name="contactPhoneNum"></param>
+        /// <param name="description"></param>
+        /// <param name="isStudent"></param>
+        /// <param name="isPublicProfile"></param>
+        /// <param name="addressId"></param>
+        /// <returns></returns>
+        DomainPerson CreateDomainPerson
+            (
+            Guid id,
+            string? urlSegment,
+            DateOnly created,
             string contactEmail,
             string name,
             string surname,
@@ -199,7 +246,7 @@ namespace Domain.Shared.Factories
             string name,
             string regon,
             string? description,
-            DateOnly? created
+            DateOnly created
             );
 
         /// <summary>
@@ -232,7 +279,7 @@ namespace Domain.Shared.Factories
         /// <returns></returns>
         DomainBranch CreateDomainBranch
             (
-            Guid? id,
+            Guid id,
             Guid companyId,
             Guid addressId,
             string? urlSegment,
@@ -297,7 +344,7 @@ namespace Domain.Shared.Factories
         /// <returns></returns>
         DomainOffer CreateDomainOffer
            (
-           Guid? id,
+           Guid id,
            string name,
            string description,
            decimal? minSalary,
@@ -319,7 +366,7 @@ namespace Domain.Shared.Factories
         /// <returns></returns>
         DomainOffer CreateDomainOffer
            (
-           Guid? id,
+           Guid id,
            string name,
            string description,
            decimal? minSalary,
@@ -327,7 +374,6 @@ namespace Domain.Shared.Factories
            string? isNegotiatedSalary,
            string isForStudents
            );
-
 
 
         //BranchOffer
@@ -380,33 +426,37 @@ namespace Domain.Shared.Factories
         //=================================================================================================
         //=================================================================================================
         //Recruitment Part
-        DomainComment CreateDomainComment
-            (
-            Guid internshipId,
-            int commentTypeId,
-            DateTime published,
-            string description,
-            int? evaluation
-            );
 
-        DomainIntership CreateDomainIntership
+        /// <summary>
+        /// For Creating New DomainRecruitment
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <param name="branchId"></param>
+        /// <param name="offerId"></param>
+        /// <param name="created"></param>
+        /// <param name="personMessage"></param>
+        /// <returns></returns>
+        DomainRecruitment CreateDomainRecruitment
             (
-            Guid? id,
             Guid personId,
             Guid branchId,
             Guid offerId,
             DateTime created,
-            string contractNumber
+            string? personMessage
             );
 
-        DomainIntership CreateDomainInternship(
-            string contactNumber,
-            Guid personId,
-            Guid branchId,
-            Guid offerId,
-            DateTime created
-            );
-
+        /// <summary>
+        /// For creating Regular DomainRecruitment, mostly for maping from Database on Domain
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <param name="branchId"></param>
+        /// <param name="offerId"></param>
+        /// <param name="created"></param>
+        /// <param name="applicationDate"></param>
+        /// <param name="personMessage"></param>
+        /// <param name="companyResponse"></param>
+        /// <param name="acceptedRejected"></param>
+        /// <returns></returns>
         DomainRecruitment CreateDomainRecruitment
             (
             Guid personId,
@@ -416,8 +466,82 @@ namespace Domain.Shared.Factories
             DateTime? applicationDate,
             string? personMessage,
             string? companyResponse,
-            string? acceptedRejected
+            string? isAccepted
             );
+
+        /// <summary>
+        /// For Creating New DomainIntership
+        /// </summary>
+        /// <param name="personId"></param>
+        /// <param name="branchId"></param>
+        /// <param name="offerId"></param>
+        /// <param name="created"></param>
+        /// <param name="contractNumber"></param>
+        /// <returns></returns>
+        DomainIntership CreateDomainInternship
+            (
+            Guid personId,
+            Guid branchId,
+            Guid offerId,
+            DateTime created,
+            string contractNumber
+            );
+
+        /// <summary>
+        /// For creating Regular DomainIntership, mostly for maping from Database on Domain
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="personId"></param>
+        /// <param name="branchId"></param>
+        /// <param name="offerId"></param>
+        /// <param name="created"></param>
+        /// <param name="contractNumber"></param>
+        /// <returns></returns>
+        DomainIntership CreateDomainIntership
+            (
+            Guid id,
+            Guid personId,
+            Guid branchId,
+            Guid offerId,
+            DateTime created,
+            string contractNumber
+            );
+
+        /// <summary>
+        /// For Creating New DomainComment
+        /// </summary>
+        /// <param name="internshipId"></param>
+        /// <param name="commentTypeId"></param>
+        /// <param name="description"></param>
+        /// <param name="evaluation"></param>
+        /// <returns></returns>
+        DomainComment CreateDomainComment
+             (
+            Guid internshipId,
+            int commentTypeId,
+            string description,
+            int? evaluation
+            );
+
+        /// <summary>
+        /// For creating Regular DomainComment, mostly for maping from Database on Domain
+        /// </summary>
+        /// <param name="internshipId"></param>
+        /// <param name="commentTypeId"></param>
+        /// <param name="created"></param>
+        /// <param name="description"></param>
+        /// <param name="evaluation"></param>
+        /// <returns></returns>
+        DomainComment CreateDomainComment
+             (
+            Guid internshipId,
+            int commentTypeId,
+            DateTime created,
+            string description,
+            int? evaluation
+            );
+
+
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================
@@ -425,6 +549,24 @@ namespace Domain.Shared.Factories
 
         /// <summary>
         /// For Creating New DomainAddress
+        /// </summary>
+        /// <param name="divisionId"></param>
+        /// <param name="streetId"></param>
+        /// <param name="buildingNumber"></param>
+        /// <param name="apartmentNumber"></param>
+        /// <param name="zipCode"></param>
+        /// <returns></returns>
+        DomainAddress CreateDomainAddress
+            (
+            int divisionId,
+            int streetId,
+            string buildingNumber,
+            string? apartmentNumber,
+            string zipCode
+            );
+
+        /// <summary>       
+        /// For creating Regular DomainAddress, mostly for maping from Database on Domain
         /// </summary>
         /// <param name="id"></param>
         /// <param name="divisionId"></param>
@@ -435,7 +577,7 @@ namespace Domain.Shared.Factories
         /// <returns></returns>
         DomainAddress CreateDomainAddress
             (
-            Guid? id,
+            Guid id,
             int divisionId,
             int streetId,
             string buildingNumber,
@@ -443,22 +585,8 @@ namespace Domain.Shared.Factories
             string zipCode
             );
 
-        /// <summary>
-        /// For creating Regular DomainAddress, mostly for maping from Database on Domain
-        /// </summary>
-        /// <param name="divisionId"></param>
-        /// <param name="streetId"></param>
-        /// <param name="buildingNumber"></param>
-        /// <param name="apartmentNumber"></param>
-        /// <param name="zipCode"></param>
-        /// <returns></returns>
-        DomainAddress CreateDomainAddress
-            (
-            int divisionId,
-            int streetId,
-            string buildingNumber,
-            string? apartmentNumber,
-            string zipCode
-            );
+        //=================================================================================================
+        //=================================================================================================
+        //=================================================================================================
     }
 }

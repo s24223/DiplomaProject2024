@@ -1,9 +1,10 @@
 ﻿using Application.Database;
-using Application.Shared.Exceptions.UserExceptions;
+using Application.Shared.Interfaces.EntityToDomainMappers;
 using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.User.Entities;
+using Domain.Features.User.Exceptions.Entities;
 using Domain.Features.User.ValueObjects.Identificators;
-using Domain.Shared.Factories;
+using Domain.Shared.Templates.Exceptions;
 using Domain.Shared.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +13,7 @@ namespace Application.Features.User.UserPart.Interfaces
     public class UserRepository : IUserRepository
     {
         //Values
-        private readonly IDomainFactory _domainFactory;
+        private readonly IEntityToDomainMapper _mapper;
         private readonly IExceptionsRepository _exceptionRepository;
         private readonly DiplomaProjectContext _context;
 
@@ -20,15 +21,17 @@ namespace Application.Features.User.UserPart.Interfaces
         //Constructor
         public UserRepository
             (
-            IDomainFactory domainFactory,
+            IEntityToDomainMapper mapper,
             IExceptionsRepository exceptionRepository,
             DiplomaProjectContext context
             )
         {
-            _context = context;
+            _mapper = mapper;
             _exceptionRepository = exceptionRepository;
-            _domainFactory = domainFactory;
+            _context = context;
         }
+
+
 
         //==========================================================================================================================================
         //==========================================================================================================================================
@@ -123,14 +126,7 @@ namespace Application.Features.User.UserPart.Interfaces
              )
         {
             var databaseUser = await GetDatabaseUserAsync(login, cancellation);
-
-            var domainUser = _domainFactory.CreateDomainUser
-                (
-                databaseUser.Id,
-                databaseUser.Login,
-                databaseUser.LastLoginIn,
-                databaseUser.LastPasswordUpdate
-                );
+            var domainUser = _mapper.ToDomainUser(databaseUser);
 
             return (domainUser, databaseUser.Password, databaseUser.Salt, databaseUser.RefreshToken, databaseUser.ExpiredToken);
         }
@@ -142,14 +138,7 @@ namespace Application.Features.User.UserPart.Interfaces
             )
         {
             var databaseUser = await GetDatabaseUserAsync(id, cancellation);
-
-            var domainUser = _domainFactory.CreateDomainUser
-                (
-                databaseUser.Id,
-                databaseUser.Login,
-                databaseUser.LastLoginIn,
-                databaseUser.LastPasswordUpdate
-                );
+            var domainUser = _mapper.ToDomainUser(databaseUser);
 
             return (domainUser, databaseUser.Password, databaseUser.Salt, databaseUser.RefreshToken, databaseUser.ExpiredToken);
         }
@@ -168,24 +157,32 @@ namespace Application.Features.User.UserPart.Interfaces
                 .FirstOrDefaultAsync(x => x.Id == id.Value, cancellation);
             if (databaseUser == null)
             {
-                throw new UnauthorizedUserException();
+                throw new UserException
+                    (
+                    Messages.User_Ids_NotFound,
+                    DomainExceptionTypeEnum.AppProblem
+                    );
             }
             return databaseUser;
         }
 
         private async Task<Application.Database.Models.User> GetDatabaseUserAsync
             (
-            Email email,
+            Email login,
             CancellationToken cancellation
             )
         {
-            var databaseUser = await _context.Users.Where(x => x.Login == email.Value)
+            var databaseUser = await _context.Users.Where(x => x.Login == login.Value)
                 .Include(x => x.Person)
                 .Include(x => x.Company)
                 .FirstOrDefaultAsync(cancellation);
             if (databaseUser == null)
             {
-                throw new UnauthorizedUserException();
+                throw new UserException
+                    (
+                    Messages.User_Login_NotFound,
+                    DomainExceptionTypeEnum.Unauthorized
+                    );
             }
             return databaseUser;
         }

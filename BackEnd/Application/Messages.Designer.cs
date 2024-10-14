@@ -61,191 +61,263 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Njprawdopodobnej zaistniały zmiany w kodzie w ramach implementacji Name w JWT, zweryfikuj i popraw.
+        ///   Looks up a localized string similar to Za podanymi danymi nie znaleziono połączenia pomiedzy Ulicą a nazwą Miejscowości.
         /// </summary>
-        internal static string IncorrectJwtUserName {
+        internal static string Address_Collocation_NotFound {
             get {
-                return ResourceManager.GetString("IncorrectJwtUserName", resourceCulture);
+                return ResourceManager.GetString("Address_Collocation_NotFound", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Firma istnieje nie można wkleic ponownie.
+        ///   Looks up a localized string similar to Za podanym Addressid nie znalezonono adresu.
         /// </summary>
-        internal static string IsExistCompany {
+        internal static string Address_Id_NotFound {
             get {
-                return ResourceManager.GetString("IsExistCompany", resourceCulture);
+                return ResourceManager.GetString("Address_Id_NotFound", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sprawdż strukturę UserSecrets, najprawdopodobnej ona zmieniła się w kontekscie: JwtData : Audience.
+        ///   Looks up a localized string similar to Za podanym danymi  Oddział  urzytkownika nie zostało znalieziono.
         /// </summary>
-        internal static string NotConfiguredAudience {
+        internal static string Branch_Id_NotFound {
             get {
-                return ResourceManager.GetString("NotConfiguredAudience", resourceCulture);
+                return ResourceManager.GetString("Branch_Id_NotFound", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sprawdż strukturę UserSecrets, najprawdopodobnej ona zmieniła się w kontekscie: JwtData : Issuer.
+        ///   Looks up a localized string similar to Urzytkownik nie ma założonego conajmniej 1 oddziału aby utworzyc oferte, utwórz conajmniej 1 oddział.
         /// </summary>
-        internal static string NotConfiguredIssuer {
+        internal static string BranchOffer_Authorized_NotExistAnyBranchForCreatingOffer {
             get {
-                return ResourceManager.GetString("NotConfiguredIssuer", resourceCulture);
+                return ResourceManager.GetString("BranchOffer_Authorized_NotExistAnyBranchForCreatingOffer", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sprawdż strukturę UserSecrets, najprawdopodobnej ona zmieniła się w kontekscie: JwtData : Secret.
+        ///   Looks up a localized string similar to Za podanymi danymi połączeń Ofert i Oddiałow urzytkownika nie zostało znalieziono.
         /// </summary>
-        internal static string NotConfiguredSecret {
+        internal static string BranchOffer_Ids_NotFound {
             get {
-                return ResourceManager.GetString("NotConfiguredSecret", resourceCulture);
+                return ResourceManager.GetString("BranchOffer_Ids_NotFound", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nie istnieje żadnego Oddziału, utwórz najpierw oddział a wtedy ofertę.
+        ///   Looks up a localized string similar to Urzytkownik nie posiada Firmy.
         /// </summary>
-        internal static string NotExistAnyBranch {
+        internal static string Company_Ids_NotFound {
             get {
-                return ResourceManager.GetString("NotExistAnyBranch", resourceCulture);
+                return ResourceManager.GetString("Company_Ids_NotFound", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi adresu nie istnieje.
+        ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string NotFoundAddress {
+        internal static string DatabaseConstraint_ {
             get {
-                return ResourceManager.GetString("NotFoundAddress", resourceCulture);
+                return ResourceManager.GetString("DatabaseConstraint_", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi nie istnieje połaczenia.
+        ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string NotFoundAddressCollocation {
+        internal static string DatabaseConstraint_Branch_Address_NotFound {
             get {
-                return ResourceManager.GetString("NotFoundAddressCollocation", resourceCulture);
+                return ResourceManager.GetString("DatabaseConstraint_Branch_Address_NotFound", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanym danymi nie znaleziono oddziału.
+        ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string NotFoundBranch {
+        internal static string DatabaseConstraint_CHECK_BranchOffer_PublishEnd {
             get {
-                return ResourceManager.GetString("NotFoundBranch", resourceCulture);
+                return ResourceManager.GetString("DatabaseConstraint_CHECK_BranchOffer_PublishEnd", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to danymi nie znalieziono połczenie Oferty i Oddziału.
+        ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string NotFoundBranchOffer {
+        internal static string DatabaseConstraint_CHECK_BranchOffer_WorkEnd {
             get {
-                return ResourceManager.GetString("NotFoundBranchOffer", resourceCulture);
+                return ResourceManager.GetString("DatabaseConstraint_CHECK_BranchOffer_WorkEnd", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi firma nie istnieje.
+        ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string NotFoundCompany {
+        internal static string DatabaseConstraint_CHECK_BranchOffer_WorkStart {
             get {
-                return ResourceManager.GetString("NotFoundCompany", resourceCulture);
+                return ResourceManager.GetString("DatabaseConstraint_CHECK_BranchOffer_WorkStart", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi nie znalieziono oferty.
+        ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string NotFoundOffer {
+        internal static string DatabaseConstraint_CHECK_Offer_IsForStudents {
             get {
-                return ResourceManager.GetString("NotFoundOffer", resourceCulture);
+                return ResourceManager.GetString("DatabaseConstraint_CHECK_Offer_IsForStudents", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi nie istnieje URL.
+        ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string NotFoundUrl {
+        internal static string DatabaseConstraint_CHECK_Offer_IsNegotiatedSalary {
             get {
-                return ResourceManager.GetString("NotFoundUrl", resourceCulture);
+                return ResourceManager.GetString("DatabaseConstraint_CHECK_Offer_IsNegotiatedSalary", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nie istnieje zgłoszonego problemu za podanym Id, lub ono nie nalezy do danego urzytkownika.
+        ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string NotFoundUserProblem {
+        internal static string DatabaseConstraint_CHECK_Offer_MaxSalary {
             get {
-                return ResourceManager.GetString("NotFoundUserProblem", resourceCulture);
+                return ResourceManager.GetString("DatabaseConstraint_CHECK_Offer_MaxSalary", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to W kontekcie firmy UrlSegment powinien byc unikalny wybierz inny.
+        ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string NotUniqueBranchUrlSegment {
+        internal static string DatabaseConstraint_CHECK_Offer_MinSalary {
             get {
-                return ResourceManager.GetString("NotUniqueBranchUrlSegment", resourceCulture);
+                return ResourceManager.GetString("DatabaseConstraint_CHECK_Offer_MinSalary", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wybierz inny Contact Email.
+        ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string NotUniqueCompanyContactEmail {
+        internal static string DatabaseConstraint_Company_pk_Exist {
             get {
-                return ResourceManager.GetString("NotUniqueCompanyContactEmail", resourceCulture);
+                return ResourceManager.GetString("DatabaseConstraint_Company_pk_Exist", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nazwa nie jest unikalna.
+        ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string NotUniqueCompanyName {
+        internal static string DatabaseConstraint_UNIQUE_Branch_UrlSegment {
             get {
-                return ResourceManager.GetString("NotUniqueCompanyName", resourceCulture);
+                return ResourceManager.GetString("DatabaseConstraint_UNIQUE_Branch_UrlSegment", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Regon w kontekscie platformy powinien byc unikalny.
+        ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string NotUniqueCompanyRegon {
+        internal static string DatabaseConstraint_UNIQUE_Company_ContactEmail {
             get {
-                return ResourceManager.GetString("NotUniqueCompanyRegon", resourceCulture);
+                return ResourceManager.GetString("DatabaseConstraint_UNIQUE_Company_ContactEmail", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wybierz inny url.
+        ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string NotUniqueCompanyUrlSegment {
+        internal static string DatabaseConstraint_UNIQUE_Company_Name {
             get {
-                return ResourceManager.GetString("NotUniqueCompanyUrlSegment", resourceCulture);
+                return ResourceManager.GetString("DatabaseConstraint_UNIQUE_Company_Name", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Podany Url już istnieje.
+        ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string NotUniqueUrlPath {
+        internal static string DatabaseConstraint_UNIQUE_Company_Regon {
             get {
-                return ResourceManager.GetString("NotUniqueUrlPath", resourceCulture);
+                return ResourceManager.GetString("DatabaseConstraint_UNIQUE_Company_Regon", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wybierz inny Login / E-mail.
+        ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string NotUniqueUserEmailLogin {
+        internal static string DatabaseConstraint_UNIQUE_Company_UrlSegment {
             get {
-                return ResourceManager.GetString("NotUniqueUserEmailLogin", resourceCulture);
+                return ResourceManager.GetString("DatabaseConstraint_UNIQUE_Company_UrlSegment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DatabaseConstraint_UNIQUE_Url_Path {
+            get {
+                return ResourceManager.GetString("DatabaseConstraint_UNIQUE_Url_Path", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string DatabaseConstraint_UNIQUE_User_Login {
+            get {
+                return ResourceManager.GetString("DatabaseConstraint_UNIQUE_User_Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Podano niepoprawną datę.
+        /// </summary>
+        internal static string DateOnly_DateOnlyRequestDto_InvalidDate {
+            get {
+                return ResourceManager.GetString("DateOnly_DateOnlyRequestDto_InvalidDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Za podanymi danymi Nie znaleziono Intership.
+        /// </summary>
+        internal static string Intership_Ids_NotFound {
+            get {
+                return ResourceManager.GetString("Intership_Ids_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Za podanymi danymi Ofert urzytkownika nie zostało znalieziono.
+        /// </summary>
+        internal static string Offer_Ids_NotFound {
+            get {
+                return ResourceManager.GetString("Offer_Ids_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profiil Osoby nie istnieje.
+        /// </summary>
+        internal static string Person_Ids_NotFound {
+            get {
+                return ResourceManager.GetString("Person_Ids_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Za podanymi danymi Rekrutacji nie znaleziono.
+        /// </summary>
+        internal static string Recruitment_Ids_NotFound {
+            get {
+                return ResourceManager.GetString("Recruitment_Ids_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Za podanymi danymi zaakceptowane Rekrutacje nie znalezione.
+        /// </summary>
+        internal static string Recruitment_IdsAccepted_NotFound {
+            get {
+                return ResourceManager.GetString("Recruitment_IdsAccepted_NotFound", resourceCulture);
             }
         }
         
@@ -259,11 +331,110 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Urzytkownik nie jest uwierzytelniony, sprawdż dane i zaloguj sie ponownie.
+        ///   Looks up a localized string similar to Za podanymi danymi Url  urzytkownika nie zostało znalieziono.
         /// </summary>
-        internal static string UnauthorizedUser {
+        internal static string Url_Ids_NotFound {
             get {
-                return ResourceManager.GetString("UnauthorizedUser", resourceCulture);
+                return ResourceManager.GetString("Url_Ids_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Problem aplikacyjny, middlleware powinien zarzadzac odseparowywaniem urzytkownikow które nie istnieją.
+        /// </summary>
+        internal static string User_Ids_NotFound {
+            get {
+                return ResourceManager.GetString("User_Ids_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sprawdż dane do logowania, i Zaloguj sie ponoiwnie .
+        /// </summary>
+        internal static string User_InputPassword_Invalid {
+            get {
+                return ResourceManager.GetString("User_InputPassword_Invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string User_Jwt_IsNotGeneratedByThisServer {
+            get {
+                return ResourceManager.GetString("User_Jwt_IsNotGeneratedByThisServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Problem Aplikacyjny, JWT Name jest Id usera po stronie Bazy danych który jest Guidem, zweryfikuj wszystkie przydaki co się stało.
+        /// </summary>
+        internal static string User_Jwt_NameIsNotGuid {
+            get {
+                return ResourceManager.GetString("User_Jwt_NameIsNotGuid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sprawdż dane do logowania, i Zaloguj sie ponoiwnie.
+        /// </summary>
+        internal static string User_Login_NotFound {
+            get {
+                return ResourceManager.GetString("User_Login_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RefreshToken wygasł, zaloguj sie ponownie.
+        /// </summary>
+        internal static string User_RefreshToken_Expired {
+            get {
+                return ResourceManager.GetString("User_RefreshToken_Expired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RefreshToken jest wartością pustą, wpisz swoj RefreshToken.
+        /// </summary>
+        internal static string User_RefreshToken_IsNullOrWhiteSpace {
+            get {
+                return ResourceManager.GetString("User_RefreshToken_IsNullOrWhiteSpace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Za podanymi danymi Problemów urzytkownika nie zostało znalieziono.
+        /// </summary>
+        internal static string UserProblem_Ids_NotFound {
+            get {
+                return ResourceManager.GetString("UserProblem_Ids_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to W ramach wartstwy UI w  UserSecretach nie ma pola &quot;JwtData&quot; : &quot;Audience&quot; lub Plik UserSecret nie jst skonfigurowany poprawnie.
+        /// </summary>
+        internal static string UserSecrets_Audience_NotConfigured {
+            get {
+                return ResourceManager.GetString("UserSecrets_Audience_NotConfigured", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to W ramach wartstwy UI w  UserSecretach nie ma pola &quot;JwtData&quot; : &quot;Issuer&quot; lub Plik UserSecret nie jst skonfigurowany poprawnie.
+        /// </summary>
+        internal static string UserSecrets_Issuer_NotConfigured {
+            get {
+                return ResourceManager.GetString("UserSecrets_Issuer_NotConfigured", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to W ramach wartstwy UI w  UserSecretach nie ma pola &quot;JwtData&quot; : &quot;Secret&quot; lub Plik UserSecret nie jst skonfigurowany poprawnie.
+        /// </summary>
+        internal static string UserSecrets_Secret_NotConfigured {
+            get {
+                return ResourceManager.GetString("UserSecrets_Secret_NotConfigured", resourceCulture);
             }
         }
     }

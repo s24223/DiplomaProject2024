@@ -71,6 +71,7 @@ namespace Domain.Shared.Factories
         }
 
 
+        //UserProblem Part
         public DomainUserProblem CreateDomainUserProblem
             (
             string userMessage,
@@ -93,7 +94,6 @@ namespace Domain.Shared.Factories
             );
         }
 
-        //UserProblem Part
         public DomainUserProblem CreateDomainUserProblem
             (
             Guid id,
@@ -121,7 +121,6 @@ namespace Domain.Shared.Factories
         }
 
         //Url Part
-
         public DomainUrl CreateDomainUrl
             (
             Guid userId,
@@ -170,11 +169,44 @@ namespace Domain.Shared.Factories
         //=================================================================================================
         //Person Module
         //Person Part
+
         public DomainPerson CreateDomainPerson
             (
             Guid id,
             string? urlSegment,
-            DateOnly? createDate,
+            string contactEmail,
+            string name,
+            string surname,
+            DateOnly? birthDate,
+            string? contactPhoneNum,
+            string? description,
+            bool isStudent,
+            bool isPublicProfile,
+            Guid? addressId
+            )
+        {
+            return new DomainPerson(
+               id,
+               urlSegment,
+               null,
+               contactEmail,
+               name,
+               surname,
+               birthDate,
+               contactPhoneNum,
+               description,
+               new DatabaseBool(isStudent).Code,
+                new DatabaseBool(isPublicProfile).Code,
+               addressId,
+               _provider
+               );
+        }
+
+        public DomainPerson CreateDomainPerson
+            (
+            Guid id,
+            string? urlSegment,
+            DateOnly created,
             string contactEmail,
             string name,
             string surname,
@@ -189,7 +221,7 @@ namespace Domain.Shared.Factories
             return new DomainPerson(
                 id,
                 urlSegment,
-                createDate,
+                created,
                 contactEmail,
                 name,
                 surname,
@@ -239,7 +271,7 @@ namespace Domain.Shared.Factories
             string name,
             string regon,
             string? description,
-            DateOnly? created
+            DateOnly created
             )
         {
             return new DomainCompany
@@ -279,7 +311,7 @@ namespace Domain.Shared.Factories
 
         public DomainBranch CreateDomainBranch
             (
-            Guid? id,
+            Guid id,
             Guid companyId,
             Guid addressId,
             string? urlSegment,
@@ -350,7 +382,7 @@ namespace Domain.Shared.Factories
 
         public DomainOffer CreateDomainOffer
             (
-            Guid? id,
+            Guid id,
             string name,
             string description,
             decimal? minSalary,
@@ -375,7 +407,7 @@ namespace Domain.Shared.Factories
 
         public DomainOffer CreateDomainOffer
             (
-            Guid? id,
+            Guid id,
             string name,
             string description,
             decimal? minSalary,
@@ -396,7 +428,6 @@ namespace Domain.Shared.Factories
                 _provider
                 );
         }
-
 
 
         //BranchOffer Part
@@ -455,29 +486,79 @@ namespace Domain.Shared.Factories
         //=================================================================================================
         //=================================================================================================
         //Recruitment Part
-        public DomainComment CreateDomainComment
+
+        public DomainRecruitment CreateDomainRecruitment
             (
-            Guid internshipId,
-            int commentTypeId,
-            DateTime published,
-            string description,
-            int? evaluation
+            Guid personId,
+            Guid branchId,
+            Guid offerId,
+            DateTime created,
+            string? personMessage
             )
         {
-            return new DomainComment
+            return new DomainRecruitment
                 (
-                 internshipId,
-                 commentTypeId,
-                 published,
-                 description,
-                 evaluation,
+                 personId,
+                 branchId,
+                 offerId,
+                 created,
+                 null,
+                 personMessage,
+                 null,
+                 null,
                  _provider
             );
         }
 
+        public DomainRecruitment CreateDomainRecruitment
+            (
+            Guid personId,
+            Guid branchId,
+            Guid offerId,
+            DateTime created,
+            DateTime? applicationDate,
+            string? personMessage,
+            string? companyResponse,
+            string? isAccepted
+            )
+        {
+            return new DomainRecruitment
+                (
+                 personId,
+                 branchId,
+                 offerId,
+                 created,
+                 applicationDate,
+                 personMessage,
+                 companyResponse,
+                 isAccepted,
+                 _provider
+            );
+        }
+
+        public DomainIntership CreateDomainInternship
+            (
+            Guid personId,
+            Guid branchId,
+            Guid offerId,
+            DateTime created,
+            string contractNumber
+            )
+        {
+            return new DomainIntership(
+                null,
+                personId,
+                branchId,
+                offerId,
+                created,
+                contractNumber,
+                _provider
+                );
+        }
+
         public DomainIntership CreateDomainIntership
             (
-            Guid? id,
+            Guid id,
             Guid personId,
             Guid branchId,
             Guid offerId,
@@ -497,44 +578,45 @@ namespace Domain.Shared.Factories
             );
         }
 
-        public DomainIntership CreateDomainInternship(string contactNumber, Guid personId, Guid branchId, Guid offerId, DateTime created)
-        {
-            return new DomainIntership(
-                null,
-                personId,
-                branchId,
-                offerId,
-                created,
-                contactNumber,
-                _provider
-                );
-        }
-
-        public DomainRecruitment CreateDomainRecruitment
+        public DomainComment CreateDomainComment
             (
-            Guid personId,
-            Guid branchId,
-            Guid offerId,
-            DateTime created,
-            DateTime? applicationDate,
-            string? personMessage,
-            string? companyResponse,
-            string? acceptedRejected
+            Guid internshipId,
+            int commentTypeId,
+            string description,
+            int? evaluation
             )
         {
-            return new DomainRecruitment
+            return new DomainComment
                 (
-                 personId,
-                 branchId,
-                 offerId,
-                 created,
-                 applicationDate,
-                 personMessage,
-                 companyResponse,
-                 acceptedRejected,
+                 internshipId,
+                 commentTypeId,
+                 _provider.TimeProvider().GetDateTimeNow(),
+                 description,
+                 evaluation,
                  _provider
             );
         }
+
+        public DomainComment CreateDomainComment
+            (
+            Guid internshipId,
+            int commentTypeId,
+            DateTime created,
+            string description,
+            int? evaluation
+            )
+        {
+            return new DomainComment
+                (
+                 internshipId,
+                 commentTypeId,
+                 created,
+                 description,
+                 evaluation,
+                 _provider
+            );
+        }
+
 
         //=================================================================================================
         //=================================================================================================
@@ -542,7 +624,28 @@ namespace Domain.Shared.Factories
         //Address Part
         public DomainAddress CreateDomainAddress
             (
-            Guid? id,
+            int divisionId,
+            int streetId,
+            string buildingNumber,
+            string? apartmentNumber,
+            string zipCode
+            )
+        {
+            return new DomainAddress
+                (
+                null,
+                divisionId,
+                streetId,
+                buildingNumber,
+                apartmentNumber,
+                zipCode,
+            _provider
+            );
+        }
+
+        public DomainAddress CreateDomainAddress
+            (
+            Guid id,
             int divisionId,
             int streetId,
             string buildingNumber,
@@ -561,35 +664,7 @@ namespace Domain.Shared.Factories
             _provider
             );
         }
-        /// <summary>
-        /// For creating new DomainAddress
-        /// </summary>
-        /// <param name="divisionId"></param>
-        /// <param name="streetId"></param>
-        /// <param name="buildingNumber"></param>
-        /// <param name="apartmentNumber"></param>
-        /// <param name="zipCode"></param>
-        /// <returns></returns>
-        public DomainAddress CreateDomainAddress
-            (
-            int divisionId,
-            int streetId,
-            string buildingNumber,
-            string? apartmentNumber,
-            string zipCode
-            )
-        {
-            return new DomainAddress
-                (
-                null,
-                divisionId,
-                streetId,
-                buildingNumber,
-                apartmentNumber,
-                zipCode,
-            _provider
-            );
-        }
+
 
 
         //=================================================================================================

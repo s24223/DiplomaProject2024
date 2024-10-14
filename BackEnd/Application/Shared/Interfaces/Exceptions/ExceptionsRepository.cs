@@ -2,8 +2,10 @@
 using Domain.Features.Address.Exceptions.Entities;
 using Domain.Features.Branch.Exceptions.Entities;
 using Domain.Features.Company.Exceptions.Entities;
+using Domain.Features.Offer.Exceptions.Entities;
+using Domain.Features.Person.Exceptions.Entities;
 using Domain.Features.Url.Exceptions.Entities;
-using Domain.Shared.Exceptions.UserExceptions.ValueObjectsExceptions;
+using Domain.Shared.Exceptions.ValueObjects;
 using Domain.Shared.Templates.Exceptions;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -21,155 +23,186 @@ namespace Application.Shared.Interfaces.Exceptions
             {
                 var number = sqlEx.Number;
                 var message = sqlEx.Message;
-                /*            
-                Person_pk
-                CHECK_Person_IsStudent
-                CHECK_Person_IsPublicProfile
-                UNIQUE_Person_UrlSegment
-                UNIQUE_Person_ContactEmail
-                Person_User
-                Person_Address
+                Console.WriteLine(number + " " + message);
+                var exceptions2627 = new Dictionary<string, Func<Exception>>
+                {
+                    //====================================================================================
+                    //User Module
+                    
+                    //User Part
+                    //Context: Każdy urzytkownik w rmach systemu powinien miec unikalny login
+                    {"UNIQUE_User_Login", () => new EmailException
+                        (
+                            Messages.DatabaseConstraint_UNIQUE_User_Login
+                        )
+                    },
+
+                    //Url Part
+                    //Context: Podany Url.Path przez Urzykownika nie może powtarzac sie
+                    {"UNIQUE_Url_Path", () =>  new UrlException
+                        (
+                            Messages.DatabaseConstraint_UNIQUE_Url_Path
+                        )
+                    },
 
 
-                Company_User
-                CHECK_Offer_MinSalary
-                CHECK_Offer_MaxSalary
-                CHECK_Offer_IsNegotiatedSalary
-                CHECK_Offer_IsForStudents             
+                    //====================================================================================
+                    //Person Module
+                    { "Person_pk", () => new  PersonException("Person Profiile Exist") },
+                    /*
+                    UNIQUE_Person_UrlSegment
+                    UNIQUE_Person_ContactEmail
+                    UNIQUE_Person_ContactPhoneNum
+                     */
 
-                CHECK_Comment_Evaluation
-                 */
+
+                    //====================================================================================
+                    //Company Module
+
+                    //Company Part
+                    //Context: Użytkownik nie może uworzyć swoj profil Company wielokrotnie
+                    {"Company_pk", () => new CompanyException
+                        (
+                            Messages.DatabaseConstraint_Company_pk_Exist
+                        )
+                    },
+                    //Context: Każda firma posiada unikalny Urlsegment dla łatwiejszego wyszukania
+                    {"UNIQUE_Company_UrlSegment", () => new CompanyException
+                        (
+                            Messages.DatabaseConstraint_UNIQUE_Company_UrlSegment
+                        )
+                    },
+                    //Context: Każda firma posiada unikalny ContactEmail w wypadku kontaktu kandydata do firmy była jednoznaczność
+                    {"UNIQUE_Company_ContactEmail", () => new CompanyException
+                        (
+                            Messages.DatabaseConstraint_UNIQUE_Company_ContactEmail
+                        )
+                    },
+                    //Context: Wszystkie firmy zarejestrowane w Polsce powinny miec unikalną nazwę 
+                    {"UNIQUE_Company_Name", () => new CompanyException
+                        (
+                            Messages.DatabaseConstraint_UNIQUE_Company_Name
+                        )
+                    },
+                    //Context: Wszystkie firmy zarejestrowane w Polsce powinny miec unikalny REGON
+                    {"UNIQUE_Company_Regon", () => new CompanyException
+                        (
+                            Messages.DatabaseConstraint_UNIQUE_Company_Regon
+                        )
+                    },                
+
+                    //Branch part
+                    //Context: W kontekcie firmy UrlSegment oddziału musi byc unikalny np.: randCompany/gdansk, randCompany/warszawa
+                    { "UNIQUE_Branch_UrlSegment", () => new BranchException
+                        (
+                            Messages.DatabaseConstraint_UNIQUE_Branch_UrlSegment
+                        )
+                    },
+
+
+                    //====================================================================================
+                    //Intership Module
+
+                };
+
+                var exceptions547 = new Dictionary<string, Func<Exception>>
+                {
+                    //====================================================================================
+                    //User Module
+                    
+                    /*
+                    CHECK_UserProblem_Status
+                    */
+
+
+                    //====================================================================================
+                    //Person Module
+                    /*
+                     * 
+                    CHECK_Person_IsStudent
+                    CHECK_Person_IsPublicProfile
+                    */
+
+                    //====================================================================================
+                    //Company Module
+
+                    //Branch part
+                    //Context: Przy tworzeniu objektu Branch (Oddział) został podany nieisniejący AddressId, trzeba najpierw utworzyć Address który zróci id i wpisac go w pole
+                    {"Branch_Address", () => new AddressException
+                        (
+                        Messages.DatabaseConstraint_Branch_Address_NotFound,
+                        DomainExceptionTypeEnum.NotFound
+                        )
+                    },
+                    { "Person_Address", () => new  PersonException("Address not Exist", DomainExceptionTypeEnum.NotFound) },
+
+
+                    {"CHECK_BranchOffer_PublishEnd", () =>  new CompanyException(
+                        Messages.DatabaseConstraint_CHECK_BranchOffer_PublishEnd
+                        )
+                    },
+                    {"CHECK_BranchOffer_WorkStart", () =>  new CompanyException(
+                        Messages.DatabaseConstraint_CHECK_BranchOffer_WorkStart
+                        )
+                    },
+                    {"CHECK_BranchOffer_WorkEnd", () =>  new CompanyException(
+                        Messages.DatabaseConstraint_CHECK_BranchOffer_WorkEnd
+                        )
+                    },
+
+                    {"CHECK_Offer_MinSalary", () =>  new OfferException(
+                        Messages.DatabaseConstraint_CHECK_Offer_MinSalary
+                        )
+                    },
+                    {"CHECK_Offer_MaxSalary", () =>  new OfferException(
+                        Messages.DatabaseConstraint_CHECK_Offer_MaxSalary
+                        )
+                    },
+                    {"CHECK_Offer_IsNegotiatedSalary", () =>  new OfferException(
+                        Messages.DatabaseConstraint_CHECK_Offer_IsNegotiatedSalary
+                        )
+                    },
+                    {"CHECK_Offer_IsForStudents", () =>  new OfferException(
+                        Messages.DatabaseConstraint_CHECK_Offer_IsForStudents
+                        )
+                    },
+                    /*
+                    CHECK_BranchOffer_PublishEnd
+                    CHECK_BranchOffer_WorkStart
+                    CHECK_BranchOffer_WorkEnd
+
+                    CHECK_UserProblem_Status
+                    Url_UrlType
+                    Url_User
+                    UserProblem_User
+                     */
+
+
+                    //====================================================================================
+                    //Intership Module
+                };
+
                 switch (number)
                 {
-
-                    //====================================================================================
-                    //====================================================================================
-                    //====================================================================================
                     // Naruszenie klucza unikalnego
                     case 2627:
-                        //====================================================================================
-                        //User Module
-                        if (message.Contains("UNIQUE_User_Login"))
+                        foreach (var key in exceptions2627.Keys)
                         {
-                            //Context: Każdy urzytkownik w rmach systemu powinien miec unikalny login
-                            return new EmailException(Messages.NotUniqueUserEmailLogin);
+                            if (message.Contains(key))
+                            {
+                                return exceptions2627[key]();
+                            }
                         }
-                        else if (message.Contains("UNIQUE_Url_Path"))
-                        {
-                            //Context: Podany Url.Path przez Urzykownika nie może powtarzac sie
-                            return new UrlException(Messages.NotUniqueUrlPath);
-                        }
-
-
-                        //====================================================================================
-                        //Company Module
-
-                        //Company Part
-                        else if (message.Contains("Company_pk"))
-                        {
-                            //Context: Użytkownik nie może uworzyć swoj profil Company wielokrotnie
-                            return new CompanyException(Messages.IsExistCompany);
-                        }
-                        else if (message.Contains("UNIQUE_Company_UrlSegment"))
-                        {
-                            //Context: Każda firma posiada unikalny Urlsegment dla łatwiejszego wyszukania
-                            return new CompanyException(Messages.NotUniqueCompanyUrlSegment);
-                        }
-                        else if (message.Contains("UNIQUE_Company_ContactEmail"))
-                        {
-                            //Context: Każda firma posiada unikalny ContactEmail w wypadku kontaktu
-                            // kandydata do firmy była jednoznaczność
-                            return new CompanyException(Messages.NotUniqueCompanyContactEmail);
-                        }
-                        else if (message.Contains("UNIQUE_Company_Name"))
-                        {
-                            //Context: Wszystkie firmy zarejestrowane w Polsce powinny miec unikalną nazwę 
-                            return new CompanyException(Messages.NotUniqueCompanyName);
-                        }
-                        else if (message.Contains("UNIQUE_Company_Regon"))
-                        {
-                            //Context: Wszystkie firmy zarejestrowane w Polsce powinny miec unikalny REGON
-                            return new CompanyException(Messages.NotUniqueCompanyRegon);
-                        }
-
-                        //Branch part
-                        else if (message.Contains("UNIQUE_Branch_UrlSegment"))
-                        {
-                            //Context: W kontekcie firmy UrlSegment oddziału musi byc unikalny
-                            //np.: randCompany/gdansk, randCompany/warszawa 
-                            return new BranchException(Messages.NotUniqueBranchUrlSegment);
-                        }
-                        //====================================================================================
                         break;
-
-                    //====================================================================================
-                    //====================================================================================
-                    //====================================================================================
                     // Naruszenie klucza obcego lub CHECK
                     case 547:
-                        //====================================================================================
-                        Console.WriteLine(ex.Message);
-                        if (message.Contains("CHECK_UserProblem_Status"))
+                        foreach (var key in exceptions547.Keys)
                         {
-                            //Context: Problem po stronie Backendu 
+                            if (message.Contains(key))
+                            {
+                                return exceptions547[key]();
+                            }
                         }
-                        /*
-                        CHECK_UserProblem_Status
-                        Url_UrlType
-                        Url_User
-                        UserProblem_User
-                         */
-
-                        //====================================================================================
-                        //Company Module
-
-                        //Company Part
-                        else if (message.Contains("Branch_Address"))
-                        {
-                            //Context: Przy tworzeniu objektu Branch (Oddział) został podany nieisniejący
-                            //AddressId, trzeba najpierw utworzyć Address który zróci id i wpisac go w pole
-                            return new AddressException
-                                (
-                                Messages.NotFoundAddress,
-                                DomainExceptionTypeEnum.NotFound
-                                );
-                        }
-
-                        //Branch part
-                        else if (message.Contains("Branch_Company"))
-                        {
-                            //Context:  Przy tworzeniu objektu Branch (Oddział) nie został utworzony profil
-                            //Company(Firmy), nalezy najpierw utworzyc firmę a wtedy mozna utworzyc Branch
-                            return new CompanyException
-                                (
-                                Messages.NotFoundCompany,
-                                DomainExceptionTypeEnum.NotFound
-                                );
-                        }
-                        else if (message.Contains("BranchOffer_Branch"))
-                        {
-                            //Context: Przy tworzeniu objektu BranchOffer 
-                            return new CompanyException
-                                (
-                                Messages.NotFoundBranch,
-                                DomainExceptionTypeEnum.NotFound
-                                );
-                        }
-                        else if (message.Contains("BranchOffer_Offer"))
-                        {
-                            //Context: Przy tworzeniu objektu BranchOffer nie został znalieziony Offer
-                            //(Oderta) o podanym Id
-                            return new CompanyException(
-                                Messages.NotFoundOffer,
-                                DomainExceptionTypeEnum.NotFound
-                                );
-                        }
-                        /*
-                         
-                        CHECK_BranchOffer_PublishEnd
-                        CHECK_BranchOffer_WorkStart
-                        CHECK_BranchOffer_WorkEnd
-                         */
                         break;
                     default:
                         return ex;

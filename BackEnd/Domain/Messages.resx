@@ -117,59 +117,87 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AppProblemNotSameAddressId" xml:space="preserve">
-    <value>Problem aplikacyjny nie takie same id Adress i AddressId z konstruktora</value>
+  <data name="Address_DivisionsHierarchy_NotFound" xml:space="preserve">
+    <value>Problem aplikacyjny, w rmach podawanej listy DomainAdministrativeDivision nie istnieje AdministrativeDivisionId podawane w ramach konstruktora</value>
+    <comment>App Problem</comment>
   </data>
-  <data name="DomainUserProblemCannotAnnulTaskClosed" xml:space="preserve">
-    <value>Nie można anulować, sprawa zamknieta</value>
-    <comment>x</comment>
+  <data name="Address_Street_Invalid" xml:space="preserve">
+    <value>Problem aplikacyjny, podawany DomainStreet nie jest tożsamy z DomainStreetId w konstruktorze</value>
+    <comment>App Problem</comment>
   </data>
-  <data name="InValidApartmentNumber" xml:space="preserve">
-    <value>Numer mieszkania może zawierac tylko liczby od 1</value>
+  <data name="ApartmentNumber_Value_Invalid" xml:space="preserve">
+    <value>Podana wartość nr mieszkania nie spełnia wymagań, może byc tylko wartośc liczbowa</value>
   </data>
-  <data name="InValidBuildingNumber" xml:space="preserve">
-    <value>Niepoprawny nr budynku</value>
+  <data name="BranchOffer_PublishEnd_Invalid" xml:space="preserve">
+    <value>Data zakończenia publikacji nie może być mniejsza data utworzenia</value>
   </data>
-  <data name="InValidCommentEvaluation" xml:space="preserve">
-    <value>Ocena nie może być poniżej 1 i nie może być powyżej 5</value>
+  <data name="BranchOffer_WorkEnd_Invalid" xml:space="preserve">
+    <value>Data zakonczenia pracy nie może być wczesniej od daty pocztaku pracy</value>
   </data>
-  <data name="InValidCommentType" xml:space="preserve">
-    <value>za podanymi danymi CommentType nie istnieje</value>
+  <data name="BranchOffer_WorkStart_Invalid" xml:space="preserve">
+    <value>Data poczatku pracy może byc najwcześniej kolejnego dnia po dacie zakończenia publikacji </value>
   </data>
-  <data name="InValidDatabaseBool" xml:space="preserve">
-    <value>Typ może byc "y" lub "n"</value>
+  <data name="Branch_Address_NotSameAddressId" xml:space="preserve">
+    <value>Problem aplikacyjny, podawany address nie jest tożsamy z addressId podanym w konstruktorze, kontekst DomainBranch</value>
+    <comment>App Problem</comment>
   </data>
-  <data name="InValidEmail" xml:space="preserve">
-    <value>Niepoprwanie podany Email</value>
+  <data name="BuildingNumber_Value_Invalid" xml:space="preserve">
+    <value>Podana wartosc Nr. budynku jest niepoprawna, powinna zaczynac sie od 1-9  i mogą zawierac sie znaki od A-Z także może byc'/' i numery</value>
   </data>
-  <data name="InValidMoney" xml:space="preserve">
-    <value>Wartość srodka płaniczego nie może był po 2 liczbach po przecinku i nie moze byc ujemna</value>
+  <data name="CommentEvaluation_Value_Invalid" xml:space="preserve">
+    <value>Podana wartość oceny nie może byc mniejsza 0 i nie może byc większa od 5</value>
   </data>
-  <data name="InValidPhoneNumber" xml:space="preserve">
-    <value>Niepoprawny nr. telefonu, telefon zawiera tylko 9 cyfr</value>
+  <data name="CommentType_Id_NotFound" xml:space="preserve">
+    <value>Podany Kod typu komentarza nie isntnieje</value>
   </data>
-  <data name="InValidRegon" xml:space="preserve">
-    <value>REGON, Niepoprawny, REGON, zawiera 9 lub 14 cyfr</value>
+  <data name="ContractNumber_Value_IsNullOrWhiteSpace" xml:space="preserve">
+    <value>Nr. kontraktu nie może być pusty</value>
   </data>
-  <data name="InValidSegmentUrl" xml:space="preserve">
-    <value>Segment może zawieac tylko małe i duże łacinskie znaki, - _ </value>
+  <data name="DatabaseBool_Code_Invalid" xml:space="preserve">
+    <value>Problem aplikacyjny, Podana wartość kodu nie istnieje, sprawdż dane i popraw kod, Problem aplikacyjny związany z rożnymidanymi po stronie bazy danych i Backendzie</value>
   </data>
-  <data name="InValidSetDivisionId" xml:space="preserve">
-    <value>Dane DivisionId i w liscie Division nie ma takich samych </value>
+  <data name="DomainUserProblem_ProblemStatus_DoneOrAnnulled" xml:space="preserve">
+    <value>Brak możliwości zmiany statusu, sprawa została Zmknięta</value>
   </data>
-  <data name="InValidSetStreetId" xml:space="preserve">
-    <value>Dane StreetId i Street.Id nie zgadaja sie </value>
+  <data name="Email_Value_Invalid" xml:space="preserve">
+    <value>Podany adress Email nie spełnia wymagań</value>
   </data>
-  <data name="InValidUrl" xml:space="preserve">
-    <value>Niepoprawny typ URL</value>
+  <data name="Money_Value_Invalid" xml:space="preserve">
+    <value>Podana wartość srodka płatniczego nie spełnia wymagań, musi być maksymalnie po 2 liczbach po przecinku</value>
   </data>
-  <data name="InValidZipCode" xml:space="preserve">
-    <value>Niepoprawny Kod pocztowy, on zwiera tylko 5 cyfr</value>
+  <data name="Offer_IsNegotiatedSalary_Empty" xml:space="preserve">
+    <value>W ramach podanych nalezy uzupełnić czy dane wynagrodzenie poddjae sie negociacjom</value>
   </data>
-  <data name="NotExistUserProblemStatus" xml:space="preserve">
-    <value />
+  <data name="Offer_MaxSalary_Invalid" xml:space="preserve">
+    <value>Maksymalne wynagrodzenie nie może być mniejsze od minimalnego wynagrodzenia</value>
   </data>
-  <data name="UndefinedUrlType" xml:space="preserve">
-    <value>Niezdefiniowany Typ Url</value>
+  <data name="Person_Address_NotSameAddressId" xml:space="preserve">
+    <value>Problem aplikacyjny, podawany address nie jest tożsamy z addressId podanym w konstruktorze, kontekst DomainPerson</value>
+    <comment>App Problem</comment>
+  </data>
+  <data name="Person_BirthDate_InFuture" xml:space="preserve">
+    <value>Podana data urodzenie jest niepoprawna, data urodzenia nie może być w prszyszłości</value>
+  </data>
+  <data name="PhoneNumber_Value_Invalid" xml:space="preserve">
+    <value>Podana wartość nr. telefonu nie spełnia wymagań, powinno zwierać 9 cyfr</value>
+  </data>
+  <data name="ProblemStatus_Code_NotFound" xml:space="preserve">
+    <value>Problem aplikacyjny, Podany kod w ramach dostepnych ProblemStatus nie istnieje</value>
+    <comment>App Problem</comment>
+  </data>
+  <data name="Regon_Value_Invalid" xml:space="preserve">
+    <value>Podany nr. REGON nie spełnia wymagań, powinien zawierac 9 lub 14 cyfr</value>
+  </data>
+  <data name="SegmentUrl_Value_Invalid" xml:space="preserve">
+    <value>Podany Segment Url nie spełnia wymagań, może zawierac zanki małe i duże od a-z i/lub '-', '_'</value>
+  </data>
+  <data name="UrlType_Id_NotFound" xml:space="preserve">
+    <value>Podawany id w ramach UrlType nie został znależiony</value>
+  </data>
+  <data name="Url_Path_Invalid" xml:space="preserve">
+    <value>scierza powinna zaczynac sie od https://... lub  http://...</value>
+  </data>
+  <data name="ZipCode_Value_Invalid" xml:space="preserve">
+    <value>Podany Kod pocztowy nie spełnia warunków, powinien zawierać tylko 5 cyfr</value>
   </data>
 </root>

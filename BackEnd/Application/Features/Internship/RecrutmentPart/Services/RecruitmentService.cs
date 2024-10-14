@@ -1,74 +1,104 @@
-﻿using Application.Features.Internship.RecrutmentPart.DTOs;
-using Application.Features.Internship.RecrutmentPart.DTOs.Create;
+﻿using Application.Features.Internship.RecrutmentPart.DTOs.Create;
+using Application.Features.Internship.RecrutmentPart.DTOs.SetAnswerByCompany;
 using Application.Features.Internship.RecrutmentPart.Interfaces;
 using Application.Shared.DTOs.Response;
 using Application.Shared.Services.Authentication;
+using Domain.Features.Branch.ValueObjects.Identificators;
+using Domain.Features.BranchOffer.ValueObjects.Identificators;
+using Domain.Features.Offer.ValueObjects.Identificators;
+using Domain.Features.Recruitment.ValueObjects.Identificators;
+using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Factories;
-using Domain.Shared.Providers;
 using System.Security.Claims;
 
 namespace Application.Features.Internship.RecrutmentPart.Services
 {
     public class RecruitmentService : IRecruitmentService
     {
+        //Values
         private readonly IDomainFactory _domainFactory;
-        private readonly IProvider _domainProvider;
         private readonly IAuthenticationService _authentication;
         private readonly IRecruitmentRepository _repository;
 
-        public RecruitmentService(
+
+        //Cosntructor
+        public RecruitmentService
+            (
             IDomainFactory domainFactory,
             IAuthenticationService authentication,
-            IProvider domainProvider,
             IRecruitmentRepository repository
             )
         {
             _domainFactory = domainFactory;
             _authentication = authentication;
-            _domainProvider = domainProvider;
             _repository = repository;
         }
 
 
-        public async Task<Response> CreateAsync
+        //=====================================================================================================
+        //=====================================================================================================
+        //=====================================================================================================
+        //Public Methods
+
+        //DML
+        public async Task<Response> CreateByPersonAsync
             (
             IEnumerable<Claim> claims,
+            Guid branchId,
+            Guid offerId,
+            DateTime created,
             CreateRecruitmentRequestDto dto,
             CancellationToken cancellation
             )
         {
             var personId = _authentication.GetIdNameFromClaims(claims);
-            var recruitment = _domainFactory.CreateDomainRecruitment(
+            var recruitment = _domainFactory.CreateDomainRecruitment
+                (
                     personId.Value,
-                    dto.BranchId,
-                    dto.OfferId,
-                    dto.Created,
-                    null,
-                    dto.PersonMessage,
-                    null,
-                    null
+                    branchId,
+                    offerId,
+                    created,
+                    dto.PersonMessage
                 );
+
             await _repository.CreateAsync(recruitment, cancellation);
-            return new Response
-            {
-                Status = EnumResponseStatus.Success,
-                Message = Messages.ResponseSuccess
-            };
+            return new Response { };
         }
 
-        public async Task<Response> UpdateRecruitmentAsync(IEnumerable<Claim> claims, UpdateRecrutmentDto dto, CancellationToken cancellation)
+        public async Task<Response> SetAnswerByCompanyAsync
+            (
+            IEnumerable<Claim> claims,
+            Guid branchId,
+            Guid offerId,
+            DateTime created,
+            Guid personId,
+            SetAnswerByCompanyRecrutmentDto dto,
+            CancellationToken cancellation
+            )
         {
-            var id = _authentication.GetIdNameFromClaims(claims).Value;
-            var recruitment = await _repository.GetRecruitmentAsync(
-                id, cancellation );
-            recruitment.CompanyResponse = dto.CompanyResponse;
-            recruitment.AcceptedRejected = new Domain.Shared.ValueObjects.DatabaseBool(dto.IsAccepted);
-            await _repository.UpdateRecruitmentAsync(recruitment, cancellation );
-            return new Response
-            {
-                Status = EnumResponseStatus.Success,
-                Message = Messages.ResponseSuccess
-            };
+            var companyId = _authentication.GetIdNameFromClaims(claims);
+            var id = new RecrutmentId
+                (
+                new BranchOfferId
+                    (
+                    new BranchId(branchId),
+                    new OfferId(offerId),
+                    created
+                    ),
+                new UserId(personId)
+                );
+
+            var recruitment = await _repository.GetRecruitmentForSetAnswerAsync(companyId, id, cancellation);
+            recruitment.SetAnswer(dto.CompanyResponse, dto.IsAccepted);
+
+            await _repository.SetAnswerAsync(companyId, recruitment, cancellation);
+            return new Response { };
         }
+        //DQL
+
+        //=====================================================================================================
+        //=====================================================================================================
+        //=====================================================================================================
+        //Private Methods
     }
 }

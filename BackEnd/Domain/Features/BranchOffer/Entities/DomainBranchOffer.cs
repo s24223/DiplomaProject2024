@@ -1,5 +1,6 @@
 ﻿using Domain.Features.Branch.Entities;
 using Domain.Features.Branch.ValueObjects.Identificators;
+using Domain.Features.BranchOffer.Exceptions.Entities;
 using Domain.Features.BranchOffer.ValueObjects.Identificators;
 using Domain.Features.Offer.Entities;
 using Domain.Features.Offer.ValueObjects.Identificators;
@@ -13,11 +14,11 @@ namespace Domain.Features.BranchOffer.Entities
     public class DomainBranchOffer : Entity<BranchOfferId>
     {
         //Values
-        public DateTime PublishStart { get; set; }
-        public DateTime? PublishEnd { get; set; }
-        public DateOnly? WorkStart { get; set; }
-        public DateOnly? WorkEnd { get; set; }
-        public DateTime LastUpdate { get; set; }
+        public DateTime PublishStart { get; private set; }
+        public DateTime? PublishEnd { get; private set; }
+        public DateOnly? WorkStart { get; private set; }
+        public DateOnly? WorkEnd { get; private set; }
+        public DateTime LastUpdate { get; private set; }
 
 
         //References
@@ -35,6 +36,7 @@ namespace Domain.Features.BranchOffer.Entities
                 }
             }
         }
+
         //DomainOffer
         private DomainOffer _offer = null!;
         public DomainOffer Offer
@@ -49,6 +51,7 @@ namespace Domain.Features.BranchOffer.Entities
                 }
             }
         }
+
         //DomainRecrutment
         private Dictionary<RecrutmentId, DomainRecruitment> _recrutments = new();
         public IReadOnlyDictionary<RecrutmentId, DomainRecruitment> Recrutments => _recrutments;
@@ -73,15 +76,20 @@ namespace Domain.Features.BranchOffer.Entities
                 created
                 ), provider)
         {
+            LastUpdate = lastUpdate ?? _provider.TimeProvider().GetDateTimeNow();
             PublishStart = publishStart;
             PublishEnd = publishEnd;
             WorkStart = workStart;
             WorkEnd = workEnd;
-            LastUpdate = lastUpdate ?? _provider.TimeProvider().GetDateTimeNow();
+
+            //ThrowExceptionIfIsNotValid();
         }
 
 
-        //Methods
+        //===================================================================================================
+        //===================================================================================================
+        //===================================================================================================
+        //Public Methods
         public void AddRecrutment(DomainRecruitment domainRecrutment)
         {
             if (
@@ -107,6 +115,42 @@ namespace Domain.Features.BranchOffer.Entities
             PublishEnd = publishEnd;
             WorkStart = workStart;
             WorkEnd = workEnd;
+
+            ThrowExceptionIfIsNotValid();
+        }
+
+        //===================================================================================================
+        //===================================================================================================
+        //===================================================================================================
+        //Private Methods
+        private void ThrowExceptionIfIsNotValid()
+        {
+            if (
+                PublishEnd is not null &&
+                PublishEnd < PublishStart
+                )
+            {
+                //Context: Data konca publikacji nie może byc mniejsza a niz data obecna
+                throw new BranchOfferException(Messages.BranchOffer_PublishEnd_Invalid);
+            }
+            if (
+                PublishEnd is not null &&
+                WorkStart is not null &&
+                _provider.TimeProvider().ConvertToDateTime(WorkStart.Value) < PublishEnd
+                )
+            {
+                //Context: Data Początku pracy powinna być najwczesniij kolejnego dnia po ukonczeniu rekrutacji
+                throw new BranchOfferException(Messages.BranchOffer_WorkStart_Invalid);
+            }
+            if (
+                WorkStart is not null &&
+                WorkEnd is not null &&
+                WorkEnd < WorkStart
+                )
+            {
+                //Context: Data pocztku pracy nie może byc wieksza od konca
+                throw new BranchOfferException(Messages.BranchOffer_WorkEnd_Invalid);
+            }
         }
     }
 }

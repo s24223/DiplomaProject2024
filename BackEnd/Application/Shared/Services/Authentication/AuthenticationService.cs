@@ -1,7 +1,8 @@
 ﻿using Application.Shared.Exceptions.AppExceptions;
-using Application.Shared.Exceptions.UserExceptions;
+using Domain.Features.User.Exceptions.Entities;
 using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Providers;
+using Domain.Shared.Templates.Exceptions;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -48,15 +49,15 @@ namespace Application.Shared.Services.Authentication
 
             if (string.IsNullOrWhiteSpace(issuer))
             {
-                throw new ApplicationLayerException(Messages.NotConfiguredIssuer);
+                throw new ApplicationLayerException(Messages.UserSecrets_Issuer_NotConfigured);
             }
             if (string.IsNullOrWhiteSpace(audience))
             {
-                throw new ApplicationLayerException(Messages.NotConfiguredAudience);
+                throw new ApplicationLayerException(Messages.UserSecrets_Audience_NotConfigured);
             }
             if (string.IsNullOrWhiteSpace(secret))
             {
-                throw new ApplicationLayerException(Messages.NotConfiguredSecret);
+                throw new ApplicationLayerException(Messages.UserSecrets_Secret_NotConfigured);
             }
 
             _issuer = issuer;
@@ -180,7 +181,11 @@ namespace Application.Shared.Services.Authentication
         {
             if (!IsJwtGeneratedByThisServer(jwt))
             {
-                throw new UnauthorizedUserException();
+                throw new UserException
+                    (
+                    Messages.User_Jwt_IsNotGeneratedByThisServer,
+                    DomainExceptionTypeEnum.Unauthorized
+                    );
             }
             var claims = GetClaimsFromJwt(jwt);
             var id = GetIdNameFromClaims(claims);
@@ -192,7 +197,11 @@ namespace Application.Shared.Services.Authentication
             var name = GetNameFromClaims(claims);
             if (!Guid.TryParse(name, out var id))
             {
-                throw new IncorrectJwtUserNameException();
+                throw new UserException
+                    (
+                    Messages.User_Jwt_NameIsNotGuid,
+                    DomainExceptionTypeEnum.AppProblem
+                    );
             }
             return new UserId(id);
         }

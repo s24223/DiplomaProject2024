@@ -1,5 +1,7 @@
 ﻿using Domain.Features.BranchOffer.Entities;
 using Domain.Features.BranchOffer.ValueObjects.Identificators;
+using Domain.Features.Offer.Exceptions.Entities;
+using Domain.Features.Offer.Exceptions.ValueObjects;
 using Domain.Features.Offer.ValueObjects;
 using Domain.Features.Offer.ValueObjects.Identificators;
 using Domain.Shared.Providers;
@@ -11,12 +13,12 @@ namespace Domain.Features.Offer.Entities
     public class DomainOffer : Entity<OfferId>
     {
         //Values
-        public string Name { get; set; } = null!;
-        public string Description { get; set; } = null!;
-        public Money? MinSalary { get; set; }
-        public Money? MaxSalary { get; set; }
-        public DatabaseBool? IsNegotiatedSalary { get; set; }
-        public DatabaseBool IsForStudents { get; set; }
+        public string Name { get; private set; } = null!;
+        public string Description { get; private set; } = null!;
+        public Money? MinSalary { get; private set; }
+        public Money? MaxSalary { get; private set; }
+        public DatabaseBool? IsNegotiatedSalary { get; private set; }
+        public DatabaseBool IsForStudents { get; private set; }
 
 
         //References
@@ -48,6 +50,8 @@ namespace Domain.Features.Offer.Entities
             //Values with  no exeptions
             Name = name;
             Description = description;
+
+            //ThrowExceptionIfNotValid();
         }
 
 
@@ -77,6 +81,7 @@ namespace Domain.Features.Offer.Entities
             bool isForStudents
             )
         {
+
             //Values with exeptions
             MinSalary = minSalary == null ? null : new Money(minSalary.Value);
             MaxSalary = maxSalary == null ? null : new Money(maxSalary.Value);
@@ -87,10 +92,34 @@ namespace Domain.Features.Offer.Entities
             //Values with  no exeptions
             Name = name;
             Description = description;
+
+            ThrowExceptionIfNotValid();
         }
+
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================
         //Private Methods
+        private void ThrowExceptionIfNotValid()
+        {
+            if (
+                MaxSalary is not null &&
+                MinSalary is not null &&
+                MaxSalary < MinSalary
+                )
+            {
+                throw new MoneyException(Messages.Offer_MaxSalary_Invalid);
+            }
+            if (
+                IsNegotiatedSalary is null &&
+                    (
+                    MaxSalary is not null ||
+                    MinSalary is not null
+                    )
+                )
+            {
+                throw new OfferException(Messages.Offer_IsNegotiatedSalary_Empty);
+            }
+        }
     }
 }

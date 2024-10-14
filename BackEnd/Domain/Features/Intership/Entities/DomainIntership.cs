@@ -2,6 +2,7 @@
 using Domain.Features.BranchOffer.ValueObjects.Identificators;
 using Domain.Features.Comment.Entities;
 using Domain.Features.Comment.ValueObjects.Identificators;
+using Domain.Features.Intership.ValueObjects;
 using Domain.Features.Intership.ValueObjects.Identificators;
 using Domain.Features.Offer.ValueObjects.Identificators;
 using Domain.Features.Recruitment.Entities;
@@ -15,13 +16,15 @@ namespace Domain.Features.Intership.Entities
     public class DomainIntership : Entity<IntershipId>
     {
         //Values
-        public string ContractNumber { get; set; } = null!;
+        public ContractNumber ContractNumber { get; private set; } = null!;
 
 
         //Refrences
+        //Comments 
         private Dictionary<CommentId, DomainComment> _comments = new();
         public IReadOnlyDictionary<CommentId, DomainComment> Comments => _comments;
-        //Recrutment Refrences
+
+        //Recrutment 
         public RecrutmentId RecrutmentId { get; private set; }
         private DomainRecruitment _recrutment = null!;
         public DomainRecruitment Recrutment
@@ -50,7 +53,7 @@ namespace Domain.Features.Intership.Entities
             IProvider provider
             ) : base(new IntershipId(id), provider)
         {
-            ContractNumber = contractNumber;
+            ContractNumber = new ContractNumber(contractNumber);
 
             RecrutmentId = new RecrutmentId(
                 new BranchOfferId(
@@ -62,7 +65,10 @@ namespace Domain.Features.Intership.Entities
         }
 
 
-        //Methods
+        //=====================================================================================================
+        //=====================================================================================================
+        //=====================================================================================================
+        //Public Methods
         public void AddComment(DomainComment domainComment)
         {
             if (domainComment.Id.IntershipId == Id && !_comments.ContainsKey(domainComment.Id))
@@ -71,5 +77,14 @@ namespace Domain.Features.Intership.Entities
                 domainComment.Intership = this;
             }
         }
+
+        public void Update(string contractNumber)
+        {
+            ContractNumber = new ContractNumber(contractNumber);
+        }
+        //=====================================================================================================
+        //=====================================================================================================
+        //=====================================================================================================
+        //Private Methods
     }
 }

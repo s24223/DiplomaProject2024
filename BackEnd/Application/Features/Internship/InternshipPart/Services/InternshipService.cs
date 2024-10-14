@@ -1,63 +1,105 @@
-﻿using Application.Features.Internship.InternshipPart.DTOs;
+﻿using Application.Features.Internship.InternshipPart.DTOs.Create;
+using Application.Features.Internship.InternshipPart.DTOs.Update;
 using Application.Features.Internship.InternshipPart.Interfaces;
 using Application.Shared.DTOs.Response;
 using Application.Shared.Services.Authentication;
+using Domain.Features.Intership.ValueObjects.Identificators;
 using Domain.Shared.Factories;
-using Domain.Shared.Providers;
 using System.Security.Claims;
 
 namespace Application.Features.Internship.InternshipPart.Services
 {
     public class InternshipService : IInternshipService
     {
+        //Values
         private readonly IDomainFactory _domainFactory;
         private readonly IAuthenticationService _authentication;
-        private readonly IProvider _provider;
         private readonly IInternshipRepository _internshipRepository;
 
-        public InternshipService(
+
+        //Cosntructor
+        public InternshipService
+            (
             IDomainFactory domainFactory,
             IAuthenticationService authentication,
-            IProvider provider,
-            IInternshipRepository internshipRepository)
+            IInternshipRepository internshipRepository
+            )
         {
             _domainFactory = domainFactory;
             _authentication = authentication;
-            _provider = provider;
             _internshipRepository = internshipRepository;
         }
 
-        public async Task<Response> CreateInternshipAsync(IEnumerable<Claim> claims, CreateInternshipDto dto, CancellationToken cancellation)
+
+        //===============================================================================================================
+        //===============================================================================================================
+        //===============================================================================================================
+        //Public Methods
+        public async Task<ResponseItem<CreateInternshipResponseDto>> CreateAsync
+            (
+            IEnumerable<Claim> claims,
+            Guid branchId,
+            Guid offerId,
+            DateTime created,
+            Guid personId,
+            CreateInternshipRequestDto dto,
+            CancellationToken cancellation
+            )
         {
-            var userId = _authentication.GetIdNameFromClaims(claims);
-            var internship = _domainFactory.CreateDomainInternship(
-                dto.ContactNumber,
-                userId.Value,
-                dto.BranchId,
-                dto.OfferId,
-                dto.Created
+            var companyId = _authentication.GetIdNameFromClaims(claims);
+            var domainInternship = _domainFactory.CreateDomainInternship
+                (
+                personId,
+                branchId,
+                offerId,
+                created,
+                dto.ContactNumber
                 );
-            await _internshipRepository.CreateInternshipAsync(
-                internship, cancellation);
-            return new Response
+
+            var internshipId = await _internshipRepository.CreateAsync
+                (
+                companyId,
+                domainInternship,
+                cancellation
+                );
+
+            return new ResponseItem<CreateInternshipResponseDto>
             {
-                Status = EnumResponseStatus.Success,
-                Message = Messages.ResponseSuccess
+                Item = new CreateInternshipResponseDto
+                {
+                    InternshipId = internshipId,
+                },
             };
         }
 
-        public async Task<Response> UpdateInternshipAsync(Guid id, UpdateInternshipDto dto, CancellationToken cancellation)
+        public async Task<Response> UpdateAsync
+            (
+            IEnumerable<Claim> claims,
+            Guid internshipId,
+            UpdateInternshipRequestDto dto,
+            CancellationToken cancellation
+            )
         {
-            var internship = await _internshipRepository
-                .GetInternshipAsync(id, cancellation);
-            internship.ContractNumber = dto.ContractNumber;
-            await _internshipRepository.UpdateInternshipAsync(
-                internship, cancellation);
-            return new Response
-            {
-                Status = EnumResponseStatus.Success,
-                Message = Messages.ResponseSuccess
-            };
+            var companyId = _authentication.GetIdNameFromClaims(claims);
+            var doaminInternship = await _internshipRepository.GetInternshipAsync
+                (
+                companyId,
+                new IntershipId(internshipId),
+                cancellation
+                );
+            doaminInternship.Update(dto.ContractNumber);
+
+            await _internshipRepository.UpdateAsync
+                (
+                companyId,
+                doaminInternship,
+                cancellation
+                );
+            return new Response { };
         }
+        //===============================================================================================================
+        //===============================================================================================================
+        //===============================================================================================================
+        //Private Methods
     }
 }

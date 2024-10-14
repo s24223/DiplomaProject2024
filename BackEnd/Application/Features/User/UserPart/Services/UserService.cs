@@ -5,10 +5,11 @@ using Application.Features.User.UserPart.DTOs.UpdateLogin;
 using Application.Features.User.UserPart.DTOs.UpdatePassword;
 using Application.Features.User.UserPart.Interfaces;
 using Application.Shared.DTOs.Response;
-using Application.Shared.Exceptions.UserExceptions;
 using Application.Shared.Services.Authentication;
+using Domain.Features.User.Exceptions.Entities;
 using Domain.Shared.Factories;
 using Domain.Shared.Providers;
+using Domain.Shared.Templates.Exceptions;
 using Domain.Shared.ValueObjects;
 using System.Security.Claims;
 
@@ -92,6 +93,7 @@ namespace Application.Features.User.UserPart.Services
         {
             var id = _authenticationRepository.GetIdNameFromClaims(claims);
             var userData = await _repository.GetUserDataByIdAsync(id, cancellation);
+
             userData.User.LastPasswordUpdate = _provider.TimeProvider().GetDateTimeNow();
 
             var salt = _authenticationRepository.GenerateSalt();
@@ -134,7 +136,11 @@ namespace Application.Features.User.UserPart.Services
             if (hashedInputPassword != userData.Password)
             {
                 //Incorrect Password
-                throw new UnauthorizedUserException();
+                throw new UserException
+                    (
+                    Messages.User_InputPassword_Invalid,
+                    DomainExceptionTypeEnum.Unauthorized
+                    );
             }
 
 
@@ -198,7 +204,11 @@ namespace Application.Features.User.UserPart.Services
         {
             if (string.IsNullOrWhiteSpace(dto.RefreshToken))
             {
-                throw new UnauthorizedUserException();
+                throw new UserException
+                    (
+                    Messages.User_RefreshToken_IsNullOrWhiteSpace,
+                    DomainExceptionTypeEnum.Unauthorized
+                    );
             }
 
             var id = _authenticationRepository.GetIdNameFromJwt(jwtFromHeader);
@@ -211,7 +221,10 @@ namespace Application.Features.User.UserPart.Services
                 dto.RefreshToken != data.RefreshToken
                 )
             {
-                throw new UnauthorizedUserException();
+                throw new UserException(
+                    Messages.User_RefreshToken_IsNullOrWhiteSpace,
+                    DomainExceptionTypeEnum.Unauthorized
+                    );
             }
 
 

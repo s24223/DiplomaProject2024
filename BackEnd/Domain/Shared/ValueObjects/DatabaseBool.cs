@@ -1,4 +1,5 @@
-﻿using Domain.Shared.Exceptions.AppExceptions.ValueObjectsExceptions;
+﻿using Domain.Shared.Exceptions.ValueObjects;
+using Domain.Shared.Templates.Exceptions;
 
 namespace Domain.Shared.ValueObjects
 {
@@ -27,7 +28,11 @@ namespace Domain.Shared.ValueObjects
             }
             else
             {
-                throw new DatabaseBoolException(Messages.InValidDatabaseBool);
+                throw new DatabaseBoolException
+                    (
+                    Messages.DatabaseBool_Code_Invalid,
+                    DomainExceptionTypeEnum.AppProblem
+                    );
             }
         }
 
@@ -44,5 +49,11 @@ namespace Domain.Shared.ValueObjects
                 Code = "n";
             }
         }
+
+
+        //=================================================================================================
+        //=================================================================================================
+        //=================================================================================================
+        //Private methods
     }
 }

@@ -6,7 +6,6 @@ using Application.Features.Addresses.DTOs.Update;
 using Application.Features.Addresses.Interfaces;
 using Application.Shared.DTOs.Response;
 using Application.Shared.Services.Authentication;
-using Domain.Features.Address.ValueObjects;
 using Domain.Features.Address.ValueObjects.Identificators;
 using Domain.Shared.Factories;
 using Domain.Shared.Providers;
@@ -76,7 +75,7 @@ namespace Application.Features.Addresses.Services
             )
         {
             var address = await _repository.GetAddressAsync(new AddressId(id), cancellation);
-            address.ZipCode = new ZipCode(dto.ZipCode);
+            address.SetZipCode(dto.ZipCode);
 
             await _repository.UpdateAsync(address, cancellation);
             return new Response { };

@@ -5,20 +5,22 @@ namespace Domain.Features.Comment.ValueObjects.Identificators
 {
     public record CommentId
     {
+        //Values
         public IntershipId IntershipId { get; private set; }
         public CommentType CommentType { get; private set; }
-        public DateTime Published { get; private set; }
+        public DateTime Created { get; private set; }
 
+        //Cosntructor
         public CommentId
             (
             IntershipId intershipId,
             CommentType commentType,
-            DateTime published
+            DateTime created
             )
         {
             IntershipId = intershipId;
             CommentType = commentType;
-            Published = published;
+            Created = created;
         }
     }
 }

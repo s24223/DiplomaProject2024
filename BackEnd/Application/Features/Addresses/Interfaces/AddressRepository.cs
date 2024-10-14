@@ -2,11 +2,11 @@
 using Application.Database.Models;
 using Application.Features.Addresses.DTOs.Select.Collocations;
 using Application.Features.Addresses.DTOs.Select.Shared;
+using Application.Shared.Interfaces.EntityToDomainMappers;
 using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.Address.Entities;
 using Domain.Features.Address.Exceptions.Entities;
 using Domain.Features.Address.ValueObjects.Identificators;
-using Domain.Shared.Factories;
 using Domain.Shared.Templates.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,9 +15,8 @@ namespace Application.Features.Addresses.Interfaces
     public class AddressRepository : IAddressRepository
     {
         //Values
-        //private readonly IProvider _provider;
-        private readonly IDomainFactory _domainFactory;
         private readonly IAddressSqlClientRepository _sql;
+        private readonly IEntityToDomainMapper _mapper;
         private readonly IExceptionsRepository _exceptionsRepository;
         private readonly DiplomaProjectContext _context;
 
@@ -25,16 +24,14 @@ namespace Application.Features.Addresses.Interfaces
         //Cosntructor
         public AddressRepository
             (
-            //IProvider provider,
-            IDomainFactory domainFactory,
+            IEntityToDomainMapper mapper,
             IAddressSqlClientRepository sql,
             IExceptionsRepository exceptionsRepository,
             DiplomaProjectContext context
             )
         {
             _sql = sql;
-            //_provider = provider;
-            _domainFactory = domainFactory;
+            _mapper = mapper;
             _exceptionsRepository = exceptionsRepository;
             _context = context;
         }
@@ -85,7 +82,7 @@ namespace Application.Features.Addresses.Interfaces
                 {
                     throw new AddressException
                         (
-                        Messages.NotFoundAddressCollocation,
+                        Messages.Address_Collocation_NotFound,
                         DomainExceptionTypeEnum.NotFound
                         );
                 }
@@ -164,7 +161,7 @@ namespace Application.Features.Addresses.Interfaces
             var databseHierarchy = await _sql
                 .GetDivisionsHierachyUpAsync(databaseAddress.DivisionId, cancellation);
 
-            return ConvertToDomainAddress(databaseAddress, databseHierarchy);
+            return _mapper.ToDomainAddress(databaseAddress, databseHierarchy);
         }
 
         public async Task<IEnumerable<DivisionResponseDto>> GetDivisionsDownAsync
@@ -233,49 +230,11 @@ namespace Application.Features.Addresses.Interfaces
             {
                 throw new AddressException
                     (
-                    Messages.NotFoundAddress,
+                    Messages.Address_Id_NotFound,
                     DomainExceptionTypeEnum.NotFound
                     );
             }
             return databaseAddress;
-        }
-
-        private DomainAddress ConvertToDomainAddress
-            (
-            Address databaseAddress,
-            IEnumerable<AdministrativeDivision> databseHierarchy
-            )
-        {
-            var domainHierachy = databseHierarchy.Select(x => new DomainAdministrativeDivision
-                (
-                x.Id,
-                x.Name,
-                x.ParentDivisionId,
-                x.AdministrativeType.Id,
-                x.AdministrativeType.Name
-                )).ToList();
-
-
-            var address = _domainFactory.CreateDomainAddress
-                (
-                databaseAddress.Id,
-                databaseAddress.DivisionId,
-                databaseAddress.StreetId,
-                databaseAddress.BuildingNumber,
-                databaseAddress.ApartmentNumber,
-                databaseAddress.ZipCode
-                );
-            address.Street = new DomainStreet
-                (
-                databaseAddress.Street.Id,
-                databaseAddress.Street.Name,
-                (databaseAddress.Street.AdministrativeType == null
-                ? null : databaseAddress.Street.AdministrativeType.Id),
-                (databaseAddress.Street.AdministrativeType == null
-                ? null : databaseAddress.Street.AdministrativeType.Name)
-                );
-            address.SetHierarchy(domainHierachy);
-            return address;
         }
     }
 }

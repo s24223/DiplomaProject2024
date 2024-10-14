@@ -1,13 +1,10 @@
-﻿using Domain.Features.Comment.Exceptions;
+﻿using Domain.Features.Comment.Exceptions.ValueObjects;
 
 namespace Domain.Features.Comment.ValueObjects
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <exception cref="CommentEvaluationException"></exception>
     public record CommentEvaluation
     {
+        //Value
         public int Value { get; private set; }
 
 
@@ -16,9 +13,15 @@ namespace Domain.Features.Comment.ValueObjects
         {
             if (value > 5 || value <= 0)
             {
-                throw new CommentEvaluationException(Messages.InValidCommentEvaluation);
+                throw new CommentEvaluationException(Messages.CommentEvaluation_Value_Invalid);
             }
             Value = value;
         }
+
+
+        //=====================================================================================================
+        //=====================================================================================================
+        //=====================================================================================================
+        //Private Methods
     }
 }

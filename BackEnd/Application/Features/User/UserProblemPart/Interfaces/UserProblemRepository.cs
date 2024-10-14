@@ -1,11 +1,11 @@
 ﻿using Application.Database;
 using Application.Database.Models;
+using Application.Shared.Interfaces.EntityToDomainMappers;
 using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Features.UserProblem.Entities;
 using Domain.Features.UserProblem.Exceptions.Entities;
 using Domain.Features.UserProblem.ValueObjects.Identificators;
-using Domain.Shared.Factories;
 using Domain.Shared.Templates.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +14,7 @@ namespace Application.Features.User.UserProblemPart.Interfaces
     public class UserProblemRepository : IUserProblemRepository
     {
         //Values
-        private readonly IDomainFactory _domainFactory;
+        private readonly IEntityToDomainMapper _mapper;
         private readonly IExceptionsRepository _exceptionRepository;
         private readonly DiplomaProjectContext _context;
 
@@ -22,12 +22,12 @@ namespace Application.Features.User.UserProblemPart.Interfaces
         //Constructor
         public UserProblemRepository
             (
-            IDomainFactory domainFactory,
+            IEntityToDomainMapper mapper,
             IExceptionsRepository exceptionRepository,
             DiplomaProjectContext context
             )
         {
-            _domainFactory = domainFactory;
+            _mapper = mapper;
             _exceptionRepository = exceptionRepository;
             _context = context;
         }
@@ -105,7 +105,7 @@ namespace Application.Features.User.UserProblemPart.Interfaces
             )
         {
             var databaseUserProblem = await GetUserProblemAsync(userId, userProblemId, cancellation);
-            return ConvertToDomainUserProblem(databaseUserProblem);
+            return _mapper.ToDomainUserProblem(databaseUserProblem);
         }
 
         //==============================================================================================
@@ -128,46 +128,11 @@ namespace Application.Features.User.UserProblemPart.Interfaces
             {
                 throw new UserProblemException
                     (
-                    Messages.NotFoundUserProblem,
+                    Messages.UserProblem_Ids_NotFound,
                     DomainExceptionTypeEnum.NotFound
                     );
             }
             return databaseUserProblem;
-        }
-        /*
-                private async Task<UserProblem> GetUserProblemAsync
-                    (
-                    UserProblemId userProblemId,
-                    CancellationToken cancellation
-                    )
-                {
-                    var databaseUserProblem = await _context.UserProblems
-                        .Where(x => x.Id == userProblemId.Value)
-                        .FirstOrDefaultAsync(cancellation);
-                    if (databaseUserProblem == null)
-                    {
-                        throw new UserProblemException
-                            (
-                            Messages.NotFoundUserProblem,
-                            DomainExceptionTypeEnum.NotFound
-                            );
-                    }
-                    return databaseUserProblem;
-                }*/
-
-        private DomainUserProblem ConvertToDomainUserProblem(UserProblem databaseUserProblem)
-        {
-            return _domainFactory.CreateDomainUserProblem
-                (
-                databaseUserProblem.Id,
-                databaseUserProblem.Created,
-                databaseUserProblem.UserMessage,
-                databaseUserProblem.Response,
-                databaseUserProblem.PreviousProblemId,
-                databaseUserProblem.Email,
-                databaseUserProblem.Status,
-                databaseUserProblem.UserId
-                );
         }
     }
 }

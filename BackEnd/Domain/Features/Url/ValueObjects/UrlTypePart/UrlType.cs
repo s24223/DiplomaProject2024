@@ -1,4 +1,5 @@
 ﻿using Domain.Features.Url.Exceptions.ValueObjects;
+using Domain.Shared.Templates.Exceptions;
 
 namespace Domain.Features.Url.ValueObjects.UrlTypePart
 {
@@ -16,7 +17,11 @@ namespace Domain.Features.Url.ValueObjects.UrlTypePart
         {
             if (!_types.TryGetValue(id, out var urlType))
             {
-                throw new UrlTypeException(Messages.UndefinedUrlType);
+                throw new UrlTypeException
+                    (
+                    Messages.UrlType_Id_NotFound,
+                    DomainExceptionTypeEnum.NotFound
+                    );
             }
             Type = urlType.Type;
             Name = urlType.Name;

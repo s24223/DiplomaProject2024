@@ -56,7 +56,7 @@ namespace Domain.Features.Url.Entities
             }
             catch (Exception)
             {
-                throw new UrlException(Messages.InValidUrl);
+                throw new UrlException(Messages.Url_Path_Invalid);
             }
 
             //Values with no exeptions
@@ -82,7 +82,7 @@ namespace Domain.Features.Url.Entities
             }
             catch (Exception)
             {
-                throw new UrlException(Messages.InValidUrl);
+                throw new UrlException(Messages.Url_Path_Invalid);
             }
 
             //Values with no exeptions

@@ -12,7 +12,7 @@ namespace Domain.Features.Address.Entities
         public AddressId Id { get; private set; }
         public BuildingNumber BuildingNumber { get; private set; } = null!;
         public ApartmentNumber? ApartmentNumber { get; private set; }
-        public ZipCode ZipCode { get; set; } = null!;
+        public ZipCode ZipCode { get; private set; } = null!;
 
 
         //References
@@ -33,7 +33,7 @@ namespace Domain.Features.Address.Entities
                 {
                     throw new AddressException
                         (
-                        Messages.InValidSetStreetId,
+                        Messages.Address_Street_Invalid,
                         DomainExceptionTypeEnum.AppProblem
                         );
                 }
@@ -79,13 +79,17 @@ namespace Domain.Features.Address.Entities
             {
                 throw new AddressException
                     (
-                    Messages.InValidSetDivisionId,
+                    Messages.Address_DivisionsHierarchy_NotFound,
                     DomainExceptionTypeEnum.AppProblem
                     );
             }
             _hierarchy = hierarchy.ToList();
         }
 
+        public void SetZipCode(string zipCode)
+        {
+            ZipCode = new ZipCode(zipCode);
+        }
         //====================================================================================================
         //====================================================================================================
         //====================================================================================================

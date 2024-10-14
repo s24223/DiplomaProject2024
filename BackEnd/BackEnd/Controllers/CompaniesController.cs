@@ -157,7 +157,7 @@ namespace BackEnd.Controllers
         }
 
         [Authorize]
-        [HttpPut("branch/{branchId:guid}/offers/{offerId:guid}&{created:datetime}")]
+        [HttpPut("branch/{branchId:guid}/offers/{offerId:guid}&{created}")]
         public async Task<IActionResult> UpdateBranchOfferConnectionAsync
             (
             Guid branchId,

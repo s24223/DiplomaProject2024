@@ -3,10 +3,6 @@ using System.Text.RegularExpressions;
 
 namespace Domain.Features.Company.ValueObjects
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <exception cref="RegonException"></exception>
     public record Regon
     {
         //Values
@@ -18,7 +14,7 @@ namespace Domain.Features.Company.ValueObjects
         {
             if (!IsValidRegon(value))
             {
-                throw new RegonException(Messages.InValidRegon);
+                throw new RegonException(Messages.Regon_Value_Invalid);
             }
             Value = value;
         }

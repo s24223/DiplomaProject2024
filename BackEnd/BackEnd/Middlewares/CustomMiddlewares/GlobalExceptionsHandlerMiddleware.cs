@@ -1,13 +1,7 @@
 ﻿using Application.Database;
 using Application.Shared.DTOs.Response;
 using Application.Shared.Exceptions.AppExceptions;
-using Application.Shared.Exceptions.UserExceptions;
-using Domain.Features.Address.Exceptions.Entities;
-using Domain.Features.Address.Exceptions.ValueObjects;
-using Domain.Features.Url.Exceptions.Entities;
-using Domain.Features.Url.Exceptions.ValueObjects;
-using Domain.Features.UserProblem.Exceptions.Entities;
-using Domain.Features.UserProblem.Exceptions.ValueObjects;
+using Domain.Shared.Templates.Exceptions;
 using Infrastructure.Exceptions.AppExceptions;
 using System.Diagnostics;
 using System.Text.Json;
@@ -16,12 +10,18 @@ namespace BackEnd.Middlewares.CustomMiddlewares
 {
     public class GlobalExceptionsHandlerMiddleware
     {
+        //Values
         private readonly RequestDelegate _next;
 
+
+        //Constructor
         public GlobalExceptionsHandlerMiddleware(RequestDelegate next)
         {
             _next = next;
         }
+
+
+        //Primary Method
         public async Task Invoke
             (
             HttpContext context,
@@ -39,6 +39,10 @@ namespace BackEnd.Middlewares.CustomMiddlewares
             }
         }
 
+        //===================================================================================================
+        //===================================================================================================
+        //===================================================================================================
+        //Private Methods
         private async Task HandleExeptionAsync
             (
             HttpContext context,
@@ -60,60 +64,37 @@ namespace BackEnd.Middlewares.CustomMiddlewares
 
             switch (ex)
             {
-
-                //========================================================================================
-                //Address Module
-                case AddressException:
-                    await GenerateUserFaultResponse(response, ex, 401);
+                case DomainException domainEx:
+                    switch (domainEx.Type)
+                    {
+                        case DomainExceptionTypeEnum.BadInputData:
+                            await GenerateUserFaultResponse(response, ex, 400);
+                            break;
+                        case DomainExceptionTypeEnum.NotFound:
+                            await GenerateUserFaultResponse(response, ex, 404);
+                            break;
+                        case DomainExceptionTypeEnum.Unauthorized:
+                            await GenerateUserFaultResponse(response, ex, 401);
+                            break;
+                        case DomainExceptionTypeEnum.AppProblem:
+                            await GenerateAppFaultResponse(response, ex, dbContext);
+                            break;
+                    }
                     break;
-                case ApartmentNumberException:
-                    await GenerateUserFaultResponse(response, ex, 401);
-                    break;
-                case BuildingNumberException:
-                    await GenerateUserFaultResponse(response, ex, 401);
-                    break;
-                case ZipCodeException:
-                    await GenerateUserFaultResponse(response, ex, 401);
-                    break;
-
-                //========================================================================================
-                //User Module
-                case UrlException:
-                    await GenerateUserFaultResponse(response, ex, 401);
-                    break;
-                case UrlTypeException:
-                    await GenerateUserFaultResponse(response, ex, 401);
-                    break;
-                case UserProblemException:
-                    await GenerateUserFaultResponse(response, ex, 401);
-                    break;
-                case UserProblemStatusException:
-                    await GenerateUserFaultResponse(response, ex, 401);
-                    break;
-
-                //========================================================================================
-                //Application
-                case UnauthorizedUserException:
-                    await GenerateUserFaultResponse(response, ex, 401);
-                    break;
-
-
+                //Application Layer
                 case SqlClientImplementationException:
-                    await GenerateUserFaultResponse(response, ex, 500);
-                    break;
-                case IncorrectJwtUserNameException:
-                    await GenerateUserFaultResponse(response, ex, 500);
+                    await GenerateAppFaultResponse(response, ex, dbContext);
                     break;
                 case ApplicationLayerException:
-                    await GenerateUserFaultResponse(response, ex, 500);
+                    await GenerateAppFaultResponse(response, ex, dbContext);
                     break;
                 //========================================================================================
                 //Infrastructure
                 case InfrastructureLayerException:
-                    await GenerateUserFaultResponse(response, ex, 401);
+                    await GenerateAppFaultResponse(response, ex, dbContext);
                     break;
                 //========================================================================================
-                //App Exceptions
+                //Not implemented App Exceptions
                 default:
                     await GenerateAppFaultResponse(response, ex, dbContext);
                     break;

@@ -17,8 +17,8 @@ namespace Domain.Features.Recruitment.Entities
         //Values
         public DateTime ApplicationDate { get; private set; }
         public string? PersonMessage { get; private set; }
-        public string? CompanyResponse { get; set; }
-        public DatabaseBool? AcceptedRejected { get; set; }
+        public string? CompanyResponse { get; private set; }
+        public DatabaseBool? IsAccepted { get; private set; }
 
 
         //References
@@ -76,7 +76,7 @@ namespace Domain.Features.Recruitment.Entities
             DateTime? applicationDate,
             string? personMessage,
             string? companyResponse,
-            string? acceptedRejected,
+            string? isAccepted,
             IProvider provider
             ) : base(new RecrutmentId
                 (
@@ -92,11 +92,29 @@ namespace Domain.Features.Recruitment.Entities
             PersonMessage = personMessage;
             CompanyResponse = companyResponse;
 
-            ApplicationDate = applicationDate != null ?
-                applicationDate.Value : _provider.TimeProvider().GetDateTimeNow();
-
-            AcceptedRejected = string.IsNullOrWhiteSpace(acceptedRejected) ?
-                null : new DatabaseBool(acceptedRejected);
+            ApplicationDate = applicationDate ?? _provider.TimeProvider().GetDateTimeNow();
+            IsAccepted = string.IsNullOrWhiteSpace(isAccepted) ?
+                null : new DatabaseBool(isAccepted);
         }
+
+
+        //=====================================================================================================
+        //=====================================================================================================
+        //=====================================================================================================
+        //Public Methods
+        public void SetAnswer
+            (
+            string? companyResponse,
+            bool isAccepted
+            )
+        {
+            CompanyResponse = companyResponse;
+            IsAccepted = new DatabaseBool(isAccepted);
+        }
+
+        //=====================================================================================================
+        //=====================================================================================================
+        //=====================================================================================================
+        //Private Methods
     }
 }

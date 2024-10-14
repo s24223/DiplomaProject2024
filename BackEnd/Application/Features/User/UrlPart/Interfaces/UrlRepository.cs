@@ -1,10 +1,10 @@
 ﻿using Application.Database;
 using Application.Database.Models;
+using Application.Shared.Interfaces.EntityToDomainMappers;
 using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.Url.Entities;
 using Domain.Features.Url.Exceptions.Entities;
 using Domain.Features.User.ValueObjects.Identificators;
-using Domain.Shared.Factories;
 using Domain.Shared.Templates.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +13,7 @@ namespace Application.Features.User.UrlPart.Interfaces
     public class UrlRepository : IUrlRepository
     {
         //Vaues
-        private readonly IDomainFactory _domainFactory;
+        private readonly IEntityToDomainMapper _mapper;
         private readonly IExceptionsRepository _exceptionsRepository;
         private readonly DiplomaProjectContext _context;
 
@@ -21,12 +21,12 @@ namespace Application.Features.User.UrlPart.Interfaces
         //Cosntructor
         public UrlRepository
             (
-            IDomainFactory domainFactory,
+            IEntityToDomainMapper mapper,
             IExceptionsRepository exceptionsRepository,
             DiplomaProjectContext context
             )
         {
-            _domainFactory = domainFactory;
+            _mapper = mapper;
             _exceptionsRepository = exceptionsRepository;
             _context = context;
         }
@@ -135,7 +135,7 @@ namespace Application.Features.User.UrlPart.Interfaces
                 created,
                 cancellation
                 );
-            return ConvertToDomainUrl(databaseUrl);
+            return _mapper.ToDomainUrl(databaseUrl);
         }
         //====================================================================================================
         //====================================================================================================
@@ -159,24 +159,11 @@ namespace Application.Features.User.UrlPart.Interfaces
             {
                 throw new UrlException
                     (
-                    Messages.NotFoundUrl,
+                    Messages.Url_Ids_NotFound,
                     DomainExceptionTypeEnum.NotFound
                     );
             }
             return url;
-        }
-
-        private DomainUrl ConvertToDomainUrl(Url databaseUrl)
-        {
-            return _domainFactory.CreateDomainUrl
-                (
-                databaseUrl.UserId,
-                databaseUrl.UrlTypeId,
-                databaseUrl.Created,
-                databaseUrl.Path,
-                databaseUrl.Name,
-                databaseUrl.Description
-                );
         }
     }
 }
