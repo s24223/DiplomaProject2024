@@ -41,9 +41,7 @@ namespace BackEnd.Controllers
         [HttpPost("recruitment")]
         public async Task<IActionResult> CreateRecruitmentByPersonAsync
             (
-            [Required] Guid branchId,
-            [Required] Guid offerId,
-            [Required] DateTime created,
+            [Required] Guid branchOfferId,
             CreateRecruitmentRequestDto dto,
             CancellationToken cancellation
             )
@@ -52,9 +50,7 @@ namespace BackEnd.Controllers
             var result = await _recruitmentService.CreateByPersonAsync
                 (
                 claims,
-                branchId,
-                offerId,
-                created,
+                branchOfferId,
                 dto,
                 cancellation
                 );
@@ -65,10 +61,7 @@ namespace BackEnd.Controllers
         [HttpPut("recruitment/answer")]
         public async Task<IActionResult> SetAnswerRecruitmentByCompanyAsync
             (
-            [Required] Guid branchId,
-            [Required] Guid offerId,
-            [Required] DateTime created,
-            [Required] Guid personId,
+            [Required] Guid id,
             SetAnswerByCompanyRecrutmentDto dto,
             CancellationToken cancellation
             )
@@ -77,10 +70,7 @@ namespace BackEnd.Controllers
             var result = await _recruitmentService.SetAnswerByCompanyAsync
                 (
                 claims,
-                branchId,
-                offerId,
-                created,
-                personId,
+                id,
                 dto,
                 cancellation
                 );
@@ -91,11 +81,8 @@ namespace BackEnd.Controllers
         [Authorize]
         [HttpPost()]
         public async Task<IActionResult> CreateInternshipAsync
-            (
-            [Required] Guid branchId,
-            [Required] Guid offerId,
-            [Required] DateTime created,
-            [Required] Guid personId,
+        (
+            [Required] Guid recrutmentId,
             CreateInternshipRequestDto dto,
             CancellationToken cancellation
             )
@@ -104,10 +91,7 @@ namespace BackEnd.Controllers
             var result = await _internshipService.CreateAsync
                 (
                 claims,
-                branchId,
-                offerId,
-                created,
-                personId,
+                recrutmentId,
                 dto,
                 cancellation
                 );

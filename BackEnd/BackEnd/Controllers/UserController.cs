@@ -1,15 +1,12 @@
-﻿using Application.Features.User.UrlPart.DTOs.Create;
-using Application.Features.User.UrlPart.DTOs.Update;
-using Application.Features.User.UrlPart.Services;
-using Application.Features.User.UserPart.DTOs.Create;
-using Application.Features.User.UserPart.DTOs.LoginIn;
-using Application.Features.User.UserPart.DTOs.Refresh;
-using Application.Features.User.UserPart.DTOs.UpdateLogin;
-using Application.Features.User.UserPart.DTOs.UpdatePassword;
-using Application.Features.User.UserPart.Services;
-using Application.Features.User.UserProblemPart.DTOs.Create.Authorized;
-using Application.Features.User.UserProblemPart.DTOs.Create.Unauthorized;
-using Application.Features.User.UserProblemPart.Services;
+﻿using Application.Features.User.DTOs.CommandsUrl.Create;
+using Application.Features.User.DTOs.CommandsUrl.Update;
+using Application.Features.User.DTOs.CommandsUser.Create;
+using Application.Features.User.DTOs.CommandsUser.LoginIn;
+using Application.Features.User.DTOs.CommandsUser.Refresh;
+using Application.Features.User.DTOs.CommandsUser.UpdateLogin;
+using Application.Features.User.DTOs.CommandsUser.UpdatePassword;
+using Application.Features.User.Services.CommandsUrl;
+using Application.Features.User.Services.CommandsUser;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,23 +17,19 @@ namespace BackEnd.Controllers
     public class UserController : ControllerBase
     {
         //Values
-        private readonly IUrlService _urlService;
-        private readonly IUserService _userService;
-        private readonly IUserProblemService _userProblemService;
-
+        private readonly IUrlCommandService _urlService;
+        private readonly IUserCommandService _userService;
 
         //Cosntructors
         public UserController
             (
-            IUrlService urlService,
-            IUserService userService,
-            IUserProblemService userProblemService
+            IUrlCommandService urlService,
+            IUserCommandService userService
 
             )
         {
             _urlService = urlService;
             _userService = userService;
-            _userProblemService = userProblemService;
         }
 
 
@@ -133,7 +126,7 @@ namespace BackEnd.Controllers
         //================================================================================================================
         //UserProblem Part
         //DML
-        [AllowAnonymous]
+        /*[AllowAnonymous]
         [HttpPost("problems/unauthorized")]
         public async Task<IActionResult> CreateForUnauthorizedAsync
             (
@@ -171,7 +164,7 @@ namespace BackEnd.Controllers
             var result = await _userProblemService.AnnulForAuthorizedAsync(claims, idUserProblem, cancellation);
             return StatusCode(200, result);
         }
-
+*/
 
 
         //================================================================================================================

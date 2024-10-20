@@ -1,4 +1,4 @@
-﻿using Application.Database.Models;
+﻿using Application.Databases.Relational.Models;
 using Domain.Features.Address.Entities;
 using Domain.Features.Branch.Entities;
 using Domain.Features.BranchOffer.Entities;
@@ -9,7 +9,6 @@ using Domain.Features.Person.Entities;
 using Domain.Features.Recruitment.Entities;
 using Domain.Features.Url.Entities;
 using Domain.Features.User.Entities;
-using Domain.Features.UserProblem.Entities;
 
 namespace Application.Shared.Interfaces.EntityToDomainMappers
 {
@@ -17,7 +16,6 @@ namespace Application.Shared.Interfaces.EntityToDomainMappers
     {
         //User Module
         DomainUser ToDomainUser(User databaseUser);
-        DomainUserProblem ToDomainUserProblem(UserProblem databaseUserProblem);
         DomainUrl ToDomainUrl(Url databaseUrl);
 
         //Address Module

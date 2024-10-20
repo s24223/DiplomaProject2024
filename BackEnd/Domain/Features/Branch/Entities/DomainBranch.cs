@@ -42,7 +42,7 @@ namespace Domain.Features.Branch.Entities
         public IReadOnlyDictionary<BranchOfferId, DomainBranchOffer> BranchOffers => _branchOffers;
 
         //Adress
-        public AddressId AddressId { get; private set; } = null!;
+        public AddressId? AddressId { get; private set; } = null!;
         private DomainAddress _address = null!;
         public DomainAddress Address
         {
@@ -67,7 +67,7 @@ namespace Domain.Features.Branch.Entities
             (
             Guid? id,
             Guid companyId,
-            Guid addressId,
+            Guid? addressId,
             string? urlSegment,
             string name,
             string? description,
@@ -81,7 +81,7 @@ namespace Domain.Features.Branch.Entities
             //Values with no exeptions
             Name = name;
             CompanyId = new UserId(companyId);
-            AddressId = new AddressId(addressId);
+            AddressId = addressId == null ? null : new AddressId(addressId);
             Description = description;
         }
 
@@ -93,7 +93,7 @@ namespace Domain.Features.Branch.Entities
         public void AddBranchOffer(DomainBranchOffer domainBranchOffer)
         {
             if (
-                domainBranchOffer.Id.BranchId == Id &&
+                domainBranchOffer.BranchId == Id &&
                 !_branchOffers.ContainsKey(domainBranchOffer.Id)
                 )
             {

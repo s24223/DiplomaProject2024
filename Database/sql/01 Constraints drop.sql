@@ -1,130 +1,147 @@
 --======================================================================================
 --[User]
---Drop
+--Create
 ALTER TABLE [dbo].[User] DROP 
-CONSTRAINT Default_User_Id;
+CONSTRAINT User_Default_Id;
 ALTER TABLE [dbo].[User] DROP 
-CONSTRAINT Default_User_LastPasswordUpdate;
+CONSTRAINT User_Default_LastPasswordUpdate;
 ALTER TABLE [dbo].[User] DROP 
-CONSTRAINT UNIQUE_User_Login;
+CONSTRAINT User_Default_IsHideProfile;
+ALTER TABLE [dbo].[User] DROP 
+CONSTRAINT User_CHECK_IsHideProfile;
+ALTER TABLE [dbo].[User] DROP 
+CONSTRAINT User_UNIQUE_Login;
 
 --======================================================================================
---[UserProblem]
---Drop
-ALTER TABLE [dbo].[UserProblem] DROP 
-CONSTRAINT Default_UserProblem_Id;
-ALTER TABLE [dbo].[UserProblem] DROP 
-CONSTRAINT Default_UserProblem_Status;
-ALTER TABLE [dbo].[UserProblem] DROP 
-CONSTRAINT Default_UserProblem_Created;
-ALTER TABLE [dbo].[UserProblem] DROP 
-CONSTRAINT CHECK_UserProblem_Status;
+--[Notification]
+--Create
+ALTER TABLE [dbo].[Notification] DROP
+CONSTRAINT Notification_Default_Id;
+ALTER TABLE [dbo].[Notification] DROP
+CONSTRAINT Notification_Default_Created;
+ALTER TABLE [dbo].[Notification] DROP
+CONSTRAINT Notification_Default_IsReadedByUser;
+ALTER TABLE [dbo].[Notification] DROP
+CONSTRAINT Notification_CHECK_IsReadedByUser;
 
 --======================================================================================
 --[Url]
 --Create
 ALTER TABLE [dbo].[Url] DROP
-CONSTRAINT UNIQUE_Url_Path;
+CONSTRAINT Url_UNIQUE_Path;
 
+--======================================================================================
 --======================================================================================
 --[Person]
---Drop
+--Create
 ALTER TABLE [dbo].[Person] DROP
-CONSTRAINT Default_Person_Created;
+CONSTRAINT Person_Default_Created;
 ALTER TABLE [dbo].[Person] DROP
-CONSTRAINT Default_Person_IsStudent;
+CONSTRAINT Person_Default_IsStudent;
 ALTER TABLE [dbo].[Person] DROP
-CONSTRAINT Default_Person_IsPublicProfile;
+CONSTRAINT Person_Default_IsPublicProfile;
 ALTER TABLE [dbo].[Person] DROP
-CONSTRAINT CHECK_Person_IsStudent;
+CONSTRAINT Person_CHECK_IsStudent;
 ALTER TABLE [dbo].[Person] DROP
-CONSTRAINT CHECK_Person_IsPublicProfile;
+CONSTRAINT Person_CHECK_IsPublicProfile;
 ALTER TABLE [dbo].[Person] DROP
-CONSTRAINT CHECK_Person_BirthDate;
+CONSTRAINT Person_CHECK_BirthDate;
 ALTER TABLE [dbo].[Person] DROP
-CONSTRAINT UNIQUE_Person_UrlSegment;
+CONSTRAINT Person_UNIQUE_UrlSegment;
 ALTER TABLE [dbo].[Person] DROP
-CONSTRAINT UNIQUE_Person_ContactEmail;
+CONSTRAINT Person_UNIQUE_ContactEmail;
 ALTER TABLE [dbo].[Person] DROP
-CONSTRAINT UNIQUE_Person_ContactPhoneNum;
+CONSTRAINT Person_UNIQUE_ContactPhoneNum;
 
 --======================================================================================
+--======================================================================================
 --[Company]
---Drop
+--Create
 ALTER TABLE [dbo].[Company] DROP
-CONSTRAINT Default_Company_Created;
+CONSTRAINT Company_Default_Created;
 ALTER TABLE [dbo].[Company] DROP
-CONSTRAINT UNIQUE_Company_UrlSegment;
+CONSTRAINT Company_UNIQUE_UrlSegment;
 ALTER TABLE [dbo].[Company] DROP
-CONSTRAINT UNIQUE_Company_ContactEmail;
+CONSTRAINT Company_UNIQUE_ContactEmail;
 ALTER TABLE [dbo].[Company] DROP
-CONSTRAINT UNIQUE_Company_Name;
+CONSTRAINT Company_UNIQUE_Name;
 ALTER TABLE [dbo].[Company] DROP
-CONSTRAINT UNIQUE_Company_Regon;
+CONSTRAINT Company_UNIQUE_Regon;
 
 --======================================================================================
 --[Branch]
---Drop
+--Create
 ALTER TABLE [dbo].[Branch] DROP
-CONSTRAINT Default_Branch_Id;
+CONSTRAINT Branch_Default_Id;
 ALTER TABLE [dbo].[Branch] DROP
-CONSTRAINT UNIQUE_Branch_UrlSegment;
+CONSTRAINT Branch_UNIQUE_UrlSegment;
 
 --======================================================================================
 --[Offer]
---Drop
+--Create
 ALTER TABLE [dbo].[Offer] DROP
-CONSTRAINT Default_Offer_Id;
+CONSTRAINT Offer_Default_Id;
 ALTER TABLE [dbo].[Offer] DROP
-CONSTRAINT Default_Offer_IsForStudents;
+CONSTRAINT Offer_Default_IsForStudents;
 ALTER TABLE [dbo].[Offer] DROP
-CONSTRAINT CHECK_Offer_MinSalary;
+CONSTRAINT Offer_CHECK_MinSalary;
 ALTER TABLE [dbo].[Offer] DROP
-CONSTRAINT CHECK_Offer_MaxSalary;
+CONSTRAINT Offer_CHECK_MaxSalary;
 ALTER TABLE [dbo].[Offer] DROP
-CONSTRAINT CHECK_Offer_IsNegotiatedSalary;
+CONSTRAINT Offer_CHECK_IsNegotiatedSalary;
 ALTER TABLE [dbo].[Offer] DROP
-CONSTRAINT CHECK_Offer_IsForStudents;
+CONSTRAINT Offer_CHECK_IsForStudents;
 
 --======================================================================================
 --[BranchOffer]
---Drop
+--Create
 ALTER TABLE [dbo].[BranchOffer] DROP
-CONSTRAINT Default_BranchOffer_PublishStart;
+CONSTRAINT BranchOffer_Default_Id;
 ALTER TABLE [dbo].[BranchOffer] DROP
-CONSTRAINT Default_BranchOffer_PublishEnd;
+CONSTRAINT BranchOffer_Default_Created;
 ALTER TABLE [dbo].[BranchOffer] DROP
-CONSTRAINT Default_BranchOffer_LastUpdate;
+CONSTRAINT BranchOffer_Default_PublishStart;
 ALTER TABLE [dbo].[BranchOffer] DROP
-CONSTRAINT CHECK_BranchOffer_PublishEnd; 
+CONSTRAINT BranchOffer_Default_PublishEnd;
 ALTER TABLE [dbo].[BranchOffer] DROP
-CONSTRAINT CHECK_BranchOffer_WorkStart;
+CONSTRAINT BranchOffer_Default_LastUpdate;
 ALTER TABLE [dbo].[BranchOffer] DROP
-CONSTRAINT CHECK_BranchOffer_WorkEnd;
+CONSTRAINT BranchOffer_CHECK_PublishEnd;
+ALTER TABLE [dbo].[BranchOffer] DROP
+CONSTRAINT BranchOffer_CHECK_WorkStart;
+ALTER TABLE [dbo].[BranchOffer] DROP
+CONSTRAINT BranchOffer_CHECK_WorkEnd;
+ALTER TABLE [dbo].[BranchOffer] DROP
+CONSTRAINT BranchOffer_UNIQUE_CONNECTION;
 
 --======================================================================================
 --[Recruitment]
---Drop
-ALTER TABLE [dbo].[Recruitment] DROP 
-CONSTRAINT Default_Recruitment_ApplicationDate;
-ALTER TABLE [dbo].[Recruitment] DROP 
-CONSTRAINT CHECK_Recruitment_IsAccepted;
+--Create
+ALTER TABLE [dbo].[Recruitment] DROP
+CONSTRAINT Recruitment_Default_Id;
+ALTER TABLE [dbo].[Recruitment] DROP
+CONSTRAINT Recruitment_Default_Created;
+ALTER TABLE [dbo].[Recruitment] DROP
+CONSTRAINT Recruitment_CHECK_IsAccepted;
 
 --======================================================================================
 --[Internship]
---Drop
+--Create
 ALTER TABLE [dbo].[Internship] DROP
-CONSTRAINT Default_Internship_Id;
+CONSTRAINT Internship_Default_Created;
+ALTER TABLE [dbo].[Internship] DROP
+CONSTRAINT Internship_Default_ContractEndDate;
+
 
 --======================================================================================
 --[Comment]
---Drop
+--Create
 ALTER TABLE [dbo].[Comment] DROP
 CONSTRAINT CHECK_Comment_Evaluation;
 
 --======================================================================================
 --[Exception]
---Drop
+--Create
 ALTER TABLE [dbo].[Exception] DROP
 CONSTRAINT Default_Exception_Id;
 ALTER TABLE [dbo].[Exception] DROP
@@ -136,7 +153,7 @@ CONSTRAINT CHECK_Exception_Status;
 
 --======================================================================================
 --[Address]
---Drop
+--Create
 ALTER TABLE [dbo].[Address] DROP
 CONSTRAINT Default_Address_Id;
 

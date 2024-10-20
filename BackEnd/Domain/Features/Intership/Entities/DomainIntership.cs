@@ -1,23 +1,20 @@
-﻿using Domain.Features.Branch.ValueObjects.Identificators;
-using Domain.Features.BranchOffer.ValueObjects.Identificators;
-using Domain.Features.Comment.Entities;
+﻿using Domain.Features.Comment.Entities;
 using Domain.Features.Comment.ValueObjects.Identificators;
 using Domain.Features.Intership.ValueObjects;
-using Domain.Features.Intership.ValueObjects.Identificators;
-using Domain.Features.Offer.ValueObjects.Identificators;
 using Domain.Features.Recruitment.Entities;
 using Domain.Features.Recruitment.ValueObjects.Identificators;
-using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Providers;
 using Domain.Shared.Templates.Entities;
 
 namespace Domain.Features.Intership.Entities
 {
-    public class DomainIntership : Entity<IntershipId>
+    public class DomainIntership : Entity<RecrutmentId>
     {
         //Values
         public ContractNumber ContractNumber { get; private set; } = null!;
-
+        public DateTime Created { get; private set; }
+        public DateOnly ContractStartDate { get; private set; }
+        public DateOnly? ContractEndDate { get; private set; }
 
         //Refrences
         //Comments 
@@ -25,14 +22,13 @@ namespace Domain.Features.Intership.Entities
         public IReadOnlyDictionary<CommentId, DomainComment> Comments => _comments;
 
         //Recrutment 
-        public RecrutmentId RecrutmentId { get; private set; }
         private DomainRecruitment _recrutment = null!;
         public DomainRecruitment Recrutment
         {
             get { return _recrutment; }
             set
             {
-                if (_recrutment == null && value != null && value.Id == RecrutmentId)
+                if (_recrutment == null && value != null && value.Id == Id)
                 {
                     _recrutment = value;
                     _recrutment.Intership = this;
@@ -44,24 +40,18 @@ namespace Domain.Features.Intership.Entities
         //Cosntructor
         public DomainIntership
             (
-            Guid? id,
-            Guid personId,
-            Guid branchId,
-            Guid offerId,
-            DateTime created,
+            Guid id,
+            DateTime? created,
+            DateOnly contractStartDate,
+            DateOnly? contractEndDate,
             string contractNumber,
             IProvider provider
-            ) : base(new IntershipId(id), provider)
+            ) : base(new RecrutmentId(id), provider)
         {
             ContractNumber = new ContractNumber(contractNumber);
-
-            RecrutmentId = new RecrutmentId(
-                new BranchOfferId(
-                    new BranchId(branchId),
-                    new OfferId(offerId),
-                    created),
-                new UserId(personId)
-                );
+            Created = created ?? _provider.TimeProvider().GetDateTimeNow();
+            ContractStartDate = contractStartDate;
+            ContractEndDate = contractEndDate;
         }
 
 
@@ -78,9 +68,16 @@ namespace Domain.Features.Intership.Entities
             }
         }
 
-        public void Update(string contractNumber)
+        public void Update
+            (
+            string contractNumber,
+            DateOnly contractStartDate,
+            DateOnly? contractEndDate
+            )
         {
             ContractNumber = new ContractNumber(contractNumber);
+            ContractStartDate = contractStartDate;
+            ContractEndDate = contractEndDate;
         }
         //=====================================================================================================
         //=====================================================================================================

@@ -1,10 +1,9 @@
-﻿using Application.Database;
-using Application.Database.Models;
+﻿using Application.Databases.Relational;
+using Application.Databases.Relational.Models;
 using Application.Shared.Interfaces.EntityToDomainMappers;
 using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.Intership.Entities;
 using Domain.Features.Intership.Exceptions.Entities;
-using Domain.Features.Intership.ValueObjects.Identificators;
 using Domain.Features.Recruitment.Exceptions.Entities;
 using Domain.Features.Recruitment.ValueObjects.Identificators;
 using Domain.Features.User.ValueObjects.Identificators;
@@ -51,11 +50,11 @@ namespace Application.Features.Internship.InternshipPart.Interfaces
                 var recrutment = await GetDatabseRecruitmentAsync
                     (
                     companyId,
-                    intership.RecrutmentId,
+                    intership.Id,
                     cancellation
                     );
 
-                var databseIntership = new Application.Database.Models.Internship
+                var databseIntership = new Databases.Relational.Models.Internship
                 {
                     Recruitment = recrutment,
                     ContractNumber = intership.ContractNumber.Value,
@@ -101,7 +100,7 @@ namespace Application.Features.Internship.InternshipPart.Interfaces
         public async Task<DomainIntership> GetInternshipAsync
             (
             UserId companyId,
-            IntershipId intershipId,
+            RecrutmentId intershipId,
             CancellationToken cancellation
             )
         {
@@ -132,10 +131,7 @@ namespace Application.Features.Internship.InternshipPart.Interfaces
                 .Where(x =>
                     x.CompanyId == companyId.Value &&
                     x.BranchOffers.Any(y => y.Recruitments.Any(z =>
-                        z.OfferId == recrutmentId.BranchOfferId.OfferId.Value &&
-                        z.BranchId == recrutmentId.BranchOfferId.BranchId.Value &&
-                        z.Created == recrutmentId.BranchOfferId.Created &&
-                        z.PersonId == recrutmentId.PersonId.Value &&
+                        z.Id == recrutmentId.Value &&
                         z.IsAccepted == databaseBoolTrue
                     ))
                 ).FirstOrDefaultAsync(cancellation);
@@ -147,10 +143,10 @@ namespace Application.Features.Internship.InternshipPart.Interfaces
             return pathToRecrutment.BranchOffers.First().Recruitments.First();
         }
 
-        private async Task<Application.Database.Models.Internship> GetDatabseInternshipAsync
+        private async Task<Databases.Relational.Models.Internship> GetDatabseInternshipAsync
             (
             UserId companyId,
-            IntershipId intershipId,
+            RecrutmentId intershipId,
             CancellationToken cancellation
             )
         {
@@ -158,22 +154,21 @@ namespace Application.Features.Internship.InternshipPart.Interfaces
             var pathToRecrutment = await _context.Branches
                 .Include(x => x.BranchOffers)
                 .ThenInclude(x => x.Recruitments)
-                .ThenInclude(x => x.Internships)
+                .ThenInclude(x => x.Internship)
                 .Where(x =>
                     x.CompanyId == companyId.Value &&
                     x.BranchOffers.Any(y =>
                         y.Recruitments.Any(z =>
-                            z.Internships.Any(e =>
-                                e.Id == intershipId.Value
-
-                    )))
+                            z.Internship != null &&
+                             z.Internship.Id == intershipId.Value
+                            ))
                 ).FirstOrDefaultAsync(cancellation);
             if (pathToRecrutment == null)
             {
                 throw new IntershipException(Messages.Intership_Ids_NotFound);
             }
 
-            return pathToRecrutment.BranchOffers.First().Recruitments.First().Internships.First();
+            return pathToRecrutment.BranchOffers.First().Recruitments.First().Internship;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Application.Database.Models;
+﻿using Application.Databases.Relational.Models;
 using Domain.Features.Address.Entities;
 using Domain.Features.Branch.Entities;
 using Domain.Features.BranchOffer.Entities;
@@ -9,7 +9,6 @@ using Domain.Features.Person.Entities;
 using Domain.Features.Recruitment.Entities;
 using Domain.Features.Url.Entities;
 using Domain.Features.User.Entities;
-using Domain.Features.UserProblem.Entities;
 using Domain.Shared.Factories;
 
 namespace Application.Shared.Interfaces.EntityToDomainMappers
@@ -46,20 +45,6 @@ namespace Application.Shared.Interfaces.EntityToDomainMappers
                 );
         }
 
-        public DomainUserProblem ToDomainUserProblem(UserProblem databaseUserProblem)
-        {
-            return _domainFactory.CreateDomainUserProblem
-                (
-                databaseUserProblem.Id,
-                databaseUserProblem.Created,
-                databaseUserProblem.UserMessage,
-                databaseUserProblem.Response,
-                databaseUserProblem.PreviousProblemId,
-                databaseUserProblem.Email,
-                databaseUserProblem.Status,
-                databaseUserProblem.UserId
-                );
-        }
 
         public DomainUrl ToDomainUrl(Url databaseUrl)
         {
@@ -125,7 +110,8 @@ namespace Application.Shared.Interfaces.EntityToDomainMappers
                 databaseCompany.ContactEmail,
                 databaseCompany.Name,
                 databaseCompany.Regon,
-                databaseCompany.Description
+                databaseCompany.Description,
+                databaseCompany.Created
                 );
         }
 
@@ -160,6 +146,7 @@ namespace Application.Shared.Interfaces.EntityToDomainMappers
         {
             return _domainFactory.CreateDomainBranchOffer
                 (
+                databaseBranchOffer.Id,
                 databaseBranchOffer.BranchId,
                 databaseBranchOffer.OfferId,
                 databaseBranchOffer.Created,
@@ -197,11 +184,10 @@ namespace Application.Shared.Interfaces.EntityToDomainMappers
         {
             return _domainFactory.CreateDomainRecruitment
                 (
+                databaseRecruitment.Id,
                 databaseRecruitment.PersonId,
-                databaseRecruitment.BranchId,
-                databaseRecruitment.OfferId,
+                databaseRecruitment.BranchOfferId,
                 databaseRecruitment.Created,
-                databaseRecruitment.ApplicationDate,
                 databaseRecruitment.PersonMessage,
                 databaseRecruitment.CompanyResponse,
                 databaseRecruitment.IsAccepted
@@ -213,10 +199,9 @@ namespace Application.Shared.Interfaces.EntityToDomainMappers
             return _domainFactory.CreateDomainIntership
                 (
                 databaseIntership.Id,
-                databaseIntership.PersonId,
-                databaseIntership.BranchId,
-                databaseIntership.OfferId,
                 databaseIntership.Created,
+                databaseIntership.ContractStartDate,
+                databaseIntership.ContractEndDate,
                 databaseIntership.ContractNumber
                 );
         }

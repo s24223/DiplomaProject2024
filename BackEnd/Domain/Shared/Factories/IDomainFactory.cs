@@ -9,7 +9,6 @@ using Domain.Features.Person.Entities;
 using Domain.Features.Recruitment.Entities;
 using Domain.Features.Url.Entities;
 using Domain.Features.User.Entities;
-using Domain.Features.UserProblem.Entities;
 
 namespace Domain.Shared.Factories
 {
@@ -40,56 +39,10 @@ namespace Domain.Shared.Factories
         DomainUser CreateDomainUser
             (
             Guid id,
-            string login,
+            string? login,
             DateTime? lastLoginIn,
             DateTime lastPasswordUpdate
             );
-
-
-
-        //UserProblem Part
-
-        /// <summary>
-        /// For Creating New DomainUserProblem
-        /// </summary>
-        /// <param name="userMessage"></param>
-        /// <param name="previousProblemId"></param>
-        /// <param name="email"></param>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        DomainUserProblem CreateDomainUserProblem
-            (
-            string userMessage,
-            Guid? previousProblemId,
-            string? email,
-            Guid? userId
-            );
-
-        /// <summary>
-        /// For creating Regular DomainUserProblem, mostly for maping from Database on Domain
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="dateTime"></param>
-        /// <param name="userMessage"></param>
-        /// <param name="response"></param>
-        /// <param name="previousProblemId"></param>
-        /// <param name="email"></param>
-        /// <param name="status"></param>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        DomainUserProblem CreateDomainUserProblem
-            (
-            Guid id,
-            DateTime created,
-            string userMessage,
-            string? response,
-            Guid? previousProblemId,
-            string? email,
-            string status,
-            Guid? userId
-            );
-
-
 
         //DomainUrl Part
 
@@ -141,7 +94,7 @@ namespace Domain.Shared.Factories
         /// For Creating New DomainPerson
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="urlSegment"></param>
+        /// <param name="segmentUrl"></param>
         /// <param name="contactEmail"></param>
         /// <param name="name"></param>
         /// <param name="surname"></param>
@@ -155,7 +108,7 @@ namespace Domain.Shared.Factories
         DomainPerson CreateDomainPerson
             (
             Guid id,
-            string? urlSegment,
+            string? segmentUrl,
             string contactEmail,
             string name,
             string surname,
@@ -171,7 +124,7 @@ namespace Domain.Shared.Factories
         /// For creating Regular DomainPerson, mostly for maping from Database on Domain
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="urlSegment"></param>
+        /// <param name="segmentUrl"></param>
         /// <param name="created"></param>
         /// <param name="contactEmail"></param>
         /// <param name="name"></param>
@@ -186,11 +139,11 @@ namespace Domain.Shared.Factories
         DomainPerson CreateDomainPerson
             (
             Guid id,
-            string? urlSegment,
+            string? segmentUrl,
             DateOnly created,
-            string contactEmail,
-            string name,
-            string surname,
+            string? contactEmail,
+            string? name,
+            string? surname,
             DateOnly? birthDate,
             string? contactPhoneNum,
             string? description,
@@ -211,7 +164,7 @@ namespace Domain.Shared.Factories
         /// For Creating New DomainCompany
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="urlSegment"></param>
+        /// <param name="segmentUrl"></param>
         /// <param name="contactEmail"></param>
         /// <param name="name"></param>
         /// <param name="regon"></param>
@@ -220,7 +173,7 @@ namespace Domain.Shared.Factories
         DomainCompany CreateDomainCompany
             (
             Guid id,
-            string? urlSegment,
+            string? segmentUrl,
             string contactEmail,
             string name,
             string regon,
@@ -231,7 +184,7 @@ namespace Domain.Shared.Factories
         /// For creating Regular DomainCompany, mostly for maping from Database on Domain
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="urlSegment"></param>
+        /// <param name="segmentUrl"></param>
         /// <param name="contactEmail"></param>
         /// <param name="name"></param>
         /// <param name="regon"></param>
@@ -241,10 +194,10 @@ namespace Domain.Shared.Factories
         DomainCompany CreateDomainCompany
             (
             Guid id,
-            string? urlSegment,
-            string contactEmail,
-            string name,
-            string regon,
+            string? segmentUrl,
+            string? contactEmail,
+            string? name,
+            string? regon,
             string? description,
             DateOnly created
             );
@@ -254,7 +207,7 @@ namespace Domain.Shared.Factories
         /// </summary>
         /// <param name="companyId"></param>
         /// <param name="addressId"></param>
-        /// <param name="urlSegment"></param>
+        /// <param name="segmentUrl"></param>
         /// <param name="name"></param>
         /// <param name="description"></param>
         /// <returns></returns>
@@ -262,7 +215,7 @@ namespace Domain.Shared.Factories
             (
             Guid companyId,
             Guid addressId,
-            string? urlSegment,
+            string? segmentUrl,
             string name,
             string? description
             );
@@ -273,7 +226,7 @@ namespace Domain.Shared.Factories
         /// <param name="id"></param>
         /// <param name="companyId"></param>
         /// <param name="addressId"></param>
-        /// <param name="urlSegment"></param>
+        /// <param name="segmentUrl"></param>
         /// <param name="name"></param>
         /// <param name="description"></param>
         /// <returns></returns>
@@ -281,9 +234,9 @@ namespace Domain.Shared.Factories
             (
             Guid id,
             Guid companyId,
-            Guid addressId,
-            string? urlSegment,
-            string name,
+            Guid? addressId,
+            string? segmentUrl,
+            string? name,
             string? description
             );
 
@@ -390,12 +343,12 @@ namespace Domain.Shared.Factories
         /// <returns></returns>
         DomainBranchOffer CreateDomainBranchOffer
            (
-           Guid branchId,
-           Guid offerId,
-           DateTime publishStart,
-           DateTime? publishEnd,
-           DateOnly? workStart,
-           DateOnly? workEnd
+            Guid branchId,
+            Guid offerId,
+            DateTime publishStart,
+            DateTime? publishEnd,
+            DateOnly? workStart,
+            DateOnly? workEnd
            );
 
         /// <summary>
@@ -412,14 +365,15 @@ namespace Domain.Shared.Factories
         /// <returns></returns>
         DomainBranchOffer CreateDomainBranchOffer
            (
-           Guid branchId,
-           Guid offerId,
-           DateTime created,
-           DateTime publishStart,
-           DateTime? publishEnd,
-           DateOnly? workStart,
-           DateOnly? workEnd,
-           DateTime lastUpdate
+            Guid id,
+            Guid branchId,
+            Guid offerId,
+            DateTime created,
+            DateTime publishStart,
+            DateTime? publishEnd,
+            DateOnly? workStart,
+            DateOnly? workEnd,
+            DateTime lastUpdate
            );
 
         //=================================================================================================
@@ -439,9 +393,7 @@ namespace Domain.Shared.Factories
         DomainRecruitment CreateDomainRecruitment
             (
             Guid personId,
-            Guid branchId,
-            Guid offerId,
-            DateTime created,
+            Guid branchOfferId,
             string? personMessage
             );
 
@@ -459,11 +411,10 @@ namespace Domain.Shared.Factories
         /// <returns></returns>
         DomainRecruitment CreateDomainRecruitment
             (
+            Guid? id,
             Guid personId,
-            Guid branchId,
-            Guid offerId,
+            Guid branchOfferId,
             DateTime created,
-            DateTime? applicationDate,
             string? personMessage,
             string? companyResponse,
             string? isAccepted
@@ -480,10 +431,9 @@ namespace Domain.Shared.Factories
         /// <returns></returns>
         DomainIntership CreateDomainInternship
             (
-            Guid personId,
-            Guid branchId,
-            Guid offerId,
-            DateTime created,
+            Guid id,
+            DateOnly contractStartDate,
+            DateOnly? contractEndDate,
             string contractNumber
             );
 
@@ -500,10 +450,9 @@ namespace Domain.Shared.Factories
         DomainIntership CreateDomainIntership
             (
             Guid id,
-            Guid personId,
-            Guid branchId,
-            Guid offerId,
             DateTime created,
+            DateOnly contractStartDate,
+            DateOnly? contractEndDate,
             string contractNumber
             );
 

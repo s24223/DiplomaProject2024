@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2024-10-05 12:17:22.219
+-- Last modification date: 2024-10-20 12:01:06.525
 
 -- tables
 -- Table: Address
@@ -32,24 +32,25 @@ CREATE TABLE AdministrativeType (
 -- Table: Branch
 CREATE TABLE Branch (
     CompanyId uniqueidentifier  NOT NULL,
-    AddressId uniqueidentifier  NOT NULL,
+    AddressId uniqueidentifier  NULL,
     Id uniqueidentifier  NOT NULL,
     UrlSegment varchar(100)  NULL,
-    Name nvarchar(100)  NOT NULL,
-    Description ntext  NULL,
+    Name nvarchar(100)  NULL,
+    Description nvarchar(max)  NULL,
     CONSTRAINT Branch_pk PRIMARY KEY  (Id)
 );
 
 -- Table: BranchCharacteristicsList
 CREATE TABLE BranchCharacteristicsList (
-    CharacteristicId int  NOT NULL,
     BranchId uniqueidentifier  NOT NULL,
+    CharacteristicId int  NOT NULL,
     QualityId int  NULL,
-    CONSTRAINT BranchCharacteristicsList_pk PRIMARY KEY  (CharacteristicId,BranchId)
+    CONSTRAINT BranchCharacteristicsList_pk PRIMARY KEY  (BranchId)
 );
 
 -- Table: BranchOffer
 CREATE TABLE BranchOffer (
+    Id uniqueidentifier  NOT NULL,
     BranchId uniqueidentifier  NOT NULL,
     OfferId uniqueidentifier  NOT NULL,
     Created datetime  NOT NULL,
@@ -58,7 +59,7 @@ CREATE TABLE BranchOffer (
     WorkStart date  NULL,
     WorkEnd date  NULL,
     LastUpdate datetime  NOT NULL,
-    CONSTRAINT BranchOffer_pk PRIMARY KEY  (BranchId,OfferId,Created)
+    CONSTRAINT BranchOffer_pk PRIMARY KEY  (Id)
 );
 
 -- Table: Characteristic
@@ -90,9 +91,9 @@ CREATE TABLE Comment (
     InternshipId uniqueidentifier  NOT NULL,
     CommentTypeId int  NOT NULL,
     Created datetime  NOT NULL,
-    Description ntext  NOT NULL,
+    Description nvarchar(max)  NOT NULL,
     Evaluation int  NULL,
-    CONSTRAINT Comment_pk PRIMARY KEY  (CommentTypeId,InternshipId,Created)
+    CONSTRAINT Comment_pk PRIMARY KEY  (CommentTypeId,Created,InternshipId)
 );
 
 -- Table: CommentType
@@ -107,12 +108,12 @@ CREATE TABLE CommentType (
 CREATE TABLE Company (
     UserId uniqueidentifier  NOT NULL,
     Created date  NOT NULL,
-    Logo image  NULL,
+    Name nvarchar(100)  NULL,
+    Regon varchar(14)  NULL,
+    ContactEmail nvarchar(100)  NULL,
     UrlSegment varchar(100)  NULL,
-    ContactEmail nvarchar(100)  NOT NULL,
-    Name nvarchar(100)  NOT NULL,
-    Regon varchar(15)  NOT NULL,
-    Description ntext  NULL,
+    LogoUrl nvarchar(max)  NULL,
+    Description nvarchar(max)  NULL,
     CONSTRAINT Company_pk PRIMARY KEY  (UserId)
 );
 
@@ -128,28 +129,59 @@ CREATE TABLE Exception (
     Id uniqueidentifier  NOT NULL,
     Created datetime  NOT NULL,
     ExceptionType varchar(100)  NOT NULL,
-    Message ntext  NOT NULL,
-    AdditionalData ntext  NULL,
+    Message nvarchar(max)  NOT NULL,
+    AdditionalData nvarchar(max)  NULL,
     Status char(1)  NOT NULL,
     CONSTRAINT Exception_pk PRIMARY KEY  (Id)
 );
 
 -- Table: Internship
 CREATE TABLE Internship (
-    PersonId uniqueidentifier  NOT NULL,
-    BranchId uniqueidentifier  NOT NULL,
-    OfferId uniqueidentifier  NOT NULL,
-    Created datetime  NOT NULL,
     Id uniqueidentifier  NOT NULL,
     ContractNumber nvarchar(100)  NOT NULL,
+    Created datetime  NOT NULL,
+    ContractStartDate date  NOT NULL,
+    ContractEndDate date  NULL,
     CONSTRAINT Internship_pk PRIMARY KEY  (Id)
+);
+
+-- Table: Notification
+CREATE TABLE Notification (
+    UserId uniqueidentifier  NULL,
+    Email nvarchar(100)  NULL,
+    NotificationSenderId int  NOT NULL,
+    NotificationStatusId int  NOT NULL,
+    Id uniqueidentifier  NOT NULL,
+    Created datetime  NOT NULL,
+    Completed datetime  NULL,
+    PreviousProblemId uniqueidentifier  NULL,
+    IdAppProblem uniqueidentifier  NULL,
+    UserMessage nvarchar(max)  NULL,
+    Response nvarchar(max)  NULL,
+    IsReadedByUser char(1)  NOT NULL,
+    CONSTRAINT Notification_pk PRIMARY KEY  (Id)
+);
+
+-- Table: NotificationSender
+CREATE TABLE NotificationSender (
+    Id int  NOT NULL,
+    Name nvarchar(100)  NOT NULL,
+    Description nvarchar(200)  NOT NULL,
+    CONSTRAINT NotificationSender_pk PRIMARY KEY  (Id)
+);
+
+-- Table: NotificationStatus
+CREATE TABLE NotificationStatus (
+    Id int  NOT NULL,
+    Name nvarchar(100)  NOT NULL,
+    CONSTRAINT NotificationStatus_pk PRIMARY KEY  (Id)
 );
 
 -- Table: Offer
 CREATE TABLE Offer (
     Id uniqueidentifier  NOT NULL,
     Name nvarchar(100)  NOT NULL,
-    Description ntext  NOT NULL,
+    Description nvarchar(max)  NOT NULL,
     MinSalary money  NULL,
     MaxSalary money  NULL,
     IsNegotiatedSalary char(1)  NULL,
@@ -159,10 +191,10 @@ CREATE TABLE Offer (
 
 -- Table: OfferCharacteristicsList
 CREATE TABLE OfferCharacteristicsList (
-    CharacteristicId int  NOT NULL,
     OfferId uniqueidentifier  NOT NULL,
+    CharacteristicId int  NOT NULL,
     QualityId int  NULL,
-    CONSTRAINT OfferCharacteristicsList_pk PRIMARY KEY  (CharacteristicId,OfferId)
+    CONSTRAINT OfferCharacteristicsList_pk PRIMARY KEY  (OfferId)
 );
 
 -- Table: Person
@@ -170,14 +202,14 @@ CREATE TABLE Person (
     UserId uniqueidentifier  NOT NULL,
     AddressId uniqueidentifier  NULL,
     Created date  NOT NULL,
-    Logo image  NULL,
-    UrlSegment varchar(100)  NULL,
-    ContactEmail nvarchar(100)  NOT NULL,
-    Name nvarchar(100)  NOT NULL,
-    Surname nvarchar(100)  NOT NULL,
+    Name nvarchar(100)  NULL,
+    Surname nvarchar(100)  NULL,
     BirthDate date  NULL,
-    ContactPhoneNum varchar(20)  NULL,
-    Description ntext  NULL,
+    ContactEmail nvarchar(100)  NULL,
+    ContactPhoneNum varchar(11)  NULL,
+    UrlSegment varchar(100)  NULL,
+    LogoUrl nvarchar(max)  NULL,
+    Description nvarchar(max)  NULL,
     IsStudent char(1)  NOT NULL,
     IsPublicProfile char(1)  NOT NULL,
     CONSTRAINT Person_pk PRIMARY KEY  (UserId)
@@ -185,10 +217,10 @@ CREATE TABLE Person (
 
 -- Table: PersonCharacteristicsList
 CREATE TABLE PersonCharacteristicsList (
-    CharacteristicId int  NOT NULL,
     PersonId uniqueidentifier  NOT NULL,
+    CharacteristicId int  NOT NULL,
     QualityId int  NULL,
-    CONSTRAINT PersonCharacteristicsList_pk PRIMARY KEY  (CharacteristicId,PersonId)
+    CONSTRAINT PersonCharacteristicsList_pk PRIMARY KEY  (PersonId)
 );
 
 -- Table: Quality
@@ -203,15 +235,14 @@ CREATE TABLE Quality (
 -- Table: Recruitment
 CREATE TABLE Recruitment (
     PersonId uniqueidentifier  NOT NULL,
-    BranchId uniqueidentifier  NOT NULL,
-    OfferId uniqueidentifier  NOT NULL,
+    BranchOfferId uniqueidentifier  NOT NULL,
+    Id uniqueidentifier  NOT NULL,
     Created datetime  NOT NULL,
-    ApplicationDate datetime  NOT NULL,
-    PersonMessage ntext  NULL,
-    CompanyResponse ntext  NULL,
+    CvUrl nvarchar(100)  NULL,
+    PersonMessage nvarchar(max)  NULL,
+    CompanyResponse nvarchar(max)  NULL,
     IsAccepted char(1)  NULL,
-    CV image  NULL,
-    CONSTRAINT Recruitment_pk PRIMARY KEY  (PersonId,BranchId,OfferId,Created)
+    CONSTRAINT Recruitment_pk PRIMARY KEY  (Id)
 );
 
 -- Table: Street
@@ -229,7 +260,7 @@ CREATE TABLE Url (
     Created datetime  NOT NULL,
     Path nvarchar(800)  NOT NULL,
     Name nvarchar(100)  NULL,
-    Description ntext  NULL,
+    Description nvarchar(max)  NULL,
     CONSTRAINT Url_pk PRIMARY KEY  (Created,UrlTypeId,UserId)
 );
 
@@ -244,27 +275,18 @@ CREATE TABLE UrlType (
 -- Table: User
 CREATE TABLE "User" (
     Id uniqueidentifier  NOT NULL,
-    Login nvarchar(100)  NOT NULL,
-    Password nvarchar(max)  NOT NULL,
+    Login nvarchar(100)  NULL,
     Salt nvarchar(max)  NOT NULL,
+    Password nvarchar(max)  NOT NULL,
+    CreatedProfileUrlSegment nvarchar(max)  NULL,
+    LastPasswordUpdate datetime  NOT NULL,
+    LastLoginIn datetime  NULL,
     RefreshToken nvarchar(max)  NULL,
     ExpiredToken datetime  NULL,
-    LastLoginIn datetime  NULL,
-    LastPasswordUpdate datetime  NOT NULL,
+    ResetPasswordInitiated datetime  NULL,
+    ResetPasswordUrlSegment nvarchar(max)  NULL,
+    IsHideProfile char(1)  NOT NULL,
     CONSTRAINT User_pk PRIMARY KEY  (Id)
-);
-
--- Table: UserProblem
-CREATE TABLE UserProblem (
-    Id uniqueidentifier  NOT NULL,
-    UserId uniqueidentifier  NULL,
-    Created datetime  NOT NULL,
-    UserMessage ntext  NOT NULL,
-    Response ntext  NULL,
-    PreviousProblemId uniqueidentifier  NULL,
-    Email nvarchar(100)  NULL,
-    Status char(1)  NOT NULL,
-    CONSTRAINT UserProblem_pk PRIMARY KEY  (Id)
 );
 
 -- foreign keys
@@ -272,6 +294,11 @@ CREATE TABLE UserProblem (
 ALTER TABLE Address ADD CONSTRAINT Address_Division
     FOREIGN KEY (DivisionId)
     REFERENCES AdministrativeDivision (Id);
+
+-- Reference: Address_Street (table: Address)
+ALTER TABLE Address ADD CONSTRAINT Address_Street
+    FOREIGN KEY (StreetId)
+    REFERENCES Street (Id);
 
 -- Reference: AdministrativeDivision_AdministrativeType (table: AdministrativeDivision)
 ALTER TABLE AdministrativeDivision ADD CONSTRAINT AdministrativeDivision_AdministrativeType
@@ -343,11 +370,6 @@ ALTER TABLE Company ADD CONSTRAINT Company_User
     FOREIGN KEY (UserId)
     REFERENCES "User" (Id);
 
--- Reference: Copy_of_Address_Street (table: Address)
-ALTER TABLE Address ADD CONSTRAINT Copy_of_Address_Street
-    FOREIGN KEY (StreetId)
-    REFERENCES Street (Id);
-
 -- Reference: DivisionStreet_AdministrativeDivision (table: DivisionStreet)
 ALTER TABLE DivisionStreet ADD CONSTRAINT DivisionStreet_AdministrativeDivision
     FOREIGN KEY (DivisionId)
@@ -365,8 +387,23 @@ ALTER TABLE AdministrativeDivision ADD CONSTRAINT Division_Division
 
 -- Reference: Internship_Recruitment (table: Internship)
 ALTER TABLE Internship ADD CONSTRAINT Internship_Recruitment
-    FOREIGN KEY (PersonId,BranchId,OfferId,Created)
-    REFERENCES Recruitment (PersonId,BranchId,OfferId,Created);
+    FOREIGN KEY (Id)
+    REFERENCES Recruitment (Id);
+
+-- Reference: Notification_NotificationSender (table: Notification)
+ALTER TABLE Notification ADD CONSTRAINT Notification_NotificationSender
+    FOREIGN KEY (NotificationSenderId)
+    REFERENCES NotificationSender (Id);
+
+-- Reference: Notification_NotificationStatus (table: Notification)
+ALTER TABLE Notification ADD CONSTRAINT Notification_NotificationStatus
+    FOREIGN KEY (NotificationStatusId)
+    REFERENCES NotificationStatus (Id);
+
+-- Reference: Notification_User (table: Notification)
+ALTER TABLE Notification ADD CONSTRAINT Notification_User
+    FOREIGN KEY (UserId)
+    REFERENCES "User" (Id);
 
 -- Reference: OfferCharacteristicsList_Characteristic (table: OfferCharacteristicsList)
 ALTER TABLE OfferCharacteristicsList ADD CONSTRAINT OfferCharacteristicsList_Characteristic
@@ -415,8 +452,8 @@ ALTER TABLE Quality ADD CONSTRAINT Quality_CharacteristicType
 
 -- Reference: Recruitment_BranchOffer (table: Recruitment)
 ALTER TABLE Recruitment ADD CONSTRAINT Recruitment_BranchOffer
-    FOREIGN KEY (BranchId,OfferId,Created)
-    REFERENCES BranchOffer (BranchId,OfferId,Created);
+    FOREIGN KEY (BranchOfferId)
+    REFERENCES BranchOffer (Id);
 
 -- Reference: Recruitment_Person (table: Recruitment)
 ALTER TABLE Recruitment ADD CONSTRAINT Recruitment_Person
@@ -435,11 +472,6 @@ ALTER TABLE Url ADD CONSTRAINT Url_UrlType
 
 -- Reference: Url_User (table: Url)
 ALTER TABLE Url ADD CONSTRAINT Url_User
-    FOREIGN KEY (UserId)
-    REFERENCES "User" (Id);
-
--- Reference: UserProblem_User (table: UserProblem)
-ALTER TABLE UserProblem ADD CONSTRAINT UserProblem_User
     FOREIGN KEY (UserId)
     REFERENCES "User" (Id);
 

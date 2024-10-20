@@ -1,23 +1,19 @@
 using Application.Features.Addresses.Interfaces;
 using Application.Features.Addresses.Services;
-using Application.Features.Companies.BranchOfferPart.Interfaces;
-using Application.Features.Companies.BranchOfferPart.Services;
-using Application.Features.Companies.BranchPart.Interfaces;
-using Application.Features.Companies.BranchPart.Services;
-using Application.Features.Companies.CompanyPart.Interfaces;
-using Application.Features.Companies.CompanyPart.Services;
+using Application.Features.Companies.Interfaces.CommandsBranchOffer;
+using Application.Features.Companies.Interfaces.CommandsCompanyBranch;
+using Application.Features.Companies.Services.CommandsBranchOffer;
+using Application.Features.Companies.Services.CommandsCompanyBranch;
 using Application.Features.Internship.InternshipPart.Interfaces;
 using Application.Features.Internship.InternshipPart.Services;
 using Application.Features.Internship.RecrutmentPart.Interfaces;
 using Application.Features.Internship.RecrutmentPart.Services;
 using Application.Features.Person.Interfaces;
 using Application.Features.Person.Services;
-using Application.Features.User.UrlPart.Interfaces;
-using Application.Features.User.UrlPart.Services;
-using Application.Features.User.UserPart.Interfaces;
-using Application.Features.User.UserPart.Services;
-using Application.Features.User.UserProblemPart.Interfaces;
-using Application.Features.User.UserProblemPart.Services;
+using Application.Features.User.Interfaces.CommandsUrl;
+using Application.Features.User.Interfaces.CommandsUser;
+using Application.Features.User.Services.CommandsUrl;
+using Application.Features.User.Services.CommandsUser;
 using Application.Shared.Interfaces.EntityToDomainMappers;
 using Application.Shared.Interfaces.Exceptions;
 using Application.Shared.Services.Authentication;
@@ -42,16 +38,12 @@ namespace Application
 
 
             //User Part
-            serviceCollection.AddTransient<IUserRepository, UserRepository>();
-            serviceCollection.AddTransient<IUserService, UserService>();
-
-            //UserProblem Part
-            serviceCollection.AddTransient<IUserProblemRepository, UserProblemRepository>();
-            serviceCollection.AddTransient<IUserProblemService, UserProblemService>();
+            serviceCollection.AddTransient<IUserCommandRepository, UserCommandRepository>();
+            serviceCollection.AddTransient<IUserCommandService, UserCommandService>();
 
             //Url Part
-            serviceCollection.AddTransient<IUrlRepository, UrlRepository>();
-            serviceCollection.AddTransient<IUrlService, UrlService>();
+            serviceCollection.AddTransient<IUrlCommandRepository, UrlCommandRepository>();
+            serviceCollection.AddTransient<IUrlCommandService, UrlCommandService>();
 
             //Address Part
             serviceCollection.AddTransient<IAddressRepository, AddressRepository>();

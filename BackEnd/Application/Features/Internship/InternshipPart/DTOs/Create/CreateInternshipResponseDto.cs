@@ -3,5 +3,6 @@
     public class CreateInternshipResponseDto
     {
         public Guid InternshipId { get; set; }
+
     }
 }

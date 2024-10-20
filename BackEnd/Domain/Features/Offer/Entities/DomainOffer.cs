@@ -62,7 +62,7 @@ namespace Domain.Features.Offer.Entities
         public void AddAddBranchOffer(DomainBranchOffer domainBranchOffer)
         {
             if (
-                domainBranchOffer.Id.OfferId == Id &&
+                domainBranchOffer.OfferId == Id &&
                 !_branchOffers.ContainsKey(domainBranchOffer.Id)
                 )
             {

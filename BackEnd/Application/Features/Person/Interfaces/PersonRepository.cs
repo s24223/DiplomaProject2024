@@ -1,4 +1,4 @@
-﻿using Application.Database;
+﻿using Application.Databases.Relational;
 using Application.Shared.Interfaces.EntityToDomainMappers;
 using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.Person.Entities;
@@ -45,7 +45,7 @@ namespace Application.Features.Person.Interfaces
         {
             try
             {
-                var inputDatabasePerson = new Database.Models.Person
+                var inputDatabasePerson = new Databases.Relational.Models.Person
                 {
                     UserId = person.Id.Value,
                     UrlSegment = person.UrlSegment == null ? null : person.UrlSegment.Value,
@@ -62,7 +62,7 @@ namespace Application.Features.Person.Interfaces
                 await _context.People.AddAsync(inputDatabasePerson, cancellation);
                 await _context.SaveChangesAsync(cancellation);
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 throw _exceptionRepository.ConvertEFDbException(ex);
             }
@@ -87,7 +87,7 @@ namespace Application.Features.Person.Interfaces
 
                 await _context.SaveChangesAsync(cancellation);
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 throw _exceptionRepository.ConvertEFDbException(ex);
             }
@@ -104,7 +104,7 @@ namespace Application.Features.Person.Interfaces
         //=================================================================================================
         //=================================================================================================
         //Pivate Methods
-        private async Task<Application.Database.Models.Person> GetDtabasePersonAsync
+        private async Task<Databases.Relational.Models.Person> GetDtabasePersonAsync
             (
             UserId id,
             CancellationToken cancellation

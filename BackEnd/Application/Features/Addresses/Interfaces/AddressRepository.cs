@@ -1,5 +1,5 @@
-﻿using Application.Database;
-using Application.Database.Models;
+﻿using Application.Databases.Relational;
+using Application.Databases.Relational.Models;
 using Application.Features.Addresses.DTOs.Select.Collocations;
 using Application.Features.Addresses.DTOs.Select.Shared;
 using Application.Shared.Interfaces.EntityToDomainMappers;
@@ -87,7 +87,7 @@ namespace Application.Features.Addresses.Interfaces
                         );
                 }
 
-                var databaseAddress = new Database.Models.Address
+                var databaseAddress = new Address
                 {
                     DivisionId = address.DivisionId.Value,
                     StreetId = address.StreetId.Value,

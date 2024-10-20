@@ -1,4 +1,4 @@
-﻿using Application.Database.Models;
+﻿using Application.Databases.Relational.Models;
 using Application.Features.Addresses.DTOs.Select.Shared;
 
 namespace Application.Features.Addresses.DTOs.Select.Collocations

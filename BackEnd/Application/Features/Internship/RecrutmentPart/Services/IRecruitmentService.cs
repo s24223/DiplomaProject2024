@@ -11,9 +11,7 @@ namespace Application.Features.Internship.RecrutmentPart.Services
         Task<Response> CreateByPersonAsync
             (
             IEnumerable<Claim> claims,
-            Guid branchId,
-            Guid offerId,
-            DateTime created,
+            Guid branchOfferId,
             CreateRecruitmentRequestDto dto,
             CancellationToken cancellation
             );
@@ -21,10 +19,7 @@ namespace Application.Features.Internship.RecrutmentPart.Services
         Task<Response> SetAnswerByCompanyAsync
             (
             IEnumerable<Claim> claims,
-            Guid branchId,
-            Guid offerId,
-            DateTime created,
-            Guid personId,
+            Guid id,
             SetAnswerByCompanyRecrutmentDto dto,
             CancellationToken cancellation
             );

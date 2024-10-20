@@ -14,6 +14,7 @@ namespace Domain.Features.BranchOffer.Entities
     public class DomainBranchOffer : Entity<BranchOfferId>
     {
         //Values
+        public DateTime Created { get; private set; }
         public DateTime PublishStart { get; private set; }
         public DateTime? PublishEnd { get; private set; }
         public DateOnly? WorkStart { get; private set; }
@@ -23,13 +24,14 @@ namespace Domain.Features.BranchOffer.Entities
 
         //References
         //DomainBranch
+        public BranchId BranchId { get; private set; }
         private DomainBranch _branch = null!;
         public DomainBranch Branch
         {
             get { return _branch; }
             set
             {
-                if (_branch == null && value != null && value.Id == Id.BranchId)
+                if (_branch == null && value != null && value.Id == BranchId)
                 {
                     _branch = value;
                     _branch.AddBranchOffer(this);
@@ -38,13 +40,14 @@ namespace Domain.Features.BranchOffer.Entities
         }
 
         //DomainOffer
+        public OfferId OfferId { get; private set; }
         private DomainOffer _offer = null!;
         public DomainOffer Offer
         {
             get { return _offer; }
             set
             {
-                if (_offer == null && value != null && value.Id == Id.OfferId)
+                if (_offer == null && value != null && value.Id == OfferId)
                 {
                     _offer = value;
                     _branch.AddBranchOffer(this);
@@ -60,21 +63,17 @@ namespace Domain.Features.BranchOffer.Entities
         //Constructor
         public DomainBranchOffer
             (
+            Guid? id,
             Guid branchId,
             Guid offerId,
-            DateTime created,
+            DateTime? created,
             DateTime publishStart,
             DateTime? publishEnd,
             DateOnly? workStart,
             DateOnly? workEnd,
             DateTime? lastUpdate,
             IProvider provider
-            ) : base(new BranchOfferId
-                (
-                new BranchId(branchId),
-                new OfferId(offerId),
-                created
-                ), provider)
+            ) : base(new BranchOfferId(id), provider)
         {
             LastUpdate = lastUpdate ?? _provider.TimeProvider().GetDateTimeNow();
             PublishStart = publishStart;
@@ -82,6 +81,9 @@ namespace Domain.Features.BranchOffer.Entities
             WorkStart = workStart;
             WorkEnd = workEnd;
 
+            Created = created ?? _provider.TimeProvider().GetDateTimeNow();
+            BranchId = new BranchId(id);
+            OfferId = new OfferId(id);
             //ThrowExceptionIfIsNotValid();
         }
 
@@ -93,7 +95,7 @@ namespace Domain.Features.BranchOffer.Entities
         public void AddRecrutment(DomainRecruitment domainRecrutment)
         {
             if (
-                domainRecrutment.Id.BranchOfferId == Id &&
+                domainRecrutment.BranchOfferId == Id &&
                 !_recrutments.ContainsKey(domainRecrutment.Id)
                 )
             {

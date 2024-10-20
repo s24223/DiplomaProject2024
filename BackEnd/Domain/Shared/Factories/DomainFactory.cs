@@ -9,7 +9,6 @@ using Domain.Features.Person.Entities;
 using Domain.Features.Recruitment.Entities;
 using Domain.Features.Url.Entities;
 using Domain.Features.User.Entities;
-using Domain.Features.UserProblem.Entities;
 using Domain.Shared.Providers;
 using Domain.Shared.ValueObjects;
 
@@ -32,14 +31,10 @@ namespace Domain.Shared.Factories
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================
+
         //User Module
 
-        //User Part
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="login"></param>
-        /// <returns></returns>
+        //DomainUser Part
         public DomainUser CreateDomainUser(string login)
         {
             return new DomainUser
@@ -51,11 +46,10 @@ namespace Domain.Shared.Factories
                 _provider
                 );
         }
-
         public DomainUser CreateDomainUser
             (
             Guid id,
-            string login,
+            string? login,
             DateTime? lastLoginIn,
             DateTime lastPasswordUpdate
             )
@@ -70,110 +64,60 @@ namespace Domain.Shared.Factories
                 );
         }
 
-
-        //UserProblem Part
-        public DomainUserProblem CreateDomainUserProblem
-            (
-            string userMessage,
-            Guid? previousProblemId,
-            string? email,
-            Guid? userId
-            )
+        //DomainUrl Part
+        public DomainUrl CreateDomainUrl
+           (
+           Guid userId,
+           int urlTypeId,
+           string path,
+           string? name,
+           string? description
+           )
         {
-            return new DomainUserProblem
+            return new DomainUrl
                 (
-                null,
-                null,
-                userMessage,
-                null,
-                previousProblemId,
-                email,
-                null,
                 userId,
-            _provider
-            );
+                urlTypeId,
+                _provider.TimeProvider().GetDateTimeNow(),
+                path,
+                name,
+                description,
+                _provider
+                );
         }
 
-        public DomainUserProblem CreateDomainUserProblem
+        public DomainUrl CreateDomainUrl
             (
-            Guid id,
+            Guid userId,
+            int urlTypeId,
             DateTime created,
-            string userMessage,
-            string? response,
-            Guid? previousProblemId,
-            string? email,
-            string status,
-            Guid? userId
+            string path,
+            string? name,
+            string? description
             )
         {
-            return new DomainUserProblem
+            return new DomainUrl
                 (
-                id,
+                userId,
+                urlTypeId,
                 created,
-                userMessage,
-                response,
-                previousProblemId,
-                email,
-                status,
-                userId,
-            _provider
-            );
+                path,
+                name,
+                description,
+                _provider
+                );
         }
 
-        //Url Part
-        public DomainUrl CreateDomainUrl
-            (
-            Guid userId,
-            int urlTypeId,
-            string path,
-            string? name,
-            string? description
-            )
-        {
-            return new DomainUrl
-                (
-                 userId,
-                 urlTypeId,
-                 _provider.TimeProvider().GetDateTimeNow(),
-                 path,
-                 name,
-                 description,
-                _provider
-            );
-        }
-
-        public DomainUrl CreateDomainUrl
-            (
-            Guid userId,
-            int urlTypeId,
-            DateTime created,
-            string path,
-            string? name,
-            string? description
-            )
-        {
-            return new DomainUrl
-                (
-                 userId,
-                 urlTypeId,
-                 created,
-                 path,
-                 name,
-                 description,
-                _provider
-            );
-        }
 
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================
         //Person Module
-        //Person Part
 
         public DomainPerson CreateDomainPerson
             (
             Guid id,
-            string? urlSegment,
+            string? segmentUrl,
             string contactEmail,
             string name,
             string surname,
@@ -185,31 +129,32 @@ namespace Domain.Shared.Factories
             Guid? addressId
             )
         {
-            return new DomainPerson(
-               id,
-               urlSegment,
-               null,
-               contactEmail,
-               name,
-               surname,
-               birthDate,
-               contactPhoneNum,
-               description,
-               new DatabaseBool(isStudent).Code,
+            return new DomainPerson
+                (
+                id,
+                segmentUrl,
+                null,
+                contactEmail,
+                name,
+                surname,
+                birthDate,
+                contactPhoneNum,
+                description,
+                new DatabaseBool(isStudent).Code,
                 new DatabaseBool(isPublicProfile).Code,
-               addressId,
-               _provider
-               );
+                addressId,
+                _provider
+                );
         }
 
         public DomainPerson CreateDomainPerson
             (
             Guid id,
-            string? urlSegment,
+            string? segmentUrl,
             DateOnly created,
-            string contactEmail,
-            string name,
-            string surname,
+            string? contactEmail,
+            string? name,
+            string? surname,
             DateOnly? birthDate,
             string? contactPhoneNum,
             string? description,
@@ -218,18 +163,20 @@ namespace Domain.Shared.Factories
             Guid? addressId
             )
         {
-            return new DomainPerson(
+
+            return new DomainPerson
+                (
                 id,
-                urlSegment,
-                created,
+                segmentUrl,
+                null,
                 contactEmail,
                 name,
                 surname,
                 birthDate,
                 contactPhoneNum,
                 description,
-                isStudent,
-                isPublicProfile,
+                new DatabaseBool(isStudent).Code,
+                new DatabaseBool(isPublicProfile).Code,
                 addressId,
                 _provider
                 );
@@ -239,11 +186,12 @@ namespace Domain.Shared.Factories
         //=================================================================================================
         //=================================================================================================
         //Company Module
+
         //Company Part
         public DomainCompany CreateDomainCompany
             (
             Guid id,
-            string? urlSegment,
+            string? segmentUrl,
             string contactEmail,
             string name,
             string regon,
@@ -253,56 +201,57 @@ namespace Domain.Shared.Factories
             return new DomainCompany
                 (
                 id,
-                urlSegment,
+                segmentUrl,
                 contactEmail,
                 name,
                 regon,
                 description,
                 null,
-        _provider
+                _provider
                 );
         }
 
         public DomainCompany CreateDomainCompany
             (
             Guid id,
-            string? urlSegment,
-            string contactEmail,
-            string name,
-            string regon,
+            string? segmentUrl,
+            string? contactEmail,
+            string? name,
+            string? regon,
             string? description,
             DateOnly created
             )
         {
             return new DomainCompany
                 (
-                id,
-                urlSegment,
+                 id,
+                segmentUrl,
                 contactEmail,
                 name,
                 regon,
                 description,
                 created,
-        _provider
+                _provider
                 );
         }
 
-        //Branch Part
+
+        //DomainBranch
         public DomainBranch CreateDomainBranch
-            (
-            Guid companyId,
-            Guid addressId,
-            string? urlSegment,
-            string name,
-            string? description
-            )
+           (
+           Guid companyId,
+           Guid addressId,
+           string? segmentUrl,
+           string name,
+           string? description
+           )
         {
             return new DomainBranch
                 (
                 null,
                 companyId,
                 addressId,
-                urlSegment,
+                segmentUrl,
                 name,
                 description,
                 _provider
@@ -313,9 +262,9 @@ namespace Domain.Shared.Factories
             (
             Guid id,
             Guid companyId,
-            Guid addressId,
-            string? urlSegment,
-            string name,
+            Guid? addressId,
+            string? segmentUrl,
+            string? name,
             string? description
             )
         {
@@ -324,24 +273,23 @@ namespace Domain.Shared.Factories
                 id,
                 companyId,
                 addressId,
-                urlSegment,
+                segmentUrl,
                 name,
                 description,
                 _provider
                 );
         }
 
-        //Offer Part
-
+        //DomainOffer
         public DomainOffer CreateDomainOffer
-            (
-            string name,
-            string description,
-            decimal? minSalary,
-            decimal? maxSalary,
-            bool? isNegotiatedSalary,
-            bool isForStudents
-            )
+           (
+           string? name,
+           string? description,
+           decimal? minSalary,
+           decimal? maxSalary,
+           bool? isNegotiatedSalary,
+           bool isForStudents
+           )
         {
             return new DomainOffer
                 (
@@ -350,22 +298,22 @@ namespace Domain.Shared.Factories
                 description,
                 minSalary,
                 maxSalary,
-                (isNegotiatedSalary == null ?
-                null : new DatabaseBool(isNegotiatedSalary.Value).Code),
+                isNegotiatedSalary == null ?
+                            null : new DatabaseBool(isNegotiatedSalary.Value).Code,
                 new DatabaseBool(isForStudents).Code,
                 _provider
                 );
         }
 
         public DomainOffer CreateDomainOffer
-            (
-            string name,
-            string description,
-            decimal? minSalary,
-            decimal? maxSalary,
-            string? isNegotiatedSalary,
-            string isForStudents
-            )
+          (
+           string name,
+           string description,
+           decimal? minSalary,
+           decimal? maxSalary,
+           string? isNegotiatedSalary,
+           string isForStudents
+          )
         {
             return new DomainOffer
                 (
@@ -374,47 +322,23 @@ namespace Domain.Shared.Factories
                 description,
                 minSalary,
                 maxSalary,
-                isNegotiatedSalary,
-                isForStudents,
-                _provider
-                );
-        }
-
-        public DomainOffer CreateDomainOffer
-            (
-            Guid id,
-            string name,
-            string description,
-            decimal? minSalary,
-            decimal? maxSalary,
-            bool? isNegotiatedSalary,
-            bool isForStudents
-            )
-        {
-            return new DomainOffer
-                (
-                id,
-                name,
-                description,
-                minSalary,
-                maxSalary,
-                (isNegotiatedSalary == null ?
-                null : new DatabaseBool(isNegotiatedSalary.Value).Code),
+                string.IsNullOrWhiteSpace(isNegotiatedSalary) ?
+                            null : new DatabaseBool(isNegotiatedSalary).Code,
                 new DatabaseBool(isForStudents).Code,
                 _provider
                 );
         }
 
         public DomainOffer CreateDomainOffer
-            (
-            Guid id,
-            string name,
-            string description,
-            decimal? minSalary,
-            decimal? maxSalary,
-            string? isNegotiatedSalary,
-            string isForStudents
-            )
+           (
+           Guid id,
+           string name,
+           string description,
+           decimal? minSalary,
+           decimal? maxSalary,
+           bool? isNegotiatedSalary,
+           bool isForStudents
+           )
         {
             return new DomainOffer
                 (
@@ -423,134 +347,155 @@ namespace Domain.Shared.Factories
                 description,
                 minSalary,
                 maxSalary,
-                isNegotiatedSalary,
-                isForStudents,
+                isNegotiatedSalary == null ?
+                            null : new DatabaseBool(isNegotiatedSalary.Value).Code,
+                new DatabaseBool(isForStudents).Code,
                 _provider
                 );
         }
 
+        public DomainOffer CreateDomainOffer
+           (
+           Guid id,
+           string name,
+           string description,
+           decimal? minSalary,
+           decimal? maxSalary,
+           string? isNegotiatedSalary,
+           string isForStudents
+           )
+        {
+            return new DomainOffer
+                (
+                id,
+                name,
+                description,
+                minSalary,
+                maxSalary,
+                string.IsNullOrWhiteSpace(isNegotiatedSalary) ?
+                            null : new DatabaseBool(isNegotiatedSalary).Code,
+                new DatabaseBool(isForStudents).Code,
+                _provider
+                );
+        }
 
-        //BranchOffer Part
+        //BranchOffer
         public DomainBranchOffer CreateDomainBranchOffer
-            (
+           (
             Guid branchId,
             Guid offerId,
             DateTime publishStart,
             DateTime? publishEnd,
             DateOnly? workStart,
             DateOnly? workEnd
-            )
+           )
         {
             return new DomainBranchOffer
                 (
+                null,
                 branchId,
                 offerId,
-                _provider.TimeProvider().GetDateTimeNow(),
+                null,
                 publishStart,
                 publishEnd,
                 workStart,
                 workEnd,
                 null,
                 _provider
-           );
+                );
         }
-
-
         public DomainBranchOffer CreateDomainBranchOffer
            (
-           Guid branchId,
-           Guid offerId,
-           DateTime created,
-           DateTime publishStart,
-           DateTime? publishEnd,
-           DateOnly? workStart,
-           DateOnly? workEnd,
-           DateTime lastUpdate
+            Guid id,
+            Guid branchId,
+            Guid offerId,
+            DateTime created,
+            DateTime publishStart,
+            DateTime? publishEnd,
+            DateOnly? workStart,
+            DateOnly? workEnd,
+            DateTime lastUpdate
            )
         {
             return new DomainBranchOffer
-                (
-                branchId,
-                offerId,
-                created,
-                publishStart,
-                publishEnd,
-                workStart,
-                workEnd,
-                lastUpdate,
-                _provider
-           );
+               (
+               id,
+               branchId,
+               offerId,
+               created,
+               publishStart,
+               publishEnd,
+               workStart,
+               workEnd,
+               lastUpdate,
+               _provider
+               );
         }
+
 
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================
         //Recruitment Part
-
         public DomainRecruitment CreateDomainRecruitment
             (
             Guid personId,
-            Guid branchId,
-            Guid offerId,
-            DateTime created,
+            Guid branchOfferId,
             string? personMessage
             )
         {
             return new DomainRecruitment
                 (
-                 personId,
-                 branchId,
-                 offerId,
-                 created,
-                 null,
-                 personMessage,
-                 null,
-                 null,
-                 _provider
-            );
+                null,
+                personId,
+                branchOfferId,
+                null,
+                personMessage,
+                null,
+                null,
+                _provider
+                );
         }
+
 
         public DomainRecruitment CreateDomainRecruitment
             (
+            Guid? id,
             Guid personId,
-            Guid branchId,
-            Guid offerId,
+            Guid branchOfferId,
             DateTime created,
-            DateTime? applicationDate,
             string? personMessage,
             string? companyResponse,
             string? isAccepted
             )
         {
             return new DomainRecruitment
-                (
-                 personId,
-                 branchId,
-                 offerId,
-                 created,
-                 applicationDate,
-                 personMessage,
-                 companyResponse,
-                 isAccepted,
-                 _provider
-            );
+               (
+               id,
+               personId,
+               branchOfferId,
+               created,
+               personMessage,
+               companyResponse,
+               isAccepted,
+               _provider
+               );
         }
 
         public DomainIntership CreateDomainInternship
             (
-            Guid personId,
-            Guid branchId,
-            Guid offerId,
-            DateTime created,
+            Guid id,
+            DateOnly contractStartDate,
+            DateOnly? contractEndDate,
             string contractNumber
             )
         {
-            return new DomainIntership(
+            return new DomainIntership
+                (
+                id,
                 null,
-                personId,
-                branchId,
-                offerId,
-                created,
+                contractStartDate,
+                contractEndDate,
                 contractNumber,
                 _provider
                 );
@@ -559,27 +504,25 @@ namespace Domain.Shared.Factories
         public DomainIntership CreateDomainIntership
             (
             Guid id,
-            Guid personId,
-            Guid branchId,
-            Guid offerId,
             DateTime created,
+            DateOnly contractStartDate,
+            DateOnly? contractEndDate,
             string contractNumber
             )
         {
             return new DomainIntership
                 (
-            id,
-             personId,
-             branchId,
-             offerId,
-             created,
-             contractNumber,
-             _provider
-            );
+                id,
+                created,
+                contractStartDate,
+                contractEndDate,
+                contractNumber,
+                _provider
+                );
         }
 
         public DomainComment CreateDomainComment
-            (
+             (
             Guid internshipId,
             int commentTypeId,
             string description,
@@ -588,17 +531,17 @@ namespace Domain.Shared.Factories
         {
             return new DomainComment
                 (
-                 internshipId,
-                 commentTypeId,
-                 _provider.TimeProvider().GetDateTimeNow(),
-                 description,
-                 evaluation,
-                 _provider
-            );
+                internshipId,
+                commentTypeId,
+                _provider.TimeProvider().GetDateTimeNow(),
+                description,
+                evaluation,
+                _provider
+                );
         }
 
         public DomainComment CreateDomainComment
-            (
+             (
             Guid internshipId,
             int commentTypeId,
             DateTime created,
@@ -608,16 +551,14 @@ namespace Domain.Shared.Factories
         {
             return new DomainComment
                 (
-                 internshipId,
-                 commentTypeId,
-                 created,
-                 description,
-                 evaluation,
-                 _provider
-            );
+                internshipId,
+                commentTypeId,
+                created,
+                description,
+                evaluation,
+                _provider
+                );
         }
-
-
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================
@@ -665,10 +606,5 @@ namespace Domain.Shared.Factories
             );
         }
 
-
-
-        //=================================================================================================
-        //=================================================================================================
-        //=================================================================================================
     }
 }

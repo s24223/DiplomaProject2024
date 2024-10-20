@@ -1,7 +1,7 @@
-﻿using Application.Database;
+﻿using Application.Databases.Relational;
 using Application.Features.Addresses.Interfaces;
-using Application.VerticalSlice.AddressPart.Interfaces;
-using Infrastructure.MsSqlDatabase;
+using Infrastructure.Databases.Relational.MsSQL;
+using Infrastructure.Databases.Relational.MsSQL.SqlClientRepositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,7 +22,7 @@ namespace Infrastructure
             serviceCollection.AddTransient<IAddressSqlClientRepository, AddressSqlClientRepository>();
 
             //DbContext Injection
-            serviceCollection.AddTransient<DiplomaProjectContext, DiplomaProjectMsSqlContext>();
+            serviceCollection.AddTransient<DiplomaProjectContext, DiplomaProjectMsSQLContext>();
 
             return serviceCollection;
         }

@@ -1,4 +1,4 @@
-﻿using Application.Database.Models;
+﻿using Application.Databases.Relational.Models;
 
 namespace Application.Features.Addresses.Interfaces
 {

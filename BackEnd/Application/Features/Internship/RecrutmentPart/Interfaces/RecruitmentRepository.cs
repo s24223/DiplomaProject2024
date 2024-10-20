@@ -1,5 +1,5 @@
-﻿using Application.Database;
-using Application.Database.Models;
+﻿using Application.Databases.Relational;
+using Application.Databases.Relational.Models;
 using Application.Shared.Interfaces.EntityToDomainMappers;
 using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.Recruitment.Entities;
@@ -47,13 +47,11 @@ namespace Application.Features.Internship.RecrutmentPart.Interfaces
         {
             try
             {
-                var databaseRecrutment = new Database.Models.Recruitment
+                var databaseRecrutment = new Recruitment
                 {
-                    PersonId = recruitment.Id.PersonId.Value,
-                    BranchId = recruitment.Id.BranchOfferId.BranchId.Value,
-                    OfferId = recruitment.Id.BranchOfferId.OfferId.Value,
-                    Created = recruitment.Id.BranchOfferId.Created,
-                    ApplicationDate = recruitment.ApplicationDate,
+                    BranchOfferId = recruitment.BranchOfferId.Value,
+                    PersonId = recruitment.PersonId.Value,
+                    Created = recruitment.Created,
                     PersonMessage = recruitment.PersonMessage,
                 };
 
@@ -126,10 +124,7 @@ namespace Application.Features.Internship.RecrutmentPart.Interfaces
                 .Where(x =>
                     x.CompanyId == companyId.Value &&
                     x.BranchOffers.Any(y => y.Recruitments.Any(z =>
-                        z.OfferId == id.BranchOfferId.OfferId.Value &&
-                        z.BranchId == id.BranchOfferId.BranchId.Value &&
-                        z.Created == id.BranchOfferId.Created &&
-                        z.PersonId == id.PersonId.Value
+                        z.Id == id.Value
                     ))
                 ).FirstOrDefaultAsync(cancellation);
 

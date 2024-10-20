@@ -1,4 +1,4 @@
-﻿using Application.Database;
+﻿using Application.Databases.Relational;
 using Application.Shared.Services.Authentication;
 using Domain.Shared.Providers;
 using Microsoft.EntityFrameworkCore;

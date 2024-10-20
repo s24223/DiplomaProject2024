@@ -3,7 +3,7 @@ using Application.Features.Internship.InternshipPart.DTOs.Update;
 using Application.Features.Internship.InternshipPart.Interfaces;
 using Application.Shared.DTOs.Response;
 using Application.Shared.Services.Authentication;
-using Domain.Features.Intership.ValueObjects.Identificators;
+using Domain.Features.Recruitment.ValueObjects.Identificators;
 using Domain.Shared.Factories;
 using System.Security.Claims;
 
@@ -38,21 +38,20 @@ namespace Application.Features.Internship.InternshipPart.Services
         public async Task<ResponseItem<CreateInternshipResponseDto>> CreateAsync
             (
             IEnumerable<Claim> claims,
-            Guid branchId,
-            Guid offerId,
-            DateTime created,
-            Guid personId,
+            Guid recrutmentId,
             CreateInternshipRequestDto dto,
             CancellationToken cancellation
             )
         {
             var companyId = _authentication.GetIdNameFromClaims(claims);
+            var start = (DateOnly)dto.ContractStartDate;
+            var end = dto.ContractEndDate == null ? (DateOnly?)(null) : (DateOnly)dto.ContractEndDate;
+
             var domainInternship = _domainFactory.CreateDomainInternship
                 (
-                personId,
-                branchId,
-                offerId,
-                created,
+                recrutmentId,
+                start,
+                 end,
                 dto.ContactNumber
                 );
 
@@ -81,13 +80,17 @@ namespace Application.Features.Internship.InternshipPart.Services
             )
         {
             var companyId = _authentication.GetIdNameFromClaims(claims);
+            var start = (DateOnly)dto.ContractStartDate;
+            var end = dto.ContractEndDate == null ? (DateOnly?)(null) : (DateOnly)dto.ContractEndDate;
+
+
             var doaminInternship = await _internshipRepository.GetInternshipAsync
                 (
                 companyId,
-                new IntershipId(internshipId),
+                new RecrutmentId(internshipId),
                 cancellation
                 );
-            doaminInternship.Update(dto.ContractNumber);
+            doaminInternship.Update(dto.ContractNumber, start, end);
 
             await _internshipRepository.UpdateAsync
                 (

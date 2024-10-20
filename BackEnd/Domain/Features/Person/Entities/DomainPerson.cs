@@ -116,7 +116,7 @@ namespace Domain.Features.Person.Entities
         //Public Methods
         public void AddRecrutment(DomainRecruitment domainRecrutment)
         {
-            if (domainRecrutment.Id.PersonId == Id && !_recrutments.ContainsKey(domainRecrutment.Id))
+            if (domainRecrutment.PersonId == Id && !_recrutments.ContainsKey(domainRecrutment.Id))
             {
                 _recrutments.Add(domainRecrutment.Id, domainRecrutment);
                 domainRecrutment.Person = this;

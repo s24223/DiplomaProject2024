@@ -3,8 +3,6 @@ using Domain.Features.Person.Entities;
 using Domain.Features.Url.Entities;
 using Domain.Features.Url.ValueObjects.Identificators;
 using Domain.Features.User.ValueObjects.Identificators;
-using Domain.Features.UserProblem.Entities;
-using Domain.Features.UserProblem.ValueObjects.Identificators;
 using Domain.Shared.Providers;
 using Domain.Shared.Templates.Entities;
 using Domain.Shared.ValueObjects;
@@ -49,8 +47,8 @@ namespace Domain.Features.User.Entities
             }
         }
         //DomainUserProblem
-        private Dictionary<UserProblemId, DomainUserProblem> _userProblems = new();
-        public IReadOnlyDictionary<UserProblemId, DomainUserProblem> UserProblems => _userProblems;
+        /*private Dictionary<UserProblemId, DomainUserProblem> _userProblems = new();
+        public IReadOnlyDictionary<UserProblemId, DomainUserProblem> UserProblems => _userProblems;*/
         //DomainUrl
         private Dictionary<UrlId, DomainUrl> _urls = new();
         public IReadOnlyDictionary<UrlId, DomainUrl> Urls => _urls;
@@ -60,7 +58,7 @@ namespace Domain.Features.User.Entities
         public DomainUser
             (
             Guid? id,
-            string loginEmail,
+            string login,
             DateTime? lastLoginIn,
             DateTime? lastPasswordUpdate,
             IProvider provider
@@ -68,7 +66,7 @@ namespace Domain.Features.User.Entities
             : base(id: new UserId(id), provider)
         {
             //Values with exeptions
-            Login = new Email(loginEmail);
+            Login = new Email(login);
 
             //Values with no exeptions
             LastLoginIn = lastLoginIn;
@@ -80,14 +78,14 @@ namespace Domain.Features.User.Entities
         //==================================================================================================
         //==================================================================================================
         //Public Methods
-        public void AddUserProblem(DomainUserProblem userProblem)
+        /*public void AddUserProblem(DomainUserProblem userProblem)
         {
             if (userProblem.UserId == Id && !_userProblems.ContainsKey(userProblem.Id))
             {
                 _userProblems.Add(userProblem.Id, userProblem);
                 userProblem.User = this;
             }
-        }
+        }*/
 
         public void AddUrl(DomainUrl domainUrl)
         {

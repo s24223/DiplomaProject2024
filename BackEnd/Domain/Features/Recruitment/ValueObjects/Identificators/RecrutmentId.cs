@@ -1,19 +1,11 @@
-﻿using Domain.Features.BranchOffer.ValueObjects.Identificators;
-using Domain.Features.User.ValueObjects.Identificators;
+﻿using Domain.Shared.Templates.ValueObjects.Identificators;
 
 namespace Domain.Features.Recruitment.ValueObjects.Identificators
 {
-    public record RecrutmentId
+    public record RecrutmentId : GuidId
     {
-        //Values
-        public BranchOfferId BranchOfferId { get; private set; }
-        public UserId PersonId { get; private set; }
-
-        //Constructor
-        public RecrutmentId(BranchOfferId branchOfferId, UserId personId)
+        public RecrutmentId(Guid? value) : base(value)
         {
-            BranchOfferId = branchOfferId;
-            PersonId = personId;
         }
     }
 }

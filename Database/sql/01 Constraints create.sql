@@ -3,111 +3,123 @@
 --Create
 ALTER TABLE [dbo].[User]
 ADD 
-CONSTRAINT Default_User_Id DEFAULT NEWID() FOR [Id],
-CONSTRAINT Default_User_LastPasswordUpdate DEFAULT GETDATE() FOR [LastPasswordUpdate],
-CONSTRAINT UNIQUE_User_Login UNIQUE ([Login]);
+CONSTRAINT User_Default_Id DEFAULT NEWID() FOR [Id],
+CONSTRAINT User_Default_LastPasswordUpdate DEFAULT GETDATE() FOR [LastPasswordUpdate],
+CONSTRAINT User_Default_IsHideProfile DEFAULT 'N' FOR [IsHideProfile],
+CONSTRAINT User_CHECK_IsHideProfile CHECK (UPPER([IsHideProfile]) IN ('Y', 'N')),
+CONSTRAINT User_UNIQUE_Login UNIQUE ([Login]);
 
 --======================================================================================
---[UserProblem]
+--[Notification]
 --Create
-ALTER TABLE [dbo].[UserProblem]
+ALTER TABLE [dbo].[Notification]
 ADD 
-CONSTRAINT Default_UserProblem_Id DEFAULT NEWID() FOR [Id],
-CONSTRAINT Default_UserProblem_Status DEFAULT 'C' FOR [Status],
-CONSTRAINT Default_UserProblem_Created DEFAULT GETDATE() FOR [Created],
-CONSTRAINT CHECK_UserProblem_Status CHECK (UPPER([Status]) IN ('C', 'V', 'D', 'A'));
+CONSTRAINT Notification_Default_Id DEFAULT NEWID() FOR [Id],
+CONSTRAINT Notification_Default_Created DEFAULT GETDATE() FOR [Created],
+CONSTRAINT Notification_Default_IsReadedByUser DEFAULT 'N' FOR [IsReadedByUser],
+CONSTRAINT Notification_CHECK_IsReadedByUser CHECK (UPPER([IsReadedByUser]) IN ('Y', 'N'));
 
 --======================================================================================
 --[Url]
 --Create
 ALTER TABLE [dbo].[Url]
 ADD 
-CONSTRAINT UNIQUE_Url_Path UNIQUE ([Path], [UserId]);
+CONSTRAINT Url_UNIQUE_Path UNIQUE ([Path], [UserId]);
 
+--======================================================================================
 --======================================================================================
 --[Person]
 --Create
 ALTER TABLE [dbo].[Person]
 ADD 
-CONSTRAINT Default_Person_Created DEFAULT CAST(GETDATE() AS DATE) FOR [Created],
-CONSTRAINT Default_Person_IsStudent DEFAULT 'N' FOR [IsStudent],
-CONSTRAINT Default_Person_IsPublicProfile DEFAULT 'N' FOR [IsPublicProfile],
-CONSTRAINT CHECK_Person_IsStudent CHECK (UPPER([IsStudent]) IN ('Y', 'N')),
-CONSTRAINT CHECK_Person_IsPublicProfile CHECK (UPPER([IsPublicProfile]) IN ('Y', 'N')),
-CONSTRAINT CHECK_Person_BirthDate CHECK ([BirthDate] < CAST(GETDATE() AS DATE) OR [BirthDate] IS NULL),
-CONSTRAINT UNIQUE_Person_UrlSegment UNIQUE ([UrlSegment]),
-CONSTRAINT UNIQUE_Person_ContactEmail UNIQUE ([ContactEmail]),
-CONSTRAINT UNIQUE_Person_ContactPhoneNum UNIQUE ([ContactPhoneNum]);
+CONSTRAINT Person_Default_Created DEFAULT CAST(GETDATE() AS DATE) FOR [Created],
+CONSTRAINT Person_Default_IsStudent DEFAULT 'N' FOR [IsStudent],
+CONSTRAINT Person_Default_IsPublicProfile DEFAULT 'N' FOR [IsPublicProfile],
+CONSTRAINT Person_CHECK_IsStudent CHECK (UPPER([IsStudent]) IN ('Y', 'N')),
+CONSTRAINT Person_CHECK_IsPublicProfile CHECK (UPPER([IsPublicProfile]) IN ('Y', 'N')),
+CONSTRAINT Person_CHECK_BirthDate CHECK ([BirthDate] < CAST(GETDATE() AS DATE) OR [BirthDate] IS NULL),
+CONSTRAINT Person_UNIQUE_UrlSegment UNIQUE ([UrlSegment]),
+CONSTRAINT Person_UNIQUE_ContactEmail UNIQUE ([ContactEmail]),
+CONSTRAINT Person_UNIQUE_ContactPhoneNum UNIQUE ([ContactPhoneNum]);
 
+--======================================================================================
 --======================================================================================
 --[Company]
 --Create
 ALTER TABLE [dbo].[Company]
 ADD 
-CONSTRAINT Default_Company_Created DEFAULT CAST(GETDATE() AS DATE) FOR [Created],
-CONSTRAINT UNIQUE_Company_UrlSegment UNIQUE ([UrlSegment]),
-CONSTRAINT UNIQUE_Company_ContactEmail UNIQUE ([ContactEmail]),
-CONSTRAINT UNIQUE_Company_Name UNIQUE ([Name]),
-CONSTRAINT UNIQUE_Company_Regon UNIQUE ([Regon]);
+CONSTRAINT Company_Default_Created DEFAULT CAST(GETDATE() AS DATE) FOR [Created],
+CONSTRAINT Company_UNIQUE_UrlSegment UNIQUE ([UrlSegment]),
+CONSTRAINT Company_UNIQUE_ContactEmail UNIQUE ([ContactEmail]),
+CONSTRAINT Company_UNIQUE_Name UNIQUE ([Name]),
+CONSTRAINT Company_UNIQUE_Regon UNIQUE ([Regon]);
 
 --======================================================================================
 --[Branch]
 --Create
 ALTER TABLE [dbo].[Branch]
 ADD 
-CONSTRAINT Default_Branch_Id DEFAULT NEWID() FOR [Id],
-CONSTRAINT UNIQUE_Branch_UrlSegment UNIQUE ([CompanyId], [UrlSegment]);
+CONSTRAINT Branch_Default_Id DEFAULT NEWID() FOR [Id],
+CONSTRAINT Branch_UNIQUE_UrlSegment UNIQUE ([CompanyId], [UrlSegment]);
 
 --======================================================================================
 --[Offer]
 --Create
 ALTER TABLE [dbo].[Offer]
 ADD 
-CONSTRAINT Default_Offer_Id DEFAULT NEWID() FOR [Id],
-CONSTRAINT Default_Offer_IsForStudents DEFAULT 'N' FOR [IsForStudents],
-CONSTRAINT CHECK_Offer_MinSalary CHECK ([MinSalary] >= 0 OR [MinSalary] IS NULL),
-CONSTRAINT CHECK_Offer_MaxSalary CHECK ((
+CONSTRAINT Offer_Default_Id DEFAULT NEWID() FOR [Id],
+CONSTRAINT Offer_Default_IsForStudents DEFAULT 'N' FOR [IsForStudents],
+CONSTRAINT Offer_CHECK_MinSalary CHECK ([MinSalary] >= 0 OR [MinSalary] IS NULL),
+CONSTRAINT Offer_CHECK_MaxSalary CHECK ((
 [MaxSalary] >= 0 AND
 [MinSalary] IS NOT NULL AND 
 [MaxSalary] >= [MinSalary] 
 ) OR [MaxSalary] IS NULL),
-CONSTRAINT CHECK_Offer_IsNegotiatedSalary CHECK (UPPER([IsNegotiatedSalary]) IN ('Y', 'N') OR [IsNegotiatedSalary] IS NULL),
-CONSTRAINT CHECK_Offer_IsForStudents CHECK (UPPER([IsForStudents]) IN ('Y', 'N'));
+CONSTRAINT Offer_CHECK_IsNegotiatedSalary CHECK (UPPER([IsNegotiatedSalary]) IN ('Y', 'N') OR [IsNegotiatedSalary] IS NULL),
+CONSTRAINT Offer_CHECK_IsForStudents CHECK (UPPER([IsForStudents]) IN ('Y', 'N'));
 
 --======================================================================================
 --[BranchOffer]
 --Create
 ALTER TABLE [dbo].[BranchOffer]
 ADD 
-CONSTRAINT Default_BranchOffer_PublishStart DEFAULT GETDATE() FOR [PublishStart],
-CONSTRAINT Default_BranchOffer_PublishEnd DEFAULT GETDATE() FOR [PublishEnd],
-CONSTRAINT Default_BranchOffer_LastUpdate DEFAULT GETDATE() FOR [LastUpdate],
-CONSTRAINT CHECK_BranchOffer_PublishEnd CHECK ([PublishEnd] >= GETDATE() OR [PublishEnd] IS NULL),
-CONSTRAINT CHECK_BranchOffer_WorkStart CHECK ((
-[WorkStart] >= CAST(GETDATE() AS DATE) AND 
+CONSTRAINT BranchOffer_Default_Id DEFAULT NEWID() FOR [Id],
+CONSTRAINT BranchOffer_Default_Created DEFAULT GETDATE() FOR [Created],
+CONSTRAINT BranchOffer_Default_PublishStart DEFAULT GETDATE() FOR [PublishStart],
+CONSTRAINT BranchOffer_Default_PublishEnd DEFAULT GETDATE() FOR [PublishEnd],
+CONSTRAINT BranchOffer_Default_LastUpdate DEFAULT GETDATE() FOR [LastUpdate],
+CONSTRAINT BranchOffer_CHECK_PublishEnd CHECK ((
+[PublishStart] IS NOT NULL AND
+[PublishEnd] >= [PublishStart]
+)OR [PublishEnd] IS NULL),
+CONSTRAINT BranchOffer_CHECK_WorkStart CHECK ((
 [PublishEnd] IS NOT NULL AND
 [WorkStart] > CAST([PublishEnd] AS DATE)) 
 OR [WorkStart] IS NULL),
-CONSTRAINT CHECK_BranchOffer_WorkEnd CHECK ((
-[WorkEnd] >= CAST(GETDATE() AS DATE) AND 
+CONSTRAINT BranchOffer_CHECK_WorkEnd CHECK ((
 [WorkStart] IS NOT NULL AND
 [WorkEnd] >= [WorkStart] 
-) OR [WorkEnd] IS NULL);
+) OR [WorkEnd] IS NULL),
+--CONSTRAINT BranchOffer_CHECK_PreviousNotEnd CHECK 
+CONSTRAINT BranchOffer_UNIQUE_CONNECTION UNIQUE ([BranchId], [OfferId], [Created]);
 
 --======================================================================================
 --[Recruitment]
 --Create
 ALTER TABLE [dbo].[Recruitment]
 ADD 
-CONSTRAINT Default_Recruitment_ApplicationDate DEFAULT GETDATE() FOR [ApplicationDate],
-CONSTRAINT CHECK_Recruitment_IsAccepted CHECK (UPPER([IsAccepted]) IN ('Y', 'N') OR [IsAccepted] IS NULL);
+CONSTRAINT Recruitment_Default_Id DEFAULT NEWID() FOR [Id],
+CONSTRAINT Recruitment_Default_Created DEFAULT GETDATE() FOR [Created],
+CONSTRAINT Recruitment_CHECK_IsAccepted CHECK (UPPER([IsAccepted]) IN ('Y', 'N') OR [IsAccepted] IS NULL);
 
 --======================================================================================
 --[Internship]
 --Create
 ALTER TABLE [dbo].[Internship]
 ADD 
-CONSTRAINT Default_Internship_Id DEFAULT NEWID() FOR [Id];
+CONSTRAINT Internship_Default_Created DEFAULT GETDATE() FOR [Created],
+CONSTRAINT Internship_Default_ContractEndDate CHECK (
+[ContractEndDate] >= [ContractStartDate] OR [ContractEndDate] IS NULL);
 
 --======================================================================================
 --[Comment]

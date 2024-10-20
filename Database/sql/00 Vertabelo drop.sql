@@ -1,8 +1,10 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2024-10-05 12:17:22.219
+-- Last modification date: 2024-10-20 12:01:06.525
 
 -- foreign keys
 ALTER TABLE Address DROP CONSTRAINT Address_Division;
+
+ALTER TABLE Address DROP CONSTRAINT Address_Street;
 
 ALTER TABLE AdministrativeDivision DROP CONSTRAINT AdministrativeDivision_AdministrativeType;
 
@@ -32,8 +34,6 @@ ALTER TABLE Comment DROP CONSTRAINT Comment_Internship;
 
 ALTER TABLE Company DROP CONSTRAINT Company_User;
 
-ALTER TABLE Address DROP CONSTRAINT Copy_of_Address_Street;
-
 ALTER TABLE DivisionStreet DROP CONSTRAINT DivisionStreet_AdministrativeDivision;
 
 ALTER TABLE DivisionStreet DROP CONSTRAINT DivisionStreet_Street;
@@ -41,6 +41,12 @@ ALTER TABLE DivisionStreet DROP CONSTRAINT DivisionStreet_Street;
 ALTER TABLE AdministrativeDivision DROP CONSTRAINT Division_Division;
 
 ALTER TABLE Internship DROP CONSTRAINT Internship_Recruitment;
+
+ALTER TABLE Notification DROP CONSTRAINT Notification_NotificationSender;
+
+ALTER TABLE Notification DROP CONSTRAINT Notification_NotificationStatus;
+
+ALTER TABLE Notification DROP CONSTRAINT Notification_User;
 
 ALTER TABLE OfferCharacteristicsList DROP CONSTRAINT OfferCharacteristicsList_Characteristic;
 
@@ -69,8 +75,6 @@ ALTER TABLE Street DROP CONSTRAINT Street_AdministrativeType;
 ALTER TABLE Url DROP CONSTRAINT Url_UrlType;
 
 ALTER TABLE Url DROP CONSTRAINT Url_User;
-
-ALTER TABLE UserProblem DROP CONSTRAINT UserProblem_User;
 
 -- tables
 DROP TABLE Address;
@@ -103,6 +107,12 @@ DROP TABLE Exception;
 
 DROP TABLE Internship;
 
+DROP TABLE Notification;
+
+DROP TABLE NotificationSender;
+
+DROP TABLE NotificationStatus;
+
 DROP TABLE Offer;
 
 DROP TABLE OfferCharacteristicsList;
@@ -122,8 +132,6 @@ DROP TABLE Url;
 DROP TABLE UrlType;
 
 DROP TABLE "User";
-
-DROP TABLE UserProblem;
 
 -- End of file.
 

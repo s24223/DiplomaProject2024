@@ -1,8 +1,6 @@
-﻿using Domain.Features.Branch.ValueObjects.Identificators;
-using Domain.Features.BranchOffer.Entities;
+﻿using Domain.Features.BranchOffer.Entities;
 using Domain.Features.BranchOffer.ValueObjects.Identificators;
 using Domain.Features.Intership.Entities;
-using Domain.Features.Offer.ValueObjects.Identificators;
 using Domain.Features.Person.Entities;
 using Domain.Features.Recruitment.ValueObjects.Identificators;
 using Domain.Features.User.ValueObjects.Identificators;
@@ -15,7 +13,7 @@ namespace Domain.Features.Recruitment.Entities
     public class DomainRecruitment : Entity<RecrutmentId>
     {
         //Values
-        public DateTime ApplicationDate { get; private set; }
+        public DateTime Created { get; private set; }
         public string? PersonMessage { get; private set; }
         public string? CompanyResponse { get; private set; }
         public DatabaseBool? IsAccepted { get; private set; }
@@ -23,13 +21,14 @@ namespace Domain.Features.Recruitment.Entities
 
         //References
         //DomainPerson
+        public UserId PersonId { get; private set; }
         private DomainPerson _person = null!;
         public DomainPerson Person
         {
             get { return _person; }
             set
             {
-                if (_person == null && value != null && value.Id == Id.PersonId)
+                if (_person == null && value != null && value.Id == PersonId)
                 {
                     _person = value;
                     _person.AddRecrutment(this);
@@ -37,13 +36,14 @@ namespace Domain.Features.Recruitment.Entities
             }
         }
         //DomainBranchOffer
+        public BranchOfferId BranchOfferId { get; private set; }
         private DomainBranchOffer _branchOffer = null!;
         public DomainBranchOffer BranchOffer
         {
             get { return _branchOffer; }
             set
             {
-                if (_branchOffer == null && value != null && value.Id == Id.BranchOfferId)
+                if (_branchOffer == null && value != null && value.Id == BranchOfferId)
                 {
                     _branchOffer = value;
                     _branchOffer.AddRecrutment(this);
@@ -57,7 +57,7 @@ namespace Domain.Features.Recruitment.Entities
             get { return _intership; }
             set
             {
-                if (_intership == null && value != null && value.RecrutmentId == Id)
+                if (_intership == null && value != null && value.Id == Id)
                 {
                     _intership = value;
                     _intership.Recrutment = this;
@@ -69,30 +69,23 @@ namespace Domain.Features.Recruitment.Entities
         //Cosntructor
         public DomainRecruitment
             (
+            Guid? id,
             Guid personId,
-            Guid branchId,
-            Guid offerId,
-            DateTime created,
-            DateTime? applicationDate,
+            Guid branchOfferId,
+            DateTime? created,
             string? personMessage,
             string? companyResponse,
             string? isAccepted,
             IProvider provider
-            ) : base(new RecrutmentId
-                (
-                new BranchOfferId(
-                    new BranchId(branchId),
-                    new OfferId(offerId),
-                    created
-                    ),
-                new UserId(personId)
-                ), provider)
+            ) : base(new RecrutmentId(id), provider)
         {
+            PersonId = new UserId(personId);
+            BranchOfferId = new BranchOfferId(branchOfferId);
 
             PersonMessage = personMessage;
             CompanyResponse = companyResponse;
 
-            ApplicationDate = applicationDate ?? _provider.TimeProvider().GetDateTimeNow();
+            Created = created ?? _provider.TimeProvider().GetDateTimeNow();
             IsAccepted = string.IsNullOrWhiteSpace(isAccepted) ?
                 null : new DatabaseBool(isAccepted);
         }

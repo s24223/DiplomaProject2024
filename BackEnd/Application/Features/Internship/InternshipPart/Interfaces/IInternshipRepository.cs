@@ -1,5 +1,5 @@
 ﻿using Domain.Features.Intership.Entities;
-using Domain.Features.Intership.ValueObjects.Identificators;
+using Domain.Features.Recruitment.ValueObjects.Identificators;
 using Domain.Features.User.ValueObjects.Identificators;
 
 namespace Application.Features.Internship.InternshipPart.Interfaces
@@ -25,7 +25,7 @@ namespace Application.Features.Internship.InternshipPart.Interfaces
         Task<DomainIntership> GetInternshipAsync
             (
             UserId companyId,
-            IntershipId intershipId,
+            RecrutmentId intershipId,
             CancellationToken cancellation
             );
     }

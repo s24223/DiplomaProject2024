@@ -11,10 +11,7 @@ namespace Application.Features.Internship.InternshipPart.Services
         Task<ResponseItem<CreateInternshipResponseDto>> CreateAsync
             (
             IEnumerable<Claim> claims,
-            Guid branchId,
-            Guid offerId,
-            DateTime created,
-            Guid personId,
+            Guid recrutmentId,
             CreateInternshipRequestDto dto,
             CancellationToken cancellation
             );

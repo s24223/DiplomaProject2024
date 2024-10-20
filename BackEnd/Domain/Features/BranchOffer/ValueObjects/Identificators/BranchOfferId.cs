@@ -1,19 +1,11 @@
-﻿using Domain.Features.Branch.ValueObjects.Identificators;
-using Domain.Features.Offer.ValueObjects.Identificators;
+﻿using Domain.Shared.Templates.ValueObjects.Identificators;
 
 namespace Domain.Features.BranchOffer.ValueObjects.Identificators
 {
-    public record BranchOfferId
+    public record BranchOfferId : GuidId
     {
-        public BranchId BranchId { get; private set; }
-        public OfferId OfferId { get; private set; }
-        public DateTime Created { get; private set; }
-
-        public BranchOfferId(BranchId branchId, OfferId offerId, DateTime created)
+        public BranchOfferId(Guid? value) : base(value)
         {
-            BranchId = branchId;
-            OfferId = offerId;
-            Created = created;
         }
     }
 }

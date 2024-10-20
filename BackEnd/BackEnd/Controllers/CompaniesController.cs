@@ -1,14 +1,13 @@
-﻿using Application.Features.Companies.BranchOfferPart.DTOs.CreateBranchOffer;
-using Application.Features.Companies.BranchOfferPart.DTOs.CreateOffer;
-using Application.Features.Companies.BranchOfferPart.DTOs.UpdateBranchOffer;
-using Application.Features.Companies.BranchOfferPart.DTOs.UpdateOffer;
-using Application.Features.Companies.BranchOfferPart.Services;
-using Application.Features.Companies.BranchPart.DTOs.Create;
-using Application.Features.Companies.BranchPart.DTOs.Update;
-using Application.Features.Companies.BranchPart.Services;
-using Application.Features.Companies.CompanyPart.DTOs.Create;
-using Application.Features.Companies.CompanyPart.DTOs.Update;
-using Application.Features.Companies.CompanyPart.Services;
+﻿using Application.Features.Companies.DTOs.CommandsBranchOffer.CreateBranchOffer;
+using Application.Features.Companies.DTOs.CommandsBranchOffer.CreateOffer;
+using Application.Features.Companies.DTOs.CommandsBranchOffer.UpdateBranchOffer;
+using Application.Features.Companies.DTOs.CommandsBranchOffer.UpdateOffer;
+using Application.Features.Companies.DTOs.CommandsCompanyBranch.B.Create;
+using Application.Features.Companies.DTOs.CommandsCompanyBranch.B.Update;
+using Application.Features.Companies.DTOs.CommandsCompanyBranch.C.Create;
+using Application.Features.Companies.DTOs.CommandsCompanyBranch.C.Update;
+using Application.Features.Companies.Services.CommandsBranchOffer;
+using Application.Features.Companies.Services.CommandsCompanyBranch;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -160,9 +159,7 @@ namespace BackEnd.Controllers
         [HttpPut("branch/{branchId:guid}/offers/{offerId:guid}&{created}")]
         public async Task<IActionResult> UpdateBranchOfferConnectionAsync
             (
-            Guid branchId,
-            Guid offerId,
-            DateTime created,
+            Guid branchofferId,
             UpdateBranchOfferRequestDto dto,
             CancellationToken cancellation
             )
@@ -171,9 +168,7 @@ namespace BackEnd.Controllers
             var result = await _branchOfferService.UpdateBranchOfferConnectionAsync
                 (
                 claims,
-                branchId,
-                offerId,
-                created,
+                branchofferId,
                 dto,
                 cancellation
                 );
