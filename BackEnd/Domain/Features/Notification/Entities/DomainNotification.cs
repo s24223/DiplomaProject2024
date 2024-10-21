@@ -1,7 +1,7 @@
-﻿using Domain.Features.Notification.ValueObjects;
+﻿using Domain.Features.Notification.Repositories;
+using Domain.Features.Notification.ValueObjects;
 using Domain.Features.Notification.ValueObjects.Identificators;
 using Domain.Features.User.Entities;
-using Domain.Features.User.Repositories;
 using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Providers;
 using Domain.Shared.Templates.Entities;

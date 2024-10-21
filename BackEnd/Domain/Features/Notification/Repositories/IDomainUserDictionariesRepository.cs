@@ -1,6 +1,6 @@
 ﻿using Domain.Features.Notification.ValueObjects;
 
-namespace Domain.Features.User.Repositories
+namespace Domain.Features.Notification.Repositories
 {
     public interface IDomainUserDictionariesRepository
     {
