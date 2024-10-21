@@ -2,7 +2,7 @@
 using Domain.Features.Comment.ValueObjects.CommentTypePart;
 using Domain.Features.Comment.ValueObjects.Identificators;
 using Domain.Features.Intership.Entities;
-using Domain.Features.Intership.ValueObjects.Identificators;
+using Domain.Features.Recruitment.ValueObjects.Identificators;
 using Domain.Shared.Providers;
 using Domain.Shared.Templates.Entities;
 
@@ -41,8 +41,8 @@ namespace Domain.Features.Comment.Entities
             int? evaluation,
             IProvider provider
             ) : base(new CommentId(
-            new IntershipId(internshipId),
-            new CommentType(commentTypeId),
+            new RecrutmentId(internshipId),
+            new DomainCommentType(commentTypeId),
             created
             ), provider)
         {

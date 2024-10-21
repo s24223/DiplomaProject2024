@@ -4,6 +4,8 @@ using Domain.Features.BranchOffer.Entities;
 using Domain.Features.Comment.Entities;
 using Domain.Features.Company.Entities;
 using Domain.Features.Intership.Entities;
+using Domain.Features.Notification.Entities;
+using Domain.Features.Notification.Repositories;
 using Domain.Features.Offer.Entities;
 using Domain.Features.Person.Entities;
 using Domain.Features.Recruitment.Entities;
@@ -18,12 +20,18 @@ namespace Domain.Shared.Factories
     {
         //Values
         private readonly IProvider _provider;
+        private readonly IDomainUserDictionariesRepository _doamainUserDictionaries;
 
 
         //Constructor
-        public DomainFactory(IProvider provider)
+        public DomainFactory
+            (
+            IProvider provider,
+            IDomainUserDictionariesRepository doamainUserDictionaries
+            )
         {
             _provider = provider;
+            _doamainUserDictionaries = doamainUserDictionaries;
         }
 
 
@@ -57,7 +65,7 @@ namespace Domain.Shared.Factories
             return new DomainUser
                 (
                 id,
-                login,
+                login ?? throw new Exception(),
                 lastLoginIn,
                 lastPasswordUpdate,
                 _provider
@@ -108,6 +116,70 @@ namespace Domain.Shared.Factories
                 );
         }
 
+        public DomainNotification CreateDomainNotification
+            (
+            Guid? userId,
+            string? email,
+            Guid? previousProblemId,
+            Guid? idAppProblem,
+            string? userMessage,
+            int notificationSenderId,
+            int? notificationStatusId
+            )
+        {
+            return new DomainNotification
+                (
+                null,
+                userId,
+                email,
+                null,
+                null,
+                previousProblemId,
+                idAppProblem,
+                userMessage,
+                null,
+                null,
+                notificationSenderId,
+                notificationStatusId,
+                _doamainUserDictionaries,
+                _provider
+                );
+        }
+
+        public DomainNotification CreateDomainNotification
+            (
+            Guid id,
+            Guid? userId,
+            string? email,
+            DateTime created,
+            DateTime? completed,
+            Guid? previousProblemId,
+            Guid? idAppProblem,
+            string? userMessage,
+            string? response,
+            string isReadedAnswerByUser,
+            int notificationSenderId,
+            int notificationStatusId
+            )
+        {
+            return new DomainNotification
+                (
+                id,
+                userId,
+                email,
+                created,
+                completed,
+                previousProblemId,
+                idAppProblem,
+                userMessage,
+                response,
+                isReadedAnswerByUser,
+                notificationSenderId,
+                notificationStatusId,
+                _doamainUserDictionaries,
+                _provider
+                );
+        }
 
         //=================================================================================================
         //=================================================================================================
@@ -272,7 +344,7 @@ namespace Domain.Shared.Factories
                 (
                 id,
                 companyId,
-                addressId,
+                addressId ?? throw new Exception(),
                 segmentUrl,
                 name,
                 description,
@@ -605,6 +677,7 @@ namespace Domain.Shared.Factories
             _provider
             );
         }
+
 
     }
 }

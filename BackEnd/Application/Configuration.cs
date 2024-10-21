@@ -16,7 +16,9 @@ using Application.Features.User.Services.CommandsUrl;
 using Application.Features.User.Services.CommandsUser;
 using Application.Shared.Interfaces.EntityToDomainMappers;
 using Application.Shared.Interfaces.Exceptions;
+using Application.Shared.Repositories;
 using Application.Shared.Services.Authentication;
+using Domain.Features.Notification.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -72,6 +74,10 @@ namespace Application
             //Internship Part
             serviceCollection.AddTransient<IInternshipRepository, InternshipRepository>();
             serviceCollection.AddTransient<IInternshipService, InternshipService>();
+
+
+            //Doamin Connections
+            serviceCollection.AddTransient<IDomainUserDictionariesRepository, DomainUserDictionariesRepository>();
 
 
             return serviceCollection;

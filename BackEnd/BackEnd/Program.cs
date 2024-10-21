@@ -44,6 +44,7 @@ namespace BackEnd
 
             // Add services to the container.
             //Injected IConfiguration from this Project
+            builder.Services.AddMemoryCache();
             builder.Services.DomainConfiguration(builder.Configuration);
             builder.Services.ApplicationConfiguration(builder.Configuration);
             builder.Services.InfrastructureConfiguration(builder.Configuration);

@@ -1,20 +1,20 @@
 ﻿using Domain.Features.Comment.ValueObjects.CommentTypePart;
-using Domain.Features.Intership.ValueObjects.Identificators;
+using Domain.Features.Recruitment.ValueObjects.Identificators;
 
 namespace Domain.Features.Comment.ValueObjects.Identificators
 {
     public record CommentId
     {
         //Values
-        public IntershipId IntershipId { get; private set; }
-        public CommentType CommentType { get; private set; }
+        public RecrutmentId IntershipId { get; private set; }
+        public DomainCommentType CommentType { get; private set; }
         public DateTime Created { get; private set; }
 
         //Cosntructor
         public CommentId
             (
-            IntershipId intershipId,
-            CommentType commentType,
+            RecrutmentId intershipId,
+            DomainCommentType commentType,
             DateTime created
             )
         {

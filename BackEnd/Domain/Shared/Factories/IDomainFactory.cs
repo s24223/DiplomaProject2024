@@ -4,6 +4,7 @@ using Domain.Features.BranchOffer.Entities;
 using Domain.Features.Comment.Entities;
 using Domain.Features.Company.Entities;
 using Domain.Features.Intership.Entities;
+using Domain.Features.Notification.Entities;
 using Domain.Features.Offer.Entities;
 using Domain.Features.Person.Entities;
 using Domain.Features.Recruitment.Entities;
@@ -84,6 +85,59 @@ namespace Domain.Shared.Factories
             string? description
             );
 
+        /// <summary>
+        /// For Creating New DomainUrl
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="email"></param>
+        /// <param name="previousProblemId"></param>
+        /// <param name="idAppProblem"></param>
+        /// <param name="userMessage"></param>
+        /// <param name="notificationSenderId"></param>
+        /// <param name="notificationStatusId"></param>
+        /// <returns></returns>
+        DomainNotification CreateDomainNotification
+            (
+            Guid? userId,
+            string? email,
+            Guid? previousProblemId,
+            Guid? idAppProblem,
+            string? userMessage,
+            int notificationSenderId,
+            int? notificationStatusId
+            );
+
+        /// <summary>
+        /// For creating Regular DomainNotification, mostly for maping from Database on Domain
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="userId"></param>
+        /// <param name="email"></param>
+        /// <param name="created"></param>
+        /// <param name="completed"></param>
+        /// <param name="previousProblemId"></param>
+        /// <param name="idAppProblem"></param>
+        /// <param name="userMessage"></param>
+        /// <param name="response"></param>
+        /// <param name="isReadedAnswerByUser"></param>
+        /// <param name="notificationSenderId"></param>
+        /// <param name="notificationStatusId"></param>
+        /// <returns></returns>
+        DomainNotification CreateDomainNotification
+            (
+            Guid id,
+            Guid? userId,
+            string? email,
+            DateTime created,
+            DateTime? completed,
+            Guid? previousProblemId,
+            Guid? idAppProblem,
+            string? userMessage,
+            string? response,
+            string isReadedAnswerByUser,
+            int notificationSenderId,
+            int notificationStatusId
+            );
 
         //=================================================================================================
         //=================================================================================================

@@ -67,7 +67,7 @@ namespace Domain.Features.Branch.Entities
             (
             Guid? id,
             Guid companyId,
-            Guid? addressId,
+            Guid addressId,
             string? urlSegment,
             string name,
             string? description,
@@ -81,7 +81,7 @@ namespace Domain.Features.Branch.Entities
             //Values with no exeptions
             Name = name;
             CompanyId = new UserId(companyId);
-            AddressId = addressId == null ? null : new AddressId(addressId);
+            AddressId = new AddressId(addressId);
             Description = description;
         }
 

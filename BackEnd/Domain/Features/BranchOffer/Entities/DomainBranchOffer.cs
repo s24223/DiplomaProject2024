@@ -76,14 +76,16 @@ namespace Domain.Features.BranchOffer.Entities
             ) : base(new BranchOfferId(id), provider)
         {
             LastUpdate = lastUpdate ?? _provider.TimeProvider().GetDateTimeNow();
+            Created = created ?? _provider.TimeProvider().GetDateTimeNow();
+
+            BranchId = new BranchId(id);
+            OfferId = new OfferId(id);
+
             PublishStart = publishStart;
             PublishEnd = publishEnd;
             WorkStart = workStart;
             WorkEnd = workEnd;
 
-            Created = created ?? _provider.TimeProvider().GetDateTimeNow();
-            BranchId = new BranchId(id);
-            OfferId = new OfferId(id);
             //ThrowExceptionIfIsNotValid();
         }
 

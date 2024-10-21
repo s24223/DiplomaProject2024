@@ -1,4 +1,6 @@
 ﻿using Domain.Features.Company.Entities;
+using Domain.Features.Notification.Entities;
+using Domain.Features.Notification.ValueObjects.Identificators;
 using Domain.Features.Person.Entities;
 using Domain.Features.Url.Entities;
 using Domain.Features.Url.ValueObjects.Identificators;
@@ -46,9 +48,9 @@ namespace Domain.Features.User.Entities
                 }
             }
         }
-        //DomainUserProblem
-        /*private Dictionary<UserProblemId, DomainUserProblem> _userProblems = new();
-        public IReadOnlyDictionary<UserProblemId, DomainUserProblem> UserProblems => _userProblems;*/
+        //Notification
+        private Dictionary<NotificationId, DomainNotification> _notifications = new();
+        public IReadOnlyDictionary<NotificationId, DomainNotification> Notifications => _notifications;
         //DomainUrl
         private Dictionary<UrlId, DomainUrl> _urls = new();
         public IReadOnlyDictionary<UrlId, DomainUrl> Urls => _urls;
@@ -78,14 +80,14 @@ namespace Domain.Features.User.Entities
         //==================================================================================================
         //==================================================================================================
         //Public Methods
-        /*public void AddUserProblem(DomainUserProblem userProblem)
+        public void AddUserProblem(DomainNotification notification)
         {
-            if (userProblem.UserId == Id && !_userProblems.ContainsKey(userProblem.Id))
+            if (notification.UserId == Id && !_notifications.ContainsKey(notification.Id))
             {
-                _userProblems.Add(userProblem.Id, userProblem);
-                userProblem.User = this;
+                _notifications.Add(notification.Id, notification);
+                notification.User = this;
             }
-        }*/
+        }
 
         public void AddUrl(DomainUrl domainUrl)
         {

@@ -33,9 +33,9 @@ public partial class DiplomaProjectMsSQLContext : DiplomaProjectContext
             {
                 throw new InfrastructureLayerException(Messages.NotConfiguredConnectionString);
             }
-            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseSqlServer(connectionString)
             //.LogTo(Console.WriteLine);
-            //.LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }); // Logowanie tylko SQL
+            .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }); // Logowanie tylko SQL
         }
         else
         {
@@ -278,7 +278,7 @@ public partial class DiplomaProjectMsSQLContext : DiplomaProjectContext
         {
             entity.HasKey(e => e.Id).HasName("CommentType_pk");
 
-            entity.ToTable("CommentType");
+            entity.ToTable("DomainCommentType");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Description).HasMaxLength(200);

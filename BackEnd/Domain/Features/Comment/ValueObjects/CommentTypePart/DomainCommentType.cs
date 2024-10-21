@@ -3,11 +3,11 @@ using Domain.Shared.Templates.Exceptions;
 
 namespace Domain.Features.Comment.ValueObjects.CommentTypePart
 {
-    public record CommentType
+    public record DomainCommentType
     {
         //Values
         //Static
-        private static Dictionary<int, CommentType> _commentTypes = new();
+        private static Dictionary<int, DomainCommentType> _commentTypes = new();
 
         //NonStatic
         public int Id { get; private set; }
@@ -16,7 +16,7 @@ namespace Domain.Features.Comment.ValueObjects.CommentTypePart
 
 
         //Cosntructors
-        public CommentType(int id)
+        public DomainCommentType(int id)
         {
             if (!_commentTypes.TryGetValue(id, out var item))
             {
@@ -31,17 +31,17 @@ namespace Domain.Features.Comment.ValueObjects.CommentTypePart
             Description = item.Description;
         }
 
-        private CommentType(int id, CommentTypeEnum name, string description)
+        private DomainCommentType(int id, CommentTypeEnum name, string description)
         {
             Id = id;
             Name = name;
             Description = description;
         }
 
-        static CommentType()
+        static DomainCommentType()
         {
-            var list = new List<CommentType>();
-            list.Add(new CommentType(1, CommentTypeEnum.Person, ""));
+            var list = new List<DomainCommentType>();
+            list.Add(new DomainCommentType(1, CommentTypeEnum.Person, ""));
 
             foreach (var item in list)
             {
@@ -54,7 +54,7 @@ namespace Domain.Features.Comment.ValueObjects.CommentTypePart
         //=====================================================================================================
         //=====================================================================================================
         //Public Methods
-        public static IReadOnlyDictionary<int, CommentType> GetCommentTypes() => _commentTypes;
+        public static IReadOnlyDictionary<int, DomainCommentType> GetCommentTypes() => _commentTypes;
 
         //=====================================================================================================
         //=====================================================================================================
