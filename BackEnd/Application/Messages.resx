@@ -195,6 +195,9 @@
   <data name="Intership_Ids_NotFound" xml:space="preserve">
     <value>Za podanymi danymi Nie znaleziono Intership</value>
   </data>
+  <data name="Notification_Id_NotFound" xml:space="preserve">
+    <value>Nie nzleziono danych za podanym Id</value>
+  </data>
   <data name="Offer_Ids_NotFound" xml:space="preserve">
     <value>Za podanymi danymi Ofert urzytkownika nie zostało znalieziono</value>
     <comment>x</comment>

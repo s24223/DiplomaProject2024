@@ -13,6 +13,5 @@
             Id = id;
             Name = name;
         }
-
     }
 }

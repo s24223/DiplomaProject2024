@@ -16,9 +16,9 @@ namespace Application.Features.User.DTOs.CommandsUser
         public UrlResponseDto(DomainUrl url)
         {
             UserId = url.Id.UserId.Value;
-            UrlTypeId = (int)url.Id.UrlType.Type;
-            UrlType = url.Id.UrlType.Name;
-            UrlTypeDescription = url.Id.UrlType.Description;
+            UrlTypeId = (int)url.Id.UrlTypeId;
+            UrlType = url.Type.Name;
+            UrlTypeDescription = url.Type.Description;
             Created = url.Id.Created;
             Path = url.Path.ToString();
             Name = url.Name;

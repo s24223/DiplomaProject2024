@@ -10,6 +10,7 @@ using Domain.Features.Offer.Entities;
 using Domain.Features.Person.Entities;
 using Domain.Features.Recruitment.Entities;
 using Domain.Features.Url.Entities;
+using Domain.Features.Url.Repository;
 using Domain.Features.User.Entities;
 using Domain.Shared.Providers;
 using Domain.Shared.ValueObjects;
@@ -20,18 +21,21 @@ namespace Domain.Shared.Factories
     {
         //Values
         private readonly IProvider _provider;
-        private readonly IDomainUserDictionariesRepository _doamainUserDictionaries;
+        private readonly IDomainNotificationDictionariesRepository _doamainUserDictionaries;
+        private readonly IDomainUrlTypeDictionariesRepository _domainUrlTypeDictionaries;
 
 
         //Constructor
         public DomainFactory
             (
             IProvider provider,
-            IDomainUserDictionariesRepository doamainUserDictionaries
+            IDomainNotificationDictionariesRepository doamainUserDictionaries,
+            IDomainUrlTypeDictionariesRepository domainUrlTypeDictionaries
             )
         {
             _provider = provider;
             _doamainUserDictionaries = doamainUserDictionaries;
+            _domainUrlTypeDictionaries = domainUrlTypeDictionaries;
         }
 
 
@@ -90,6 +94,7 @@ namespace Domain.Shared.Factories
                 path,
                 name,
                 description,
+                _domainUrlTypeDictionaries,
                 _provider
                 );
         }
@@ -112,6 +117,7 @@ namespace Domain.Shared.Factories
                 path,
                 name,
                 description,
+                _domainUrlTypeDictionaries,
                 _provider
                 );
         }

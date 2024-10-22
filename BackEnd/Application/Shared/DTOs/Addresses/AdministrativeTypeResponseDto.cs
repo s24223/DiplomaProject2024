@@ -1,4 +1,4 @@
-﻿namespace Application.Features.Addresses.DTOs.Select.Shared
+﻿namespace Application.Shared.DTOs.Addresses
 {
     public class AdministrativeTypeResponseDto
     {

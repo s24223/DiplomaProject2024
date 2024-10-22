@@ -4,9 +4,11 @@ using Application.Shared.Interfaces.EntityToDomainMappers;
 using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.Url.Entities;
 using Domain.Features.Url.Exceptions.Entities;
+using Domain.Features.Url.ValueObjects.Identificators;
 using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Templates.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 namespace Application.Features.User.Interfaces.CommandsUrl
 {
@@ -39,22 +41,27 @@ namespace Application.Features.User.Interfaces.CommandsUrl
         //DML
         public async Task CreateAsync
             (
-            DomainUrl url,
+            IEnumerable<DomainUrl> urls,
             CancellationToken cancellation
             )
         {
             try
             {
-                var databaseUrl = new Url
+                var timeMistake = 0;
+
+                foreach (var url in urls)
                 {
-                    UserId = url.Id.UserId.Value,
-                    UrlTypeId = (int)url.Id.UrlType.Type,
-                    Created = url.Id.Created,
-                    Path = url.Path.ToString(),
-                    Name = url.Name,
-                    Description = url.Description,
-                };
-                await _context.Urls.AddAsync(databaseUrl, cancellation);
+                    var databaseUrl = new Url
+                    {
+                        UserId = url.Id.UserId.Value,
+                        UrlTypeId = url.Id.UrlTypeId,
+                        Created = url.Id.Created.AddMilliseconds(timeMistake++),
+                        Path = url.Path,
+                        Name = url.Name,
+                        Description = url.Description,
+                    };
+                    await _context.Urls.AddAsync(databaseUrl, cancellation);
+                }
                 await _context.SaveChangesAsync(cancellation);
             }
             catch (System.Exception ex)
@@ -65,24 +72,23 @@ namespace Application.Features.User.Interfaces.CommandsUrl
 
         public async Task UpdateAsync
             (
-            DomainUrl url,
+            Dictionary<UrlId, DomainUrl> urls,
             CancellationToken cancellation
             )
         {
             try
             {
-                var databaseUrl = await GetDatabaseUrlAsync
-                (
-                url.Id.UserId,
-                url.Id.UrlType,
-                url.Id.Created,
-                cancellation
-                );
+                var databaseUrlsDictionary = await GetDatabaseUrlsDictionaryAsync(urls.Keys, cancellation);
 
-                databaseUrl.Name = url.Name;
-                databaseUrl.Description = url.Description;
-                databaseUrl.Path = url.Path.ToString();
-
+                foreach (var databaseUrl in databaseUrlsDictionary)
+                {
+                    if (urls.TryGetValue(databaseUrl.Key, out var domainUrl))
+                    {
+                        databaseUrl.Value.Name = domainUrl.Name;
+                        databaseUrl.Value.Description = domainUrl.Description;
+                        databaseUrl.Value.Path = domainUrl.Path;
+                    }
+                }
                 await _context.SaveChangesAsync(cancellation);
             }
             catch (System.Exception ex)
@@ -93,23 +99,18 @@ namespace Application.Features.User.Interfaces.CommandsUrl
 
         public async Task DeleteAsync
             (
-            UserId userId,
-            Domain.Features.Url.ValueObjects.UrlTypePart.UrlType urlType,
-            DateTime created,
+            IEnumerable<UrlId> ids,
             CancellationToken cancellation
             )
         {
             try
             {
-                var databaseUrl = await GetDatabaseUrlAsync
-                (
-                userId,
-                urlType,
-                created,
-                cancellation
-                );
-                _context.Urls.Remove(databaseUrl);
+                var databaseUrlsDictionary = await GetDatabaseUrlsDictionaryAsync(ids, cancellation);
 
+                foreach (var databaseUrl in databaseUrlsDictionary)
+                {
+                    _context.Urls.Remove(databaseUrl.Value);
+                }
                 await _context.SaveChangesAsync(cancellation);
             }
             catch (System.Exception ex)
@@ -120,50 +121,63 @@ namespace Application.Features.User.Interfaces.CommandsUrl
 
         //====================================================================================================
         //DQL
-        public async Task<DomainUrl> GetUrlAsync
+        public async Task<Dictionary<UrlId, DomainUrl>> GetUrlsDictionaryAsync
             (
-            UserId userId,
-            Domain.Features.Url.ValueObjects.UrlTypePart.UrlType urlType,
-            DateTime created,
+            IEnumerable<UrlId> ids,
             CancellationToken cancellation
             )
         {
-            var databaseUrl = await GetDatabaseUrlAsync
+            var databaseUrl = await GetDatabaseUrlsDictionaryAsync(ids, cancellation);
+
+            return databaseUrl.ToDictionary
                 (
-                userId,
-                urlType,
-                created,
-                cancellation
+                x => x.Key,
+                x => _mapper.ToDomainUrl(x.Value)
                 );
-            return _mapper.ToDomainUrl(databaseUrl);
         }
+
         //====================================================================================================
         //====================================================================================================
         //====================================================================================================
         //Private Methods
-        private async Task<Url> GetDatabaseUrlAsync
+        private async Task<Dictionary<UrlId, Url>> GetDatabaseUrlsDictionaryAsync
             (
-            UserId userId,
-            Domain.Features.Url.ValueObjects.UrlTypePart.UrlType urlType,
-            DateTime created,
+            IEnumerable<UrlId> ids,
             CancellationToken cancellation
             )
         {
-            var url = await _context.Urls
-                .Where(x =>
-                    x.UserId == userId.Value &&
-                    x.UrlTypeId == (int)urlType.Type &&
-                    x.Created == created
-                ).FirstOrDefaultAsync(cancellation);
-            if (url == null)
+            var idSet = new HashSet<UrlId>(ids);
+            var urls = await _context.Urls
+                .Where(x => idSet.Any(y =>
+                    y.UserId.Value == x.UserId &&
+                    y.UrlTypeId == x.UrlTypeId &&
+                    y.Created == x.Created
+                )).ToDictionaryAsync(x =>
+                    new UrlId(new UserId(x.UserId), x.UrlTypeId, x.Created),
+                    x => x
+                    );
+
+            var missingIds = ids.Where(id => !urls.ContainsKey(id));
+
+
+            if (missingIds.Any())
             {
+                var builder = new StringBuilder();
+                builder.AppendLine(Messages.Url_Ids_NotFound);
+                builder.AppendLine($"UserId,\t UrlTypeId,\t Created");
+
+                foreach (var id in missingIds)
+                {
+                    builder.AppendLine($"{id.UserId},\t {id.UrlTypeId},\t {id.Created}");
+                }
+
                 throw new UrlException
                     (
-                    Messages.Url_Ids_NotFound,
+                    builder.ToString(),
                     DomainExceptionTypeEnum.NotFound
                     );
             }
-            return url;
+            return urls;
         }
     }
 }

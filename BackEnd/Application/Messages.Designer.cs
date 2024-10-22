@@ -286,6 +286,15 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nie nzleziono danych za podanym Id.
+        /// </summary>
+        internal static string Notification_Id_NotFound {
+            get {
+                return ResourceManager.GetString("Notification_Id_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Za podanymi danymi Ofert urzytkownika nie zostało znalieziono.
         /// </summary>
         internal static string Offer_Ids_NotFound {

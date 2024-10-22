@@ -196,6 +196,60 @@ namespace Domain {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Notification_IsExistAnswer_False {
+            get {
+                return ResourceManager.GetString("Notification_IsExistAnswer_False", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Notification_IsReadedAnswerByUser_True {
+            get {
+                return ResourceManager.GetString("Notification_IsReadedAnswerByUser_True", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Notification_Sender_NotFound {
+            get {
+                return ResourceManager.GetString("Notification_Sender_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Notification_Status_NotFound {
+            get {
+                return ResourceManager.GetString("Notification_Status_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nie można zmienic statusu.
+        /// </summary>
+        internal static string Notification_Status_UnableAnnulCompleted {
+            get {
+                return ResourceManager.GetString("Notification_Status_UnableAnnulCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Problem aplikacyjny, nie nzaleziony status annull (4), lub jest problem z pobieraniem daych z BD .
+        /// </summary>
+        internal static string Notification_StatusAnnul_NotFound {
+            get {
+                return ResourceManager.GetString("Notification_StatusAnnul_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to W ramach podanych nalezy uzupełnić czy dane wynagrodzenie poddjae sie negociacjom.
         /// </summary>
         internal static string Offer_IsNegotiatedSalary_Empty {

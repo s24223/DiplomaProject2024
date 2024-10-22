@@ -2,8 +2,8 @@
 {
     public class UpdateUrlRequestDto
     {
-        public required string Path { get; set; } = null!;
-        public string? Name { get; set; } = null;
-        public string? Description { get; set; } = null;
+        public required int UrlTypeId { get; set; }
+        public required DateTime Created { get; set; }
+        public required UpdateUrlDataRequestDto UpdateData { get; set; }
     }
 }

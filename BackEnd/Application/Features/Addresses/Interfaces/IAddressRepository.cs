@@ -1,5 +1,4 @@
-﻿using Application.Features.Addresses.DTOs.Select.Collocations;
-using Application.Features.Addresses.DTOs.Select.Shared;
+﻿using Application.Features.Addresses.DTOs.Select;
 using Domain.Features.Address.Entities;
 using Domain.Features.Address.ValueObjects.Identificators;
 
@@ -34,7 +33,7 @@ namespace Application.Features.Addresses.Interfaces
             CancellationToken cancellation
             );
 
-        Task<IEnumerable<DivisionResponseDto>> GetDivisionsDownAsync
+        Task<IEnumerable<DivisionStreetsResponseDto>> GetDivisionsDownAsync
             (
             DivisionId? id,
             CancellationToken cancellation

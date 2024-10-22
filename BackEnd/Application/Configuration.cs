@@ -10,15 +10,20 @@ using Application.Features.Internship.RecrutmentPart.Interfaces;
 using Application.Features.Internship.RecrutmentPart.Services;
 using Application.Features.Person.Interfaces;
 using Application.Features.Person.Services;
+using Application.Features.User.Interfaces.CommandsNotification;
 using Application.Features.User.Interfaces.CommandsUrl;
 using Application.Features.User.Interfaces.CommandsUser;
+using Application.Features.User.Interfaces.QueriesUser;
+using Application.Features.User.Services.CommandsNotification;
 using Application.Features.User.Services.CommandsUrl;
 using Application.Features.User.Services.CommandsUser;
+using Application.Features.User.Services.QueriesUser;
 using Application.Shared.Interfaces.EntityToDomainMappers;
 using Application.Shared.Interfaces.Exceptions;
 using Application.Shared.Repositories;
 using Application.Shared.Services.Authentication;
 using Domain.Features.Notification.Repositories;
+using Domain.Features.Url.Repository;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -38,23 +43,44 @@ namespace Application
             serviceCollection.AddTransient<IExceptionsRepository, ExceptionsRepository>();
             serviceCollection.AddTransient<IEntityToDomainMapper, EntityToDomainMapper>();
 
+            //Doamain Connections
+            serviceCollection.AddTransient<IDomainNotificationDictionariesRepository, DomainNotificationDictionariesRepository>();
+            serviceCollection.AddTransient<IDomainUrlTypeDictionariesRepository, DomainUrlTypeDictionariesRepository>();
 
-            //User Part
+            //===============================================================================================================
+            //User Module
+
+            //Commands
+            //User Part 
             serviceCollection.AddTransient<IUserCommandRepository, UserCommandRepository>();
             serviceCollection.AddTransient<IUserCommandService, UserCommandService>();
 
-            //Url Part
+            //Url Part 
             serviceCollection.AddTransient<IUrlCommandRepository, UrlCommandRepository>();
             serviceCollection.AddTransient<IUrlCommandService, UrlCommandService>();
 
+            //Notification Part 
+            serviceCollection.AddTransient<INotificationCommandService, NotificationCommandService>();
+            serviceCollection.AddTransient<INotificationCommandRepository, NotificationCommandRepository>();
+
+            //Queries
+            serviceCollection.AddTransient<IUserQueriesService, UserQueriesService>();
+            serviceCollection.AddTransient<IUserQueriesRepository, UserQueriesRepository>();
+
+            //===============================================================================================================
+            //Address Module
             //Address Part
             serviceCollection.AddTransient<IAddressRepository, AddressRepository>();
             serviceCollection.AddTransient<IAddressService, AddressService>();
 
+            //===============================================================================================================
+            //Person Module 
             //Person Part 
             serviceCollection.AddTransient<IPersonRepository, PersonRepository>();
             serviceCollection.AddTransient<IPersonService, PersonService>();
 
+            //===============================================================================================================
+            //Company Module 
             //Company Part 
             serviceCollection.AddTransient<ICompanyRepository, CompanyRepository>();
             serviceCollection.AddTransient<ICompanyService, CompanyService>();
@@ -67,7 +93,9 @@ namespace Application
             serviceCollection.AddTransient<IBranchRepository, BranchRepository>();
             serviceCollection.AddTransient<IBranchService, BranchService>();
 
-            //Recruitment
+            //===============================================================================================================
+            //Intership module 
+            //Recruitment part
             serviceCollection.AddTransient<IRecruitmentRepository, RecruitmentRepository>();
             serviceCollection.AddTransient<IRecruitmentService, RecruitmentService>();
 
@@ -75,11 +103,7 @@ namespace Application
             serviceCollection.AddTransient<IInternshipRepository, InternshipRepository>();
             serviceCollection.AddTransient<IInternshipService, InternshipService>();
 
-
-            //Doamin Connections
-            serviceCollection.AddTransient<IDomainUserDictionariesRepository, DomainUserDictionariesRepository>();
-
-
+            //===============================================================================================================
             return serviceCollection;
         }
     }

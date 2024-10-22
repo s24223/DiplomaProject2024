@@ -1,7 +1,6 @@
 ﻿using Application.Databases.Relational;
 using Application.Databases.Relational.Models;
-using Application.Features.Addresses.DTOs.Select.Collocations;
-using Application.Features.Addresses.DTOs.Select.Shared;
+using Application.Features.Addresses.DTOs.Select;
 using Application.Shared.Interfaces.EntityToDomainMappers;
 using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.Address.Entities;
@@ -92,8 +91,7 @@ namespace Application.Features.Addresses.Interfaces
                     DivisionId = address.DivisionId.Value,
                     StreetId = address.StreetId.Value,
                     BuildingNumber = address.BuildingNumber.Value,
-                    ApartmentNumber = address.ApartmentNumber == null ?
-                    null : address.ApartmentNumber.Value,
+                    ApartmentNumber = address.ApartmentNumber?.Value,
                     ZipCode = address.ZipCode.Value,
                 };
                 await _context.Addresses.AddAsync(databaseAddress, cancellation);
@@ -106,6 +104,7 @@ namespace Application.Features.Addresses.Interfaces
             }
         }
 
+
         public async Task UpdateAsync
             (
             DomainAddress address,
@@ -115,9 +114,7 @@ namespace Application.Features.Addresses.Interfaces
             try
             {
                 var databaseAddress = await GetDatabaseAddress(address.Id, cancellation);
-
                 databaseAddress.ZipCode = address.ZipCode.Value;
-
                 await _context.SaveChangesAsync(cancellation);
             }
             catch (System.Exception ex)
@@ -125,6 +122,7 @@ namespace Application.Features.Addresses.Interfaces
                 throw _exceptionsRepository.ConvertEFDbException(ex);
             }
         }
+
 
         //DQL
         public async Task<IEnumerable<CollocationResponseDto>> GetCollocationsAsync
@@ -136,20 +134,16 @@ namespace Application.Features.Addresses.Interfaces
         {
             var collocations = new List<CollocationResponseDto>();
 
-            var list = await _sql.GetCollocationsAsync(divisionName, streetName, cancellation);
-            foreach (var item in list)
+            var divisionIdStreetList = await _sql.GetCollocationsAsync(divisionName, streetName, cancellation);
+            foreach (var item in divisionIdStreetList)
             {
                 var street = item.Street;
-                var hierarchy = await _sql.GetDivisionsHierachyUpAsync
-                    (
-                    item.DivisionId,
-                    cancellation
-                    );
-
+                var hierarchy = await _sql.GetDivisionsHierachyUpAsync(item.DivisionId, cancellation);
                 collocations.Add(new CollocationResponseDto(hierarchy, street));
             }
             return collocations;
         }
+
 
         public async Task<DomainAddress> GetAddressAsync
             (
@@ -157,14 +151,13 @@ namespace Application.Features.Addresses.Interfaces
             CancellationToken cancellation
             )
         {
-            var databaseAddress = await GetDatabaseAddress(id, cancellation);
-            var databseHierarchy = await _sql
-                .GetDivisionsHierachyUpAsync(databaseAddress.DivisionId, cancellation);
-
-            return _mapper.ToDomainAddress(databaseAddress, databseHierarchy);
+            var dbAddress = await GetDatabaseAddress(id, cancellation);
+            var hierarchy = await _sql.GetDivisionsHierachyUpAsync(dbAddress.DivisionId, cancellation);
+            return _mapper.ToDomainAddress(dbAddress, hierarchy);
         }
 
-        public async Task<IEnumerable<DivisionResponseDto>> GetDivisionsDownAsync
+
+        public async Task<IEnumerable<DivisionStreetsResponseDto>> GetDivisionsDownAsync
             (
             DivisionId? id,
             CancellationToken cancellation
@@ -175,17 +168,7 @@ namespace Application.Features.Addresses.Interfaces
                 return await _context.AdministrativeDivisions
                 .Include(x => x.AdministrativeType)
                 .Where(x => x.ParentDivisionId == null)
-                .Select(x => new DivisionResponseDto
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    ParentId = x.ParentDivisionId,
-                    AdministrativeType = new AdministrativeTypeResponseDto
-                    {
-                        Id = x.AdministrativeType.Id,
-                        Name = x.AdministrativeType.Name,
-                    }
-                })
+                .Select(x => new DivisionStreetsResponseDto(x))
                 .AsNoTracking()
                 .ToListAsync(cancellation);
             }
@@ -193,18 +176,10 @@ namespace Application.Features.Addresses.Interfaces
             {
                 return await _context.AdministrativeDivisions
                 .Include(x => x.AdministrativeType)
+                .Include(x => x.Streets)
+                .ThenInclude(x => x.AdministrativeType)
                 .Where(x => x.ParentDivisionId == id.Value)
-                .Select(x => new DivisionResponseDto
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    ParentId = x.ParentDivisionId,
-                    AdministrativeType = new AdministrativeTypeResponseDto
-                    {
-                        Id = x.AdministrativeType.Id,
-                        Name = x.AdministrativeType.Name,
-                    }
-                })
+                .Select(x => new DivisionStreetsResponseDto(x))
                 .AsNoTracking()
                 .ToListAsync(cancellation);
             }

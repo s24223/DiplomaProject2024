@@ -165,6 +165,27 @@
   <data name="Money_Value_Invalid" xml:space="preserve">
     <value>Podana wartość srodka płatniczego nie spełnia wymagań, musi być maksymalnie po 2 liczbach po przecinku</value>
   </data>
+  <data name="Notification_IsExistAnswer_False" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Notification_IsReadedAnswerByUser_True" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Notification_Sender_NotFound" xml:space="preserve">
+    <value />
+    <comment>App Problem</comment>
+  </data>
+  <data name="Notification_StatusAnnul_NotFound" xml:space="preserve">
+    <value>Problem aplikacyjny, nie nzaleziony status annull (4), lub jest problem z pobieraniem daych z BD </value>
+    <comment>App Problem</comment>
+  </data>
+  <data name="Notification_Status_NotFound" xml:space="preserve">
+    <value />
+    <comment>App Problem</comment>
+  </data>
+  <data name="Notification_Status_UnableAnnulCompleted" xml:space="preserve">
+    <value>Nie można zmienic statusu</value>
+  </data>
   <data name="Offer_IsNegotiatedSalary_Empty" xml:space="preserve">
     <value>W ramach podanych nalezy uzupełnić czy dane wynagrodzenie poddjae sie negociacjom</value>
   </data>

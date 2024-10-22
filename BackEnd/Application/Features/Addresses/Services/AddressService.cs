@@ -1,11 +1,9 @@
 ﻿using Application.Features.Addresses.DTOs.Create;
-using Application.Features.Addresses.DTOs.Select.Address;
-using Application.Features.Addresses.DTOs.Select.Collocations;
-using Application.Features.Addresses.DTOs.Select.Shared;
+using Application.Features.Addresses.DTOs.Select;
 using Application.Features.Addresses.DTOs.Update;
 using Application.Features.Addresses.Interfaces;
+using Application.Shared.DTOs.Addresses;
 using Application.Shared.DTOs.Response;
-using Application.Shared.Services.Authentication;
 using Domain.Features.Address.ValueObjects.Identificators;
 using Domain.Shared.Factories;
 using Domain.Shared.Providers;
@@ -17,7 +15,6 @@ namespace Application.Features.Addresses.Services
         //Values
         private readonly IAddressRepository _repository;
         private readonly IDomainFactory _domainFactory;
-        private readonly IAuthenticationService _authenticationRepository;
         private readonly IProvider _domainProvider;
 
 
@@ -25,14 +22,12 @@ namespace Application.Features.Addresses.Services
         public AddressService
             (
             IAddressRepository repository,
-            IAuthenticationService authentication,
             IDomainFactory domainFactory,
             IProvider domainProvider
             )
         {
             _repository = repository;
             _domainFactory = domainFactory;
-            _authenticationRepository = authentication;
             _domainProvider = domainProvider;
         }
 
@@ -76,7 +71,6 @@ namespace Application.Features.Addresses.Services
         {
             var address = await _repository.GetAddressAsync(new AddressId(id), cancellation);
             address.SetZipCode(dto.ZipCode);
-
             await _repository.UpdateAsync(address, cancellation);
             return new Response { };
         }
@@ -89,8 +83,7 @@ namespace Application.Features.Addresses.Services
             CancellationToken cancellation
             )
         {
-            var collocations = await _repository
-                .GetCollocationsAsync(divisionName, streetName, cancellation);
+            var collocations = await _repository.GetCollocationsAsync(divisionName, streetName, cancellation);
             return new ResponseItems<CollocationResponseDto>
             {
                 Items = collocations.ToList()
@@ -104,15 +97,13 @@ namespace Application.Features.Addresses.Services
             )
         {
             var address = await _repository.GetAddressAsync(new AddressId(id), cancellation);
-
             return new ResponseItem<AddressResponseDto>
             {
                 Item = new AddressResponseDto(address),
             };
         }
 
-
-        public async Task<ResponseItems<DivisionResponseDto>> GetDivisionsDownAsync
+        public async Task<ResponseItems<DivisionStreetsResponseDto>> GetDivisionsDownAsync
             (
             int? id,
             CancellationToken cancellation
@@ -121,7 +112,7 @@ namespace Application.Features.Addresses.Services
             DivisionId? divisionId = (id.HasValue ? new DivisionId(id.Value) : null);
             var items = await _repository.GetDivisionsDownAsync(divisionId, cancellation);
 
-            return new ResponseItems<DivisionResponseDto>
+            return new ResponseItems<DivisionStreetsResponseDto>
             {
                 Items = items.ToList(),
             };

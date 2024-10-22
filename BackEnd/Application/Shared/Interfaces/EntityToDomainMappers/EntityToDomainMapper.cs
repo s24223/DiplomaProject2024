@@ -4,6 +4,7 @@ using Domain.Features.Branch.Entities;
 using Domain.Features.BranchOffer.Entities;
 using Domain.Features.Company.Entities;
 using Domain.Features.Intership.Entities;
+using Domain.Features.Notification.Entities;
 using Domain.Features.Offer.Entities;
 using Domain.Features.Person.Entities;
 using Domain.Features.Recruitment.Entities;
@@ -59,6 +60,24 @@ namespace Application.Shared.Interfaces.EntityToDomainMappers
                 );
         }
 
+        public DomainNotification ToDomainNotification(Notification notification)
+        {
+            return _domainFactory.CreateDomainNotification
+                (
+                notification.Id,
+                notification.UserId,
+                notification.Email,
+                notification.Created,
+                notification.Completed,
+                notification.PreviousProblemId,
+                notification.IdAppProblem,
+                notification.UserMessage,
+                notification.Response,
+                notification.IsReadedByUser,
+                notification.NotificationSenderId,
+                notification.NotificationStatusId
+                );
+        }
 
         //Address Module
         public DomainAddress ToDomainAddress

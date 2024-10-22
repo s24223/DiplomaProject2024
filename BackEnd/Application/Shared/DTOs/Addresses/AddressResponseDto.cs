@@ -1,7 +1,6 @@
-﻿using Application.Features.Addresses.DTOs.Select.Shared;
-using Domain.Features.Address.Entities;
+﻿using Domain.Features.Address.Entities;
 
-namespace Application.Features.Addresses.DTOs.Select.Address
+namespace Application.Shared.DTOs.Addresses
 {
     public class AddressResponseDto
     {

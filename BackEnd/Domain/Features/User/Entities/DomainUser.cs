@@ -67,10 +67,7 @@ namespace Domain.Features.User.Entities
             )
             : base(id: new UserId(id), provider)
         {
-            //Values with exeptions
-            Login = new Email(login);
-
-            //Values with no exeptions
+            Login = new Email(login);//Value with exeptions
             LastLoginIn = lastLoginIn;
             LastPasswordUpdate = lastPasswordUpdate ?? _provider.TimeProvider().GetDateTimeNow();
         }
@@ -80,7 +77,7 @@ namespace Domain.Features.User.Entities
         //==================================================================================================
         //==================================================================================================
         //Public Methods
-        public void AddUserProblem(DomainNotification notification)
+        public void AddNotification(DomainNotification notification)
         {
             if (notification.UserId == Id && !_notifications.ContainsKey(notification.Id))
             {

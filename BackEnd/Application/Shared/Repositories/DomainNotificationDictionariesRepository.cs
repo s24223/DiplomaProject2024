@@ -5,7 +5,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Application.Shared.Repositories
 {
-    public class DomainUserDictionariesRepository : IDomainUserDictionariesRepository
+    public class DomainNotificationDictionariesRepository : IDomainNotificationDictionariesRepository
     {
         //Values
         private readonly DiplomaProjectContext _context;
@@ -19,7 +19,7 @@ namespace Application.Shared.Repositories
 
 
         //Cosntructor
-        public DomainUserDictionariesRepository
+        public DomainNotificationDictionariesRepository
             (
             DiplomaProjectContext context,
             IMemoryCache cache

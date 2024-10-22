@@ -4,6 +4,7 @@ using Domain.Features.Branch.Entities;
 using Domain.Features.BranchOffer.Entities;
 using Domain.Features.Company.Entities;
 using Domain.Features.Intership.Entities;
+using Domain.Features.Notification.Entities;
 using Domain.Features.Offer.Entities;
 using Domain.Features.Person.Entities;
 using Domain.Features.Recruitment.Entities;
@@ -17,6 +18,7 @@ namespace Application.Shared.Interfaces.EntityToDomainMappers
         //User Module
         DomainUser ToDomainUser(User databaseUser);
         DomainUrl ToDomainUrl(Url databaseUrl);
+        DomainNotification ToDomainNotification(Notification notification);
 
         //Address Module
         DomainAddress ToDomainAddress

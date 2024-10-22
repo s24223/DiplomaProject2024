@@ -1,12 +1,11 @@
-﻿using Application.Features.User.DTOs.CommandsUrl;
-using Application.Features.User.DTOs.CommandsUrl.Create;
+﻿using Application.Features.User.DTOs.CommandsUrl.Create;
+using Application.Features.User.DTOs.CommandsUrl.Delete;
 using Application.Features.User.DTOs.CommandsUrl.Update;
 using Application.Features.User.Interfaces.CommandsUrl;
 using Application.Shared.DTOs.Response;
 using Application.Shared.Services.Authentication;
-using Domain.Features.Url.ValueObjects.UrlTypePart;
+using Domain.Features.Url.ValueObjects.Identificators;
 using Domain.Shared.Factories;
-using Domain.Shared.Providers;
 using System.Security.Claims;
 
 namespace Application.Features.User.Services.CommandsUrl
@@ -16,21 +15,19 @@ namespace Application.Features.User.Services.CommandsUrl
         //Values
         private readonly IDomainFactory _domainFactory;
         private readonly IAuthenticationService _authentication;
-        private readonly IProvider _domainProvider;
         private readonly IUrlCommandRepository _urlRepository;
 
 
         //Cosntructor
-        public UrlCommandService(
+        public UrlCommandService
+            (
             IDomainFactory domainFactory,
             IAuthenticationService authentication,
-            IProvider domainProvider,
             IUrlCommandRepository urlRepository
             )
         {
             _domainFactory = domainFactory;
             _authentication = authentication;
-            _domainProvider = domainProvider;
             _urlRepository = urlRepository;
         }
 
@@ -43,72 +40,75 @@ namespace Application.Features.User.Services.CommandsUrl
         public async Task<Response> CreateAsync
             (
             IEnumerable<Claim> claims,
-            CreateUrlRequestDto dto,
+            IEnumerable<CreateUrlRequestDto> dtos,
             CancellationToken cancellation
             )
         {
             var userId = _authentication.GetIdNameFromClaims(claims);
-            var url = _domainFactory.CreateDomainUrl
+            var urls = dtos.Select(x => _domainFactory.CreateDomainUrl
                 (
                 userId.Value,
-                dto.UrlTypeId,
-                dto.Path,
-                dto.Name,
-                dto.Description
-                );
-            await _urlRepository.CreateAsync(url, cancellation);
+                x.UrlTypeId,
+                x.Path,
+                x.Name,
+                x.Description
+                ));
+            await _urlRepository.CreateAsync(urls, cancellation);
             return new Response { };
         }
+
 
         public async Task<Response> UpdateAsync
             (
             IEnumerable<Claim> claims,
-            int urlTypeId,
-            DateTime created,
-            UpdateUrlRequestDto dto,
+            IEnumerable<UpdateUrlRequestDto> dtos,
             CancellationToken cancellation
             )
         {
             var userId = _authentication.GetIdNameFromClaims(claims);
-
-            var url = await _urlRepository.GetUrlAsync
+            var values = dtos.ToDictionary(x =>
+                    new UrlId(userId, x.UrlTypeId, x.Created), x => x);
+            var urlsDictionary = await _urlRepository.GetUrlsDictionaryAsync
                 (
-                    userId,
-                    new UrlType(urlTypeId),
-                    created,
+                    values.Keys,
                     cancellation
                 );
-            url.Update(dto.Path, dto.Name, dto.Description);
 
-            await _urlRepository.UpdateAsync(url, cancellation);
+            foreach (var item in urlsDictionary)
+            {
+                if (values.TryGetValue(item.Key, out var dto))
+                {
+                    item.Value.Update
+                        (
+                        dto.UpdateData.Path,
+                        dto.UpdateData.Name,
+                        dto.UpdateData.Description
+                        );
+                }
+            }
+
+            await _urlRepository.UpdateAsync(urlsDictionary, cancellation);
             return new Response { };
         }
+
 
         public async Task<Response> DeleteAsync
             (
             IEnumerable<Claim> claims,
-            int urlTypeId,
-            DateTime created,
+            IEnumerable<DeleteUrlRequestDto> dtos,
             CancellationToken cancellation
             )
         {
             var userId = _authentication.GetIdNameFromClaims(claims);
-
+            var values = dtos.Select(x => new UrlId(userId, x.UrlTypeId, x.Created));
             await _urlRepository.DeleteAsync
                 (
-                    userId,
-                    new UrlType(urlTypeId),
-                    created,
+                    values,
                     cancellation
                 );
 
             return new Response { };
         }
-
-        //DQL
-        public IEnumerable<UrlTypeResponseDto> GetUrlTypes() =>
-            UrlType.GetTypesDictionary().Values
-            .Select(x => new UrlTypeResponseDto(x)).ToList();
 
         //===================================================================================================
         //===================================================================================================

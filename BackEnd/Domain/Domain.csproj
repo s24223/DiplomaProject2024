@@ -30,7 +30,6 @@
   <ItemGroup>
     <Folder Include="Features\BranchOffer\Exceptions\ValueObjects\" />
     <Folder Include="Features\Comment\Exceptions\Entities\" />
-    <Folder Include="Features\Notification\Exceptions\" />
     <Folder Include="Features\User\Exceptions\ValueObjects\" />
     <Folder Include="Features\Branch\Exceptions\ValueObjects\" />
   </ItemGroup>

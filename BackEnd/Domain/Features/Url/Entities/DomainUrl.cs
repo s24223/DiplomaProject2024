@@ -1,6 +1,8 @@
 ﻿using Domain.Features.Url.Exceptions.Entities;
+using Domain.Features.Url.Exceptions.ValueObjects;
+using Domain.Features.Url.Repository;
+using Domain.Features.Url.ValueObjects;
 using Domain.Features.Url.ValueObjects.Identificators;
-using Domain.Features.Url.ValueObjects.UrlTypePart;
 using Domain.Features.User.Entities;
 using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Providers;
@@ -10,8 +12,10 @@ namespace Domain.Features.Url.Entities
 {
     public class DomainUrl : Entity<UrlId>
     {
+        private readonly IDomainUrlTypeDictionariesRepository _dictionaries;
+
         //Values
-        public Uri Path { get; private set; } = null!;
+        public string Path { get; private set; } = null!;
         public string? Name { get; private set; }
         public string? Description { get; private set; }
 
@@ -30,6 +34,7 @@ namespace Domain.Features.Url.Entities
                 }
             }
         }
+        public DomainUrlType Type { get; private set; }
 
 
         //Constructor
@@ -41,25 +46,20 @@ namespace Domain.Features.Url.Entities
             string path,
             string? name,
             string? description,
+            IDomainUrlTypeDictionariesRepository dictionaries,
             IProvider provider
             ) : base(new UrlId
                 (
                 new UserId(userId),
-                new UrlType(urlTypeId),
+                urlTypeId,
                 created
                 ), provider)
         {
-            //Values with exeptions
-            try
-            {
-                Path = new Uri(path);
-            }
-            catch (Exception)
-            {
-                throw new UrlException(Messages.Url_Path_Invalid);
-            }
+            _dictionaries = dictionaries;
 
-            //Values with no exeptions
+            Type = GetTypeById(urlTypeId);//With Exception
+            SetPath(path); //With Exception
+
             Name = name;
             Description = description;
         }
@@ -76,23 +76,38 @@ namespace Domain.Features.Url.Entities
             string? description
             )
         {
-            try
-            {
-                Path = new Uri(path);
-            }
-            catch (Exception)
-            {
-                throw new UrlException(Messages.Url_Path_Invalid);
-            }
-
-            //Values with no exeptions
+            SetPath(path); //With Exception
             Name = name;
             Description = description;
         }
+
 
         //==================================================================================================
         //==================================================================================================
         //==================================================================================================
         //Private Methods
+        private DomainUrlType GetTypeById
+            (
+            int id
+            )
+        {
+            if (!_dictionaries.GetDomainUrlTypeDictionary().TryGetValue(id, out var type))
+            {
+                throw new UrlTypeException($"{Messages.UrlType_Id_NotFound}: {id}");
+            }
+            return type;
+        }
+
+        private void SetPath(string path)
+        {
+            try
+            {
+                Path = new Uri(path).ToString();
+            }
+            catch (Exception)
+            {
+                throw new UrlException($"{Messages.Url_Path_Invalid}: {path}");
+            }
+        }
     }
 }

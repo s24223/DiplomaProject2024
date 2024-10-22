@@ -1,6 +1,5 @@
 ﻿using Domain.Features.Url.Entities;
-using Domain.Features.Url.ValueObjects.UrlTypePart;
-using Domain.Features.User.ValueObjects.Identificators;
+using Domain.Features.Url.ValueObjects.Identificators;
 
 namespace Application.Features.User.Interfaces.CommandsUrl
 {
@@ -10,29 +9,27 @@ namespace Application.Features.User.Interfaces.CommandsUrl
         //DML
         Task CreateAsync
             (
-            DomainUrl url,
-            CancellationToken cancellationToken
-            );
-        Task UpdateAsync
-            (
-            DomainUrl url,
+            IEnumerable<DomainUrl> urls,
             CancellationToken cancellation
             );
+
+        Task UpdateAsync
+            (
+            Dictionary<UrlId, DomainUrl> urls,
+            CancellationToken cancellation
+            );
+
         Task DeleteAsync
             (
-            UserId userId,
-            UrlType urlType,
-            DateTime created,
+            IEnumerable<UrlId> ids,
             CancellationToken cancellation
             );
 
         //===================================================================================================
         //DQL
-        Task<DomainUrl> GetUrlAsync
+        Task<Dictionary<UrlId, DomainUrl>> GetUrlsDictionaryAsync
             (
-            UserId userId,
-            UrlType urlType,
-            DateTime created,
+            IEnumerable<UrlId> ids,
             CancellationToken cancellation
             );
     }

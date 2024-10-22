@@ -1,7 +1,7 @@
 ﻿using Application.Databases.Relational.Models;
-using Application.Features.Addresses.DTOs.Select.Shared;
+using Application.Shared.DTOs.Addresses;
 
-namespace Application.Features.Addresses.DTOs.Select.Collocations
+namespace Application.Features.Addresses.DTOs.Select
 {
     public class CollocationResponseDto
     {
