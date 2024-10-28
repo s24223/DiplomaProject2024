@@ -32,17 +32,17 @@ namespace Domain.Features.Branch.Entities
                 if (_company == null && value != null && value.Id == CompanyId)
                 {
                     _company = value;
-                    _company.AddBranch(this);
+                    _company.AddBranches([this]);
                 }
             }
         }
 
         //BranchOffer 
-        private Dictionary<BranchOfferId, DomainBranchOffer> _branchOffers = new();
+        private Dictionary<BranchOfferId, DomainBranchOffer> _branchOffers = [];
         public IReadOnlyDictionary<BranchOfferId, DomainBranchOffer> BranchOffers => _branchOffers;
 
         //Adress
-        public AddressId? AddressId { get; private set; } = null!;
+        public AddressId AddressId { get; private set; } = null!;
         private DomainAddress _address = null!;
         public DomainAddress Address
         {
@@ -74,15 +74,14 @@ namespace Domain.Features.Branch.Entities
             IProvider provider
             ) : base(new BranchId(id), provider)
         {
-            //Values with exeptions
-            UrlSegment = string.IsNullOrWhiteSpace(urlSegment) ?
-                null : new UrlSegment(urlSegment);
-
-            //Values with no exeptions
-            Name = name;
             CompanyId = new UserId(companyId);
-            AddressId = new AddressId(addressId);
-            Description = description;
+            Update
+                (
+                addressId,
+                urlSegment,
+                name,
+                description
+                );
         }
 
 
@@ -90,15 +89,11 @@ namespace Domain.Features.Branch.Entities
         //=================================================================================================
         //=================================================================================================
         //Public Methods
-        public void AddBranchOffer(DomainBranchOffer domainBranchOffer)
+        public void AddBranchOffers(IEnumerable<DomainBranchOffer> branchOffers)
         {
-            if (
-                domainBranchOffer.BranchId == Id &&
-                !_branchOffers.ContainsKey(domainBranchOffer.Id)
-                )
+            foreach (var branchOffer in branchOffers)
             {
-                _branchOffers.Add(domainBranchOffer.Id, domainBranchOffer);
-                domainBranchOffer.Branch = this;
+                AddBranchOffer(branchOffer);
             }
         }
 
@@ -111,8 +106,7 @@ namespace Domain.Features.Branch.Entities
             )
         {
             AddressId = new AddressId(addressId);
-            UrlSegment = string.IsNullOrWhiteSpace(urlSegment) ?
-                null : new UrlSegment(urlSegment);
+            UrlSegment = (UrlSegment?)urlSegment;
             Name = name;
             Description = description;
         }
@@ -120,5 +114,16 @@ namespace Domain.Features.Branch.Entities
         //=================================================================================================
         //=================================================================================================
         //Private Methods
+        private void AddBranchOffer(DomainBranchOffer domainBranchOffer)
+        {
+            if (
+                domainBranchOffer.BranchId == Id &&
+                !_branchOffers.ContainsKey(domainBranchOffer.Id)
+                )
+            {
+                _branchOffers.Add(domainBranchOffer.Id, domainBranchOffer);
+                domainBranchOffer.Branch = this;
+            }
+        }
     }
 }

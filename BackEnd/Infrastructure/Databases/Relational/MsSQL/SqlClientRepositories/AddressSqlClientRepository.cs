@@ -1,6 +1,7 @@
 ﻿using Application.Databases.Relational.Models;
 using Application.Features.Addresses.Interfaces;
 using Application.Shared.Interfaces.Exceptions;
+using Domain.Features.Address.ValueObjects.Identificators;
 using Infrastructure.Exceptions.AppExceptions;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -105,7 +106,7 @@ namespace Infrastructure.Databases.Relational.MsSQL.SqlClientRepositories
             }
         }
 
-        public async Task<IEnumerable<AdministrativeDivision>> GetDivisionsHierachyUpAsync
+        public async Task<Dictionary<DivisionId, AdministrativeDivision>> GetDivisionsHierachyUpAsync
             (
             int divisionId,
             CancellationToken cancellation
@@ -119,7 +120,7 @@ namespace Infrastructure.Databases.Relational.MsSQL.SqlClientRepositories
 
                     await using (SqlCommand com = new SqlCommand())
                     {
-                        var hierarchy = new List<AdministrativeDivision>();
+                        var dictionary = new Dictionary<DivisionId, AdministrativeDivision>();
 
                         com.Connection = con;
 
@@ -132,7 +133,7 @@ namespace Infrastructure.Databases.Relational.MsSQL.SqlClientRepositories
 
                         while (await reader.ReadAsync(cancellation))
                         {
-                            hierarchy.Add(new AdministrativeDivision
+                            var databaseDivision = new AdministrativeDivision
                             {
                                 Id = (int)reader["Id"],
                                 Name = (string)reader["AdministrativeDivisionName"],
@@ -144,10 +145,12 @@ namespace Infrastructure.Databases.Relational.MsSQL.SqlClientRepositories
                                     Id = (int)reader["AdministrativeTypeId"],
                                     Name = (string)reader["AdministrativeTypeName"],
                                 }
-                            });
+                            };
+                            var id = new DivisionId(databaseDivision.Id);
+                            dictionary[id] = databaseDivision;
                         }
                         reader.Close();
-                        return hierarchy;
+                        return dictionary;
                     }
                 }
             }

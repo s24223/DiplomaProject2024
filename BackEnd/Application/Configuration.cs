@@ -1,9 +1,13 @@
-using Application.Features.Addresses.Interfaces;
-using Application.Features.Addresses.Services;
+using Application.Features.Addresses.Interfaces.Commands;
+using Application.Features.Addresses.Interfaces.Queries;
+using Application.Features.Addresses.Services.Commands;
+using Application.Features.Addresses.Services.Queries;
 using Application.Features.Companies.Interfaces.CommandsBranchOffer;
 using Application.Features.Companies.Interfaces.CommandsCompanyBranch;
+using Application.Features.Companies.Interfaces.QueriesCompany;
 using Application.Features.Companies.Services.CommandsBranchOffer;
 using Application.Features.Companies.Services.CommandsCompanyBranch;
+using Application.Features.Companies.Services.QueriesCompany;
 using Application.Features.Internship.InternshipPart.Interfaces;
 using Application.Features.Internship.InternshipPart.Services;
 using Application.Features.Internship.RecrutmentPart.Interfaces;
@@ -64,14 +68,17 @@ namespace Application
             serviceCollection.AddTransient<INotificationCommandRepository, NotificationCommandRepository>();
 
             //Queries
-            serviceCollection.AddTransient<IUserQueriesService, UserQueriesService>();
-            serviceCollection.AddTransient<IUserQueriesRepository, UserQueriesRepository>();
+            serviceCollection.AddTransient<IUserQueryService, UserQueryService>();
+            serviceCollection.AddTransient<IUserQueryRepository, UserQueryRepository>();
 
             //===============================================================================================================
             //Address Module
             //Address Part
-            serviceCollection.AddTransient<IAddressRepository, AddressRepository>();
-            serviceCollection.AddTransient<IAddressService, AddressService>();
+            serviceCollection.AddTransient<IAddressCommandRepository, AddressCommandRepository>();
+            serviceCollection.AddTransient<IAddressCommandService, AddressCommandService>();
+
+            serviceCollection.AddTransient<IAddressQueryRepository, AddressQueryRepository>();
+            serviceCollection.AddTransient<IAddressQueryService, AddressQueryService>();
 
             //===============================================================================================================
             //Person Module 
@@ -81,17 +88,17 @@ namespace Application
 
             //===============================================================================================================
             //Company Module 
-            //Company Part 
-            serviceCollection.AddTransient<ICompanyRepository, CompanyRepository>();
-            serviceCollection.AddTransient<ICompanyService, CompanyService>();
+            //Company Branch Part 
+            serviceCollection.AddTransient<ICompanyBranchCommandRepository, CompanyBranchCommandRepository>();
+            serviceCollection.AddTransient<ICompanyBranchCommandService, CompanyBranchCommandService>();
 
-            //Offer Part 
+            //Offer Branch Part 
             serviceCollection.AddTransient<IBranchOfferRepository, BranchOfferRepository>();
             serviceCollection.AddTransient<IBranchOfferService, BranchOfferService>();
 
-            //Branch Part
-            serviceCollection.AddTransient<IBranchRepository, BranchRepository>();
-            serviceCollection.AddTransient<IBranchService, BranchService>();
+            //Queries
+            serviceCollection.AddTransient<ICompanyQueryRepository, CompanyQueryRepository>();
+            serviceCollection.AddTransient<ICompanyQueryService, CompanyQueryService>();
 
             //===============================================================================================================
             //Intership module 

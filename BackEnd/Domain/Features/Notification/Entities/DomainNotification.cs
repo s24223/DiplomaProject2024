@@ -40,6 +40,7 @@ namespace Domain.Features.Notification.Entities
                 if (_user == null && value != null && UserId != null && UserId == value.Id)
                 {
                     _user = value;
+                    _user.AddNotifications([this]);
                 }
             }
         }

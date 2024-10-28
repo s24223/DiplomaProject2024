@@ -25,8 +25,6 @@ namespace Application.Features.Companies.Interfaces.CommandsBranchOffer
         private readonly IExceptionsRepository _exceptionRepository;
         private readonly DiplomaProjectContext _context;
 
-        private readonly int _timeMistakeInSeconds = 60;
-
 
         //Constructor
         public BranchOfferRepository
@@ -49,29 +47,15 @@ namespace Application.Features.Companies.Interfaces.CommandsBranchOffer
         //==============================================================================================================================================
         //Public Methods
         //Offer Part
-        public async Task<Guid> CreateOfferAsync
+        public async Task<IEnumerable<DomainOffer>> CreateOffersAsync
             (
             UserId companyId,
-            DomainOffer offer,
+            IEnumerable<DomainOffer> offers,
             CancellationToken cancellation
             )
         {
             try
             {
-                var databaseOffer = new Offer
-                {
-                    //Id Defaul value in DB
-                    Name = offer.Name,
-                    Description = offer.Description,
-                    MinSalary = offer.MinSalary is null
-                        ? null : offer.MinSalary.Value,
-                    MaxSalary = offer.MaxSalary is null
-                        ? null : offer.MaxSalary.Value,
-                    IsNegotiatedSalary = offer.IsNegotiatedSalary is null ?
-                        null : offer.IsNegotiatedSalary.Code,
-                    IsForStudents = offer.IsForStudents.Code,
-                };
-
                 var databaseBranch = await _context.Branches
                     .Where(x => x.CompanyId == companyId.Value)
                     .FirstOrDefaultAsync(cancellation);
@@ -85,22 +69,38 @@ namespace Application.Features.Companies.Interfaces.CommandsBranchOffer
                         );
                 }
 
-                var databaseBranchOffer = new BranchOffer
+                var databseOffers = new List<Offer>();
+                foreach (var offer in offers)
                 {
-                    Offer = databaseOffer,
-                    Branch = databaseBranch,
-                    Created = _provider.TimeProvider().GetDateTimeNow(),
-                    /*
-                    CONSTRAINT Default_BranchOffer_PublishStart DEFAULT GETDATE() FOR [PublishStart],
-                    CONSTRAINT Default_BranchOffer_PublishEnd DEFAULT GETDATE() FOR [PublishEnd],
-                    CONSTRAINT Default_BranchOffer_LastUpdate DEFAULT GETDATE() FOR [LastUpdate],
-                     */
-                };
+                    var databaseOffer = new Offer
+                    {
+                        Name = offer.Name,
+                        Description = offer.Description,
+                        MinSalary = offer.MinSalary?.Value,
+                        MaxSalary = offer.MaxSalary?.Value,
+                        IsNegotiatedSalary = offer.IsNegotiatedSalary?.Code,
+                        IsForStudents = offer.IsForStudents.Code,
+                    };
+                    databseOffers.Add(databaseOffer);
 
-                await _context.Offers.AddAsync(databaseOffer, cancellation);
-                await _context.BranchOffers.AddAsync(databaseBranchOffer, cancellation);
+                    var databaseBranchOffer = new BranchOffer
+                    {
+                        Offer = databaseOffer,
+                        Branch = databaseBranch,
+                        Created = _provider.TimeProvider().GetDateTimeNow(),
+                        /*
+                        CONSTRAINT Default_BranchOffer_PublishStart DEFAULT GETDATE() FOR [PublishStart],
+                        CONSTRAINT Default_BranchOffer_PublishEnd DEFAULT GETDATE() FOR [PublishEnd],
+                        CONSTRAINT Default_BranchOffer_LastUpdate DEFAULT GETDATE() FOR [LastUpdate],
+                         */
+                    };
+                    await _context.BranchOffers.AddAsync(databaseBranchOffer, cancellation);
+                }
+
+                await _context.Offers.AddRangeAsync(databseOffers, cancellation);
                 await _context.SaveChangesAsync(cancellation);
-                return databaseOffer.Id;
+
+                return databseOffers.Select(x => _mapper.ToDomainOffer(x));
             }
             catch (System.Exception ex)
             {
@@ -108,26 +108,35 @@ namespace Application.Features.Companies.Interfaces.CommandsBranchOffer
             }
         }
 
-        public async Task UpdateOfferAsync
+        public async Task UpdateOffersAsync
             (
             UserId companyId,
-            DomainOffer offer,
+            Dictionary<OfferId, DomainOffer> offers,
             CancellationToken cancellation
             )
         {
             try
             {
-                var databseOffer = await GetDatabseOfferAsync(companyId, offer.Id, cancellation);
+                var offerIds = offers.Keys.ToHashSet();
+                var databseOfferDictionary = await GetDatabseOfferDictionaryAsync
+                    (
+                    offerIds,
+                    companyId,
+                    cancellation
+                    );
 
-                databseOffer.Name = offer.Name;
-                databseOffer.Description = offer.Description;
-                databseOffer.MinSalary = offer.MinSalary is null ?
-                    null : offer.MinSalary.Value;
-                databseOffer.MaxSalary = offer.MaxSalary is null ?
-                    null : offer.MaxSalary.Value;
-                databseOffer.IsNegotiatedSalary = offer.IsNegotiatedSalary is null ?
-                    null : offer.IsNegotiatedSalary.Code;
-                databseOffer.IsForStudents = offer.IsForStudents.Code;
+                foreach (var key in offerIds.Intersect(databseOfferDictionary.Keys))
+                {
+                    var database = databseOfferDictionary[key];
+                    var domain = offers[key];
+
+                    database.Name = domain.Name;
+                    database.Description = domain.Description;
+                    database.MinSalary = domain.MinSalary?.Value;
+                    database.MaxSalary = domain.MaxSalary?.Value;
+                    database.IsNegotiatedSalary = domain.IsNegotiatedSalary?.Code;
+                    database.IsForStudents = domain.IsForStudents.Code;
+                }
 
                 await _context.SaveChangesAsync(cancellation);
             }
@@ -135,55 +144,87 @@ namespace Application.Features.Companies.Interfaces.CommandsBranchOffer
             {
                 throw _exceptionRepository.ConvertEFDbException(ex);
             }
+        }
+
+        //DQL
+        public async Task<Dictionary<OfferId, DomainOffer>> GetOfferDictionaryAsync
+            (
+            UserId companyId,
+            IEnumerable<OfferId> ids,
+            CancellationToken cancellation
+            )
+        {
+            var databseOfferDictionary = await GetDatabseOfferDictionaryAsync
+                (
+                ids,
+                companyId,
+                cancellation
+                );
+
+            return databseOfferDictionary.ToDictionary
+                (
+                x => x.Key,
+                x => _mapper.ToDomainOffer(x.Value)
+                );
         }
 
 
         //BranchOffer Part
-        public async Task CreateBranchOfferAsync
+        //DML
+        public async Task<IEnumerable<DomainBranchOffer>> CreateBranchOffersAsync
             (
             UserId companyId,
-            DomainBranchOffer branchOffer,
+            IEnumerable<DomainBranchOffer> branchOffers,
             CancellationToken cancellation
             )
         {
             try
             {
-                var databaseOffer = await GetDatabseOfferAsync
-                    (
-                    companyId,
-                    branchOffer.OfferId,
-                    cancellation
+                var offerIds = branchOffers.Select(x => x.OfferId).ToHashSet();
+                var branchIds = branchOffers.Select(x => x.BranchId).ToHashSet();
+
+                var databaseOffers = await GetDatabseOfferDictionaryAsync(offerIds, companyId, cancellation);
+                var databaseBranches = await GetDatabaseBranchDictionaryAsync(branchIds, companyId, cancellation);
+
+                var offerIdsIntersect = offerIds.Intersect(databaseOffers.Keys).ToHashSet();
+                var branchIdsIntersect = branchIds.Intersect(databaseBranches.Keys).ToHashSet();
+
+                var correctBranchOffers = branchOffers.Where(x =>
+                    offerIdsIntersect.Contains(x.OfferId) &&
+                    branchIdsIntersect.Contains(x.BranchId)
                     );
-                var databaseBranch = await GetDatabaseBranchAsync
-                    (
-                    companyId,
-                    branchOffer.BranchId,
-                    cancellation
-                    );
 
-                var databaseBranchOffer = new BranchOffer
+                var list = new List<BranchOffer>();
+                foreach (var item in correctBranchOffers)
                 {
-                    Offer = databaseOffer,
-                    Branch = databaseBranch,
-                    Created = branchOffer.Created,
-                    WorkStart = branchOffer.WorkStart,
-                    WorkEnd = branchOffer.WorkEnd,
-                };
+                    var databaseOffer = databaseOffers[item.OfferId];
+                    var databaseBranch = databaseBranches[item.BranchId];
 
-                var maxTimeMistake = _provider.TimeProvider()
-                    .GetDateTimeNow().AddSeconds(_timeMistakeInSeconds);
-
-                if (branchOffer.PublishStart > maxTimeMistake)
-                {
-                    databaseBranchOffer.PublishStart = branchOffer.PublishStart;
-                }
-                if (branchOffer.PublishEnd > maxTimeMistake)
-                {
-                    databaseBranchOffer.PublishEnd = branchOffer.PublishEnd;
+                    var databaseBranchOffer = new BranchOffer
+                    {
+                        Offer = databaseOffer,
+                        Branch = databaseBranch,
+                        OfferId = databaseOffer.Id,
+                        BranchId = databaseBranch.Id,
+                        //Created = item.Created,
+                        PublishStart = item.PublishStart,
+                        PublishEnd = item.PublishEnd,
+                        WorkStart = item.WorkStart,
+                        WorkEnd = item.WorkEnd,
+                        LastUpdate = item.LastUpdate,
+                    };
+                    list.Add(databaseBranchOffer);
                 }
 
-                await _context.BranchOffers.AddAsync(databaseBranchOffer, cancellation);
+                await _context.BranchOffers.AddRangeAsync(list, cancellation);
                 await _context.SaveChangesAsync(cancellation);
+
+                return list.Select(item =>
+                            {
+                                var bo = _mapper.ToDomainBranchOffer(item);
+                                bo.Offer = _mapper.ToDomainOffer(item.Offer);
+                                return bo;
+                            });
             }
             catch (System.Exception ex)
             {
@@ -194,33 +235,33 @@ namespace Application.Features.Companies.Interfaces.CommandsBranchOffer
         public async Task UpdateBranchOfferAsync
             (
             UserId companyId,
-            DomainBranchOffer branchOffer,
+            Dictionary<BranchOfferId, DomainBranchOffer> dictionary,
             CancellationToken cancellation
             )
         {
             try
             {
-                var databaseBranchOffer = await GetDatabaseBranchOfferAsync
+                var domainKeysSet = dictionary.Keys.ToHashSet();
+                var databaseDictionary = await GetDatabaseBranchOfferDictionaryAsync
                     (
+                    domainKeysSet,
                     companyId,
-                    branchOffer.Id,
                     cancellation
                     );
 
-                var maxTimeMistake = _provider.TimeProvider()
-                    .GetDateTimeNow().AddSeconds(_timeMistakeInSeconds);
-
-                if (branchOffer.PublishStart > maxTimeMistake)
+                foreach (var key in domainKeysSet.Intersect(databaseDictionary.Keys))
                 {
-                    databaseBranchOffer.PublishStart = branchOffer.PublishStart;
+                    var domain = dictionary[key];
+                    var database = databaseDictionary[key];
+
+                    database.PublishStart = domain.PublishStart;
+                    database.PublishEnd = domain.PublishEnd;
+
+                    database.WorkStart = domain.WorkStart;
+                    database.WorkEnd = domain.WorkEnd;
+
+                    database.LastUpdate = domain.LastUpdate;
                 }
-
-                databaseBranchOffer.PublishEnd = branchOffer.PublishEnd;
-
-                databaseBranchOffer.WorkStart = branchOffer.WorkStart;
-                databaseBranchOffer.WorkEnd = branchOffer.WorkEnd;
-                databaseBranchOffer.LastUpdate = branchOffer.LastUpdate;
-
                 await _context.SaveChangesAsync(cancellation);
             }
             catch (System.Exception ex)
@@ -231,107 +272,131 @@ namespace Application.Features.Companies.Interfaces.CommandsBranchOffer
 
 
         //DQL
-        public async Task<DomainOffer> GetOfferAsync
+        public async Task<Dictionary<BranchOfferId, DomainBranchOffer>> GetBranchOfferDictionaryAsync
             (
             UserId companyId,
-            OfferId id,
+            IEnumerable<BranchOfferId> ids,
             CancellationToken cancellation
             )
         {
-            var databseOffer = await GetDatabseOfferAsync(companyId, id, cancellation);
-            return _mapper.ToDomainOffer(databseOffer);
-        }
-
-        public async Task<DomainBranchOffer> GetBranchOfferAsync
-            (
-            UserId companyId,
-            BranchOfferId id,
-            CancellationToken cancellation
-            )
-        {
-            var databaseBranchOffer = await GetDatabaseBranchOfferAsync(companyId, id, cancellation);
-            return _mapper.ToDomainBranchOffer(databaseBranchOffer);
+            var dictionary = await GetDatabaseBranchOfferDictionaryAsync
+                (
+                ids,
+                companyId,
+                cancellation
+                );
+            return dictionary.ToDictionary
+                (
+                x => x.Key,
+                x => _mapper.ToDomainBranchOffer(x.Value)
+                );
         }
 
         //==============================================================================================================================================
         //==============================================================================================================================================
         //==============================================================================================================================================
         //Private Methods
-        private async Task<Offer> GetDatabseOfferAsync
+        private async Task<Dictionary<OfferId, Offer>> GetDatabseOfferDictionaryAsync
             (
+            IEnumerable<OfferId> ids,
             UserId companyId,
-            OfferId id,
             CancellationToken cancellation
             )
         {
-            var databseWayToOffer = await _context.Branches
-                .Include(x => x.BranchOffers)
-                .ThenInclude(x => x.Offer)
+            var hashSet = ids.Select(x => x.Value).ToHashSet();
+            var dictionary = await _context.BranchOffers
+                .Include(x => x.Branch)
+                .Include(x => x.Offer)
                 .Where(x =>
-                    x.CompanyId == companyId.Value &&
-                    x.BranchOffers.Any(y => y.OfferId == id.Value)
-                ).FirstOrDefaultAsync(cancellation);
+                    x.Branch.CompanyId == companyId.Value &&
+                    hashSet.Contains(x.OfferId)
+                )
+                .Select(x => x.Offer)
+                .ToDictionaryAsync
+                (
+                x => new OfferId(x.Id),
+                x => x,
+                cancellation
+            );
 
-            if (databseWayToOffer == null)
+            var missingIds = hashSet.Except(dictionary.Keys.Select(k => k.Value));
+
+            if (missingIds.Any())
             {
                 throw new OfferException
                     (
-                    Messages.Offer_Ids_NotFound,
+                    $"{Messages.Offer_Ids_NotFound}\n{string.Join("\n", missingIds)}",
                     DomainExceptionTypeEnum.NotFound
                     );
             }
-            return databseWayToOffer.BranchOffers.First().Offer;
+            return dictionary;
         }
 
-        private async Task<Branch> GetDatabaseBranchAsync
+        private async Task<Dictionary<BranchId, Branch>> GetDatabaseBranchDictionaryAsync
             (
+            IEnumerable<BranchId> ids,
             UserId companyId,
-            BranchId branchId,
             CancellationToken cancellation
             )
         {
-            var databaseBranch = await _context.Branches
+            var hashSet = ids.Select(x => x.Value).ToHashSet();
+            var dictionary = await _context.Branches
                 .Where(x =>
-                    x.Id == branchId.Value &&
-                    x.CompanyId == companyId.Value)
-                .FirstOrDefaultAsync(cancellation);
+                    x.CompanyId == companyId.Value &&
+                    hashSet.Contains(x.Id)
+                ).ToDictionaryAsync
+                (
+                x => new BranchId(x.Id),
+                x => x,
+                cancellation
+                );
 
-            if (databaseBranch == null)
+            var missingIds = hashSet.Except(dictionary.Keys.Select(y => y.Value));
+
+            if (missingIds.Any())
             {
                 throw new BranchException
                     (
-                    Messages.Branch_Id_NotFound,
+                    $"{Messages.Branch_Id_NotFound}\n{string.Join("\n", missingIds)}",
                     DomainExceptionTypeEnum.NotFound
                     );
             }
-            return databaseBranch;
+            return dictionary;
         }
 
-        private async Task<BranchOffer> GetDatabaseBranchOfferAsync
+        private async Task<Dictionary<BranchOfferId, BranchOffer>> GetDatabaseBranchOfferDictionaryAsync
             (
+            IEnumerable<BranchOfferId> ids,
             UserId companyId,
-            BranchOfferId id,
             CancellationToken cancellation
             )
         {
-            var databaseBranch = await _context.Branches
-                .Include(x => x.BranchOffers)
+            var hashSet = ids.Select(x => x.Value).ToHashSet();
+            var dictionary = await _context.BranchOffers
+                .Include(x => x.Branch)
+                .Include(x => x.Offer)
                 .Where(x =>
-                    x.CompanyId == companyId.Value &&
-                    x.BranchOffers.Any(y =>
-                        y.Id == id.Value
-                )).FirstOrDefaultAsync(cancellation);
+                    x.Branch.CompanyId == companyId.Value &&
+                    hashSet.Contains(x.Id)
+                )
+                .ToDictionaryAsync
+                (
+                x => new BranchOfferId(x.Id),
+                x => x,
+                cancellation
+                );
 
-            if (databaseBranch == null)
+            var missingIds = hashSet.Except(dictionary.Keys.Select(x => x.Value));
+
+            if (missingIds.Any())
             {
                 throw new BranchOfferException
                     (
-                    Messages.BranchOffer_Ids_NotFound,
+                    $"{Messages.BranchOffer_Ids_NotFound}\n{string.Join("\n", missingIds)}",
                     DomainExceptionTypeEnum.NotFound
                     );
             }
-
-            return databaseBranch.BranchOffers.First();
+            return dictionary;
         }
     }
 }

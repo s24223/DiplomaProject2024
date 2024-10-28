@@ -16,12 +16,14 @@ namespace Domain.Shared.ValueObjects
         //Constructor
         public DatabaseBool(string value)
         {
-            if (value.ToLower() == "y")
+            value = value.Trim();
+
+            if (value.Equals("y", StringComparison.CurrentCultureIgnoreCase))
             {
                 Value = true;
                 Code = value;
             }
-            else if (value.ToLower() == "n")
+            else if (value.Equals("n", StringComparison.CurrentCultureIgnoreCase))
             {
                 Value = false;
                 Code = value;
@@ -30,7 +32,7 @@ namespace Domain.Shared.ValueObjects
             {
                 throw new DatabaseBoolException
                     (
-                    Messages.DatabaseBool_Code_Invalid,
+                    $"{Messages.DatabaseBool_Code_Invalid}: {value}",
                     DomainExceptionTypeEnum.AppProblem
                     );
             }
@@ -50,6 +52,51 @@ namespace Domain.Shared.ValueObjects
             }
         }
 
+
+
+        //=================================================================================================
+        //=================================================================================================
+        //=================================================================================================
+        //Public methods
+
+        public static explicit operator string(DatabaseBool dbBool)
+        {
+            return dbBool.Code;
+        }
+
+        public static explicit operator DatabaseBool(string val)
+        {
+            return new DatabaseBool(val);
+        }
+
+
+        public static implicit operator DatabaseBool(bool val)
+        {
+            return new DatabaseBool(val);
+        }
+
+        public static implicit operator bool(DatabaseBool val)
+        {
+            return val.Value;
+        }
+
+        public static implicit operator DatabaseBool?(bool? val)
+        {
+            return val switch
+            {
+                null => null,
+                _ => new DatabaseBool(val.Value),
+            };
+        }
+
+        public static implicit operator bool?(DatabaseBool? val)
+        {
+            return val switch
+            {
+                null => null,
+                _ => val.Value,
+            };
+        }
 
         //=================================================================================================
         //=================================================================================================

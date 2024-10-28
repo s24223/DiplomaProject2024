@@ -24,7 +24,7 @@ namespace BackEnd.Controllers
         //Values
         private readonly IUrlCommandService _urlService;
         private readonly IUserCommandService _userService;
-        private readonly IUserQueriesService _queriesService;
+        private readonly IUserQueryService _queriesService;
         private readonly INotificationCommandService _notificationService;
 
         //Cosntructors
@@ -32,7 +32,7 @@ namespace BackEnd.Controllers
             (
             IUrlCommandService urlService,
             IUserCommandService userService,
-            IUserQueriesService queriesService,
+            IUserQueryService queriesService,
             INotificationCommandService notificationService
             )
         {

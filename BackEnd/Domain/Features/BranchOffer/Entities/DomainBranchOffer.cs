@@ -8,6 +8,7 @@ using Domain.Features.Recruitment.Entities;
 using Domain.Features.Recruitment.ValueObjects.Identificators;
 using Domain.Shared.Providers;
 using Domain.Shared.Templates.Entities;
+using Domain.Shared.ValueObjects;
 
 namespace Domain.Features.BranchOffer.Entities
 {
@@ -20,6 +21,8 @@ namespace Domain.Features.BranchOffer.Entities
         public DateOnly? WorkStart { get; private set; }
         public DateOnly? WorkEnd { get; private set; }
         public DateTime LastUpdate { get; private set; }
+        //Pochodne
+        public Duration? WorkDuration { get; private set; }
 
 
         //References
@@ -34,7 +37,7 @@ namespace Domain.Features.BranchOffer.Entities
                 if (_branch == null && value != null && value.Id == BranchId)
                 {
                     _branch = value;
-                    _branch.AddBranchOffer(this);
+                    _branch.AddBranchOffers([this]);
                 }
             }
         }
@@ -50,13 +53,13 @@ namespace Domain.Features.BranchOffer.Entities
                 if (_offer == null && value != null && value.Id == OfferId)
                 {
                     _offer = value;
-                    _branch.AddBranchOffer(this);
+                    _offer.AddBranchOffers([this]);
                 }
             }
         }
 
         //DomainRecrutment
-        private Dictionary<RecrutmentId, DomainRecruitment> _recrutments = new();
+        private Dictionary<RecrutmentId, DomainRecruitment> _recrutments = [];
         public IReadOnlyDictionary<RecrutmentId, DomainRecruitment> Recrutments => _recrutments;
 
 
@@ -78,15 +81,10 @@ namespace Domain.Features.BranchOffer.Entities
             LastUpdate = lastUpdate ?? _provider.TimeProvider().GetDateTimeNow();
             Created = created ?? _provider.TimeProvider().GetDateTimeNow();
 
-            BranchId = new BranchId(id);
-            OfferId = new OfferId(id);
+            BranchId = new BranchId(branchId);
+            OfferId = new OfferId(offerId);
 
-            PublishStart = publishStart;
-            PublishEnd = publishEnd;
-            WorkStart = workStart;
-            WorkEnd = workEnd;
-
-            //ThrowExceptionIfIsNotValid();
+            SetData(publishStart, publishEnd, workStart, workEnd);
         }
 
 
@@ -94,15 +92,11 @@ namespace Domain.Features.BranchOffer.Entities
         //===================================================================================================
         //===================================================================================================
         //Public Methods
-        public void AddRecrutment(DomainRecruitment domainRecrutment)
+        public void AddRecrutments(IEnumerable<DomainRecruitment> recrutments)
         {
-            if (
-                domainRecrutment.BranchOfferId == Id &&
-                !_recrutments.ContainsKey(domainRecrutment.Id)
-                )
+            foreach (var recrutment in recrutments)
             {
-                _recrutments.Add(domainRecrutment.Id, domainRecrutment);
-                domainRecrutment.BranchOffer = this;
+                AddRecrutment(recrutment);
             }
         }
 
@@ -114,19 +108,119 @@ namespace Domain.Features.BranchOffer.Entities
             DateOnly? workEnd
             )
         {
+            //Publish start in Past publishStart = PublishStart
+            SetData(publishStart, publishEnd, workStart, workEnd);
             LastUpdate = _provider.TimeProvider().GetDateTimeNow();
-            PublishStart = publishStart;
-            PublishEnd = publishEnd;
-            WorkStart = workStart;
-            WorkEnd = workEnd;
-
-            ThrowExceptionIfIsNotValid();
         }
+
+
+        public static
+            (
+            IEnumerable<(DomainBranchOffer Core, DomainBranchOffer Duplicate)> Duplicates,
+            IEnumerable<DomainBranchOffer> Correct
+            )
+            ReturnDuplicatesAndCorrectValues(IEnumerable<DomainBranchOffer> branchOffers)
+        {
+            var groups = branchOffers.GroupBy(x => new { x.BranchId, x.OfferId });
+            var correctEndList = new List<DomainBranchOffer>();
+            var duplicatesEndList = new List<(DomainBranchOffer Core, DomainBranchOffer Duplicate)>();
+
+            if (groups.Count() == branchOffers.Count())
+            {
+                return (duplicatesEndList, branchOffers);
+            }
+
+            foreach (var group in groups)
+            {
+                var groupList = group.ToList();
+                var correct = new List<DomainBranchOffer>();
+                var duplicates = new List<(DomainBranchOffer Core, DomainBranchOffer Duplicate)>();
+
+                //Wyszukaj najwczesniejszy nielimitowany PublishEnd
+                var minUnlimited = groupList.Where(x => !x.PublishEnd.HasValue).OrderBy(x => x.PublishStart).FirstOrDefault();
+                if (minUnlimited != null)
+                {
+                    correct.Add(minUnlimited);
+                    groupList.Remove(minUnlimited);
+
+                    var removeRange = groupList.Where(x => x.PublishStart >= minUnlimited.PublishStart).ToList();
+                    foreach (var remove in removeRange)
+                    {
+                        duplicates.Add((minUnlimited, remove));
+                    }
+                    groupList.RemoveAll(x => removeRange.Contains(x));
+                }
+
+                //Jesli lista niepiusta
+                if (groupList.Any())
+                {
+                    //Działaj z tymi które maja watosci PublishEnd
+                    groupList = groupList
+                        .Where(x => x.PublishEnd.HasValue)
+                        .OrderBy(x => x.PublishEnd)
+                        .ToList();
+
+                    do
+                    {
+                        var last = groupList.Last();
+                        groupList.Remove(last);
+                        correct.Add(last);
+
+                        var listAfter = groupList
+                            .Where(x => x.PublishEnd >= last.PublishStart || x.PublishStart >= last.PublishStart)
+                            .ToList();
+
+                        foreach (var removeItem in listAfter)
+                        {
+                            duplicates.Add((last, removeItem));
+                        }
+                        groupList.RemoveAll(x => listAfter.Contains(x));
+
+                    } while (groupList.Any());
+                    correctEndList.AddRange(correct);
+                    duplicatesEndList.AddRange(duplicates);
+                }
+            }
+            return (duplicatesEndList, correctEndList);
+        }
+
 
         //===================================================================================================
         //===================================================================================================
         //===================================================================================================
         //Private Methods
+        private void AddRecrutment(DomainRecruitment domainRecrutment)
+        {
+            if (
+                domainRecrutment.BranchOfferId == Id &&
+                !_recrutments.ContainsKey(domainRecrutment.Id)
+                )
+            {
+                _recrutments.Add(domainRecrutment.Id, domainRecrutment);
+                domainRecrutment.BranchOffer = this;
+            }
+        }
+
+        private void SetData
+            (
+            DateTime publishStart,
+            DateTime? publishEnd,
+            DateOnly? workStart,
+            DateOnly? workEnd
+            )
+        {
+            PublishStart = publishStart;
+            PublishEnd = publishEnd;
+            WorkStart = workStart;
+            WorkEnd = workEnd;
+
+            WorkDuration = (WorkStart is null || WorkEnd is null) ?
+                null : new Duration(WorkStart.Value, WorkEnd.Value);
+
+            //ThrowExceptionIfIsNotValid();
+        }
+
+
         private void ThrowExceptionIfIsNotValid()
         {
             if (
@@ -140,7 +234,7 @@ namespace Domain.Features.BranchOffer.Entities
             if (
                 PublishEnd is not null &&
                 WorkStart is not null &&
-                _provider.TimeProvider().ConvertToDateTime(WorkStart.Value) < PublishEnd
+                _provider.TimeProvider().ToDateTime(WorkStart.Value) < PublishEnd
                 )
             {
                 //Context: Data Początku pracy powinna być najwczesniij kolejnego dnia po ukonczeniu rekrutacji

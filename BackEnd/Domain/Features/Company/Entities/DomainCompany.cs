@@ -17,6 +17,9 @@ namespace Domain.Features.Company.Entities
         public Regon Regon { get; private set; } = null!;
         public string Name { get; private set; } = null!;
         public string? Description { get; private set; }
+        //Pochodne
+        public Duration HowLongExist { get; private set; }
+
 
 
         //Refrences
@@ -35,7 +38,7 @@ namespace Domain.Features.Company.Entities
             }
         }
         //DomainBranch
-        private Dictionary<BranchId, DomainBranch> _branches = new();
+        private Dictionary<BranchId, DomainBranch> _branches = [];
         public IReadOnlyDictionary<BranchId, DomainBranch> Branches => _branches;
 
 
@@ -52,16 +55,17 @@ namespace Domain.Features.Company.Entities
             IProvider provider
             ) : base(new UserId(id), provider)
         {
-            //Values with exeptions
             Regon = new Regon(regon);
-            ContactEmail = new Email(contactEmail);
-            UrlSegment = string.IsNullOrWhiteSpace(urlSegment) ?
-                null : new UrlSegment(urlSegment);
+            UpdateData
+                (
+                urlSegment,
+                contactEmail,
+                name,
+                description
+                );
 
-            //Values with no exeptions
-            Name = name;
-            Description = description;
             Created = created ?? provider.TimeProvider().GetDateOnlyToday();
+            HowLongExist = new Duration(Created, _provider.TimeProvider().GetDateOnlyToday());
         }
 
 
@@ -69,12 +73,17 @@ namespace Domain.Features.Company.Entities
         //==================================================================================================
         //==================================================================================================
         //Public Methods
-        public void AddBranch(DomainBranch domainBranch)
+        public static int counter = 0;
+        public void AddBranches(IEnumerable<DomainBranch> branches)
         {
-            if (domainBranch.CompanyId == Id && !_branches.ContainsKey(domainBranch.Id))
+            var newBranchesDictionary = branches
+                .Where(x => x.CompanyId == Id && !_branches.ContainsKey(x.Id))
+                .ToDictionary(x => x.Id, x => x);
+
+            foreach (var branch in newBranchesDictionary)
             {
-                _branches.Add(domainBranch.Id, domainBranch);
-                domainBranch.Company = this;
+                _branches.Add(branch.Key, branch.Value);
+                branch.Value.Company = this;
             }
         }
 
@@ -86,12 +95,8 @@ namespace Domain.Features.Company.Entities
             string? description
             )
         {
-            //Values with exeptions
             ContactEmail = new Email(contactEmail);
-            UrlSegment = string.IsNullOrWhiteSpace(urlSegment) ?
-                null : new UrlSegment(urlSegment);
-
-            //Values with no exeptions
+            UrlSegment = (UrlSegment?)urlSegment;
             Name = name;
             Description = description;
         }

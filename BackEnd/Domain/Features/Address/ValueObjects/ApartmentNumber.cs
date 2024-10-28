@@ -12,6 +12,8 @@ namespace Domain.Features.Address.ValueObjects
         //Cosntructor
         public ApartmentNumber(string value)
         {
+            value = value.Trim();
+
             if (!IsValidApartmentNumber(value))
             {
                 throw new ApartmentNumberException(Messages.ApartmentNumber_Value_Invalid);
@@ -19,6 +21,32 @@ namespace Domain.Features.Address.ValueObjects
             Value = value;
         }
 
+
+
+        //====================================================================================================
+        //====================================================================================================
+        //====================================================================================================
+        //Public Methods
+        public static implicit operator ApartmentNumber?(string? value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return null;
+            }
+            else
+            {
+                return new ApartmentNumber(value);
+            }
+        }
+
+        public static implicit operator string?(ApartmentNumber? value)
+        {
+            return value switch
+            {
+                null => null,
+                _ => value.Value,
+            };
+        }
 
         //====================================================================================================
         //====================================================================================================

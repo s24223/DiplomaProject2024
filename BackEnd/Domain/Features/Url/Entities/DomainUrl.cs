@@ -30,7 +30,7 @@ namespace Domain.Features.Url.Entities
                 if (_user == null && value != null && value.Id == Id.UserId)
                 {
                     _user = value;
-                    _user.AddUrl(this);
+                    _user.AddUrls([this]);
                 }
             }
         }

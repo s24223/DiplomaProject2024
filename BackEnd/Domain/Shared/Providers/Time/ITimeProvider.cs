@@ -9,7 +9,8 @@
         //Created Part
         DateOnly GetDateOnlyToday();
 
-        //
-        DateTime ConvertToDateTime(DateOnly dateOnly);
+        //Converters
+        DateTime ToDateTime(DateOnly dateOnly);
+        DateOnly ToDateOnly(DateTime dateTime);
     }
 }

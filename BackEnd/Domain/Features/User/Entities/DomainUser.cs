@@ -77,7 +77,27 @@ namespace Domain.Features.User.Entities
         //==================================================================================================
         //==================================================================================================
         //Public Methods
-        public void AddNotification(DomainNotification notification)
+        public void AddNotifications(IEnumerable<DomainNotification> notifications)
+        {
+            foreach (var notification in notifications)
+            {
+                AddNotification(notification);
+            }
+        }
+
+        public void AddUrls(IEnumerable<DomainUrl> urls)
+        {
+            foreach (DomainUrl url in urls)
+            {
+                AddUrl(url);
+            }
+        }
+
+        //==================================================================================================
+        //==================================================================================================
+        //==================================================================================================
+        //Pivate Methods
+        private void AddNotification(DomainNotification notification)
         {
             if (notification.UserId == Id && !_notifications.ContainsKey(notification.Id))
             {
@@ -86,7 +106,7 @@ namespace Domain.Features.User.Entities
             }
         }
 
-        public void AddUrl(DomainUrl domainUrl)
+        private void AddUrl(DomainUrl domainUrl)
         {
             if (domainUrl.Id.UserId == Id && !_urls.ContainsKey(domainUrl.Id))
             {
@@ -95,9 +115,5 @@ namespace Domain.Features.User.Entities
             }
         }
 
-        //==================================================================================================
-        //==================================================================================================
-        //==================================================================================================
-        //Pivate Methods
     }
 }

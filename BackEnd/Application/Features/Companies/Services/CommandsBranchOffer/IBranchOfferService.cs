@@ -1,7 +1,8 @@
-﻿using Application.Features.Companies.DTOs.CommandsBranchOffer.CreateBranchOffer;
-using Application.Features.Companies.DTOs.CommandsBranchOffer.CreateOffer;
-using Application.Features.Companies.DTOs.CommandsBranchOffer.UpdateBranchOffer;
-using Application.Features.Companies.DTOs.CommandsBranchOffer.UpdateOffer;
+﻿using Application.Features.Companies.DTOs.CommandsBranchOffer.CommandsBranchOffer.CreateBranchOffer;
+using Application.Features.Companies.DTOs.CommandsBranchOffer.CommandsBranchOffer.UpdateBranchOffer;
+using Application.Features.Companies.DTOs.CommandsBranchOffer.CommandsOffer.CreateOffer;
+using Application.Features.Companies.DTOs.CommandsBranchOffer.CommandsOffer.UpdateOffer;
+using Application.Shared.DTOs.Features.Companies;
 using Application.Shared.DTOs.Response;
 using System.Security.Claims;
 
@@ -12,42 +13,33 @@ namespace Application.Features.Companies.Services.CommandsBranchOffer
         //DML
 
         //Offer Part
-        Task<ResponseItem<CreateOfferResponseDto>> CreateOfferAsync
+        Task<ResponseItems<OfferResponseDto>> CreateOffersAsync
            (
            IEnumerable<Claim> claims,
-           CreateOfferRequestDto dto,
+           IEnumerable<CreateOfferRequestDto> dtos,
            CancellationToken cancellation
            );
 
-        Task<Response> UpdateOfferAsync
+        Task<ResponseItems<OfferResponseDto>> UpdateOffersAsync
             (
             IEnumerable<Claim> claims,
-            Guid offerId,
-            UpdateOfferRequestDto dto,
+            IEnumerable<UpdateOfferRequestDto> dtos,
             CancellationToken cancellation
             );
 
         //BranchOffer Part
-        Task<Response> CreateBranchOfferConnectionAsync
+        Task<ResponseItems<CreateBranchOfferResponseDto>> CreateBranchOfferAsync
            (
            IEnumerable<Claim> claims,
-           Guid branchId,
-           Guid offerId,
-           CreateBranchOfferRequestDto dto,
+           IEnumerable<CreateBranchOfferRequestDto> dtos,
            CancellationToken cancellation
            );
 
-        Task<Response> UpdateBranchOfferConnectionAsync
+        Task<ResponseItems<BranchOfferResponseDto>> UpdateBranchOfferAsync
             (
             IEnumerable<Claim> claims,
-            Guid branchofferId,
-            UpdateBranchOfferRequestDto dto,
+            IEnumerable<UpdateBranchOfferRequestDto> dtos,
             CancellationToken cancellation
             );
-        //DQL
-
-        //Offer Part
-        //BranchOffer Part
-
     }
 }

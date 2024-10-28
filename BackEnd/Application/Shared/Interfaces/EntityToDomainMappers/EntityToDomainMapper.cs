@@ -1,5 +1,6 @@
 ﻿using Application.Databases.Relational.Models;
 using Domain.Features.Address.Entities;
+using Domain.Features.Address.ValueObjects.Identificators;
 using Domain.Features.Branch.Entities;
 using Domain.Features.BranchOffer.Entities;
 using Domain.Features.Company.Entities;
@@ -83,17 +84,19 @@ namespace Application.Shared.Interfaces.EntityToDomainMappers
         public DomainAddress ToDomainAddress
             (
             Address databaseAddress,
-            IEnumerable<AdministrativeDivision> databseHierarchy
+            Dictionary<DivisionId, AdministrativeDivision> databseDictionary
             )
         {
-            var domainHierachy = databseHierarchy.Select(x => new DomainAdministrativeDivision
+            var domainHierachy = databseDictionary.ToDictionary(
+                x => x.Key,
+                x => new DomainAdministrativeDivision
                 (
-                x.Id,
-                x.Name,
-                x.ParentDivisionId,
-                x.AdministrativeType.Id,
-                x.AdministrativeType.Name
-                )).ToList();
+                x.Value.Id,
+                x.Value.Name,
+                x.Value.ParentDivisionId,
+                x.Value.AdministrativeType.Id,
+                x.Value.AdministrativeType.Name
+                ));
 
 
             var address = _domainFactory.CreateDomainAddress

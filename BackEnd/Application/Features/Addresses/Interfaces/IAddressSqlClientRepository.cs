@@ -1,4 +1,5 @@
 ﻿using Application.Databases.Relational.Models;
+using Domain.Features.Address.ValueObjects.Identificators;
 
 namespace Application.Features.Addresses.Interfaces
 {
@@ -11,7 +12,7 @@ namespace Application.Features.Addresses.Interfaces
             CancellationToken cancellation
             );
 
-        Task<IEnumerable<AdministrativeDivision>> GetDivisionsHierachyUpAsync
+        Task<Dictionary<DivisionId, AdministrativeDivision>> GetDivisionsHierachyUpAsync
             (
             int divisionId,
             CancellationToken cancellation

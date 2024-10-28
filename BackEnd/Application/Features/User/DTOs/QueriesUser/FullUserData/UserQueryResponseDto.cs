@@ -1,5 +1,5 @@
 ﻿using Application.Features.User.DTOs.CommandsUser;
-using Application.Shared.DTOs.Notifications;
+using Application.Shared.DTOs.Features.Users.Notifications;
 using Domain.Features.User.Entities;
 
 namespace Application.Features.User.DTOs.QueriesUser.FullUserData
@@ -10,8 +10,8 @@ namespace Application.Features.User.DTOs.QueriesUser.FullUserData
         public Guid UserId { get; set; }
         public DateTime? LastLoginIn { get; set; } = null;
         public DateTime LastPasswordUpdate { get; set; }
-        public IEnumerable<UrlResponseDto> Urls { get; set; } = new List<UrlResponseDto>();
-        public IEnumerable<NotificationResponseDto> Notifications { get; set; } = new List<NotificationResponseDto>();
+        public IEnumerable<UrlResponseDto> Urls { get; set; }
+        public IEnumerable<NotificationResponseDto> Notifications { get; set; }
 
 
         public UserQueryResponseDto(DomainUser user)

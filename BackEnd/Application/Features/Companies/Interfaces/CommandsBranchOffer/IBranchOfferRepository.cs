@@ -10,47 +10,50 @@ namespace Application.Features.Companies.Interfaces.CommandsBranchOffer
     {
         //DML
         //Offer Part
-        Task<Guid> CreateOfferAsync
+        Task<IEnumerable<DomainOffer>> CreateOffersAsync
             (
             UserId companyId,
-            DomainOffer offer,
+            IEnumerable<DomainOffer> offers,
             CancellationToken cancellation
             );
 
-        Task UpdateOfferAsync
+        Task UpdateOffersAsync
             (
             UserId companyId,
-            DomainOffer offer,
+            Dictionary<OfferId, DomainOffer> offers,
             CancellationToken cancellation
             );
 
+        //DQL
+        Task<Dictionary<OfferId, DomainOffer>> GetOfferDictionaryAsync
+            (
+            UserId companyId,
+            IEnumerable<OfferId> ids,
+            CancellationToken cancellation
+            );
+
+
+        //DML
         //BranchOffer Part
-        Task CreateBranchOfferAsync
+        Task<IEnumerable<DomainBranchOffer>> CreateBranchOffersAsync
             (
             UserId companyId,
-            DomainBranchOffer branchOffer,
+            IEnumerable<DomainBranchOffer> branchOffers,
             CancellationToken cancellation
             );
 
         Task UpdateBranchOfferAsync
             (
             UserId companyId,
-            DomainBranchOffer branchOffer,
+            Dictionary<BranchOfferId, DomainBranchOffer> dictionary,
             CancellationToken cancellation
             );
 
         //DQL
-        Task<DomainOffer> GetOfferAsync
+        Task<Dictionary<BranchOfferId, DomainBranchOffer>> GetBranchOfferDictionaryAsync
             (
             UserId companyId,
-            OfferId id,
-            CancellationToken cancellation
-            );
-
-        Task<DomainBranchOffer> GetBranchOfferAsync
-            (
-            UserId companyId,
-            BranchOfferId id,
+            IEnumerable<BranchOfferId> ids,
             CancellationToken cancellation
             );
     }

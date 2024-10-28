@@ -12,6 +12,8 @@ namespace Domain.Features.Company.ValueObjects
         //Cosntructors
         public Regon(string value)
         {
+            value = value.Trim();
+
             if (!IsValidRegon(value))
             {
                 throw new RegonException(Messages.Regon_Value_Invalid);
@@ -19,6 +21,20 @@ namespace Domain.Features.Company.ValueObjects
             Value = value;
         }
 
+
+        //==================================================================================================
+        //==================================================================================================
+        //==================================================================================================
+        //Public Methods
+        public static implicit operator Regon(string value)
+        {
+            return new Regon(value);
+        }
+
+        public static implicit operator string(Regon value)
+        {
+            return value.Value;
+        }
 
         //==================================================================================================
         //==================================================================================================

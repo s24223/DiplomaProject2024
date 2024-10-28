@@ -18,7 +18,7 @@ namespace Domain.Features.Address.Entities
         //References
         //Division 
         public DivisionId DivisionId { get; private set; }
-        private List<DomainAdministrativeDivision> _hierarchy = new();
+        private List<DomainAdministrativeDivision> _hierarchy = [];
         public IReadOnlyCollection<DomainAdministrativeDivision> Hierarchy => _hierarchy;
 
         //Street 
@@ -55,10 +55,9 @@ namespace Domain.Features.Address.Entities
             )
         {
             //Values with exceptions
-            ZipCode = new ZipCode(zipCode);
-            BuildingNumber = new BuildingNumber(buildingNumber);
-            ApartmentNumber = string.IsNullOrWhiteSpace(apartmentNumber) ?
-                null : new ApartmentNumber(apartmentNumber);
+            ZipCode = (ZipCode)zipCode;
+            BuildingNumber = (BuildingNumber)buildingNumber;
+            ApartmentNumber = (ApartmentNumber?)apartmentNumber;
 
             //values with no exceptions
             Id = new AddressId(id);
@@ -71,11 +70,9 @@ namespace Domain.Features.Address.Entities
         //====================================================================================================
         //====================================================================================================
         //Public Methods
-        public void SetHierarchy(IEnumerable<DomainAdministrativeDivision> hierarchy)
+        public void SetHierarchy(Dictionary<DivisionId, DomainAdministrativeDivision> databseDictionary)
         {
-            var divisionWithSameDivisionId = hierarchy
-                .Any(x => x.Id == DivisionId);
-            if (!divisionWithSameDivisionId)
+            if (!databseDictionary.ContainsKey(DivisionId))
             {
                 throw new AddressException
                     (
@@ -83,12 +80,12 @@ namespace Domain.Features.Address.Entities
                     DomainExceptionTypeEnum.AppProblem
                     );
             }
-            _hierarchy = hierarchy.ToList();
+            _hierarchy = databseDictionary.Values.ToList();
         }
 
         public void SetZipCode(string zipCode)
         {
-            ZipCode = new ZipCode(zipCode);
+            ZipCode = (ZipCode)zipCode;
         }
         //====================================================================================================
         //====================================================================================================

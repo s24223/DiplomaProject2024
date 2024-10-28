@@ -9,8 +9,11 @@ namespace Domain.Shared.ValueObjects
     /// <exception cref="UrlSegmentException"></exception>
     public record UrlSegment
     {
+        //Values
         public string Value { get; private set; }
 
+
+        //Cosntructor
         public UrlSegment(string value)
         {
             if (!IsValidSegmentUrl(value))
@@ -20,6 +23,32 @@ namespace Domain.Shared.ValueObjects
             Value = value;
         }
 
+
+        //=================================================================================================================
+        //=================================================================================================================
+        //=================================================================================================================
+        //Public Methods
+        public static implicit operator UrlSegment?(string? value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return null;
+            else
+                return new UrlSegment(value);
+        }
+
+        public static implicit operator string?(UrlSegment? value)
+        {
+            return value switch
+            {
+                null => null,
+                _ => value.Value,
+            };
+        }
+
+        //=================================================================================================================
+        //=================================================================================================================
+        //=================================================================================================================
+        //Private Methods
         private bool IsValidSegmentUrl(string segmentUrl)
         {
             return Regex.IsMatch(segmentUrl, @"^[a-zA-Z0-9\-_]+$");

@@ -19,11 +19,12 @@ namespace Domain.Features.Offer.Entities
         public Money? MaxSalary { get; private set; }
         public DatabaseBool? IsNegotiatedSalary { get; private set; }
         public DatabaseBool IsForStudents { get; private set; }
-
+        //Pochodne
+        public bool IsPaid { get; private set; }
 
         //References
         //DomainBranchOffer
-        private Dictionary<BranchOfferId, DomainBranchOffer> _branchOffers = new();
+        private Dictionary<BranchOfferId, DomainBranchOffer> _branchOffers = [];
         public IReadOnlyDictionary<BranchOfferId, DomainBranchOffer> BranchOffers => _branchOffers;
 
 
@@ -40,18 +41,15 @@ namespace Domain.Features.Offer.Entities
             IProvider provider
             ) : base(new OfferId(id), provider)
         {
-            //Values with exeptions
-            MinSalary = minSalary == null ? null : new Money(minSalary.Value);
-            MaxSalary = maxSalary == null ? null : new Money(maxSalary.Value);
-            IsForStudents = new DatabaseBool(isForStudents);
-            IsNegotiatedSalary = string.IsNullOrWhiteSpace(isNegotiatedSalary) ?
-                null : new DatabaseBool(isNegotiatedSalary);
-
-            //Values with  no exeptions
-            Name = name;
-            Description = description;
-
-            //ThrowExceptionIfNotValid();
+            SetValues
+                (
+                name,
+                description,
+                minSalary,
+                maxSalary,
+                (isNegotiatedSalary is null ? null : (DatabaseBool)isNegotiatedSalary),
+                (DatabaseBool)isForStudents
+                );
         }
 
 
@@ -59,15 +57,11 @@ namespace Domain.Features.Offer.Entities
         //=================================================================================================
         //=================================================================================================
         //Public Methods
-        public void AddAddBranchOffer(DomainBranchOffer domainBranchOffer)
+        public void AddBranchOffers(IEnumerable<DomainBranchOffer> branchOffers)
         {
-            if (
-                domainBranchOffer.OfferId == Id &&
-                !_branchOffers.ContainsKey(domainBranchOffer.Id)
-                )
+            foreach (DomainBranchOffer offer in branchOffers)
             {
-                _branchOffers.Add(domainBranchOffer.Id, domainBranchOffer);
-                domainBranchOffer.Offer = this;
+                AddAddBranchOffer(offer);
             }
         }
 
@@ -81,25 +75,37 @@ namespace Domain.Features.Offer.Entities
             bool isForStudents
             )
         {
-
-            //Values with exeptions
-            MinSalary = minSalary == null ? null : new Money(minSalary.Value);
-            MaxSalary = maxSalary == null ? null : new Money(maxSalary.Value);
-            IsForStudents = new DatabaseBool(isForStudents);
-            IsNegotiatedSalary = isNegotiatedSalary == null ?
-                null : new DatabaseBool(isNegotiatedSalary.Value);
-
-            //Values with  no exeptions
-            Name = name;
-            Description = description;
-
-            ThrowExceptionIfNotValid();
+            SetValues(name, description, minSalary, maxSalary, isNegotiatedSalary, isForStudents);
         }
 
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================
         //Private Methods
+        private void SetValues
+            (
+            string name,
+            string description,
+            decimal? minSalary,
+            decimal? maxSalary,
+            DatabaseBool? isNegotiatedSalary,
+            DatabaseBool isForStudents
+            )
+        {
+            Name = name;
+            Description = description;
+            MinSalary = (Money?)minSalary;
+            MaxSalary = (Money?)maxSalary;
+            IsNegotiatedSalary = isNegotiatedSalary;
+            IsForStudents = isForStudents;
+
+            //Pochodne
+            IsPaid = MinSalary is not null && MinSalary.Value > 0;
+
+            //ThrowExceptionIfNotValid();
+        }
+
+
         private void ThrowExceptionIfNotValid()
         {
             if (
@@ -119,6 +125,18 @@ namespace Domain.Features.Offer.Entities
                 )
             {
                 throw new OfferException(Messages.Offer_IsNegotiatedSalary_Empty);
+            }
+        }
+
+        private void AddAddBranchOffer(DomainBranchOffer domainBranchOffer)
+        {
+            if (
+                domainBranchOffer.OfferId == Id &&
+                !_branchOffers.ContainsKey(domainBranchOffer.Id)
+                )
+            {
+                _branchOffers.Add(domainBranchOffer.Id, domainBranchOffer);
+                domainBranchOffer.Offer = this;
             }
         }
     }

@@ -146,16 +146,17 @@ namespace Application.Features.User.Interfaces.CommandsUrl
             CancellationToken cancellation
             )
         {
-            var idSet = new HashSet<UrlId>(ids);
             var urls = await _context.Urls
-                .Where(x => idSet.Any(y =>
+                .Where(x => ids.Any(y =>
                     y.UserId.Value == x.UserId &&
                     y.UrlTypeId == x.UrlTypeId &&
                     y.Created == x.Created
-                )).ToDictionaryAsync(x =>
-                    new UrlId(new UserId(x.UserId), x.UrlTypeId, x.Created),
-                    x => x
-                    );
+                )).ToDictionaryAsync
+                (
+                x => new UrlId(new UserId(x.UserId), x.UrlTypeId, x.Created),
+                x => x,
+                cancellation
+                );
 
             var missingIds = ids.Where(id => !urls.ContainsKey(id));
 

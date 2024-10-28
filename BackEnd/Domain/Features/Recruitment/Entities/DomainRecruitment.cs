@@ -46,7 +46,7 @@ namespace Domain.Features.Recruitment.Entities
                 if (_branchOffer == null && value != null && value.Id == BranchOfferId)
                 {
                     _branchOffer = value;
-                    _branchOffer.AddRecrutment(this);
+                    _branchOffer.AddRecrutments([this]);
                 }
             }
         }

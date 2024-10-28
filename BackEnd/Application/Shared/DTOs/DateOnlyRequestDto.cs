@@ -31,5 +31,10 @@ namespace Application.Shared.DTOs
                 throw new DateOnlyException($"{Messages.DateOnly_DateOnlyRequestDto_InvalidDate}: {dto.Year}-{dto.Month}-{dto.Day}");
             }
         }
+
+        public static implicit operator DateOnly?(DateOnlyRequestDto? dto)
+        {
+            return dto is null ? null : (DateOnly)dto;
+        }
     }
 }

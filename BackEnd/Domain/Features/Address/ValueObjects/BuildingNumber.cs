@@ -12,6 +12,8 @@ namespace Domain.Features.Address.ValueObjects
         //Cosntructor
         public BuildingNumber(string value)
         {
+            value = value.Trim();
+
             if (!IsValidBuildingNumber(value))
             {
                 throw new BuildingNumberException(Messages.BuildingNumber_Value_Invalid);
@@ -19,6 +21,20 @@ namespace Domain.Features.Address.ValueObjects
             Value = value;
         }
 
+
+        //====================================================================================================
+        //====================================================================================================
+        //====================================================================================================
+        //Public Methods
+        public static implicit operator BuildingNumber(string value)
+        {
+            return new BuildingNumber(value);
+        }
+
+        public static implicit operator string(BuildingNumber value)
+        {
+            return value.Value;
+        }
 
         //====================================================================================================
         //====================================================================================================

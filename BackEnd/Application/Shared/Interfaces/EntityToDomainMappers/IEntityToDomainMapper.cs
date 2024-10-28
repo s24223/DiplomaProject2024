@@ -1,5 +1,6 @@
 ﻿using Application.Databases.Relational.Models;
 using Domain.Features.Address.Entities;
+using Domain.Features.Address.ValueObjects.Identificators;
 using Domain.Features.Branch.Entities;
 using Domain.Features.BranchOffer.Entities;
 using Domain.Features.Company.Entities;
@@ -24,7 +25,7 @@ namespace Application.Shared.Interfaces.EntityToDomainMappers
         DomainAddress ToDomainAddress
             (
             Address databaseAddress,
-            IEnumerable<AdministrativeDivision> databseHierarchy
+            Dictionary<DivisionId, AdministrativeDivision> databseDictionary
             );
 
         //Company Module

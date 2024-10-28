@@ -2,10 +2,6 @@
 
 namespace Domain.Features.Offer.ValueObjects
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <exception cref="MoneyException"></exception>
     public record Money
     {
         //Values
@@ -27,15 +23,6 @@ namespace Domain.Features.Offer.ValueObjects
         //================================================================================================
         //================================================================================================
         //Public Methods
-        private bool IsValidMoney(decimal value)
-        {
-            if (decimal.Round(value, 2) != value || value < 0)
-            {
-                return false;
-            }
-            return true;
-        }
-
         public static bool operator >(Money money1, Money money2)
         {
             return money1.Value > money2.Value;
@@ -56,9 +43,36 @@ namespace Domain.Features.Offer.ValueObjects
             return money1.Value <= money2.Value;
         }
 
+        public static implicit operator decimal?(Money? money)
+        {
+            return money switch
+            {
+                null => null,
+                _ => money.Value,
+            };
+        }
+
+        public static implicit operator Money?(decimal? value)
+        {
+            return value switch
+            {
+                null => null,
+                _ => new Money(value.Value),
+            };
+        }
+
         //================================================================================================
         //================================================================================================
         //================================================================================================
         //Private Methods
+        private bool IsValidMoney(decimal value)
+        {
+            if (decimal.Round(value, 2) != value || value < 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
     }
 }

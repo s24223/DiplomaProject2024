@@ -1,6 +1,7 @@
-﻿using Application.Features.Addresses.DTOs.Create;
-using Application.Features.Addresses.DTOs.Update;
-using Application.Features.Addresses.Services;
+﻿using Application.Features.Addresses.DTOs.Commands.Create;
+using Application.Features.Addresses.DTOs.Commands.Update;
+using Application.Features.Addresses.Services.Commands;
+using Application.Features.Addresses.Services.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackEnd.Controllers
@@ -10,16 +11,19 @@ namespace BackEnd.Controllers
     public class AddressController : ControllerBase
     {
         //Values
-        public IAddressService _service;
+        private readonly IAddressCommandService _commandService;
+        private readonly IAddressQueryService _queryService;
 
 
         //Controllers
         public AddressController
             (
-            IAddressService service
+            IAddressCommandService commandService,
+            IAddressQueryService queryService
             )
         {
-            _service = service;
+            _commandService = commandService;
+            _queryService = queryService;
         }
 
         //==================================================================================================
@@ -34,7 +38,7 @@ namespace BackEnd.Controllers
             CancellationToken cancellation
             )
         {
-            var result = await _service.CreateAsync(dto, cancellation);
+            var result = await _commandService.CreateAsync(dto, cancellation);
             return StatusCode(201, result);
         }
 
@@ -46,7 +50,7 @@ namespace BackEnd.Controllers
             CancellationToken cancellation
             )
         {
-            var result = await _service.UpdateAsync(id, dto, cancellation);
+            var result = await _commandService.UpdateAsync(id, dto, cancellation);
             return StatusCode(200, result);
         }
 
@@ -59,7 +63,7 @@ namespace BackEnd.Controllers
             CancellationToken cancellation
             )
         {
-            var result = await _service.GetCollocationsAsync(divisionName, streetName, cancellation);
+            var result = await _queryService.GetCollocationsAsync(divisionName, streetName, cancellation);
             if (result.Count > 0)
             {
                 return StatusCode(200, result);
@@ -78,7 +82,7 @@ namespace BackEnd.Controllers
             CancellationToken cancellation
             )
         {
-            var result = await _service.GetDivisionsDownAsync(id, cancellation);
+            var result = await _queryService.GetDivisionsDownAsync(id, cancellation);
             if (result.Count > 0)
             {
                 return StatusCode(200, result);
@@ -97,7 +101,7 @@ namespace BackEnd.Controllers
             CancellationToken cancellation
             )
         {
-            var result = await _service.GetAddressAsync(id, cancellation);
+            var result = await _queryService.GetAddressAsync(id, cancellation);
             return StatusCode(200, result);
         }
     }
