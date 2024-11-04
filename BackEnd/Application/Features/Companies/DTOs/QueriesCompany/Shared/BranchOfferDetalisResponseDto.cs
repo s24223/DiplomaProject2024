@@ -1,19 +1,20 @@
 ﻿using Application.Shared.DTOs.Features.Companies;
 using Domain.Features.BranchOffer.Entities;
 
-namespace Application.Features.Companies.DTOs.CommandsBranchOffer.CommandsBranchOffer.CreateBranchOffer
+namespace Application.Features.Companies.DTOs.QueriesCompany.Shared
 {
-    public class CreateBranchOfferResponseDto
+    public class BranchOfferDetalisResponseDto
     {
-        //values
+        //Values
         public OfferResponseDto Offer { get; set; } = null!;
         public BranchOfferResponseDto OfferDetails { get; set; } = null!;
 
 
         //Cosntructor
-        public CreateBranchOfferResponseDto(DomainBranchOffer domain)
+        public BranchOfferDetalisResponseDto(DomainBranchOffer domain)
         {
             OfferDetails = new BranchOfferResponseDto(domain);
+
             if (domain.Offer != null)
             {
                 Offer = new OfferResponseDto(domain.Offer);

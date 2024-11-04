@@ -4,7 +4,7 @@ using Application.Features.Addresses.Services.Commands;
 using Application.Features.Addresses.Services.Queries;
 using Application.Features.Companies.Interfaces.CommandsBranchOffer;
 using Application.Features.Companies.Interfaces.CommandsCompanyBranch;
-using Application.Features.Companies.Interfaces.QueriesCompany;
+using Application.Features.Companies.Interfaces.QueriesOffer;
 using Application.Features.Companies.Services.CommandsBranchOffer;
 using Application.Features.Companies.Services.CommandsCompanyBranch;
 using Application.Features.Companies.Services.QueriesCompany;
@@ -97,7 +97,7 @@ namespace Application
             serviceCollection.AddTransient<IBranchOfferService, BranchOfferService>();
 
             //Queries
-            serviceCollection.AddTransient<ICompanyQueryRepository, CompanyQueryRepository>();
+            serviceCollection.AddTransient<IOfferQueryRepository, OfferQueryRepository>();
             serviceCollection.AddTransient<ICompanyQueryService, CompanyQueryService>();
 
             //===============================================================================================================

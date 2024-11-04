@@ -1,25 +1,32 @@
-﻿using Application.Shared.DTOs.Features.Companies;
-using Domain.Features.BranchOffer.Entities;
+﻿using Application.Features.Companies.DTOs.QueriesCompany.Shared;
+using Application.Shared.DTOs.Features.Companies;
+using Domain.Features.Offer.Entities;
 
 namespace Application.Features.Companies.DTOs.QueriesCompany.QueriesOffer
 {
-    public class OfferQueryResponseDto : BranchOfferResponseDto
+    public class OfferQueryResponseDto
     {
-        //UrlResponseDto
-        //CompanyResponseDto
-        public BranchDetailsQueryResponseDto Branch { get; set; } = null!;
+        //Values
+        public CompanyDetailsResponseDto Company { get; set; } = null!;
         public OfferResponseDto Offer { get; set; } = null!;
+        public IEnumerable<BranchBranchOfferDetailsResponseDto> Branches { get; set; } = [];
+        public int BranchesCount { get; private set; } = 0;
 
-        public OfferQueryResponseDto(DomainBranchOffer domain) : base(domain)
+        //Cosntructor 
+        public OfferQueryResponseDto(DomainOffer domain)
         {
-            if (domain.Offer != null)
+            Offer = new OfferResponseDto(domain);
+
+            var domainCompany = domain.BranchOffers.First().Value.Branch.Company;
+            if (domainCompany != null)
             {
-                Offer = new OfferResponseDto(domain.Offer);
+                Company = new CompanyDetailsResponseDto(domainCompany);
             }
-            if (domain.Branch != null)
-            {
-                Branch = new BranchDetailsQueryResponseDto(domain.Branch);
-            }
+
+            Branches = domain.BranchOffers
+                .Select(x => new BranchBranchOfferDetailsResponseDto(x.Value));
+            BranchesCount = Branches.Count();
         }
+
     }
 }

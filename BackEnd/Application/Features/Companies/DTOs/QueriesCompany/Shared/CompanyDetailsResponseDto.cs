@@ -4,11 +4,14 @@ using Domain.Features.Company.Entities;
 
 namespace Application.Features.Companies.DTOs.QueriesCompany.Shared
 {
-    public class CompanyDetailsQueryResponseDto : CompanyResponseDto
+    public class CompanyDetailsResponseDto : CompanyResponseDto
     {
-        public IEnumerable<UrlResponseDto> Urls { get; set; } = new List<UrlResponseDto>();
+        //Values
+        public IEnumerable<UrlResponseDto> Urls { get; set; } = [];
 
-        public CompanyDetailsQueryResponseDto(DomainCompany domain) : base(domain)
+
+        //Constructor
+        public CompanyDetailsResponseDto(DomainCompany domain) : base(domain)
         {
             if (domain.User.Urls != null && domain.User.Urls.Any())
             {
