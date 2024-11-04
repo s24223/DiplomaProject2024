@@ -1,3 +1,4 @@
+// MainPage.js
 import React, { useState, useEffect } from 'react';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import LoginButton from '../../components/LoginButton/LoginButton';
@@ -13,7 +14,14 @@ const MainPage = () => {
         const loadOffers = async () => {
             try {
                 const data = await fetchOffers(searchQuery);
-                setOffers(data);
+                // setOffers(data);
+                // filtrowanie unikalnych offer.
+                // z jakiegoś powodu backend wysyła 2 razy offer  z tym samym id
+                const uniqueOffers = data.items.filter(
+                    (item, index, self) => 
+                        index === self.findIndex((o) => o.offer.id === item.offer.id)
+                );
+                setOffers({ ...data, items: uniqueOffers });
             } catch (error) {
                 console.error("Error fetching offers:", error);
             }
@@ -24,10 +32,10 @@ const MainPage = () => {
     return (
         <div className="main-page">
             <h1>Strona główna</h1>
-            <LoginButton />
             {(typeof offers != "undefined" && console.log(offers.items[0].offer))}
+            <LoginButton />
             <SearchBar onSearch={setSearchQuery} />
-            {/* <OffersList offers={offers} /> */}
+            {offers && offers.items && <OffersList offers={offers.items} />}
         </div>
     );
 };

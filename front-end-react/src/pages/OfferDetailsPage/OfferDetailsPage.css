@@ -1,0 +1,20 @@
+.offer-details {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+.offer-details h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+.offer-details p {
+    font-size: 16px;
+    margin: 8px 0;
+}
+
+.offer-details strong {
+    font-weight: bold;
+}

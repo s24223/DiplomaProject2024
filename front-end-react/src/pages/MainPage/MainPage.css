@@ -1,0 +1,40 @@
+.main-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.header {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.title {
+    margin-top: 60px;
+    font-size: 24px;
+}
+
+.offers-list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.offer-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-button {
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+}
