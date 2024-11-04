@@ -13,6 +13,7 @@ const MainPage = () => {
         const loadOffers = async () => {
             try {
                 const data = await fetchOffers(searchQuery);
+                console.log(data);
                 setOffers(data);
             } catch (error) {
                 console.error("Error fetching offers:", error);

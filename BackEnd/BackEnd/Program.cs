@@ -115,9 +115,11 @@ namespace BackEnd
 
             var app = builder.Build();
             //React Configuration
-            app.UseCors(
-               options => options.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader()
-               );
+            app.UseCors(x => x
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .SetIsOriginAllowed(origin => true) // allow any origin
+                    .AllowCredentials());
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
