@@ -6,14 +6,13 @@ import OffersList from '../../components/OffersList/OffersList';
 import './MainPage.css';
 
 const MainPage = () => {
-    const [offers, setOffers] = useState([]);
+    const [offers, setOffers] = useState();
     const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         const loadOffers = async () => {
             try {
                 const data = await fetchOffers(searchQuery);
-                console.log(data);
                 setOffers(data);
             } catch (error) {
                 console.error("Error fetching offers:", error);
@@ -26,8 +25,9 @@ const MainPage = () => {
         <div className="main-page">
             <h1>Strona główna</h1>
             <LoginButton />
+            {(typeof offers != "undefined" && console.log(offers.items[0].offer))}
             <SearchBar onSearch={setSearchQuery} />
-            <OffersList offers={offers} />
+            {/* <OffersList offers={offers} /> */}
         </div>
     );
 };

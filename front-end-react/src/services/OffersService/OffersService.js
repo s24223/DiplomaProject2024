@@ -1,7 +1,7 @@
 // offersService.js
 
 export const fetchOffers = async (query) => {
-    const response = await fetch(`https://localhost:7166/api/Offers`, {
+    const response = await fetch(`https://localhost:7166/api/Offers?query=${query}`, {
         method: 'GET',
         withCredentials: true,    
         crossorigin: true,  
