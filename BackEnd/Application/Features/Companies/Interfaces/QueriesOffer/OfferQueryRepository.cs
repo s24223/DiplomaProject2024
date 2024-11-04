@@ -250,7 +250,7 @@ namespace Application.Features.Companies.Interfaces.QueriesOffer
         //BranchOffer Part 
         private IQueryable<BranchOffer> BuildBasicQuery()
         {
-            return _context.BranchOffers
+            var query= _context.BranchOffers
                 .Include(x => x.Offer)
                 .Include(x => x.Branch)
                     .ThenInclude(x => x.Company)
@@ -258,13 +258,14 @@ namespace Application.Features.Companies.Interfaces.QueriesOffer
                             .ThenInclude(x => x.Urls)
                 .Where(x => x.Branch.AddressId.HasValue)
                 .AsQueryable();
-            /*
-                        query = query.Where
+            
+             query = query.Where
                             (x =>
                             x.PublishStart <= _now &&
                             (x.PublishEnd >= _now || x.PublishEnd == null)
                             );
-            */
+            return query;
+            
         }
 
         private IQueryable<BranchOffer> BuildBasicFilters

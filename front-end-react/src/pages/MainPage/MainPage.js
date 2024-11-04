@@ -14,14 +14,13 @@ const MainPage = () => {
         const loadOffers = async () => {
             try {
                 const data = await fetchOffers(searchQuery);
-                // setOffers(data);
-                // filtrowanie unikalnych offer.
-                // z jakiegoś powodu backend wysyła 2 razy offer  z tym samym id
-                const uniqueOffers = data.items.filter(
-                    (item, index, self) => 
-                        index === self.findIndex((o) => o.offer.id === item.offer.id)
-                );
-                setOffers({ ...data, items: uniqueOffers });
+                setOffers(data);
+                // filtrowanie unikalnych offer, jesli cos nie zadziała:
+                // const uniqueOffers = data.items.filter(
+                //     (item, index, self) => 
+                //         index === self.findIndex((o) => o.offer.id === item.offer.id)
+                // );
+                // setOffers({ ...data, items: uniqueOffers });
             } catch (error) {
                 console.error("Error fetching offers:", error);
             }
