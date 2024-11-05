@@ -7,7 +7,7 @@ using Domain.Features.Offer.ValueObjects.Identificators;
 using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Providers;
 
-namespace Application.Features.Companies.Services.QueriesCompany
+namespace Application.Features.Companies.Services.QueriesOffer
 {
     public class CompanyQueryService : ICompanyQueryService
     {
@@ -311,30 +311,30 @@ namespace Application.Features.Companies.Services.QueriesCompany
             var todayDateOnly = _provider.TimeProvider().GetDateOnlyToday();
 
             //isPayed
-            var isPayedValidate = (isPayed == null) ? (bool)false : isPayed.Value;
+            var isPayedValidate = isPayed == null ? false : isPayed.Value;
 
 
             //Time Part
-            publishStart = (publishStart is not null && publishStart >= now) ? now : publishStart;
-            publishEnd = (publishEnd is not null && publishEnd <= now) ? now : publishEnd;
+            publishStart = publishStart is not null && publishStart >= now ? now : publishStart;
+            publishEnd = publishEnd is not null && publishEnd <= now ? now : publishEnd;
             //workStart
-            var workStartValidate = (workStart is null) ?
+            var workStartValidate = workStart is null ?
                 (DateOnly?)null : _provider.TimeProvider().ToDateOnly(workStart.Value);
-            workStartValidate = (workStartValidate < todayDateOnly) ? todayDateOnly : workStartValidate;
+            workStartValidate = workStartValidate < todayDateOnly ? todayDateOnly : workStartValidate;
             //workEnd
-            var workEndValidate = (workEnd is null) ?
+            var workEndValidate = workEnd is null ?
                 (DateOnly?)null : _provider.TimeProvider().ToDateOnly(workEnd.Value);
-            workEndValidate = (workEndValidate < todayDateOnly) ? todayDateOnly : workEndValidate;
+            workEndValidate = workEndValidate < todayDateOnly ? todayDateOnly : workEndValidate;
 
 
             //Salary Part
-            salaryMin = (salaryMin <= 0) ? null : salaryMin;
-            salaryMax = (salaryMax <= 0) ? null : salaryMax;
+            salaryMin = salaryMin <= 0 ? null : salaryMin;
+            salaryMax = salaryMax <= 0 ? null : salaryMax;
 
 
             //Items And Pages
-            maxItems = (maxItems < 10 || maxItems > 100) ? 100 : maxItems;
-            page = (page < 1) ? 1 : page;
+            maxItems = maxItems < 10 || maxItems > 100 ? 100 : maxItems;
+            page = page < 1 ? 1 : page;
 
             return
                 (

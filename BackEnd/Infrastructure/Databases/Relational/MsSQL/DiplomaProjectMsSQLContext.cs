@@ -33,9 +33,9 @@ public partial class DiplomaProjectMsSQLContext : DiplomaProjectContext
             {
                 throw new InfrastructureLayerException(Messages.NotConfiguredConnectionString);
             }
-            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseSqlServer(connectionString)
             //.LogTo(Console.WriteLine);
-            //.LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }); // Logowanie tylko SQL
+            .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }); // Logowanie tylko SQL
         }
         else
         {

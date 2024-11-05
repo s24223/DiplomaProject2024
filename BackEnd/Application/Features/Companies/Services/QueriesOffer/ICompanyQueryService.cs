@@ -1,7 +1,7 @@
 ﻿using Application.Features.Companies.DTOs.QueriesCompany.QueriesOffer;
 using Application.Shared.DTOs.Response;
 
-namespace Application.Features.Companies.Services.QueriesCompany
+namespace Application.Features.Companies.Services.QueriesOffer
 {
     public interface ICompanyQueryService
     {

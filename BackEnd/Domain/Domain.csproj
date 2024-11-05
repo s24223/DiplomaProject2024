@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <Folder Include="Features\BranchOffer\Exceptions\ValueObjects\" />
+    <Folder Include="Features\Characteristic\Exceptions\" />
     <Folder Include="Features\Comment\Exceptions\Entities\" />
     <Folder Include="Features\User\Exceptions\ValueObjects\" />
     <Folder Include="Features\Branch\Exceptions\ValueObjects\" />

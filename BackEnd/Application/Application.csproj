@@ -36,6 +36,7 @@
     <Folder Include="Features\Companies\DTOs\QueriesCompany\QueriesCompany\" />
     <Folder Include="Features\Companies\DTOs\QueriesCompany\QueriesBranch\" />
     <Folder Include="Features\Companies\Interfaces\QueriesCompany\" />
+    <Folder Include="Features\Companies\Services\QueriesCompany\" />
     <Folder Include="Features\Internship\CommentPart\" />
   </ItemGroup>
 

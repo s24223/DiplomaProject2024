@@ -2,12 +2,14 @@ using Application.Features.Addresses.Interfaces.Commands;
 using Application.Features.Addresses.Interfaces.Queries;
 using Application.Features.Addresses.Services.Commands;
 using Application.Features.Addresses.Services.Queries;
+using Application.Features.Characteristics.Interfaces.Queries;
+using Application.Features.Characteristics.Services.Queries;
 using Application.Features.Companies.Interfaces.CommandsBranchOffer;
 using Application.Features.Companies.Interfaces.CommandsCompanyBranch;
 using Application.Features.Companies.Interfaces.QueriesOffer;
 using Application.Features.Companies.Services.CommandsBranchOffer;
 using Application.Features.Companies.Services.CommandsCompanyBranch;
-using Application.Features.Companies.Services.QueriesCompany;
+using Application.Features.Companies.Services.QueriesOffer;
 using Application.Features.Internship.InternshipPart.Interfaces;
 using Application.Features.Internship.InternshipPart.Services;
 using Application.Features.Internship.RecrutmentPart.Interfaces;
@@ -111,6 +113,10 @@ namespace Application
             serviceCollection.AddTransient<IInternshipService, InternshipService>();
 
             //===============================================================================================================
+            //Characteristic Part
+            serviceCollection.AddTransient<ICharacteristicRepository, CharacteristicRepository>();
+            serviceCollection.AddTransient<ICharacteristicService, CharacteristicService>();
+
             return serviceCollection;
         }
     }
