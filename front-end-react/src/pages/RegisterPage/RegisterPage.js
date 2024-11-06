@@ -1,44 +1,40 @@
 import React, {useState} from 'react'
-import { fetchLogin } from '../../services/LoginService/LoginService';
-import './LoginPage.css'
+import { fetchRegistration } from '../../services/RegisterService/RegisterService';
+import './RegisterPage.css'
 
-const LoginPage = () => {
+const RegisterPage = () => {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-    const [jwt, setJwt] = useState();
     const [errorMsg, setErrorMsg] = useState();
 
-    const handleLogin = async (event) => {
+    const handleRegistration = async (event) => {
         event.preventDefault()
-        console.log({email, password})
         try{
-            const response = await fetchLogin({email, password})
-            setJwt(response.jwt)
-            window.location.href="/"
-        } catch(error){
+            await fetchRegistration({email, password})
+            window.location.href="/login"
+        } catch(error) {
             console.log(error)
-            //TODO: check error message and setmessage representive
             setErrorMsg('error')
         }
     }
 
-    const hanldeRegistrationButton = () => {
-        window.location.href="/register"
+    const handleLoginButton = () => {
+        window.location.href="/login"
     }
 
     return(
         <div>
             {errorMsg && errorMsg}
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleRegistration}>
                 <label>Email:</label><br />
                 <input type="email" id="email" name="email" onChange={e => setEmail(e.target.value)} /><br />
                 <label>Password:</label><br />
                 <input type="password" id="password" name="password" onChange={e => setPassword(e.target.value)} /><br />
                 <input type="submit" />
             </form>
-            <button onClick={hanldeRegistrationButton}>Zarejestruj</button>
+            <button onClick={handleLoginButton}>Login</button>
         </div>
     )
 }
 
-export default LoginPage
+export default RegisterPage
