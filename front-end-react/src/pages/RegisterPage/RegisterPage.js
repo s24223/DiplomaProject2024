@@ -29,7 +29,7 @@ const RegisterPage = () => {
                 <label>Email:</label><br />
                 <input type="email" id="email" name="email" onChange={e => setEmail(e.target.value)} /><br />
                 <label>Password:</label><br />
-                <input type="password" id="password" name="password" onChange={e => setPassword(e.target.value)} /><br />
+                <input type="password" id="password" name="password" minlength="8" onChange={e => setPassword(e.target.value)} /><br />
                 <input type="submit" />
             </form>
             <button onClick={handleLoginButton}>Login</button>

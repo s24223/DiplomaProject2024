@@ -5,7 +5,6 @@ import './LoginPage.css'
 const LoginPage = () => {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-    const [jwt, setJwt] = useState();
     const [errorMsg, setErrorMsg] = useState();
 
     const handleLogin = async (event) => {
@@ -13,7 +12,7 @@ const LoginPage = () => {
         console.log({email, password})
         try{
             const response = await fetchLogin({email, password})
-            setJwt(response.jwt)
+            localStorage.setItem("jwt", response.jwt)
             window.location.href="/"
         } catch(error){
             console.log(error)
