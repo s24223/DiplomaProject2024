@@ -21,7 +21,7 @@ const LoginPage = () => {
         }
     }
 
-    const hanldeRegistrationButton = () => {
+    const handleRegistrationButton = () => {
         window.location.href="/register"
     }
 
@@ -35,7 +35,7 @@ const LoginPage = () => {
                 <input type="password" id="password" name="password" onChange={e => setPassword(e.target.value)} /><br />
                 <input type="submit" />
             </form>
-            <button onClick={hanldeRegistrationButton}>Zarejestruj</button>
+            <button onClick={handleRegistrationButton}>Zarejestruj</button>
         </div>
     )
 }

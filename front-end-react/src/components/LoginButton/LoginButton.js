@@ -14,8 +14,12 @@ const LoginButton = () => {
     const handleLogOut = () => {
         fetchLogout()
         window.location.reload()
+        window.location.href = '/'
     };
 
+    const handleProfile = () => {
+        window.location.href = "/userProfile"; 
+    };
     return (
         <div>
             {localStorage.getItem("jwt") === null ?
@@ -28,6 +32,9 @@ const LoginButton = () => {
                 </button>
             </div> : 
             <div>
+                <button onClick={handleProfile} style={{ position: 'absolute', top: 10, right: 70 }}>
+                Profile
+                </button>
                 <button onClick={handleLogOut} style={{ position: 'absolute', top: 10, right: 10 }}>
                     Wyloguj    
                 </button>    
