@@ -1,75 +1,74 @@
-import React from 'react';
-// import './ApplyButton.css';
+import React, { useState } from 'react';
 
 const ApplyButton = ({ branchId }) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [personMessage, setPersonMessage] = useState('');
+
+    // Otwórz lub zamknij modal
+    const toggleModal = () => setIsModalOpen(!isModalOpen);
+
     const handleApply = async () => {
         try {
+            const authToken = localStorage.getItem("jwt");
+            if (!authToken) {
+                alert("Brak tokenu uwierzytelniającego. Zaloguj się, aby aplikować.");
+                return;
+            }
+
             const url = `https://localhost:7166/api/Internship/recruitment?branchOfferId=${branchId}`;
+
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`,
                     'Access-Control-Allow-Origin': '*',
                 },
-                //body: JSON.stringify({ branchOfferId: branchId }), // Przesyłanie branchId jako branchOfferId
-                credentials: 'include', // Zapewnia przesyłanie informacji o sesji zalogowanego użytkownika
+                credentials: 'include',
+                body: JSON.stringify({ personMessage }), // Wysyłanie wiadomości wpisanej przez użytkownika
             });
 
             if (!response.ok) throw new Error("Failed to apply for the offer");
             const result = await response.json();
             console.log("Successfully applied:", result);
             alert("Application successful!");
+
+            // Zamknij modal po pomyślnym przesłaniu wiadomości
+            toggleModal();
         } catch (error) {
             console.error("Error applying:", error);
-            alert("Application failed. Please try again. "+branchId);
+            alert("Application failed. Please try again.");
         }
     };
 
     return (
-        <button onClick={handleApply} className="apply-button">
-            Apply
-        </button>
+        <div>
+            <button onClick={toggleModal} className="apply-button">
+                Apply
+            </button>
+
+            {isModalOpen && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <h2>Enter Your Message</h2>
+                        <textarea
+                            value={personMessage}
+                            onChange={(e) => setPersonMessage(e.target.value)}
+                            placeholder="Wpisz swoją wiadomość..."
+                            rows="4"
+                            cols="50"
+                        />
+                        <button onClick={handleApply} className="send-button">
+                            Send
+                        </button>
+                        <button onClick={toggleModal} className="cancel-button">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            )}
+        </div>
     );
 };
 
 export default ApplyButton;
-
-// import React from 'react';
-
-// const ApplyButton = ({ branchId, authToken }) => {
-//     const handleApply = async () => {
-//         try {
-//             // Tworzenie URL z parametrem branchOfferId
-//             const url = `https://localhost:7166/api/Internship/recruitment?branchOfferId=${branchId}`;
-
-//             const response = await fetch(url, {
-//                 method: 'POST',
-//                 headers: {
-//                     'Content-Type': 'application/json',
-//                     'Authorization': `Bearer ${authToken}`, // Dodanie nagłówka Authorization
-//                     'Access-Control-Allow-Origin': '*',
-//                 },
-//                 credentials: 'include',
-//                 body: JSON.stringify({
-//                     personMessage: "string", // Dodanie body, jeśli wymagane
-//                 }),
-//             });
-
-//             if (!response.ok) throw new Error("Failed to apply for the offer");
-//             const result = await response.json();
-//             console.log("Successfully applied:", result);
-//             alert("Application successful!");
-//         } catch (error) {
-//             console.error("Error applying:", error);
-//             alert("Application failed. Please try again.");
-//         }
-//     };
-
-//     return (
-//         <button onClick={handleApply} className="apply-button">
-//             Apply
-//         </button>
-//     );
-// };
-
-// export default ApplyButton;
