@@ -1,4 +1,7 @@
-﻿namespace Application.Databases.Relational.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Application.Databases.Relational.Models;
 
 public partial class Branch
 {
@@ -16,7 +19,7 @@ public partial class Branch
 
     public virtual Address? Address { get; set; }
 
-    public virtual BranchCharacteristicsList? BranchCharacteristicsList { get; set; }
+    public virtual ICollection<BranchCharacteristic> BranchCharacteristics { get; set; } = new List<BranchCharacteristic>();
 
     public virtual ICollection<BranchOffer> BranchOffers { get; set; } = new List<BranchOffer>();
 

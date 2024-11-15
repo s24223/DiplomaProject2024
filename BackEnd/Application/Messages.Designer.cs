@@ -106,6 +106,15 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CharacteristicI_CharacteristicId_NotFound.
+        /// </summary>
+        internal static string CharacteristicI_CharacteristicId_NotFound {
+            get {
+                return ResourceManager.GetString("CharacteristicI_CharacteristicId_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Urzytkownik nie posiada Firmy.
         /// </summary>
         internal static string Company_Ids_NotFound {

@@ -3,10 +3,12 @@ using Application.Features.Addresses.Interfaces.Queries;
 using Application.Features.Addresses.Services.Commands;
 using Application.Features.Addresses.Services.Queries;
 using Application.Features.Characteristics.Interfaces.Queries;
+using Application.Features.Characteristics.Mappers.DatabaseToDomain;
 using Application.Features.Characteristics.Services.Queries;
 using Application.Features.Companies.Interfaces.CommandsBranchOffer;
 using Application.Features.Companies.Interfaces.CommandsCompanyBranch;
 using Application.Features.Companies.Interfaces.QueriesOffer;
+using Application.Features.Companies.Mappers.DatabaseToDomain;
 using Application.Features.Companies.Services.CommandsBranchOffer;
 using Application.Features.Companies.Services.CommandsCompanyBranch;
 using Application.Features.Companies.Services.QueriesOffer;
@@ -24,10 +26,11 @@ using Application.Features.User.Services.CommandsNotification;
 using Application.Features.User.Services.CommandsUrl;
 using Application.Features.User.Services.CommandsUser;
 using Application.Features.User.Services.QueriesUser;
+using Application.Shared.Interfaces.DomainRepositories;
 using Application.Shared.Interfaces.EntityToDomainMappers;
 using Application.Shared.Interfaces.Exceptions;
-using Application.Shared.Repositories;
 using Application.Shared.Services.Authentication;
+using Domain.Features.Characteristic.Repositories;
 using Domain.Features.Notification.Repositories;
 using Domain.Features.Url.Repository;
 using Microsoft.Extensions.Configuration;
@@ -90,13 +93,15 @@ namespace Application
 
             //===============================================================================================================
             //Company Module 
+            serviceCollection.AddTransient<ICompanyMapper, CompanyMapper>();
+
             //Company Branch Part 
             serviceCollection.AddTransient<ICompanyBranchCommandRepository, CompanyBranchCommandRepository>();
             serviceCollection.AddTransient<ICompanyBranchCommandService, CompanyBranchCommandService>();
 
             //Offer Branch Part 
             serviceCollection.AddTransient<IBranchOfferRepository, BranchOfferRepository>();
-            serviceCollection.AddTransient<IBranchOfferService, BranchOfferService>();
+            serviceCollection.AddTransient<IBranchOfferCommandService, BranchOfferCommandService>();
 
             //Queries
             serviceCollection.AddTransient<IOfferQueryRepository, OfferQueryRepository>();
@@ -114,8 +119,10 @@ namespace Application
 
             //===============================================================================================================
             //Characteristic Part
-            serviceCollection.AddTransient<ICharacteristicRepository, CharacteristicRepository>();
-            serviceCollection.AddTransient<ICharacteristicService, CharacteristicService>();
+            serviceCollection.AddTransient<ICharacteristicQueryRepository, CharacteristicQueryRepository>();
+            serviceCollection.AddTransient<ICharacteristicQueryService, CharacteristicQueryService>();
+
+            serviceCollection.AddTransient<ICharacteristicMapper, CharacteristicMapper>();
 
             return serviceCollection;
         }

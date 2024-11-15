@@ -1,4 +1,5 @@
-﻿using Domain.Shared.Factories;
+﻿using Domain.Features.Characteristic.Factories;
+using Domain.Shared.Factories;
 using Domain.Shared.Providers;
 using Domain.Shared.Providers.ExceptionMessage;
 using Domain.Shared.Providers.Time;
@@ -24,6 +25,8 @@ namespace Domain
 
             serviceCollection.AddTransient<IExceptionMessageProvider, ExceptionMessageProvider>();
             serviceCollection.AddTransient<ITimeProvider, Shared.Providers.Time.TimeProvider>();
+
+            serviceCollection.AddTransient<ICharacteristicFactory, CharacteristicFactory>();
 
             return serviceCollection;
         }

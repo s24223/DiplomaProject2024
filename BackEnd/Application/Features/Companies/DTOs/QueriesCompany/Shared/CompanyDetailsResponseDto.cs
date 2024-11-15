@@ -1,4 +1,4 @@
-﻿using Application.Shared.DTOs.Features.Companies;
+﻿using Application.Shared.DTOs.Features.Companies.Responses;
 using Application.Shared.DTOs.Features.Users.Urls;
 using Domain.Features.Company.Entities;
 

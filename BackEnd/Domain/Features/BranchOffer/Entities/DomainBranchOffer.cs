@@ -53,7 +53,7 @@ namespace Domain.Features.BranchOffer.Entities
                 if (_offer == null && value != null && value.Id == OfferId)
                 {
                     _offer = value;
-                    _offer.AddBranchOffers([this]);
+                    _offer.SetBranchOffers([this]);
                 }
             }
         }
@@ -121,6 +121,11 @@ namespace Domain.Features.BranchOffer.Entities
             )
             ReturnDuplicatesAndCorrectValues(IEnumerable<DomainBranchOffer> branchOffers)
         {
+            if (branchOffers.Count() < 2)
+            {
+                return ([], branchOffers);
+            }
+
             var groups = branchOffers.GroupBy(x => new { x.BranchId, x.OfferId });
             var correctEndList = new List<DomainBranchOffer>();
             var duplicatesEndList = new List<(DomainBranchOffer Core, DomainBranchOffer Duplicate)>();
@@ -184,6 +189,129 @@ namespace Domain.Features.BranchOffer.Entities
             return (duplicatesEndList, correctEndList);
         }
 
+
+        public static
+            (
+            IEnumerable<DomainBranchOffer> Correct,
+            IEnumerable<DomainBranchOffer> WithoutDuration,
+            Dictionary<DomainBranchOffer, List<DomainBranchOffer>> Conflicts
+            )
+            SeparateAndFilterBranchOffers(IEnumerable<DomainBranchOffer> values)
+        {
+            if (values.Count() == 1)
+            {
+                return (values, [], []);
+            }
+
+            var correctList = new List<DomainBranchOffer>();
+            var valuesWithoutDuration = new List<DomainBranchOffer>();
+            var conflictDictionary = new Dictionary<DomainBranchOffer, List<DomainBranchOffer>>();
+
+            //Ignore values with PublishStart == x.PublishEnd, beacause duration them == 0
+            var listWithDuration = new List<DomainBranchOffer>();
+            foreach (var item in values)
+            {
+                if (item.PublishEnd.HasValue && item.PublishStart == item.PublishEnd)
+                {
+                    valuesWithoutDuration.Add(item);
+                }
+                else
+                {
+                    listWithDuration.Add(item);
+                }
+            }
+
+            //Grupownaie
+            var groupsDictionary = listWithDuration
+                .GroupBy(val => (val.OfferId, val.BranchId))
+                .ToDictionary(g => g.Key, g => g.ToList());
+
+            //Working With Groups
+            foreach (var group in groupsDictionary)
+            {
+                //If only 1 value hs not any Conflicts
+                if (group.Value.Count() == 1)
+                {
+                    correctList.Add(group.Value.First());
+                }
+
+                //Work with values which has value
+                var dictionary = new SortedDictionary<DateTime, DomainBranchOffer>();
+
+                //Remove Duplicates
+                foreach (var item in group.Value)
+                {
+                    //Key item.PublishStart for 'dictionary'
+                    if (!dictionary.TryGetValue(item.PublishStart, out var dictionaryValue))
+                    {
+                        dictionary[item.PublishStart] = item;
+                    }
+                    else
+                    {
+                        //Key dictionaryValue for 'conflictDictionary'
+                        if (!conflictDictionary.TryGetValue(dictionaryValue, out var conflict))
+                        {
+                            conflictDictionary[dictionaryValue] =
+                                new List<DomainBranchOffer>() { item };
+                        }
+                        else
+                        {
+                            conflict.Add(item);
+                        }
+                    }
+                }
+
+                //If only 1 value hs not any Conflicts from separate 'dictionary'
+                if (dictionary.Count() == 1)
+                {
+                    correctList.Add(dictionary.First().Value);
+                }
+
+                //Work with values with Duration and without Duplicates
+                while (dictionary.Count > 0)
+                {
+                    var first = dictionary.First();
+                    var publishEnd = first.Value.PublishEnd;
+
+                    dictionary.Remove(first.Key);
+                    correctList.Add(first.Value);
+
+
+                    //Work with conflicts
+                    var conflictList = new List<DomainBranchOffer>();
+
+                    //if first have infity time
+                    if (publishEnd == null)
+                    {
+                        conflictList = dictionary.Values.ToList();
+                        dictionary.Clear();
+                    }
+                    else
+                    {
+                        var conflicts = dictionary.Where(x => x.Key <= publishEnd).ToDictionary();
+                        foreach (var c in conflicts)
+                        {
+                            dictionary.Remove(c.Key);
+                        }
+                        conflictList.AddRange(dictionary.Values);
+                    }
+
+                    //Set conflicts
+                    if (conflictList.Any())
+                    {
+                        if (!conflictDictionary.TryGetValue(first.Value, out var conflict))
+                        {
+                            conflictDictionary[first.Value] = conflictList;
+                        }
+                        else
+                        {
+                            conflict.AddRange(conflictList);
+                        }
+                    }
+                }
+            }
+            return (correctList, valuesWithoutDuration, conflictDictionary);
+        }
 
         //===================================================================================================
         //===================================================================================================

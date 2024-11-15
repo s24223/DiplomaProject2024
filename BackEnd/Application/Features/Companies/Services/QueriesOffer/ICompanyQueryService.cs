@@ -5,7 +5,7 @@ namespace Application.Features.Companies.Services.QueriesOffer
 {
     public interface ICompanyQueryService
     {
-        Task<ResponseItem<OfferQueryResponseDto>> GetOfferAsync
+        Task<ResponseItem<GetOfferQueryResponseDto>> GetOfferAsync
             (
             Guid offerId,
             CancellationToken cancellation,
@@ -19,7 +19,7 @@ namespace Application.Features.Companies.Services.QueriesOffer
             int page = 1
             );
 
-        Task<ResponseItems<BranchOfferQueryResponseDto>> GetOffersAsync
+        Task<ResponseItems<GetBranchOfferQueryResponseDto>> GetOffersAsync
             (
             Guid? companyId,
             int? divisionId,
@@ -39,7 +39,7 @@ namespace Application.Features.Companies.Services.QueriesOffer
             int page = 1
             );
 
-        Task<ResponseItem<BranchQueryResponseDto>> GetOffersByBranchAsync
+        Task<ResponseItem<GetBranchQueryResponseDto>> GetOffersByBranchAsync
             (
             Guid? companyId,
             string? companyUrlsegment,

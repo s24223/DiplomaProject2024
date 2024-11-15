@@ -1,6 +1,7 @@
 ﻿using Application.Databases.Relational;
 using Application.Databases.Relational.Models;
 using Application.Features.Addresses.Interfaces.Queries;
+using Application.Features.Companies.Mappers.DatabaseToDomain;
 using Application.Shared.Interfaces.EntityToDomainMappers;
 using Domain.Features.Address.Entities;
 using Domain.Features.Address.ValueObjects.Identificators;
@@ -24,7 +25,8 @@ namespace Application.Features.Companies.Interfaces.QueriesOffer
     {
         //Values 
         private readonly IProvider _provider;
-        private readonly IEntityToDomainMapper _mapper;
+        private readonly ICompanyMapper _mapper;
+        private readonly IEntityToDomainMapper _entitiesMapper;
         private readonly IAddressQueryRepository _addressQueryRepository;
         private readonly DiplomaProjectContext _context;
 
@@ -37,13 +39,16 @@ namespace Application.Features.Companies.Interfaces.QueriesOffer
         public OfferQueryRepository
             (
             IProvider provider,
-            IEntityToDomainMapper mapper,
+            ICompanyMapper mapper,
+            IEntityToDomainMapper entitiesMapper,
             IAddressQueryRepository addressQueryRepository,
             DiplomaProjectContext context
             )
         {
-            _mapper = mapper;
             _provider = provider;
+
+            _mapper = mapper;
+            _entitiesMapper = entitiesMapper;
             _addressQueryRepository = addressQueryRepository;
             _context = context;
 
@@ -102,7 +107,7 @@ namespace Application.Features.Companies.Interfaces.QueriesOffer
 
             //var domainCompany = branchOffers.First().Branch.Company;
             var domainOffer = branchOffers.First().Offer;
-            domainOffer.AddBranchOffers(branchOffers);
+            domainOffer.SetBranchOffers(branchOffers);
             return domainOffer;
         }
 
@@ -233,13 +238,13 @@ namespace Application.Features.Companies.Interfaces.QueriesOffer
             DomainAddress domainAddress
             )
         {
-            var domain = _mapper.ToDomainBranchOffer(database);
-            domain.Offer = _mapper.ToDomainOffer(database.Offer);
-            domain.Branch = _mapper.ToDomainBranch(database.Branch);
-            domain.Branch.Company = _mapper.ToDomainCompany(database.Branch.Company);
-            domain.Branch.Company.User = _mapper.ToDomainUser(database.Branch.Company.User);
+            var domain = _mapper.DomainBranchOffer(database);
+            domain.Offer = _mapper.DomainOffer(database.Offer);
+            domain.Branch = _mapper.DomainBranch(database.Branch);
+            domain.Branch.Company = _mapper.DomainCompany(database.Branch.Company);
+            domain.Branch.Company.User = _entitiesMapper.ToDomainUser(database.Branch.Company.User);
             var domainUrls = database.Branch.Company.User.Urls
-                .Select(x => _mapper.ToDomainUrl(x));
+                .Select(x => _entitiesMapper.ToDomainUrl(x));
             domain.Branch.Company.User.AddUrls(domainUrls);
             domain.Branch.Address = domainAddress;
 

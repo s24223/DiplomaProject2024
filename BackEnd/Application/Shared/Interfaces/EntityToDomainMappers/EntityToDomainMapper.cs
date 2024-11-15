@@ -1,12 +1,8 @@
 ﻿using Application.Databases.Relational.Models;
 using Domain.Features.Address.Entities;
 using Domain.Features.Address.ValueObjects.Identificators;
-using Domain.Features.Branch.Entities;
-using Domain.Features.BranchOffer.Entities;
-using Domain.Features.Company.Entities;
 using Domain.Features.Intership.Entities;
 using Domain.Features.Notification.Entities;
-using Domain.Features.Offer.Entities;
 using Domain.Features.Person.Entities;
 using Domain.Features.Recruitment.Entities;
 using Domain.Features.Url.Entities;
@@ -122,64 +118,6 @@ namespace Application.Shared.Interfaces.EntityToDomainMappers
         }
 
 
-        //Company Module
-        public DomainCompany ToDomainCompany(Company databaseCompany)
-        {
-            return _domainFactory.CreateDomainCompany
-                (
-                databaseCompany.UserId,
-                databaseCompany.UrlSegment,
-                databaseCompany.ContactEmail,
-                databaseCompany.Name,
-                databaseCompany.Regon,
-                databaseCompany.Description,
-                databaseCompany.Created
-                );
-        }
-
-        public DomainBranch ToDomainBranch(Branch databaseBranch)
-        {
-            return _domainFactory.CreateDomainBranch
-                (
-                databaseBranch.Id,
-                databaseBranch.CompanyId,
-                databaseBranch.AddressId,
-                databaseBranch.UrlSegment,
-                databaseBranch.Name,
-                databaseBranch.Description
-                );
-        }
-
-        public DomainOffer ToDomainOffer(Offer databaseOffer)
-        {
-            return _domainFactory.CreateDomainOffer
-                (
-                databaseOffer.Id,
-                databaseOffer.Name,
-                databaseOffer.Description,
-                databaseOffer.MinSalary,
-                databaseOffer.MaxSalary,
-                databaseOffer.IsNegotiatedSalary,
-                databaseOffer.IsForStudents
-                );
-        }
-
-        public DomainBranchOffer ToDomainBranchOffer(BranchOffer databaseBranchOffer)
-        {
-            return _domainFactory.CreateDomainBranchOffer
-                (
-                databaseBranchOffer.Id,
-                databaseBranchOffer.BranchId,
-                databaseBranchOffer.OfferId,
-                databaseBranchOffer.Created,
-                databaseBranchOffer.PublishStart,
-                databaseBranchOffer.PublishEnd,
-                databaseBranchOffer.WorkStart,
-                databaseBranchOffer.WorkEnd,
-                databaseBranchOffer.LastUpdate
-                );
-        }
-
 
         //Person Module
         public DomainPerson ToDomainPerson(Person databasePerson)
@@ -227,7 +165,6 @@ namespace Application.Shared.Interfaces.EntityToDomainMappers
                 databaseIntership.ContractNumber
                 );
         }
-
         //================================================================================================================
         //================================================================================================================
         //================================================================================================================

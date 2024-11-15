@@ -1,4 +1,7 @@
-﻿namespace Application.Databases.Relational.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Application.Databases.Relational.Models;
 
 public partial class Company
 {

@@ -33,7 +33,7 @@ public partial class Person
 
     public virtual Address? Address { get; set; }
 
-    public virtual PersonCharacteristicsList? PersonCharacteristicsList { get; set; }
+    public virtual ICollection<PersonCharacteristic> PersonCharacteristics { get; set; } = new List<PersonCharacteristic>();
 
     public virtual ICollection<Recruitment> Recruitments { get; set; } = new List<Recruitment>();
 

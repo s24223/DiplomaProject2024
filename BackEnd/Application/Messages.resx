@@ -134,6 +134,9 @@
     <value>Za podanym danymi  Oddział  urzytkownika nie zostało znalieziono</value>
     <comment>x</comment>
   </data>
+  <data name="CharacteristicI_CharacteristicId_NotFound" xml:space="preserve">
+    <value>CharacteristicI_CharacteristicId_NotFound</value>
+  </data>
   <data name="Company_Ids_NotFound" xml:space="preserve">
     <value>Urzytkownik nie posiada Firmy</value>
     <comment>x</comment>

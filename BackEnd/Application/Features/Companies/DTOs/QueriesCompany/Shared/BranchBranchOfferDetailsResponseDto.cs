@@ -1,4 +1,4 @@
-﻿using Application.Shared.DTOs.Features.Companies;
+﻿using Application.Shared.DTOs.Features.Companies.Responses;
 using Domain.Features.BranchOffer.Entities;
 
 namespace Application.Features.Companies.DTOs.QueriesCompany.Shared

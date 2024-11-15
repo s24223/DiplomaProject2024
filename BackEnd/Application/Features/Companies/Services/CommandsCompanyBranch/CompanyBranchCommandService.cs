@@ -3,7 +3,7 @@ using Application.Features.Companies.DTOs.CommandsCompanyBranch.CommandsBranch.U
 using Application.Features.Companies.DTOs.CommandsCompanyBranch.CommandsCompany.Create;
 using Application.Features.Companies.DTOs.CommandsCompanyBranch.CommandsCompany.Update;
 using Application.Features.Companies.Interfaces.CommandsCompanyBranch;
-using Application.Shared.DTOs.Features.Companies;
+using Application.Shared.DTOs.Features.Companies.Responses;
 using Application.Shared.DTOs.Response;
 using Application.Shared.Services.Authentication;
 using Domain.Features.Branch.Entities;
@@ -11,7 +11,6 @@ using Domain.Features.Branch.ValueObjects.Identificators;
 using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Factories;
 using System.Security.Claims;
-using System.Text;
 
 namespace Application.Features.Companies.Services.CommandsCompanyBranch
 {
@@ -50,6 +49,21 @@ namespace Application.Features.Companies.Services.CommandsCompanyBranch
             )
         {
             var id = GetCompanyId(claims);
+            var domainBranches = dto.Branches.Select(x => _domainFactory.CreateDomainBranch
+                (
+                id.Value,
+                x.AddressId,
+                x.UrlSegment,
+                x.Name,
+                x.Description
+                ));
+
+            var data = DomainBranch.SeparateAndFilterBranches(domainBranches);
+            if (dto.Branches.Count() != data.Correct.Count())
+            {
+                //return duplicates
+            }
+
             var domainCompany = _domainFactory.CreateDomainCompany
                 (
                 id.Value,
@@ -59,18 +73,9 @@ namespace Application.Features.Companies.Services.CommandsCompanyBranch
                 dto.Regon,
                 dto.Description
                 );
-
-            var domainBranches = dto.Branches.Select(x => _domainFactory.CreateDomainBranch
-                (
-                domainCompany.Id.Value,
-                x.AddressId,
-                x.UrlSegment,
-                x.Name,
-                x.Description
-                ));
-
             domainCompany.AddBranches(domainBranches);
             domainCompany = await _repository.CreateCompanyAsync(domainCompany, cancellation);
+
             return new ResponseItem<CreateCompanyResponseDto>
             {
                 Item = new CreateCompanyResponseDto(domainCompany),
@@ -85,12 +90,8 @@ namespace Application.Features.Companies.Services.CommandsCompanyBranch
             )
         {
             var id = GetCompanyId(claims);
-            var domainCompany = await _repository.GetCompanyAsync
-                (
-                id,
-                cancellation
-                );
 
+            var domainCompany = await _repository.GetCompanyAsync(id, cancellation);
             domainCompany.UpdateData
                 (
                 dto.UrlSegment,
@@ -178,27 +179,6 @@ namespace Application.Features.Companies.Services.CommandsCompanyBranch
         private UserId GetCompanyId(IEnumerable<Claim> claims)
         {
             return _authenticationRepository.GetIdNameFromClaims(claims);
-        }
-
-        private string GenerateMessegeWithDuplicates
-            (
-            IEnumerable<DomainBranch> domainBranches
-            )
-        {
-            var duplicates = domainBranches
-                .Where(x => x.UrlSegment != null)
-                .GroupBy(x => x.UrlSegment)
-                .Where(group => group.Count() > 1)
-                .ToList();
-
-            var builder = new StringBuilder();
-            builder.AppendLine("Duplicates:");
-
-            foreach (var duplicate in duplicates)
-            {
-                builder.AppendLine($"{duplicate.Key}:{string.Join(",", duplicate.Select(y => y.Id.Value))}");
-            }
-            return builder.ToString();
         }
     }
 }

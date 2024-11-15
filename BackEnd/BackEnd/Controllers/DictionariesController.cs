@@ -12,13 +12,13 @@ namespace BackEnd.Controllers
 
         private readonly IDomainNotificationDictionariesRepository _notificationDictionaries;
         private readonly IDomainUrlTypeDictionariesRepository _urlTypeDictionaries;
-        private readonly ICharacteristicService _characteristicService;
+        private readonly ICharacteristicQueryService _characteristicService;
 
         public DictionariesController
             (
             IDomainNotificationDictionariesRepository notificationDictionaries,
             IDomainUrlTypeDictionariesRepository urlTypeDictionaries,
-            ICharacteristicService characteristicService
+            ICharacteristicQueryService characteristicService
             )
         {
             _notificationDictionaries = notificationDictionaries;
@@ -45,13 +45,20 @@ namespace BackEnd.Controllers
             return Ok(_urlTypeDictionaries.GetDomainUrlTypeDictionary());
         }
 
-        [HttpGet("characteristicTypes")]
-        public async Task<IActionResult> GetCharacteristicTypesAsync
+        [HttpGet("characteristics")]
+        public IActionResult GetCharacteristicTypesAsync
             (
-            CancellationToken cancellation
+            bool isOrderByType = true
             )
         {
-            return Ok(await _characteristicService.GetCharacteristicTypesAsync(cancellation));
+            if (isOrderByType)
+            {
+                return Ok(_characteristicService.GetCharacteristicTypes());
+            }
+            else
+            {
+                return Ok(_characteristicService.GetCharacteristics());
+            }
         }
     }
 }

@@ -13,11 +13,11 @@ public partial class Quality
 
     public int? CharacteristicTypeId { get; set; }
 
-    public virtual ICollection<BranchCharacteristicsList> BranchCharacteristicsLists { get; set; } = new List<BranchCharacteristicsList>();
+    public virtual ICollection<BranchCharacteristic> BranchCharacteristics { get; set; } = new List<BranchCharacteristic>();
 
     public virtual CharacteristicType? CharacteristicType { get; set; }
 
-    public virtual ICollection<OfferCharacteristicsList> OfferCharacteristicsLists { get; set; } = new List<OfferCharacteristicsList>();
+    public virtual ICollection<OfferCharacteristic> OfferCharacteristics { get; set; } = new List<OfferCharacteristic>();
 
-    public virtual ICollection<PersonCharacteristicsList> PersonCharacteristicsLists { get; set; } = new List<PersonCharacteristicsList>();
+    public virtual ICollection<PersonCharacteristic> PersonCharacteristics { get; set; } = new List<PersonCharacteristic>();
 }

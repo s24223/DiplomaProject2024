@@ -17,7 +17,7 @@ namespace Application.Features.Companies.Interfaces.CommandsBranchOffer
             CancellationToken cancellation
             );
 
-        Task UpdateOffersAsync
+        Task<Dictionary<OfferId, DomainOffer>> UpdateOffersAsync
             (
             UserId companyId,
             Dictionary<OfferId, DomainOffer> offers,
@@ -42,7 +42,7 @@ namespace Application.Features.Companies.Interfaces.CommandsBranchOffer
             CancellationToken cancellation
             );
 
-        Task UpdateBranchOfferAsync
+        Task<Dictionary<BranchOfferId, DomainBranchOffer>> UpdateBranchOfferAsync
             (
             UserId companyId,
             Dictionary<BranchOfferId, DomainBranchOffer> dictionary,

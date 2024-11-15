@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2024-10-20 12:01:06.525
+-- Last modification date: 2024-11-11 17:56:02.543
 
 -- tables
 -- Table: Address
@@ -40,12 +40,12 @@ CREATE TABLE Branch (
     CONSTRAINT Branch_pk PRIMARY KEY  (Id)
 );
 
--- Table: BranchCharacteristicsList
-CREATE TABLE BranchCharacteristicsList (
+-- Table: BranchCharacteristic
+CREATE TABLE BranchCharacteristic (
     BranchId uniqueidentifier  NOT NULL,
     CharacteristicId int  NOT NULL,
     QualityId int  NULL,
-    CONSTRAINT BranchCharacteristicsList_pk PRIMARY KEY  (BranchId)
+    CONSTRAINT BranchCharacteristic_pk PRIMARY KEY  (BranchId,CharacteristicId)
 );
 
 -- Table: BranchOffer
@@ -189,12 +189,12 @@ CREATE TABLE Offer (
     CONSTRAINT Offer_pk PRIMARY KEY  (Id)
 );
 
--- Table: OfferCharacteristicsList
-CREATE TABLE OfferCharacteristicsList (
+-- Table: OfferCharacteristic
+CREATE TABLE OfferCharacteristic (
     OfferId uniqueidentifier  NOT NULL,
     CharacteristicId int  NOT NULL,
     QualityId int  NULL,
-    CONSTRAINT OfferCharacteristicsList_pk PRIMARY KEY  (OfferId)
+    CONSTRAINT OfferCharacteristic_pk PRIMARY KEY  (OfferId,CharacteristicId)
 );
 
 -- Table: Person
@@ -215,12 +215,12 @@ CREATE TABLE Person (
     CONSTRAINT Person_pk PRIMARY KEY  (UserId)
 );
 
--- Table: PersonCharacteristicsList
-CREATE TABLE PersonCharacteristicsList (
+-- Table: PersonCharacteristic
+CREATE TABLE PersonCharacteristic (
     PersonId uniqueidentifier  NOT NULL,
     CharacteristicId int  NOT NULL,
     QualityId int  NULL,
-    CONSTRAINT PersonCharacteristicsList_pk PRIMARY KEY  (PersonId)
+    CONSTRAINT PersonCharacteristic_pk PRIMARY KEY  (PersonId,CharacteristicId)
 );
 
 -- Table: Quality
@@ -305,18 +305,18 @@ ALTER TABLE AdministrativeDivision ADD CONSTRAINT AdministrativeDivision_Adminis
     FOREIGN KEY (AdministrativeTypeId)
     REFERENCES AdministrativeType (Id);
 
--- Reference: BranchCharacteristicsList_Branch (table: BranchCharacteristicsList)
-ALTER TABLE BranchCharacteristicsList ADD CONSTRAINT BranchCharacteristicsList_Branch
+-- Reference: BranchCharacteristicsList_Branch (table: BranchCharacteristic)
+ALTER TABLE BranchCharacteristic ADD CONSTRAINT BranchCharacteristicsList_Branch
     FOREIGN KEY (BranchId)
     REFERENCES Branch (Id);
 
--- Reference: BranchCharacteristicsList_Characteristic (table: BranchCharacteristicsList)
-ALTER TABLE BranchCharacteristicsList ADD CONSTRAINT BranchCharacteristicsList_Characteristic
+-- Reference: BranchCharacteristicsList_Characteristic (table: BranchCharacteristic)
+ALTER TABLE BranchCharacteristic ADD CONSTRAINT BranchCharacteristicsList_Characteristic
     FOREIGN KEY (CharacteristicId)
     REFERENCES Characteristic (Id);
 
--- Reference: BranchCharacteristicsList_Quality (table: BranchCharacteristicsList)
-ALTER TABLE BranchCharacteristicsList ADD CONSTRAINT BranchCharacteristicsList_Quality
+-- Reference: BranchCharacteristicsList_Quality (table: BranchCharacteristic)
+ALTER TABLE BranchCharacteristic ADD CONSTRAINT BranchCharacteristicsList_Quality
     FOREIGN KEY (QualityId)
     REFERENCES Quality (Id);
 
@@ -405,33 +405,33 @@ ALTER TABLE Notification ADD CONSTRAINT Notification_User
     FOREIGN KEY (UserId)
     REFERENCES "User" (Id);
 
--- Reference: OfferCharacteristicsList_Characteristic (table: OfferCharacteristicsList)
-ALTER TABLE OfferCharacteristicsList ADD CONSTRAINT OfferCharacteristicsList_Characteristic
+-- Reference: OfferCharacteristicsList_Characteristic (table: OfferCharacteristic)
+ALTER TABLE OfferCharacteristic ADD CONSTRAINT OfferCharacteristicsList_Characteristic
     FOREIGN KEY (CharacteristicId)
     REFERENCES Characteristic (Id);
 
--- Reference: OfferCharacteristicsList_Offer (table: OfferCharacteristicsList)
-ALTER TABLE OfferCharacteristicsList ADD CONSTRAINT OfferCharacteristicsList_Offer
+-- Reference: OfferCharacteristicsList_Offer (table: OfferCharacteristic)
+ALTER TABLE OfferCharacteristic ADD CONSTRAINT OfferCharacteristicsList_Offer
     FOREIGN KEY (OfferId)
     REFERENCES Offer (Id);
 
--- Reference: OfferCharacteristicsList_Quality (table: OfferCharacteristicsList)
-ALTER TABLE OfferCharacteristicsList ADD CONSTRAINT OfferCharacteristicsList_Quality
+-- Reference: OfferCharacteristicsList_Quality (table: OfferCharacteristic)
+ALTER TABLE OfferCharacteristic ADD CONSTRAINT OfferCharacteristicsList_Quality
     FOREIGN KEY (QualityId)
     REFERENCES Quality (Id);
 
--- Reference: PersonCharacteristicsList_Characteristic (table: PersonCharacteristicsList)
-ALTER TABLE PersonCharacteristicsList ADD CONSTRAINT PersonCharacteristicsList_Characteristic
+-- Reference: PersonCharacteristicsList_Characteristic (table: PersonCharacteristic)
+ALTER TABLE PersonCharacteristic ADD CONSTRAINT PersonCharacteristicsList_Characteristic
     FOREIGN KEY (CharacteristicId)
     REFERENCES Characteristic (Id);
 
--- Reference: PersonCharacteristicsList_Person (table: PersonCharacteristicsList)
-ALTER TABLE PersonCharacteristicsList ADD CONSTRAINT PersonCharacteristicsList_Person
+-- Reference: PersonCharacteristicsList_Person (table: PersonCharacteristic)
+ALTER TABLE PersonCharacteristic ADD CONSTRAINT PersonCharacteristicsList_Person
     FOREIGN KEY (PersonId)
     REFERENCES Person (UserId);
 
--- Reference: PersonCharacteristicsList_Quality (table: PersonCharacteristicsList)
-ALTER TABLE PersonCharacteristicsList ADD CONSTRAINT PersonCharacteristicsList_Quality
+-- Reference: PersonCharacteristicsList_Quality (table: PersonCharacteristic)
+ALTER TABLE PersonCharacteristic ADD CONSTRAINT PersonCharacteristicsList_Quality
     FOREIGN KEY (QualityId)
     REFERENCES Quality (Id);
 

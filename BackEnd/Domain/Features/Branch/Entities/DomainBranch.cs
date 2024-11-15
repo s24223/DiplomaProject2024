@@ -110,6 +110,48 @@ namespace Domain.Features.Branch.Entities
             Name = name;
             Description = description;
         }
+
+        public static
+            (
+            IEnumerable<DomainBranch> Correct,
+            Dictionary<DomainBranch, List<DomainBranch>> Duplicates
+            )
+            SeparateAndFilterBranches(IEnumerable<DomainBranch> domainBranches)
+        {
+            var correct = new List<DomainBranch>();
+            var correctDictionary = new Dictionary<string, DomainBranch>();
+            var duplicates = new Dictionary<DomainBranch, List<DomainBranch>>();
+            //Url segments
+            foreach (var branch in domainBranches)
+            {
+                if (branch.UrlSegment == null)
+                {
+                    correct.Add(branch);
+                }
+                else
+                {
+                    var url = branch.UrlSegment.Value;
+                    if (!correctDictionary.TryGetValue(url, out var value))
+                    {
+                        correctDictionary[url] = branch;
+                    }
+                    else
+                    {
+                        //If Exist In Dictionary means is Duplicate
+                        if (duplicates.TryGetValue(value, out var duplicate))
+                        {
+                            duplicate.Add(branch);
+                        }
+                        else
+                        {
+                            duplicates[value] = new List<DomainBranch>() { branch };
+                        }
+                    }
+                }
+            }
+            correct.AddRange(correctDictionary.Values);
+            return (correct, duplicates);
+        }
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================

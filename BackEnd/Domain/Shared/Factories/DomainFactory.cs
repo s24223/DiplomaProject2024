@@ -1,6 +1,7 @@
 ﻿using Domain.Features.Address.Entities;
 using Domain.Features.Branch.Entities;
 using Domain.Features.BranchOffer.Entities;
+using Domain.Features.Characteristic.Repositories;
 using Domain.Features.Comment.Entities;
 using Domain.Features.Company.Entities;
 using Domain.Features.Intership.Entities;
@@ -23,6 +24,7 @@ namespace Domain.Shared.Factories
         private readonly IProvider _provider;
         private readonly IDomainNotificationDictionariesRepository _doamainUserDictionaries;
         private readonly IDomainUrlTypeDictionariesRepository _domainUrlTypeDictionaries;
+        private readonly ICharacteristicQueryRepository _characteristicRepository;
 
 
         //Constructor
@@ -30,12 +32,14 @@ namespace Domain.Shared.Factories
             (
             IProvider provider,
             IDomainNotificationDictionariesRepository doamainUserDictionaries,
-            IDomainUrlTypeDictionariesRepository domainUrlTypeDictionaries
+            IDomainUrlTypeDictionariesRepository domainUrlTypeDictionaries,
+            ICharacteristicQueryRepository characteristicRepository
             )
         {
             _provider = provider;
             _doamainUserDictionaries = doamainUserDictionaries;
             _domainUrlTypeDictionaries = domainUrlTypeDictionaries;
+            _characteristicRepository = characteristicRepository;
         }
 
 
@@ -379,6 +383,7 @@ namespace Domain.Shared.Factories
                 isNegotiatedSalary == null ?
                             null : new DatabaseBool(isNegotiatedSalary.Value).Code,
                 new DatabaseBool(isForStudents).Code,
+                _characteristicRepository,
                 _provider
                 );
         }
@@ -403,6 +408,7 @@ namespace Domain.Shared.Factories
                 string.IsNullOrWhiteSpace(isNegotiatedSalary) ?
                             null : new DatabaseBool(isNegotiatedSalary).Code,
                 new DatabaseBool(isForStudents).Code,
+                _characteristicRepository,
                 _provider
                 );
         }
@@ -428,6 +434,7 @@ namespace Domain.Shared.Factories
                 isNegotiatedSalary == null ?
                             null : new DatabaseBool(isNegotiatedSalary.Value).Code,
                 new DatabaseBool(isForStudents).Code,
+                _characteristicRepository,
                 _provider
                 );
         }
@@ -453,6 +460,7 @@ namespace Domain.Shared.Factories
                 string.IsNullOrWhiteSpace(isNegotiatedSalary) ?
                             null : new DatabaseBool(isNegotiatedSalary).Code,
                 new DatabaseBool(isForStudents).Code,
+                _characteristicRepository,
                 _provider
                 );
         }
@@ -683,7 +691,5 @@ namespace Domain.Shared.Factories
             _provider
             );
         }
-
-
     }
 }

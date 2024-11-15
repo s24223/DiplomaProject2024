@@ -1,7 +1,7 @@
 ﻿using Application.Databases.Relational;
 using Application.Databases.Relational.Models;
 using Application.Features.Addresses.Interfaces.Queries;
-using Application.Shared.Interfaces.EntityToDomainMappers;
+using Application.Features.Companies.Mappers.DatabaseToDomain;
 using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.Address.ValueObjects.Identificators;
 using Domain.Features.Branch.Entities;
@@ -18,7 +18,7 @@ namespace Application.Features.Companies.Interfaces.CommandsCompanyBranch
     public class CompanyBranchCommandRepository : ICompanyBranchCommandRepository
     {
         //Values
-        private readonly IEntityToDomainMapper _mapper;
+        private readonly ICompanyMapper _mapper;
         private readonly IAddressQueryRepository _addressRepository;
         private readonly IExceptionsRepository _exceptionRepository;
         private readonly DiplomaProjectContext _context;
@@ -27,7 +27,7 @@ namespace Application.Features.Companies.Interfaces.CommandsCompanyBranch
         //Cosntructors
         public CompanyBranchCommandRepository
             (
-            IEntityToDomainMapper mapper,
+            ICompanyMapper mapper,
             IAddressQueryRepository addressRepository,
             IExceptionsRepository exceptionRepository,
             DiplomaProjectContext context
@@ -78,7 +78,7 @@ namespace Application.Features.Companies.Interfaces.CommandsCompanyBranch
                 await _context.SaveChangesAsync(cancellation);
 
                 var dictionaryBranches = await PrepareBranchesAsync(databaseBranches, cancellation);
-                company = _mapper.ToDomainCompany(databaseCompany);
+                company = _mapper.DomainCompany(databaseCompany);
                 if (dictionaryBranches.Any())
                 {
                     company.AddBranches(dictionaryBranches.Values);
@@ -125,7 +125,7 @@ namespace Application.Features.Companies.Interfaces.CommandsCompanyBranch
             )
         {
             var databaseCompany = await GetDatabseCompanyAsync(id, cancellation);
-            return _mapper.ToDomainCompany(databaseCompany);
+            return _mapper.DomainCompany(databaseCompany);
         }
 
         //Branch Part
@@ -205,7 +205,7 @@ namespace Application.Features.Companies.Interfaces.CommandsCompanyBranch
             return databaseBranches.ToDictionary
                 (
                 x => x.Key,
-                x => _mapper.ToDomainBranch(x.Value)
+                x => _mapper.DomainBranch(x.Value)
                 );
         }
 
@@ -288,7 +288,7 @@ namespace Application.Features.Companies.Interfaces.CommandsCompanyBranch
                     var key = new AddressId(databaseBranch.AddressId.Value);
                     if (addresses.TryGetValue(key, out var address))
                     {
-                        var branch = _mapper.ToDomainBranch(databaseBranch);
+                        var branch = _mapper.DomainBranch(databaseBranch);
                         branch.Address = address;
                         dictionary[branch.Id] = branch;
                     }

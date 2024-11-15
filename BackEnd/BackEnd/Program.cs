@@ -41,7 +41,6 @@ namespace BackEnd
                 throw new NotImplementedException(Messages.NotConfiguredSecret);
             }
 
-
             // Add services to the container.
             //Injected IConfiguration from this Project
             builder.Services.AddMemoryCache();

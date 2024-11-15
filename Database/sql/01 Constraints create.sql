@@ -101,7 +101,7 @@ CONSTRAINT BranchOffer_CHECK_WorkEnd CHECK ((
 [WorkEnd] >= [WorkStart] 
 ) OR [WorkEnd] IS NULL),
 --Czy jest konieczne ?
-CONSTRAINT BranchOffer_UNIQUE_CONNECTION UNIQUE ([BranchId], [OfferId], [Created]);
+--CONSTRAINT BranchOffer_UNIQUE_CONNECTION UNIQUE ([BranchId], [OfferId], [Created]);
 
 --======================================================================================
 --[Recruitment]

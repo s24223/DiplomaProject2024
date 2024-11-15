@@ -33,9 +33,10 @@ public partial class DiplomaProjectMsSQLContext : DiplomaProjectContext
             {
                 throw new InfrastructureLayerException(Messages.NotConfiguredConnectionString);
             }
-            optionsBuilder.UseSqlServer(connectionString)
+            optionsBuilder.EnableSensitiveDataLogging();
+            optionsBuilder.UseSqlServer(connectionString);
             //.LogTo(Console.WriteLine);
-            .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }); // Logowanie tylko SQL
+            //.LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }); // Logowanie tylko SQL
         }
         else
         {
@@ -138,25 +139,23 @@ public partial class DiplomaProjectMsSQLContext : DiplomaProjectContext
                 .HasConstraintName("Branch_Company");
         });
 
-        modelBuilder.Entity<BranchCharacteristicsList>(entity =>
+        modelBuilder.Entity<BranchCharacteristic>(entity =>
         {
-            entity.HasKey(e => e.BranchId).HasName("BranchCharacteristicsList_pk");
+            entity.HasKey(e => new { e.BranchId, e.CharacteristicId }).HasName("BranchCharacteristic_pk");
 
-            entity.ToTable("BranchCharacteristicsList");
+            entity.ToTable("BranchCharacteristic");
 
-            entity.Property(e => e.BranchId).ValueGeneratedNever();
-
-            entity.HasOne(d => d.Branch).WithOne(p => p.BranchCharacteristicsList)
-                .HasForeignKey<BranchCharacteristicsList>(d => d.BranchId)
+            entity.HasOne(d => d.Branch).WithMany(p => p.BranchCharacteristics)
+                .HasForeignKey(d => d.BranchId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("BranchCharacteristicsList_Branch");
 
-            entity.HasOne(d => d.Characteristic).WithMany(p => p.BranchCharacteristicsLists)
+            entity.HasOne(d => d.Characteristic).WithMany(p => p.BranchCharacteristics)
                 .HasForeignKey(d => d.CharacteristicId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("BranchCharacteristicsList_Characteristic");
 
-            entity.HasOne(d => d.Quality).WithMany(p => p.BranchCharacteristicsLists)
+            entity.HasOne(d => d.Quality).WithMany(p => p.BranchCharacteristics)
                 .HasForeignKey(d => d.QualityId)
                 .HasConstraintName("BranchCharacteristicsList_Quality");
         });
@@ -278,7 +277,7 @@ public partial class DiplomaProjectMsSQLContext : DiplomaProjectContext
         {
             entity.HasKey(e => e.Id).HasName("CommentType_pk");
 
-            entity.ToTable("DomainCommentType");
+            entity.ToTable("CommentType");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Description).HasMaxLength(200);
@@ -429,25 +428,23 @@ public partial class DiplomaProjectMsSQLContext : DiplomaProjectContext
             entity.Property(e => e.Name).HasMaxLength(100);
         });
 
-        modelBuilder.Entity<OfferCharacteristicsList>(entity =>
+        modelBuilder.Entity<OfferCharacteristic>(entity =>
         {
-            entity.HasKey(e => e.OfferId).HasName("OfferCharacteristicsList_pk");
+            entity.HasKey(e => new { e.OfferId, e.CharacteristicId }).HasName("OfferCharacteristic_pk");
 
-            entity.ToTable("OfferCharacteristicsList");
+            entity.ToTable("OfferCharacteristic");
 
-            entity.Property(e => e.OfferId).ValueGeneratedNever();
-
-            entity.HasOne(d => d.Characteristic).WithMany(p => p.OfferCharacteristicsLists)
+            entity.HasOne(d => d.Characteristic).WithMany(p => p.OfferCharacteristics)
                 .HasForeignKey(d => d.CharacteristicId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("OfferCharacteristicsList_Characteristic");
 
-            entity.HasOne(d => d.Offer).WithOne(p => p.OfferCharacteristicsList)
-                .HasForeignKey<OfferCharacteristicsList>(d => d.OfferId)
+            entity.HasOne(d => d.Offer).WithMany(p => p.OfferCharacteristics)
+                .HasForeignKey(d => d.OfferId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("OfferCharacteristicsList_Offer");
 
-            entity.HasOne(d => d.Quality).WithMany(p => p.OfferCharacteristicsLists)
+            entity.HasOne(d => d.Quality).WithMany(p => p.OfferCharacteristics)
                 .HasForeignKey(d => d.QualityId)
                 .HasConstraintName("OfferCharacteristicsList_Quality");
         });
@@ -496,25 +493,23 @@ public partial class DiplomaProjectMsSQLContext : DiplomaProjectContext
                 .HasConstraintName("Person_User");
         });
 
-        modelBuilder.Entity<PersonCharacteristicsList>(entity =>
+        modelBuilder.Entity<PersonCharacteristic>(entity =>
         {
-            entity.HasKey(e => e.PersonId).HasName("PersonCharacteristicsList_pk");
+            entity.HasKey(e => new { e.PersonId, e.CharacteristicId }).HasName("PersonCharacteristic_pk");
 
-            entity.ToTable("PersonCharacteristicsList");
+            entity.ToTable("PersonCharacteristic");
 
-            entity.Property(e => e.PersonId).ValueGeneratedNever();
-
-            entity.HasOne(d => d.Characteristic).WithMany(p => p.PersonCharacteristicsLists)
+            entity.HasOne(d => d.Characteristic).WithMany(p => p.PersonCharacteristics)
                 .HasForeignKey(d => d.CharacteristicId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("PersonCharacteristicsList_Characteristic");
 
-            entity.HasOne(d => d.Person).WithOne(p => p.PersonCharacteristicsList)
-                .HasForeignKey<PersonCharacteristicsList>(d => d.PersonId)
+            entity.HasOne(d => d.Person).WithMany(p => p.PersonCharacteristics)
+                .HasForeignKey(d => d.PersonId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("PersonCharacteristicsList_Person");
 
-            entity.HasOne(d => d.Quality).WithMany(p => p.PersonCharacteristicsLists)
+            entity.HasOne(d => d.Quality).WithMany(p => p.PersonCharacteristics)
                 .HasForeignKey(d => d.QualityId)
                 .HasConstraintName("PersonCharacteristicsList_Quality");
         });

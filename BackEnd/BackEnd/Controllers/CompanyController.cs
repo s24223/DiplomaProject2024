@@ -1,7 +1,7 @@
-﻿using Application.Features.Companies.DTOs.CommandsBranchOffer.CommandsBranchOffer.CreateBranchOffer;
-using Application.Features.Companies.DTOs.CommandsBranchOffer.CommandsBranchOffer.UpdateBranchOffer;
-using Application.Features.Companies.DTOs.CommandsBranchOffer.CommandsOffer.CreateOffer;
-using Application.Features.Companies.DTOs.CommandsBranchOffer.CommandsOffer.UpdateOffer;
+﻿using Application.Features.Companies.DTOs.CommandsBranchOffer.CommandsBranchOffer.CreateBranchOffer.Request;
+using Application.Features.Companies.DTOs.CommandsBranchOffer.CommandsBranchOffer.UpdateBranchOffer.Request;
+using Application.Features.Companies.DTOs.CommandsBranchOffer.CommandsOffer.CreateOffer.Request;
+using Application.Features.Companies.DTOs.CommandsBranchOffer.CommandsOffer.UpdateOffer.Request;
 using Application.Features.Companies.DTOs.CommandsCompanyBranch.CommandsBranch.Create;
 using Application.Features.Companies.DTOs.CommandsCompanyBranch.CommandsBranch.Update;
 using Application.Features.Companies.DTOs.CommandsCompanyBranch.CommandsCompany.Create;
@@ -19,14 +19,14 @@ namespace BackEnd.Controllers
     {
         //Values
         private readonly ICompanyBranchCommandService _companyBranchService;
-        private readonly IBranchOfferService _branchOfferService;
+        private readonly IBranchOfferCommandService _branchOfferService;
 
 
         //Constrructor
         public CompanyController
             (
             ICompanyBranchCommandService companyBranchService,
-            IBranchOfferService branchOfferService
+            IBranchOfferCommandService branchOfferService
             )
         {
             _companyBranchService = companyBranchService;
@@ -137,7 +137,7 @@ namespace BackEnd.Controllers
            )
         {
             var claims = User.Claims.ToList();
-            var result = await _branchOfferService.CreateBranchOfferAsync
+            var result = await _branchOfferService.CreateBranchOffersAsync
                 (
                 claims,
                 dtos,
@@ -155,7 +155,7 @@ namespace BackEnd.Controllers
             )
         {
             var claims = User.Claims.ToList();
-            var result = await _branchOfferService.UpdateBranchOfferAsync
+            var result = await _branchOfferService.UpdateBranchOffersAsync
                 (
                 claims,
                 dtos,

@@ -1,12 +1,8 @@
 ﻿using Application.Databases.Relational.Models;
 using Domain.Features.Address.Entities;
 using Domain.Features.Address.ValueObjects.Identificators;
-using Domain.Features.Branch.Entities;
-using Domain.Features.BranchOffer.Entities;
-using Domain.Features.Company.Entities;
 using Domain.Features.Intership.Entities;
 using Domain.Features.Notification.Entities;
-using Domain.Features.Offer.Entities;
 using Domain.Features.Person.Entities;
 using Domain.Features.Recruitment.Entities;
 using Domain.Features.Url.Entities;
@@ -28,11 +24,7 @@ namespace Application.Shared.Interfaces.EntityToDomainMappers
             Dictionary<DivisionId, AdministrativeDivision> databseDictionary
             );
 
-        //Company Module
-        DomainCompany ToDomainCompany(Company databaseCompany);
-        DomainBranch ToDomainBranch(Branch databaseBranch);
-        DomainOffer ToDomainOffer(Offer databaseOffer);
-        DomainBranchOffer ToDomainBranchOffer(BranchOffer databaseBranchOffer);
+
 
         //Person Module
         DomainPerson ToDomainPerson(Person databasePerson);

@@ -21,5 +21,5 @@ public partial class Offer
 
     public virtual ICollection<BranchOffer> BranchOffers { get; set; } = new List<BranchOffer>();
 
-    public virtual OfferCharacteristicsList? OfferCharacteristicsList { get; set; }
+    public virtual ICollection<OfferCharacteristic> OfferCharacteristics { get; set; } = new List<OfferCharacteristic>();
 }

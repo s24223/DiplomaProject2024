@@ -32,7 +32,7 @@ namespace Application.Features.Companies.Services.QueriesOffer
         //============================================================================
         //============================================================================
         //Public Methods
-        public async Task<ResponseItem<OfferQueryResponseDto>> GetOfferAsync
+        public async Task<ResponseItem<GetOfferQueryResponseDto>> GetOfferAsync
             (
             Guid offerId,
             CancellationToken cancellation,
@@ -75,13 +75,13 @@ namespace Application.Features.Companies.Services.QueriesOffer
                 validateData.Page
                 );
 
-            return new ResponseItem<OfferQueryResponseDto>
+            return new ResponseItem<GetOfferQueryResponseDto>
             {
-                Item = new OfferQueryResponseDto(domain)
+                Item = new GetOfferQueryResponseDto(domain)
             };
         }
 
-        public async Task<ResponseItems<BranchOfferQueryResponseDto>> GetOffersAsync
+        public async Task<ResponseItems<GetBranchOfferQueryResponseDto>> GetOffersAsync
             (
             Guid? companyId,
             int? divisionId,
@@ -138,15 +138,15 @@ namespace Application.Features.Companies.Services.QueriesOffer
                 );
 
 
-            return new ResponseItems<BranchOfferQueryResponseDto>
+            return new ResponseItems<GetBranchOfferQueryResponseDto>
             {
-                Items = list.Select(x => new BranchOfferQueryResponseDto(x)).ToList(),
+                Items = list.Select(x => new GetBranchOfferQueryResponseDto(x)).ToList(),
             };
         }
 
 
 
-        public async Task<ResponseItem<BranchQueryResponseDto>> GetOffersByBranchAsync
+        public async Task<ResponseItem<GetBranchQueryResponseDto>> GetOffersByBranchAsync
             (
             Guid? companyId,
             string? companyUrlsegment,
@@ -205,9 +205,9 @@ namespace Application.Features.Companies.Services.QueriesOffer
                 );
 
 
-            return new ResponseItem<BranchQueryResponseDto>
+            return new ResponseItem<GetBranchQueryResponseDto>
             {
-                Item = new BranchQueryResponseDto(branch),
+                Item = new GetBranchQueryResponseDto(branch),
             };
         }
         /*

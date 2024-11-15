@@ -22,7 +22,7 @@ public partial class DiplomaProjectContext : DbContext
 
     public virtual DbSet<Branch> Branches { get; set; }
 
-    public virtual DbSet<BranchCharacteristicsList> BranchCharacteristicsLists { get; set; }
+    public virtual DbSet<BranchCharacteristic> BranchCharacteristics { get; set; }
 
     public virtual DbSet<BranchOffer> BranchOffers { get; set; }
 
@@ -48,11 +48,11 @@ public partial class DiplomaProjectContext : DbContext
 
     public virtual DbSet<Offer> Offers { get; set; }
 
-    public virtual DbSet<OfferCharacteristicsList> OfferCharacteristicsLists { get; set; }
+    public virtual DbSet<OfferCharacteristic> OfferCharacteristics { get; set; }
 
     public virtual DbSet<Person> People { get; set; }
 
-    public virtual DbSet<PersonCharacteristicsList> PersonCharacteristicsLists { get; set; }
+    public virtual DbSet<PersonCharacteristic> PersonCharacteristics { get; set; }
 
     public virtual DbSet<Quality> Qualities { get; set; }
 
@@ -65,5 +65,4 @@ public partial class DiplomaProjectContext : DbContext
     public virtual DbSet<UrlType> UrlTypes { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
-
 }

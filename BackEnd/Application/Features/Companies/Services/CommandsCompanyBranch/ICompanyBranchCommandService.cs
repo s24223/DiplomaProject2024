@@ -2,7 +2,7 @@
 using Application.Features.Companies.DTOs.CommandsCompanyBranch.CommandsBranch.Update;
 using Application.Features.Companies.DTOs.CommandsCompanyBranch.CommandsCompany.Create;
 using Application.Features.Companies.DTOs.CommandsCompanyBranch.CommandsCompany.Update;
-using Application.Shared.DTOs.Features.Companies;
+using Application.Shared.DTOs.Features.Companies.Responses;
 using Application.Shared.DTOs.Response;
 using System.Security.Claims;
 

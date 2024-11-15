@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2024-10-20 12:01:06.525
+-- Last modification date: 2024-11-11 17:56:02.543
 
 -- foreign keys
 ALTER TABLE Address DROP CONSTRAINT Address_Division;
@@ -8,11 +8,11 @@ ALTER TABLE Address DROP CONSTRAINT Address_Street;
 
 ALTER TABLE AdministrativeDivision DROP CONSTRAINT AdministrativeDivision_AdministrativeType;
 
-ALTER TABLE BranchCharacteristicsList DROP CONSTRAINT BranchCharacteristicsList_Branch;
+ALTER TABLE BranchCharacteristic DROP CONSTRAINT BranchCharacteristicsList_Branch;
 
-ALTER TABLE BranchCharacteristicsList DROP CONSTRAINT BranchCharacteristicsList_Characteristic;
+ALTER TABLE BranchCharacteristic DROP CONSTRAINT BranchCharacteristicsList_Characteristic;
 
-ALTER TABLE BranchCharacteristicsList DROP CONSTRAINT BranchCharacteristicsList_Quality;
+ALTER TABLE BranchCharacteristic DROP CONSTRAINT BranchCharacteristicsList_Quality;
 
 ALTER TABLE BranchOffer DROP CONSTRAINT BranchOffer_Branch;
 
@@ -48,17 +48,17 @@ ALTER TABLE Notification DROP CONSTRAINT Notification_NotificationStatus;
 
 ALTER TABLE Notification DROP CONSTRAINT Notification_User;
 
-ALTER TABLE OfferCharacteristicsList DROP CONSTRAINT OfferCharacteristicsList_Characteristic;
+ALTER TABLE OfferCharacteristic DROP CONSTRAINT OfferCharacteristicsList_Characteristic;
 
-ALTER TABLE OfferCharacteristicsList DROP CONSTRAINT OfferCharacteristicsList_Offer;
+ALTER TABLE OfferCharacteristic DROP CONSTRAINT OfferCharacteristicsList_Offer;
 
-ALTER TABLE OfferCharacteristicsList DROP CONSTRAINT OfferCharacteristicsList_Quality;
+ALTER TABLE OfferCharacteristic DROP CONSTRAINT OfferCharacteristicsList_Quality;
 
-ALTER TABLE PersonCharacteristicsList DROP CONSTRAINT PersonCharacteristicsList_Characteristic;
+ALTER TABLE PersonCharacteristic DROP CONSTRAINT PersonCharacteristicsList_Characteristic;
 
-ALTER TABLE PersonCharacteristicsList DROP CONSTRAINT PersonCharacteristicsList_Person;
+ALTER TABLE PersonCharacteristic DROP CONSTRAINT PersonCharacteristicsList_Person;
 
-ALTER TABLE PersonCharacteristicsList DROP CONSTRAINT PersonCharacteristicsList_Quality;
+ALTER TABLE PersonCharacteristic DROP CONSTRAINT PersonCharacteristicsList_Quality;
 
 ALTER TABLE Person DROP CONSTRAINT Person_Address;
 
@@ -85,7 +85,7 @@ DROP TABLE AdministrativeType;
 
 DROP TABLE Branch;
 
-DROP TABLE BranchCharacteristicsList;
+DROP TABLE BranchCharacteristic;
 
 DROP TABLE BranchOffer;
 
@@ -115,11 +115,11 @@ DROP TABLE NotificationStatus;
 
 DROP TABLE Offer;
 
-DROP TABLE OfferCharacteristicsList;
+DROP TABLE OfferCharacteristic;
 
 DROP TABLE Person;
 
-DROP TABLE PersonCharacteristicsList;
+DROP TABLE PersonCharacteristic;
 
 DROP TABLE Quality;
 

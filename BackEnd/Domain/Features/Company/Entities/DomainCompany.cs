@@ -25,18 +25,6 @@ namespace Domain.Features.Company.Entities
         //Refrences
         //DomainUser
         private DomainUser _user = null!;
-        public DomainUser User
-        {
-            get { return _user; }
-            set
-            {
-                if (_user == null && value != null && value.Id == Id)
-                {
-                    _user = value;
-                    _user.Company = this;
-                }
-            }
-        }
         //DomainBranch
         private Dictionary<BranchId, DomainBranch> _branches = [];
         public IReadOnlyDictionary<BranchId, DomainBranch> Branches => _branches;
@@ -72,8 +60,20 @@ namespace Domain.Features.Company.Entities
         //==================================================================================================
         //==================================================================================================
         //==================================================================================================
-        //Public Methods
-        public static int counter = 0;
+        //Public Methodss
+        public DomainUser User
+        {
+            get { return _user; }
+            set
+            {
+                if (_user == null && value != null && value.Id == Id)
+                {
+                    _user = value;
+                    _user.Company = this;
+                }
+            }
+        }
+
         public void AddBranches(IEnumerable<DomainBranch> branches)
         {
             var newBranchesDictionary = branches
