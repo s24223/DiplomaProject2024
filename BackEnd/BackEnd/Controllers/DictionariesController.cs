@@ -1,4 +1,4 @@
-﻿using Application.Features.Characteristics.Services.Queries;
+﻿using Application.Features.Characteristics.Queries.Services;
 using Domain.Features.Notification.Repositories;
 using Domain.Features.Url.Repository;
 using Microsoft.AspNetCore.Mvc;

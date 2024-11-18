@@ -1,6 +1,6 @@
 ﻿using Application.Databases.Relational;
 using Application.Databases.Relational.Models;
-using Application.Features.Addresses.Interfaces.Queries;
+using Application.Features.Addresses.Queries.Interfaces;
 using Application.Features.Companies.Mappers.DatabaseToDomain;
 using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.Address.ValueObjects.Identificators;

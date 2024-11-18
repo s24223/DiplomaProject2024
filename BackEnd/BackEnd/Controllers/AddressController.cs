@@ -1,7 +1,7 @@
-﻿using Application.Features.Addresses.DTOs.Commands.Create;
-using Application.Features.Addresses.DTOs.Commands.Update;
-using Application.Features.Addresses.Services.Commands;
-using Application.Features.Addresses.Services.Queries;
+﻿using Application.Features.Addresses.Commands.DTOs.Create;
+using Application.Features.Addresses.Commands.DTOs.Update;
+using Application.Features.Addresses.Commands.Services;
+using Application.Features.Addresses.Queries.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackEnd.Controllers

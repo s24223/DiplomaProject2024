@@ -7,7 +7,7 @@ namespace Application.Features.Companies.DTOs.QueriesCompany.Shared
     public class CompanyDetailsResponseDto : CompanyResponseDto
     {
         //Values
-        public IEnumerable<UrlResponseDto> Urls { get; set; } = [];
+        public IEnumerable<UrlResp> Urls { get; set; } = [];
 
 
         //Constructor
@@ -15,7 +15,7 @@ namespace Application.Features.Companies.DTOs.QueriesCompany.Shared
         {
             if (domain.User.Urls != null && domain.User.Urls.Any())
             {
-                Urls = domain.User.Urls.Select(x => new UrlResponseDto(x.Value));
+                Urls = domain.User.Urls.Select(x => new UrlResp(x.Value));
             }
         }
     }

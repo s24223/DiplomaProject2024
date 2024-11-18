@@ -14,8 +14,8 @@ namespace Application.Shared.DTOs.Features.Companies.Responses
         public bool? IsNegotiatedSalary { get; set; }
         public bool IsForStudents { get; set; }
         public bool IsPaid { get; set; }
-        public IEnumerable<CharacteristicCollocationResponseDto> Characteristics { get; set; }
-            = new List<CharacteristicCollocationResponseDto>();
+        public IEnumerable<CharCollocationResp> Characteristics { get; set; }
+            = new List<CharCollocationResp>();
 
 
         //Cosnstructor
@@ -30,7 +30,7 @@ namespace Application.Shared.DTOs.Features.Companies.Responses
             IsForStudents = domain.IsForStudents;
             IsPaid = domain.IsPaid;
             Characteristics = domain.Characteristics.Values.Select(x =>
-            new CharacteristicCollocationResponseDto(x.Item1, x.Item2));
+            new CharCollocationResp(x.Item1, x.Item2));
         }
     }
 }

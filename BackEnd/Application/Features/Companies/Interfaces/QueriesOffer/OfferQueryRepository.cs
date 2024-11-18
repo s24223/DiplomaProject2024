@@ -1,8 +1,8 @@
 ﻿using Application.Databases.Relational;
 using Application.Databases.Relational.Models;
-using Application.Features.Addresses.Interfaces.Queries;
+using Application.Features.Addresses.Queries.Interfaces;
 using Application.Features.Companies.Mappers.DatabaseToDomain;
-using Application.Shared.Interfaces.EntityToDomainMappers;
+using Application.Features.Users.Mappers;
 using Domain.Features.Address.Entities;
 using Domain.Features.Address.ValueObjects.Identificators;
 using Domain.Features.Branch.Entities;
@@ -26,7 +26,7 @@ namespace Application.Features.Companies.Interfaces.QueriesOffer
         //Values 
         private readonly IProvider _provider;
         private readonly ICompanyMapper _mapper;
-        private readonly IEntityToDomainMapper _entitiesMapper;
+        private readonly IUserMapper _entitiesMapper;
         private readonly IAddressQueryRepository _addressQueryRepository;
         private readonly DiplomaProjectContext _context;
 
@@ -40,7 +40,7 @@ namespace Application.Features.Companies.Interfaces.QueriesOffer
             (
             IProvider provider,
             ICompanyMapper mapper,
-            IEntityToDomainMapper entitiesMapper,
+            IUserMapper entitiesMapper,
             IAddressQueryRepository addressQueryRepository,
             DiplomaProjectContext context
             )
@@ -242,9 +242,9 @@ namespace Application.Features.Companies.Interfaces.QueriesOffer
             domain.Offer = _mapper.DomainOffer(database.Offer);
             domain.Branch = _mapper.DomainBranch(database.Branch);
             domain.Branch.Company = _mapper.DomainCompany(database.Branch.Company);
-            domain.Branch.Company.User = _entitiesMapper.ToDomainUser(database.Branch.Company.User);
+            domain.Branch.Company.User = _entitiesMapper.DomainUser(database.Branch.Company.User);
             var domainUrls = database.Branch.Company.User.Urls
-                .Select(x => _entitiesMapper.ToDomainUrl(x));
+                .Select(x => _entitiesMapper.DomainUrl(x));
             domain.Branch.Company.User.AddUrls(domainUrls);
             domain.Branch.Address = domainAddress;
 

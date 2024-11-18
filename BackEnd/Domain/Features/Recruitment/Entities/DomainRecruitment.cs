@@ -31,7 +31,7 @@ namespace Domain.Features.Recruitment.Entities
                 if (_person == null && value != null && value.Id == PersonId)
                 {
                     _person = value;
-                    _person.AddRecrutment(this);
+                    _person.SetRecrutment(this);
                 }
             }
         }

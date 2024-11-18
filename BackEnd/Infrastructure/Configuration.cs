@@ -1,5 +1,5 @@
 ﻿using Application.Databases.Relational;
-using Application.Features.Addresses.Interfaces;
+using Application.Features.Addresses.Queries.Interfaces;
 using Infrastructure.Databases.Relational.MsSQL;
 using Infrastructure.Databases.Relational.MsSQL.SqlClientRepositories;
 using Microsoft.Extensions.Configuration;

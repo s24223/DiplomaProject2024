@@ -1,19 +1,20 @@
-﻿using Application.Features.User.DTOs.CommandsNotification.Create.Authorize;
-using Application.Features.User.DTOs.CommandsNotification.Create.Unauthorize;
-using Application.Features.User.DTOs.CommandsUrl.Create;
-using Application.Features.User.DTOs.CommandsUrl.Delete;
-using Application.Features.User.DTOs.CommandsUrl.Update;
-using Application.Features.User.DTOs.CommandsUser.Create;
-using Application.Features.User.DTOs.CommandsUser.LoginIn;
-using Application.Features.User.DTOs.CommandsUser.Refresh;
-using Application.Features.User.DTOs.CommandsUser.UpdateLogin;
-using Application.Features.User.DTOs.CommandsUser.UpdatePassword;
-using Application.Features.User.Services.CommandsNotification;
-using Application.Features.User.Services.CommandsUrl;
-using Application.Features.User.Services.CommandsUser;
-using Application.Features.User.Services.QueriesUser;
+﻿using Application.Features.Users.Commands.Notifications.DTOs.Create.Authorize;
+using Application.Features.Users.Commands.Notifications.DTOs.Create.Unauthorize;
+using Application.Features.Users.Commands.Notifications.Services;
+using Application.Features.Users.Commands.Urls.DTOs.Create;
+using Application.Features.Users.Commands.Urls.DTOs.Delete;
+using Application.Features.Users.Commands.Urls.DTOs.Update;
+using Application.Features.Users.Commands.Urls.Services;
+using Application.Features.Users.Commands.Users.DTOs.Create;
+using Application.Features.Users.Commands.Users.DTOs.LoginIn;
+using Application.Features.Users.Commands.Users.DTOs.Refresh;
+using Application.Features.Users.Commands.Users.DTOs.UpdateLogin;
+using Application.Features.Users.Commands.Users.DTOs.UpdatePassword;
+using Application.Features.Users.Commands.Users.Services;
+using Application.Features.Users.Queries.QueriesUser.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace BackEnd.Controllers
 {
@@ -136,11 +137,12 @@ namespace BackEnd.Controllers
         public async Task<IActionResult> GetDataAsync(CancellationToken cancellation)
         {
             var claims = User.Claims.ToList();
-            var result = await _queriesService.GetPersonalDataAsync(claims, cancellation);
+            var result = await _queriesService.GetUserDataAsync(claims, cancellation);
             return Ok(result);
         }
 
 
+        //================================================================================================================
         //================================================================================================================
         //UserProblem Part
         //DML
@@ -155,7 +157,6 @@ namespace BackEnd.Controllers
             var result = await _notificationService.CreateUnauthorizeAsync(dto, cancellation);
             return StatusCode(201, result);
         }
-
 
         [Authorize]
         [HttpPost("notifications/authorized")]
@@ -196,7 +197,48 @@ namespace BackEnd.Controllers
             return StatusCode(200, result);
         }
 
+        //DQL
+        [Authorize]
+        [HttpGet("notifications/authorized")]
+        public async Task<IActionResult> GetNotificationsAsync
+           (
+            CancellationToken cancellation,
+            string? searchText = null,
+            bool? hasReaded = null,
+            int? senderId = null,
+            int? statusId = null,
+            DateTime? createdStart = null,
+            DateTime? createdEnd = null,
+            DateTime? completedStart = null,
+            DateTime? completedEnd = null,
+            string orderBy = "created", //completed
+            bool ascending = true,
+            int itemsCount = 100,
+            int page = 1
+           )
+        {
+            var claims = User.Claims.ToList();
+            var result = await _queriesService.GetNotificationsAsync
+                (
+                claims,
+                cancellation,
+                searchText,
+                hasReaded,
+                senderId,
+                statusId,
+                createdStart,
+                createdEnd,
+                completedStart,
+                completedEnd,
+                orderBy,
+                ascending,
+                itemsCount,
+                page
+                );
+            return StatusCode(200, result);
+        }
 
+        //================================================================================================================
         //================================================================================================================
         //Url Part
         //DML
@@ -239,7 +281,24 @@ namespace BackEnd.Controllers
             return StatusCode(200, result);
         }
 
-
+        //DQL
+        [Authorize]
+        [HttpGet("urls")]
+        public async Task<IActionResult> GetUrlsAsync
+            (
+            CancellationToken cancellation,
+            string? searchText = null,
+            string orderBy = "created", //typeId, name
+            [Required] bool ascending = true,
+            int itemsCount = 100,
+            int page = 1
+            )
+        {
+            var claims = User.Claims.ToList();
+            var result = await _queriesService
+                .GetUrlsAsync(claims, cancellation, searchText, orderBy, ascending, itemsCount, page);
+            return StatusCode(200, result);
+        }
 
         //================================================================================================================
         //================================================================================================================

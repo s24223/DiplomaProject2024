@@ -38,6 +38,7 @@
     <Folder Include="Features\Companies\Interfaces\QueriesCompany\" />
     <Folder Include="Features\Companies\Services\QueriesCompany\" />
     <Folder Include="Features\Internship\CommentPart\" />
+    <Folder Include="Features\Persons\Queries\" />
   </ItemGroup>
 
 </Project>

@@ -1,10 +1,10 @@
-using Application.Features.Addresses.Interfaces.Commands;
-using Application.Features.Addresses.Interfaces.Queries;
-using Application.Features.Addresses.Services.Commands;
-using Application.Features.Addresses.Services.Queries;
-using Application.Features.Characteristics.Interfaces.Queries;
-using Application.Features.Characteristics.Mappers.DatabaseToDomain;
-using Application.Features.Characteristics.Services.Queries;
+using Application.Features.Addresses.Commands.Interfaces;
+using Application.Features.Addresses.Commands.Services;
+using Application.Features.Addresses.Queries.Interfaces;
+using Application.Features.Addresses.Queries.Services;
+using Application.Features.Characteristics.Mappers;
+using Application.Features.Characteristics.Queries.Interfaces;
+using Application.Features.Characteristics.Queries.Services;
 using Application.Features.Companies.Interfaces.CommandsBranchOffer;
 using Application.Features.Companies.Interfaces.CommandsCompanyBranch;
 using Application.Features.Companies.Interfaces.QueriesOffer;
@@ -16,16 +16,18 @@ using Application.Features.Internship.InternshipPart.Interfaces;
 using Application.Features.Internship.InternshipPart.Services;
 using Application.Features.Internship.RecrutmentPart.Interfaces;
 using Application.Features.Internship.RecrutmentPart.Services;
-using Application.Features.Person.Interfaces;
-using Application.Features.Person.Services;
-using Application.Features.User.Interfaces.CommandsNotification;
-using Application.Features.User.Interfaces.CommandsUrl;
-using Application.Features.User.Interfaces.CommandsUser;
-using Application.Features.User.Interfaces.QueriesUser;
-using Application.Features.User.Services.CommandsNotification;
-using Application.Features.User.Services.CommandsUrl;
-using Application.Features.User.Services.CommandsUser;
-using Application.Features.User.Services.QueriesUser;
+using Application.Features.Persons.Commands.Interfaces;
+using Application.Features.Persons.Commands.Services;
+using Application.Features.Persons.Mappers;
+using Application.Features.Users.Commands.Notifications.Interfaces;
+using Application.Features.Users.Commands.Notifications.Services;
+using Application.Features.Users.Commands.Urls.Interfaces;
+using Application.Features.Users.Commands.Urls.Services;
+using Application.Features.Users.Commands.Users.Interfaces;
+using Application.Features.Users.Commands.Users.Services;
+using Application.Features.Users.Mappers;
+using Application.Features.Users.Queries.QueriesUser.Interfaces;
+using Application.Features.Users.Queries.QueriesUser.Services;
 using Application.Shared.Interfaces.DomainRepositories;
 using Application.Shared.Interfaces.EntityToDomainMappers;
 using Application.Shared.Interfaces.Exceptions;
@@ -61,6 +63,8 @@ namespace Application
 
             //Commands
             //User Part 
+            serviceCollection.AddTransient<IUserMapper, UserMapper>();
+
             serviceCollection.AddTransient<IUserCommandRepository, UserCommandRepository>();
             serviceCollection.AddTransient<IUserCommandService, UserCommandService>();
 
@@ -88,8 +92,9 @@ namespace Application
             //===============================================================================================================
             //Person Module 
             //Person Part 
-            serviceCollection.AddTransient<IPersonRepository, PersonRepository>();
-            serviceCollection.AddTransient<IPersonService, PersonService>();
+            serviceCollection.AddTransient<IPersonCmdRepository, PersonCmdRepository>();
+            serviceCollection.AddTransient<IPersonCmdService, PersonCmdService>();
+            serviceCollection.AddTransient<IPersonMapper, PersonMapper>();
 
             //===============================================================================================================
             //Company Module 

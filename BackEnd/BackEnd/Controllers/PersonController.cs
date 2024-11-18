@@ -1,6 +1,6 @@
-﻿using Application.Features.Person.DTOs.Create;
-using Application.Features.Person.DTOs.Update;
-using Application.Features.Person.Services;
+﻿using Application.Features.Persons.Commands.DTOs.Create;
+using Application.Features.Persons.Commands.DTOs.Update;
+using Application.Features.Persons.Commands.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,11 +11,11 @@ namespace BackEnd.Controllers
     public class PersonController : ControllerBase
     {
         //Values
-        private readonly IPersonService _personService;
+        private readonly IPersonCmdService _personService;
 
 
         //Cosntructor
-        public PersonController(IPersonService personService)
+        public PersonController(IPersonCmdService personService)
         {
             _personService = personService;
         }

@@ -1,5 +1,5 @@
 ﻿using Application.Databases.Relational.Models;
-using Application.Features.Addresses.Interfaces;
+using Application.Features.Addresses.Queries.Interfaces;
 using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.Address.ValueObjects.Identificators;
 using Infrastructure.Exceptions.AppExceptions;

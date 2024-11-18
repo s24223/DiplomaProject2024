@@ -19,12 +19,13 @@ namespace Domain.Features.Offer.Entities
         //Values
         public string Name { get; private set; } = null!;
         public string Description { get; private set; } = null!;
-        public Money? MinSalary { get; private set; }
-        public Money? MaxSalary { get; private set; }
-        public DatabaseBool? IsNegotiatedSalary { get; private set; }
-        public DatabaseBool IsForStudents { get; private set; }
+        public Money? MinSalary { get; private set; } = null;
+        public Money? MaxSalary { get; private set; } = null;
+        public DatabaseBool? IsNegotiatedSalary { get; private set; } = null;
+        public DatabaseBool IsForStudents { get; private set; } = null!;
         //Pochodne
         public bool IsPaid { get; private set; }
+
 
         //References
         //DomainBranchOffer

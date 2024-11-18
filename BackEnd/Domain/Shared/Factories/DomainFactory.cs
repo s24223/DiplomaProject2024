@@ -225,6 +225,7 @@ namespace Domain.Shared.Factories
                 new DatabaseBool(isStudent).Code,
                 new DatabaseBool(isPublicProfile).Code,
                 addressId,
+                _characteristicRepository,
                 _provider
                 );
         }
@@ -260,6 +261,7 @@ namespace Domain.Shared.Factories
                 new DatabaseBool(isStudent).Code,
                 new DatabaseBool(isPublicProfile).Code,
                 addressId,
+                _characteristicRepository,
                 _provider
                 );
         }
