@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { fetchProfileGet } from '../../services/ProfileService/ProfilceService';
 import axios from 'axios';
 
 const Profile = () => {
@@ -24,7 +25,7 @@ const Profile = () => {
     const [powiats, setPowiats] = useState([]);
     const [gminas, setGminas] = useState([]);
     const [streets, setStreets] = useState([]);
-
+/*
     // Fetch initial województwa
     useEffect(() => {
         axios.get('/api/Address/divisionsDown') // Adjust with your endpoint
@@ -58,6 +59,17 @@ const Profile = () => {
                 .catch(error => console.error("Error fetching streets:", error));
         }
     }, [gminaId]);
+*/
+
+    useEffect(() => {
+        let dummyFetch = async () => {
+            let data = await fetchProfileGet()
+            console.log(data)
+            if (data.item.person === null)
+                window.location.href="/userCreatePofile"
+        }
+        dummyFetch().catch(console.error)
+    }, [])
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;

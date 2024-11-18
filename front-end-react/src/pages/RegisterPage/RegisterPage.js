@@ -25,12 +25,13 @@ const RegisterPage = () => {
     return(
         <div>
             {errorMsg && errorMsg}
+            <label>Rejestracja</label>
             <form onSubmit={handleRegistration}>
                 <label>Email:</label><br />
                 <input type="email" id="email" name="email" onChange={e => setEmail(e.target.value)} /><br />
                 <label>Password:</label><br />
-                <input type="password" id="password" name="password" minlength="8" onChange={e => setPassword(e.target.value)} /><br />
-                <input type="submit" />
+                <input type="password" id="password" name="password" minLength="8" onChange={e => setPassword(e.target.value)} /><br />
+                <input type="submit" value="Zarejestruj" />
             </form>
             <button onClick={handleLoginButton}>Login</button>
         </div>
