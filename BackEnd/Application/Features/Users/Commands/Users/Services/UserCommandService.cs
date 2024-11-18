@@ -21,7 +21,7 @@ namespace Application.Features.Users.Commands.Users.Services
         private readonly IProvider _provider;
         private readonly IUserCommandRepository _repository;
         private readonly IDomainFactory _domainFactory;
-        private readonly IAuthenticationService _authenticationRepository;
+        private readonly IAuthenticationSvc _authenticationRepository;
 
 
         //Constructor
@@ -30,7 +30,7 @@ namespace Application.Features.Users.Commands.Users.Services
             IProvider provider,
             IUserCommandRepository repository,
             IDomainFactory domainFactory,
-            IAuthenticationService authentication
+            IAuthenticationSvc authentication
             )
         {
             _provider = provider;

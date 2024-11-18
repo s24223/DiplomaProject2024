@@ -5,13 +5,15 @@ using Application.Features.Addresses.Queries.Services;
 using Application.Features.Characteristics.Mappers;
 using Application.Features.Characteristics.Queries.Interfaces;
 using Application.Features.Characteristics.Queries.Services;
-using Application.Features.Companies.Interfaces.CommandsBranchOffer;
-using Application.Features.Companies.Interfaces.CommandsCompanyBranch;
-using Application.Features.Companies.Interfaces.QueriesOffer;
-using Application.Features.Companies.Mappers.DatabaseToDomain;
-using Application.Features.Companies.Services.CommandsBranchOffer;
-using Application.Features.Companies.Services.CommandsCompanyBranch;
-using Application.Features.Companies.Services.QueriesOffer;
+using Application.Features.Companies.Commands.BranchOffers.Interfaces;
+using Application.Features.Companies.Commands.BranchOffers.Services;
+using Application.Features.Companies.Commands.CompanyBranches.Interfaces;
+using Application.Features.Companies.Commands.CompanyBranches.Services;
+using Application.Features.Companies.Mappers;
+using Application.Features.Companies.Queries.QueriesOffer.Interfaces;
+using Application.Features.Companies.Queries.QueriesOffer.Services;
+using Application.Features.Companies.Queries.QueriesUser.Interfaces;
+using Application.Features.Companies.Queries.QueriesUser.Services;
 using Application.Features.Internship.InternshipPart.Interfaces;
 using Application.Features.Internship.InternshipPart.Services;
 using Application.Features.Internship.RecrutmentPart.Interfaces;
@@ -32,6 +34,7 @@ using Application.Shared.Interfaces.DomainRepositories;
 using Application.Shared.Interfaces.EntityToDomainMappers;
 using Application.Shared.Interfaces.Exceptions;
 using Application.Shared.Services.Authentication;
+using Application.Shared.Services.OrderBy;
 using Domain.Features.Characteristic.Repositories;
 using Domain.Features.Notification.Repositories;
 using Domain.Features.Url.Repository;
@@ -50,9 +53,10 @@ namespace Application
         {
             // Rejestracja IConfiguration jako Singleton
             serviceCollection.AddSingleton<IConfiguration>(configuration);
-            serviceCollection.AddTransient<IAuthenticationService, AuthenticationService>();
+            serviceCollection.AddTransient<IAuthenticationSvc, AuthenticationSvc>();
             serviceCollection.AddTransient<IExceptionsRepository, ExceptionsRepository>();
             serviceCollection.AddTransient<IEntityToDomainMapper, EntityToDomainMapper>();
+            serviceCollection.AddTransient<IOrderBySvc, OrderBySvc>();
 
             //Doamain Connections
             serviceCollection.AddTransient<IDomainNotificationDictionariesRepository, DomainNotificationDictionariesRepository>();
@@ -77,8 +81,8 @@ namespace Application
             serviceCollection.AddTransient<INotificationCommandRepository, NotificationCommandRepository>();
 
             //Queries
-            serviceCollection.AddTransient<IUserQueryService, UserQueryService>();
-            serviceCollection.AddTransient<IUserQueryRepository, UserQueryRepository>();
+            serviceCollection.AddTransient<IUserQuerySvc, UserQuerySvc>();
+            serviceCollection.AddTransient<IUserQueryRepo, UserQueryRepo>();
 
             //===============================================================================================================
             //Address Module
@@ -92,8 +96,8 @@ namespace Application
             //===============================================================================================================
             //Person Module 
             //Person Part 
-            serviceCollection.AddTransient<IPersonCmdRepository, PersonCmdRepository>();
-            serviceCollection.AddTransient<IPersonCmdService, PersonCmdService>();
+            serviceCollection.AddTransient<IPersonCmdRepo, PersonCmdRepo>();
+            serviceCollection.AddTransient<IPersonCmdSvc, PersonCmdSvc>();
             serviceCollection.AddTransient<IPersonMapper, PersonMapper>();
 
             //===============================================================================================================
@@ -112,6 +116,8 @@ namespace Application
             serviceCollection.AddTransient<IOfferQueryRepository, OfferQueryRepository>();
             serviceCollection.AddTransient<ICompanyQueryService, CompanyQueryService>();
 
+            serviceCollection.AddTransient<IUserCompanyRepo, UserCompanyRepo>();
+            serviceCollection.AddTransient<IUserCompanySvc, UserCompanySvc>();
             //===============================================================================================================
             //Intership module 
             //Recruitment part

@@ -14,7 +14,7 @@ namespace Application.Features.Users.Commands.Notifications.Services
     {
         //Values
         private readonly IDomainFactory _domainFactory;
-        private readonly IAuthenticationService _authentication;
+        private readonly IAuthenticationSvc _authentication;
         private readonly INotificationCommandRepository _notificationRepository;
 
 
@@ -22,7 +22,7 @@ namespace Application.Features.Users.Commands.Notifications.Services
         public NotificationCommandService
             (
             IDomainFactory domainFactory,
-            IAuthenticationService authentication,
+            IAuthenticationSvc authentication,
             INotificationCommandRepository notificationRepository
             )
         {

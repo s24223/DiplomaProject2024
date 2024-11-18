@@ -10,6 +10,5 @@ namespace Application.Features.Users.Mappers
         DomainUser DomainUser(User databaseUser);
         DomainUrl DomainUrl(Url databaseUrl);
         DomainNotification DomainNotification(Notification notification);
-
     }
 }

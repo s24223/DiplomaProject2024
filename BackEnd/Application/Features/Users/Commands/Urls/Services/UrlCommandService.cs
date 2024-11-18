@@ -14,7 +14,7 @@ namespace Application.Features.Users.Commands.Urls.Services
     {
         //Values
         private readonly IDomainFactory _domainFactory;
-        private readonly IAuthenticationService _authentication;
+        private readonly IAuthenticationSvc _authentication;
         private readonly IUrlCommandRepository _urlRepository;
 
 
@@ -22,7 +22,7 @@ namespace Application.Features.Users.Commands.Urls.Services
         public UrlCommandService
             (
             IDomainFactory domainFactory,
-            IAuthenticationService authentication,
+            IAuthenticationSvc authentication,
             IUrlCommandRepository urlRepository
             )
         {
