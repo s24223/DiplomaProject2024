@@ -44,7 +44,7 @@ const CreateProfile = () => {
         }
         try {
             await fetchProfilePost(body)
-            window.location.href="/userProfile"
+            //window.location.href="/userProfile"
         } catch(error){
             console.error(error)
         }
