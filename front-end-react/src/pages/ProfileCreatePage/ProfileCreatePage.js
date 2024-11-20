@@ -1,6 +1,6 @@
 import React from "react";
+import CreateProfile from "../../components/PersonProfileCreate/CreateProfile";
 import MainPageButton from "../../components/MainPageButton/MainPageButton";
-import OfferDetails from "../../components/OfferDetails/OfferDetails";
 import ProfileButton from "../../components/ProfileButton/ProfileButton";
 
 
@@ -8,8 +8,9 @@ const ProfileCreatePage = () =>{
     return(
         <div>
             <MainPageButton/><br/>
-            <ProfileButton/>
-            <OfferDetails/>
+            <ProfileButton/><br/>
+            Ceate Profile
+            <CreateProfile/>
         </div>
     )
 }
