@@ -28,7 +28,7 @@ const ProfilePage = () => {
             try {
                 const response = await axios.get("https://localhost:7166/api/User", {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+                        Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
                     },
                 });
                 setUserData(response.data.item);

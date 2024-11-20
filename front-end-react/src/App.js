@@ -11,9 +11,7 @@ import ProfileCreatePage from './pages/ProfileCreatePage/ProfileCreatePage';
 import EditProfilePage from './pages/EditProfilePage/EditProfilePage';
 import ChangePasswordPage from './pages/ChangePasswordPage/ChangePasswordPage';
 
-
-function App() {
-    const job = new Cron("*/10 * * * *", () => {
+const job = new Cron("*/5 * * * *", () => {
         console.log(`Cron run... ${new Date().toLocaleTimeString()}`)
         if(sessionStorage.getItem("jwt")){
             fetch("https://localhost:7166/api/User/refresh", {
@@ -35,6 +33,7 @@ function App() {
         console.log(`Cron run ended ${new Date().toLocaleTimeString()}`)
     })
 
+function App() {
     return (
         <Router>
             <Routes>
