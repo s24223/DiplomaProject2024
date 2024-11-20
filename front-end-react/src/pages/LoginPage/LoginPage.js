@@ -12,7 +12,10 @@ const LoginPage = () => {
         console.log({email, password})
         try{
             const response = await fetchLogin({email, password})
-            localStorage.setItem("jwt", response.jwt)
+            sessionStorage.setItem("jwt", response.jwt)
+            sessionStorage.setItem("jwtValidTo", response.jwtValidTo)
+            sessionStorage.setItem("refreshToken", response.refereshToken)
+            sessionStorage.setItem("refreshTokenValidTo", response.refereshTokenValidTo)
             window.location.href="/"
         } catch(error){
             console.log(error)

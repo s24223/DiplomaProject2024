@@ -5,7 +5,7 @@ export const fetchProfileGet = async () => {
             headers: {
                 "Content-Type": "application/json",
                 "Access-Contorl-Allow-Origin": "*",
-                "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+                "Authorization": `Bearer ${sessionStorage.getItem("jwt")}`
             }
         }
     );
@@ -21,7 +21,7 @@ export const fetchProfilePost = async (body) => {
             headers: {
                 "Content-Type": "application/json",
                 "Access-Contorl-Allow-Origin": "*",
-                "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+                "Authorization": `Bearer ${sessionStorage.getItem("jwt")}`
             },
             body: JSON.stringify(body)
         }

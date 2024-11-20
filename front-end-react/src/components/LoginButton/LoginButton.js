@@ -22,7 +22,7 @@ const LoginButton = () => {
     };
     return (
         <div>
-            {localStorage.getItem("jwt") === null ?
+            {sessionStorage.getItem("jwt") === null ?
             <div>
                 <button onClick={handleLogin} style={{ position: 'absolute', top: 10, right: 10 }}>
                     Zaloguj

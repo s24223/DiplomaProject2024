@@ -42,6 +42,7 @@ const CreateProfile = () => {
             addressId,
             characteristics
         }
+
         try {
             await fetchProfilePost(body)
             //window.location.href="/userProfile"

@@ -10,8 +10,6 @@ const MainPage = () => {
     const [offers, setOffers] = useState();
     const [searchQuery, setSearchQuery] = useState('');
 
-    console.log(localStorage.getItem("jwt"))
-
     useEffect(() => {
         const loadOffers = async () => {
             try {
