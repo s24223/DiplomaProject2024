@@ -8,14 +8,14 @@ namespace Application.Features.Companies.Queries.QueriesOffer.DTOs.QueriesOffer
     {
         //Values
         public CompanyDetailsResponseDto Company { get; set; } = null!;
-        public OfferResponseDto Offer { get; set; } = null!;
+        public OfferResp Offer { get; set; } = null!;
         public IEnumerable<BranchBranchOfferDetailsResponseDto> Branches { get; set; } = [];
         public int BranchesCount { get; private set; } = 0;
 
         //Cosntructor 
         public GetOfferQueryResponseDto(DomainOffer domain)
         {
-            Offer = new OfferResponseDto(domain);
+            Offer = new OfferResp(domain);
 
             var domainCompany = domain.BranchOffers.First().Value.Branch.Company;
             if (domainCompany != null)

@@ -62,7 +62,7 @@ namespace Application.Features.Users.Queries.QueriesUser.Interfaces
                 .Select(x => new
                 {
                     User = x,
-                    Person = x.Person,
+                    Person = x.Person,//Add x.Person.chr ...
                     Company = x.Company,
                     BranchCount = (x.Company != null) ? x.Company.Branches.Count() : 0,
                     ActiveOffersCount = (x.Company != null) ?

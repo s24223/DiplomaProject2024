@@ -13,14 +13,14 @@ namespace Application.Features.Companies.Commands.BranchOffers.Services
     public interface IBranchOfferCommandService
     {
         //Offer Part
-        Task<ResponseItems<OfferResponseDto>> CreateOffersAsync
+        Task<ResponseItems<OfferResp>> CreateOffersAsync
            (
            IEnumerable<Claim> claims,
            IEnumerable<CreateOfferRequestDto> dtos,
            CancellationToken cancellation
            );
 
-        Task<ResponseItems<OfferResponseDto>> UpdateOffersAsync
+        Task<ResponseItems<OfferResp>> UpdateOffersAsync
             (
             IEnumerable<Claim> claims,
             IEnumerable<UpdateOfferRequestDto> dtos,

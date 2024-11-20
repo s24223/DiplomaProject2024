@@ -1,6 +1,6 @@
 ﻿using Application.Databases.Relational.Models;
-using Application.Features.Addresses.Queries.Interfaces;
 using Application.Shared.Interfaces.Exceptions;
+using Application.Shared.Interfaces.SqlClient;
 using Domain.Features.Address.ValueObjects.Identificators;
 using Infrastructure.Exceptions.AppExceptions;
 using Microsoft.Data.SqlClient;
@@ -9,7 +9,7 @@ using System.Data;
 
 namespace Infrastructure.Databases.Relational.MsSQL.SqlClientRepositories
 {
-    public class AddressSqlClientRepository : IAddressSqlClientRepository
+    public class SqlClientRepo : ISqlClientRepo
     {
         //Values
         private readonly string _connectionString;
@@ -17,7 +17,7 @@ namespace Infrastructure.Databases.Relational.MsSQL.SqlClientRepositories
 
 
         //Constructor
-        public AddressSqlClientRepository
+        public SqlClientRepo
             (
             IConfiguration configuration,
             IExceptionsRepository exceptionsRepository
@@ -164,6 +164,68 @@ namespace Infrastructure.Databases.Relational.MsSQL.SqlClientRepositories
             }
         }
 
+        public async Task<(int TotalCount, IEnumerable<Guid> Ids)> GetBranchIdsSorted
+            (
+            Guid companyId,
+            int? divisionId,
+            int? streetId,
+            int maxItems,
+            int page,
+            bool ascending,
+            CancellationToken cancellation
+            )
+        {
+            divisionId = divisionId.HasValue ? divisionId.Value : -1;
+            streetId = streetId.HasValue ? streetId.Value : -1;
+
+            var list = new List<Guid>();
+            var TotalCount = -1;
+            try
+            {
+                await using (SqlConnection con = new SqlConnection(_connectionString))
+                {
+                    await con.OpenAsync(cancellation);
+
+                    await using (SqlCommand com = new SqlCommand())
+                    {
+                        com.Connection = con;
+
+                        com.CommandText = "BranchesSorted";
+                        com.CommandType = CommandType.StoredProcedure;
+
+                        com.Parameters.AddWithValue("@CompanyId", companyId.ToString());
+                        com.Parameters.AddWithValue("@DivisionId", divisionId);
+                        com.Parameters.AddWithValue("@StreetId", streetId);
+                        com.Parameters.AddWithValue("@MaxItems", maxItems);
+                        com.Parameters.AddWithValue("@Page", page);
+                        com.Parameters.AddWithValue("@Ascending", (ascending ? 1 : 0));
+
+                        await using var reader = await com.ExecuteReaderAsync(cancellation);
+                        Guid id;
+
+                        while (await reader.ReadAsync(cancellation))
+                        {
+                            id = (Guid)reader["BranchId"];
+                            if (TotalCount < 0)
+                            {
+                                TotalCount = (int)reader["TotalRecords"];
+                            }
+                            list.Add(id);
+                        }
+                        reader.Close();
+                        return (TotalCount, list);
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                throw _exceptionsRepository.ConvertSqlClientDbException
+                    (
+                    ex,
+                    $"DivisionId:"
+                    );
+            }
+        }
         //=========================================================================================================
         //=========================================================================================================
         //=========================================================================================================

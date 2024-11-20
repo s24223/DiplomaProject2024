@@ -8,23 +8,23 @@ namespace Application.Features.Companies.Queries.QueriesOffer.DTOs.QueriesOffer
     {
         //Values
         public CompanyDetailsResponseDto Company { get; set; } = null!;
-        public BranchResponseDto Branch { get; set; } = null!;
-        public OfferResponseDto Offer { get; set; } = null!;
-        public BranchOfferResponseDto OfferDetails { get; set; } = null!;
+        public BranchResp Branch { get; set; } = null!;
+        public OfferResp Offer { get; set; } = null!;
+        public BranchOfferResp OfferDetails { get; set; } = null!;
 
 
         //Cosntructor
         public GetBranchOfferQueryResponseDto(DomainBranchOffer domain)
         {
-            OfferDetails = new BranchOfferResponseDto(domain);
+            OfferDetails = new BranchOfferResp(domain);
 
             if (domain.Offer != null)
             {
-                Offer = new OfferResponseDto(domain.Offer);
+                Offer = new OfferResp(domain.Offer);
             }
             if (domain.Branch != null)
             {
-                Branch = new BranchResponseDto(domain.Branch);
+                Branch = new BranchResp(domain.Branch);
                 if (domain.Branch.Company != null)
                 {
                     Company = new CompanyDetailsResponseDto(domain.Branch.Company);

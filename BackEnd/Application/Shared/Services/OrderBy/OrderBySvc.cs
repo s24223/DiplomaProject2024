@@ -20,5 +20,16 @@
                 "completed",
             };
         }
+
+        public IEnumerable<string> CoreOffers()
+        {
+            return new[]
+            {
+                "characteristics",
+                "minSalary",
+                "maxSalary",
+                "created"
+            };
+        }
     }
 }

@@ -9,13 +9,13 @@ namespace Application.Features.Addresses.Queries.Services
     public class AddressQueryService : IAddressQueryService
     {
         //Values
-        private readonly IAddressQueryRepository _repository;
+        private readonly IAddressQueryRepo _repository;
 
 
         //Cosntructor
         public AddressQueryService
             (
-            IAddressQueryRepository repository
+            IAddressQueryRepo repository
             )
         {
             _repository = repository;

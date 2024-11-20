@@ -4,7 +4,7 @@ using Domain.Features.Person.Entities;
 
 namespace Application.Shared.DTOs.Features.Persons
 {
-    public class PersonResponseDto
+    public class PersonResp
     {
         //values
         public Guid Id { get; set; }
@@ -24,7 +24,7 @@ namespace Application.Shared.DTOs.Features.Persons
 
 
         //Cosntructor
-        public PersonResponseDto(DomainPerson domain)
+        public PersonResp(DomainPerson domain)
         {
             Id = domain.Id.Value;
             Created = domain.Created;

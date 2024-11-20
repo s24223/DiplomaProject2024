@@ -3,7 +3,7 @@ using Domain.Shared.ValueObjects;
 
 namespace Application.Shared.DTOs.Features.Companies.Responses
 {
-    public class BranchOfferResponseDto
+    public class BranchOfferResp
     {
         //Values
         public Guid Id { get; set; }
@@ -19,7 +19,7 @@ namespace Application.Shared.DTOs.Features.Companies.Responses
 
 
         //Cosntructor
-        public BranchOfferResponseDto(DomainBranchOffer domain)
+        public BranchOfferResp(DomainBranchOffer domain)
         {
             Id = domain.Id.Value;
             BranchId = domain.BranchId.Value;

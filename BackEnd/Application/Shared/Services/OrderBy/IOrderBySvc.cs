@@ -4,5 +4,6 @@
     {
         IEnumerable<string> UserUrls();
         IEnumerable<string> UserNotifications();
+        IEnumerable<string> CoreOffers();
     }
 }

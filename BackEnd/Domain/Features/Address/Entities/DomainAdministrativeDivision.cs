@@ -5,7 +5,7 @@ namespace Domain.Features.Address.Entities
     public class DomainAdministrativeDivision
     {
         //Values
-        public DivisionId Id { get; private set; }
+        public DivisionId Id { get; private set; } = null!;
         public string Name { get; private set; } = null!;
         public int? ParentDivisionId { get; private set; } = null;
 
@@ -33,7 +33,6 @@ namespace Domain.Features.Address.Entities
                 divisionTypeName
                 );
         }
-
 
         //==================================================================================================
         //==================================================================================================

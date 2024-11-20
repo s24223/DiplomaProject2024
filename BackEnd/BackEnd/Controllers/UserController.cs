@@ -8,6 +8,7 @@ using Application.Features.Companies.Commands.CompanyBranches.DTOs.CommandsBranc
 using Application.Features.Companies.Commands.CompanyBranches.DTOs.CommandsCompany.Create;
 using Application.Features.Companies.Commands.CompanyBranches.DTOs.CommandsCompany.Update;
 using Application.Features.Companies.Commands.CompanyBranches.Services;
+using Application.Features.Companies.Queries.QueriesUser.Services;
 using Application.Features.Persons.Commands.DTOs;
 using Application.Features.Persons.Commands.Services;
 using Application.Features.Users.Commands.Notifications.DTOs.Create.Authorize;
@@ -45,6 +46,7 @@ namespace BackEnd.Controllers
         //Company Servises
         private readonly ICompanyBranchCommandService _companyBranchService;
         private readonly IBranchOfferCommandService _branchOfferService;
+        private readonly IUserCompanySvc _userCompanySvc;
 
 
         //Cosntructors
@@ -59,7 +61,8 @@ namespace BackEnd.Controllers
             IPersonCmdSvc personService,
             //Company Servises
             ICompanyBranchCommandService companyBranchService,
-            IBranchOfferCommandService branchOfferService
+            IBranchOfferCommandService branchOfferService,
+            IUserCompanySvc userCompanySvc
             )
         {
             //User Servises
@@ -72,6 +75,7 @@ namespace BackEnd.Controllers
             //Company Servises
             _companyBranchService = companyBranchService;
             _branchOfferService = branchOfferService;
+            _userCompanySvc = userCompanySvc;
         }
 
 
@@ -417,6 +421,31 @@ namespace BackEnd.Controllers
             return StatusCode(200, result);
         }
 
+        [Authorize]
+        [HttpGet("company/branches")]
+        public async Task<IActionResult> UpdateBranchAsync
+            (
+            CancellationToken cancellation,
+            int? divisionId = null,
+            int? streetId = null,
+            bool ascending = true,
+            int itemsCount = 100,
+            int page = 1
+            )
+        {
+            var claims = User.Claims.ToList();
+            var result = await _userCompanySvc.GetCoreBranchesAsync
+                (
+                claims,
+                cancellation,
+                divisionId,
+                streetId,
+                ascending,
+                itemsCount,
+                page
+                );
+            return StatusCode(200, result);
+        }
         //================================================================================================================
         [Authorize]
         [HttpPost("company/offers")]
@@ -444,6 +473,42 @@ namespace BackEnd.Controllers
             return StatusCode(200, result);
         }
 
+        [Authorize]
+        [HttpGet("company/offers/core")]
+        public async Task<IActionResult> UpdateOffersAsync
+            (
+            [FromHeader]
+            IEnumerable<int> characteristics,
+            CancellationToken cancellation,
+            string? searchText = null,
+            bool? isNegotiatedSalary = null,
+            bool? isForStudents = null,
+            decimal? minSalary = null,
+            decimal? maxSalary = null,
+            string orderBy = "created",
+            bool ascending = true,
+            int itemsCount = 100,
+            int page = 1
+            )
+        {
+            var claims = User.Claims.ToList();
+            var result = await _userCompanySvc.GetCoreOffersAsync
+                (
+                claims,
+                characteristics,
+                cancellation,
+                searchText,
+                isNegotiatedSalary,
+                isForStudents,
+                minSalary,
+                maxSalary,
+                orderBy,
+                ascending,
+                itemsCount,
+                page
+                );
+            return StatusCode(200, result);
+        }
         //================================================================================================================
         [Authorize]
         [HttpPost("company/branches&offers")]

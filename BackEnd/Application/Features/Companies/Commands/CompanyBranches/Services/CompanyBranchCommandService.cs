@@ -82,7 +82,7 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Services
             };
         }
 
-        public async Task<ResponseItem<CompanyResponseDto>> UpdateCompanyAsync
+        public async Task<ResponseItem<CompanyResp>> UpdateCompanyAsync
             (
             IEnumerable<Claim> claims,
             UpdateCompanyRequestDto dto,
@@ -101,15 +101,15 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Services
                 );
 
             await _repository.UpdateCompanyAsync(domainCompany, cancellation);
-            return new ResponseItem<CompanyResponseDto>
+            return new ResponseItem<CompanyResp>
             {
-                Item = new CompanyResponseDto(domainCompany),
+                Item = new CompanyResp(domainCompany),
             };
         }
 
 
         //Branch
-        public async Task<ResponseItems<BranchResponseDto>> CreateBranchesAsync
+        public async Task<ResponseItems<BranchResp>> CreateBranchesAsync
             (
             IEnumerable<Claim> claims,
             IEnumerable<CreateBranchRequestDto> dtos,
@@ -128,13 +128,13 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Services
 
 
             domainBranches = await _repository.CreateBranchesAsync(domainBranches, cancellation);
-            return new ResponseItems<BranchResponseDto>
+            return new ResponseItems<BranchResp>
             {
-                Items = domainBranches.Select(x => new BranchResponseDto(x)).ToList(),
+                Items = domainBranches.Select(x => new BranchResp(x)).ToList(),
             };
         }
 
-        public async Task<ResponseItems<BranchResponseDto>> UpdateBranchesAsync
+        public async Task<ResponseItems<BranchResp>> UpdateBranchesAsync
             (
             IEnumerable<Claim> claims,
             IEnumerable<UpdateBranchRequestDto> dtos,
@@ -167,9 +167,9 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Services
             }
 
             dictionaryBranches = await _repository.UpdateBranchesAsync(dictionaryBranches, cancellation);
-            return new ResponseItems<BranchResponseDto>
+            return new ResponseItems<BranchResp>
             {
-                Items = dictionaryBranches.Select(x => new BranchResponseDto(x.Value)).ToList(),
+                Items = dictionaryBranches.Select(x => new BranchResp(x.Value)).ToList(),
             };
         }
         //=========================================================================================================

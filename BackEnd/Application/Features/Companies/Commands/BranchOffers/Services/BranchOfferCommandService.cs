@@ -47,7 +47,7 @@ namespace Application.Features.Companies.Commands.BranchOffers.Services
         //DML
 
         //Offer part
-        public async Task<ResponseItems<OfferResponseDto>> CreateOffersAsync
+        public async Task<ResponseItems<OfferResp>> CreateOffersAsync
            (
            IEnumerable<Claim> claims,
            IEnumerable<CreateOfferRequestDto> dtos,
@@ -75,15 +75,15 @@ namespace Application.Features.Companies.Commands.BranchOffers.Services
             domainOffers = await _repository
                 .CreateOffersAsync(companyId, domainOffers, cancellation);
 
-            return new ResponseItems<OfferResponseDto>
+            return new ResponseItems<OfferResp>
             {
                 Items = domainOffers
-                    .Select(x => new OfferResponseDto(x))
+                    .Select(x => new OfferResp(x))
                     .ToList()
             };
         }
 
-        public async Task<ResponseItems<OfferResponseDto>> UpdateOffersAsync
+        public async Task<ResponseItems<OfferResp>> UpdateOffersAsync
             (
             IEnumerable<Claim> claims,
             IEnumerable<UpdateOfferRequestDto> dtos,
@@ -124,10 +124,10 @@ namespace Application.Features.Companies.Commands.BranchOffers.Services
             dictionaryOffers = await _repository
                 .UpdateOffersAsync(companyId, dictionaryOffers, cancellation);
 
-            return new ResponseItems<OfferResponseDto>
+            return new ResponseItems<OfferResp>
             {
                 Items = dictionaryOffers
-                    .Select(x => new OfferResponseDto(x.Value))
+                    .Select(x => new OfferResp(x.Value))
                     .ToList(),
             };
         }

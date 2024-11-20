@@ -2,6 +2,7 @@
 using Application.Databases.Relational.Models;
 using Application.Features.Addresses.Queries.DTOs;
 using Application.Shared.Interfaces.EntityToDomainMappers;
+using Application.Shared.Interfaces.SqlClient;
 using Domain.Features.Address.Entities;
 using Domain.Features.Address.Exceptions.Entities;
 using Domain.Features.Address.ValueObjects.Identificators;
@@ -11,10 +12,10 @@ using System.Text;
 
 namespace Application.Features.Addresses.Queries.Interfaces
 {
-    public class AddressQueryRepository : IAddressQueryRepository
+    public class AddressQueryRepository : IAddressQueryRepo
     {
         //Values
-        private readonly IAddressSqlClientRepository _sql;
+        private readonly ISqlClientRepo _sql;
         private readonly IEntityToDomainMapper _mapper;
         private readonly DiplomaProjectContext _context;
 
@@ -23,7 +24,7 @@ namespace Application.Features.Addresses.Queries.Interfaces
         public AddressQueryRepository
             (
             IEntityToDomainMapper mapper,
-            IAddressSqlClientRepository sql,
+            ISqlClientRepo sql,
             DiplomaProjectContext context
             )
         {

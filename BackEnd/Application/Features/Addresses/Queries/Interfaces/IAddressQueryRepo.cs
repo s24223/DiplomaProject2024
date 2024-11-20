@@ -4,7 +4,7 @@ using Domain.Features.Address.ValueObjects.Identificators;
 
 namespace Application.Features.Addresses.Queries.Interfaces
 {
-    public interface IAddressQueryRepository
+    public interface IAddressQueryRepo
     {
         Task<IEnumerable<CollocationResponseDto>> GetCollocationsAsync
             (

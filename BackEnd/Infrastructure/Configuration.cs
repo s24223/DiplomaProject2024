@@ -1,5 +1,5 @@
 ﻿using Application.Databases.Relational;
-using Application.Features.Addresses.Queries.Interfaces;
+using Application.Shared.Interfaces.SqlClient;
 using Infrastructure.Databases.Relational.MsSQL;
 using Infrastructure.Databases.Relational.MsSQL.SqlClientRepositories;
 using Microsoft.Extensions.Configuration;
@@ -19,7 +19,7 @@ namespace Infrastructure
             serviceCollection.AddSingleton<IConfiguration>(configuration);
 
             //Address Part from Application
-            serviceCollection.AddTransient<IAddressSqlClientRepository, AddressSqlClientRepository>();
+            serviceCollection.AddTransient<ISqlClientRepo, SqlClientRepo>();
 
             //DbContext Injection
             serviceCollection.AddTransient<DiplomaProjectContext, DiplomaProjectMsSQLContext>();

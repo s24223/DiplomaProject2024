@@ -6,8 +6,8 @@ namespace Application.Features.Companies.Commands.CompanyBranches.DTOs.CommandsC
     public class CreateCompanyResponseDto
     {
         //Values
-        public CompanyResponseDto Company { get; set; } = null!;
-        public IEnumerable<BranchResponseDto> Branches { get; set; } = [];
+        public CompanyResp Company { get; set; } = null!;
+        public IEnumerable<BranchResp> Branches { get; set; } = [];
         public int BranchesCount { get; private set; }
 
 
@@ -15,9 +15,9 @@ namespace Application.Features.Companies.Commands.CompanyBranches.DTOs.CommandsC
         //Cosntructor
         public CreateCompanyResponseDto(DomainCompany domain)
         {
-            Company = new CompanyResponseDto(domain);
+            Company = new CompanyResp(domain);
 
-            Branches = domain.Branches.Select(x => new BranchResponseDto(x.Value));
+            Branches = domain.Branches.Select(x => new BranchResp(x.Value));
             BranchesCount = Branches.Count();
         }
     }

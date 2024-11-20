@@ -6,8 +6,8 @@ namespace Application.Features.Companies.Commands.BranchOffers.DTOs.CommandsBran
     public class UpdateConflictBranchOfferDto
     {
         //Values
-        public BranchOfferResponseDto Key { get; private set; }
-        public IEnumerable<BranchOfferResponseDto> Values { get; private set; }
+        public BranchOfferResp Key { get; private set; }
+        public IEnumerable<BranchOfferResp> Values { get; private set; }
 
 
         //Cosntructor
@@ -17,8 +17,8 @@ namespace Application.Features.Companies.Commands.BranchOffers.DTOs.CommandsBran
             IEnumerable<DomainBranchOffer> values
             )
         {
-            Key = new BranchOfferResponseDto(key);
-            Values = values.Select(x => new BranchOfferResponseDto(x));
+            Key = new BranchOfferResp(key);
+            Values = values.Select(x => new BranchOfferResp(x));
         }
     }
 }

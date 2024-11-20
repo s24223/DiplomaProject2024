@@ -1,9 +1,9 @@
 ﻿using Application.Databases.Relational.Models;
 using Domain.Features.Address.ValueObjects.Identificators;
 
-namespace Application.Features.Addresses.Queries.Interfaces
+namespace Application.Shared.Interfaces.SqlClient
 {
-    public interface IAddressSqlClientRepository
+    public interface ISqlClientRepo
     {
         Task<IEnumerable<(int DivisionId, Street Street)>> GetCollocationsAsync
             (
@@ -15,6 +15,17 @@ namespace Application.Features.Addresses.Queries.Interfaces
         Task<Dictionary<DivisionId, AdministrativeDivision>> GetDivisionsHierachyUpAsync
             (
             int divisionId,
+            CancellationToken cancellation
+            );
+
+        Task<(int TotalCount, IEnumerable<Guid> Ids)> GetBranchIdsSorted
+            (
+            Guid companyId,
+            int? divisionId,
+            int? streetId,
+            int maxItems,
+            int page,
+            bool ascending,
             CancellationToken cancellation
             );
     }

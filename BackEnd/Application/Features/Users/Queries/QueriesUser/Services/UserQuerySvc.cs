@@ -97,6 +97,8 @@ namespace Application.Features.Users.Queries.QueriesUser.Services
             )
         {
             var id = GetId(claims);
+            //Check sender ID and status Id 
+
             var data = await _queriesRepository.GetNotificationsAsync
                 (
                 id,

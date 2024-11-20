@@ -19,7 +19,7 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Interfaces
     {
         //Values
         private readonly ICompanyMapper _mapper;
-        private readonly IAddressQueryRepository _addressRepository;
+        private readonly IAddressQueryRepo _addressRepository;
         private readonly IExceptionsRepository _exceptionRepository;
         private readonly DiplomaProjectContext _context;
 
@@ -28,7 +28,7 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Interfaces
         public CompanyBranchCommandRepository
             (
             ICompanyMapper mapper,
-            IAddressQueryRepository addressRepository,
+            IAddressQueryRepo addressRepository,
             IExceptionsRepository exceptionRepository,
             DiplomaProjectContext context
             )

@@ -8,7 +8,7 @@ namespace Application.Features.Companies.Queries.QueriesOffer.DTOs.QueriesOffer
     {
         //Values
         public CompanyDetailsResponseDto Company { get; set; } = null!;
-        public BranchResponseDto Branch { get; set; } = null!;
+        public BranchResp Branch { get; set; } = null!;
         public IEnumerable<BranchOfferDetalisResponseDto> Offers { get; set; } = [];
         public int OffersCount { get; private set; } = 0;
 
@@ -16,7 +16,7 @@ namespace Application.Features.Companies.Queries.QueriesOffer.DTOs.QueriesOffer
         //Cosntructor
         public GetBranchQueryResponseDto(DomainBranch domain)
         {
-            Branch = new BranchResponseDto(domain);
+            Branch = new BranchResp(domain);
 
             if (domain.Company != null)
             {

@@ -10,7 +10,7 @@ namespace Application.Features.Companies.Commands.BranchOffers.DTOs.CommandsBran
         //Values
         public IEnumerable<CorrectBranchOfferDto> Correct { get; private set; } = [];
         public int CorrectCount { get; private set; }
-        public IEnumerable<BranchOfferResponseDto> WithoutDuration { get; private set; } = [];
+        public IEnumerable<BranchOfferResp> WithoutDuration { get; private set; } = [];
         public int WithoutDurationCount { get; private set; }
         public IEnumerable<UpdateConflictBranchOfferDto> Conflicts { get; private set; } = [];
 
@@ -28,7 +28,7 @@ namespace Application.Features.Companies.Commands.BranchOffers.DTOs.CommandsBran
             CorrectCount = Correct.Count();
 
             WithoutDuration = withoutDuration
-                .Select(x => new BranchOfferResponseDto(x));
+                .Select(x => new BranchOfferResp(x));
             WithoutDurationCount = WithoutDuration.Count();
 
             Conflicts = conflicts

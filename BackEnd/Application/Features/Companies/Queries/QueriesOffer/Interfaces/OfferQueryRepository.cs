@@ -27,7 +27,7 @@ namespace Application.Features.Companies.Queries.QueriesOffer.Interfaces
         private readonly IProvider _provider;
         private readonly ICompanyMapper _mapper;
         private readonly IUserMapper _entitiesMapper;
-        private readonly IAddressQueryRepository _addressQueryRepository;
+        private readonly IAddressQueryRepo _addressQueryRepository;
         private readonly DiplomaProjectContext _context;
 
         private readonly string _trueDatabaseBool = new DatabaseBool(true).Code;
@@ -41,7 +41,7 @@ namespace Application.Features.Companies.Queries.QueriesOffer.Interfaces
             IProvider provider,
             ICompanyMapper mapper,
             IUserMapper entitiesMapper,
-            IAddressQueryRepository addressQueryRepository,
+            IAddressQueryRepo addressQueryRepository,
             DiplomaProjectContext context
             )
         {

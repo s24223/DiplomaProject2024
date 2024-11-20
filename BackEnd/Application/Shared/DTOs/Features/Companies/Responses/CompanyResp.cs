@@ -2,9 +2,9 @@
 
 namespace Application.Shared.DTOs.Features.Companies.Responses
 {
-    public class CompanyResponseDto
+    public class CompanyResp
     {
-        //values
+        //Values
         public Guid CompanyId { get; set; }
         public DateOnly Created { get; set; }
         public string? Name { get; set; }
@@ -15,7 +15,7 @@ namespace Application.Shared.DTOs.Features.Companies.Responses
 
 
         //Cosntructor 
-        public CompanyResponseDto(DomainCompany domain)
+        public CompanyResp(DomainCompany domain)
         {
             CompanyId = domain.Id.Value;
             Created = domain.Created;

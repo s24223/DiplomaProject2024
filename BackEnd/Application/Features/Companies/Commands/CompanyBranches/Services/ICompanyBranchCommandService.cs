@@ -18,7 +18,7 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Services
             CancellationToken cancellation
             );
 
-        Task<ResponseItem<CompanyResponseDto>> UpdateCompanyAsync
+        Task<ResponseItem<CompanyResp>> UpdateCompanyAsync
             (
             IEnumerable<Claim> claims,
             UpdateCompanyRequestDto dto,
@@ -26,14 +26,14 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Services
             );
 
         //Branch
-        Task<ResponseItems<BranchResponseDto>> CreateBranchesAsync
+        Task<ResponseItems<BranchResp>> CreateBranchesAsync
             (
             IEnumerable<Claim> claims,
             IEnumerable<CreateBranchRequestDto> dtos,
             CancellationToken cancellation
             );
 
-        Task<ResponseItems<BranchResponseDto>> UpdateBranchesAsync
+        Task<ResponseItems<BranchResp>> UpdateBranchesAsync
             (
             IEnumerable<Claim> claims,
             IEnumerable<UpdateBranchRequestDto> dtos,

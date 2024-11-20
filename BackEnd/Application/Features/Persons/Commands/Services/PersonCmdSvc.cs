@@ -39,7 +39,7 @@ namespace Application.Features.Persons.Commands.Services
         //Public Methods
 
         //DML
-        public async Task<ResponseItem<PersonResponseDto>> CreateAsync
+        public async Task<ResponseItem<PersonResp>> CreateAsync
             (
             IEnumerable<Claim> claims,
             CreatePersonReq dto,
@@ -65,13 +65,13 @@ namespace Application.Features.Persons.Commands.Services
             domainPerson.SetCharacteristics(cahrachteristics);
 
             domainPerson = await _repository.CreateAsync(domainPerson, cancellation);
-            return new ResponseItem<PersonResponseDto>
+            return new ResponseItem<PersonResp>
             {
-                Item = new PersonResponseDto(domainPerson),
+                Item = new PersonResp(domainPerson),
             };
         }
 
-        public async Task<ResponseItem<PersonResponseDto>> UpdateAsync
+        public async Task<ResponseItem<PersonResp>> UpdateAsync
             (
             IEnumerable<Claim> claims,
             UpdatePersonReq dto,
@@ -98,9 +98,9 @@ namespace Application.Features.Persons.Commands.Services
             domainPerson.SetCharacteristics(cahrachteristics);
 
             domainPerson = await _repository.UpdateAsync(domainPerson, cancellation);
-            return new ResponseItem<PersonResponseDto>
+            return new ResponseItem<PersonResp>
             {
-                Item = new PersonResponseDto(domainPerson),
+                Item = new PersonResp(domainPerson),
             };
         }
 

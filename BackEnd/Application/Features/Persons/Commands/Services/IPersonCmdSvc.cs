@@ -8,14 +8,14 @@ namespace Application.Features.Persons.Commands.Services
 {
     public interface IPersonCmdSvc
     {
-        Task<ResponseItem<PersonResponseDto>> CreateAsync
+        Task<ResponseItem<PersonResp>> CreateAsync
             (
             IEnumerable<Claim> claims,
             CreatePersonReq dto,
             CancellationToken cancellation
             );
 
-        Task<ResponseItem<PersonResponseDto>> UpdateAsync
+        Task<ResponseItem<PersonResp>> UpdateAsync
             (
             IEnumerable<Claim> claims,
             UpdatePersonReq dto,

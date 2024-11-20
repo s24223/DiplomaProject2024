@@ -90,7 +90,7 @@ namespace Application
             serviceCollection.AddTransient<IAddressCommandRepository, AddressCommandRepository>();
             serviceCollection.AddTransient<IAddressCommandService, AddressCommandService>();
 
-            serviceCollection.AddTransient<IAddressQueryRepository, AddressQueryRepository>();
+            serviceCollection.AddTransient<IAddressQueryRepo, AddressQueryRepository>();
             serviceCollection.AddTransient<IAddressQueryService, AddressQueryService>();
 
             //===============================================================================================================

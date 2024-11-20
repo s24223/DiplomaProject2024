@@ -11,14 +11,14 @@ namespace Application.Features.Persons.Mappers
     {
         //Values
         private readonly IDomainFactory _factory;
-        private readonly IAddressQueryRepository _addressRepository;
+        private readonly IAddressQueryRepo _addressRepository;
 
 
         //Constructor
         public PersonMapper
             (
             IDomainFactory factory,
-            IAddressQueryRepository addressRepository
+            IAddressQueryRepo addressRepository
             )
         {
             _factory = factory;

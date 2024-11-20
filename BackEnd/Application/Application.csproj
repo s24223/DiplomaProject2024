@@ -33,7 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Companies\Queries\QueriesUser\DTOs\" />
     <Folder Include="Features\Internship\CommentPart\" />
     <Folder Include="Features\Persons\Queries\" />
   </ItemGroup>

@@ -3,7 +3,7 @@ using Domain.Features.Offer.Entities;
 
 namespace Application.Shared.DTOs.Features.Companies.Responses
 {
-    public class OfferResponseDto
+    public class OfferResp
     {
         //Values
         public Guid Id { get; set; }
@@ -14,12 +14,11 @@ namespace Application.Shared.DTOs.Features.Companies.Responses
         public bool? IsNegotiatedSalary { get; set; }
         public bool IsForStudents { get; set; }
         public bool IsPaid { get; set; }
-        public IEnumerable<CharCollocationResp> Characteristics { get; set; }
-            = new List<CharCollocationResp>();
+        public IEnumerable<CharCollocationResp> Characteristics { get; set; } = [];
 
 
         //Cosnstructor
-        public OfferResponseDto(DomainOffer domain)
+        public OfferResp(DomainOffer domain)
         {
             Id = domain.Id.Value;
             Name = domain.Name;
@@ -29,8 +28,8 @@ namespace Application.Shared.DTOs.Features.Companies.Responses
             IsNegotiatedSalary = domain.IsNegotiatedSalary;
             IsForStudents = domain.IsForStudents;
             IsPaid = domain.IsPaid;
-            Characteristics = domain.Characteristics.Values.Select(x =>
-            new CharCollocationResp(x.Item1, x.Item2));
+            Characteristics = domain.Characteristics.Values
+                .Select(x => new CharCollocationResp(x.Item1, x.Item2));
         }
     }
 }

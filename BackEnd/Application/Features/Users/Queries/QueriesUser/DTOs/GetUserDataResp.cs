@@ -12,8 +12,8 @@ namespace Application.Features.Users.Queries.QueriesUser.DTOs
         public Guid UserId { get; set; }
         public DateTime? LastLoginIn { get; set; } = null;
         public DateTime LastPasswordUpdate { get; set; }
-        public PersonResponseDto? Person { get; set; } = null;
-        public CompanyResponseDto? Company { get; set; } = null;
+        public PersonResp? Person { get; set; } = null;
+        public CompanyResp? Company { get; set; } = null;
         public int? BranchCount { get; set; } = null;
         public int? ActiveOffersCount { get; set; } = null;
         public IEnumerable<CharAndCharTypeResp>? CompanyCharacteristics { get; set; } = null;
@@ -33,11 +33,11 @@ namespace Application.Features.Users.Queries.QueriesUser.DTOs
 
             if (user.Person != null)
             {
-                Person = new PersonResponseDto(user.Person);
+                Person = new PersonResp(user.Person);
             }
             if (user.Company != null)
             {
-                Company = new CompanyResponseDto(user.Company);
+                Company = new CompanyResp(user.Company);
                 BranchCount = branchCount;
                 ActiveOffersCount = activeOffersCount;
                 CompanyCharacteristics = characteristics

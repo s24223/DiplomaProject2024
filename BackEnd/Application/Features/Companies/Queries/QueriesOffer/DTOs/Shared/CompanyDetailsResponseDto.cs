@@ -4,7 +4,7 @@ using Domain.Features.Company.Entities;
 
 namespace Application.Features.Companies.Queries.QueriesOffer.DTOs.Shared
 {
-    public class CompanyDetailsResponseDto : CompanyResponseDto
+    public class CompanyDetailsResponseDto : CompanyResp
     {
         //Values
         public IEnumerable<UrlResp> Urls { get; set; } = [];
