@@ -9,7 +9,7 @@ const ApplyButton = ({ branchId }) => {
 
     const handleApply = async () => {
         try {
-            const authToken = localStorage.getItem("jwt");
+            const authToken = sessionStorage.getItem("jwt");
             if (!authToken) {
                 alert("Brak tokenu uwierzytelniającego. Zaloguj się, aby aplikować.");
                 return;

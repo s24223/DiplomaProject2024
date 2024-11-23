@@ -10,6 +10,8 @@ import ProfilePage from './pages/ProfilePage/ProfilePage';
 import ProfileCreatePage from './pages/ProfileCreatePage/ProfileCreatePage';
 import EditProfilePage from './pages/EditProfilePage/EditProfilePage';
 import ChangePasswordPage from './pages/ChangePasswordPage/ChangePasswordPage';
+import CompanyCreatePage from './pages/CompanyCreatePage/CompanyCreatePage';
+import CompanyEditPage from './pages/CompanyEditPage/CompanyEditPage';
 
 const job = new Cron("*/5 * * * *", () => {
         console.log(`Cron run... ${new Date().toLocaleTimeString()}`)
@@ -47,6 +49,9 @@ function App() {
                 
                 <Route path="/userEditProfile" element={<EditProfilePage />} />
                 <Route path="/changePassword" element={<ChangePasswordPage />} />
+
+                <Route path="/userCreateCompany" element={<CompanyCreatePage />} />
+                <Route path="/userEditCompany" element={<CompanyEditPage />} />
             </Routes>
         </Router>
     );

@@ -37,6 +37,7 @@ const OfferDetails = () => {
 
     return (
         <div className="offer-details">
+            <MainPageButton/>
             <LoginButton />
             
             <h1>{offer?.name}</h1>
