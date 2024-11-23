@@ -12,25 +12,39 @@ import EditProfilePage from './pages/EditProfilePage/EditProfilePage';
 import ChangePasswordPage from './pages/ChangePasswordPage/ChangePasswordPage';
 import CompanyCreatePage from './pages/CompanyCreatePage/CompanyCreatePage';
 import CompanyEditPage from './pages/CompanyEditPage/CompanyEditPage';
+import CreateBranchPage from './pages/BranchCreatePage/BranchCreatePage';
 
 const job = new Cron("*/5 * * * *", () => {
         console.log(`Cron run... ${new Date().toLocaleTimeString()}`)
         if(sessionStorage.getItem("jwt")){
-            fetch("https://localhost:7166/api/User/refresh", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${sessionStorage.getItem("jwt")}`,
-                    "Access-Control-Allow-Origin": "*"
-                },
-                body: JSON.stringify({"refreshToken": sessionStorage.getItem("refreshToken")})
-            }).then((response) => {
-                console.log(response.status)
-                sessionStorage.setItem("jwt", response.jwt)
-                sessionStorage.setItem("jwtValidTo", response.jwtValidTo)
-                sessionStorage.setItem("refreshToken", response.refereshToken)
-                sessionStorage.setItem("refreshTokenValidTo", response.refereshTokenValidTo)
-            })
+            const fetchDummy = async () => {
+                let response = await fetch("https://localhost:7166/api/User/refresh", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${sessionStorage.getItem("jwt")}`,
+                        "Access-Control-Allow-Origin": "*"
+                    },
+                    body: JSON.stringify({"refreshToken": sessionStorage.getItem("refreshToken")})
+                })
+                console.log(response)
+                if (response.ok)
+                {
+                    response = await response.json()
+                    sessionStorage.setItem("jwt", response.jwt)
+                    sessionStorage.setItem("jwtValidTo", response.jwtValidTo)
+                    sessionStorage.setItem("refreshToken", response.refereshToken)
+                    sessionStorage.setItem("refreshTokenValidTo", response.refereshTokenValidTo)
+                } 
+                else 
+                {
+                    sessionStorage.removeItem("jwt")
+                    sessionStorage.removeItem("jwtValidTo")
+                    sessionStorage.removeItem("refreshToken")
+                    sessionStorage.removeItem("refreshTokenValidTo")
+                }
+            }
+            fetchDummy()
         }
         console.log(`Cron run ended ${new Date().toLocaleTimeString()}`)
     })
@@ -52,6 +66,8 @@ function App() {
 
                 <Route path="/userCreateCompany" element={<CompanyCreatePage />} />
                 <Route path="/userEditCompany" element={<CompanyEditPage />} />
+
+                <Route path="/createBranch" element={<CreateBranchPage />} />
             </Routes>
         </Router>
     );

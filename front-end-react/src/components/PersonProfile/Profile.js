@@ -41,6 +41,10 @@ const Profile = () => {
         window.location.href = '/userEditCompany';
     };
 
+    const handleAddBranch = () => {
+        window.location.href = "/createBranch"
+    }
+
     if (loading) {
         return <p>Loading...</p>;
     }
@@ -78,6 +82,9 @@ const Profile = () => {
             </button>
             <button onClick={handleCompanyEdit} style={{ position: 'absolute', top: 80, right: 10 }}>
                     Edit Company
+            </button>
+            <button onClick={handleAddBranch} style={{ position: 'absolute', top: 120, right: 100 }}>
+                Add Bracnh
             </button>
             <h1>User Profile</h1>
             <h2>Personal Information</h2>
