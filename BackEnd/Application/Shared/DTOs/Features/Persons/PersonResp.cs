@@ -37,6 +37,7 @@ namespace Application.Shared.DTOs.Features.Persons
             Description = domain.Description;
             IsStudent = domain.IsStudent;
             IsPublicProfile = domain.IsPublicProfile;
+            AddressId = domain.AddressId?.Value;
 
             if (domain.Address != null)
             {
