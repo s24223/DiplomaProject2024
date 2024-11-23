@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ProfileCencelButton from "../CencelButtonProfile/profileCencelButton"; 
-//"../CencelButtonProfile/ProfileCencelButton";
 
 const EditCompany = () => {
     const [companyData, setCompanyData] = useState({
@@ -11,20 +10,33 @@ const EditCompany = () => {
         description: "",
     });
 
+    const [loading, setLoading] = useState(true);
     const [message, setMessage] = useState("");
 
     useEffect(() => {
         const fetchCompanyData = async () => {
             try {
-                const response = await axios.get("https://localhost:7166/api/User/company", {
+                const response = await axios.get("https://localhost:7166/api/User", {
                     headers: {
                         Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
                     },
                 });
-                setCompanyData(response.data.item.company); // Zakładamy, że backend zwraca obiekt `company`
+                const { company } = response.data.item;
+
+                if (company) {
+                    setCompanyData({
+                        urlSegment: company.urlSegment || "",
+                        contactEmail: company.contactEmail || "",
+                        name: company.name || "",
+                        description: company.description || "",
+                    });
+                }
+
+                setLoading(false);
             } catch (error) {
                 console.error("Error fetching company data:", error);
                 setMessage("Failed to load company data. Please try again.");
+                setLoading(false);
             }
         };
 
@@ -76,6 +88,9 @@ const EditCompany = () => {
             }
         }
     };
+    if (loading) {
+        return <p>Loading company data...</p>;
+    }
 
     return (
         <div>
