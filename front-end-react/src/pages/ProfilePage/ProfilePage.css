@@ -1,0 +1,15 @@
+#branchLink{
+    text-decoration: none;
+    color: white;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+nav ul{
+    border: 1px solid rebeccapurple;
+    width: 25%;
+    height: 200px;
+    overflow: hidden;
+    overflow-y: scroll;
+}

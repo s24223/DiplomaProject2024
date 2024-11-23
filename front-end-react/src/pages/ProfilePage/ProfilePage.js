@@ -1,4 +1,5 @@
 import Profile from "../../components/PersonProfile/Profile";
+import './ProfilePage.css'
 
 const ProfilePage = () => {
 
