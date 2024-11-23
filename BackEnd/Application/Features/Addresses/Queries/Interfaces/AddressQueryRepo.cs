@@ -12,7 +12,7 @@ using System.Text;
 
 namespace Application.Features.Addresses.Queries.Interfaces
 {
-    public class AddressQueryRepository : IAddressQueryRepo
+    public class AddressQueryRepo : IAddressQueryRepo
     {
         //Values
         private readonly ISqlClientRepo _sql;
@@ -21,7 +21,7 @@ namespace Application.Features.Addresses.Queries.Interfaces
 
 
         //Cosntructor
-        public AddressQueryRepository
+        public AddressQueryRepo
             (
             IEntityToDomainMapper mapper,
             ISqlClientRepo sql,

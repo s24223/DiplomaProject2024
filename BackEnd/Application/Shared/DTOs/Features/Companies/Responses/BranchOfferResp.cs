@@ -6,11 +6,11 @@ namespace Application.Shared.DTOs.Features.Companies.Responses
     public class BranchOfferResp
     {
         //Values
-        public Guid Id { get; set; }
-        public Guid BranchId { get; set; }
-        public Guid OfferId { get; set; }
-        public DateTime Created { get; set; }
-        public DateTime PublishStart { get; set; }
+        public Guid Id { get; init; }
+        public Guid BranchId { get; init; }
+        public Guid OfferId { get; init; }
+        public DateTime Created { get; init; }
+        public DateTime PublishStart { get; init; }
         public DateTime? PublishEnd { get; set; }
         public DateOnly? WorkStart { get; set; }
         public DateOnly? WorkEnd { get; set; }
