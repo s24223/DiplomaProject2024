@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import LoginButton from "../../components/LoginButton/LoginButton";
 import MainPageButton from "../../components/MainPageButton/MainPageButton";
-
+import BranchList from "../BranchList/BranchList";
 
 const Profile = () => {
     const [userData, setUserData] = useState(null);
@@ -117,8 +117,10 @@ const Profile = () => {
                     <p><strong>Description:</strong> {company?.description}</p>
                     <p><strong>Branches:</strong> {branchCount}</p>
                     <p><strong>Active Offers:</strong> {activeOffersCount}</p>
+                    {branchCount > 0 && <BranchList />}
                 </>
             )}
+
 
             <h2>Characteristics</h2>
             {companyCharacteristics?.length > 0 ? (
@@ -132,6 +134,7 @@ const Profile = () => {
             ) : (
                 <p>No characteristics available.</p>
             )}
+
         </div>
     );
 };
