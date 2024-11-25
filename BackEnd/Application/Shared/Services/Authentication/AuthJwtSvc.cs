@@ -13,7 +13,7 @@ using System.Text;
 
 namespace Application.Shared.Services.Authentication
 {
-    public class AuthenticationSvc : IAuthenticationSvc
+    public class AuthJwtSvc : IAuthJwtSvc
     {
         //Values
         private readonly IProvider _provider;
@@ -22,6 +22,8 @@ namespace Application.Shared.Services.Authentication
         private readonly string _issuer;
         private readonly string _audience;
         private readonly string _secret;
+
+        private readonly DateTime _now;
 
         private readonly int _iterationCountOfHashPassword = 10000;
         private readonly int _timeInMinutesValidJWT = 10;
@@ -32,7 +34,7 @@ namespace Application.Shared.Services.Authentication
 
 
         //Constructor
-        public AuthenticationSvc
+        public AuthJwtSvc
             (
             IProvider provider,
             IConfiguration configuration
@@ -63,6 +65,7 @@ namespace Application.Shared.Services.Authentication
             _issuer = issuer;
             _audience = audience;
             _secret = secret;
+            _now = _provider.TimeProvider().GetDateTimeNow();
         }
 
 
@@ -99,7 +102,7 @@ namespace Application.Shared.Services.Authentication
         public (string RefreshToken, DateTime ValidTo) GenerateRefreshTokendAndDateTimeValidTo()
         {
             var refresh = GenerateRefreshToken();
-            var valid = _provider.TimeProvider().GetDateTimeNow().AddHours(_timeInHourValidRefreshToken);
+            var valid = _now.AddHours(_timeInHourValidRefreshToken);
             return (refresh, valid);
         }
 
@@ -199,7 +202,7 @@ namespace Application.Shared.Services.Authentication
             {
                 throw new UserException
                     (
-                    Messages.User_Jwt_NameIsNotGuid,
+                    $"{Messages.User_Jwt_NameIsNotGuid}: {name}",
                     DomainExceptionTypeEnum.AppProblem
                     );
             }

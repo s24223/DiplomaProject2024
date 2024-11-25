@@ -46,12 +46,12 @@ ALTER TABLE [dbo].[Person] DROP
 CONSTRAINT Person_CHECK_IsPublicProfile;
 ALTER TABLE [dbo].[Person] DROP
 CONSTRAINT Person_CHECK_BirthDate;
-ALTER TABLE [dbo].[Person] DROP
-CONSTRAINT Person_UNIQUE_UrlSegment;
+--ALTER TABLE [dbo].[Person] DROP
+--CONSTRAINT Person_UNIQUE_UrlSegment;
+--ALTER TABLE [dbo].[Person] DROP
+--CONSTRAINT Person_UNIQUE_ContactPhoneNum;
 ALTER TABLE [dbo].[Person] DROP
 CONSTRAINT Person_UNIQUE_ContactEmail;
-ALTER TABLE [dbo].[Person] DROP
-CONSTRAINT Person_UNIQUE_ContactPhoneNum;
 
 --======================================================================================
 --======================================================================================
@@ -59,8 +59,8 @@ CONSTRAINT Person_UNIQUE_ContactPhoneNum;
 --Create
 ALTER TABLE [dbo].[Company] DROP
 CONSTRAINT Company_Default_Created;
-ALTER TABLE [dbo].[Company] DROP
-CONSTRAINT Company_UNIQUE_UrlSegment;
+--ALTER TABLE [dbo].[Company] DROP
+--CONSTRAINT Company_UNIQUE_UrlSegment;
 ALTER TABLE [dbo].[Company] DROP
 CONSTRAINT Company_UNIQUE_ContactEmail;
 ALTER TABLE [dbo].[Company] DROP
@@ -73,8 +73,8 @@ CONSTRAINT Company_UNIQUE_Regon;
 --Create
 ALTER TABLE [dbo].[Branch] DROP
 CONSTRAINT Branch_Default_Id;
-ALTER TABLE [dbo].[Branch] DROP
-CONSTRAINT Branch_UNIQUE_UrlSegment;
+--ALTER TABLE [dbo].[Branch] DROP
+--CONSTRAINT Branch_UNIQUE_UrlSegment;
 
 --======================================================================================
 --[Offer]
@@ -111,8 +111,8 @@ ALTER TABLE [dbo].[BranchOffer] DROP
 CONSTRAINT BranchOffer_CHECK_WorkStart;
 ALTER TABLE [dbo].[BranchOffer] DROP
 CONSTRAINT BranchOffer_CHECK_WorkEnd;
-ALTER TABLE [dbo].[BranchOffer] DROP
-CONSTRAINT BranchOffer_UNIQUE_CONNECTION;
+--ALTER TABLE [dbo].[BranchOffer] DROP
+--CONSTRAINT BranchOffer_UNIQUE_CONNECTION;
 
 --======================================================================================
 --[Recruitment]
@@ -123,6 +123,8 @@ ALTER TABLE [dbo].[Recruitment] DROP
 CONSTRAINT Recruitment_Default_Created;
 ALTER TABLE [dbo].[Recruitment] DROP
 CONSTRAINT Recruitment_CHECK_IsAccepted;
+ALTER TABLE [dbo].[Recruitment] DROP
+CONSTRAINT Recruitment_UNIQUE;
 
 --======================================================================================
 --[Internship]

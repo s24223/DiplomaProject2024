@@ -117,41 +117,147 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Notification_Cmd_CHECK_IsReadedByUser" xml:space="preserve">
-    <value>Problem aplikacyjny, niepoprawna wartość bazodanowa CONSTRAINT Notification_CHECK_IsReadedByUser</value>
-    <comment>Problem aplikacyjny,</comment>
+  <data name="Address_Collocation_NotFound" xml:space="preserve">
+    <value>Za podanymi danymi nie znaleziono połączenia pomiedzy Ulicą a nazwą Miejscowości</value>
   </data>
-  <data name="Notification_Cmd_FK_Notification_NotificationSender" xml:space="preserve">
-    <value>Problem aplikacyjny, nie isntnieje FK Notification_NotificationSender</value>
-    <comment>Problem aplikacyjny,</comment>
+  <data name="Address_Id_NotFound" xml:space="preserve">
+    <value>Za podanym Addressid nie znalezonono adresu</value>
   </data>
-  <data name="Notification_Cmd_FK_Notification_NotificationStatus" xml:space="preserve">
-    <value>Problem aplikacyjny, nie isntnieje FK Notification_NotificationStatus</value>
-    <comment>Problem aplikacyjny,</comment>
+  <data name="BranchOffer_Authorized_NotExistAnyBranchForCreatingOffer" xml:space="preserve">
+    <value>Urzytkownik nie ma założonego conajmniej 1 oddziału aby utworzyc oferte, utwórz conajmniej 1 oddział</value>
   </data>
-  <data name="Notification_Cmd_Id_NotFound" xml:space="preserve">
-    <value>Nie znaleziono powiadomienia za podanym Id</value>
+  <data name="BranchOffer_Ids_NotFound" xml:space="preserve">
+    <value>Za podanymi danymi połączeń Ofert i Oddiałow urzytkownika nie zostało znalieziono</value>
+    <comment>x</comment>
   </data>
-  <data name="Url_Cmd_Ids_NotFound" xml:space="preserve">
-    <value>Za podanymi danymi nie zostało znaleziono rekordów</value>
+  <data name="Branch_Id_NotFound" xml:space="preserve">
+    <value>Za podanym danymi  Oddział  urzytkownika nie zostało znalieziono</value>
+    <comment>x</comment>
   </data>
-  <data name="Url_Cmd_PathConflicts" xml:space="preserve">
-    <value>W podanych danych wystepuja duplikaty</value>
+  <data name="CharacteristicI_CharacteristicId_NotFound" xml:space="preserve">
+    <value>CharacteristicI_CharacteristicId_NotFound</value>
+  </data>
+  <data name="Company_Ids_NotFound" xml:space="preserve">
+    <value>Urzytkownik nie posiada Firmy</value>
+    <comment>x</comment>
+  </data>
+  <data name="DatabaseConstraint_" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DatabaseConstraint_Branch_Address_NotFound" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DatabaseConstraint_CHECK_BranchOffer_PublishEnd" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DatabaseConstraint_CHECK_BranchOffer_WorkEnd" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DatabaseConstraint_CHECK_BranchOffer_WorkStart" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DatabaseConstraint_CHECK_Offer_IsForStudents" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DatabaseConstraint_CHECK_Offer_IsNegotiatedSalary" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DatabaseConstraint_CHECK_Offer_MaxSalary" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DatabaseConstraint_CHECK_Offer_MinSalary" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DatabaseConstraint_Company_pk_Exist" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DatabaseConstraint_UNIQUE_Branch_UrlSegment" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DatabaseConstraint_UNIQUE_Company_ContactEmail" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DatabaseConstraint_UNIQUE_Company_Name" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DatabaseConstraint_UNIQUE_Company_Regon" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DatabaseConstraint_UNIQUE_Company_UrlSegment" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DatabaseConstraint_UNIQUE_Url_Path" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DatabaseConstraint_UNIQUE_User_Login" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DateOnly_DateOnlyRequestDto_InvalidDate" xml:space="preserve">
+    <value>Podano niepoprawną datę</value>
+  </data>
+  <data name="Intership_Ids_NotFound" xml:space="preserve">
+    <value>Za podanymi danymi Nie znaleziono Intership</value>
+  </data>
+  <data name="Notification_Id_NotFound" xml:space="preserve">
+    <value>Nie nzleziono danych za podanym Id</value>
+  </data>
+  <data name="Offer_Ids_NotFound" xml:space="preserve">
+    <value>Za podanymi danymi Ofert urzytkownika nie zostało znalieziono</value>
+    <comment>x</comment>
+  </data>
+  <data name="Person_Ids_NotFound" xml:space="preserve">
+    <value>Profiil Osoby nie istnieje</value>
+  </data>
+  <data name="Recruitment_IdsAccepted_NotFound" xml:space="preserve">
+    <value>Za podanymi danymi zaakceptowane Rekrutacje nie znalezione</value>
+  </data>
+  <data name="Recruitment_Ids_NotFound" xml:space="preserve">
+    <value>Za podanymi danymi Rekrutacji nie znaleziono</value>
+  </data>
+  <data name="ResponseSuccess" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="Url_Ids_NotFound" xml:space="preserve">
+    <value>Za podanymi danymi Url  urzytkownika nie zostało znalieziono</value>
+    <comment>x</comment>
+  </data>
+  <data name="UserProblem_Ids_NotFound" xml:space="preserve">
+    <value>Za podanymi danymi Problemów urzytkownika nie zostało znalieziono</value>
+    <comment>x</comment>
   </data>
   <data name="UserSecrets_Audience_NotConfigured" xml:space="preserve">
-    <value>Nie jest skonfigurowany Audience w UserSecrets</value>
+    <value>W ramach wartstwy UI w  UserSecretach nie ma pola "JwtData" : "Audience" lub Plik UserSecret nie jst skonfigurowany poprawnie</value>
+    <comment>App Problem</comment>
   </data>
   <data name="UserSecrets_Issuer_NotConfigured" xml:space="preserve">
-    <value>Nie jest skonfigurowany Issuer w UserSecrets </value>
+    <value>W ramach wartstwy UI w  UserSecretach nie ma pola "JwtData" : "Issuer" lub Plik UserSecret nie jst skonfigurowany poprawnie</value>
+    <comment>App Problem</comment>
   </data>
   <data name="UserSecrets_Secret_NotConfigured" xml:space="preserve">
-    <value>Nie jest skonfigurowany Secret w UserSecrets</value>
+    <value>W ramach wartstwy UI w  UserSecretach nie ma pola "JwtData" : "Secret" lub Plik UserSecret nie jst skonfigurowany poprawnie</value>
+    <comment>App Problem</comment>
+  </data>
+  <data name="User_Ids_NotFound" xml:space="preserve">
+    <value>Problem aplikacyjny, middlleware powinien zarzadzac odseparowywaniem urzytkownikow które nie istnieją</value>
+    <comment>App Problem</comment>
+  </data>
+  <data name="User_InputPassword_Invalid" xml:space="preserve">
+    <value>Sprawdż dane do logowania, i Zaloguj sie ponoiwnie </value>
   </data>
   <data name="User_Jwt_IsNotGeneratedByThisServer" xml:space="preserve">
-    <value>JWT nie jest wygenerowany przez dny serwer, zaloguj sie ponownie</value>
+    <value />
   </data>
   <data name="User_Jwt_NameIsNotGuid" xml:space="preserve">
-    <value>Problem aplikacyjny, name z JWT powinien byc Guidem</value>
-    <comment>Problem aplikacyjny,</comment>
+    <value>Problem Aplikacyjny, JWT Name jest Id usera po stronie Bazy danych który jest Guidem, zweryfikuj wszystkie przydaki co się stało</value>
+    <comment>App Problem</comment>
+  </data>
+  <data name="User_Login_NotFound" xml:space="preserve">
+    <value>Sprawdż dane do logowania, i Zaloguj sie ponoiwnie</value>
+  </data>
+  <data name="User_RefreshToken_Expired" xml:space="preserve">
+    <value>RefreshToken wygasł, zaloguj sie ponownie</value>
+  </data>
+  <data name="User_RefreshToken_IsNullOrWhiteSpace" xml:space="preserve">
+    <value>RefreshToken jest wartością pustą, wpisz swoj RefreshToken</value>
   </data>
 </root>

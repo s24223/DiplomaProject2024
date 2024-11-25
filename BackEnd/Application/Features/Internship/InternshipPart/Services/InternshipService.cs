@@ -13,7 +13,7 @@ namespace Application.Features.Internship.InternshipPart.Services
     {
         //Values
         private readonly IDomainFactory _domainFactory;
-        private readonly IAuthenticationSvc _authentication;
+        private readonly IAuthJwtSvc _authentication;
         private readonly IInternshipRepository _internshipRepository;
 
 
@@ -21,7 +21,7 @@ namespace Application.Features.Internship.InternshipPart.Services
         public InternshipService
             (
             IDomainFactory domainFactory,
-            IAuthenticationSvc authentication,
+            IAuthJwtSvc authentication,
             IInternshipRepository internshipRepository
             )
         {

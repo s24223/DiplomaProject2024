@@ -53,7 +53,7 @@ namespace Application
         {
             // Rejestracja IConfiguration jako Singleton
             serviceCollection.AddSingleton<IConfiguration>(configuration);
-            serviceCollection.AddTransient<IAuthenticationSvc, AuthenticationSvc>();
+            serviceCollection.AddTransient<IAuthJwtSvc, AuthJwtSvc>();
             serviceCollection.AddTransient<IExceptionsRepository, ExceptionsRepository>();
             serviceCollection.AddTransient<IEntityToDomainMapper, EntityToDomainMapper>();
             serviceCollection.AddTransient<IOrderBySvc, OrderBySvc>();
@@ -73,12 +73,12 @@ namespace Application
             serviceCollection.AddTransient<IUserCommandService, UserCommandService>();
 
             //Url Part 
-            serviceCollection.AddTransient<IUrlCommandRepository, UrlCommandRepository>();
-            serviceCollection.AddTransient<IUrlCommandService, UrlCommandService>();
+            serviceCollection.AddTransient<IUrlCmdRepo, UrlCmdRepo>();
+            serviceCollection.AddTransient<IUrlCmdSvc, UrlCmdSvc>();
 
             //Notification Part 
-            serviceCollection.AddTransient<INotificationCommandService, NotificationCommandService>();
-            serviceCollection.AddTransient<INotificationCommandRepository, NotificationCommandRepository>();
+            serviceCollection.AddTransient<INotificationCmdSvc, NotificationCmdSvc>();
+            serviceCollection.AddTransient<INotificationCmdRepo, NotificationCmdRepo>();
 
             //Queries
             serviceCollection.AddTransient<IUserQuerySvc, UserQuerySvc>();

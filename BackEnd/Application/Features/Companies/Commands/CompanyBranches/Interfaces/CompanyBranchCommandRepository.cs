@@ -228,7 +228,7 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Interfaces
             {
                 throw new CompanyException
                     (
-                    Messages.Company_Ids_NotFound,
+                    Messages2.Company_Ids_NotFound,
                     DomainExceptionTypeEnum.NotFound
                     );
             }
@@ -260,7 +260,7 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Interfaces
             {
                 throw new BranchException
                     (
-                    $"{Messages.Branch_Id_NotFound}\n{string.Join("\n", misingIds)}",
+                    $"{Messages2.Branch_Id_NotFound}\n{string.Join("\n", misingIds)}",
                     DomainExceptionTypeEnum.NotFound
                     );
             }

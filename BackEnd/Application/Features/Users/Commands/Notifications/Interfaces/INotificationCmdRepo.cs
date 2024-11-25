@@ -4,15 +4,15 @@ using Domain.Features.User.ValueObjects.Identificators;
 
 namespace Application.Features.Users.Commands.Notifications.Interfaces
 {
-    public interface INotificationCommandRepository
+    public interface INotificationCmdRepo
     {
-        Task<Guid> CreateAsync
+        Task<DomainNotification> CreateAsync
             (
             DomainNotification domainNotification,
             CancellationToken cancellation
             );
 
-        Task UpdateAsync
+        Task<DomainNotification> UpdateAsync
             (
             UserId userId,
             DomainNotification domainNotification,

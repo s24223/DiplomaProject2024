@@ -89,7 +89,7 @@ namespace Application.Features.Users.Queries.QueriesUser.Interfaces
             {
                 throw new UserException
                     (
-                    Messages.User_Ids_NotFound,
+                    Messages2.User_Ids_NotFound,
                     DomainExceptionTypeEnum.Unauthorized
                     );
             }

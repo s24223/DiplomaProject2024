@@ -159,7 +159,7 @@ namespace Application.Features.Users.Commands.Users.Interfaces
             {
                 throw new UserException
                     (
-                    Messages.User_Ids_NotFound,
+                    Messages2.User_Ids_NotFound,
                     DomainExceptionTypeEnum.AppProblem
                     );
             }
@@ -180,7 +180,7 @@ namespace Application.Features.Users.Commands.Users.Interfaces
             {
                 throw new UserException
                     (
-                    Messages.User_Login_NotFound,
+                    Messages2.User_Login_NotFound,
                     DomainExceptionTypeEnum.Unauthorized
                     );
             }

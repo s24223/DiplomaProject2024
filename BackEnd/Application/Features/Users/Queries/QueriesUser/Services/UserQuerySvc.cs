@@ -14,14 +14,14 @@ namespace Application.Features.Users.Queries.QueriesUser.Services
         //Values
         private readonly IUserQueryRepo _queriesRepository;
         private readonly ICharacteristicQueryRepository _charRepository;
-        private readonly IAuthenticationSvc _authenticationService;
+        private readonly IAuthJwtSvc _authenticationService;
 
         //Controller
         public UserQuerySvc
             (
             IUserQueryRepo queriesRepository,
             ICharacteristicQueryRepository charRepository,
-            IAuthenticationSvc authenticationService
+            IAuthJwtSvc authenticationService
             )
         {
             _queriesRepository = queriesRepository;

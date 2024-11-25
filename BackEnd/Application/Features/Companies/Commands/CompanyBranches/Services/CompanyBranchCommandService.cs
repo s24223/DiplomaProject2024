@@ -19,14 +19,14 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Services
         //Values
         private readonly IDomainFactory _domainFactory;
         private readonly ICompanyBranchCommandRepository _repository;
-        private readonly IAuthenticationSvc _authenticationRepository;
+        private readonly IAuthJwtSvc _authenticationRepository;
 
         //Cosntructor
         public CompanyBranchCommandService
             (
             IDomainFactory domainFactory,
             ICompanyBranchCommandRepository repository,
-            IAuthenticationSvc authentication
+            IAuthJwtSvc authentication
             )
         {
             _repository = repository;

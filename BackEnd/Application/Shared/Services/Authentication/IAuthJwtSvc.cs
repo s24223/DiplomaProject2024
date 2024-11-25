@@ -3,7 +3,7 @@ using System.Security.Claims;
 
 namespace Application.Shared.Services.Authentication
 {
-    public interface IAuthenticationSvc
+    public interface IAuthJwtSvc
     {
         //Password Part
         string GenerateSalt();

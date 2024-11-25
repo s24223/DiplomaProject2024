@@ -19,7 +19,12 @@
 
   <ItemGroup>
     <Compile Update="Messages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
       <DependentUpon>Messages.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Messages2.Designer.cs">
+      <DependentUpon>Messages2.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
@@ -27,7 +32,11 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Messages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Messages2.resx">
+      <LastGenOutput>Messages2.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>

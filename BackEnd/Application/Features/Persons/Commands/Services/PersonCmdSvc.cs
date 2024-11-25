@@ -16,7 +16,7 @@ namespace Application.Features.Persons.Commands.Services
         //Values
         private readonly IPersonCmdRepo _repository;
         private readonly IDomainFactory _domainFactory;
-        private readonly IAuthenticationSvc _authenticationRepository;
+        private readonly IAuthJwtSvc _authenticationRepository;
 
 
         //Cosntructor
@@ -24,7 +24,7 @@ namespace Application.Features.Persons.Commands.Services
             (
             IPersonCmdRepo repository,
             IDomainFactory domainFactory,
-            IAuthenticationSvc authentication
+            IAuthJwtSvc authentication
             )
         {
             _repository = repository;

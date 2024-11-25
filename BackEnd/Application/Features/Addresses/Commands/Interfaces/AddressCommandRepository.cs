@@ -75,7 +75,7 @@ namespace Application.Features.Addresses.Commands.Interfaces
                 {
                     throw new AddressException
                         (
-                        Messages.Address_Collocation_NotFound,
+                        Messages2.Address_Collocation_NotFound,
                         DomainExceptionTypeEnum.NotFound
                         );
                 }
@@ -154,7 +154,7 @@ namespace Application.Features.Addresses.Commands.Interfaces
             {
                 throw new AddressException
                     (
-                    Messages.Address_Id_NotFound,
+                    Messages2.Address_Id_NotFound,
                     DomainExceptionTypeEnum.NotFound
                     );
             }

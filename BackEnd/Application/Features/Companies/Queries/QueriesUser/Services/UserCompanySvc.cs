@@ -11,13 +11,13 @@ namespace Application.Features.Companies.Queries.QueriesUser.Services
     {
         //Values
         private readonly IUserCompanyRepo _userCompanyRepo;
-        private readonly IAuthenticationSvc _authentication;
+        private readonly IAuthJwtSvc _authentication;
 
         //Constructor
         public UserCompanySvc
             (
             IUserCompanyRepo userCompanyRepo,
-            IAuthenticationSvc authentication
+            IAuthJwtSvc authentication
             )
         {
             _userCompanyRepo = userCompanyRepo;

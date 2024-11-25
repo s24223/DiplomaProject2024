@@ -1,5 +1,5 @@
-﻿using Application.Features.Users.Commands.Urls.DTOs.Create;
-using Application.Features.Users.Commands.Urls.DTOs.Delete;
+﻿using Application.Features.Users.Commands.Urls.DTOs;
+using Application.Features.Users.Commands.Urls.DTOs.Response;
 using Application.Features.Users.Commands.Urls.DTOs.Update;
 using Application.Shared.DTOs.Response;
 using System.Security.Claims;
@@ -7,26 +7,26 @@ using System.Security.Claims;
 
 namespace Application.Features.Users.Commands.Urls.Services
 {
-    public interface IUrlCommandService
+    public interface IUrlCmdSvc
     {
-        Task<Response> CreateAsync
+        Task<ResponseItem<DmlUrlsResp>> CreateAsync
             (
             IEnumerable<Claim> claims,
-            IEnumerable<CreateUrlRequestDto> dtos,
+            IEnumerable<CreateUrlReq> dtos,
             CancellationToken cancellation
             );
 
-        Task<Response> UpdateAsync
+        Task<ResponseItem<DmlUrlsResp>> UpdateAsync
            (
            IEnumerable<Claim> claims,
-           IEnumerable<UpdateUrlRequestDto> dtos,
+           IEnumerable<UpdateUrlReq> dtos,
            CancellationToken cancellation
            );
 
         Task<Response> DeleteAsync
             (
             IEnumerable<Claim> claims,
-            IEnumerable<DeleteUrlRequestDto> dtos,
+            IEnumerable<DeleteUrlReq> dtos,
             CancellationToken cancellation
             );
 

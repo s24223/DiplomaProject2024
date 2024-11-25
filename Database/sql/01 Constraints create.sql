@@ -38,9 +38,9 @@ CONSTRAINT Person_Default_IsPublicProfile DEFAULT 'N' FOR [IsPublicProfile],
 CONSTRAINT Person_CHECK_IsStudent CHECK (UPPER([IsStudent]) IN ('Y', 'N')),
 CONSTRAINT Person_CHECK_IsPublicProfile CHECK (UPPER([IsPublicProfile]) IN ('Y', 'N')),
 CONSTRAINT Person_CHECK_BirthDate CHECK ([BirthDate] < CAST(GETDATE() AS DATE) OR [BirthDate] IS NULL),
-CONSTRAINT Person_UNIQUE_UrlSegment UNIQUE ([UrlSegment]),
-CONSTRAINT Person_UNIQUE_ContactEmail UNIQUE ([ContactEmail]),
-CONSTRAINT Person_UNIQUE_ContactPhoneNum UNIQUE ([ContactPhoneNum]);
+--CONSTRAINT Person_UNIQUE_UrlSegment UNIQUE ([UrlSegment]),
+--CONSTRAINT Person_UNIQUE_ContactPhoneNum UNIQUE ([ContactPhoneNum]),
+CONSTRAINT Person_UNIQUE_ContactEmail UNIQUE ([ContactEmail]);
 
 --======================================================================================
 --======================================================================================
@@ -49,7 +49,7 @@ CONSTRAINT Person_UNIQUE_ContactPhoneNum UNIQUE ([ContactPhoneNum]);
 ALTER TABLE [dbo].[Company]
 ADD 
 CONSTRAINT Company_Default_Created DEFAULT CAST(GETDATE() AS DATE) FOR [Created],
-CONSTRAINT Company_UNIQUE_UrlSegment UNIQUE ([UrlSegment]),
+--CONSTRAINT Company_UNIQUE_UrlSegment UNIQUE ([UrlSegment]),
 CONSTRAINT Company_UNIQUE_ContactEmail UNIQUE ([ContactEmail]),
 CONSTRAINT Company_UNIQUE_Name UNIQUE ([Name]),
 CONSTRAINT Company_UNIQUE_Regon UNIQUE ([Regon]);
@@ -59,8 +59,8 @@ CONSTRAINT Company_UNIQUE_Regon UNIQUE ([Regon]);
 --Create
 ALTER TABLE [dbo].[Branch]
 ADD 
-CONSTRAINT Branch_Default_Id DEFAULT NEWID() FOR [Id],
-CONSTRAINT Branch_UNIQUE_UrlSegment UNIQUE ([CompanyId], [UrlSegment]);
+CONSTRAINT Branch_Default_Id DEFAULT NEWID() FOR [Id];
+--CONSTRAINT Branch_UNIQUE_UrlSegment UNIQUE ([CompanyId], [UrlSegment]);
 
 --======================================================================================
 --[Offer]
@@ -100,7 +100,6 @@ CONSTRAINT BranchOffer_CHECK_WorkEnd CHECK ((
 [WorkStart] IS NOT NULL AND
 [WorkEnd] >= [WorkStart] 
 ) OR [WorkEnd] IS NULL);
---Czy jest konieczne ?
 --CONSTRAINT BranchOffer_UNIQUE_CONNECTION UNIQUE ([BranchId], [OfferId], [Created]);
 
 --======================================================================================
@@ -110,7 +109,8 @@ ALTER TABLE [dbo].[Recruitment]
 ADD 
 CONSTRAINT Recruitment_Default_Id DEFAULT NEWID() FOR [Id],
 CONSTRAINT Recruitment_Default_Created DEFAULT GETDATE() FOR [Created],
-CONSTRAINT Recruitment_CHECK_IsAccepted CHECK (UPPER([IsAccepted]) IN ('Y', 'N') OR [IsAccepted] IS NULL);
+CONSTRAINT Recruitment_CHECK_IsAccepted CHECK (UPPER([IsAccepted]) IN ('Y', 'N') OR [IsAccepted] IS NULL),
+CONSTRAINT Recruitment_UNIQUE UNIQUE ([PersonId], [BranchOfferId]);
 
 --======================================================================================
 --[Internship]

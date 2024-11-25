@@ -21,7 +21,7 @@ namespace Application.Features.Users.Commands.Users.Services
         private readonly IProvider _provider;
         private readonly IUserCommandRepository _repository;
         private readonly IDomainFactory _domainFactory;
-        private readonly IAuthenticationSvc _authenticationRepository;
+        private readonly IAuthJwtSvc _authenticationRepository;
 
 
         //Constructor
@@ -30,7 +30,7 @@ namespace Application.Features.Users.Commands.Users.Services
             IProvider provider,
             IUserCommandRepository repository,
             IDomainFactory domainFactory,
-            IAuthenticationSvc authentication
+            IAuthJwtSvc authentication
             )
         {
             _provider = provider;
@@ -137,7 +137,7 @@ namespace Application.Features.Users.Commands.Users.Services
                 //Incorrect Password
                 throw new UserException
                     (
-                    Messages.User_InputPassword_Invalid,
+                    Messages2.User_InputPassword_Invalid,
                     DomainExceptionTypeEnum.Unauthorized
                     );
             }
@@ -205,7 +205,7 @@ namespace Application.Features.Users.Commands.Users.Services
             {
                 throw new UserException
                     (
-                    Messages.User_RefreshToken_IsNullOrWhiteSpace,
+                    Messages2.User_RefreshToken_IsNullOrWhiteSpace,
                     DomainExceptionTypeEnum.Unauthorized
                     );
             }
@@ -221,7 +221,7 @@ namespace Application.Features.Users.Commands.Users.Services
                 )
             {
                 throw new UserException(
-                    Messages.User_RefreshToken_IsNullOrWhiteSpace,
+                    Messages2.User_RefreshToken_IsNullOrWhiteSpace,
                     DomainExceptionTypeEnum.Unauthorized
                     );
             }

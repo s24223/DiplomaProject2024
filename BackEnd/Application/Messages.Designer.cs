@@ -61,322 +61,61 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi nie znaleziono połączenia pomiedzy Ulicą a nazwą Miejscowości.
+        ///   Looks up a localized string similar to Problem aplikacyjny, niepoprawna wartość bazodanowa CONSTRAINT Notification_CHECK_IsReadedByUser.
         /// </summary>
-        internal static string Address_Collocation_NotFound {
+        internal static string Notification_Cmd_CHECK_IsReadedByUser {
             get {
-                return ResourceManager.GetString("Address_Collocation_NotFound", resourceCulture);
+                return ResourceManager.GetString("Notification_Cmd_CHECK_IsReadedByUser", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanym Addressid nie znalezonono adresu.
+        ///   Looks up a localized string similar to Problem aplikacyjny, nie isntnieje FK Notification_NotificationSender.
         /// </summary>
-        internal static string Address_Id_NotFound {
+        internal static string Notification_Cmd_FK_Notification_NotificationSender {
             get {
-                return ResourceManager.GetString("Address_Id_NotFound", resourceCulture);
+                return ResourceManager.GetString("Notification_Cmd_FK_Notification_NotificationSender", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanym danymi  Oddział  urzytkownika nie zostało znalieziono.
+        ///   Looks up a localized string similar to Problem aplikacyjny, nie isntnieje FK Notification_NotificationStatus.
         /// </summary>
-        internal static string Branch_Id_NotFound {
+        internal static string Notification_Cmd_FK_Notification_NotificationStatus {
             get {
-                return ResourceManager.GetString("Branch_Id_NotFound", resourceCulture);
+                return ResourceManager.GetString("Notification_Cmd_FK_Notification_NotificationStatus", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Urzytkownik nie ma założonego conajmniej 1 oddziału aby utworzyc oferte, utwórz conajmniej 1 oddział.
+        ///   Looks up a localized string similar to Nie znaleziono powiadomienia za podanym Id.
         /// </summary>
-        internal static string BranchOffer_Authorized_NotExistAnyBranchForCreatingOffer {
+        internal static string Notification_Cmd_Id_NotFound {
             get {
-                return ResourceManager.GetString("BranchOffer_Authorized_NotExistAnyBranchForCreatingOffer", resourceCulture);
+                return ResourceManager.GetString("Notification_Cmd_Id_NotFound", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi połączeń Ofert i Oddiałow urzytkownika nie zostało znalieziono.
+        ///   Looks up a localized string similar to Za podanymi danymi nie zostało znaleziono rekordów.
         /// </summary>
-        internal static string BranchOffer_Ids_NotFound {
+        internal static string Url_Cmd_Ids_NotFound {
             get {
-                return ResourceManager.GetString("BranchOffer_Ids_NotFound", resourceCulture);
+                return ResourceManager.GetString("Url_Cmd_Ids_NotFound", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CharacteristicI_CharacteristicId_NotFound.
+        ///   Looks up a localized string similar to W podanych danych wystepuja duplikaty.
         /// </summary>
-        internal static string CharacteristicI_CharacteristicId_NotFound {
+        internal static string Url_Cmd_PathConflicts {
             get {
-                return ResourceManager.GetString("CharacteristicI_CharacteristicId_NotFound", resourceCulture);
+                return ResourceManager.GetString("Url_Cmd_PathConflicts", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Urzytkownik nie posiada Firmy.
-        /// </summary>
-        internal static string Company_Ids_NotFound {
-            get {
-                return ResourceManager.GetString("Company_Ids_NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string DatabaseConstraint_ {
-            get {
-                return ResourceManager.GetString("DatabaseConstraint_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string DatabaseConstraint_Branch_Address_NotFound {
-            get {
-                return ResourceManager.GetString("DatabaseConstraint_Branch_Address_NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string DatabaseConstraint_CHECK_BranchOffer_PublishEnd {
-            get {
-                return ResourceManager.GetString("DatabaseConstraint_CHECK_BranchOffer_PublishEnd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string DatabaseConstraint_CHECK_BranchOffer_WorkEnd {
-            get {
-                return ResourceManager.GetString("DatabaseConstraint_CHECK_BranchOffer_WorkEnd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string DatabaseConstraint_CHECK_BranchOffer_WorkStart {
-            get {
-                return ResourceManager.GetString("DatabaseConstraint_CHECK_BranchOffer_WorkStart", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string DatabaseConstraint_CHECK_Offer_IsForStudents {
-            get {
-                return ResourceManager.GetString("DatabaseConstraint_CHECK_Offer_IsForStudents", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string DatabaseConstraint_CHECK_Offer_IsNegotiatedSalary {
-            get {
-                return ResourceManager.GetString("DatabaseConstraint_CHECK_Offer_IsNegotiatedSalary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string DatabaseConstraint_CHECK_Offer_MaxSalary {
-            get {
-                return ResourceManager.GetString("DatabaseConstraint_CHECK_Offer_MaxSalary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string DatabaseConstraint_CHECK_Offer_MinSalary {
-            get {
-                return ResourceManager.GetString("DatabaseConstraint_CHECK_Offer_MinSalary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string DatabaseConstraint_Company_pk_Exist {
-            get {
-                return ResourceManager.GetString("DatabaseConstraint_Company_pk_Exist", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string DatabaseConstraint_UNIQUE_Branch_UrlSegment {
-            get {
-                return ResourceManager.GetString("DatabaseConstraint_UNIQUE_Branch_UrlSegment", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string DatabaseConstraint_UNIQUE_Company_ContactEmail {
-            get {
-                return ResourceManager.GetString("DatabaseConstraint_UNIQUE_Company_ContactEmail", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string DatabaseConstraint_UNIQUE_Company_Name {
-            get {
-                return ResourceManager.GetString("DatabaseConstraint_UNIQUE_Company_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string DatabaseConstraint_UNIQUE_Company_Regon {
-            get {
-                return ResourceManager.GetString("DatabaseConstraint_UNIQUE_Company_Regon", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string DatabaseConstraint_UNIQUE_Company_UrlSegment {
-            get {
-                return ResourceManager.GetString("DatabaseConstraint_UNIQUE_Company_UrlSegment", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string DatabaseConstraint_UNIQUE_Url_Path {
-            get {
-                return ResourceManager.GetString("DatabaseConstraint_UNIQUE_Url_Path", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string DatabaseConstraint_UNIQUE_User_Login {
-            get {
-                return ResourceManager.GetString("DatabaseConstraint_UNIQUE_User_Login", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Podano niepoprawną datę.
-        /// </summary>
-        internal static string DateOnly_DateOnlyRequestDto_InvalidDate {
-            get {
-                return ResourceManager.GetString("DateOnly_DateOnlyRequestDto_InvalidDate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi Nie znaleziono Intership.
-        /// </summary>
-        internal static string Intership_Ids_NotFound {
-            get {
-                return ResourceManager.GetString("Intership_Ids_NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Nie nzleziono danych za podanym Id.
-        /// </summary>
-        internal static string Notification_Id_NotFound {
-            get {
-                return ResourceManager.GetString("Notification_Id_NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi Ofert urzytkownika nie zostało znalieziono.
-        /// </summary>
-        internal static string Offer_Ids_NotFound {
-            get {
-                return ResourceManager.GetString("Offer_Ids_NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Profiil Osoby nie istnieje.
-        /// </summary>
-        internal static string Person_Ids_NotFound {
-            get {
-                return ResourceManager.GetString("Person_Ids_NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi Rekrutacji nie znaleziono.
-        /// </summary>
-        internal static string Recruitment_Ids_NotFound {
-            get {
-                return ResourceManager.GetString("Recruitment_Ids_NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi zaakceptowane Rekrutacje nie znalezione.
-        /// </summary>
-        internal static string Recruitment_IdsAccepted_NotFound {
-            get {
-                return ResourceManager.GetString("Recruitment_IdsAccepted_NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Success.
-        /// </summary>
-        internal static string ResponseSuccess {
-            get {
-                return ResourceManager.GetString("ResponseSuccess", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi Url  urzytkownika nie zostało znalieziono.
-        /// </summary>
-        internal static string Url_Ids_NotFound {
-            get {
-                return ResourceManager.GetString("Url_Ids_NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Problem aplikacyjny, middlleware powinien zarzadzac odseparowywaniem urzytkownikow które nie istnieją.
-        /// </summary>
-        internal static string User_Ids_NotFound {
-            get {
-                return ResourceManager.GetString("User_Ids_NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sprawdż dane do logowania, i Zaloguj sie ponoiwnie .
-        /// </summary>
-        internal static string User_InputPassword_Invalid {
-            get {
-                return ResourceManager.GetString("User_InputPassword_Invalid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to JWT nie jest wygenerowany przez dny serwer, zaloguj sie ponownie.
         /// </summary>
         internal static string User_Jwt_IsNotGeneratedByThisServer {
             get {
@@ -385,7 +124,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Problem Aplikacyjny, JWT Name jest Id usera po stronie Bazy danych który jest Guidem, zweryfikuj wszystkie przydaki co się stało.
+        ///   Looks up a localized string similar to Problem aplikacyjny, name z JWT powinien byc Guidem.
         /// </summary>
         internal static string User_Jwt_NameIsNotGuid {
             get {
@@ -394,43 +133,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sprawdż dane do logowania, i Zaloguj sie ponoiwnie.
-        /// </summary>
-        internal static string User_Login_NotFound {
-            get {
-                return ResourceManager.GetString("User_Login_NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to RefreshToken wygasł, zaloguj sie ponownie.
-        /// </summary>
-        internal static string User_RefreshToken_Expired {
-            get {
-                return ResourceManager.GetString("User_RefreshToken_Expired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to RefreshToken jest wartością pustą, wpisz swoj RefreshToken.
-        /// </summary>
-        internal static string User_RefreshToken_IsNullOrWhiteSpace {
-            get {
-                return ResourceManager.GetString("User_RefreshToken_IsNullOrWhiteSpace", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi Problemów urzytkownika nie zostało znalieziono.
-        /// </summary>
-        internal static string UserProblem_Ids_NotFound {
-            get {
-                return ResourceManager.GetString("UserProblem_Ids_NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to W ramach wartstwy UI w  UserSecretach nie ma pola &quot;JwtData&quot; : &quot;Audience&quot; lub Plik UserSecret nie jst skonfigurowany poprawnie.
+        ///   Looks up a localized string similar to Nie jest skonfigurowany Audience w UserSecrets.
         /// </summary>
         internal static string UserSecrets_Audience_NotConfigured {
             get {
@@ -439,7 +142,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to W ramach wartstwy UI w  UserSecretach nie ma pola &quot;JwtData&quot; : &quot;Issuer&quot; lub Plik UserSecret nie jst skonfigurowany poprawnie.
+        ///   Looks up a localized string similar to Nie jest skonfigurowany Issuer w UserSecrets .
         /// </summary>
         internal static string UserSecrets_Issuer_NotConfigured {
             get {
@@ -448,7 +151,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to W ramach wartstwy UI w  UserSecretach nie ma pola &quot;JwtData&quot; : &quot;Secret&quot; lub Plik UserSecret nie jst skonfigurowany poprawnie.
+        ///   Looks up a localized string similar to Nie jest skonfigurowany Secret w UserSecrets.
         /// </summary>
         internal static string UserSecrets_Secret_NotConfigured {
             get {

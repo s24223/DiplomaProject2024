@@ -46,7 +46,7 @@ namespace Application.Features.Persons.Commands.Interfaces
         {
             try
             {
-                var databasePerson = new Databases.Relational.Models.Person
+                var databasePerson = new Person
                 {
                     UserId = person.Id.Value,
                     UrlSegment = person.UrlSegment?.Value,
@@ -142,11 +142,55 @@ namespace Application.Features.Persons.Commands.Interfaces
             {
                 throw new PersonException
                     (
-                    Messages.Person_Ids_NotFound,
+                    Messages2.Person_Ids_NotFound,
                     DomainExceptionTypeEnum.NotFound
                     );
             }
             return databasePerson;
+        }
+
+        private async Task
+            IsUniqueValuesCreateAsync(DomainPerson domain, CancellationToken cancellation)
+        {
+            //[ContactEmail] requered
+            //[ContactPhoneNum] optional
+            //[UrlSegment] optional
+            //var query = _context.People.AsQueryable();
+            var list = await _context.People.Where(x =>
+                (x.ContactEmail != null && x.ContactEmail == domain.ContactEmail) ||
+                (x.ContactPhoneNum != null && domain.ContactPhoneNum != null && x.ContactPhoneNum == domain.ContactPhoneNum.Value) ||
+                (x.UrlSegment != null && domain.UrlSegment != null && x.UrlSegment == domain.UrlSegment.Value)
+                )
+                .ToListAsync(cancellation);
+
+        }
+
+        private async Task
+            IsUniqueValuesUpdateAsync(DomainPerson domain, CancellationToken cancellation)
+        {
+            var list = await _context.People.Where(x =>
+                (x.ContactEmail != null && x.ContactEmail == domain.ContactEmail) ||
+                (x.ContactPhoneNum != null && domain.ContactPhoneNum != null && x.ContactPhoneNum == domain.ContactPhoneNum.Value) ||
+                (x.UrlSegment != null && domain.UrlSegment != null && x.UrlSegment == domain.UrlSegment.Value)
+                )
+                .ToListAsync(cancellation);
+
+
+
+
+        }
+
+        private System.Exception HandleException(System.Exception ex, DomainPerson domain)
+        {
+            /*
+            Person_CHECK_IsStudent
+            Person_CHECK_IsPublicProfile
+            Person_CHECK_BirthDate
+            Person_UNIQUE_ContactEmail
+             */
+
+
+            return ex;
         }
     }
 }

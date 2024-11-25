@@ -1,34 +1,34 @@
 ﻿using Application.Features.Users.Commands.Notifications.DTOs.Create;
-using Application.Features.Users.Commands.Notifications.DTOs.Create.Authorize;
-using Application.Features.Users.Commands.Notifications.DTOs.Create.Unauthorize;
 using Application.Features.Users.Commands.Notifications.Interfaces;
+using Application.Shared.DTOs.Features.Users.Notifications;
 using Application.Shared.DTOs.Response;
 using Application.Shared.Services.Authentication;
 using Domain.Features.Notification.ValueObjects.Identificators;
+using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Factories;
 using System.Security.Claims;
 
 namespace Application.Features.Users.Commands.Notifications.Services
 {
-    public class NotificationCommandService : INotificationCommandService
+    public class NotificationCmdSvc : INotificationCmdSvc
     {
         //Values
         private readonly IDomainFactory _domainFactory;
-        private readonly IAuthenticationSvc _authentication;
-        private readonly INotificationCommandRepository _notificationRepository;
+        private readonly IAuthJwtSvc _authentication;
+        private readonly INotificationCmdRepo _notificationRepo;
 
 
         //Cosntructor
-        public NotificationCommandService
+        public NotificationCmdSvc
             (
             IDomainFactory domainFactory,
-            IAuthenticationSvc authentication,
-            INotificationCommandRepository notificationRepository
+            IAuthJwtSvc authentication,
+            INotificationCmdRepo notificationRepository
             )
         {
             _domainFactory = domainFactory;
             _authentication = authentication;
-            _notificationRepository = notificationRepository;
+            _notificationRepo = notificationRepository;
         }
 
 
@@ -37,9 +37,9 @@ namespace Application.Features.Users.Commands.Notifications.Services
         //===================================================================================================
         //Public Methods
         //Unautorize
-        public async Task<ResponseItem<CreateNotificationRequestDto>> CreateUnauthorizeAsync
+        public async Task<ResponseItem<NotificationResp>> CreateUnauthorizeAsync
             (
-            CreateUnauthorizeNotificationRequestDto dto,
+            CreateUnAuthNotificationReq dto,
             CancellationToken cancellation
             )
         {
@@ -53,27 +53,25 @@ namespace Application.Features.Users.Commands.Notifications.Services
                 1,
                 1
                 );
-            var id = await _notificationRepository.CreateAsync(domainNotification, cancellation);
 
-            return new ResponseItem<CreateNotificationRequestDto>
+            domainNotification = await _notificationRepo.CreateAsync(domainNotification, cancellation);
+
+            return new ResponseItem<NotificationResp>
             {
-                Item = new CreateNotificationRequestDto
-                {
-                    NotificationId = id,
-                }
+                Item = new NotificationResp(domainNotification),
             };
         }
 
 
         //Autorize
-        public async Task<ResponseItem<CreateNotificationRequestDto>> CreateAuthorizeAsync
+        public async Task<ResponseItem<NotificationResp>> CreateAuthorizeAsync
             (
             IEnumerable<Claim> claims,
-            CreateAuthorizeNotificationRequestDto dto,
+            CreateAuthNotificationReq dto,
             CancellationToken cancellation
             )
         {
-            var userId = _authentication.GetIdNameFromClaims(claims);
+            var userId = GetUserId(claims);
             var domainNotification = _domainFactory.CreateDomainNotification
                 (
                 userId.Value,
@@ -84,72 +82,61 @@ namespace Application.Features.Users.Commands.Notifications.Services
                 1,
                 1
                 );
-            var id = await _notificationRepository.CreateAsync(domainNotification, cancellation);
+            domainNotification = await _notificationRepo.CreateAsync(domainNotification, cancellation);
 
-            return new ResponseItem<CreateNotificationRequestDto>
+            return new ResponseItem<NotificationResp>
             {
-                Item = new CreateNotificationRequestDto
-                {
-                    NotificationId = id,
-                }
+                Item = new NotificationResp(domainNotification),
             };
         }
 
-        public async Task<Response> AnnulAsync
+        public async Task<ResponseItem<NotificationResp>> AnnulAsync
             (
             IEnumerable<Claim> claims,
             Guid notificationId,
             CancellationToken cancellation
             )
         {
-            var userId = _authentication.GetIdNameFromClaims(claims);
-            var domainNotification = await _notificationRepository.GetNotificationAsync
-                (
-                userId,
-                new NotificationId(notificationId),
-                cancellation
-                );
+            var userId = GetUserId(claims);
+
+            var domainNotification = await _notificationRepo
+                .GetNotificationAsync(userId, new NotificationId(notificationId), cancellation);
             domainNotification.Annul();
 
-            await _notificationRepository.UpdateAsync
-                (
-                userId,
-                domainNotification,
-                cancellation
-                );
-            return new Response { };
+            domainNotification = await _notificationRepo.UpdateAsync(userId, domainNotification, cancellation);
+            return new ResponseItem<NotificationResp>
+            {
+                Item = new NotificationResp(domainNotification),
+            };
         }
 
-        public async Task<Response> ReadAsync
+        public async Task<ResponseItem<NotificationResp>> ReadAsync
             (
             IEnumerable<Claim> claims,
             Guid notificationId,
             CancellationToken cancellation
             )
         {
-            var userId = _authentication.GetIdNameFromClaims(claims);
-            var domainNotification = await _notificationRepository.GetNotificationAsync
-                (
-                userId,
-                new NotificationId(notificationId),
-                cancellation
-                );
+            var userId = GetUserId(claims);
+
+            var domainNotification = await _notificationRepo
+                .GetNotificationAsync(userId, new NotificationId(notificationId), cancellation);
             domainNotification.SetReadedByUser();
 
-            await _notificationRepository.UpdateAsync
-                (
-                userId,
-                domainNotification,
-                cancellation
-                );
-            return new Response { };
+            domainNotification = await _notificationRepo.UpdateAsync(userId, domainNotification, cancellation);
+            return new ResponseItem<NotificationResp>
+            {
+                Item = new NotificationResp(domainNotification),
+            };
         }
-
-
 
         //===================================================================================================
         //===================================================================================================
         //===================================================================================================
         //Private Methods
+        private UserId GetUserId(IEnumerable<Claim> claims)
+        {
+            return _authentication.GetIdNameFromClaims(claims);
+        }
     }
 }

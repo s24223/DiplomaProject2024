@@ -65,7 +65,7 @@ namespace Application.Features.Companies.Commands.BranchOffers.Interfaces
                 {
                     throw new BranchException
                         (
-                        Messages.BranchOffer_Authorized_NotExistAnyBranchForCreatingOffer,
+                        Messages2.BranchOffer_Authorized_NotExistAnyBranchForCreatingOffer,
                         DomainExceptionTypeEnum.NotFound
                         );
                 }
@@ -330,7 +330,7 @@ namespace Application.Features.Companies.Commands.BranchOffers.Interfaces
             {
                 throw new OfferException
                     (
-                    $"{Messages.Offer_Ids_NotFound}\n{string.Join("\n", missingIds)}",
+                    $"{Messages2.Offer_Ids_NotFound}\n{string.Join("\n", missingIds)}",
                     DomainExceptionTypeEnum.NotFound
                     );
             }
@@ -366,7 +366,7 @@ namespace Application.Features.Companies.Commands.BranchOffers.Interfaces
             {
                 throw new BranchException
                     (
-                    $"{Messages.Branch_Id_NotFound}\n{string.Join("\n", missingIds)}",
+                    $"{Messages2.Branch_Id_NotFound}\n{string.Join("\n", missingIds)}",
                     DomainExceptionTypeEnum.NotFound
                     );
             }
@@ -406,7 +406,7 @@ namespace Application.Features.Companies.Commands.BranchOffers.Interfaces
             {
                 throw new BranchOfferException
                     (
-                    $"{Messages.BranchOffer_Ids_NotFound}\n{string.Join("\n", missingIds)}",
+                    $"{Messages2.BranchOffer_Ids_NotFound}\n{string.Join("\n", missingIds)}",
                     DomainExceptionTypeEnum.NotFound
                     );
             }

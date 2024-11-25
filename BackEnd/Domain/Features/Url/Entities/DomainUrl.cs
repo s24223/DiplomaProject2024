@@ -22,18 +22,6 @@ namespace Domain.Features.Url.Entities
 
         //References
         private DomainUser _user = null!;
-        public DomainUser User
-        {
-            get { return _user; }
-            set
-            {
-                if (_user == null && value != null && value.Id == Id.UserId)
-                {
-                    _user = value;
-                    _user.AddUrls([this]);
-                }
-            }
-        }
         public DomainUrlType Type { get; private set; }
 
 
@@ -69,6 +57,22 @@ namespace Domain.Features.Url.Entities
         //==================================================================================================
         //==================================================================================================
         //Public Methods
+
+        //Default Setters
+        public DomainUser User
+        {
+            get { return _user; }
+            set
+            {
+                if (_user == null && value != null && value.Id == Id.UserId)
+                {
+                    _user = value;
+                    _user.AddUrls([this]);
+                }
+            }
+        }
+
+        //Custom Methods
         public void Update
             (
             string path,
@@ -82,6 +86,68 @@ namespace Domain.Features.Url.Entities
         }
 
 
+        //Static Methods
+        public static (
+            IEnumerable<DomainUrl> Correct,
+            Dictionary<DomainUrl, List<DomainUrl>> Duplicates
+                )
+            SeparateDuplicates(IEnumerable<DomainUrl> inputs)
+        {
+            var correct = new Dictionary<string, DomainUrl>();
+            var duplicates = new Dictionary<DomainUrl, List<DomainUrl>>();
+
+            foreach (var item in inputs)
+            {
+                var path = item.Path;
+                if (!correct.TryGetValue(item.Path, out var existItem))
+                {
+                    correct[path] = item;
+                }
+                else
+                {
+                    if (!duplicates.TryGetValue(existItem, out var duplicate))
+                    {
+                        duplicates[existItem] = duplicate = new List<DomainUrl>() { item };
+                    }
+                    else
+                    {
+                        duplicate.Add(item);
+                    }
+                }
+            }
+
+            foreach (var item in duplicates.Keys)
+            {
+                correct.Remove(item.Path);
+            }
+
+            return (correct.Values, duplicates);
+        }
+
+
+        public static (
+            IEnumerable<DomainUrl> Correct,
+            Dictionary<DomainUrl, DomainUrl> Duplicates
+            )
+            FindConflictsWithDatabase(IEnumerable<DomainUrl> databases, IEnumerable<DomainUrl> inputs)
+        {
+            var databasesDictionary = databases.ToDictionary(x => x.Path);
+
+            var correct = new List<DomainUrl>();
+            var duplicates = new Dictionary<DomainUrl, DomainUrl>();
+            foreach (var item in inputs)
+            {
+                if (!databasesDictionary.TryGetValue(item.Path, out var database))
+                {
+                    correct.Add(item);
+                }
+                else
+                {
+                    duplicates[database] = item;
+                }
+            }
+            return (correct, duplicates);
+        }
         //==================================================================================================
         //==================================================================================================
         //==================================================================================================

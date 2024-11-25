@@ -11,11 +11,9 @@ using Application.Features.Companies.Commands.CompanyBranches.Services;
 using Application.Features.Companies.Queries.QueriesUser.Services;
 using Application.Features.Persons.Commands.DTOs;
 using Application.Features.Persons.Commands.Services;
-using Application.Features.Users.Commands.Notifications.DTOs.Create.Authorize;
-using Application.Features.Users.Commands.Notifications.DTOs.Create.Unauthorize;
+using Application.Features.Users.Commands.Notifications.DTOs.Create;
 using Application.Features.Users.Commands.Notifications.Services;
-using Application.Features.Users.Commands.Urls.DTOs.Create;
-using Application.Features.Users.Commands.Urls.DTOs.Delete;
+using Application.Features.Users.Commands.Urls.DTOs;
 using Application.Features.Users.Commands.Urls.DTOs.Update;
 using Application.Features.Users.Commands.Urls.Services;
 using Application.Features.Users.Commands.Users.DTOs.Create;
@@ -37,9 +35,9 @@ namespace BackEnd.Controllers
     {
         //Values
         //User Servises
-        private readonly IUrlCommandService _urlService;
+        private readonly IUrlCmdSvc _urlService;
         private readonly IUserCommandService _userService;
-        private readonly INotificationCommandService _notificationService;
+        private readonly INotificationCmdSvc _notificationService;
         private readonly IUserQuerySvc _userQueryService;
         //Person Servises
         private readonly IPersonCmdSvc _personService;
@@ -53,9 +51,9 @@ namespace BackEnd.Controllers
         public UserController
             (
             //User Servises
-            IUrlCommandService urlService,
+            IUrlCmdSvc urlService,
             IUserCommandService userService,
-            INotificationCommandService notificationService,
+            INotificationCmdSvc notificationService,
             IUserQuerySvc userQueryService,
             //Person Servises
             IPersonCmdSvc personService,
@@ -185,7 +183,7 @@ namespace BackEnd.Controllers
         [HttpPost("notifications/unauthorized")]
         public async Task<IActionResult> CreateForUnauthorizedAsync
             (
-            CreateUnauthorizeNotificationRequestDto dto,
+            CreateUnAuthNotificationReq dto,
             CancellationToken cancellation
             )
         {
@@ -198,7 +196,7 @@ namespace BackEnd.Controllers
         [HttpPost("notifications/authorized")]
         public async Task<IActionResult> CreateForAuthorizedAsync
             (
-            CreateAuthorizeNotificationRequestDto dto,
+            CreateAuthNotificationReq dto,
             CancellationToken cancellation
             )
         {
@@ -282,7 +280,7 @@ namespace BackEnd.Controllers
         [HttpPost("urls")]
         public async Task<IActionResult> CreateAsync
             (
-            IEnumerable<CreateUrlRequestDto> dtos,
+            IEnumerable<CreateUrlReq> dtos,
             CancellationToken cancellation
             )
         {
@@ -295,7 +293,7 @@ namespace BackEnd.Controllers
         [HttpPut("urls")]
         public async Task<IActionResult> UpdateAsync
             (
-            IEnumerable<UpdateUrlRequestDto> dtos,
+            IEnumerable<UpdateUrlReq> dtos,
             CancellationToken cancellation
             )
         {
@@ -308,7 +306,7 @@ namespace BackEnd.Controllers
         [HttpDelete("urls")]
         public async Task<IActionResult> DeleteAsync
             (
-            IEnumerable<DeleteUrlRequestDto> dtos,
+            IEnumerable<DeleteUrlReq> dtos,
             CancellationToken cancellation
             )
         {

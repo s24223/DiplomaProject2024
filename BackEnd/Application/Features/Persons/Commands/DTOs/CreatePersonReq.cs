@@ -5,16 +5,16 @@ namespace Application.Features.Persons.Commands.DTOs
 {
     public class CreatePersonReq
     {
-        public string? UrlSegment { get; set; }
-        public required string ContactEmail { get; set; } = null!;
-        public required string Name { get; set; } = null!;
-        public required string Surname { get; set; } = null!;
-        public DateOnlyRequestDto? BirthDate { get; set; }
-        public string? ContactPhoneNum { get; set; }
-        public string? Description { get; set; }
-        public required bool IsStudent { get; set; }
-        public required bool IsPublicProfile { get; set; }
-        public Guid? AddressId { get; set; }
-        public IEnumerable<CharacteristicCollocationRequestDto> Characteristics { get; set; } = [];
+        public string? UrlSegment { get; init; }
+        public required string ContactEmail { get; init; } = null!;
+        public required string Name { get; init; } = null!;
+        public required string Surname { get; init; } = null!;
+        public DateOnlyRequestDto? BirthDate { get; init; }
+        public string? ContactPhoneNum { get; init; }
+        public string? Description { get; init; }
+        public required bool IsStudent { get; init; }
+        public required bool IsPublicProfile { get; init; }
+        public Guid? AddressId { get; init; }
+        public IEnumerable<CharacteristicCollocationRequestDto> Characteristics { get; init; } = [];
     }
 }

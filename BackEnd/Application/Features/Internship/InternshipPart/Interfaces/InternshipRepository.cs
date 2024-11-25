@@ -137,7 +137,7 @@ namespace Application.Features.Internship.InternshipPart.Interfaces
                 ).FirstOrDefaultAsync(cancellation);
             if (pathToRecrutment == null)
             {
-                throw new RecruitmentException(Messages.Recruitment_IdsAccepted_NotFound);
+                throw new RecruitmentException(Messages2.Recruitment_IdsAccepted_NotFound);
             }
 
             return pathToRecrutment.BranchOffers.First().Recruitments.First();
@@ -165,7 +165,7 @@ namespace Application.Features.Internship.InternshipPart.Interfaces
                 ).FirstOrDefaultAsync(cancellation);
             if (pathToRecrutment == null)
             {
-                throw new IntershipException(Messages.Intership_Ids_NotFound);
+                throw new IntershipException(Messages2.Intership_Ids_NotFound);
             }
 
             return pathToRecrutment.BranchOffers.First().Recruitments.First().Internship;

@@ -18,7 +18,7 @@ namespace BackEnd.Middlewares.CustomMiddlewares
             (
             HttpContext context,
             DiplomaProjectContext dBContext,
-            IAuthenticationSvc authenticationRepository,
+            IAuthJwtSvc authenticationRepository,
             IProvider domainRepository,
             IConfiguration configuration
             )

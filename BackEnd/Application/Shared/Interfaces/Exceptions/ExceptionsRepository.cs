@@ -33,7 +33,7 @@ namespace Application.Shared.Interfaces.Exceptions
                     //Context: Każdy urzytkownik w rmach systemu powinien miec unikalny login
                     {"UNIQUE_User_Login", () => new EmailException
                         (
-                            Messages.DatabaseConstraint_UNIQUE_User_Login
+                            Messages2.DatabaseConstraint_UNIQUE_User_Login
                         )
                     },
 
@@ -41,7 +41,7 @@ namespace Application.Shared.Interfaces.Exceptions
                     //Context: Podany Url.Path przez Urzykownika nie może powtarzac sie
                     {"UNIQUE_Url_Path", () =>  new UrlException
                         (
-                            Messages.DatabaseConstraint_UNIQUE_Url_Path
+                            Messages2.DatabaseConstraint_UNIQUE_Url_Path
                         )
                     },
 
@@ -63,31 +63,31 @@ namespace Application.Shared.Interfaces.Exceptions
                     //Context: Użytkownik nie może uworzyć swoj profil Company wielokrotnie
                     {"Company_pk", () => new CompanyException
                         (
-                            Messages.DatabaseConstraint_Company_pk_Exist
+                            Messages2.DatabaseConstraint_Company_pk_Exist
                         )
                     },
                     //Context: Każda firma posiada unikalny Urlsegment dla łatwiejszego wyszukania
                     {"UNIQUE_Company_UrlSegment", () => new CompanyException
                         (
-                            Messages.DatabaseConstraint_UNIQUE_Company_UrlSegment
+                            Messages2.DatabaseConstraint_UNIQUE_Company_UrlSegment
                         )
                     },
                     //Context: Każda firma posiada unikalny ContactEmail w wypadku kontaktu kandydata do firmy była jednoznaczność
                     {"UNIQUE_Company_ContactEmail", () => new CompanyException
                         (
-                            Messages.DatabaseConstraint_UNIQUE_Company_ContactEmail
+                            Messages2.DatabaseConstraint_UNIQUE_Company_ContactEmail
                         )
                     },
                     //Context: Wszystkie firmy zarejestrowane w Polsce powinny miec unikalną nazwę 
                     {"UNIQUE_Company_Name", () => new CompanyException
                         (
-                            Messages.DatabaseConstraint_UNIQUE_Company_Name
+                            Messages2.DatabaseConstraint_UNIQUE_Company_Name
                         )
                     },
                     //Context: Wszystkie firmy zarejestrowane w Polsce powinny miec unikalny REGON
                     {"UNIQUE_Company_Regon", () => new CompanyException
                         (
-                            Messages.DatabaseConstraint_UNIQUE_Company_Regon
+                            Messages2.DatabaseConstraint_UNIQUE_Company_Regon
                         )
                     },                
 
@@ -95,7 +95,7 @@ namespace Application.Shared.Interfaces.Exceptions
                     //Context: W kontekcie firmy UrlSegment oddziału musi byc unikalny np.: randCompany/gdansk, randCompany/warszawa
                     { "UNIQUE_Branch_UrlSegment", () => new BranchException
                         (
-                            Messages.DatabaseConstraint_UNIQUE_Branch_UrlSegment
+                            Messages2.DatabaseConstraint_UNIQUE_Branch_UrlSegment
                         )
                     },
 
@@ -130,7 +130,7 @@ namespace Application.Shared.Interfaces.Exceptions
                     //Context: Przy tworzeniu objektu Branch (Oddział) został podany nieisniejący AddressId, trzeba najpierw utworzyć Address który zróci id i wpisac go w pole
                     {"Branch_Address", () => new AddressException
                         (
-                        Messages.DatabaseConstraint_Branch_Address_NotFound,
+                        Messages2.DatabaseConstraint_Branch_Address_NotFound,
                         DomainExceptionTypeEnum.NotFound
                         )
                     },
@@ -138,32 +138,32 @@ namespace Application.Shared.Interfaces.Exceptions
 
 
                     {"CHECK_BranchOffer_PublishEnd", () =>  new CompanyException(
-                        Messages.DatabaseConstraint_CHECK_BranchOffer_PublishEnd
+                        Messages2.DatabaseConstraint_CHECK_BranchOffer_PublishEnd
                         )
                     },
                     {"CHECK_BranchOffer_WorkStart", () =>  new CompanyException(
-                        Messages.DatabaseConstraint_CHECK_BranchOffer_WorkStart
+                        Messages2.DatabaseConstraint_CHECK_BranchOffer_WorkStart
                         )
                     },
                     {"CHECK_BranchOffer_WorkEnd", () =>  new CompanyException(
-                        Messages.DatabaseConstraint_CHECK_BranchOffer_WorkEnd
+                        Messages2.DatabaseConstraint_CHECK_BranchOffer_WorkEnd
                         )
                     },
 
                     {"CHECK_Offer_MinSalary", () =>  new OfferException(
-                        Messages.DatabaseConstraint_CHECK_Offer_MinSalary
+                        Messages2.DatabaseConstraint_CHECK_Offer_MinSalary
                         )
                     },
                     {"CHECK_Offer_MaxSalary", () =>  new OfferException(
-                        Messages.DatabaseConstraint_CHECK_Offer_MaxSalary
+                        Messages2.DatabaseConstraint_CHECK_Offer_MaxSalary
                         )
                     },
                     {"CHECK_Offer_IsNegotiatedSalary", () =>  new OfferException(
-                        Messages.DatabaseConstraint_CHECK_Offer_IsNegotiatedSalary
+                        Messages2.DatabaseConstraint_CHECK_Offer_IsNegotiatedSalary
                         )
                     },
                     {"CHECK_Offer_IsForStudents", () =>  new OfferException(
-                        Messages.DatabaseConstraint_CHECK_Offer_IsForStudents
+                        Messages2.DatabaseConstraint_CHECK_Offer_IsForStudents
                         )
                     },
                     /*

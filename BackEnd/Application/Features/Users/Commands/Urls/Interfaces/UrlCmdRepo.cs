@@ -1,35 +1,32 @@
 ﻿using Application.Databases.Relational;
 using Application.Databases.Relational.Models;
 using Application.Features.Users.Mappers;
-using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.Url.Entities;
 using Domain.Features.Url.Exceptions.Entities;
 using Domain.Features.Url.ValueObjects.Identificators;
 using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Templates.Exceptions;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 
 namespace Application.Features.Users.Commands.Urls.Interfaces
 {
-    public class UrlCommandRepository : IUrlCommandRepository
+    public class UrlCmdRepo : IUrlCmdRepo
     {
         //Vaues
         private readonly IUserMapper _mapper;
-        private readonly IExceptionsRepository _exceptionsRepository;
         private readonly DiplomaProjectContext _context;
 
 
         //Cosntructor
-        public UrlCommandRepository
+        public UrlCmdRepo
             (
             IUserMapper mapper,
-            IExceptionsRepository exceptionsRepository,
             DiplomaProjectContext context
             )
         {
             _mapper = mapper;
-            _exceptionsRepository = exceptionsRepository;
             _context = context;
         }
 
@@ -39,19 +36,17 @@ namespace Application.Features.Users.Commands.Urls.Interfaces
         //===================================================================================================
         //Methods
         //DML
-        public async Task CreateAsync
-            (
-            IEnumerable<DomainUrl> urls,
-            CancellationToken cancellation
-            )
+        public async Task<(IEnumerable<DomainUrl> Database, IEnumerable<DomainUrl> Input)>
+            CreateAsync(UserId userId, IEnumerable<DomainUrl> urls, CancellationToken cancellation)
         {
+            var timeMistake = 0;
+            var dictionary = new Dictionary<string, Url>();
+
             try
             {
-                var timeMistake = 0;
-
                 foreach (var url in urls)
                 {
-                    timeMistake += 100;
+                    timeMistake += 10;
                     var databaseUrl = new Url
                     {
                         UserId = url.Id.UserId.Value,
@@ -61,42 +56,55 @@ namespace Application.Features.Users.Commands.Urls.Interfaces
                         Name = url.Name,
                         Description = url.Description,
                     };
-                    await _context.Urls.AddAsync(databaseUrl, cancellation);
+
+                    dictionary[url.Path] = databaseUrl;
                 }
+
+                await _context.Urls.AddRangeAsync(dictionary.Values, cancellation);
                 await _context.SaveChangesAsync(cancellation);
+
+                return (dictionary.Values.Select(x => _mapper.DomainUrl(x)), []);
             }
             catch (System.Exception ex)
             {
-                Console.WriteLine(ex.ToString());
-
-                throw _exceptionsRepository.ConvertEFDbException(ex);
+                //Url_UNIQUE_Path
+                if (IsExceptionConstraintUniquePath(ex))
+                {
+                    var paths = dictionary.Keys.ToList();
+                    return (await GetDatabaseConflictsAsync(userId, paths, cancellation), urls);
+                }
+                throw;
             }
         }
 
-        public async Task UpdateAsync
-            (
-            Dictionary<UrlId, DomainUrl> urls,
-            CancellationToken cancellation
-            )
+        public async Task<(IEnumerable<DomainUrl> Database, IEnumerable<DomainUrl> Input)>
+            UpdateAsync(UserId userId, Dictionary<UrlId, DomainUrl> urls, CancellationToken cancellation)
         {
+            var dictionary = await GetDatabaseUrlsDictionaryAsync(urls.Keys, cancellation);
+
             try
             {
-                var databaseUrlsDictionary = await GetDatabaseUrlsDictionaryAsync(urls.Keys, cancellation);
-
-                foreach (var databaseUrl in databaseUrlsDictionary)
+                foreach (var key in urls.Keys)
                 {
-                    if (urls.TryGetValue(databaseUrl.Key, out var domainUrl))
-                    {
-                        databaseUrl.Value.Name = domainUrl.Name;
-                        databaseUrl.Value.Description = domainUrl.Description;
-                        databaseUrl.Value.Path = domainUrl.Path;
-                    }
+                    var input = urls[key];
+                    var database = dictionary[key];
+
+                    database.Name = input.Name;
+                    database.Description = input.Description;
+                    database.Path = input.Path;
                 }
+
                 await _context.SaveChangesAsync(cancellation);
+                return (dictionary.Values.Select(x => _mapper.DomainUrl(x)), []);
             }
             catch (System.Exception ex)
             {
-                throw _exceptionsRepository.ConvertEFDbException(ex);
+                if (IsExceptionConstraintUniquePath(ex))
+                {
+                    var paths = dictionary.Values.Select(x => x.Path);
+                    return (await GetDatabaseConflictsAsync(userId, paths, cancellation), urls.Values);
+                }
+                throw;
             }
         }
 
@@ -106,20 +114,13 @@ namespace Application.Features.Users.Commands.Urls.Interfaces
             CancellationToken cancellation
             )
         {
-            try
+            var dictionary = await GetDatabaseUrlsDictionaryAsync(ids, cancellation);
+            foreach (var databaseUrl in dictionary)
             {
-                var databaseUrlsDictionary = await GetDatabaseUrlsDictionaryAsync(ids, cancellation);
+                _context.Urls.Remove(databaseUrl.Value);
+            }
 
-                foreach (var databaseUrl in databaseUrlsDictionary)
-                {
-                    _context.Urls.Remove(databaseUrl.Value);
-                }
-                await _context.SaveChangesAsync(cancellation);
-            }
-            catch (System.Exception ex)
-            {
-                throw _exceptionsRepository.ConvertEFDbException(ex);
-            }
+            await _context.SaveChangesAsync(cancellation);
         }
 
         //====================================================================================================
@@ -167,7 +168,7 @@ namespace Application.Features.Users.Commands.Urls.Interfaces
             if (missingIds.Any())
             {
                 var builder = new StringBuilder();
-                builder.AppendLine(Messages.Url_Ids_NotFound);
+                builder.AppendLine(Messages.Url_Cmd_Ids_NotFound);
                 builder.AppendLine($"UserId,\t UrlTypeId,\t Created");
 
                 foreach (var id in missingIds)
@@ -182,6 +183,31 @@ namespace Application.Features.Users.Commands.Urls.Interfaces
                     );
             }
             return urls;
+        }
+
+        private bool IsExceptionConstraintUniquePath(System.Exception ex)
+        {
+            if (
+                ex is DbUpdateException &&
+                ex.InnerException is SqlException sqlEx &&
+                sqlEx.Message.Contains("Url_UNIQUE_Path")
+                )
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private async Task<IEnumerable<DomainUrl>> GetDatabaseConflictsAsync
+            (UserId userId, IEnumerable<string> paths, CancellationToken cancellation)
+        {
+            var databaseItems = await _context.Urls
+                        .Where(x =>
+                            x.UserId == userId.Value &&
+                            paths.Contains(x.Path))
+                        .ToListAsync(cancellation);
+
+            return databaseItems.Select(x => _mapper.DomainUrl(x));
         }
     }
 }

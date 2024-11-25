@@ -100,7 +100,7 @@ namespace Application.Features.Companies.Queries.QueriesOffer.Interfaces
                 //not found Active Offer by ID
                 throw new OfferException
                     (
-                    $"{Messages.Offer_Ids_NotFound}: {id.Value}",
+                    $"{Messages2.Offer_Ids_NotFound}: {id.Value}",
                     DomainExceptionTypeEnum.NotFound
                     );
             }
@@ -216,7 +216,7 @@ namespace Application.Features.Companies.Queries.QueriesOffer.Interfaces
                 //By Paramiters not found any Offers by this Branch
                 throw new BranchException
                     (
-                    $"{Messages.BranchOffer_Ids_NotFound} ",
+                    $"{Messages2.BranchOffer_Ids_NotFound} ",
                     DomainExceptionTypeEnum.NotFound
                     );
             }
@@ -410,7 +410,7 @@ namespace Application.Features.Companies.Queries.QueriesOffer.Interfaces
             else
             {
                 //Not Given Id Or Urlsegmet
-                throw new CompanyException($"{Messages.Company_Ids_NotFound}: Not Given Id Or Urlsegmet");
+                throw new CompanyException($"{Messages2.Company_Ids_NotFound}: Not Given Id Or Urlsegmet");
             }
 
             //Chckin is Id or Urlsegmet exist
@@ -427,7 +427,7 @@ namespace Application.Features.Companies.Queries.QueriesOffer.Interfaces
             {
                 //Not Given Id Or Urlsegmet
                 throw new
-                    ($"{Messages.BranchOffer_Ids_NotFound}: Not Given Id Or Urlsegmet");
+                    ($"{Messages2.BranchOffer_Ids_NotFound}: Not Given Id Or Urlsegmet");
             }
             return query;
         }

@@ -132,7 +132,7 @@ namespace Application.Features.Internship.RecrutmentPart.Interfaces
             {
                 throw new RecruitmentException
                     (
-                    Messages.Recruitment_Ids_NotFound,
+                    Messages2.Recruitment_Ids_NotFound,
                     DomainExceptionTypeEnum.NotFound
                     );
             }

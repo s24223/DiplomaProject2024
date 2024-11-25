@@ -23,7 +23,7 @@ namespace Application.Features.Companies.Commands.BranchOffers.Services
         //Values
         private readonly IBranchOfferRepository _repository;
         private readonly IDomainFactory _domainFactory;
-        private readonly IAuthenticationSvc _authenticationRepository;
+        private readonly IAuthJwtSvc _authenticationRepository;
 
 
         //Cosntructor
@@ -31,7 +31,7 @@ namespace Application.Features.Companies.Commands.BranchOffers.Services
             (
             IBranchOfferRepository repository,
             IDomainFactory domainFactory,
-            IAuthenticationSvc authentication
+            IAuthJwtSvc authentication
             )
         {
             _repository = repository;
@@ -158,7 +158,7 @@ namespace Application.Features.Companies.Commands.BranchOffers.Services
                 return new ResponseItem<CreateBranchOffersResponseDto>
                 {
                     Status = EnumResponseStatus.UserFault,
-                    Message = Messages.Branch_Id_NotFound,
+                    Message = Messages2.Branch_Id_NotFound,
                     Item = new CreateBranchOffersResponseDto(
                         [],
                         values.WithoutDuration,

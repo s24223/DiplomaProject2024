@@ -151,7 +151,7 @@ namespace Application.Features.Addresses.Queries.Interfaces
             {
                 throw new AddressException
                     (
-                    Messages.Address_Id_NotFound,
+                    Messages2.Address_Id_NotFound,
                     DomainExceptionTypeEnum.NotFound
                     );
             }
@@ -182,7 +182,7 @@ namespace Application.Features.Addresses.Queries.Interfaces
             if (missingIds.Any())
             {
                 var builder = new StringBuilder();
-                builder.AppendLine(Messages.Address_Id_NotFound);
+                builder.AppendLine(Messages2.Address_Id_NotFound);
                 foreach (var id in missingIds)
                 {
                     builder.AppendLine(id.Value.ToString());
