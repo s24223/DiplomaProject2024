@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ProfileCencelButton = () => {
+const ProfileCancelButton = () => {
     const handleLogin = () => {
        
         window.location.href = "/userProfile"; 
@@ -8,9 +8,9 @@ const ProfileCencelButton = () => {
 
     return (
         <button onClick={handleLogin}>
-            Cencel
+            Cancel
         </button>
     );
 };
 
-export default ProfileCencelButton;
+export default ProfileCancelButton;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import ProfileCencelButton from "../CencelButtonProfile/profileCencelButton";
+import ProfileCencelButton from "../CancelButtonProfile/profileCancelButton";
 
 const EditProfile = () => {
     const [profileData, setProfileData] = useState({

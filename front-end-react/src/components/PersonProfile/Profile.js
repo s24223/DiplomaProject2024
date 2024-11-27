@@ -3,6 +3,7 @@ import axios from "axios";
 import LoginButton from "../../components/LoginButton/LoginButton";
 import MainPageButton from "../../components/MainPageButton/MainPageButton";
 import BranchList from "../BranchList/BranchList";
+import UrlList from "../UrlList/UrlList";
 
 const Profile = () => {
     const [userData, setUserData] = useState(null);
@@ -108,10 +109,15 @@ const Profile = () => {
             ) : (
                 <p>No address provided.</p>
             )}
+            <p><strong>URLS:</strong></p>
+            <UrlList/>
+
 
             {company && (
                 <>
                     <h2>Company</h2>
+                    <p><strong>Id:</strong> {company?.companyId}</p><br/>
+
                     <p><strong>Name:</strong> {company?.name}</p>
                     <p><strong>Email:</strong> {company?.contactEmail}</p>
                     <p><strong>Description:</strong> {company?.description}</p>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import ProfileCencelButton from "../CencelButtonProfile/profileCencelButton";
+import ProfileCencelButton from "../CancelButtonProfile/profileCancelButton";
 
 const CreateCompany = () => {
     const [companyData, setCompanyData] = useState({
