@@ -76,7 +76,7 @@ namespace Domain.Features.Notification.Entities
             Created = created ?? _provider.TimeProvider().GetDateTimeNow();
             Completed = completed;
 
-            PreviousProblemId = previousProblemId.HasValue ? null : new NotificationId(previousProblemId);
+            PreviousProblemId = !previousProblemId.HasValue ? null : new NotificationId(previousProblemId);
             IdAppProblem = idAppProblem;
             UserMessage = userMessage;
             Response = response;

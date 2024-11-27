@@ -76,8 +76,8 @@ namespace Application.Features.Users.Commands.Notifications.Services
                 (
                 userId.Value,
                 null,
-                dto.IdAppProblem,
                 dto.PreviousProblemId,
+                dto.IdAppProblem,
                 dto.UserMessage,
                 1,
                 1
