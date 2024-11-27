@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import ProfileCencelButton from "../CencelButtonProfile/profileCencelButton"; 
+import ProfileCencelButton from "../CancelButtonProfile/profileCancelButton"; 
 
 const EditCompany = () => {
     const [companyData, setCompanyData] = useState({
@@ -80,6 +80,7 @@ const EditCompany = () => {
                 setMessage("Failed to update company. Please try again.");
             }
 
+            
             // Przekierowanie w przypadku błędu, jeśli `urlSegment` jest `null`
             if (companyData.urlSegment === null) {
                 setTimeout(() => {

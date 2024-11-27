@@ -14,6 +14,8 @@ import CompanyCreatePage from './pages/CompanyCreatePage/CompanyCreatePage';
 import CompanyEditPage from './pages/CompanyEditPage/CompanyEditPage';
 import CreateBranchPage from './pages/BranchCreatePage/BranchCreatePage';
 import BranchDetailPage from './pages/BranchDetailsPage/BranchDetailsPage';
+import UrlDetailsPage from './pages/UrlDetailsPage/UrlDetailsPage';
+import EditUrlPage from './pages/UrlEditPage/EditUrlPage';
 
 const job = new Cron("*/5 * * * *", () => {
     console.log(`Cron run... ${new Date().toLocaleTimeString()}`)
@@ -70,6 +72,12 @@ function App() {
 
                 <Route path="/createBranch" element={<CreateBranchPage />} />
                 <Route path="/branch/:id" element={<BranchDetailPage />} />
+
+                <Route path="/url/:id" element={<UrlDetailsPage />} />
+                <Route path="/url/edit/:id" element={<EditUrlPage />} />
+                
+
+
             </Routes>
         </Router>
     );
