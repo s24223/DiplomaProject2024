@@ -1,0 +1,11 @@
+#notificationLink{
+    text-decoration: none;
+    color: white;
+}
+
+nav ul{
+    border: none;
+    height: 50%;
+    overflow: hidden;
+    overflow-y: scroll;
+}
