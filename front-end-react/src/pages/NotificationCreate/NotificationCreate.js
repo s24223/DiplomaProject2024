@@ -1,13 +1,25 @@
 import React, { useState } from 'react'
 import { fetchNotificationPostAuthorized } from '../../services/NotificationService/NotificationService'
+import { useLocation } from 'react-router-dom'
 
 const NotificationCreate = () => {
     const [userMessage, setUserMessage] = useState('')
+    let body = {}
 
+    const previd = useLocation().state.elem.id
+    
     const handleSubmit = (event) => {
         event.preventDefault();
+        
+        if(previd)
+            body.previousProblemId = previd
+        
+        body.userMessage = userMessage
+
+        console.log(body)
+
         const fetchDummy = async () => {
-            let response = await fetchNotificationPostAuthorized({ userMessage: userMessage })
+            let response = await fetchNotificationPostAuthorized(body)
             if (response.ok)
                 window.location.href = "/notification"
         }

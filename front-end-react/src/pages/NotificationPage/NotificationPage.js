@@ -5,7 +5,6 @@ import './NotificationPage.css'
 
 const NotificationPage = () => {
     const [notificationList, setNotificationList] = useState([])
-    let count = 0;
 
     useEffect(() => {
         if(!sessionStorage.getItem("jwt"))
@@ -28,8 +27,8 @@ const NotificationPage = () => {
             <nav>
                 <ul>
                     {notificationList && notificationList.map((elem) => (
-                        <li key={count++}><Link id="notificationLink"
-                        to={{ pathname: `/notification/${count}` }}
+                        <li key={elem.id}><Link id="notificationLink"
+                        to={{ pathname: `/notification/${elem.id}` }}
                         state = {{ elem }}>
                             {elem.created}</Link></li>
                     ))}
