@@ -97,6 +97,42 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nie posiadasz profilu osoby.
+        /// </summary>
+        internal static string Person_Cmd_Id_NotFound {
+            get {
+                return ResourceManager.GetString("Person_Cmd_Id_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Musisz wybrac inny email do kontaktu w profilu osoby.
+        /// </summary>
+        internal static string Person_Cmd_NotUniqueContactEmail {
+            get {
+                return ResourceManager.GetString("Person_Cmd_NotUniqueContactEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Musisz wybrac nr. telefon email do kontaktu w profilu osoby.
+        /// </summary>
+        internal static string Person_Cmd_NotUniqueContactPhoneNum {
+            get {
+                return ResourceManager.GetString("Person_Cmd_NotUniqueContactPhoneNum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Musisz wybrac inny Url Segment w profilu osoby.
+        /// </summary>
+        internal static string Person_Cmd_NotUniqueUrlSegment {
+            get {
+                return ResourceManager.GetString("Person_Cmd_NotUniqueUrlSegment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Za podanymi danymi nie zostało znaleziono rekordów.
         /// </summary>
         internal static string Url_Cmd_Ids_NotFound {

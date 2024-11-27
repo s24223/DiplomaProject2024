@@ -6,8 +6,8 @@ namespace Application.Features.Persons.Commands.Interfaces
     public interface IPersonCmdRepo
     {
         //DML
-        Task<DomainPerson> CreateAsync(DomainPerson person, CancellationToken cancellation);
-        Task<DomainPerson> UpdateAsync(DomainPerson person, CancellationToken cancellation);
+        Task<DomainPerson> CreatePersonAsync(DomainPerson person, CancellationToken cancellation);
+        Task<DomainPerson> UpdatePersonAsync(DomainPerson person, CancellationToken cancellation);
 
         //DQL
         Task<DomainPerson> GetPersonAsync(UserId id, CancellationToken cancellation);

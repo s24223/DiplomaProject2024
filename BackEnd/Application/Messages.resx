@@ -132,6 +132,18 @@
   <data name="Notification_Cmd_Id_NotFound" xml:space="preserve">
     <value>Nie znaleziono powiadomienia za podanym Id</value>
   </data>
+  <data name="Person_Cmd_Id_NotFound" xml:space="preserve">
+    <value>Nie posiadasz profilu osoby</value>
+  </data>
+  <data name="Person_Cmd_NotUniqueContactEmail" xml:space="preserve">
+    <value>Musisz wybrac inny email do kontaktu w profilu osoby</value>
+  </data>
+  <data name="Person_Cmd_NotUniqueContactPhoneNum" xml:space="preserve">
+    <value>Musisz wybrac nr. telefon email do kontaktu w profilu osoby</value>
+  </data>
+  <data name="Person_Cmd_NotUniqueUrlSegment" xml:space="preserve">
+    <value>Musisz wybrac inny Url Segment w profilu osoby</value>
+  </data>
   <data name="Url_Cmd_Ids_NotFound" xml:space="preserve">
     <value>Za podanymi danymi nie zostało znaleziono rekordów</value>
   </data>

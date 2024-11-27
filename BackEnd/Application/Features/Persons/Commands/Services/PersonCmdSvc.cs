@@ -64,7 +64,7 @@ namespace Application.Features.Persons.Commands.Services
                 );
             domainPerson.SetCharacteristics(cahrachteristics);
 
-            domainPerson = await _repository.CreateAsync(domainPerson, cancellation);
+            domainPerson = await _repository.CreatePersonAsync(domainPerson, cancellation);
             return new ResponseItem<PersonResp>
             {
                 Item = new PersonResp(domainPerson),
@@ -97,7 +97,7 @@ namespace Application.Features.Persons.Commands.Services
                 );
             domainPerson.SetCharacteristics(cahrachteristics);
 
-            domainPerson = await _repository.UpdateAsync(domainPerson, cancellation);
+            domainPerson = await _repository.UpdatePersonAsync(domainPerson, cancellation);
             return new ResponseItem<PersonResp>
             {
                 Item = new PersonResp(domainPerson),

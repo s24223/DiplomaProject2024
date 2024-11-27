@@ -5,6 +5,7 @@ namespace Application.Shared.DTOs.Features.Users.Notifications
     public class NotificationResp
     {
         //Values
+        public Guid Id { get; set; }
         public DateTime Created { get; private set; }
         public DateTime? Completed { get; private set; }
         public Guid? PreviousProblemId { get; private set; }
@@ -20,6 +21,7 @@ namespace Application.Shared.DTOs.Features.Users.Notifications
         //Constructor
         public NotificationResp(DomainNotification notification)
         {
+            Id = notification.Id.Value;
             Created = notification.Created;
             Completed = notification.Completed;
             PreviousProblemId = notification.PreviousProblemId?.Value;

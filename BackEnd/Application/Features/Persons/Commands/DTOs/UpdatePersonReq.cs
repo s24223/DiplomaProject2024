@@ -1,11 +1,13 @@
 ﻿using Application.Shared.DTOs;
 using Application.Shared.DTOs.Features.Characteristics.Requests;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.Features.Persons.Commands.DTOs
 {
     public class UpdatePersonReq
     {
         public string? UrlSegment { get; init; }
+        [EmailAddress]
         public required string ContactEmail { get; init; } = null!;
         public required string Name { get; init; } = null!;
         public required string Surname { get; init; } = null!;
