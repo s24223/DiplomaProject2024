@@ -3,6 +3,8 @@ import { fetchLogout } from '../../services/LogOutService/LogOutService';
 
 const LoginButton = () => {
     const handleLogin = () => {
+        const currentPath = window.location.pathname;
+        sessionStorage.setItem("redirectAfterLogin", currentPath);
         // Przekierowanie do strony logowania
         window.location.href = "/login"; // lub jakikolwiek inny routing do logowania
     };

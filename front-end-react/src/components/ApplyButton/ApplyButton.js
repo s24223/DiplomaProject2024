@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 const ApplyButton = ({ branchId }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [personMessage, setPersonMessage] = useState('');
+    const navigate = useNavigate(); 
 
     // Otwórz lub zamknij modal
     const toggleModal = () => setIsModalOpen(!isModalOpen);
@@ -11,7 +13,10 @@ const ApplyButton = ({ branchId }) => {
         try {
             const authToken = sessionStorage.getItem("jwt");
             if (!authToken) {
+                // Zapisz bieżącą ścieżkę przed przekierowaniem na stronę logowania
+                sessionStorage.setItem("redirectAfterLogin", window.location.pathname);
                 alert("Brak tokenu uwierzytelniającego. Zaloguj się, aby aplikować.");
+                navigate("/login");
                 return;
             }
 

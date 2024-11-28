@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { fetchProfilePost } from "../../services/ProfileService/ProfilceService";
+import CancelButton from "../CancelButton/CancelButton";
 
 const CreateProfile = () => {
     const [urlSegmet, setUrlsegmet] = useState("string")
@@ -71,6 +72,7 @@ const CreateProfile = () => {
                 <label>Description:</label><br />
                 <input type="text" onChange={e => setDescription(e.target.value)} /><br /> 
                 <input type="submit" value="Create Profile" />
+                <CancelButton/>
             </form>
         </div>
     )

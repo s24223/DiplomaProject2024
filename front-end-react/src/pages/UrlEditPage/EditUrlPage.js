@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import MainPageButton from "../../components/MainPageButton/MainPageButton";
 import LoginButton from "../../components/LoginButton/LoginButton";
+import ReturnButton from "../../components/CancelButton/ReturnButton";
 
 const EditUrlPage = () => {
     const location = useLocation();
@@ -105,6 +106,7 @@ const EditUrlPage = () => {
             <button onClick={handleCancel} style={{ backgroundColor: "#ccc" }}>
                 Cancel
             </button>
+            <ReturnButton/>
         </div>
     );
 };

@@ -2,7 +2,7 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import MainPageButton from "../../components/MainPageButton/MainPageButton";
 import LoginButton from "../../components/LoginButton/LoginButton";
-import ProfileCancelButton from "../../components/CancelButtonProfile/profileCancelButton";
+import ProfileCancelButton from "../../components/CancelButton/ReturnButton";
 
 const UrlDetailsPage = () => {
     const location = useLocation();
@@ -18,6 +18,7 @@ const UrlDetailsPage = () => {
             <MainPageButton />
             <LoginButton />
             <h1>URL Details</h1>
+            {/* <p><strong>ID:</strong> {urlItem.urlTypeId}</p> */}
             <p><strong>Path:</strong> {urlItem.path}</p>
             <p><strong>Type:</strong> {urlItem.type?.name}</p>
             <p><strong>Description:</strong> {urlItem.description || "No description provided."}</p>

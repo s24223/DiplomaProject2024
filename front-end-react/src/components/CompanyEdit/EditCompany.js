@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import ProfileCencelButton from "../CancelButtonProfile/profileCancelButton"; 
+import CancelButton from "../CancelButton/CancelButton";
 
 const EditCompany = () => {
     const [companyData, setCompanyData] = useState({
@@ -133,7 +133,7 @@ const EditCompany = () => {
                     }
                 /><br/><br/>
                 <button type="submit">Save Changes</button>
-                <ProfileCencelButton/>
+                <CancelButton/>
             </form>
             {message && <p>{message}</p>}
         </div>

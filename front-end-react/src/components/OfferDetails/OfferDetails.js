@@ -37,7 +37,6 @@ const OfferDetails = () => {
 
     return (
         <div className="offer-details">
-            <MainPageButton/>
             <LoginButton />
             
             <h1>{offer?.name}</h1>
@@ -63,14 +62,12 @@ const OfferDetails = () => {
             <p><strong>Płatna oferta:</strong> {offer?.isPaid ? "Tak" : "Nie"}</p>
 
             <h2>Informacje o zatrudnieniu:</h2>
-            <p><strong>Id oferty:</strong> {branch.offerDetails.id}</p>
+            {/* <p><strong>Id oferty:</strong> {branch.offerDetails.id}</p> */}
             <p><strong>Data publikacji:</strong> {new Date(branch?.offerDetails?.publishStart).toLocaleDateString()}</p>
             <p><strong>Data Zakończenia:</strong> {new Date(branch?.offerDetails?.publishEnd).toLocaleDateString()}</p>
             <p><strong>Ostatnia aktualizacja:</strong> {new Date(branch?.offerDetails?.lastUpdate).toLocaleDateString()}</p>
             <p><strong>Okres zatrudnienia:</strong> {branch?.offerDetails?.workDuration?.years} lat, {branch?.offerDetails?.workDuration?.months} miesięcy, {branch.offerDetails?.workDuration?.days} dni</p>
-            {/* <ApplyButton/> */}
             <ApplyButton branchId={branch.offerDetails.id} />
-            {/* <ApplyButton branchId={branch.offerDetails.id} authToken={userAuthToken} /> */}
 
         </div>
     );

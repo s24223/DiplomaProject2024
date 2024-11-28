@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import { fetchBranchPut } from '../../services/BranchService/BranchService';
-import ProfileCencelButton from '../../components/CancelButtonProfile/profileCancelButton';
 import ProfileButton from '../../components/ProfileButton/ProfileButton';
+import CancelButton from '../../components/CancelButton/CancelButton';
 
 const BranchDetailPage = () => {
     const [editMode, setEditMode] = useState(false);
@@ -58,6 +58,7 @@ const BranchDetailPage = () => {
                 <p>Apartment number: {item.address.apartmentNumber}</p>
                 <label style={{color:'green'}}>{messageStatus}</label><br />
                 {editMode && <button onClick={handleChange}>Change</button>}
+                <CancelButton/>
             </div>
             }
         </div>
