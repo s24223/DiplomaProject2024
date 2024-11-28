@@ -143,7 +143,6 @@ const Profile = () => {
                 <p>No characteristics available.</p>
             )}
             <ReturnButton/>
-
         </div>
     );
 };
