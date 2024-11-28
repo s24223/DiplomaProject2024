@@ -268,7 +268,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Login nie unikalny.
         /// </summary>
         internal static string DatabaseConstraint_UNIQUE_User_Login {
             get {

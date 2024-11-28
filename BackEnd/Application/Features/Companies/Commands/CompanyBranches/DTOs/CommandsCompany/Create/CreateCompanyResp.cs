@@ -3,7 +3,7 @@ using Domain.Features.Company.Entities;
 
 namespace Application.Features.Companies.Commands.CompanyBranches.DTOs.CommandsCompany.Create
 {
-    public class CreateCompanyResponseDto
+    public class CreateCompanyResp
     {
         //Values
         public CompanyResp Company { get; set; } = null!;
@@ -13,7 +13,7 @@ namespace Application.Features.Companies.Commands.CompanyBranches.DTOs.CommandsC
 
 
         //Cosntructor
-        public CreateCompanyResponseDto(DomainCompany domain)
+        public CreateCompanyResp(DomainCompany domain)
         {
             Company = new CompanyResp(domain);
 

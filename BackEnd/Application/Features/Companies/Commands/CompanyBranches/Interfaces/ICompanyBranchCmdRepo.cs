@@ -5,7 +5,7 @@ using Domain.Features.User.ValueObjects.Identificators;
 
 namespace Application.Features.Companies.Commands.CompanyBranches.Interfaces
 {
-    public interface ICompanyBranchCommandRepository
+    public interface ICompanyBranchCmdRepo
     {
         //Company part
         //DML

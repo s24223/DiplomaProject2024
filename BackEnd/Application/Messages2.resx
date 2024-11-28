@@ -190,7 +190,7 @@
     <value />
   </data>
   <data name="DatabaseConstraint_UNIQUE_User_Login" xml:space="preserve">
-    <value />
+    <value>Login nie unikalny</value>
   </data>
   <data name="DateOnly_DateOnlyRequestDto_InvalidDate" xml:space="preserve">
     <value>Podano niepoprawną datę</value>

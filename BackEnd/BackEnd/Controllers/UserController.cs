@@ -370,7 +370,7 @@ namespace BackEnd.Controllers
         [HttpPost("company")]
         public async Task<IActionResult> CreateCompanyAsync
             (
-            CreateCompanyRequestDto dto,
+            CreateCompanyReq dto,
             CancellationToken cancellation
             )
         {
@@ -383,7 +383,7 @@ namespace BackEnd.Controllers
         [HttpPut("company")]
         public async Task<IActionResult> UpdateCompanyAsync
             (
-            UpdateCompanyRequestDto dto,
+            UpdateCompanyReq dto,
             CancellationToken cancellation
             )
         {

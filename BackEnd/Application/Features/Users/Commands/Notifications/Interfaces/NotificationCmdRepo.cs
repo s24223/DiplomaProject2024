@@ -39,24 +39,9 @@ namespace Application.Features.Users.Commands.Notifications.Interfaces
         {
             try
             {
-                var database = new Notification
-                {
-                    UserId = domain.UserId?.Value,
-                    Email = domain.Email?.Value,
-                    NotificationSenderId = domain.NotificationSender.Id,
-                    NotificationStatusId = domain.NotificationStatus.Id,
-                    Created = domain.Created,
-                    Completed = domain.Completed,
-                    PreviousProblemId = domain.PreviousProblemId?.Value,
-                    IdAppProblem = domain.IdAppProblem == null ? null : domain.IdAppProblem.Value,
-                    UserMessage = domain.UserMessage,
-                    Response = domain.Response,
-                    IsReadedByUser = domain.IsReadedAnswerByUser.Code
-                };
-
+                var database = MapNotification(domain, null);
                 await _context.Notifications.AddAsync(database, cancellation);
                 await _context.SaveChangesAsync(cancellation);
-
                 return _mapper.DomainNotification(database);
             }
             catch (System.Exception ex)
@@ -75,21 +60,8 @@ namespace Application.Features.Users.Commands.Notifications.Interfaces
             try
             {
                 var database = await GetDatabaseNotificationAsync(userId, domain.Id, cancellation);
-
-                database.UserId = domain.UserId?.Value;
-                database.Email = domain.Email?.Value;
-                database.NotificationSenderId = domain.NotificationSender.Id;
-                database.NotificationStatusId = domain.NotificationStatus.Id;
-                database.Created = domain.Created;
-                database.Completed = domain.Completed;
-                database.PreviousProblemId = domain.PreviousProblemId?.Value;
-                database.IdAppProblem = domain.IdAppProblem == null ? null : domain.IdAppProblem.Value;
-                database.UserMessage = domain.UserMessage;
-                database.Response = domain.Response;
-                database.IsReadedByUser = domain.IsReadedAnswerByUser.Code;
-
+                database = MapNotification(domain, database);
                 await _context.SaveChangesAsync(cancellation);
-
                 return _mapper.DomainNotification(database);
             }
             catch (System.Exception ex)
@@ -133,6 +105,25 @@ namespace Application.Features.Users.Commands.Notifications.Interfaces
                     );
             }
             return database;
+        }
+
+        private Notification MapNotification(DomainNotification domain, Notification? database)
+        {
+            var dbNotifiacation = database ?? new Notification();
+
+            dbNotifiacation.UserId = domain.UserId?.Value;
+            dbNotifiacation.Email = domain.Email?.Value;
+            dbNotifiacation.NotificationSenderId = domain.NotificationSender.Id;
+            dbNotifiacation.NotificationStatusId = domain.NotificationStatus.Id;
+            dbNotifiacation.Created = domain.Created;
+            dbNotifiacation.Completed = domain.Completed;
+            dbNotifiacation.PreviousProblemId = domain.PreviousProblemId?.Value;
+            dbNotifiacation.IdAppProblem = domain.IdAppProblem == null ? null : domain.IdAppProblem.Value;
+            dbNotifiacation.UserMessage = domain.UserMessage;
+            dbNotifiacation.Response = domain.Response;
+            dbNotifiacation.IsReadedByUser = domain.IsReadedAnswerByUser.Code;
+
+            return dbNotifiacation;
         }
 
         private System.Exception ExceptionHandler(System.Exception ex, DomainNotification domain)

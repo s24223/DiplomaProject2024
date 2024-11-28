@@ -31,7 +31,7 @@ namespace Application.Shared.Interfaces.Exceptions
                     
                     //User Part
                     //Context: Każdy urzytkownik w rmach systemu powinien miec unikalny login
-                    {"UNIQUE_User_Login", () => new EmailException
+                    {"User_UNIQUE_Login", () => new EmailException
                         (
                             Messages2.DatabaseConstraint_UNIQUE_User_Login
                         )

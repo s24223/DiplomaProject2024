@@ -5,6 +5,7 @@ using Domain.Features.Person.Entities;
 using Domain.Features.Person.Exceptions.Entities;
 using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Templates.Exceptions;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 
@@ -53,6 +54,7 @@ namespace Application.Features.Persons.Commands.Interfaces
             }
             catch (System.Exception ex)
             {
+                Console.WriteLine(ex);
                 throw HandleException(ex, person);
             }
         }
@@ -64,13 +66,14 @@ namespace Application.Features.Persons.Commands.Interfaces
             try
             {
                 var databasePerson = await GetDbPersonAsync(person.Id, cancellation);
-                databasePerson.PersonCharacteristics.Clear();
-
                 databasePerson = MapToDbPerson(person, databasePerson);
-                var characteristics = MapToDbCharacteristics(person, databasePerson);
 
+                var characteristics = MapToDbCharacteristics(person, databasePerson);
+                _context.PersonCharacteristics
+                    .RemoveRange(databasePerson.PersonCharacteristics);
                 await _context.PersonCharacteristics
                     .AddRangeAsync(characteristics, cancellation);
+
                 await _context.SaveChangesAsync(cancellation);
 
                 return await _mapper.DomainPerson(databasePerson, cancellation);
@@ -117,7 +120,10 @@ namespace Application.Features.Persons.Commands.Interfaces
         private Person MapToDbPerson(DomainPerson person, Person? dbPerson = null)
         {
             var database = dbPerson ?? new Person();
-            database.UserId = person.Id.Value;
+            if (dbPerson == null)
+            {
+                database.UserId = person.Id.Value;
+            }
             database.UrlSegment = person.UrlSegment?.Value;
             database.ContactEmail = person.ContactEmail.Value;
             database.Name = person.Name;
@@ -169,11 +175,11 @@ namespace Application.Features.Persons.Commands.Interfaces
             var duplicates = await query.ToListAsync(cancellation);
             if (duplicates.Any())
             {
-                TrowPersonException(duplicates, domain);
+                ThrowPersonException(duplicates, domain);
             }
         }
 
-        private void TrowPersonException(IEnumerable<Person> duplicates, DomainPerson domain)
+        private void ThrowPersonException(IEnumerable<Person> duplicates, DomainPerson domain)
         {
             bool isNotUniqueContactEmail = false;
             bool isNotUniqueContactPhoneNum = false;
@@ -192,6 +198,10 @@ namespace Application.Features.Persons.Commands.Interfaces
                 if (domain.UrlSegment != null && item.UrlSegment == domain.UrlSegment.Value)
                 {
                     isNotUniqueUrlSegment = true;
+                }
+                if (isNotUniqueContactEmail && isNotUniqueContactPhoneNum && isNotUniqueUrlSegment)
+                {
+                    break;
                 }
             }
 
@@ -219,10 +229,43 @@ namespace Application.Features.Persons.Commands.Interfaces
             Person_CHECK_IsStudent
             Person_CHECK_IsPublicProfile
             Person_CHECK_BirthDate
-            Person_UNIQUE_ContactEmail
              */
+            //2627  Unique, Pk 
+            //547   Check, FK
+            var dictionary = new Dictionary<string, string>()
+            {
+                { "Person_CHECK_IsStudent",$"{Messages.Person_Cmd_IncorrectIsStudent}: {domain.IsStudent.Code}"},
+                { "Person_CHECK_IsPublicProfile",$"{Messages.Person_Cmd_IncorrectIsPublicProfile}: {domain.IsPublicProfile.Code}"},
+                { "Person_CHECK_BirthDate",$"{Messages.Person_Cmd_IncorrectBirthDate}: {domain.BirthDate?.ToString()}"},
+            };
 
+            if (ex is DbUpdateException && ex.InnerException is SqlException sqlEx)
+            {
+                var number = sqlEx.Number;
+                var message = sqlEx.Message;
+                if (number == 2627)
+                {
+                    if (message.Contains("Person_pk"))
+                    {
+                        return new PersonException(Messages.Person_Cmd_ExistProfile);
+                    }
+                }
 
+                if (number == 547)
+                {
+                    foreach (var item in dictionary)
+                    {
+                        if (message.Contains(item.Key))
+                        {
+                            return new PersonException
+                                (
+                                item.Value,
+                                DomainExceptionTypeEnum.AppProblem
+                                );
+                        }
+                    }
+                }
+            }
             return ex;
         }
     }

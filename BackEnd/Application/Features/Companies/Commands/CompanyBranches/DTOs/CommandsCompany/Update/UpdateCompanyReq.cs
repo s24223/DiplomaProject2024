@@ -2,7 +2,7 @@
 
 namespace Application.Features.Companies.Commands.CompanyBranches.DTOs.CommandsCompany.Update
 {
-    public class UpdateCompanyRequestDto
+    public class UpdateCompanyReq
     {
         public string? UrlSegment { get; set; }
         [Required]

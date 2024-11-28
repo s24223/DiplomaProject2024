@@ -105,8 +105,8 @@ namespace Application
             serviceCollection.AddTransient<ICompanyMapper, CompanyMapper>();
 
             //Company Branch Part 
-            serviceCollection.AddTransient<ICompanyBranchCommandRepository, CompanyBranchCommandRepository>();
-            serviceCollection.AddTransient<ICompanyBranchCommandService, CompanyBranchCommandService>();
+            serviceCollection.AddTransient<ICompanyBranchCmdRepo, CompanyBranchCmdRepo>();
+            serviceCollection.AddTransient<ICompanyBranchCommandService, CompanyBranchCmdSvc>();
 
             //Offer Branch Part 
             serviceCollection.AddTransient<IBranchOfferRepository, BranchOfferRepository>();

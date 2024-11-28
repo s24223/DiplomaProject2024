@@ -149,6 +149,15 @@ namespace Domain.Features.Branch.Entities
                     }
                 }
             }
+
+            foreach (var item in duplicates)
+            {
+                if (item.Key.UrlSegment != null)
+                {
+                    correctDictionary.Remove(item.Key.UrlSegment.Value);
+                }
+            }
+
             correct.AddRange(correctDictionary.Values);
             return (correct, duplicates);
         }

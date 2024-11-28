@@ -3,6 +3,7 @@ using Application.Features.Users.Commands.Notifications.Interfaces;
 using Application.Shared.DTOs.Features.Users.Notifications;
 using Application.Shared.DTOs.Response;
 using Application.Shared.Services.Authentication;
+using Domain.Features.Notification.Entities;
 using Domain.Features.Notification.ValueObjects.Identificators;
 using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Factories;
@@ -97,17 +98,13 @@ namespace Application.Features.Users.Commands.Notifications.Services
             CancellationToken cancellation
             )
         {
-            var userId = GetUserId(claims);
-
-            var domainNotification = await _notificationRepo
-                .GetNotificationAsync(userId, new NotificationId(notificationId), cancellation);
-            domainNotification.Annul();
-
-            domainNotification = await _notificationRepo.UpdateAsync(userId, domainNotification, cancellation);
-            return new ResponseItem<NotificationResp>
-            {
-                Item = new NotificationResp(domainNotification),
-            };
+            return await HandleNotificationAsync
+                (
+                claims,
+                notificationId,
+                cancellation,
+                domainNotification => domainNotification.Annul()
+                );
         }
 
         public async Task<ResponseItem<NotificationResp>> ReadAsync
@@ -117,17 +114,13 @@ namespace Application.Features.Users.Commands.Notifications.Services
             CancellationToken cancellation
             )
         {
-            var userId = GetUserId(claims);
-
-            var domainNotification = await _notificationRepo
-                .GetNotificationAsync(userId, new NotificationId(notificationId), cancellation);
-            domainNotification.SetReadedByUser();
-
-            domainNotification = await _notificationRepo.UpdateAsync(userId, domainNotification, cancellation);
-            return new ResponseItem<NotificationResp>
-            {
-                Item = new NotificationResp(domainNotification),
-            };
+            return await HandleNotificationAsync
+                (
+                claims,
+                notificationId,
+                cancellation,
+                domainNotification => domainNotification.SetReadedByUser()
+                );
         }
 
         //===================================================================================================
@@ -137,6 +130,29 @@ namespace Application.Features.Users.Commands.Notifications.Services
         private UserId GetUserId(IEnumerable<Claim> claims)
         {
             return _authentication.GetIdNameFromClaims(claims);
+        }
+
+        private async Task<ResponseItem<NotificationResp>> HandleNotificationAsync
+            (
+            IEnumerable<Claim> claims,
+            Guid notificationId,
+            CancellationToken cancellation,
+            Action<DomainNotification> action
+            )
+        {
+            var userId = GetUserId(claims);
+
+            var domainNotification = await _notificationRepo
+                .GetNotificationAsync(userId, new NotificationId(notificationId), cancellation);
+
+            action(domainNotification);
+
+            domainNotification = await _notificationRepo.UpdateAsync(userId, domainNotification, cancellation);
+
+            return new ResponseItem<NotificationResp>
+            {
+                Item = new NotificationResp(domainNotification),
+            };
         }
     }
 }

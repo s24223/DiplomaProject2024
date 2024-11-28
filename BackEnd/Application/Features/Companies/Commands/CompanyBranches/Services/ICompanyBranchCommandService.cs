@@ -11,17 +11,17 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Services
     public interface ICompanyBranchCommandService
     {
         //Company
-        Task<ResponseItem<CreateCompanyResponseDto>> CreateAsync
+        Task<ResponseItem<CreateCompanyResp>> CreateAsync
             (
             IEnumerable<Claim> claims,
-            CreateCompanyRequestDto dto,
+            CreateCompanyReq dto,
             CancellationToken cancellation
             );
 
         Task<ResponseItem<CompanyResp>> UpdateCompanyAsync
             (
             IEnumerable<Claim> claims,
-            UpdateCompanyRequestDto dto,
+            UpdateCompanyReq dto,
             CancellationToken cancellation
             );
 

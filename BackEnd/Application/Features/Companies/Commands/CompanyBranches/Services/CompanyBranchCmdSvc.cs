@@ -14,18 +14,18 @@ using System.Security.Claims;
 
 namespace Application.Features.Companies.Commands.CompanyBranches.Services
 {
-    public class CompanyBranchCommandService : ICompanyBranchCommandService
+    public class CompanyBranchCmdSvc : ICompanyBranchCommandService
     {
         //Values
         private readonly IDomainFactory _domainFactory;
-        private readonly ICompanyBranchCommandRepository _repository;
+        private readonly ICompanyBranchCmdRepo _repository;
         private readonly IAuthJwtSvc _authenticationRepository;
 
         //Cosntructor
-        public CompanyBranchCommandService
+        public CompanyBranchCmdSvc
             (
             IDomainFactory domainFactory,
-            ICompanyBranchCommandRepository repository,
+            ICompanyBranchCmdRepo repository,
             IAuthJwtSvc authentication
             )
         {
@@ -41,10 +41,10 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Services
         //Public Methods
 
         //Company
-        public async Task<ResponseItem<CreateCompanyResponseDto>> CreateAsync
+        public async Task<ResponseItem<CreateCompanyResp>> CreateAsync
             (
             IEnumerable<Claim> claims,
-            CreateCompanyRequestDto dto,
+            CreateCompanyReq dto,
             CancellationToken cancellation
             )
         {
@@ -76,16 +76,16 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Services
             domainCompany.AddBranches(domainBranches);
             domainCompany = await _repository.CreateCompanyAsync(domainCompany, cancellation);
 
-            return new ResponseItem<CreateCompanyResponseDto>
+            return new ResponseItem<CreateCompanyResp>
             {
-                Item = new CreateCompanyResponseDto(domainCompany),
+                Item = new CreateCompanyResp(domainCompany),
             };
         }
 
         public async Task<ResponseItem<CompanyResp>> UpdateCompanyAsync
             (
             IEnumerable<Claim> claims,
-            UpdateCompanyRequestDto dto,
+            UpdateCompanyReq dto,
             CancellationToken cancellation
             )
         {

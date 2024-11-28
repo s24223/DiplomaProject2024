@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Application.Features.Companies.Commands.CompanyBranches.DTOs.CommandsCompany.Create
 {
-    public class CreateCompanyRequestDto
+    public class CreateCompanyReq
     {
         public string? UrlSegment { get; set; }
         [Required]

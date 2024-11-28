@@ -117,6 +117,27 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Branch_Cmd_Id_NotFound" xml:space="preserve">
+    <value>Za podanym Id/s oddaiło nie znaleziono</value>
+  </data>
+  <data name="Company_Cmd_ExistProfile" xml:space="preserve">
+    <value>Profil Firmowy/Comapny juz istnieje</value>
+  </data>
+  <data name="Company_Cmd_Id_NotFound" xml:space="preserve">
+    <value>Nie posiadasz profilu Firmy/Company</value>
+  </data>
+  <data name="Company_Cmd_NotUniqueContactEmail" xml:space="preserve">
+    <value>Wybierz inny kontaktowy email dla Firmy/Company</value>
+  </data>
+  <data name="Company_Cmd_NotUniqueName" xml:space="preserve">
+    <value>Wpoisz inna nazwe firmy jesli ty jestes posiadaczem zgłoś problem z podana nazwa firmy</value>
+  </data>
+  <data name="Company_Cmd_NotUniqueRegon" xml:space="preserve">
+    <value>Wpoisz inny REGON, jesli ty jestes posiadaczem zgłoś problem z podaym REGONem</value>
+  </data>
+  <data name="Company_Cmd_NotUniqueUrlSegment" xml:space="preserve">
+    <value>Wybierz inny UrlSegment</value>
+  </data>
   <data name="Notification_Cmd_CHECK_IsReadedByUser" xml:space="preserve">
     <value>Problem aplikacyjny, niepoprawna wartość bazodanowa CONSTRAINT Notification_CHECK_IsReadedByUser</value>
     <comment>Problem aplikacyjny,</comment>
@@ -132,8 +153,23 @@
   <data name="Notification_Cmd_Id_NotFound" xml:space="preserve">
     <value>Nie znaleziono powiadomienia za podanym Id</value>
   </data>
+  <data name="Person_Cmd_ExistProfile" xml:space="preserve">
+    <value>Profil Osoby juz istnieje, nie ma moliwosci ponownie utworzyć</value>
+  </data>
   <data name="Person_Cmd_Id_NotFound" xml:space="preserve">
     <value>Nie posiadasz profilu osoby</value>
+  </data>
+  <data name="Person_Cmd_IncorrectBirthDate" xml:space="preserve">
+    <value>Problem aplikacyjny, niepoprawna walidacja BirthDate po strone Backendu</value>
+    <comment>Problem aplikacyjny,</comment>
+  </data>
+  <data name="Person_Cmd_IncorrectIsPublicProfile" xml:space="preserve">
+    <value>Problem aplikacyjny, niepoprawny kod IsPublicProfile po strone Backendu</value>
+    <comment>Problem aplikacyjny,</comment>
+  </data>
+  <data name="Person_Cmd_IncorrectIsStudent" xml:space="preserve">
+    <value>Problem aplikacyjny, niepoprawny kod IsStudent po strone Backendu</value>
+    <comment>Problem aplikacyjny,</comment>
   </data>
   <data name="Person_Cmd_NotUniqueContactEmail" xml:space="preserve">
     <value>Musisz wybrac inny email do kontaktu w profilu osoby</value>

@@ -61,6 +61,69 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Za podanym Id/s oddaiło nie znaleziono.
+        /// </summary>
+        internal static string Branch_Cmd_Id_NotFound {
+            get {
+                return ResourceManager.GetString("Branch_Cmd_Id_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profil Firmowy/Comapny juz istnieje.
+        /// </summary>
+        internal static string Company_Cmd_ExistProfile {
+            get {
+                return ResourceManager.GetString("Company_Cmd_ExistProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nie posiadasz profilu Firmy/Company.
+        /// </summary>
+        internal static string Company_Cmd_Id_NotFound {
+            get {
+                return ResourceManager.GetString("Company_Cmd_Id_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wybierz inny kontaktowy email dla Firmy/Company.
+        /// </summary>
+        internal static string Company_Cmd_NotUniqueContactEmail {
+            get {
+                return ResourceManager.GetString("Company_Cmd_NotUniqueContactEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wpoisz inna nazwe firmy jesli ty jestes posiadaczem zgłoś problem z podana nazwa firmy.
+        /// </summary>
+        internal static string Company_Cmd_NotUniqueName {
+            get {
+                return ResourceManager.GetString("Company_Cmd_NotUniqueName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wpoisz inny REGON, jesli ty jestes posiadaczem zgłoś problem z podaym REGONem.
+        /// </summary>
+        internal static string Company_Cmd_NotUniqueRegon {
+            get {
+                return ResourceManager.GetString("Company_Cmd_NotUniqueRegon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wybierz inny UrlSegment.
+        /// </summary>
+        internal static string Company_Cmd_NotUniqueUrlSegment {
+            get {
+                return ResourceManager.GetString("Company_Cmd_NotUniqueUrlSegment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Problem aplikacyjny, niepoprawna wartość bazodanowa CONSTRAINT Notification_CHECK_IsReadedByUser.
         /// </summary>
         internal static string Notification_Cmd_CHECK_IsReadedByUser {
@@ -97,11 +160,47 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Profil Osoby juz istnieje, nie ma moliwosci ponownie utworzyć.
+        /// </summary>
+        internal static string Person_Cmd_ExistProfile {
+            get {
+                return ResourceManager.GetString("Person_Cmd_ExistProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nie posiadasz profilu osoby.
         /// </summary>
         internal static string Person_Cmd_Id_NotFound {
             get {
                 return ResourceManager.GetString("Person_Cmd_Id_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Problem aplikacyjny, niepoprawna walidacja BirthDate po strone Backendu.
+        /// </summary>
+        internal static string Person_Cmd_IncorrectBirthDate {
+            get {
+                return ResourceManager.GetString("Person_Cmd_IncorrectBirthDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Problem aplikacyjny, niepoprawny kod IsPublicProfile po strone Backendu.
+        /// </summary>
+        internal static string Person_Cmd_IncorrectIsPublicProfile {
+            get {
+                return ResourceManager.GetString("Person_Cmd_IncorrectIsPublicProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Problem aplikacyjny, niepoprawny kod IsStudent po strone Backendu.
+        /// </summary>
+        internal static string Person_Cmd_IncorrectIsStudent {
+            get {
+                return ResourceManager.GetString("Person_Cmd_IncorrectIsStudent", resourceCulture);
             }
         }
         
