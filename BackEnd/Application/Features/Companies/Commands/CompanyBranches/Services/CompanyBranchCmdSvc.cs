@@ -14,7 +14,7 @@ using System.Security.Claims;
 
 namespace Application.Features.Companies.Commands.CompanyBranches.Services
 {
-    public class CompanyBranchCmdSvc : ICompanyBranchCommandService
+    public class CompanyBranchCmdSvc : ICompanyBranchCmdSvc
     {
         //Values
         private readonly IDomainFactory _domainFactory;

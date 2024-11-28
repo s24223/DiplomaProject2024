@@ -106,7 +106,7 @@ namespace Application
 
             //Company Branch Part 
             serviceCollection.AddTransient<ICompanyBranchCmdRepo, CompanyBranchCmdRepo>();
-            serviceCollection.AddTransient<ICompanyBranchCommandService, CompanyBranchCmdSvc>();
+            serviceCollection.AddTransient<ICompanyBranchCmdSvc, CompanyBranchCmdSvc>();
 
             //Offer Branch Part 
             serviceCollection.AddTransient<IBranchOfferRepository, BranchOfferRepository>();

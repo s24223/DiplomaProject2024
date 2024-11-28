@@ -161,6 +161,43 @@ namespace Domain.Features.Branch.Entities
             correct.AddRange(correctDictionary.Values);
             return (correct, duplicates);
         }
+
+        public static
+            (
+            IEnumerable<DomainBranch> Correct,
+            Dictionary<DomainBranch, DomainBranch> Duplicates
+            )
+            SeparateAndFilterBranchesFromDB(IEnumerable<DomainBranch> databases, IEnumerable<DomainBranch> inputs)
+        {
+            var inputsDictionary = inputs
+                .Where(x => x.UrlSegment != null)
+                .ToDictionary(x => x.UrlSegment.Value);
+
+            var correct = new List<DomainBranch>();
+            var duplicates = new Dictionary<DomainBranch, DomainBranch>();
+
+            foreach (var item in inputs)
+            {
+                if (item.UrlSegment == null)
+                {
+                    correct.Add(item);
+                }
+                else
+                {
+                    var url = item.UrlSegment.Value;
+                    if (inputsDictionary.TryGetValue(url, out var database))
+                    {
+                        duplicates[database] = item;
+                    }
+                    else
+                    {
+                        correct.Add(item);
+                    }
+                }
+            }
+
+            return (correct, duplicates);
+        }
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================

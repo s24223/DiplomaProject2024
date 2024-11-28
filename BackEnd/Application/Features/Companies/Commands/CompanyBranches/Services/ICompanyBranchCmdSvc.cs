@@ -8,7 +8,7 @@ using System.Security.Claims;
 
 namespace Application.Features.Companies.Commands.CompanyBranches.Services
 {
-    public interface ICompanyBranchCommandService
+    public interface ICompanyBranchCmdSvc
     {
         //Company
         Task<ResponseItem<CreateCompanyResp>> CreateAsync

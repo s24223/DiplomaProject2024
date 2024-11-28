@@ -42,7 +42,7 @@ namespace BackEnd.Controllers
         //Person Servises
         private readonly IPersonCmdSvc _personService;
         //Company Servises
-        private readonly ICompanyBranchCommandService _companyBranchService;
+        private readonly ICompanyBranchCmdSvc _companyBranchService;
         private readonly IBranchOfferCommandService _branchOfferService;
         private readonly IUserCompanySvc _userCompanySvc;
 
@@ -58,7 +58,7 @@ namespace BackEnd.Controllers
             //Person Servises
             IPersonCmdSvc personService,
             //Company Servises
-            ICompanyBranchCommandService companyBranchService,
+            ICompanyBranchCmdSvc companyBranchService,
             IBranchOfferCommandService branchOfferService,
             IUserCompanySvc userCompanySvc
             )

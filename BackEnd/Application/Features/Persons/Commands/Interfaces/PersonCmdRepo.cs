@@ -164,13 +164,9 @@ namespace Application.Features.Persons.Commands.Interfaces
                     x.UrlSegment != null &&
                     domain.UrlSegment != null &&
                     x.UrlSegment == domain.UrlSegment.Value
-                ))
+                )).Where(x => x.UserId != domain.Id.Value)
                 .AsQueryable();
 
-            if (!isForCreating)
-            {
-                query = query.Where(x => x.UserId != domain.Id.Value);
-            }
 
             var duplicates = await query.ToListAsync(cancellation);
             if (duplicates.Any())

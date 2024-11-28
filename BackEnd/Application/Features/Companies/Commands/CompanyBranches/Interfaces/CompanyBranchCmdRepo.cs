@@ -47,7 +47,14 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Interfaces
         {
             try
             {
+                //IEnumerable<DomainBranch> Correct, Dictionary<DomainBranch, DomainBranch> Duplicates
                 await ThrowIfCompanyUrlSegmentNotUnique(company, cancellation);
+                var duplicatesData = await FindBranchDuplicatesAsync(company.Branches.Values, cancellation);
+
+                if (duplicatesData.Correct.Count() != company.Branches.Count())
+                {
+
+                }
 
                 var databaseCompany = MapCompany(company, null);
                 var databaseBranches = MapBranches(company.Branches.Values);
@@ -266,6 +273,20 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Interfaces
             }
         }
 
+        private async
+            Task<(IEnumerable<DomainBranch> Correct, Dictionary<DomainBranch, DomainBranch> Duplicates)>
+            FindBranchDuplicatesAsync
+            (IEnumerable<DomainBranch> domains, CancellationToken cancellation)
+        {
+            var databaseValues = await _context.Branches.Where(x => domains.Any(y =>
+                y.UrlSegment != null &&
+                y.Id.Value != x.Id &&
+                x.UrlSegment == y.UrlSegment.Value
+                )).ToListAsync(cancellation);
+            var databases = databaseValues.Select(x => _mapper.DomainBranch(x));
+
+            return DomainBranch.SeparateAndFilterBranchesFromDB(databases, domains);
+        }
 
         private async Task<Dictionary<BranchId, DomainBranch>> PrepareBranchesAsync
             (
