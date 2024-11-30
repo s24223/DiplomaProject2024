@@ -11,7 +11,7 @@ const NotificationDetailPgae = () => {
         <div>
             Created: {elem.created}<br />
             Completed: {elem.completed? elem.completed : "No"}<br />
-            Previus Id: {elem.previousProblemId}<br />
+            {elem.previousProblemId && <>Previous Id: {elem.previousProblemId}<br /></>}
             {elem.userMessage && <>Your message: {elem.userMessage}<br /></>}
             {elem.response && <>Response: {elem.response}<br /></>}
             Status: {elem.status.name}<br />

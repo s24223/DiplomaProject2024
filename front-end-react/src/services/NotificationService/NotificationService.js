@@ -22,3 +22,14 @@ export const fetchNotificationPostAuthorized = async (body) => {
         body: JSON.stringify(body)
     })
 }
+
+export const fetchNotificationPostUnAuthorized = async (body) => {
+    return await fetch('https://localhost:7166/api/User/notifications/unauthorized', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Access-Contorl-Allow-Origin": "*"
+        },
+        body: JSON.stringify(body)
+    })
+}

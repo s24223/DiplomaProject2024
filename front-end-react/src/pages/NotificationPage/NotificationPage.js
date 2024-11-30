@@ -8,7 +8,7 @@ const NotificationPage = () => {
 
     useEffect(() => {
         if(!sessionStorage.getItem("jwt"))
-            window.location.href = '/login'
+            window.location.href = '/notification/create'
 
         const fetchDummy = async () => {
             let response = await fetchNotificationGetAuthorized()
