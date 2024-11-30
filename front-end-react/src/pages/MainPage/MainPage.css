@@ -8,7 +8,8 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    border: 1px solid red;
+    /* border: 1px solid red; */
+    height: 100%;
 }
 
 .header {
@@ -64,6 +65,8 @@
     background-color: #e7e2e2;
     color: black;
     border-radius: 5px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .searchBar button{
@@ -74,25 +77,105 @@
     font-size: 13px;
     cursor: pointer;
     border-radius: 5px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 .searchBar button:hover{
-    background: #aca7a7;
+    background: #525151;
 }
 
 .offers-list{
-    border: 1px solid blue;
+    /* border: 1px solid blue; */
     width: 70%;
     display: flex;
     align-items: normal;
 }
 
 .offers-list li{
-    border: 1px solid green;
+    border: 2px solid #aca7a7;
+    background-color: #332f2f;
+    border-radius: 5px;
     list-style-type: none;
     display: inline-block;
+    padding: 25px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: left;
+}
+
+.offers-list li:hover{
+    background-color: #525151;
 }
 
 .offers-list li p{
     padding-left: 25px;
+    line-height: 10px;
+}
+
+.offers-list li h2{
+    font-size: 25px;
+    line-height: 14px;
+}
+
+.offers-list ul{
+    /* border: 1px solid yellow; */
+    padding-left: 0;
+    text-align: center;
+    /* margin: auto; */
+}
+
+.login-div{
+    /* border: 1px solid rgb(0, 255, 255); */
+    position: absolute;
+    right: 10px;
+    top: 5px;
+}
+
+.login-div button{
+    border: 2px solid #aca7a7;
+    background-color: #332f2f;
+    color: white;
+    cursor: pointer;
+    padding: 3px 6px;
+}
+
+.login-div button:hover{
+    background-color: #525151;
+}
+
+.button-one{
+    border-radius: 3px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.button-two{
+    border-radius: 3px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+/* 
+.two-button{
+    border: 1px solid tomato;
+} */
+
+.notification-div{
+    /* border: 1px solid red; */
+    position: absolute;
+    top: 36px;
+    right: 10px;
+}
+
+.notification-div button{
+    border: 2px solid #aca7a7;
+    background-color: #332f2f;
+    color: white;
+    cursor: pointer;
+    padding: 3px 6px;
+    border-radius: 3px;
+}
+
+.notification-div button:hover{
+    background-color: #525151;
 }

@@ -6,8 +6,8 @@ const NotificationButton = () => {
     }
 
     return(
-        <div>
-            <button onClick={handleClick} style={{ position: 'absolute', top: 36, right: 10 }}>Notification</button>
+        <div className='notification-div'>
+            <button onClick={handleClick}>Notification</button>
         </div>
     )
 }
