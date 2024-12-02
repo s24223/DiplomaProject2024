@@ -9,7 +9,7 @@ const OffersList = ({ offers }) => {
     };
 
     return (
-        <div>
+        <div className='offers-list'>
             <ul>
                 {offers.map((offerItem) => {
                     const {

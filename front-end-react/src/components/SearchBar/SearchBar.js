@@ -8,8 +8,8 @@ const SearchBar = ({ onSearch }) => {
     };
 
     return (
-        <div>
-            <input 
+        <div className='searchBar'>
+            <input
                 type="text" 
                 placeholder="Szukaj ofert..." 
                 value={query} 

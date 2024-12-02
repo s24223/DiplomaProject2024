@@ -4,6 +4,7 @@ import LoginButton from "../../components/LoginButton/LoginButton";
 import MainPageButton from "../../components/MainPageButton/MainPageButton";
 import BranchList from "../BranchList/BranchList";
 import UrlList from "../UrlList/UrlList";
+import ReturnButton from "../CancelButton/ReturnButton";
 
 const Profile = () => {
     const [userData, setUserData] = useState(null);
@@ -72,6 +73,7 @@ const Profile = () => {
         <div className="user-profile">
             <MainPageButton/>
             <LoginButton />
+            <ReturnButton/>
             <button onClick={handleProfileEdit} style={{ position: 'absolute', top: 40, right: 10 }}>
                     Edit Profile
             </button>
@@ -140,7 +142,7 @@ const Profile = () => {
             ) : (
                 <p>No characteristics available.</p>
             )}
-
+            <ReturnButton/>
         </div>
     );
 };

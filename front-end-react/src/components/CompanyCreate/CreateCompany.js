@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import ProfileCencelButton from "../CancelButtonProfile/profileCancelButton";
+import CancelButton from "../CancelButton/ReturnButton";
 
 const CreateCompany = () => {
     const [companyData, setCompanyData] = useState({
@@ -116,7 +116,7 @@ const CreateCompany = () => {
                     }
                 /><br/>
                 <button type="submit">Create Company</button><br/>
-                <ProfileCencelButton/>
+                <CancelButton/>
             </form>
             {message && <p>{message}</p>}
         </div>

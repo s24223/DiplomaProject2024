@@ -4,6 +4,7 @@ import SearchBar from '../../components/SearchBar/SearchBar';
 import LoginButton from '../../components/LoginButton/LoginButton';
 import { fetchOffers } from '../../services/OffersService/OffersService';
 import OffersList from '../../components/OffersList/OffersList';
+import NotificationButton from '../../components/NotificationButton/NotificationButton';
 import './MainPage.css';
 
 const MainPage = () => {
@@ -30,8 +31,9 @@ const MainPage = () => {
 
     return (
         <div className="main-page">
-            <h1>Strona główna</h1>
-            <LoginButton />
+            <h1 className='title-text'>Strona główna</h1>
+            <LoginButton /><br />
+            <NotificationButton />
             <SearchBar onSearch={setSearchQuery} />
             {offers && offers.items && <OffersList offers={offers.items} />}
         </div>

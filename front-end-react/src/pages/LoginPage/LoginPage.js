@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import { fetchLogin } from '../../services/LoginService/LoginService';
 import './LoginPage.css'
+import MainPageButton from '../../components/MainPageButton/MainPageButton';
 
 const LoginPage = () => {
     const [email, setEmail] = useState();
@@ -16,7 +17,10 @@ const LoginPage = () => {
             sessionStorage.setItem("jwtValidTo", response.jwtValidTo)
             sessionStorage.setItem("refreshToken", response.refereshToken)
             sessionStorage.setItem("refreshTokenValidTo", response.refereshTokenValidTo)
-            window.location.href="/"
+            const redirectPath = sessionStorage.getItem("redirectAfterLogin") || "/";
+            sessionStorage.removeItem("redirectAfterLogin"); // Usuń po użyciu
+            window.location.href = redirectPath;
+            //window.location.href="/"
         } catch(error){
             console.log(error)
             //TODO: check error message and setmessage representive
@@ -30,6 +34,7 @@ const LoginPage = () => {
 
     return(
         <div>
+            <MainPageButton/><br/>
             {errorMsg && errorMsg}
             <label>Logowanie</label>
             <form onSubmit={handleLogin}>

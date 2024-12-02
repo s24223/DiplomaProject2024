@@ -3,6 +3,8 @@ import { fetchLogout } from '../../services/LogOutService/LogOutService';
 
 const LoginButton = () => {
     const handleLogin = () => {
+        const currentPath = window.location.pathname;
+        sessionStorage.setItem("redirectAfterLogin", currentPath);
         // Przekierowanie do strony logowania
         window.location.href = "/login"; // lub jakikolwiek inny routing do logowania
     };
@@ -21,21 +23,21 @@ const LoginButton = () => {
         window.location.href = "/userProfile"; 
     };
     return (
-        <div>
+        <div className='login-div'>
             {sessionStorage.getItem("jwt") === null ?
-            <div>
-                <button onClick={handleLogin} style={{ position: 'absolute', top: 10, right: 10 }}>
+            <div className='two-button'>
+                <button className='button-one' onClick={handleLogin} >
                     Zaloguj
                 </button>
-                <button onClick={handleRegistration} style={{ position: 'absolute', top: 10, right: 70 }}>
+                <button className='button-two' onClick={handleRegistration} >
                     Zarejestruj
                 </button>
             </div> : 
-            <div>
-                <button onClick={handleProfile} style={{ position: 'absolute', top: 10, right: 70 }}>
+            <div className='two-button'>
+                <button className='button-one' onClick={handleProfile} >
                 Profile
                 </button>
-                <button onClick={handleLogOut} style={{ position: 'absolute', top: 10, right: 10 }}>
+                <button className='button-two' onClick={handleLogOut} >
                     Wyloguj    
                 </button>    
             </div>}
