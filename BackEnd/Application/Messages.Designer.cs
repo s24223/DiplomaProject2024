@@ -61,11 +61,38 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Addres nie został znaleziony.
+        /// </summary>
+        internal static string Branch_Cmd_Address_NotFound {
+            get {
+                return ResourceManager.GetString("Branch_Cmd_Address_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Za podanym Id/s oddaiło nie znaleziono.
         /// </summary>
         internal static string Branch_Cmd_Id_NotFound {
             get {
                 return ResourceManager.GetString("Branch_Cmd_Id_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplikat po stronie Bazy danych, wartosc z danym UrlSegmentem juz istnieje.
+        /// </summary>
+        internal static string Branch_Cmd_UrlSegmet_DbDuplicate {
+            get {
+                return ResourceManager.GetString("Branch_Cmd_UrlSegmet_DbDuplicate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplikat w podanych danych, wartosc z danym UrlSegmentem juz istnieje.
+        /// </summary>
+        internal static string Branch_Cmd_UrlSegmet_InputDuplicate {
+            get {
+                return ResourceManager.GetString("Branch_Cmd_UrlSegmet_InputDuplicate", resourceCulture);
             }
         }
         

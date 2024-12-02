@@ -1,4 +1,5 @@
 ﻿using Application.Features.Addresses.Queries.DTOs;
+using Application.Shared.DTOs.Features.Addresses;
 using Domain.Features.Address.Entities;
 using Domain.Features.Address.ValueObjects.Identificators;
 
@@ -25,9 +26,20 @@ namespace Application.Features.Addresses.Queries.Interfaces
           CancellationToken cancellation
           );
 
-        Task<IEnumerable<DivisionStreetsResponseDto>> GetDivisionsDownAsync
+        Task<IEnumerable<DivisionStreetsResponseDto>> GetDivisionsDownVerticalAsync
             (
             DivisionId? id,
+            CancellationToken cancellation
+            );
+
+        Task<IEnumerable<DivisionUpResp>> GetDivisionsDownHorizontalAsync(
+            int? divisionId,
+            CancellationToken cancellation
+            );
+
+        Task<IEnumerable<StreetResponseDto>> GetStreetsAsync
+            (
+            int divisionId,
             CancellationToken cancellation
             );
     }

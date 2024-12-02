@@ -1,6 +1,6 @@
 ﻿namespace Application.Features.Companies.Commands.CompanyBranches.DTOs.CommandsBranch.Create
 {
-    public class CreateBranchRequestDto
+    public class CreateBranchReq
     {
         public Guid AddressId { get; set; }
         public string? UrlSegment { get; set; }

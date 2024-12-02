@@ -1,8 +1,6 @@
 ﻿using Application.Databases.Relational;
 using Application.Databases.Relational.Models;
-using Application.Features.Addresses.Queries.Interfaces;
 using Application.Features.Companies.Mappers;
-using Domain.Features.Address.ValueObjects.Identificators;
 using Domain.Features.Branch.Entities;
 using Domain.Features.Branch.Exceptions.Entities;
 using Domain.Features.Branch.ValueObjects.Identificators;
@@ -13,6 +11,7 @@ using Domain.Shared.Templates.Exceptions;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using System.Text;
 
 namespace Application.Features.Companies.Commands.CompanyBranches.Interfaces
 {
@@ -20,7 +19,6 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Interfaces
     {
         //Values
         private readonly ICompanyMapper _mapper;
-        private readonly IAddressQueryRepo _addressRepository;
         private readonly DiplomaProjectContext _context;
 
 
@@ -28,12 +26,10 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Interfaces
         public CompanyBranchCmdRepo
             (
             ICompanyMapper mapper,
-            IAddressQueryRepo addressRepository,
             DiplomaProjectContext context
             )
         {
             _mapper = mapper;
-            _addressRepository = addressRepository;
             _context = context;
         }
 
@@ -42,54 +38,261 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Interfaces
         //=========================================================================================================
         //=========================================================================================================
         //Public Methods
+        public async Task<string?> CheckDbDuplicatesCompanyAsync
+            (
+            DomainCompany domain,
+            bool isCreating,
+            CancellationToken cancellation
+            )
+        {
+            //Query Builder
+            var query = _context.Companies
+                .Where(x =>
+                    x.UserId == domain.Id.Value ||
+                    (x.Name != null && x.Name == domain.Name) ||
+                    (x.Regon != null && x.Regon == domain.Regon.Value) ||
+                    (x.ContactEmail != null && x.ContactEmail == domain.ContactEmail.Value)
+                    ).AsQueryable();
+
+            if (domain.UrlSegment != null)
+            {
+                query = _context.Companies
+                .Where(x =>
+                    x.UserId == domain.Id.Value ||
+                    (x.Name != null && x.Name == domain.Name) ||
+                    (x.Regon != null && x.Regon == domain.Regon.Value) ||
+                    (x.UrlSegment != null && x.UrlSegment == domain.UrlSegment.Value) ||
+                    (x.ContactEmail != null && x.ContactEmail == domain.ContactEmail.Value)
+                    ).AsQueryable();
+            }
+            //Get Items from DB
+            var dbItems = await query.ToListAsync(cancellation);
+
+
+
+            //Creating result
+            if (isCreating) // IF is creating And Exist this company
+            {
+                var thisCompanyItemsCount = dbItems
+                    .Where(x => x.UserId == domain.Id.Value)
+                    .Count();
+                if (thisCompanyItemsCount > 0)
+                {
+                    return Messages.Company_Cmd_ExistProfile;
+                }
+
+            }
+
+
+            var builder = new StringBuilder();
+            //ContactEmail Part
+            var duplicateCount = dbItems
+                .Where(x =>
+                    x.ContactEmail == domain.ContactEmail.Value &&
+                    x.UserId != domain.Id.Value
+                )
+                .Count();
+            if (duplicateCount != 0)
+            {
+                builder.AppendLine(
+                    $"{Messages.Company_Cmd_NotUniqueContactEmail}: {domain.ContactEmail.Value}"
+                    );
+            }
+            //Regon Part
+            duplicateCount = dbItems
+                .Where(x =>
+                    x.Regon == domain.Regon.Value &&
+                    x.UserId != domain.Id.Value
+                )
+                .Count();
+            if (duplicateCount != 0)
+            {
+                builder.AppendLine(
+                    $"{Messages.Company_Cmd_NotUniqueRegon}: {domain.Regon.Value}"
+                    );
+            }
+            //Name Part
+            duplicateCount = dbItems
+                .Where(x =>
+                    x.Name == domain.Name &&
+                    x.UserId != domain.Id.Value
+                )
+                .Count();
+            if (duplicateCount != 0)
+            {
+                builder.AppendLine(
+                    $"{Messages.Company_Cmd_NotUniqueName}: {domain.Name}"
+                    );
+            }
+            if (domain.UrlSegment != null)
+            {
+                duplicateCount = dbItems
+                .Where(x =>
+                    x.UrlSegment == domain.UrlSegment.Value &&
+                    x.UserId != domain.Id.Value
+                )
+                .Count();
+                if (duplicateCount != 0)
+                {
+                    builder.AppendLine(
+                        $"{Messages.Company_Cmd_NotUniqueUrlSegment}: {domain.UrlSegment.Value}"
+                        );
+                }
+            }
+
+            return builder.Length == 0 ? null : builder.ToString();
+        }
+
+        public async Task<(IEnumerable<(DomainBranch Item, bool IsDuplicate)> Items, bool HasDuplicates)>
+            CheckDbDuplicatesBranchesCreateAsync
+            (
+            IEnumerable<DomainBranch> domains,
+            CancellationToken cancellation
+            )
+        {
+            //Database Operations
+            var companyId = domains.FirstOrDefault()?.CompanyId.Value;
+            var databases = await _context.Branches
+                .Where(x =>
+                    x.CompanyId == companyId &&
+                    x.UrlSegment != null
+                    )
+                .Select(x => x.UrlSegment)
+                .ToListAsync(cancellation);
+            var urlStringsSet = databases.ToHashSet();
+
+            //Work with Data
+            var hasDuplicates = false;
+            var result = new List<(DomainBranch Item, bool IsDuplicate)>();
+            foreach (var item in domains)
+            {
+                if (item.UrlSegment != null && urlStringsSet.Contains(item.UrlSegment.Value))
+                {
+                    result.Add((item, true));
+                    if (hasDuplicates != true)
+                    {
+                        hasDuplicates = true;
+                    }
+                }
+                else
+                {
+                    result.Add((item, false));
+                }
+            }
+            return (result, hasDuplicates);
+        }
+
+        public async Task<(IEnumerable<(DomainBranch Item, bool IsDuplicate)> Items, bool HasDuplicates)>
+            CheckDbDuplicatesBranchesUpdateAsync
+            (
+            Dictionary<BranchId, DomainBranch> dictionary,
+            CancellationToken cancellation
+            )
+        {
+            var companyId = dictionary.FirstOrDefault().Value.CompanyId.Value;
+            var urlSegmentsAndIds = await _context.Branches
+                .Where(x => x.CompanyId == companyId)
+                .Select(x => new { x.Id, x.UrlSegment })
+                .ToListAsync(cancellation);
+
+
+            var dbDictionary = urlSegmentsAndIds
+                .ToDictionary(x => x.Id, x => x.UrlSegment);
+            var inputDictionary = dictionary.Values
+                .ToDictionary(x => x.Id.Value, x => x.UrlSegment?.Value);
+
+            var notFoundKeys = inputDictionary
+                .Where(x => !dbDictionary.ContainsKey(x.Key))
+                .Select(x => x.Key);
+            ThrowNotFoundBranchIds(notFoundKeys);
+
+            foreach (var key in inputDictionary.Keys)
+            {
+                var dbItem = dbDictionary[key];
+                var inputItem = inputDictionary[key];
+
+                dbItem = inputItem;
+            }
+
+            //Work with Data
+            var hasDuplicates = false;
+            var result = new List<(DomainBranch Item, bool IsDuplicate)>();
+            var groupedItems = dbDictionary.GroupBy(x => x.Value);
+            foreach (var pair in groupedItems)
+            {
+                if (pair.Key == null || pair.Count() == 1)
+                {
+                    foreach (var id in pair)
+                    {
+                        var domainId = new BranchId(id.Key);
+                        if (dictionary.ContainsKey(domainId))
+                        {
+                            result.Add((dictionary[domainId], false));
+                        }
+                    }
+                }
+                else
+                {
+                    hasDuplicates = true;
+                    foreach (var id in pair)
+                    {
+                        var domainId = new BranchId(id.Key);
+                        if (dictionary.ContainsKey(domainId))
+                        {
+                            result.Add((dictionary[domainId], true));
+                        }
+                    }
+                }
+            }
+
+            return (result, hasDuplicates);
+        }
+
         //DML
-        public async Task<DomainCompany> CreateCompanyAsync(DomainCompany company, CancellationToken cancellation)
+        public async Task<DomainCompany> CreateCompanyAsync
+            (
+            DomainCompany company,
+            CancellationToken cancellation
+            )
         {
             try
             {
-                //IEnumerable<DomainBranch> Correct, Dictionary<DomainBranch, DomainBranch> Duplicates
-                await ThrowIfCompanyUrlSegmentNotUnique(company, cancellation);
-                var duplicatesData = await FindBranchDuplicatesAsync(company.Branches.Values, cancellation);
-
-                if (duplicatesData.Correct.Count() != company.Branches.Count())
-                {
-
-                }
-
+                //Databse Operatons
                 var databaseCompany = MapCompany(company, null);
-                var databaseBranches = MapBranches(company.Branches.Values);
-
+                var databaseBranches = company.Branches.Values.Select(x => MapBranch(x, null));
                 await _context.Companies.AddAsync(databaseCompany, cancellation);
                 await _context.Branches.AddRangeAsync(databaseBranches, cancellation);
                 await _context.SaveChangesAsync(cancellation);
-
+                //Map to Domain
                 company = _mapper.DomainCompany(databaseCompany);
-                if (databaseBranches.Any())
-                {
-                    var branchesDictionary = await PrepareBranchesAsync(databaseBranches, cancellation);
-                    company.AddBranches(branchesDictionary.Values);
-                }
+                var branchesDictionary = await _mapper.DomainBranchesAsync(databaseBranches, cancellation);
+                company.AddBranches(branchesDictionary.Values);
                 return company;
             }
             catch (System.Exception ex)
             {
-                throw HandleCompanyException(ex, company);
+                throw HandleComapanyException(ex, company);
             }
         }
 
-        public async Task UpdateCompanyAsync(DomainCompany company, CancellationToken cancellation)
+        public async Task<DomainCompany> UpdateCompanyAsync
+            (
+            DomainCompany company,
+            CancellationToken cancellation
+            )
         {
             try
             {
-                await ThrowIfCompanyUrlSegmentNotUnique(company, cancellation);
-
+                //Databse Operatons
                 var databaseCompany = await GetDatabseCompanyAsync(company.Id, cancellation);
                 databaseCompany = MapCompany(company, databaseCompany);
                 await _context.SaveChangesAsync(cancellation);
+                //Map to Domain
+                return _mapper.DomainCompany(databaseCompany);
             }
             catch (System.Exception ex)
             {
-                throw HandleCompanyException(ex, company);
+                throw HandleComapanyException(ex, company);
             }
         }
 
@@ -108,69 +311,69 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Interfaces
             CancellationToken cancellation
             )
         {
-            var databseBranches = MapBranches(branches);
-
-            await _context.Branches.AddRangeAsync(databseBranches, cancellation);
-            await _context.SaveChangesAsync(cancellation);
-
-            var domainBranchesDictionary = await PrepareBranchesAsync(databseBranches, cancellation);
-            return domainBranchesDictionary.Values;
+            try
+            {
+                //Database Operations
+                var databaseBranches = branches.Select(x => MapBranch(x, null));
+                await _context.Branches.AddRangeAsync(databaseBranches, cancellation);
+                await _context.SaveChangesAsync(cancellation);
+                //Map to Doamin
+                var domainBranchesDictionary = await _mapper.DomainBranchesAsync(databaseBranches, cancellation);
+                return domainBranchesDictionary.Values;
+            }
+            catch (System.Exception ex)
+            {
+                throw HandleBranchesException(ex);
+            }
         }
 
-        public async Task<Dictionary<BranchId, DomainBranch>> UpdateBranchesAsync
+        public async Task<IEnumerable<DomainBranch>> UpdateBranchesAsync
             (
             Dictionary<BranchId, DomainBranch> branches,
             CancellationToken cancellation
             )
         {
-            var companyId = branches.First().Value.CompanyId;
-            var databaseBranches =
-                await GetDatabaseBranchesAsync(companyId, branches.Keys, cancellation);
-
-            foreach (var key in branches.Keys)
+            try
             {
-                var domain = branches[key];
-                var database = databaseBranches[key];
-
-                database.AddressId = domain.AddressId.Value;
-                database.UrlSegment = (string?)domain.UrlSegment;
-                database.Name = domain.Name;
-                database.Description = domain.Description;
+                //Database Operations
+                var companyId = branches.First().Value.CompanyId;
+                var databaseBranches =
+                    await GetDatabaseBranchesAsync(companyId, branches.Keys, cancellation);
+                //Update
+                foreach (var key in branches.Keys)
+                {
+                    var domain = branches[key];
+                    var database = databaseBranches[key];
+                    database = MapBranch(domain, database);
+                }
+                //Save
+                await _context.SaveChangesAsync(cancellation);
+                //Map to Doamin
+                var domainBranchesDictionary = await _mapper.DomainBranchesAsync(databaseBranches.Values, cancellation);
+                return domainBranchesDictionary.Values;
             }
-
-            await _context.SaveChangesAsync(cancellation);
-
-            return await PrepareBranchesAsync(databaseBranches.Values, cancellation);
+            catch (System.Exception ex)
+            {
+                throw HandleBranchesException(ex);
+            }
         }
 
         //DQL 
         public async Task<Dictionary<BranchId, DomainBranch>> GetBranchesAsync
-            (
-            UserId companyId,
-            IEnumerable<BranchId> ids,
-            CancellationToken cancellation
-            )
+            (UserId companyId, IEnumerable<BranchId> ids, CancellationToken cancellation)
         {
             var databaseBranches = await GetDatabaseBranchesAsync(companyId, ids, cancellation);
-            return databaseBranches.ToDictionary
-                (
-                x => x.Key,
-                x => _mapper.DomainBranch(x.Value)
-                );
+            return databaseBranches.ToDictionary(x => x.Key, x => _mapper.DomainBranch(x.Value));
         }
 
         //=========================================================================================================
         //=========================================================================================================
         //=========================================================================================================
-        //Private Methods        
-
+        //Private Methods      
 
         //Getters
         private async Task<Company> GetDatabseCompanyAsync
-            (
-            UserId id,
-            CancellationToken cancellation
-            )
+            (UserId id, CancellationToken cancellation)
         {
             var databaseCompany = await _context.Companies
                 .Where(x => x.UserId == id.Value)
@@ -188,37 +391,36 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Interfaces
         }
 
         private async Task<Dictionary<BranchId, Branch>> GetDatabaseBranchesAsync
-           (
-            UserId companyId,
-            IEnumerable<BranchId> ids,
-            CancellationToken cancellation
-           )
+           (UserId companyId, IEnumerable<BranchId> ids, CancellationToken cancellation)
         {
             var idsList = ids.Select(x => x.Value).ToHashSet();
             var databaseBranches = await _context.Branches
-                .Where(x =>
-                    x.CompanyId == companyId.Value &&
-                    idsList.Contains(x.Id)
-                ).ToDictionaryAsync
-                (
-                    x => new BranchId(x.Id),
-                    x => x,
-                    cancellation
-                );
+            .Where(x =>
+                x.CompanyId == companyId.Value &&
+                idsList.Contains(x.Id)
+            ).ToDictionaryAsync
+            (
+                x => new BranchId(x.Id),
+                x => x,
+                cancellation
+            );
 
             var misingIds = idsList.Except(databaseBranches.Keys.Select(x => x.Value).ToHashSet());
-
-            if (misingIds.Any())
-            {
-                throw new BranchException
-                    (
-                    $"{Messages.Branch_Cmd_Id_NotFound}\n{string.Join("\n", misingIds)}",
-                    DomainExceptionTypeEnum.NotFound
-                    );
-            }
+            ThrowNotFoundBranchIds(misingIds);
             return databaseBranches;
         }
 
+        private void ThrowNotFoundBranchIds(IEnumerable<Guid> items)
+        {
+            if (items.Any())
+            {
+                throw new BranchException
+                    (
+                    $"{Messages.Branch_Cmd_Id_NotFound}\n{string.Join("\n", items)}",
+                    DomainExceptionTypeEnum.NotFound
+                    );
+            }
+        }
 
         //Mapers To Database
         private Company MapCompany(DomainCompany domain, Company? database = null)
@@ -236,27 +438,22 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Interfaces
             return databaseCompany;
         }
 
-        private IEnumerable<Branch> MapBranches(IEnumerable<DomainBranch> domains)
+        private Branch MapBranch(DomainBranch domain, Branch? database = null)
         {
-            var list = new List<Branch>();
-            foreach (var domainBranch in domains)
+            var branch = database ?? new Branch();
+            if (database == null)
             {
-                var branch = new Branch();
-
-                branch.CompanyId = domainBranch.CompanyId.Value;
-                branch.AddressId = domainBranch.AddressId.Value;
-                branch.UrlSegment = (string?)domainBranch.UrlSegment;
-                branch.Name = domainBranch.Name;
-                branch.Description = domainBranch.Description;
-
-                list.Add(branch);
+                branch.CompanyId = domain.CompanyId.Value;
             }
-
-            return list;
+            branch.AddressId = domain.AddressId.Value;
+            branch.UrlSegment = (string?)domain.UrlSegment;
+            branch.Name = domain.Name;
+            branch.Description = domain.Description;
+            return branch;
         }
 
 
-        //UrlSegments
+        /*//UrlSegments
         private async Task ThrowIfCompanyUrlSegmentNotUnique(DomainCompany domain, CancellationToken cancellation)
         {
             if (domain.UrlSegment != null)
@@ -271,63 +468,11 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Interfaces
                     throw new CompanyException($"{Messages.Company_Cmd_NotUniqueUrlSegment}: {domain.UrlSegment.Value}");
                 }
             }
-        }
+        }*/
 
-        private async
-            Task<(IEnumerable<DomainBranch> Correct, Dictionary<DomainBranch, DomainBranch> Duplicates)>
-            FindBranchDuplicatesAsync
-            (IEnumerable<DomainBranch> domains, CancellationToken cancellation)
-        {
-            var databaseValues = await _context.Branches.Where(x => domains.Any(y =>
-                y.UrlSegment != null &&
-                y.Id.Value != x.Id &&
-                x.UrlSegment == y.UrlSegment.Value
-                )).ToListAsync(cancellation);
-            var databases = databaseValues.Select(x => _mapper.DomainBranch(x));
-
-            return DomainBranch.SeparateAndFilterBranchesFromDB(databases, domains);
-        }
-
-        private async Task<Dictionary<BranchId, DomainBranch>> PrepareBranchesAsync
-            (
-            IEnumerable<Branch> branches,
-            CancellationToken cancellation
-            )
-
-        {
-            var ids = branches
-                    .Where(x => x.AddressId.HasValue)
-                    .Select(x => new AddressId(x.AddressId))
-                    .ToHashSet();
-            var addresses = await _addressRepository.GetAddressDictionaryAsync(ids, cancellation);
-
-            var dictionary = new Dictionary<BranchId, DomainBranch>();
-            foreach (var databaseBranch in branches)
-            {
-                if (databaseBranch.AddressId.HasValue)
-                {
-                    var key = new AddressId(databaseBranch.AddressId.Value);
-                    if (addresses.TryGetValue(key, out var address))
-                    {
-                        var branch = _mapper.DomainBranch(databaseBranch);
-                        branch.Address = address;
-                        dictionary[branch.Id] = branch;
-                    }
-                }
-            }
-            return dictionary;
-        }
-
-        private System.Exception HandleCompanyException(System.Exception ex, DomainCompany domain)
+        private System.Exception HandleComapanyException(System.Exception ex, DomainCompany domain)
         {
             //Branch_Address - other
-
-            /*
-            Company_UNIQUE_ContactEmail
-            Company_UNIQUE_Name
-            Company_UNIQUE_Regon
-            Company_pk
-             */
             var dictionary = new Dictionary<string, string>()
             {
                 {"Company_UNIQUE_ContactEmail",$"{Messages.Company_Cmd_NotUniqueContactEmail}: {domain.ContactEmail.Value}" },
@@ -335,7 +480,6 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Interfaces
                 {"Company_UNIQUE_Regon",$"{Messages.Company_Cmd_NotUniqueRegon}: {domain.Regon.Value}" },
                 {"Company_pk",$"{Messages.Company_Cmd_ExistProfile}" },
             };
-
             //2627  Unique, Pk 
             //547   Check, FK
             if (ex is DbUpdateException && ex.InnerException is SqlException sqlEx)
@@ -354,8 +498,27 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Interfaces
                     }
                 }
             }
-
             return ex;
         }
+
+        private System.Exception HandleBranchesException(System.Exception ex)
+        {
+            //2627  Unique, Pk 
+            //547   Check, FK
+            if (ex is DbUpdateException && ex.InnerException is SqlException sqlEx)
+            {
+                var number = sqlEx.Number;
+                var message = sqlEx.Message;
+                if (number == 547)
+                {
+                    if (sqlEx.Message.Contains("Branch_Address"))
+                    {
+                        return new BranchException(Messages.Branch_Cmd_Address_NotFound);
+                    }
+                }
+            }
+            return ex;
+        }
+
     }
 }

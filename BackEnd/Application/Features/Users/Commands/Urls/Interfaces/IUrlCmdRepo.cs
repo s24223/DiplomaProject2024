@@ -9,16 +9,12 @@ namespace Application.Features.Users.Commands.Urls.Interfaces
         //===================================================================================================
         //DML
         Task<(IEnumerable<DomainUrl> Database, IEnumerable<DomainUrl> Input)>
-            CreateAsync(UserId userId, IEnumerable<DomainUrl> urls, CancellationToken cancellation);
+           CreateAsync(UserId userId, IEnumerable<DomainUrl> urls, CancellationToken cancellation);
 
         Task<(IEnumerable<DomainUrl> Database, IEnumerable<DomainUrl> Input)>
-            UpdateAsync(UserId userId, Dictionary<UrlId, DomainUrl> urls, CancellationToken cancellation);
+             UpdateAsync(UserId userId, Dictionary<UrlId, DomainUrl> urls, CancellationToken cancellation);
 
-        Task DeleteAsync
-            (
-            IEnumerable<UrlId> ids,
-            CancellationToken cancellation
-            );
+        Task DeleteAsync(IEnumerable<UrlId> ids, CancellationToken cancellation);
 
         //===================================================================================================
         //DQL

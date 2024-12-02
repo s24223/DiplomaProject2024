@@ -26,14 +26,14 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Services
             );
 
         //Branch
-        Task<ResponseItems<BranchResp>> CreateBranchesAsync
+        Task<ResponseItems<CreateBranchesResp>> CreateBranchesAsync
             (
             IEnumerable<Claim> claims,
-            IEnumerable<CreateBranchRequestDto> dtos,
+            IEnumerable<CreateBranchReq> dtos,
             CancellationToken cancellation
             );
 
-        Task<ResponseItems<BranchResp>> UpdateBranchesAsync
+        Task<ResponseItems<UpdateBranchesResp>> UpdateBranchesAsync
             (
             IEnumerable<Claim> claims,
             IEnumerable<UpdateBranchRequestDto> dtos,

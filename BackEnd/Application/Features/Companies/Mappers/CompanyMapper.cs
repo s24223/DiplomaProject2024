@@ -1,5 +1,8 @@
 ﻿using Application.Databases.Relational.Models;
+using Application.Features.Addresses.Queries.Interfaces;
+using Domain.Features.Address.ValueObjects.Identificators;
 using Domain.Features.Branch.Entities;
+using Domain.Features.Branch.ValueObjects.Identificators;
 using Domain.Features.BranchOffer.Entities;
 using Domain.Features.Characteristic.ValueObjects.Identificators;
 using Domain.Features.Company.Entities;
@@ -12,46 +15,82 @@ namespace Application.Features.Companies.Mappers
     {
         //Values
         private readonly IDomainFactory _domainFactory;
+        private readonly IAddressQueryRepo _addressRepository;
 
 
         //Cosnructor
         public CompanyMapper
             (
-            IDomainFactory domainFactory
+            IDomainFactory domainFactory,
+            IAddressQueryRepo addressRepository
             )
         {
             _domainFactory = domainFactory;
+            _addressRepository = addressRepository;
         }
 
 
         //================================================================================================================
         //================================================================================================================
         //================================================================================================================
-        public DomainCompany DomainCompany(Company databaseCompany)
+        public DomainCompany DomainCompany(Company database)
         {
             return _domainFactory.CreateDomainCompany
                 (
-                databaseCompany.UserId,
-                databaseCompany.UrlSegment,
-                databaseCompany.ContactEmail,
-                databaseCompany.Name,
-                databaseCompany.Regon,
-                databaseCompany.Description,
-                databaseCompany.Created
+                database.UserId,
+                database.UrlSegment,
+                database.ContactEmail,
+                database.Name,
+                database.Regon,
+                database.Description,
+                database.Created
                 );
         }
 
-        public DomainBranch DomainBranch(Branch databaseBranch)
+        public DomainBranch DomainBranch(Branch database)
         {
             return _domainFactory.CreateDomainBranch
                 (
-                databaseBranch.Id,
-                databaseBranch.CompanyId,
-                databaseBranch.AddressId,
-                databaseBranch.UrlSegment,
-                databaseBranch.Name,
-                databaseBranch.Description
+                database.Id,
+                database.CompanyId,
+                database.AddressId,
+                database.UrlSegment,
+                database.Name,
+                database.Description
                 );
+        }
+
+        public async Task<DomainBranch> DomainBranchAsync(Branch database, CancellationToken cancellation)
+        {
+            var branch = DomainBranch(database);
+            var address = await _addressRepository.GetAddressAsync(branch.AddressId, cancellation);
+            branch.Address = address;
+            return branch;
+        }
+
+        public async Task<Dictionary<BranchId, DomainBranch>> DomainBranchesAsync
+            (IEnumerable<Branch> databases, CancellationToken cancellation)
+        {
+            if (!databases.Any())
+            {
+                return [];
+            }
+
+            var addressIds = databases
+                .Select(x => new AddressId(x.AddressId))
+                .ToHashSet();
+            var addresses = await _addressRepository
+                .GetAddressDictionaryAsync(addressIds, cancellation);
+
+            var dictionary = new Dictionary<BranchId, DomainBranch>();
+            foreach (var item in databases)
+            {
+                var branch = DomainBranch(item);
+                branch.Address = addresses[branch.AddressId];
+                dictionary[branch.Id] = branch;
+            }
+
+            return dictionary;
         }
 
         public DomainOffer DomainOffer(Offer databaseOffer)
@@ -95,6 +134,11 @@ namespace Application.Features.Companies.Mappers
                 databaseBranchOffer.LastUpdate
                 );
         }
+
+        //================================================================================================
+        //================================================================================================
+        //================================================================================================
+
 
     }
 }

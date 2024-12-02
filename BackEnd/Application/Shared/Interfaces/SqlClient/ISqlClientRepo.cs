@@ -28,5 +28,11 @@ namespace Application.Shared.Interfaces.SqlClient
             bool ascending,
             CancellationToken cancellation
             );
+
+        Task<IEnumerable<int>> GetDivisionIdsDownAsync
+            (
+            int divisionId,
+            CancellationToken cancellation
+            );
     }
 }

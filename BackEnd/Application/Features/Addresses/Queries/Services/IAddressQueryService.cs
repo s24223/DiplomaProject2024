@@ -25,5 +25,16 @@ namespace Application.Features.Addresses.Queries.Services
             int? id,
             CancellationToken cancellation
             );
+
+        Task<IEnumerable<DivisionUpResp>> GetDivisionsDownHorizontalAsync(
+            int? divisionId,
+            CancellationToken cancellation
+            );
+
+        Task<IEnumerable<StreetResponseDto>> GetStreetsAsync
+            (
+            int divisionId,
+            CancellationToken cancellation
+            );
     }
 }

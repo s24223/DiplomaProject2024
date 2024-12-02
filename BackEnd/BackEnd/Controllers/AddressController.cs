@@ -83,15 +83,19 @@ namespace BackEnd.Controllers
             )
         {
             var result = await _queryService.GetDivisionsDownAsync(id, cancellation);
-            if (result.Count > 0)
-            {
-                return StatusCode(200, result);
-            }
-            else
-            {
-                return StatusCode(404);
+            return StatusCode(200, result);
 
-            }
+        }
+
+        [HttpGet("divisionsDown2")]
+        public async Task<IActionResult> GetDivisionsDown2Async
+            (
+            int? id,
+            CancellationToken cancellation
+            )
+        {
+            var result = await _queryService.GetDivisionsDownHorizontalAsync(id, cancellation);
+            return StatusCode(200, result);
         }
 
         [HttpGet("{id:guid}")]
@@ -102,6 +106,17 @@ namespace BackEnd.Controllers
             )
         {
             var result = await _queryService.GetAddressAsync(id, cancellation);
+            return StatusCode(200, result);
+        }
+
+        [HttpGet("streets/{divisionId:int}")]
+        public async Task<IActionResult> GetStreetsAsync
+            (
+            int divisionId,
+            CancellationToken cancellation
+            )
+        {
+            var result = await _queryService.GetStreetsAsync(divisionId, cancellation);
             return StatusCode(200, result);
         }
     }

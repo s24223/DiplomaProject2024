@@ -62,12 +62,29 @@ namespace Application.Features.Addresses.Queries.Services
             )
         {
             DivisionId? divisionId = id.HasValue ? new DivisionId(id.Value) : null;
-            var items = await _repository.GetDivisionsDownAsync(divisionId, cancellation);
+            var items = await _repository.GetDivisionsDownVerticalAsync(divisionId, cancellation);
 
             return new ResponseItems<DivisionStreetsResponseDto>
             {
                 Items = items.ToList(),
             };
+        }
+
+        public async Task<IEnumerable<DivisionUpResp>> GetDivisionsDownHorizontalAsync(
+            int? divisionId,
+            CancellationToken cancellation
+            )
+        {
+            return await _repository.GetDivisionsDownHorizontalAsync(divisionId, cancellation);
+        }
+
+        public async Task<IEnumerable<StreetResponseDto>> GetStreetsAsync
+            (
+            int divisionId,
+            CancellationToken cancellation
+            )
+        {
+            return await _repository.GetStreetsAsync(divisionId, cancellation);
         }
         //==================================================================================================
         //==================================================================================================

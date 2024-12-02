@@ -175,3 +175,74 @@ END;
 --========================================================================================
 GO
 --========================================================================================
+CREATE OR ALTER PROCEDURE [dbo].[SelectDivisionIdsWithStreets]
+	@DivisionId INT 
+AS 
+	BEGIN
+		WITH HierarchyDownWithName AS 
+		(
+			SELECT  
+				[AD].[Id] ,
+				[AD].[Name],
+				[AD].[ParentDivisionId] ,
+				[AD].[AdministrativeTypeId] 
+			FROM [dbo].[AdministrativeDivision] AS [AD]
+			WHERE [AD].[Id] = @DivisionId
+
+			UNION ALL
+
+			SELECT 
+				[A].[Id] ,
+				[A].[Name] ,
+				[A].[ParentDivisionId] ,
+				[A].[AdministrativeTypeId] 
+			FROM [dbo].[AdministrativeDivision] AS [A] 
+			JOIN HierarchyDownWithName AS [HD] ON [A].[ParentDivisionId]  = [HD].[Id]
+		) 
+		SELECT  
+			DISTINCT [HDN].[Id] AS 'AdministrativeDivisionId',
+			[HDN].[Name]
+		FROM HierarchyDownWithName AS [HDN]	
+		JOIN [dbo].[DivisionStreet] AS [DS] 
+		ON [HDN].[Id] = [DS].[DivisionId]
+		ORDER BY [HDN].[Name], [HDN].[Id]
+	END;
+
+	
+--========================================================================================
+GO
+--========================================================================================
+CREATE OR ALTER PROCEDURE [dbo].[SelectDivisionIdsWithStreetsCount]
+	@DivisionId INT 
+AS 
+	BEGIN
+		WITH HierarchyDownWithName AS 
+		(
+			SELECT  
+				[AD].[Id] ,
+				[AD].[Name],
+				[AD].[ParentDivisionId] ,
+				[AD].[AdministrativeTypeId] 
+			FROM [dbo].[AdministrativeDivision] AS [AD]
+			WHERE [AD].[Id] = @DivisionId
+
+			UNION ALL
+
+			SELECT 
+				[A].[Id] ,
+				[A].[Name] ,
+				[A].[ParentDivisionId] ,
+				[A].[AdministrativeTypeId] 
+			FROM [dbo].[AdministrativeDivision] AS [A] 
+			JOIN HierarchyDownWithName AS [HD] ON [A].[ParentDivisionId]  = [HD].[Id]
+		)
+		SELECT  
+			Count(DISTINCT [HDN].[Id])
+		FROM HierarchyDownWithName AS [HDN]	
+		JOIN [dbo].[DivisionStreet] AS [DS] 
+		ON [HDN].[Id] = [DS].[DivisionId]
+	END;
+		
+--========================================================================================
+GO
+--========================================================================================

@@ -108,11 +108,7 @@ namespace Application.Features.Users.Commands.Urls.Interfaces
             }
         }
 
-        public async Task DeleteAsync
-            (
-            IEnumerable<UrlId> ids,
-            CancellationToken cancellation
-            )
+        public async Task DeleteAsync(IEnumerable<UrlId> ids, CancellationToken cancellation)
         {
             var dictionary = await GetDatabaseUrlsDictionaryAsync(ids, cancellation);
             foreach (var databaseUrl in dictionary)
@@ -150,21 +146,22 @@ namespace Application.Features.Users.Commands.Urls.Interfaces
             CancellationToken cancellation
             )
         {
-            var urls = await _context.Urls
-                .Where(x => ids.Any(y =>
-                    y.UserId.Value == x.UserId &&
-                    y.UrlTypeId == x.UrlTypeId &&
-                    y.Created == x.Created
-                )).ToDictionaryAsync
+            var userId = ids.FirstOrDefault()?.UserId.Value;
+
+            var list = await _context.Urls
+                .Where(x => x.UserId == userId)
+                .ToListAsync(cancellation);
+
+            var urls = list.Where(x => ids.Any(y =>
+                    y.Created == x.Created &&
+                    y.UrlTypeId == x.UrlTypeId
+                )).ToDictionary
                 (
                 x => new UrlId(new UserId(x.UserId), x.UrlTypeId, x.Created),
-                x => x,
-                cancellation
+                x => x
                 );
 
             var missingIds = ids.Where(id => !urls.ContainsKey(id));
-
-
             if (missingIds.Any())
             {
                 var builder = new StringBuilder();
@@ -173,7 +170,7 @@ namespace Application.Features.Users.Commands.Urls.Interfaces
 
                 foreach (var id in missingIds)
                 {
-                    builder.AppendLine($"{id.UserId},\t {id.UrlTypeId},\t {id.Created}");
+                    builder.AppendLine($"{id.UserId.Value},\t {id.UrlTypeId},\t {id.Created}");
                 }
 
                 throw new UrlException

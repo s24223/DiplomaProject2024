@@ -1,4 +1,6 @@
-﻿using Application.Shared.DTOs.Features.Companies.Responses;
+﻿using Application.Features.Companies.Commands.CompanyBranches.DTOs.CommandsBranch.Create;
+using Application.Shared.DTOs.Features.Companies.Responses;
+using Domain.Features.Branch.Entities;
 using Domain.Features.Company.Entities;
 
 namespace Application.Features.Companies.Commands.CompanyBranches.DTOs.CommandsCompany.Create
@@ -6,19 +8,33 @@ namespace Application.Features.Companies.Commands.CompanyBranches.DTOs.CommandsC
     public class CreateCompanyResp
     {
         //Values
-        public CompanyResp Company { get; set; } = null!;
-        public IEnumerable<BranchResp> Branches { get; set; } = [];
-        public int BranchesCount { get; private set; }
+        public CompanyResp? Company { get; set; } = null!;
+        public IEnumerable<CreateBranchesResp> Branches { get; set; } = [];
 
 
 
         //Cosntructor
-        public CreateCompanyResp(DomainCompany domain)
+        public CreateCompanyResp
+            (
+            DomainCompany company,
+            IEnumerable<(DomainBranch Item, bool IsDuplicate)> items,
+            bool isBeforeDb,
+            bool hasDuplicates
+            )
         {
-            Company = new CompanyResp(domain);
+            Company = new CompanyResp(company);
+            Branches = items.Select(x =>
+                new CreateBranchesResp(x.Item, x.IsDuplicate, isBeforeDb, hasDuplicates));
+        }
 
-            Branches = domain.Branches.Select(x => new BranchResp(x.Value));
-            BranchesCount = Branches.Count();
+        public CreateCompanyResp
+            (
+            DomainCompany company
+            )
+        {
+            Company = new CompanyResp(company);
+            Branches = company.Branches.Select(x =>
+                new CreateBranchesResp(x.Value, false, false, false));
         }
     }
 }

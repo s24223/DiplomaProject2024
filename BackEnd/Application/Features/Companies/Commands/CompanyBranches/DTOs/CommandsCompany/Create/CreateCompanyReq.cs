@@ -14,6 +14,6 @@ namespace Application.Features.Companies.Commands.CompanyBranches.DTOs.CommandsC
         [Required]
         public required string Regon { get; set; } = null!;
         public string? Description { get; set; }
-        public IEnumerable<CreateBranchRequestDto> Branches { get; set; } = [];
+        public IEnumerable<CreateBranchReq> Branches { get; set; } = [];
     }
 }

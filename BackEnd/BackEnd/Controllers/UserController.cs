@@ -397,7 +397,7 @@ namespace BackEnd.Controllers
         [HttpPost("company/branches")]
         public async Task<IActionResult> CreateBranchAsync
             (
-            IEnumerable<CreateBranchRequestDto> dtos,
+            IEnumerable<CreateBranchReq> dtos,
             CancellationToken cancellation
             )
         {

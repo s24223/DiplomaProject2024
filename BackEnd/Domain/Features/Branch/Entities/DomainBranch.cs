@@ -110,11 +110,62 @@ namespace Domain.Features.Branch.Entities
             Name = name;
             Description = description;
         }
+        /*
+                public static
+                    (
+                    IEnumerable<DomainBranch> Correct,
+                    Dictionary<DomainBranch, List<DomainBranch>> Duplicates
+                    )
+                    SeparateAndFilterBranches(IEnumerable<DomainBranch> domainBranches)
+                {
+                    var correct = new List<DomainBranch>();
+                    var correctDictionary = new Dictionary<string, DomainBranch>();
+                    var duplicates = new Dictionary<DomainBranch, List<DomainBranch>>();
+                    //Url segments
+                    foreach (var branch in domainBranches)
+                    {
+                        if (branch.UrlSegment == null)
+                        {
+                            correct.Add(branch);
+                        }
+                        else
+                        {
+                            var url = branch.UrlSegment.Value;
+                            if (!correctDictionary.TryGetValue(url, out var value))
+                            {
+                                correctDictionary[url] = branch;
+                            }
+                            else
+                            {
+                                //If Exist In Dictionary means is Duplicate
+                                if (duplicates.TryGetValue(value, out var duplicate))
+                                {
+                                    duplicate.Add(branch);
+                                }
+                                else
+                                {
+                                    duplicates[value] = new List<DomainBranch>() { branch };
+                                }
+                            }
+                        }
+                    }
+
+                    foreach (var item in duplicates)
+                    {
+                        if (item.Key.UrlSegment != null)
+                        {
+                            correctDictionary.Remove(item.Key.UrlSegment.Value);
+                        }
+                    }
+
+                    correct.AddRange(correctDictionary.Values);
+                    return (correct, duplicates);
+                }*/
 
         public static
             (
-            IEnumerable<DomainBranch> Correct,
-            Dictionary<DomainBranch, List<DomainBranch>> Duplicates
+            IEnumerable<(DomainBranch Item, bool IsDuplicate)> Items,
+            bool HasDuplicates
             )
             SeparateAndFilterBranches(IEnumerable<DomainBranch> domainBranches)
         {
@@ -158,46 +209,68 @@ namespace Domain.Features.Branch.Entities
                 }
             }
 
-            correct.AddRange(correctDictionary.Values);
-            return (correct, duplicates);
-        }
+            var hasDuplicates = false;
+            var result = new List<(DomainBranch Item, bool IsDuplicate)>();
 
-        public static
-            (
-            IEnumerable<DomainBranch> Correct,
-            Dictionary<DomainBranch, DomainBranch> Duplicates
-            )
-            SeparateAndFilterBranchesFromDB(IEnumerable<DomainBranch> databases, IEnumerable<DomainBranch> inputs)
-        {
-            var inputsDictionary = inputs
-                .Where(x => x.UrlSegment != null)
-                .ToDictionary(x => x.UrlSegment.Value);
-
-            var correct = new List<DomainBranch>();
-            var duplicates = new Dictionary<DomainBranch, DomainBranch>();
-
-            foreach (var item in inputs)
+            foreach (var item in correct)
             {
-                if (item.UrlSegment == null)
+                result.Add((item, false));
+            }
+            foreach (var item in correctDictionary.Values)
+            {
+                result.Add((item, false));
+            }
+            foreach (var pair in duplicates)
+            {
+                result.Add((pair.Key, true));
+                foreach (var item in pair.Value)
                 {
-                    correct.Add(item);
-                }
-                else
-                {
-                    var url = item.UrlSegment.Value;
-                    if (inputsDictionary.TryGetValue(url, out var database))
-                    {
-                        duplicates[database] = item;
-                    }
-                    else
-                    {
-                        correct.Add(item);
-                    }
+                    result.Add((item, true));
                 }
             }
-
-            return (correct, duplicates);
+            if (duplicates.Any())
+            {
+                hasDuplicates = true;
+            }
+            return (result, hasDuplicates);
         }
+        /*
+                public static
+                    (
+                    IEnumerable<DomainBranch> Correct,
+                    Dictionary<DomainBranch, DomainBranch> Duplicates
+                    )
+                    SeparateAndFilterBranchesFromDB(IEnumerable<DomainBranch> databases, IEnumerable<DomainBranch> inputs)
+                {
+                    var inputsDictionary = inputs
+                        .Where(x => x.UrlSegment != null)
+                        .ToDictionary(x => x.UrlSegment.Value);
+
+                    var correct = new List<DomainBranch>();
+                    var duplicates = new Dictionary<DomainBranch, DomainBranch>();
+
+                    foreach (var item in inputs)
+                    {
+                        if (item.UrlSegment == null)
+                        {
+                            correct.Add(item);
+                        }
+                        else
+                        {
+                            var url = item.UrlSegment.Value;
+                            if (inputsDictionary.TryGetValue(url, out var database))
+                            {
+                                duplicates[database] = item;
+                            }
+                            else
+                            {
+                                correct.Add(item);
+                            }
+                        }
+                    }
+
+                    return (correct, duplicates);
+                }*/
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================

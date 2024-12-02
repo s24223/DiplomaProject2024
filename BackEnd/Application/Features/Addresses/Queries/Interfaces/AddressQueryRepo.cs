@@ -1,6 +1,7 @@
 ﻿using Application.Databases.Relational;
 using Application.Databases.Relational.Models;
 using Application.Features.Addresses.Queries.DTOs;
+using Application.Shared.DTOs.Features.Addresses;
 using Application.Shared.Interfaces.EntityToDomainMappers;
 using Application.Shared.Interfaces.SqlClient;
 using Domain.Features.Address.Entities;
@@ -102,7 +103,7 @@ namespace Application.Features.Addresses.Queries.Interfaces
         }
 
 
-        public async Task<IEnumerable<DivisionStreetsResponseDto>> GetDivisionsDownAsync
+        public async Task<IEnumerable<DivisionStreetsResponseDto>> GetDivisionsDownVerticalAsync
             (
             DivisionId? id,
             CancellationToken cancellation
@@ -128,6 +129,53 @@ namespace Application.Features.Addresses.Queries.Interfaces
                 .AsNoTracking()
                 .ToListAsync(cancellation);
             }
+        }
+
+        public async Task<IEnumerable<DivisionUpResp>> GetDivisionsDownHorizontalAsync
+            (
+            int? divisionId,
+            CancellationToken cancellation
+            )
+        {
+            if (!divisionId.HasValue)
+            {
+                var woj = await _context.AdministrativeDivisions
+                    .Include(x => x.AdministrativeType)
+                    .Where(x => x.ParentDivisionId == null)
+                    .AsNoTracking()
+                    .ToListAsync(cancellation);
+
+                return woj.Select(x => new DivisionUpResp(x));// woj 
+            }
+
+            var ids = await _sql.GetDivisionIdsDownAsync(divisionId.Value, cancellation);
+            var results = await Task.WhenAll(ids.Select(id =>
+                    _sql.GetDivisionsHierachyUpAsync(id, cancellation)
+                ));
+            return results.Select(x => new DivisionUpResp(x));
+        }
+
+        public async Task<IEnumerable<StreetResponseDto>> GetStreetsAsync
+            (
+            int divisionId,
+            CancellationToken cancellation
+            )
+        {
+            return await _context.Streets
+                .Include(x => x.AdministrativeType)
+                .Where(x => x.Divisions.Any(x => x.Id == divisionId))
+                .AsNoTracking()
+                .Select(y => new StreetResponseDto
+                {
+                    Id = y.Id,
+                    Name = y.Name,
+                    AdministrativeType = y.AdministrativeType == null ? null : new AdministrativeTypeResponseDto
+                    {
+                        Id = y.AdministrativeType.Id,
+                        Name = y.AdministrativeType.Name,
+                    }
+                })
+                .ToListAsync(cancellation);
         }
 
         //====================================================================================================

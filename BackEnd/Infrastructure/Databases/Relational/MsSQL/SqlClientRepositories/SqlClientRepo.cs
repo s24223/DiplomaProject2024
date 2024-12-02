@@ -226,6 +226,52 @@ namespace Infrastructure.Databases.Relational.MsSQL.SqlClientRepositories
                     );
             }
         }
+
+
+        public async Task<IEnumerable<int>> GetDivisionIdsDownAsync
+            (
+            int divisionId,
+            CancellationToken cancellation
+            )
+        {
+            var list = new List<int>();
+            try
+            {
+                await using (SqlConnection con = new SqlConnection(_connectionString))
+                {
+                    await con.OpenAsync(cancellation);
+
+                    await using (SqlCommand com = new SqlCommand())
+                    {
+                        com.Connection = con;
+
+                        com.CommandText = "SelectDivisionIdsWithStreets";
+                        com.CommandType = CommandType.StoredProcedure;
+
+                        com.Parameters.AddWithValue("@DivisionId", divisionId);
+
+                        await using var reader = await com.ExecuteReaderAsync(cancellation);
+                        int id;
+
+                        while (await reader.ReadAsync(cancellation))
+                        {
+                            id = (int)reader["Id"];
+                            list.Add(id);
+                        }
+                        reader.Close();
+                        return (list);
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                throw _exceptionsRepository.ConvertSqlClientDbException
+                    (
+                    ex,
+                    $"DivisionId: {divisionId}"
+                    );
+            }
+        }
         //=========================================================================================================
         //=========================================================================================================
         //=========================================================================================================
