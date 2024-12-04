@@ -41,7 +41,7 @@ const BranchDetailPage = () => {
     }
 
     return(
-        <div>
+        <div className='centered'>
             {
             item && 
             <div>

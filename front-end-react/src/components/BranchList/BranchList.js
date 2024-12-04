@@ -22,7 +22,7 @@ const BranchList = () =>{
                     {
                         branchList &&
                         branchList.map((item) => (
-                            <li key={item.id}><Link id='branchLink' 
+                            <li className="url" key={item.id}><Link id='branchLink' 
                             to={{ pathname: `/branch/${item.id}`}}
                             state={{ item }}>{item.name}</Link></li>
                         ))

@@ -33,15 +33,15 @@ const LoginPage = () => {
     }
 
     return(
-        <div>
+        <div className='centered'>
             <MainPageButton/><br/>
             {errorMsg && errorMsg}
-            <label>Logowanie</label>
+            <label className='title-text'>Logowanie</label>
             <form onSubmit={handleLogin}>
                 <label>Email:</label><br />
-                <input type="email" id="email" name="email" onChange={e => setEmail(e.target.value)} /><br />
+                <input type="email" id="email" name="email" placeholder='Email' onChange={e => setEmail(e.target.value)} /><br />
                 <label>Password:</label><br />
-                <input type="password" id="password" name="password" onChange={e => setPassword(e.target.value)} /><br />
+                <input type="password" id="password" name="password" placeholder='Password' onChange={e => setPassword(e.target.value)} /><br />
                 <input type="submit" value="Zaloguj" />
             </form>
             <button onClick={handleRegistrationButton}>Zarejestruj</button>
