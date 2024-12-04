@@ -118,7 +118,7 @@ const Profile = () => {
             {company && (
                 <>
                     <h2>Company</h2>
-                    <p><strong>Id:</strong> {company?.companyId}</p><br/>
+                    {/* <p><strong>Id:</strong> {company?.companyId}</p><br/> */}
 
                     <p><strong>Name:</strong> {company?.name}</p>
                     <p><strong>Email:</strong> {company?.contactEmail}</p>

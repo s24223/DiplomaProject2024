@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { fetchBranchPut } from '../../services/BranchService/BranchService';
 import ProfileButton from '../../components/ProfileButton/ProfileButton';
 import CancelButton from '../../components/CancelButton/CancelButton';
+import CreateOffer from '../../components/OfferCreate/CreateOffer';
 
 const BranchDetailPage = () => {
     const [editMode, setEditMode] = useState(false);
@@ -13,6 +14,8 @@ const BranchDetailPage = () => {
     const [urlSegment, setUrlsegmet] = useState(item.urlSegment)
 
     const [messageStatus, setMessageStatus] = useState('')
+
+    const [showCreateOffer, setShowCreateOffer] = useState(false);
 
     const sleep = ms => new Promise(r => setTimeout(r, ms));
 
@@ -58,7 +61,14 @@ const BranchDetailPage = () => {
                 <p>Apartment number: {item.address.apartmentNumber}</p>
                 <label style={{color:'green'}}>{messageStatus}</label><br />
                 {editMode && <button onClick={handleChange}>Change</button>}
+                <button onClick={() => setShowCreateOffer(true)}>Add Offer</button>
                 <CancelButton/>
+                {showCreateOffer && (
+                    <CreateOffer
+                        branchId={item.id}
+                        onClose={() => setShowCreateOffer(false)}
+                        />
+                )}
             </div>
             }
         </div>
