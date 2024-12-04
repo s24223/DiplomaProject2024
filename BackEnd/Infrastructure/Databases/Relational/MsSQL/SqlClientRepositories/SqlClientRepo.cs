@@ -255,7 +255,7 @@ namespace Infrastructure.Databases.Relational.MsSQL.SqlClientRepositories
 
                         while (await reader.ReadAsync(cancellation))
                         {
-                            id = (int)reader["Id"];
+                            id = (int)reader["AdministrativeDivisionId"];
                             list.Add(id);
                         }
                         reader.Close();
