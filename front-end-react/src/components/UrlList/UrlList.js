@@ -36,7 +36,7 @@ const UrlList = () => {
     }
 
     return (
-        <div>
+        <div className="bordered">
             <h2>URL List</h2>
             {/* Przycisk do dodania nowego URL-a */}
             <button onClick={() => setShowAddForm(true)}>Add URL</button>
@@ -48,8 +48,8 @@ const UrlList = () => {
             {urlList.length > 0 ? (
                 <ul>
                     {urlList.map((urlItem) => (
-                        <li key={urlItem.userId}>
-                            <Link
+                        <li key={urlItem.userId} className="url">
+                            <Link 
                                 to={{
                                     pathname: `/url/${urlItem.userId}`,
                                 }}

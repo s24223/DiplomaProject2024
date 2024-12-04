@@ -74,40 +74,42 @@ const Profile = () => {
             <MainPageButton/>
             <LoginButton />
             <ReturnButton/>
-            <button onClick={handleProfileEdit} style={{ position: 'absolute', top: 40, right: 10 }}>
+            <button className="button-two" onClick={handleProfileEdit} style={{ position: 'absolute', top: 35, right: 10 }}>
                     Edit Profile
             </button>
-            <button onClick={handleProfileCreate} style={{ position: 'absolute', top: 40, right: 82 }}>
+            <button className="button-one" onClick={handleProfileCreate} style={{ position: 'absolute', top: 35, right: 82 }}>
                     Create Profile
             </button>
-            <button onClick={handleCompanyCreate} style={{ position: 'absolute', top: 80, right: 100 }}>
+            <button onClick={handleCompanyCreate} className="button-one" style={{ position: 'absolute', top: 65, right: 100 }}>
                     Create Company
             </button>
-            <button onClick={handleCompanyEdit} style={{ position: 'absolute', top: 80, right: 10 }}>
+            <button onClick={handleCompanyEdit} className="button-two" style={{ position: 'absolute', top: 65, right: 10 }}>
                     Edit Company
             </button>
-            <button onClick={handleAddBranch} style={{ position: 'absolute', top: 120, right: 100 }}>
+            <button onClick={handleAddBranch} style={{ position: 'absolute', top: 95, right: 100 }}>
                 Add Bracnh
             </button>
             <h1>User Profile</h1>
             <h2>Personal Information</h2>
-            <p><strong>Name:</strong> {person?.name}</p>
-            <p><strong>Surname:</strong> {person?.surname}</p>
-            <p><strong>Email:</strong> {person?.contactEmail}</p>
-            <p><strong>Phone:</strong> {person?.contactPhoneNum}</p>
-            <p><strong>Birth Date:</strong> {new Date(person?.birthDate).toLocaleDateString()}</p>
-            <p><strong>Is Student:</strong> {person?.isStudent ? "Yes" : "No"}</p>
-            <p><strong>Public Profile:</strong> {person?.isPublicProfile ? "Yes" : "No"}</p>
-            <p><strong>Description:</strong> {person?.description}</p>
+            <div className="bordered">
+                <p><strong>Name:</strong> {person?.name}</p>
+                <p><strong>Surname:</strong> {person?.surname}</p>
+                <p><strong>Email:</strong> {person?.contactEmail}</p>
+                <p><strong>Phone:</strong> {person?.contactPhoneNum}</p>
+                <p><strong>Birth Date:</strong> {new Date(person?.birthDate).toLocaleDateString()}</p>
+                <p><strong>Is Student:</strong> {person?.isStudent ? "Yes" : "No"}</p>
+                <p><strong>Public Profile:</strong> {person?.isPublicProfile ? "Yes" : "No"}</p>
+                <p><strong>Description:</strong> {person?.description}</p>
+            </div>
 
             <h2>Address</h2>
             {address ? (
-                <>
+                <div className="bordered">
                     <p><strong>Street:</strong> {address.street?.name} {address.buildingNumber}/{address.apartmentNumber}</p>
                     <p><strong>ZIP Code:</strong> {address.zipCode}</p>
                     <p><strong>City:</strong> {address.hierarchy?.find(item => item.administrativeType.name === "miasto")?.name}</p>
                     <p><strong>Voivodeship:</strong> {address.hierarchy?.find(item => item.administrativeType.name === "województwo")?.name}</p>
-                </>
+                </div>
             ) : (
                 <p>No address provided.</p>
             )}
@@ -116,7 +118,7 @@ const Profile = () => {
 
 
             {company && (
-                <>
+                <div className="bordered">
                     <h2>Company</h2>
                     {/* <p><strong>Id:</strong> {company?.companyId}</p><br/> */}
 
@@ -125,13 +127,15 @@ const Profile = () => {
                     <p><strong>Description:</strong> {company?.description}</p>
                     <p><strong>Branches:</strong> {branchCount}</p>
                     <p><strong>Active Offers:</strong> {activeOffersCount}</p>
+                    <div className="bordered" />
                     {branchCount > 0 && <BranchList />}
-                </>
+                </div>
             )}
 
 
             <h2>Characteristics</h2>
             {companyCharacteristics?.length > 0 ? (
+                <div className="bordered">
                 <ul>
                     {companyCharacteristics.map((char) => (
                         <li key={char.characteristic.id}>
@@ -139,6 +143,7 @@ const Profile = () => {
                         </li>
                     ))}
                 </ul>
+                </div>
             ) : (
                 <p>No characteristics available.</p>
             )}

@@ -94,7 +94,7 @@ const EditCompany = () => {
     }
 
     return (
-        <div>
+        <div className="centered">
             <h1>Edit Company</h1>
             <form onSubmit={handleEditCompany}>
                 <label>Name:</label><br/>

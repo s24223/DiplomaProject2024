@@ -68,7 +68,7 @@ const CreateCompany = () => {
     };
 
     return (
-        <div>
+        <div className="centered">
             <h1>Create Company</h1>
             <form onSubmit={handleCreateCompany}>
                 <label>Name:</label><br/>
