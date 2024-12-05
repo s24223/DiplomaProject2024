@@ -4,6 +4,7 @@ import axios from "axios";
 import MainPageButton from "../../components/MainPageButton/MainPageButton";
 import LoginButton from "../../components/LoginButton/LoginButton";
 import ReturnButton from "../../components/CancelButton/ReturnButton";
+import CancelButton from "../../components/CancelButton/CancelButton";
 
 const EditUrlPage = () => {
     const location = useLocation();
@@ -66,13 +67,13 @@ const EditUrlPage = () => {
     };
 
     const handleCancel = () => {
-        // Powrót do UrlDetailsPage
+        
         navigate(`/url/${url.userId}`, { state: { urlItem: url } });
     };
 
     return (
         <div>
-            <MainPageButton />
+            <MainPageButton /> <ReturnButton/>
             <LoginButton />
             <h1>Edit URL</h1>
             <form>
@@ -106,7 +107,6 @@ const EditUrlPage = () => {
             <button onClick={handleCancel} style={{ backgroundColor: "#ccc" }}>
                 Cancel
             </button>
-            <ReturnButton/>
         </div>
     );
 };

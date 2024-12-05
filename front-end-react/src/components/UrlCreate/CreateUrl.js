@@ -1,11 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const CreateUrl = ({ onClose, refreshUrls }) => {
     const [path, setPath] = useState("");
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-    const [urlTypeId, setUrlTypeId] = useState(7); // Domyślny typ URL-a
+    const [urlTypeId, setUrlTypeId] = useState(1); // Domyślny typ URL-a
+    const [urlTypes, setUrlTypes] = useState([]);
+
+    // Pobierz typy URL-i
+    useEffect(() => {
+        const fetchUrlTypes = async () => {
+            try {
+                const response = await axios.get(
+                    "https://localhost:7166/api/Dictionaries/user/urls/types",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+                        },
+                    }
+                );
+                const types = Object.values(response.data); // Zamień obiekt na tablicę
+                setUrlTypes(types);
+            } catch (err) {
+                console.error("Error fetching URL types:", err);
+                alert("Failed to load URL types.");
+            }
+        };
+
+        fetchUrlTypes();
+    }, []);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -50,15 +75,6 @@ const CreateUrl = ({ onClose, refreshUrls }) => {
         <div>
             <h3>Add URL</h3>
             <form onSubmit={handleSubmit}>
-                <label>Path:</label>
-                <input
-                    type="text"
-                    value={path}
-                    onChange={(e) => setPath(e.target.value)}
-                    placeholder="https://example.com"
-                    required
-                />
-                <br />
                 <label>Name:</label>
                 <input
                     type="text"
@@ -68,6 +84,31 @@ const CreateUrl = ({ onClose, refreshUrls }) => {
                     required
                 />
                 <br />
+                <label>Path:</label>
+                <input
+                    type="text"
+                    value={path}
+                    onChange={(e) => setPath(e.target.value)}
+                    placeholder="https://example.com"
+                    required
+                />
+                <br />
+                
+                <br />
+                <label>Type:</label>
+                <select
+                    value={urlTypeId}
+                    onChange={(e) => setUrlTypeId(Number(e.target.value))}
+                    required
+                >
+                    {urlTypes.map((type) => (
+                        <option key={type.id} value={type.id}>
+                            {type.name}
+                        </option>
+                    ))}
+                </select>
+                <br />
+
                 <label>Description:</label>
                 <textarea
                     value={description}

@@ -98,7 +98,7 @@ const EditProfile = () => {
     };
 
     return (
-        <div>
+        <div className="centered">
             <h1>Edit Profile</h1>
             <form onSubmit={handleProfileUpdate}>
                 <label>Name:</label><br/>
@@ -144,7 +144,7 @@ const EditProfile = () => {
                     name="description"
                     value={profileData.description}
                     onChange={handleInputChange}
-                ></textarea>
+                ></textarea><br />
                 <label>
                     <input
                         type="checkbox"
@@ -156,7 +156,7 @@ const EditProfile = () => {
                                 isStudent: e.target.checked,
                             }))
                         }
-                    /><br/>
+                    />
                     Student
                 </label><br/>
                 <label>

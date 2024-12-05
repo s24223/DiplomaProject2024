@@ -24,7 +24,8 @@ const CreateBranchPage = () => {
     }
 
     return(
-        <div>
+        <div className='centered'>
+            <h2>Add branch</h2>
             <form onSubmit={handleSubmit}>
                 <label htmlFor='address'>AddressId:</label><br />
                 <input type="text" id='address' onChange={e => setAddressId(e.target.value)} required /><br />

@@ -15,7 +15,7 @@ const NotificationDetailPgae = () => {
             {elem.userMessage && <>Your message: {elem.userMessage}<br /></>}
             {elem.response && <>Response: {elem.response}<br /></>}
             Status: {elem.status.name}<br />
-            <Link id='linkToCreateOnExistant' to={{pathname:'/notification/create'}} state={{elem}}>Add to notification</Link>
+            <button><Link id='linkToCreateOnExistant' to={{pathname:'/notification/create'}} state={{elem}}>Add to notification</Link></button>
         </div>
     )
 }
