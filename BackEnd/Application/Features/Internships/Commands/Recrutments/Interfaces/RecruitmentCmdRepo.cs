@@ -190,14 +190,38 @@ namespace Application.Features.Internships.Commands.Recrutments.Interfaces
                 {
                     return new RecruitmentException(Messages.Recruitment_Cmd_Recruitment_Exist);
                 }
-                if (number == 547 && message.Contains("Recruitment_CHECK_IsAccepted"))
+                if (number == 547)
                 {
                     //App Exception Dtabase bool
-                    return new RecruitmentException
-                        (
-                        $"{Messages.Recruitment_Cmd_IsAccepted_Invalid}: {domain.IsAccepted?.Code}",
-                        DomainExceptionTypeEnum.AppProblem
-                        );
+                    if (message.Contains("Recruitment_CHECK_IsAccepted"))
+                    {
+                        return new RecruitmentException
+                            (
+                            $"{Messages.Recruitment_Cmd_IsAccepted_Invalid}: {domain.IsAccepted?.Code}",
+                            DomainExceptionTypeEnum.AppProblem
+                            );
+                    }
+
+                    //Recruitment_BranchOffer
+                    if (message.Contains("Recruitment_BranchOffer"))
+                    {
+                        return new RecruitmentException
+                            (
+                            $"{Messages.Recruitment_Cmd_BranchOffer_NotFound}",
+                            DomainExceptionTypeEnum.NotFound
+
+                            );
+                    }
+
+                    if (message.Contains("Recruitment_Person"))
+                    {
+                        return new RecruitmentException
+                            (
+                            $"{Messages.Recruitment_Cmd_Person_NotFound}",
+                            DomainExceptionTypeEnum.NotFound
+
+                            );
+                    }
                 }
                 if (number == 50003)
                 {

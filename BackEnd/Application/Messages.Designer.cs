@@ -313,6 +313,15 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Za podanymi danymi BranchOffer nie istnieje.
+        /// </summary>
+        internal static string Recruitment_Cmd_BranchOffer_NotFound {
+            get {
+                return ResourceManager.GetString("Recruitment_Cmd_BranchOffer_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Za podanym Id rekrutacja nie została znaleiona.
         /// </summary>
         internal static string Recruitment_Cmd_Id_NotFound {
@@ -336,6 +345,15 @@ namespace Application {
         internal static string Recruitment_Cmd_IsAccepted_Invalid {
             get {
                 return ResourceManager.GetString("Recruitment_Cmd_IsAccepted_Invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profil Osoby nie isnieje.
+        /// </summary>
+        internal static string Recruitment_Cmd_Person_NotFound {
+            get {
+                return ResourceManager.GetString("Recruitment_Cmd_Person_NotFound", resourceCulture);
             }
         }
         

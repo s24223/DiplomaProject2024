@@ -207,6 +207,9 @@
   <data name="Recruitment_Cmd_BranchOffer_Invalid" xml:space="preserve">
     <value>Brak mozliwosci rekrutacji, oferta neważna</value>
   </data>
+  <data name="Recruitment_Cmd_BranchOffer_NotFound" xml:space="preserve">
+    <value>Za podanymi danymi BranchOffer nie istnieje</value>
+  </data>
   <data name="Recruitment_Cmd_Id_NotFound" xml:space="preserve">
     <value>Za podanym Id rekrutacja nie została znaleiona</value>
   </data>
@@ -216,6 +219,9 @@
   <data name="Recruitment_Cmd_IsAccepted_Invalid" xml:space="preserve">
     <value>Problem aplikacyjny, nieporawne dane Code IsAccepted</value>
     <comment>Problem aplikacyjny,</comment>
+  </data>
+  <data name="Recruitment_Cmd_Person_NotFound" xml:space="preserve">
+    <value>Profil Osoby nie isnieje</value>
   </data>
   <data name="Recruitment_Cmd_Recruitment_Exist" xml:space="preserve">
     <value>Nie mozna ponownie ponownie złozyc wniosku o rekrutacje</value>
