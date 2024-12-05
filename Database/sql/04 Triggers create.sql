@@ -1,80 +1,88 @@
-CREATE OR ALTER TRIGGER BranchOffer_CONFLICT_TIME
-ON [BranchOffer]
-INSTEAD OF INSERT, UPDATE
-AS
-BEGIN 
-	DECLARE @BranchId uniqueidentifier;
-	DECLARE @OfferId uniqueidentifier;
-	DECLARE @PublishStart datetime;
+CREATE OR ALTER TRIGGER Internship_UNIQUE_ContractNumber
+ON [dbo].[Internship]
+AFTER INSERT, UPDATE
+AS 
+BEGIN
+	DECLARE @CompanyId uniqueidentifier; 
+	DECLARE @ROW_COUNT INT;
 
-	SELECT 
-			@BranchId = BranchId, 
-			@OfferId = OfferId, 
-			@PublishStart = PublishStart 
-	FROM inserted;
-
-	DECLARE @IdExist uniqueidentifier;
-	DECLARE @PublishStartExist datetime;
-	DECLARE @PublishEndExist datetime;
-	SELECT 
-		@IdExist = Id,
-		@PublishStartExist = PublishStart,
-		@PublishEndExist = PublishEnd
-	
-	FROM [BranchOffer] WHERE 
-			BranchId = @BranchId AND 
-			OfferId = @OfferId AND
-			PublishEnd >= @PublishStart;
-
-	IF (
-		@IdExist IS NOT NULL
-	)
-	BEGIN
-		DECLARE @ERROR_DATA nvarchar(200);
-		SET @ERROR_DATA = '[ID]: ' +CAST(@IdExist AS nvarchar(36))
-				+ '; [PublishStart]: ' + CONVERT(varchar(20), @PublishStartExist, 120) + 
-				+ '; [PublishEnd]: ' +  CONVERT(varchar(20), @PublishEndExist, 120) +';';
-		RAISERROR('BranchOffer_CONFLICT_TIME, Nie mo¿na dodaæ lub zaktualizowaæ rekordu, poniewa¿ istnieje aktywny rekord dla %s.', 16, 1, @ERROR_DATA);
-        ROLLBACK TRANSACTION;  -- Cofniêcie transakcji
-        RETURN;
-	END;
-
-	IF (INSERTING) THEN
-		INSERT INTO BranchOffer 
-		(
-			[Id],
-			[BranchId],
-			[OfferId],
-			[Created],
-			[PublishStart],
-			[PublishEnd],
-			[WorkStart],
-			[WorkEnd],
-			[LastUpdate]
+	IF NOT EXISTS  
+		( 
+		SELECT 1 FROM INSERTED I 
+		JOIN Recruitment ON I.Id = Recruitment.Id
+		WHERE Recruitment.IsAccepted = 'Y'
 		)
-		SELECT 
-			[Id],
-			[BranchId],
-			[OfferId],
-			[Created],
-			[PublishStart],
-			[PublishEnd],
-			[WorkStart],
-			[WorkEnd],
-			[LastUpdate]
-		FROM inserted;
-	 ELSIF (UPDATING) THEN
-		UPDATE BranchOffer
-			SET 
-				BranchId = inserted.BranchId,
-				OfferId = inserted.OfferId,
-				Created = inserted.Created,
-				PublishStart = inserted.PublishStart,
-				PublishEnd = inserted.PublishEnd,
-				WorkStart = inserted.WorkStart,
-				WorkEnd = inserted.WorkEnd,
-				LastUpdate = inserted.LastUpdate
-			FROM inserted
-			WHERE BranchOffer.Id = inserted.Id;
-	 END IF;
+		BEGIN 
+			THROW 50001, 'POSITIVE RECRUTMENT NOT EXIST',1; 	
+		END
+	ELSE 
+		BEGIN
+			SELECT TOP 1 @CompanyId = Branch.CompanyId
+			FROM INSERTED I 
+			JOIN Recruitment ON I.Id = Recruitment.Id
+			JOIN BranchOffer ON Recruitment.BranchOfferId = BranchOffer.Id
+			JOIN Branch ON BranchOffer.BranchId = Branch.Id
+		END;
+
+	WITH QWERY AS 
+	(
+		--DISTINCT
+		SELECT Internship.ContractNumber
+		FROM INSERTED I 
+		JOIN Internship ON I.ContractNumber = Internship.ContractNumber
+		JOIN Recruitment ON Internship.Id = Recruitment.Id
+		JOIN BranchOffer ON Recruitment.BranchOfferId = BranchOffer.Id
+		JOIN Branch ON BranchOffer.BranchId = Branch.Id
+		WHERE 
+			--Recruitment.IsAccepted = 'Y' AND 
+			Branch.CompanyId = @CompanyId AND 
+			Internship.Id != I.Id
+	)
+	SELECT @ROW_COUNT = COUNT(1) FROM QWERY;
+
+	IF @ROW_COUNT > 0
+	BEGIN 
+		THROW 50002, 'DUPLICATE',1;
+	END;
 END;
+
+--==============================================================================================
+GO
+--==============================================================================================
+CREATE OR ALTER TRIGGER Recruitment_Invalid_BranchOffer
+ON [dbo].[Recruitment]
+AFTER INSERT, UPDATE
+AS
+BEGIN
+	--SELECT SYSDATETIME()  ,SYSDATETIMEOFFSET()  ,SYSUTCDATETIME()  ,CURRENT_TIMESTAMP  ,GETDATE()  ,GETUTCDATE(); 
+	DECLARE @NOW DATETIME;
+	SET @NOW = SYSDATETIME();
+	IF NOT EXISTS (
+		SELECT 1 
+		FROM INSERTED I 
+		JOIN BranchOffer ON  I.BranchOfferId = BranchOffer.Id 
+		WHERE 
+			BranchOffer.PublishStart <= @NOW AND 
+			(
+				BranchOffer.PublishEnd IS NULL OR 
+				(BranchOffer.PublishEnd IS NOT NULL AND BranchOffer.PublishEnd >= @NOW)
+			)
+		)
+		BEGIN
+			THROW 50003, 'NOT EXIST VALID BranchOffer',1;
+		END
+	ELSE
+		BEGIN
+			IF EXISTS 
+			(
+				SELECT 1 FROM INSERTED I 
+				JOIN BranchOffer ON  I.BranchOfferId =BranchOffer.Id 
+				JOIN BRANCH ON BranchOffer.BRANCHID = BRANCH.ID
+				WHERE I.PersonId = BRANCH.CompanyId
+			)
+				BEGIN
+					THROW 50004, 'PERSON APPLICATED INTO OFFER OF HIS COMPANY',1;				
+				END;
+		END;
+END;
+

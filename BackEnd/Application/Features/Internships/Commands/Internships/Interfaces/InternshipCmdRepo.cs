@@ -1,35 +1,33 @@
 ﻿using Application.Databases.Relational;
 using Application.Databases.Relational.Models;
-using Application.Shared.Interfaces.EntityToDomainMappers;
-using Application.Shared.Interfaces.Exceptions;
+using Application.Features.Internships.Mappers;
 using Domain.Features.Intership.Entities;
 using Domain.Features.Intership.Exceptions.Entities;
 using Domain.Features.Recruitment.Exceptions.Entities;
 using Domain.Features.Recruitment.ValueObjects.Identificators;
 using Domain.Features.User.ValueObjects.Identificators;
+using Domain.Shared.Templates.Exceptions;
 using Domain.Shared.ValueObjects;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Features.Internship.InternshipPart.Interfaces
+namespace Application.Features.Internships.Commands.Internships.Interfaces
 {
-    public class InternshipRepository : IInternshipRepository
+    public class InternshipCmdRepo : IInternshipCmdRepo
     {
         //Values
-        private readonly IEntityToDomainMapper _mapper;
-        private readonly IExceptionsRepository _exceptionsRepository;
+        private readonly IInternshipMapper _mapper;
         private readonly DiplomaProjectContext _context;
 
 
         //Cosntructor
-        public InternshipRepository
+        public InternshipCmdRepo
             (
-            IEntityToDomainMapper mapper,
-            IExceptionsRepository exceptionsRepository,
+            IInternshipMapper mapper,
             DiplomaProjectContext context
             )
         {
             _mapper = mapper;
-            _exceptionsRepository = exceptionsRepository;
             _context = context;
         }
 
@@ -38,61 +36,43 @@ namespace Application.Features.Internship.InternshipPart.Interfaces
         //==================================================================================================
         //==================================================================================================
         //Public Methods
-        public async Task<Guid> CreateAsync
+        public async Task<DomainIntership> CreateAsync
             (
             UserId companyId,
-            DomainIntership intership,
+            DomainIntership domain,
             CancellationToken cancellation
             )
         {
             try
             {
-                var recrutment = await GetDatabseRecruitmentAsync
-                    (
-                    companyId,
-                    intership.Id,
-                    cancellation
-                    );
-
-                var databseIntership = new Databases.Relational.Models.Internship
-                {
-                    Recruitment = recrutment,
-                    ContractNumber = intership.ContractNumber.Value,
-                };
-
-                await _context.Internships.AddAsync(databseIntership, cancellation);
+                var databse = MapInternship(domain, null);
+                await _context.Internships.AddAsync(databse, cancellation);
                 await _context.SaveChangesAsync(cancellation);
-                return databseIntership.Id;
+                return _mapper.DomainIntership(databse);
             }
             catch (System.Exception ex)
             {
-                throw _exceptionsRepository.ConvertEFDbException(ex);
+                throw HandleException(ex);
             }
         }
 
-        public async Task UpdateAsync
+        public async Task<DomainIntership> UpdateAsync
             (
             UserId companyId,
-            DomainIntership intership,
+            DomainIntership domain,
             CancellationToken cancellation
             )
         {
             try
             {
-                var databseIntership = await GetDatabseInternshipAsync
-                    (
-                    companyId,
-                    intership.Id,
-                    cancellation
-                    );
-
-                databseIntership.ContractNumber = intership.ContractNumber.Value;
-
+                var database = await GetDatabseInternshipAsync(companyId, domain.Id, cancellation);
+                database = MapInternship(domain, database);
                 await _context.SaveChangesAsync(cancellation);
+                return _mapper.DomainIntership(database);
             }
             catch (System.Exception ex)
             {
-                throw _exceptionsRepository.ConvertEFDbException(ex);
+                throw HandleException(ex);
             }
         }
 
@@ -104,13 +84,8 @@ namespace Application.Features.Internship.InternshipPart.Interfaces
             CancellationToken cancellation
             )
         {
-            var databaseIntership = await GetDatabseInternshipAsync
-                   (
-                   companyId,
-                   intershipId,
-                   cancellation
-                   );
-            return _mapper.ToDomainIntership(databaseIntership);
+            var databaseIntership = await GetDatabseInternshipAsync(companyId, intershipId, cancellation);
+            return _mapper.DomainIntership(databaseIntership);
         }
 
         //==================================================================================================
@@ -137,13 +112,17 @@ namespace Application.Features.Internship.InternshipPart.Interfaces
                 ).FirstOrDefaultAsync(cancellation);
             if (pathToRecrutment == null)
             {
-                throw new RecruitmentException(Messages2.Recruitment_IdsAccepted_NotFound);
+                throw new RecruitmentException
+                    (
+                    Messages.Internship_Cmd_Recruitment_PositiveNotExist,
+                    DomainExceptionTypeEnum.NotFound
+                    );
             }
 
             return pathToRecrutment.BranchOffers.First().Recruitments.First();
         }
 
-        private async Task<Databases.Relational.Models.Internship> GetDatabseInternshipAsync
+        private async Task<Internship> GetDatabseInternshipAsync
             (
             UserId companyId,
             RecrutmentId intershipId,
@@ -165,10 +144,59 @@ namespace Application.Features.Internship.InternshipPart.Interfaces
                 ).FirstOrDefaultAsync(cancellation);
             if (pathToRecrutment == null)
             {
-                throw new IntershipException(Messages2.Intership_Ids_NotFound);
+                throw new IntershipException
+                    (
+                    Messages.Internship_Cmd_Id_NotFound,
+                    DomainExceptionTypeEnum.NotFound
+
+                    );
             }
 
             return pathToRecrutment.BranchOffers.First().Recruitments.First().Internship;
+        }
+
+        private Internship MapInternship(DomainIntership domain, Internship? database)
+        {
+            var db = database ?? new Internship();
+
+            db.ContractNumber = domain.ContractNumber.Value;
+            db.Created = domain.Created;
+            db.ContractStartDate = domain.ContractStartDate;
+            db.ContractEndDate = domain.ContractEndDate;
+
+            return db;
+        }
+
+        private System.Exception HandleException(System.Exception ex)
+        {
+            if (ex is DbUpdateException && ex.InnerException is SqlException sqlEx)
+            {
+                //2627  Unique, Pk 
+                //547   Check, FK
+                var number = sqlEx.Number;
+                var message = sqlEx.Message;
+
+                if (number == 2627 && message.Contains("Internship_pk"))
+                {
+                    return new IntershipException(Messages.Internship_Cmd_Exist);
+                }
+                else if (number == 547 && message.Contains("Internship_Recruitment"))
+                {
+                    return new IntershipException(Messages.Internship_Cmd_Recruitment_NotExist);
+                }
+                else if (number == 50001)
+                {
+                    // POSITIVE RECRUTMENT NOT EXIST
+                    return new IntershipException(Messages.Internship_Cmd_Recruitment_PositiveNotExist);
+                }
+                else if (number == 50002)
+                {
+                    //DUPLICATE
+                    return new IntershipException(Messages.Internship_Cmd_ContractNum_Duplicate);
+                }
+            }
+
+            throw ex;
         }
     }
 }

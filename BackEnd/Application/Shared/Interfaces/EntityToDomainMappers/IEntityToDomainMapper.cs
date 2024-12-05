@@ -1,8 +1,6 @@
 ﻿using Application.Databases.Relational.Models;
 using Domain.Features.Address.Entities;
 using Domain.Features.Address.ValueObjects.Identificators;
-using Domain.Features.Intership.Entities;
-using Domain.Features.Recruitment.Entities;
 
 namespace Application.Shared.Interfaces.EntityToDomainMappers
 {
@@ -17,7 +15,5 @@ namespace Application.Shared.Interfaces.EntityToDomainMappers
             );
 
         //Intership Module 
-        DomainRecruitment ToDomainRecruitment(Recruitment databaseRecruitment);
-        DomainIntership ToDomainIntership(Internship databaseIntership);
     }
 }

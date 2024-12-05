@@ -1,32 +1,31 @@
-﻿using Domain.Features.Intership.Entities;
+﻿using Domain.Features.Recruitment.Entities;
 using Domain.Features.Recruitment.ValueObjects.Identificators;
 using Domain.Features.User.ValueObjects.Identificators;
 
-namespace Application.Features.Internship.InternshipPart.Interfaces
+namespace Application.Features.Internships.Commands.Recrutments.Interfaces
 {
-    public interface IInternshipRepository
+    public interface IRecruitmentCmdRepo
     {
         //DML
-        Task<Guid> CreateAsync
+        Task<DomainRecruitment> CreateAsync
             (
-            UserId companyId,
-            DomainIntership intership,
+            DomainRecruitment domain,
             CancellationToken cancellation
             );
-
-        Task UpdateAsync
+        Task<DomainRecruitment> UpdateAsync
             (
             UserId companyId,
-            DomainIntership intership,
+            DomainRecruitment domain,
             CancellationToken cancellation
             );
 
         //DQL
-        Task<DomainIntership> GetInternshipAsync
+        Task<DomainRecruitment> GetRecruitmentAsync
             (
             UserId companyId,
-            RecrutmentId intershipId,
+            RecrutmentId recrutmentid,
             CancellationToken cancellation
             );
+
     }
 }

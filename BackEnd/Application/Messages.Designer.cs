@@ -151,6 +151,51 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Numer umowy powtarza sie, wybierz inny numer.
+        /// </summary>
+        internal static string Internship_Cmd_ContractNum_Duplicate {
+            get {
+                return ResourceManager.GetString("Internship_Cmd_ContractNum_Duplicate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Praktyka/staż istnieje.
+        /// </summary>
+        internal static string Internship_Cmd_Exist {
+            get {
+                return ResourceManager.GetString("Internship_Cmd_Exist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Praktyka/staż  za podanym Id nie istnieje.
+        /// </summary>
+        internal static string Internship_Cmd_Id_NotFound {
+            get {
+                return ResourceManager.GetString("Internship_Cmd_Id_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rekrutacja nie istnieje za podanym Id.
+        /// </summary>
+        internal static string Internship_Cmd_Recruitment_NotExist {
+            get {
+                return ResourceManager.GetString("Internship_Cmd_Recruitment_NotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pozytywnej rekrutacji nie isntieje za podanym Id.
+        /// </summary>
+        internal static string Internship_Cmd_Recruitment_PositiveNotExist {
+            get {
+                return ResourceManager.GetString("Internship_Cmd_Recruitment_PositiveNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Problem aplikacyjny, niepoprawna wartość bazodanowa CONSTRAINT Notification_CHECK_IsReadedByUser.
         /// </summary>
         internal static string Notification_Cmd_CHECK_IsReadedByUser {
@@ -255,6 +300,51 @@ namespace Application {
         internal static string Person_Cmd_NotUniqueUrlSegment {
             get {
                 return ResourceManager.GetString("Person_Cmd_NotUniqueUrlSegment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Brak mozliwosci rekrutacji, oferta neważna.
+        /// </summary>
+        internal static string Recruitment_Cmd_BranchOffer_Invalid {
+            get {
+                return ResourceManager.GetString("Recruitment_Cmd_BranchOffer_Invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Za podanym Id rekrutacja nie została znaleiona.
+        /// </summary>
+        internal static string Recruitment_Cmd_Id_NotFound {
+            get {
+                return ResourceManager.GetString("Recruitment_Cmd_Id_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Brak mozliwosci rekrutacji do włsanej firmy.
+        /// </summary>
+        internal static string Recruitment_Cmd_IntoHisCompany {
+            get {
+                return ResourceManager.GetString("Recruitment_Cmd_IntoHisCompany", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Problem aplikacyjny, nieporawne dane Code IsAccepted.
+        /// </summary>
+        internal static string Recruitment_Cmd_IsAccepted_Invalid {
+            get {
+                return ResourceManager.GetString("Recruitment_Cmd_IsAccepted_Invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nie mozna ponownie ponownie złozyc wniosku o rekrutacje.
+        /// </summary>
+        internal static string Recruitment_Cmd_Recruitment_Exist {
+            get {
+                return ResourceManager.GetString("Recruitment_Cmd_Recruitment_Exist", resourceCulture);
             }
         }
         

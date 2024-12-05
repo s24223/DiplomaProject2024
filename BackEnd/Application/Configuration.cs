@@ -14,10 +14,11 @@ using Application.Features.Companies.Queries.QueriesOffer.Interfaces;
 using Application.Features.Companies.Queries.QueriesOffer.Services;
 using Application.Features.Companies.Queries.QueriesUser.Interfaces;
 using Application.Features.Companies.Queries.QueriesUser.Services;
-using Application.Features.Internship.InternshipPart.Interfaces;
-using Application.Features.Internship.InternshipPart.Services;
-using Application.Features.Internship.RecrutmentPart.Interfaces;
-using Application.Features.Internship.RecrutmentPart.Services;
+using Application.Features.Internships.Commands.Internships.Interfaces;
+using Application.Features.Internships.Commands.Internships.Services;
+using Application.Features.Internships.Commands.Recrutments.Interfaces;
+using Application.Features.Internships.Commands.Recrutments.Services;
+using Application.Features.Internships.Mappers;
 using Application.Features.Persons.Commands.Interfaces;
 using Application.Features.Persons.Commands.Services;
 using Application.Features.Persons.Mappers;
@@ -95,10 +96,11 @@ namespace Application
 
             //===============================================================================================================
             //Person Module 
+            serviceCollection.AddTransient<IPersonMapper, PersonMapper>();
+
             //Person Part 
             serviceCollection.AddTransient<IPersonCmdRepo, PersonCmdRepo>();
             serviceCollection.AddTransient<IPersonCmdSvc, PersonCmdSvc>();
-            serviceCollection.AddTransient<IPersonMapper, PersonMapper>();
 
             //===============================================================================================================
             //Company Module 
@@ -120,20 +122,22 @@ namespace Application
             serviceCollection.AddTransient<IUserCompanySvc, UserCompanySvc>();
             //===============================================================================================================
             //Intership module 
-            //Recruitment part
-            serviceCollection.AddTransient<IRecruitmentRepository, RecruitmentRepository>();
-            serviceCollection.AddTransient<IRecruitmentService, RecruitmentService>();
+            serviceCollection.AddTransient<IInternshipMapper, InternshipMapper>();
 
+            //Recruitment part
+            serviceCollection.AddTransient<IRecruitmentCmdRepo, RecruitmentCmdRepo>();
+            serviceCollection.AddTransient<IRecruitmentCmdSvc, RecruitmentCmdSvc>();
             //Internship Part
-            serviceCollection.AddTransient<IInternshipRepository, InternshipRepository>();
-            serviceCollection.AddTransient<IInternshipService, InternshipService>();
+            serviceCollection.AddTransient<IInternshipCmdRepo, InternshipCmdRepo>();
+            serviceCollection.AddTransient<IInternshipCmdSvc, InternshipCmdSvc>();
 
             //===============================================================================================================
             //Characteristic Part
+            serviceCollection.AddTransient<ICharacteristicMapper, CharacteristicMapper>();
+
+            //Characteristic Part
             serviceCollection.AddTransient<ICharacteristicQueryRepository, CharacteristicQueryRepository>();
             serviceCollection.AddTransient<ICharacteristicQueryService, CharacteristicQueryService>();
-
-            serviceCollection.AddTransient<ICharacteristicMapper, CharacteristicMapper>();
 
             return serviceCollection;
         }

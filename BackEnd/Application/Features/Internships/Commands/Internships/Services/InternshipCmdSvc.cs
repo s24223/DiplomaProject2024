@@ -1,28 +1,29 @@
-﻿using Application.Features.Internship.InternshipPart.DTOs.Create;
-using Application.Features.Internship.InternshipPart.DTOs.Update;
-using Application.Features.Internship.InternshipPart.Interfaces;
+﻿using Application.Features.Internships.Commands.Internships.DTOs;
+using Application.Features.Internships.Commands.Internships.Interfaces;
+using Application.Shared.DTOs.Features.Internships;
 using Application.Shared.DTOs.Response;
 using Application.Shared.Services.Authentication;
 using Domain.Features.Recruitment.ValueObjects.Identificators;
+using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Factories;
 using System.Security.Claims;
 
-namespace Application.Features.Internship.InternshipPart.Services
+namespace Application.Features.Internships.Commands.Internships.Services
 {
-    public class InternshipService : IInternshipService
+    public class InternshipCmdSvc : IInternshipCmdSvc
     {
         //Values
         private readonly IDomainFactory _domainFactory;
         private readonly IAuthJwtSvc _authentication;
-        private readonly IInternshipRepository _internshipRepository;
+        private readonly IInternshipCmdRepo _internshipRepository;
 
 
         //Cosntructor
-        public InternshipService
+        public InternshipCmdSvc
             (
             IDomainFactory domainFactory,
             IAuthJwtSvc authentication,
-            IInternshipRepository internshipRepository
+            IInternshipCmdRepo internshipRepository
             )
         {
             _domainFactory = domainFactory;
@@ -35,74 +36,69 @@ namespace Application.Features.Internship.InternshipPart.Services
         //===============================================================================================================
         //===============================================================================================================
         //Public Methods
-        public async Task<ResponseItem<CreateInternshipResponseDto>> CreateAsync
+        public async Task<ResponseItem<InternshipResp>> CreateAsync
             (
             IEnumerable<Claim> claims,
             Guid recrutmentId,
-            CreateInternshipRequestDto dto,
+            CreateInternshipReq dto,
             CancellationToken cancellation
             )
-        {
-            var companyId = _authentication.GetIdNameFromClaims(claims);
-            var start = (DateOnly)dto.ContractStartDate;
-            var end = dto.ContractEndDate == null ? (DateOnly?)(null) : (DateOnly)dto.ContractEndDate;
 
-            var domainInternship = _domainFactory.CreateDomainInternship
+        {
+            var companyId = GetCompanyId(claims);
+
+            var domain = _domainFactory.CreateDomainInternship
                 (
                 recrutmentId,
-                start,
-                 end,
+                (DateOnly)dto.ContractStartDate,
+                (DateOnly?)dto.ContractEndDate,
                 dto.ContactNumber
                 );
 
-            var internshipId = await _internshipRepository.CreateAsync
-                (
-                companyId,
-                domainInternship,
-                cancellation
-                );
-
-            return new ResponseItem<CreateInternshipResponseDto>
+            domain = await _internshipRepository.CreateAsync(companyId, domain, cancellation);
+            return new ResponseItem<InternshipResp>
             {
-                Item = new CreateInternshipResponseDto
-                {
-                    InternshipId = internshipId,
-                },
+                Item = new InternshipResp(domain),
             };
         }
 
-        public async Task<Response> UpdateAsync
+        public async Task<ResponseItem<InternshipResp>> UpdateAsync
             (
             IEnumerable<Claim> claims,
             Guid internshipId,
-            UpdateInternshipRequestDto dto,
+            UpdateInternshipReq dto,
             CancellationToken cancellation
             )
         {
-            var companyId = _authentication.GetIdNameFromClaims(claims);
-            var start = (DateOnly)dto.ContractStartDate;
-            var end = dto.ContractEndDate == null ? (DateOnly?)(null) : (DateOnly)dto.ContractEndDate;
+            var companyId = GetCompanyId(claims);
 
 
-            var doaminInternship = await _internshipRepository.GetInternshipAsync
+            var domain = await _internshipRepository.GetInternshipAsync
                 (
                 companyId,
                 new RecrutmentId(internshipId),
                 cancellation
                 );
-            doaminInternship.Update(dto.ContractNumber, start, end);
-
-            await _internshipRepository.UpdateAsync
+            domain.Update
                 (
-                companyId,
-                doaminInternship,
-                cancellation
+                dto.ContractNumber,
+                (DateOnly)dto.ContractStartDate,
+                (DateOnly?)dto.ContractEndDate
                 );
-            return new Response { };
+
+            domain = await _internshipRepository.UpdateAsync(companyId, domain, cancellation);
+            return new ResponseItem<InternshipResp>
+            {
+                Item = new InternshipResp(domain),
+            };
         }
         //===============================================================================================================
         //===============================================================================================================
         //===============================================================================================================
         //Private Methods
+        private UserId GetCompanyId(IEnumerable<Claim> claims)
+        {
+            return _authentication.GetIdNameFromClaims(claims);
+        }
     }
 }

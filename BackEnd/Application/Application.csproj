@@ -42,7 +42,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Internship\CommentPart\" />
     <Folder Include="Features\Persons\Queries\" />
   </ItemGroup>
 

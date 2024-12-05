@@ -147,6 +147,21 @@
   <data name="Company_Cmd_NotUniqueUrlSegment" xml:space="preserve">
     <value>Wybierz inny UrlSegment</value>
   </data>
+  <data name="Internship_Cmd_ContractNum_Duplicate" xml:space="preserve">
+    <value>Numer umowy powtarza sie, wybierz inny numer</value>
+  </data>
+  <data name="Internship_Cmd_Exist" xml:space="preserve">
+    <value>Praktyka/staż istnieje</value>
+  </data>
+  <data name="Internship_Cmd_Id_NotFound" xml:space="preserve">
+    <value>Praktyka/staż  za podanym Id nie istnieje</value>
+  </data>
+  <data name="Internship_Cmd_Recruitment_NotExist" xml:space="preserve">
+    <value>Rekrutacja nie istnieje za podanym Id</value>
+  </data>
+  <data name="Internship_Cmd_Recruitment_PositiveNotExist" xml:space="preserve">
+    <value>Pozytywnej rekrutacji nie isntieje za podanym Id</value>
+  </data>
   <data name="Notification_Cmd_CHECK_IsReadedByUser" xml:space="preserve">
     <value>Problem aplikacyjny, niepoprawna wartość bazodanowa CONSTRAINT Notification_CHECK_IsReadedByUser</value>
     <comment>Problem aplikacyjny,</comment>
@@ -188,6 +203,22 @@
   </data>
   <data name="Person_Cmd_NotUniqueUrlSegment" xml:space="preserve">
     <value>Musisz wybrac inny Url Segment w profilu osoby</value>
+  </data>
+  <data name="Recruitment_Cmd_BranchOffer_Invalid" xml:space="preserve">
+    <value>Brak mozliwosci rekrutacji, oferta neważna</value>
+  </data>
+  <data name="Recruitment_Cmd_Id_NotFound" xml:space="preserve">
+    <value>Za podanym Id rekrutacja nie została znaleiona</value>
+  </data>
+  <data name="Recruitment_Cmd_IntoHisCompany" xml:space="preserve">
+    <value>Brak mozliwosci rekrutacji do włsanej firmy</value>
+  </data>
+  <data name="Recruitment_Cmd_IsAccepted_Invalid" xml:space="preserve">
+    <value>Problem aplikacyjny, nieporawne dane Code IsAccepted</value>
+    <comment>Problem aplikacyjny,</comment>
+  </data>
+  <data name="Recruitment_Cmd_Recruitment_Exist" xml:space="preserve">
+    <value>Nie mozna ponownie ponownie złozyc wniosku o rekrutacje</value>
   </data>
   <data name="Url_Cmd_Ids_NotFound" xml:space="preserve">
     <value>Za podanymi danymi nie zostało znaleziono rekordów</value>

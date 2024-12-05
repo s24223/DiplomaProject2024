@@ -1,28 +1,29 @@
-﻿using Application.Features.Internship.RecrutmentPart.DTOs.Create;
-using Application.Features.Internship.RecrutmentPart.DTOs.SetAnswerByCompany;
-using Application.Features.Internship.RecrutmentPart.Interfaces;
+﻿using Application.Features.Internships.Commands.Recrutments.DTOs;
+using Application.Features.Internships.Commands.Recrutments.Interfaces;
+using Application.Shared.DTOs.Features.Internships;
 using Application.Shared.DTOs.Response;
 using Application.Shared.Services.Authentication;
 using Domain.Features.Recruitment.ValueObjects.Identificators;
+using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Factories;
 using System.Security.Claims;
 
-namespace Application.Features.Internship.RecrutmentPart.Services
+namespace Application.Features.Internships.Commands.Recrutments.Services
 {
-    public class RecruitmentService : IRecruitmentService
+    public class RecruitmentCmdSvc : IRecruitmentCmdSvc
     {
         //Values
         private readonly IDomainFactory _domainFactory;
         private readonly IAuthJwtSvc _authentication;
-        private readonly IRecruitmentRepository _repository;
+        private readonly IRecruitmentCmdRepo _repository;
 
 
         //Cosntructor
-        public RecruitmentService
+        public RecruitmentCmdSvc
             (
             IDomainFactory domainFactory,
             IAuthJwtSvc authentication,
-            IRecruitmentRepository repository
+            IRecruitmentCmdRepo repository
             )
         {
             _domainFactory = domainFactory;
@@ -37,42 +38,48 @@ namespace Application.Features.Internship.RecrutmentPart.Services
         //Public Methods
 
         //DML
-        public async Task<Response> CreateByPersonAsync
+        public async Task<ResponseItem<RecruitmentResp>> CreateByPersonAsync
             (
             IEnumerable<Claim> claims,
             Guid branchOfferId,
-            CreateRecruitmentRequestDto dto,
+            CreateRecruitmentReq dto,
             CancellationToken cancellation
             )
         {
-            var personId = _authentication.GetIdNameFromClaims(claims);
-            var recruitment = _domainFactory.CreateDomainRecruitment
+            var personId = GetUserId(claims);
+            var domain = _domainFactory.CreateDomainRecruitment
                 (
                     personId.Value,
                     branchOfferId,
                     dto.PersonMessage
                 );
 
-            await _repository.CreateAsync(recruitment, cancellation);
-            return new Response { };
+            domain = await _repository.CreateAsync(domain, cancellation);
+            return new ResponseItem<RecruitmentResp>
+            {
+                Item = new RecruitmentResp(domain),
+            };
         }
 
-        public async Task<Response> SetAnswerByCompanyAsync
+        public async Task<ResponseItem<RecruitmentResp>> SetAnswerByCompanyAsync
             (
             IEnumerable<Claim> claims,
-            Guid id,
-            SetAnswerByCompanyRecrutmentDto dto,
+            Guid recrutmentId,
+            SetAnswerReq dto,
             CancellationToken cancellation
             )
         {
-            var companyId = _authentication.GetIdNameFromClaims(claims);
-            var recrutmentId = new RecrutmentId(id);
+            var companyId = GetUserId(claims);
+            var id = new RecrutmentId(recrutmentId);
 
-            var recruitment = await _repository.GetRecruitmentForSetAnswerAsync(companyId, recrutmentId, cancellation);
-            recruitment.SetAnswer(dto.CompanyResponse, dto.IsAccepted);
+            var domain = await _repository.GetRecruitmentAsync(companyId, id, cancellation);
+            domain.SetAnswer(dto.CompanyResponse, dto.IsAccepted);
 
-            await _repository.SetAnswerAsync(companyId, recruitment, cancellation);
-            return new Response { };
+            await _repository.UpdateAsync(companyId, domain, cancellation);
+            return new ResponseItem<RecruitmentResp>
+            {
+                Item = new RecruitmentResp(domain),
+            };
         }
         //DQL
 
@@ -80,5 +87,9 @@ namespace Application.Features.Internship.RecrutmentPart.Services
         //=====================================================================================================
         //=====================================================================================================
         //Private Methods
+        private UserId GetUserId(IEnumerable<Claim> claims)
+        {
+            return _authentication.GetIdNameFromClaims(claims);
+        }
     }
 }

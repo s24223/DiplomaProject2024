@@ -1,12 +1,6 @@
 ﻿using Application.Databases.Relational.Models;
 using Domain.Features.Address.Entities;
 using Domain.Features.Address.ValueObjects.Identificators;
-using Domain.Features.Intership.Entities;
-using Domain.Features.Notification.Entities;
-using Domain.Features.Person.Entities;
-using Domain.Features.Recruitment.Entities;
-using Domain.Features.Url.Entities;
-using Domain.Features.User.Entities;
 using Domain.Shared.Factories;
 
 namespace Application.Shared.Interfaces.EntityToDomainMappers
@@ -26,55 +20,6 @@ namespace Application.Shared.Interfaces.EntityToDomainMappers
             _domainFactory = domainFactory;
         }
 
-
-        //================================================================================================================
-        //================================================================================================================
-        //================================================================================================================
-        //Public Methods
-        //User Module
-        public DomainUser ToDomainUser(User databaseUser)
-        {
-            return _domainFactory.CreateDomainUser
-                (
-                databaseUser.Id,
-                databaseUser.Login,
-                databaseUser.LastLoginIn,
-                databaseUser.LastPasswordUpdate
-                );
-        }
-
-
-        public DomainUrl ToDomainUrl(Url databaseUrl)
-        {
-            return _domainFactory.CreateDomainUrl
-                (
-                databaseUrl.UserId,
-                databaseUrl.UrlTypeId,
-                databaseUrl.Created,
-                databaseUrl.Path,
-                databaseUrl.Name,
-                databaseUrl.Description
-                );
-        }
-
-        public DomainNotification ToDomainNotification(Notification notification)
-        {
-            return _domainFactory.CreateDomainNotification
-                (
-                notification.Id,
-                notification.UserId,
-                notification.Email,
-                notification.Created,
-                notification.Completed,
-                notification.PreviousProblemId,
-                notification.IdAppProblem,
-                notification.UserMessage,
-                notification.Response,
-                notification.IsReadedByUser,
-                notification.NotificationSenderId,
-                notification.NotificationStatusId
-                );
-        }
 
         //Address Module
         public DomainAddress ToDomainAddress
@@ -117,54 +62,6 @@ namespace Application.Shared.Interfaces.EntityToDomainMappers
             return address;
         }
 
-
-
-        //Person Module
-        public DomainPerson ToDomainPerson(Person databasePerson)
-        {
-            return _domainFactory.CreateDomainPerson
-                (
-                databasePerson.UserId,
-                databasePerson.UrlSegment,
-                databasePerson.Created,
-                databasePerson.ContactEmail,
-                databasePerson.Name,
-                databasePerson.Surname,
-                databasePerson.BirthDate,
-                databasePerson.ContactPhoneNum,
-                databasePerson.Description,
-                databasePerson.IsStudent,
-                databasePerson.IsPublicProfile,
-                databasePerson.AddressId
-                );
-        }
-
-        //Intership Module
-        public DomainRecruitment ToDomainRecruitment(Recruitment databaseRecruitment)
-        {
-            return _domainFactory.CreateDomainRecruitment
-                (
-                databaseRecruitment.Id,
-                databaseRecruitment.PersonId,
-                databaseRecruitment.BranchOfferId,
-                databaseRecruitment.Created,
-                databaseRecruitment.PersonMessage,
-                databaseRecruitment.CompanyResponse,
-                databaseRecruitment.IsAccepted
-                );
-        }
-
-        public DomainIntership ToDomainIntership(Internship databaseIntership)
-        {
-            return _domainFactory.CreateDomainIntership
-                (
-                databaseIntership.Id,
-                databaseIntership.Created,
-                databaseIntership.ContractStartDate,
-                databaseIntership.ContractEndDate,
-                databaseIntership.ContractNumber
-                );
-        }
         //================================================================================================================
         //================================================================================================================
         //================================================================================================================
