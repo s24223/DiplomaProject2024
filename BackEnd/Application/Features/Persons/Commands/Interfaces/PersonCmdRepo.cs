@@ -249,6 +249,15 @@ namespace Application.Features.Persons.Commands.Interfaces
 
                 if (number == 547)
                 {
+                    if (message.Contains("Person_Address"))
+                    {
+                        return new PersonException
+                                (
+                                $"{Messages.Person_Cmd_Address_NotFound}: {domain.AddressId?.ToString()}",
+                                DomainExceptionTypeEnum.NotFound
+                                );
+                    }
+
                     foreach (var item in dictionary)
                     {
                         if (message.Contains(item.Key))

@@ -1,12 +1,12 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2024-11-11 17:56:02.543
+-- Last modification date: 2024-12-05 23:12:41.335
 
 -- tables
 -- Table: Address
 CREATE TABLE Address (
     Id uniqueidentifier  NOT NULL,
     DivisionId int  NOT NULL,
-    StreetId int  NOT NULL,
+    StreetId int  NULL,
     BuildingNumber nvarchar(100)  NOT NULL,
     ApartmentNumber nvarchar(100)  NULL,
     ZipCode nvarchar(10)  NOT NULL,
@@ -38,14 +38,6 @@ CREATE TABLE Branch (
     Name nvarchar(100)  NULL,
     Description nvarchar(max)  NULL,
     CONSTRAINT Branch_pk PRIMARY KEY  (Id)
-);
-
--- Table: BranchCharacteristic
-CREATE TABLE BranchCharacteristic (
-    BranchId uniqueidentifier  NOT NULL,
-    CharacteristicId int  NOT NULL,
-    QualityId int  NULL,
-    CONSTRAINT BranchCharacteristic_pk PRIMARY KEY  (BranchId,CharacteristicId)
 );
 
 -- Table: BranchOffer
@@ -212,6 +204,7 @@ CREATE TABLE Person (
     Description nvarchar(max)  NULL,
     IsStudent char(1)  NOT NULL,
     IsPublicProfile char(1)  NOT NULL,
+    CvUrl nvarchar(100)  NULL,
     CONSTRAINT Person_pk PRIMARY KEY  (UserId)
 );
 
@@ -304,21 +297,6 @@ ALTER TABLE Address ADD CONSTRAINT Address_Street
 ALTER TABLE AdministrativeDivision ADD CONSTRAINT AdministrativeDivision_AdministrativeType
     FOREIGN KEY (AdministrativeTypeId)
     REFERENCES AdministrativeType (Id);
-
--- Reference: BranchCharacteristicsList_Branch (table: BranchCharacteristic)
-ALTER TABLE BranchCharacteristic ADD CONSTRAINT BranchCharacteristicsList_Branch
-    FOREIGN KEY (BranchId)
-    REFERENCES Branch (Id);
-
--- Reference: BranchCharacteristicsList_Characteristic (table: BranchCharacteristic)
-ALTER TABLE BranchCharacteristic ADD CONSTRAINT BranchCharacteristicsList_Characteristic
-    FOREIGN KEY (CharacteristicId)
-    REFERENCES Characteristic (Id);
-
--- Reference: BranchCharacteristicsList_Quality (table: BranchCharacteristic)
-ALTER TABLE BranchCharacteristic ADD CONSTRAINT BranchCharacteristicsList_Quality
-    FOREIGN KEY (QualityId)
-    REFERENCES Quality (Id);
 
 -- Reference: BranchOffer_Branch (table: BranchOffer)
 ALTER TABLE BranchOffer ADD CONSTRAINT BranchOffer_Branch

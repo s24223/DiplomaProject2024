@@ -13,8 +13,6 @@ public partial class Characteristic
 
     public int CharacteristicTypeId { get; set; }
 
-    public virtual ICollection<BranchCharacteristic> BranchCharacteristics { get; set; } = new List<BranchCharacteristic>();
-
     public virtual CharacteristicType CharacteristicType { get; set; } = null!;
 
     public virtual ICollection<OfferCharacteristic> OfferCharacteristics { get; set; } = new List<OfferCharacteristic>();

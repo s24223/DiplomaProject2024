@@ -515,6 +515,10 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Interfaces
                     {
                         return new BranchException(Messages.Branch_Cmd_Address_NotFound);
                     }
+                    if (sqlEx.Message.Contains("Branch_Company"))
+                    {
+                        return new BranchException(Messages.Branch_Cmd_Company_NotExsist);
+                    }
                 }
             }
             return ex;

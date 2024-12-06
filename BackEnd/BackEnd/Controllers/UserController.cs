@@ -27,6 +27,7 @@ using Application.Features.Users.Commands.Users.DTOs.UpdateLogin;
 using Application.Features.Users.Commands.Users.DTOs.UpdatePassword;
 using Application.Features.Users.Commands.Users.Services;
 using Application.Features.Users.Queries.QueriesUser.Services;
+using Application.Shared.DTOs.Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -299,6 +300,10 @@ namespace BackEnd.Controllers
         {
             var claims = User.Claims.ToList();
             var result = await _urlService.CreateAsync(claims, dtos, cancellation);
+            if (result.Status == EnumResponseStatus.UserFault)
+            {
+                return StatusCode(400, result);
+            }
             return StatusCode(201, result);
         }
 
@@ -312,6 +317,10 @@ namespace BackEnd.Controllers
         {
             var claims = User.Claims.ToList();
             var result = await _urlService.UpdateAsync(claims, dtos, cancellation);
+            if (result.Status == EnumResponseStatus.UserFault)
+            {
+                return StatusCode(400, result);
+            }
             return StatusCode(200, result);
         }
 
@@ -325,6 +334,10 @@ namespace BackEnd.Controllers
         {
             var claims = User.Claims.ToList();
             var result = await _urlService.DeleteAsync(claims, dtos, cancellation);
+            if (result.Status == EnumResponseStatus.UserFault)
+            {
+                return StatusCode(400, result);
+            }
             return StatusCode(200, result);
         }
 
@@ -359,6 +372,10 @@ namespace BackEnd.Controllers
         {
             var claims = User.Claims.ToList();
             var result = await _personService.CreateAsync(claims, dto, cancellation);
+            if (result.Status == EnumResponseStatus.UserFault)
+            {
+                return StatusCode(400, result);
+            }
             return StatusCode(201, result);
         }
 
@@ -372,7 +389,11 @@ namespace BackEnd.Controllers
         {
             var claims = User.Claims.ToList();
             var result = await _personService.UpdateAsync(claims, dto, cancellation);
-            return StatusCode(201, result);
+            if (result.Status == EnumResponseStatus.UserFault)
+            {
+                return StatusCode(400, result);
+            }
+            return StatusCode(200, result);
         }
 
 
@@ -416,6 +437,10 @@ namespace BackEnd.Controllers
         {
             var claims = User.Claims.ToList();
             var result = await _companyBranchService.CreateBranchesAsync(claims, dtos, cancellation);
+            if (result.Status == EnumResponseStatus.UserFault)
+            {
+                return StatusCode(400, result);
+            }
             return StatusCode(201, result);
         }
 
@@ -429,11 +454,15 @@ namespace BackEnd.Controllers
         {
             var claims = User.Claims.ToList();
             var result = await _companyBranchService.UpdateBranchesAsync(claims, dtos, cancellation);
+            if (result.Status == EnumResponseStatus.UserFault)
+            {
+                return StatusCode(400, result);
+            }
             return StatusCode(200, result);
         }
 
         [Authorize]
-        [HttpGet("company/branches")]
+        [HttpGet("company/branches/core")]
         public async Task<IActionResult> UpdateBranchAsync
             (
             CancellationToken cancellation,
@@ -468,6 +497,10 @@ namespace BackEnd.Controllers
         {
             var claims = User.Claims.ToList();
             var result = await _branchOfferService.CreateOffersAsync(claims, dtos, cancellation);
+            if (result.Status == EnumResponseStatus.UserFault)
+            {
+                return StatusCode(400, result);
+            }
             return StatusCode(201, result);
         }
 
@@ -481,6 +514,10 @@ namespace BackEnd.Controllers
         {
             var claims = User.Claims.ToList();
             var result = await _branchOfferService.UpdateOffersAsync(claims, dtos, cancellation);
+            if (result.Status == EnumResponseStatus.UserFault)
+            {
+                return StatusCode(400, result);
+            }
             return StatusCode(200, result);
         }
 
@@ -583,10 +620,10 @@ namespace BackEnd.Controllers
         }
 
         [Authorize]
-        [HttpPut("recruitment/answer")]
+        [HttpPut("recruitment/{recruitmentId:guid}/answer")]
         public async Task<IActionResult> SetAnswerRecruitmentByCompanyAsync
             (
-            [Required] Guid id,
+            [Required] Guid recruitmentId,
             SetAnswerReq dto,
             CancellationToken cancellation
             )
@@ -595,7 +632,7 @@ namespace BackEnd.Controllers
             var result = await _recruitmentService.SetAnswerByCompanyAsync
                 (
                 claims,
-                id,
+                recruitmentId,
                 dto,
                 cancellation
                 );

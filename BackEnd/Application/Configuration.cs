@@ -1,5 +1,6 @@
 using Application.Features.Addresses.Commands.Interfaces;
 using Application.Features.Addresses.Commands.Services;
+using Application.Features.Addresses.Mappers;
 using Application.Features.Addresses.Queries.Interfaces;
 using Application.Features.Addresses.Queries.Services;
 using Application.Features.Characteristics.Mappers;
@@ -32,7 +33,6 @@ using Application.Features.Users.Mappers;
 using Application.Features.Users.Queries.QueriesUser.Interfaces;
 using Application.Features.Users.Queries.QueriesUser.Services;
 using Application.Shared.Interfaces.DomainRepositories;
-using Application.Shared.Interfaces.EntityToDomainMappers;
 using Application.Shared.Interfaces.Exceptions;
 using Application.Shared.Services.Authentication;
 using Application.Shared.Services.OrderBy;
@@ -56,7 +56,6 @@ namespace Application
             serviceCollection.AddSingleton<IConfiguration>(configuration);
             serviceCollection.AddTransient<IAuthJwtSvc, AuthJwtSvc>();
             serviceCollection.AddTransient<IExceptionsRepository, ExceptionsRepository>();
-            serviceCollection.AddTransient<IEntityToDomainMapper, EntityToDomainMapper>();
             serviceCollection.AddTransient<IOrderBySvc, OrderBySvc>();
 
             //Doamain Connections
@@ -87,9 +86,11 @@ namespace Application
 
             //===============================================================================================================
             //Address Module
+            serviceCollection.AddTransient<IAddressMapper, AddressMapper>();
+
             //Address Part
-            serviceCollection.AddTransient<IAddressCommandRepository, AddressCommandRepository>();
-            serviceCollection.AddTransient<IAddressCommandService, AddressCommandService>();
+            serviceCollection.AddTransient<IAddressCmdRepo, AddressCmdRepo>();
+            serviceCollection.AddTransient<IAddressCmdSvc, AddressCmdSvc>();
 
             serviceCollection.AddTransient<IAddressQueryRepo, AddressQueryRepo>();
             serviceCollection.AddTransient<IAddressQueryService, AddressQueryService>();

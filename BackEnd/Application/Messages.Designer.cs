@@ -70,6 +70,15 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Profil Company/Firmy nie istnieje.
+        /// </summary>
+        internal static string Branch_Cmd_Company_NotExsist {
+            get {
+                return ResourceManager.GetString("Branch_Cmd_Company_NotExsist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Za podanym Id/s oddaiło nie znaleziono.
         /// </summary>
         internal static string Branch_Cmd_Id_NotFound {
@@ -232,6 +241,15 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Za podanymi danymi addrees nie ostał znaleziony.
+        /// </summary>
+        internal static string Person_Cmd_Address_NotFound {
+            get {
+                return ResourceManager.GetString("Person_Cmd_Address_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Profil Osoby juz istnieje, nie ma moliwosci ponownie utworzyć.
         /// </summary>
         internal static string Person_Cmd_ExistProfile {
@@ -306,9 +324,18 @@ namespace Application {
         /// <summary>
         ///   Looks up a localized string similar to Brak mozliwosci rekrutacji, oferta neważna.
         /// </summary>
-        internal static string Recruitment_Cmd_BranchOffer_Invalid {
+        internal static string Recruitment_Cmd_BranchOffer_Expired {
             get {
-                return ResourceManager.GetString("Recruitment_Cmd_BranchOffer_Invalid", resourceCulture);
+                return ResourceManager.GetString("Recruitment_Cmd_BranchOffer_Expired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Brak mozliwosci rekrutacji, oferta nieopublikowana.
+        /// </summary>
+        internal static string Recruitment_Cmd_BranchOffer_Future {
+            get {
+                return ResourceManager.GetString("Recruitment_Cmd_BranchOffer_Future", resourceCulture);
             }
         }
         
@@ -358,7 +385,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nie mozna ponownie ponownie złozyc wniosku o rekrutacje.
+        ///   Looks up a localized string similar to Już masz złozony wniosek, nie mozna ponownie ponownie złozyc wniosku o rekrutacje.
         /// </summary>
         internal static string Recruitment_Cmd_Recruitment_Exist {
             get {

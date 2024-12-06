@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2024-11-11 17:56:02.543
+-- Last modification date: 2024-12-05 23:12:41.335
 
 -- foreign keys
 ALTER TABLE Address DROP CONSTRAINT Address_Division;
@@ -7,12 +7,6 @@ ALTER TABLE Address DROP CONSTRAINT Address_Division;
 ALTER TABLE Address DROP CONSTRAINT Address_Street;
 
 ALTER TABLE AdministrativeDivision DROP CONSTRAINT AdministrativeDivision_AdministrativeType;
-
-ALTER TABLE BranchCharacteristic DROP CONSTRAINT BranchCharacteristicsList_Branch;
-
-ALTER TABLE BranchCharacteristic DROP CONSTRAINT BranchCharacteristicsList_Characteristic;
-
-ALTER TABLE BranchCharacteristic DROP CONSTRAINT BranchCharacteristicsList_Quality;
 
 ALTER TABLE BranchOffer DROP CONSTRAINT BranchOffer_Branch;
 
@@ -84,8 +78,6 @@ DROP TABLE AdministrativeDivision;
 DROP TABLE AdministrativeType;
 
 DROP TABLE Branch;
-
-DROP TABLE BranchCharacteristic;
 
 DROP TABLE BranchOffer;
 

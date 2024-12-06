@@ -166,13 +166,13 @@
     <value>Podana wartość srodka płatniczego nie spełnia wymagań, musi być maksymalnie po 2 liczbach po przecinku</value>
   </data>
   <data name="Notification_IsExistAnswer_False" xml:space="preserve">
-    <value />
+    <value>Nie ma odpowiedzi dla przeczytania</value>
   </data>
   <data name="Notification_IsReadedAnswerByUser_True" xml:space="preserve">
-    <value />
+    <value>Już przeczytane</value>
   </data>
   <data name="Notification_Sender_NotFound" xml:space="preserve">
-    <value />
+    <value>ProblemAplikacyjny, Seneder Not Found</value>
     <comment>App Problem</comment>
   </data>
   <data name="Notification_StatusAnnul_NotFound" xml:space="preserve">
@@ -180,7 +180,7 @@
     <comment>App Problem</comment>
   </data>
   <data name="Notification_Status_NotFound" xml:space="preserve">
-    <value />
+    <value>ProblemAplikacyjny, Status Not Found</value>
     <comment>App Problem</comment>
   </data>
   <data name="Notification_Status_UnableAnnulCompleted" xml:space="preserve">

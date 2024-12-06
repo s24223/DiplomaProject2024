@@ -31,6 +31,8 @@ public partial class Person
 
     public string IsPublicProfile { get; set; } = null!;
 
+    public string? CvUrl { get; set; }
+
     public virtual Address? Address { get; set; }
 
     public virtual ICollection<PersonCharacteristic> PersonCharacteristics { get; set; } = new List<PersonCharacteristic>();

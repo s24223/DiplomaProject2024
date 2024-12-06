@@ -1,5 +1,4 @@
-﻿using Application.Shared.Exceptions.AppExceptions;
-using Domain.Features.Address.Exceptions.Entities;
+﻿using Domain.Features.Address.Exceptions.Entities;
 using Domain.Features.Branch.Exceptions.Entities;
 using Domain.Features.Company.Exceptions.Entities;
 using Domain.Features.Offer.Exceptions.Entities;
@@ -212,33 +211,6 @@ namespace Application.Shared.Interfaces.Exceptions
         }
 
 
-
-        public Exception ConvertSqlClientDbException
-            (
-            Exception ex,
-            string? inputData = null
-            )
-        {
-            switch (ex)
-            {
-                /*case SqlException:
-                    return new SqlClientImplementationException
-                    (
-                    _provider.ExceptionsMessageProvider().GenerateExceptionMessage
-                        (
-                        GetType(),
-                        method,
-                        ex,
-                        inputData
-                        )
-                    );*/
-                default:
-                    return new SqlClientImplementationException
-                    (
-                    inputData
-                    );
-            }
-        }
 
     }
 }

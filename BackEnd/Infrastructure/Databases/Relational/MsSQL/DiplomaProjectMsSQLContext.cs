@@ -65,7 +65,6 @@ public partial class DiplomaProjectMsSQLContext : DiplomaProjectContext
 
             entity.HasOne(d => d.Street).WithMany(p => p.Addresses)
                 .HasForeignKey(d => d.StreetId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Address_Street");
         });
 
@@ -74,6 +73,8 @@ public partial class DiplomaProjectMsSQLContext : DiplomaProjectContext
             entity.HasKey(e => e.Id).HasName("AdministrativeDivision_pk");
 
             entity.ToTable("AdministrativeDivision");
+
+            entity.HasIndex(e => e.ParentDivisionId, "IDX_AdministrativeDivision_ParentDivisionId");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Name).HasMaxLength(100);
@@ -121,8 +122,6 @@ public partial class DiplomaProjectMsSQLContext : DiplomaProjectContext
 
             entity.ToTable("Branch");
 
-            entity.HasIndex(e => new { e.CompanyId, e.UrlSegment }, "Branch_UNIQUE_UrlSegment").IsUnique();
-
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.UrlSegment)
@@ -139,34 +138,11 @@ public partial class DiplomaProjectMsSQLContext : DiplomaProjectContext
                 .HasConstraintName("Branch_Company");
         });
 
-        modelBuilder.Entity<BranchCharacteristic>(entity =>
-        {
-            entity.HasKey(e => new { e.BranchId, e.CharacteristicId }).HasName("BranchCharacteristic_pk");
-
-            entity.ToTable("BranchCharacteristic");
-
-            entity.HasOne(d => d.Branch).WithMany(p => p.BranchCharacteristics)
-                .HasForeignKey(d => d.BranchId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("BranchCharacteristicsList_Branch");
-
-            entity.HasOne(d => d.Characteristic).WithMany(p => p.BranchCharacteristics)
-                .HasForeignKey(d => d.CharacteristicId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("BranchCharacteristicsList_Characteristic");
-
-            entity.HasOne(d => d.Quality).WithMany(p => p.BranchCharacteristics)
-                .HasForeignKey(d => d.QualityId)
-                .HasConstraintName("BranchCharacteristicsList_Quality");
-        });
-
         modelBuilder.Entity<BranchOffer>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("BranchOffer_pk");
 
             entity.ToTable("BranchOffer");
-
-            entity.HasIndex(e => new { e.BranchId, e.OfferId, e.Created }, "BranchOffer_UNIQUE_CONNECTION").IsUnique();
 
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.Created)
@@ -296,8 +272,6 @@ public partial class DiplomaProjectMsSQLContext : DiplomaProjectContext
 
             entity.HasIndex(e => e.Regon, "Company_UNIQUE_Regon").IsUnique();
 
-            entity.HasIndex(e => e.UrlSegment, "Company_UNIQUE_UrlSegment").IsUnique();
-
             entity.Property(e => e.UserId).ValueGeneratedNever();
             entity.Property(e => e.ContactEmail).HasMaxLength(100);
             entity.Property(e => e.Created).HasDefaultValueSql("(CONVERT([date],getdate()))");
@@ -339,7 +313,7 @@ public partial class DiplomaProjectMsSQLContext : DiplomaProjectContext
         {
             entity.HasKey(e => e.Id).HasName("Internship_pk");
 
-            entity.ToTable("Internship");
+            entity.ToTable("Internship", tb => tb.HasTrigger("Internship_UNIQUE_ContractNumber"));
 
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.ContractNumber).HasMaxLength(100);
@@ -457,16 +431,13 @@ public partial class DiplomaProjectMsSQLContext : DiplomaProjectContext
 
             entity.HasIndex(e => e.ContactEmail, "Person_UNIQUE_ContactEmail").IsUnique();
 
-            entity.HasIndex(e => e.ContactPhoneNum, "Person_UNIQUE_ContactPhoneNum").IsUnique();
-
-            entity.HasIndex(e => e.UrlSegment, "Person_UNIQUE_UrlSegment").IsUnique();
-
             entity.Property(e => e.UserId).ValueGeneratedNever();
             entity.Property(e => e.ContactEmail).HasMaxLength(100);
             entity.Property(e => e.ContactPhoneNum)
                 .HasMaxLength(11)
                 .IsUnicode(false);
             entity.Property(e => e.Created).HasDefaultValueSql("(CONVERT([date],getdate()))");
+            entity.Property(e => e.CvUrl).HasMaxLength(100);
             entity.Property(e => e.IsPublicProfile)
                 .HasMaxLength(1)
                 .IsUnicode(false)
@@ -533,7 +504,9 @@ public partial class DiplomaProjectMsSQLContext : DiplomaProjectContext
         {
             entity.HasKey(e => e.Id).HasName("Recruitment_pk");
 
-            entity.ToTable("Recruitment");
+            entity.ToTable("Recruitment", tb => tb.HasTrigger("Recruitment_Invalid_BranchOffer"));
+
+            entity.HasIndex(e => new { e.PersonId, e.BranchOfferId }, "Recruitment_UNIQUE").IsUnique();
 
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.Created)

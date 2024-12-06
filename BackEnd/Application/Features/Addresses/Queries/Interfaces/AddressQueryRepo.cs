@@ -1,8 +1,8 @@
 ﻿using Application.Databases.Relational;
 using Application.Databases.Relational.Models;
+using Application.Features.Addresses.Mappers;
 using Application.Features.Addresses.Queries.DTOs;
 using Application.Shared.DTOs.Features.Addresses;
-using Application.Shared.Interfaces.EntityToDomainMappers;
 using Application.Shared.Interfaces.SqlClient;
 using Domain.Features.Address.Entities;
 using Domain.Features.Address.Exceptions.Entities;
@@ -17,14 +17,14 @@ namespace Application.Features.Addresses.Queries.Interfaces
     {
         //Values
         private readonly ISqlClientRepo _sql;
-        private readonly IEntityToDomainMapper _mapper;
+        private readonly IAddressMapper _mapper;
         private readonly DiplomaProjectContext _context;
 
 
         //Cosntructor
         public AddressQueryRepo
             (
-            IEntityToDomainMapper mapper,
+            IAddressMapper mapper,
             ISqlClientRepo sql,
             DiplomaProjectContext context
             )
@@ -70,7 +70,7 @@ namespace Application.Features.Addresses.Queries.Interfaces
             var dbAddress = await GetDatabaseAddress(id, cancellation);
             var hierarchy = await _sql
                 .GetDivisionsHierachyUpAsync(dbAddress.DivisionId, cancellation);
-            return _mapper.ToDomainAddress(dbAddress, hierarchy);
+            return _mapper.DomainAddress(dbAddress, hierarchy);
         }
 
         public async Task<Dictionary<AddressId, DomainAddress>> GetAddressDictionaryAsync
@@ -93,7 +93,7 @@ namespace Application.Features.Addresses.Queries.Interfaces
                 return new KeyValuePair<AddressId, DomainAddress>
                 (
                     item.Key,
-                    _mapper.ToDomainAddress(dbAddress, hierarchy)
+                    _mapper.DomainAddress(dbAddress, hierarchy)
                 );
             });
 

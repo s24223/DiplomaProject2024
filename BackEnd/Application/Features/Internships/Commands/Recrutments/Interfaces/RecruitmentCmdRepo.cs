@@ -7,6 +7,7 @@ using Domain.Features.Recruitment.ValueObjects.Identificators;
 using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Providers;
 using Domain.Shared.Templates.Exceptions;
+using Domain.Shared.ValueObjects;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
@@ -48,7 +49,11 @@ namespace Application.Features.Internships.Commands.Recrutments.Interfaces
         {
             try
             {
-                var branchOfferId = domain.BranchOfferId.Value;
+                var exInvalid = await ReturnexceptionIfNotValidAsync(domain, cancellation);
+                if (exInvalid != null)
+                {
+                    throw exInvalid;
+                }
 
                 var db = MapRecruitment(domain, null);
                 await _context.Recruitments.AddAsync(db, cancellation);
@@ -73,9 +78,24 @@ namespace Application.Features.Internships.Commands.Recrutments.Interfaces
             {
                 var db = await GetDatabaseRecruitment(companyId, domain.Id, cancellation);
                 db = MapRecruitment(domain, db);
+
+
+                var dbFalse = new DatabaseBool(false).Code;
+                if (db.IsAccepted == dbFalse)
+                {
+                    var internshipForDeleteng = await _context.Internships
+                        .Include(x => x.Comments)
+                        .Where(x => x.Id == db.Id)
+                        .FirstOrDefaultAsync(cancellation);
+                    if (internshipForDeleteng != null)
+                    {
+                        internshipForDeleteng.Comments.Clear();
+                        _context.Internships.Remove(internshipForDeleteng);
+                    }
+                }
+
                 await _context.SaveChangesAsync(cancellation);
                 return _mapper.DomainRecruitment(db);
-
             }
             catch (System.Exception ex)
             {
@@ -106,17 +126,15 @@ namespace Application.Features.Internships.Commands.Recrutments.Interfaces
             CancellationToken cancellation
             )
         {
-            var path = await _context.Branches
-                .Include(x => x.BranchOffers)
-                .ThenInclude(x => x.Recruitments)
+            var recrutment = await _context.Recruitments
+                .Include(x => x.BranchOffer)
+                .ThenInclude(x => x.Branch)
                 .Where(x =>
-                    x.CompanyId == companyId.Value &&
-                    x.BranchOffers.Any(y => y.Recruitments.Any(z =>
-                        z.Id == recrutmentid.Value
-                    ))
-                ).FirstOrDefaultAsync(cancellation);
+                    x.Id == recrutmentid.Value &&
+                    x.BranchOffer.Branch.CompanyId == companyId.Value
+                    ).FirstOrDefaultAsync(cancellation);
 
-            if (path == null)
+            if (recrutment == null)
             {
                 throw new RecruitmentException
                     (
@@ -124,16 +142,19 @@ namespace Application.Features.Internships.Commands.Recrutments.Interfaces
                     DomainExceptionTypeEnum.NotFound
                     );
             }
-            return path.BranchOffers.First().Recruitments.First();
+            return recrutment;
         }
 
         private Recruitment MapRecruitment(DomainRecruitment domain, Recruitment? db)
         {
             var database = db ?? new Recruitment();
-            //As a comment is Readonly
-            //dbRecrutment.PersonId = doamain.
-            //dbRecrutment.BranchOfferId = doamain.
-            //dbRecrutment.Id = doamain.
+            //database.Id
+
+            if (db == null)
+            {
+                database.PersonId = domain.PersonId.Value;
+                database.BranchOfferId = domain.BranchOfferId.Value;
+            }
             database.Created = domain.Created;
             database.CvUrl = null;
             database.PersonMessage = domain.PersonMessage;
@@ -142,39 +163,40 @@ namespace Application.Features.Internships.Commands.Recrutments.Interfaces
 
             return database;
         }
-        /*
-                private async Task CheckIsValidBranchOffer(BranchOfferId id, CancellationToken cancellation)
-                {
-                    var now = _provider.TimeProvider().GetDateTimeNow();
-                    var database = await _context.BranchOffers
-                        .Where(x => x.Id == id.Value)
-                        .FirstOrDefaultAsync(cancellation);
 
+        private async Task<System.Exception?> ReturnexceptionIfNotValidAsync
+            (DomainRecruitment domain, CancellationToken cancellation)
+        {
+            var value = await _context.BranchOffers
+                .Include(x => x.Branch)
+                .Where(x => x.Id == domain.BranchOfferId.Value)
+                .FirstOrDefaultAsync(cancellation);
+            var now = _provider.TimeProvider().GetDateTimeNow();
 
-                    if (database == null)
-                    {
-                        throw new BranchOfferException
-                            (
-                            $"{Messages.BranchOffer_Cmd_Id_NotFound}: {id.Value}",
-                            DomainExceptionTypeEnum.NotFound
-                            );
-                    }
-
-                    if (
-                        database.PublishStart > now ||
-                        (database.PublishStart <= now && database.PublishEnd <= now)
-                        )
-                    {
-                        throw new BranchOfferException
+            if (value == null)
+            {
+                return new RecruitmentException
                            (
-                            $"{Messages.BranchOffer_Cmd_Time_Invalid}: {id.Value}",
-                            DomainExceptionTypeEnum.NotFound
+                           $"{Messages.Recruitment_Cmd_BranchOffer_NotFound}",
+                           DomainExceptionTypeEnum.NotFound
+
                            );
-                    }
+            }
+            if (value.PublishStart > now)
+            {
+                return new RecruitmentException($"{Messages.Recruitment_Cmd_BranchOffer_Future}");
+            }
+            if (value.PublishEnd != null && value.PublishEnd <= now)
+            {
+                return new RecruitmentException($"{Messages.Recruitment_Cmd_BranchOffer_Expired}");
+            }
+            if (value.Branch.CompanyId == domain.PersonId.Value)
+            {
+                return new RecruitmentException($"{Messages.Recruitment_Cmd_IntoHisCompany}");
+            }
 
-
-
-                }*/
+            return null;
+        }
 
         private System.Exception HandleException(System.Exception ex, DomainRecruitment domain)
         {
@@ -222,14 +244,6 @@ namespace Application.Features.Internships.Commands.Recrutments.Interfaces
 
                             );
                     }
-                }
-                if (number == 50003)
-                {
-                    return new RecruitmentException($"{Messages.Recruitment_Cmd_BranchOffer_Invalid}");
-                }
-                if (number == 50004)
-                {
-                    return new RecruitmentException($"{Messages.Recruitment_Cmd_IntoHisCompany}");
                 }
             }
             return ex;

@@ -82,7 +82,7 @@ namespace BackEnd.Middlewares.CustomMiddlewares
                     }
                     break;
                 //Application Layer
-                case SqlClientImplementationException:
+                case SqlClientException:
                     await GenerateAppFaultResponse(response, ex, dbContext);
                     break;
                 case ApplicationLayerException:

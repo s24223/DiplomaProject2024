@@ -7,10 +7,5 @@
             Exception ex
             );
 
-        Exception ConvertSqlClientDbException
-            (
-            Exception ex,
-            string? inputData = null
-            );
     }
 }

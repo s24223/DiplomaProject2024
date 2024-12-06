@@ -11,14 +11,14 @@ namespace BackEnd.Controllers
     public class AddressController : ControllerBase
     {
         //Values
-        private readonly IAddressCommandService _commandService;
+        private readonly IAddressCmdSvc _commandService;
         private readonly IAddressQueryService _queryService;
 
 
         //Controllers
         public AddressController
             (
-            IAddressCommandService commandService,
+            IAddressCmdSvc commandService,
             IAddressQueryService queryService
             )
         {

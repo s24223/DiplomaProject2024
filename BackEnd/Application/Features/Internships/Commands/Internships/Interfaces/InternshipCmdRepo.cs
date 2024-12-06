@@ -3,7 +3,6 @@ using Application.Databases.Relational.Models;
 using Application.Features.Internships.Mappers;
 using Domain.Features.Intership.Entities;
 using Domain.Features.Intership.Exceptions.Entities;
-using Domain.Features.Recruitment.Exceptions.Entities;
 using Domain.Features.Recruitment.ValueObjects.Identificators;
 using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Templates.Exceptions;
@@ -18,7 +17,8 @@ namespace Application.Features.Internships.Commands.Internships.Interfaces
         //Values
         private readonly IInternshipMapper _mapper;
         private readonly DiplomaProjectContext _context;
-
+        private static readonly string _true = new DatabaseBool(true).Code;
+        private static readonly string _false = new DatabaseBool(false).Code;
 
         //Cosntructor
         public InternshipCmdRepo
@@ -92,36 +92,6 @@ namespace Application.Features.Internships.Commands.Internships.Interfaces
         //==================================================================================================
         //==================================================================================================
         //Private Methods
-        private async Task<Recruitment> GetDatabseRecruitmentAsync
-            (
-            UserId companyId,
-            RecrutmentId recrutmentId,
-            CancellationToken cancellation
-            )
-        {
-            var databaseBoolTrue = new DatabaseBool(true).Code;
-            var pathToRecrutment = await _context.Branches
-                .Include(x => x.BranchOffers)
-                .ThenInclude(x => x.Recruitments)
-                .Where(x =>
-                    x.CompanyId == companyId.Value &&
-                    x.BranchOffers.Any(y => y.Recruitments.Any(z =>
-                        z.Id == recrutmentId.Value &&
-                        z.IsAccepted == databaseBoolTrue
-                    ))
-                ).FirstOrDefaultAsync(cancellation);
-            if (pathToRecrutment == null)
-            {
-                throw new RecruitmentException
-                    (
-                    Messages.Internship_Cmd_Recruitment_PositiveNotExist,
-                    DomainExceptionTypeEnum.NotFound
-                    );
-            }
-
-            return pathToRecrutment.BranchOffers.First().Recruitments.First();
-        }
-
         private async Task<Internship> GetDatabseInternshipAsync
             (
             UserId companyId,
@@ -129,36 +99,34 @@ namespace Application.Features.Internships.Commands.Internships.Interfaces
             CancellationToken cancellation
             )
         {
-            var databaseBoolTrue = new DatabaseBool(true).Code;
-            var pathToRecrutment = await _context.Branches
-                .Include(x => x.BranchOffers)
-                .ThenInclude(x => x.Recruitments)
-                .ThenInclude(x => x.Internship)
+            var database = await _context.Internships
+                .Include(x => x.Recruitment)
+                .ThenInclude(x => x.BranchOffer)
+                .ThenInclude(x => x.Branch)
                 .Where(x =>
-                    x.CompanyId == companyId.Value &&
-                    x.BranchOffers.Any(y =>
-                        y.Recruitments.Any(z =>
-                            z.Internship != null &&
-                             z.Internship.Id == intershipId.Value
-                            ))
-                ).FirstOrDefaultAsync(cancellation);
-            if (pathToRecrutment == null)
+                    x.Id == intershipId.Value &&
+                    x.Recruitment.BranchOffer.Branch.CompanyId == companyId.Value
+                    )
+                .FirstOrDefaultAsync(cancellation);
+
+            if (database == null)
             {
                 throw new IntershipException
                     (
                     Messages.Internship_Cmd_Id_NotFound,
                     DomainExceptionTypeEnum.NotFound
-
                     );
             }
-
-            return pathToRecrutment.BranchOffers.First().Recruitments.First().Internship;
+            return database;
         }
 
         private Internship MapInternship(DomainIntership domain, Internship? database)
         {
             var db = database ?? new Internship();
-
+            if (database == null)
+            {
+                db.Id = domain.Id.Value;
+            }
             db.ContractNumber = domain.ContractNumber.Value;
             db.Created = domain.Created;
             db.ContractStartDate = domain.ContractStartDate;

@@ -196,7 +196,7 @@ namespace Domain {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Nie ma odpowiedzi dla przeczytania.
         /// </summary>
         internal static string Notification_IsExistAnswer_False {
             get {
@@ -205,7 +205,7 @@ namespace Domain {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Już przeczytane.
         /// </summary>
         internal static string Notification_IsReadedAnswerByUser_True {
             get {
@@ -214,7 +214,7 @@ namespace Domain {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to ProblemAplikacyjny, Seneder Not Found.
         /// </summary>
         internal static string Notification_Sender_NotFound {
             get {
@@ -223,7 +223,7 @@ namespace Domain {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to ProblemAplikacyjny, Status Not Found.
         /// </summary>
         internal static string Notification_Status_NotFound {
             get {

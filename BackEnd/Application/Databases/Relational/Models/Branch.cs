@@ -19,8 +19,6 @@ public partial class Branch
 
     public virtual Address? Address { get; set; }
 
-    public virtual ICollection<BranchCharacteristic> BranchCharacteristics { get; set; } = new List<BranchCharacteristic>();
-
     public virtual ICollection<BranchOffer> BranchOffers { get; set; } = new List<BranchOffer>();
 
     public virtual Company Company { get; set; } = null!;

@@ -22,8 +22,6 @@ public partial class DiplomaProjectContext : DbContext
 
     public virtual DbSet<Branch> Branches { get; set; }
 
-    public virtual DbSet<BranchCharacteristic> BranchCharacteristics { get; set; }
-
     public virtual DbSet<BranchOffer> BranchOffers { get; set; }
 
     public virtual DbSet<Characteristic> Characteristics { get; set; }

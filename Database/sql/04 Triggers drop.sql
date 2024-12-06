@@ -1,2 +1,2 @@
-DROP TRIGGER [dbo].[Internship].Internship_UNIQUE_ContractNumber;
-DROP TRIGGER [dbo].[Recruitment].Recruitment_Invalid_BranchOffer;
+DROP TRIGGER Internship_UNIQUE_ContractNumber;
+--DROP TRIGGER Recruitment_Invalid_BranchOffer;

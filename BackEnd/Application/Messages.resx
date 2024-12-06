@@ -120,6 +120,9 @@
   <data name="Branch_Cmd_Address_NotFound" xml:space="preserve">
     <value>Addres nie został znaleziony</value>
   </data>
+  <data name="Branch_Cmd_Company_NotExsist" xml:space="preserve">
+    <value>Profil Company/Firmy nie istnieje</value>
+  </data>
   <data name="Branch_Cmd_Id_NotFound" xml:space="preserve">
     <value>Za podanym Id/s oddaiło nie znaleziono</value>
   </data>
@@ -177,6 +180,9 @@
   <data name="Notification_Cmd_Id_NotFound" xml:space="preserve">
     <value>Nie znaleziono powiadomienia za podanym Id</value>
   </data>
+  <data name="Person_Cmd_Address_NotFound" xml:space="preserve">
+    <value>Za podanymi danymi addrees nie ostał znaleziony</value>
+  </data>
   <data name="Person_Cmd_ExistProfile" xml:space="preserve">
     <value>Profil Osoby juz istnieje, nie ma moliwosci ponownie utworzyć</value>
   </data>
@@ -204,8 +210,11 @@
   <data name="Person_Cmd_NotUniqueUrlSegment" xml:space="preserve">
     <value>Musisz wybrac inny Url Segment w profilu osoby</value>
   </data>
-  <data name="Recruitment_Cmd_BranchOffer_Invalid" xml:space="preserve">
+  <data name="Recruitment_Cmd_BranchOffer_Expired" xml:space="preserve">
     <value>Brak mozliwosci rekrutacji, oferta neważna</value>
+  </data>
+  <data name="Recruitment_Cmd_BranchOffer_Future" xml:space="preserve">
+    <value>Brak mozliwosci rekrutacji, oferta nieopublikowana</value>
   </data>
   <data name="Recruitment_Cmd_BranchOffer_NotFound" xml:space="preserve">
     <value>Za podanymi danymi BranchOffer nie istnieje</value>
@@ -224,7 +233,7 @@
     <value>Profil Osoby nie isnieje</value>
   </data>
   <data name="Recruitment_Cmd_Recruitment_Exist" xml:space="preserve">
-    <value>Nie mozna ponownie ponownie złozyc wniosku o rekrutacje</value>
+    <value>Już masz złozony wniosek, nie mozna ponownie ponownie złozyc wniosku o rekrutacje</value>
   </data>
   <data name="Url_Cmd_Ids_NotFound" xml:space="preserve">
     <value>Za podanymi danymi nie zostało znaleziono rekordów</value>

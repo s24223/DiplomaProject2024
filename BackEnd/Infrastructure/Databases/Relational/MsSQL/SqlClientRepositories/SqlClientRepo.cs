@@ -1,5 +1,4 @@
 ﻿using Application.Databases.Relational.Models;
-using Application.Shared.Interfaces.Exceptions;
 using Application.Shared.Interfaces.SqlClient;
 using Domain.Features.Address.ValueObjects.Identificators;
 using Infrastructure.Exceptions.AppExceptions;
@@ -13,17 +12,11 @@ namespace Infrastructure.Databases.Relational.MsSQL.SqlClientRepositories
     {
         //Values
         private readonly string _connectionString;
-        private readonly IExceptionsRepository _exceptionsRepository;
 
 
         //Constructor
-        public SqlClientRepo
-            (
-            IConfiguration configuration,
-            IExceptionsRepository exceptionsRepository
-            )
+        public SqlClientRepo(IConfiguration configuration)
         {
-            _exceptionsRepository = exceptionsRepository;
             _connectionString = configuration.GetSection("ConnectionStrings")["DbString"] ??
                 throw new InfrastructureLayerException(Messages.NotConfiguredConnectionString);
         }
@@ -98,11 +91,7 @@ namespace Infrastructure.Databases.Relational.MsSQL.SqlClientRepositories
             }
             catch (System.Exception ex)
             {
-                throw _exceptionsRepository.ConvertSqlClientDbException
-                    (
-                    ex,
-                    $"DivisionName: {divisionName}, StreetName: {streetName}"
-                    );
+                throw HandleException(ex, $"DivisionName: {divisionName}, StreetName: {streetName}");
             }
         }
 
@@ -156,11 +145,7 @@ namespace Infrastructure.Databases.Relational.MsSQL.SqlClientRepositories
             }
             catch (System.Exception ex)
             {
-                throw _exceptionsRepository.ConvertSqlClientDbException
-                    (
-                    ex,
-                    $"DivisionId: {divisionId}"
-                    );
+                throw HandleException(ex, $"DivisionId: {divisionId}");
             }
         }
 
@@ -219,11 +204,7 @@ namespace Infrastructure.Databases.Relational.MsSQL.SqlClientRepositories
             }
             catch (System.Exception ex)
             {
-                throw _exceptionsRepository.ConvertSqlClientDbException
-                    (
-                    ex,
-                    $"DivisionId:"
-                    );
+                throw HandleException(ex, $"CompanyId: {companyId}");
             }
         }
 
@@ -265,16 +246,17 @@ namespace Infrastructure.Databases.Relational.MsSQL.SqlClientRepositories
             }
             catch (System.Exception ex)
             {
-                throw _exceptionsRepository.ConvertSqlClientDbException
-                    (
-                    ex,
-                    $"DivisionId: {divisionId}"
-                    );
+                throw HandleException(ex, $"DivisionId: {divisionId}");
             }
         }
         //=========================================================================================================
         //=========================================================================================================
         //=========================================================================================================
         //Private Methods
+
+        private System.Exception HandleException(System.Exception ex, string? inputData = null)
+        {
+            return new SqlClientException($"{ex.Message}: {inputData}");
+        }
     }
 }

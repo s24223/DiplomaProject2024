@@ -112,6 +112,7 @@ namespace Domain.Features.Notification.Entities
                     );
             }
             NotificationStatus = GetStatus(4);
+            IsReadedAnswerByUser = new DatabaseBool(true);
         }
 
         public void SetReadedByUser()
