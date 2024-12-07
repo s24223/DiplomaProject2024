@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import CancelButton from "../CancelButton/ReturnButton";
+import { createCompany } from "../../services/CompanyService/ComapnyService";
 
 const CreateCompany = () => {
     const [companyData, setCompanyData] = useState({
@@ -33,16 +34,7 @@ const CreateCompany = () => {
         }
 
         try {
-            const response = await axios.post(
-                "https://localhost:7166/api/User/company",
-                companyData,
-                {
-                    headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
+            await createCompany(companyData);
 
             // Przekierowanie po sukcesie
             setMessage("Company created successfully.");

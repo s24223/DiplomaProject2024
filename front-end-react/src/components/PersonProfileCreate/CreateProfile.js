@@ -18,6 +18,7 @@ const CreateProfile = () => {
     const [isPublicProfile, setIsPublicProfile] = useState(false)
     const [addressId, setAddressId] = useState(null)
     const [characteristics, setCharacteristics] = useState([])
+    const [message, setMessage] = useState("");
 
     const handleBirthDate = (date) => {
         let dateSegmented = date.split("-")
@@ -47,6 +48,10 @@ const CreateProfile = () => {
         try {
             await fetchProfilePost(body)
             //window.location.href="/userProfile"
+            setMessage("Created successfully!"); // Ustawienie wiadomości o sukcesie
+            setTimeout(() => {
+                window.location.href = "/userProfile"; // Przekierowanie po 2 sekundach
+            }, 2000);
         } catch(error){
             console.error(error)
         }
@@ -74,6 +79,7 @@ const CreateProfile = () => {
                 <input type="submit" value="Create Profile" />
                 <CancelButton/>
             </form>
+            {message && <p style={{ color: message.includes("successfully") ? "green" : "red" }}>{message}</p>}
         </div>
     )
 }

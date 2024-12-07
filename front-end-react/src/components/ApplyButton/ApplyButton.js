@@ -20,7 +20,7 @@ const ApplyButton = ({ branchId }) => {
                 return;
             }
 
-            const url = `https://localhost:7166/api/Internship/recruitment?branchOfferId=${branchId}`;
+            const url = `https://localhost:7166/api/User/recruitment?branchOfferId=${branchId}`;
 
             const response = await fetch(url, {
                 method: 'POST',

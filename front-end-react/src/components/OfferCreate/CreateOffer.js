@@ -1,134 +1,7 @@
-// import React, { useState } from "react";
-// import axios from "axios";
-
-// const CreateOffer = ({ branchId, onClose, refreshOffers }) => {
-//     const [name, setName] = useState("");
-//     const [description, setDescription] = useState("");
-//     const [minSalary, setMinSalary] = useState("");
-//     const [maxSalary, setMaxSalary] = useState("");
-//     const [isNegotiatedSalary, setIsNegotiatedSalary] = useState(false);
-//     const [isForStudents, setIsForStudents] = useState(false);
-
-//     const handleSubmit = async (e) => {
-//         e.preventDefault();
-
-//         // Walidacja
-//         if (!name || !description || !minSalary || !maxSalary) {
-//             alert("All fields are required.");
-//             return;
-//         }
-
-//         const offerData = [
-//             {
-//                 name,
-//                 description,
-//                 minSalary: parseFloat(minSalary),
-//                 maxSalary: parseFloat(maxSalary),
-//                 isNegotiatedSalary,
-//                 isForStudents,
-//                 characteristics: [
-//                     {
-//                         characteristicId: 1,
-//                         qualityId: 11
-//                     }
-//                 ], 
-//             },
-//         ];
-
-//         try {
-//             const response = await axios.post(
-//                 `https://localhost:7166/api/User/company/offers`,
-//                 offerData,
-//                 {
-//                     headers: {
-//                         Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
-//                     },
-//                 }
-//             );
-
-//             if (response.status === 201) {
-//                 alert("Offer created successfully.");
-//                 refreshOffers(); // Odśwież listę ofert
-//                 onClose(); // Zamknij formularz
-//             }
-//         } catch (error) {
-//             console.error("Error creating offer:", error);
-//             alert("Failed to create offer.");
-//         }
-//     };
-
-//     return (
-//         <div>
-//             <h3>Create Offer</h3>
-//             <form onSubmit={handleSubmit}>
-//                 <label>Name:</label>
-//                 <input
-//                     type="text"
-//                     value={name}
-//                     onChange={(e) => setName(e.target.value)}
-//                     placeholder="Offer name"
-//                     required
-//                 />
-//                 <br />
-//                 <label>Description:</label>
-//                 <textarea
-//                     value={description}
-//                     onChange={(e) => setDescription(e.target.value)}
-//                     placeholder="Offer description"
-//                     required
-//                 ></textarea>
-//                 <br />
-//                 <label>Min Salary:</label>
-//                 <input
-//                     type="number"
-//                     value={minSalary}
-//                     onChange={(e) => setMinSalary(e.target.value)}
-//                     placeholder="Minimum salary"
-//                     required
-//                 />
-//                 <br />
-//                 <label>Max Salary:</label>
-//                 <input
-//                     type="number"
-//                     value={maxSalary}
-//                     onChange={(e) => setMaxSalary(e.target.value)}
-//                     placeholder="Maximum salary"
-//                     required
-//                 />
-//                 <br />
-//                 <label>
-//                     <input
-//                         type="checkbox"
-//                         checked={isNegotiatedSalary}
-//                         onChange={(e) => setIsNegotiatedSalary(e.target.checked)}
-//                     />
-//                     Negotiable Salary
-//                 </label>
-//                 <br />
-//                 <label>
-//                     <input
-//                         type="checkbox"
-//                         checked={isForStudents}
-//                         onChange={(e) => setIsForStudents(e.target.checked)}
-//                     />
-//                     For Students
-//                 </label>
-//                 <br />
-//                 <button type="submit">Create Offer</button>
-//                 <button type="button" onClick={onClose}>
-//                     Cancel
-//                 </button>
-//             </form>
-//         </div>
-//     );
-// };
-
-// export default CreateOffer;
-
 import React, { useState } from "react";
-import axios from "axios";
+import { assignOfferToBranch, createOffer } from "../../services/OffersService/OffersService";
 
-const CreateOffer = ({ branchId, onClose, refreshOffers }) => {
+const CreateOffer = ({ branchId, onClose }) => {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [minSalary, setMinSalary] = useState("");
@@ -137,13 +10,31 @@ const CreateOffer = ({ branchId, onClose, refreshOffers }) => {
     const [isForStudents, setIsForStudents] = useState(false);
     const [publishStart, setPublishStart] = useState("");
     const [publishEnd, setPublishEnd] = useState("");
-    const [workStart, setWorkStart] = useState({ year: "", month: "", day: "" });
-    const [workEnd, setWorkEnd] = useState({ year: "", month: "", day: "" });
+    const [workStart, setWorkStart] = useState({ year: null, month: null, day: null });
+    const [workEnd, setWorkEnd] = useState({ year: null, month: null, day: null });
+    const [message, setMessage] = useState("");
+
+    const handleWorkStart = (date) => {
+        const dateSegmented = date.split("-");
+        setWorkStart({
+            year: dateSegmented[0],
+            month: dateSegmented[1],
+            day: dateSegmented[2],
+        });
+    };
+
+    const handleWorkEnd = (date) => {
+        const dateSegmented = date.split("-");
+        setWorkEnd({
+            year: dateSegmented[0],
+            month: dateSegmented[1],
+            day: dateSegmented[2],
+        });
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Walidacja
         if (!name || !description || !minSalary || !maxSalary || !publishStart || !publishEnd) {
             alert("All fields are required.");
             return;
@@ -162,62 +53,36 @@ const CreateOffer = ({ branchId, onClose, refreshOffers }) => {
                         characteristicId: 1,
                         qualityId: 11,
                     },
-                ], // Na stałe ustawione wartości
+                ],
             },
         ];
 
         try {
             // Tworzenie oferty
-            const offerResponse = await axios.post(
-                `https://localhost:7166/api/User/company/offers`,
-                offerData,
-                {
-                    headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
-                    },
-                }
-            );
+            const createdOffer=await createOffer(offerData);
 
-            if (offerResponse.status === 201) {
-                const createdOffer = offerResponse.data.item[0]; // Pobranie pierwszej utworzonej oferty
-
-                // Wysłanie dodatkowych informacji o publikacji i okresie pracy
+                // Przypisanie oferty do oddziału
                 const publishData = [
                     {
                         branchId,
-                        offerId: createdOffer.offerId,
+                        offerId: createdOffer.id,
                         publishStart,
                         publishEnd,
-                        workStart: {
-                            year: parseInt(workStart.year),
-                            month: parseInt(workStart.month),
-                            day: parseInt(workStart.day),
-                        },
-                        workEnd: {
-                            year: parseInt(workEnd.year),
-                            month: parseInt(workEnd.month),
-                            day: parseInt(workEnd.day),
-                        },
+                        workStart,
+                        workEnd,
                     },
                 ];
 
-                await axios.post(
-                    `https://localhost:7166/api/User/company/branches&offers`,
-                    publishData,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
-                        },
-                    }
-                );
+                await assignOfferToBranch(publishData);
 
-                alert("Offer created and published successfully.");
-                refreshOffers(); // Odśwież listę ofert
-                onClose(); // Zamknij formularz
-            }
+                setMessage("Offer created and added to branch successfully!");
+                setTimeout(() => {
+                    onClose();
+                }, 2000);
+            
         } catch (error) {
-            console.error("Error creating or publishing offer:", error);
-            alert("Failed to create or publish offer.");
+            
+            setMessage(error);
         }
     };
 
@@ -296,47 +161,15 @@ const CreateOffer = ({ branchId, onClose, refreshOffers }) => {
                 <br />
                 <label>Work Start:</label>
                 <input
-                    type="number"
-                    value={workStart.year}
-                    onChange={(e) => setWorkStart((prev) => ({ ...prev, year: e.target.value }))}
-                    placeholder="Year"
-                    required
-                />
-                <input
-                    type="number"
-                    value={workStart.month}
-                    onChange={(e) => setWorkStart((prev) => ({ ...prev, month: e.target.value }))}
-                    placeholder="Month"
-                    required
-                />
-                <input
-                    type="number"
-                    value={workStart.day}
-                    onChange={(e) => setWorkStart((prev) => ({ ...prev, day: e.target.value }))}
-                    placeholder="Day"
+                    type="date"
+                    onChange={(e) => handleWorkStart(e.target.value)}
                     required
                 />
                 <br />
                 <label>Work End:</label>
                 <input
-                    type="number"
-                    value={workEnd.year}
-                    onChange={(e) => setWorkEnd((prev) => ({ ...prev, year: e.target.value }))}
-                    placeholder="Year"
-                    required
-                />
-                <input
-                    type="number"
-                    value={workEnd.month}
-                    onChange={(e) => setWorkEnd((prev) => ({ ...prev, month: e.target.value }))}
-                    placeholder="Month"
-                    required
-                />
-                <input
-                    type="number"
-                    value={workEnd.day}
-                    onChange={(e) => setWorkEnd((prev) => ({ ...prev, day: e.target.value }))}
-                    placeholder="Day"
+                    type="date"
+                    onChange={(e) => handleWorkEnd(e.target.value)}
                     required
                 />
                 <br />
@@ -345,6 +178,7 @@ const CreateOffer = ({ branchId, onClose, refreshOffers }) => {
                     Cancel
                 </button>
             </form>
+            {message && <p style={{ color: message.includes("successfully") ? "green" : "red" }}>{message}</p>}
         </div>
     );
 };

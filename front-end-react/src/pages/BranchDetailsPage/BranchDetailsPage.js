@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom';
 import { fetchBranchPut } from '../../services/BranchService/BranchService';
 import ProfileButton from '../../components/ProfileButton/ProfileButton';
 import CancelButton from '../../components/CancelButton/CancelButton';
 import CreateOffer from '../../components/OfferCreate/CreateOffer';
+import axios from 'axios'
+import { fetchBranchOffers } from '../../services/OffersService/OffersService';
 
 const BranchDetailPage = () => {
     const [editMode, setEditMode] = useState(false);
@@ -17,7 +19,30 @@ const BranchDetailPage = () => {
 
     const [showCreateOffer, setShowCreateOffer] = useState(false);
 
+    const [offers, setOffers] = useState([]);
+    const [loadingOffers, setLoadingOffers] = useState(true);
+    const [error, setError] = useState(null);
+
+
     const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+
+    const fetchOffers = async () => {
+        try {
+            setLoadingOffers(true);
+            const data = await fetchBranchOffers(item.companyId, item.id);
+            setOffers(data.offers);
+            setLoadingOffers(false);
+        } catch (err) {
+            console.error('Error fetching offers:', err);
+            setError('No offers in this branch.');
+            setLoadingOffers(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchOffers();
+    }, []);
 
     const handleChange = () => {
         const fetchDummy = async () => {
@@ -56,9 +81,33 @@ const BranchDetailPage = () => {
                 Address: {item.address.hierarchy.map((addressPart) => (
                     <p key={addressPart.id}>{addressPart.administrativeType.name}: {addressPart.name}</p>
                 ))}
+                {/* <p>comapnyID: {item.companyId}</p>
+                <p>branchID: {item.id}</p> */}
                 <p>Ulica: {item.address.street.name}</p>
                 <p>Dom: {item.address.buildingNumber}</p>
                 <p>Apartment number: {item.address.apartmentNumber}</p>
+                <h2>Offers</h2>
+                    {loadingOffers ? (
+                        <p>Loading offers...</p>
+                    ) : error ? (
+                        <p>{error}</p>
+                    ) : offers.length > 0 ? (
+                        <ul>
+                            {offers.map(({ offer, offerDetails}) => (
+                                <li key={offer.id}>
+                                    <p>
+                                    <strong>{offer.name}</strong>:                                 
+                                  Publish: {new Date(offerDetails.publishStart).toLocaleDateString()+" "}                         
+                                  - {new Date(offerDetails.publishEnd).toLocaleDateString()+" "} 
+                                  Work: {new Date(offerDetails.workStart).toLocaleDateString()+" "} 
+                                  - {new Date(offerDetails.workEnd).toLocaleDateString()}
+                                    </p>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>No offers available.</p>
+                    )}
                 <label style={{color:'green'}}>{messageStatus}</label><br />
                 {editMode && <button onClick={handleChange}>Change</button>}
                 <button onClick={() => setShowCreateOffer(true)}>Add Offer</button>
@@ -66,9 +115,13 @@ const BranchDetailPage = () => {
                 {showCreateOffer && (
                     <CreateOffer
                         branchId={item.id}
-                        onClose={() => setShowCreateOffer(false)}
+                        
+                        onClose={() =>{ setShowCreateOffer(false);
+                        fetchOffers();
+                    }}
                         />
                 )}
+                
             </div>
             }
         </div>
