@@ -39,7 +39,27 @@ VALUES
 
 INSERT INTO [dbo].[CommentType] ([Id], [Name], [Description])
 VALUES 
-(1, 'Name', 'Description');
+(1, 'Firma: Dizenny', ''),-- posaiada Ocene
+(2, 'Praktykant/Pracownik: Dizenny', ''),-- posaiada Ocene
+(7, 'Firma: Tygodniowy', ''),-- posaiada Ocene
+(8, 'Praktykant/Pracownik: Tygodniowy', ''),-- posaiada Ocene
+(30, 'Firma: Miesieczny', ''),
+(31, 'Praktykant/Pracownik: Miesieczny', ''),-- posaiada Ocene
+(90, 'Firma: Kwartalny', ''),-- posaiada Ocene
+(91, 'Praktykant/Pracownik: Kwartalny', ''),-- posaiada Ocene
+(182, 'Firma: Po³roczny', ''),-- posaiada Ocene
+(183, 'Praktykant/Pracownik: Po³roczny', ''),-- posaiada Ocene
+(365, 'Firma: Roczny', ''),-- posaiada Ocene
+(366, 'Praktykant/Pracownik: Roczny', ''),-- posaiada Ocene
+
+(1000, 'Firma: Opinia koñcowa', ''),-- posaiada Ocene
+(1001, 'Praktykant/Pracownik: Opinia koñcowa', ''),-- posaiada Ocene
+
+(1002, 'Firma: Opinia dowolna', ''),
+(1003, 'Praktykant/Pracownik: Opinia dowolna', ''),
+
+(1004, 'Firma: Pozwolenie na upublicznienie', ''),
+(1005, 'Praktykant/Pracownik: Pozwolenie na upublicznienie', '');
 
 
 INSERT INTO [dbo].[CharacteristicType]

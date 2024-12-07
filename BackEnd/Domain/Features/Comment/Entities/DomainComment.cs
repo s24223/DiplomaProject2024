@@ -1,4 +1,6 @@
-﻿using Domain.Features.Comment.ValueObjects;
+﻿using Domain.Features.Comment.Exceptions.ValueObjects;
+using Domain.Features.Comment.Reposoitories;
+using Domain.Features.Comment.ValueObjects;
 using Domain.Features.Comment.ValueObjects.CommentTypePart;
 using Domain.Features.Comment.ValueObjects.Identificators;
 using Domain.Features.Intership.Entities;
@@ -10,9 +12,11 @@ namespace Domain.Features.Comment.Entities
 {
     public class DomainComment : Entity<CommentId>
     {
+        private readonly ICommentTypeRepo _repo;
         //Values
         public string Description { get; private set; } = null!;
-        public CommentEvaluation? Evaluation { get; private set; }
+        public DomainCommentType Type { get; private set; } = null!;
+        public CommentEvaluation? Evaluation { get; private set; } = null;
 
 
         //References
@@ -35,24 +39,53 @@ namespace Domain.Features.Comment.Entities
         public DomainComment
             (
             Guid internshipId,
+            CommentSenderEnum sender,
+            CommentTypeEnum type,
+            DateTime created,
+            string description,
+            int? evaluation,
+            IProvider provider,
+            ICommentTypeRepo repo
+            ) : base(new CommentId(
+            new RecrutmentId(internshipId),
+                sender,
+                type,
+                created
+            ), provider)
+        {
+            _repo = repo;
+
+            if (Id.CommentTypeId < 1002)
+            {
+                if (evaluation == null)
+                {
+                    throw new CommentEvaluationException(Messages.Evaluation_Requered);
+                }
+                Evaluation = new CommentEvaluation(evaluation.Value);
+            }
+            Description = description;
+            Type = _repo.GetValue(Id.CommentTypeId);
+        }
+
+        public DomainComment
+            (
+            Guid internshipId,
             int commentTypeId,
             DateTime created,
             string description,
             int? evaluation,
-            IProvider provider
+            IProvider provider,
+            ICommentTypeRepo repo
             ) : base(new CommentId(
             new RecrutmentId(internshipId),
-            new DomainCommentType(commentTypeId),
-            created
+                commentTypeId,
+                created
             ), provider)
         {
-            Evaluation = evaluation == null ?
-                null : new CommentEvaluation(evaluation.Value);
-
+            _repo = repo;
             Description = description;
+            Type = _repo.GetValue(Id.CommentTypeId);
         }
-
-
         //====================================================================================================
         //====================================================================================================
         //====================================================================================================

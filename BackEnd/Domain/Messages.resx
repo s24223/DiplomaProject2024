@@ -147,6 +147,9 @@
   <data name="CommentEvaluation_Value_Invalid" xml:space="preserve">
     <value>Podana wartość oceny nie może byc mniejsza 0 i nie może byc większa od 5</value>
   </data>
+  <data name="CommentType_Enum_IdNotFound" xml:space="preserve">
+    <value>Nie istnieje typu komantarza z podana wrtoscia  Id</value>
+  </data>
   <data name="CommentType_Id_NotFound" xml:space="preserve">
     <value>Podany Kod typu komentarza nie isntnieje</value>
   </data>
@@ -161,6 +164,9 @@
   </data>
   <data name="Email_Value_Invalid" xml:space="preserve">
     <value>Podany adress Email nie spełnia wymagań</value>
+  </data>
+  <data name="Evaluation_Requered" xml:space="preserve">
+    <value>Przy danym Typie komentraza konieczna jest ocena</value>
   </data>
   <data name="Money_Value_Invalid" xml:space="preserve">
     <value>Podana wartość srodka płatniczego nie spełnia wymagań, musi być maksymalnie po 2 liczbach po przecinku</value>

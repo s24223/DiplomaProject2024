@@ -58,6 +58,8 @@ namespace Application.Features.Users.Queries.QueriesUser.Interfaces
             GetUserDataAsync(UserId id, CancellationToken cancellation)
         {
             var data = await _context.Users
+                .Include(user => user.Person)
+                .ThenInclude(user => user.PersonCharacteristics)
                 .Where(x => x.Id == id.Value)
                 .Select(x => new
                 {

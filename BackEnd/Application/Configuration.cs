@@ -15,6 +15,8 @@ using Application.Features.Companies.Queries.QueriesOffer.Interfaces;
 using Application.Features.Companies.Queries.QueriesOffer.Services;
 using Application.Features.Companies.Queries.QueriesUser.Interfaces;
 using Application.Features.Companies.Queries.QueriesUser.Services;
+using Application.Features.Internships.Commands.Comments.Interfaces;
+using Application.Features.Internships.Commands.Comments.Services;
 using Application.Features.Internships.Commands.Internships.Interfaces;
 using Application.Features.Internships.Commands.Internships.Services;
 using Application.Features.Internships.Commands.Recrutments.Interfaces;
@@ -36,6 +38,7 @@ using Application.Shared.Interfaces.DomainRepositories;
 using Application.Shared.Services.Authentication;
 using Application.Shared.Services.OrderBy;
 using Domain.Features.Characteristic.Repositories;
+using Domain.Features.Comment.Reposoitories;
 using Domain.Features.Notification.Repositories;
 using Domain.Features.Url.Repository;
 using Microsoft.Extensions.Configuration;
@@ -59,6 +62,7 @@ namespace Application
             //Doamain Connections
             serviceCollection.AddTransient<IDomainNotificationDictionariesRepository, DomainNotificationDictionariesRepository>();
             serviceCollection.AddTransient<IDomainUrlTypeDictionariesRepository, DomainUrlTypeDictionariesRepository>();
+            serviceCollection.AddTransient<ICommentTypeRepo, CommentTypeRepo>();
 
             //===============================================================================================================
             //User Module
@@ -129,6 +133,9 @@ namespace Application
             //Internship Part
             serviceCollection.AddTransient<IInternshipCmdRepo, InternshipCmdRepo>();
             serviceCollection.AddTransient<IInternshipCmdSvc, InternshipCmdSvc>();
+            //ComentPart
+            serviceCollection.AddTransient<ICommentRepo, CommentRepo>();
+            serviceCollection.AddTransient<ICommentSvc, CommentSvc>();
 
             //===============================================================================================================
             //Characteristic Part

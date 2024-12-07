@@ -3,6 +3,8 @@ using Domain.Features.Branch.Entities;
 using Domain.Features.BranchOffer.Entities;
 using Domain.Features.Characteristic.Repositories;
 using Domain.Features.Comment.Entities;
+using Domain.Features.Comment.Reposoitories;
+using Domain.Features.Comment.ValueObjects.CommentTypePart;
 using Domain.Features.Company.Entities;
 using Domain.Features.Intership.Entities;
 using Domain.Features.Notification.Entities;
@@ -25,6 +27,7 @@ namespace Domain.Shared.Factories
         private readonly IDomainNotificationDictionariesRepository _doamainUserDictionaries;
         private readonly IDomainUrlTypeDictionariesRepository _domainUrlTypeDictionaries;
         private readonly ICharacteristicQueryRepository _characteristicRepository;
+        private readonly ICommentTypeRepo _commentRepo;
 
 
         //Constructor
@@ -33,10 +36,12 @@ namespace Domain.Shared.Factories
             IProvider provider,
             IDomainNotificationDictionariesRepository doamainUserDictionaries,
             IDomainUrlTypeDictionariesRepository domainUrlTypeDictionaries,
-            ICharacteristicQueryRepository characteristicRepository
+            ICharacteristicQueryRepository characteristicRepository,
+            ICommentTypeRepo commentRepo
             )
         {
             _provider = provider;
+            _commentRepo = commentRepo;
             _doamainUserDictionaries = doamainUserDictionaries;
             _domainUrlTypeDictionaries = domainUrlTypeDictionaries;
             _characteristicRepository = characteristicRepository;
@@ -610,9 +615,10 @@ namespace Domain.Shared.Factories
         }
 
         public DomainComment CreateDomainComment
-             (
+            (
             Guid internshipId,
-            int commentTypeId,
+            CommentSenderEnum sender,
+            CommentTypeEnum type,
             string description,
             int? evaluation
             )
@@ -620,11 +626,13 @@ namespace Domain.Shared.Factories
             return new DomainComment
                 (
                 internshipId,
-                commentTypeId,
+                sender,
+                type,
                 _provider.TimeProvider().GetDateTimeNow(),
                 description,
                 evaluation,
-                _provider
+                _provider,
+                _commentRepo
                 );
         }
 
@@ -644,7 +652,8 @@ namespace Domain.Shared.Factories
                 created,
                 description,
                 evaluation,
-                _provider
+                _provider,
+                _commentRepo
                 );
         }
         //=================================================================================================

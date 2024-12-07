@@ -142,6 +142,15 @@ namespace Domain {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nie istnieje typu komantarza z podana wrtoscia  Id.
+        /// </summary>
+        internal static string CommentType_Enum_IdNotFound {
+            get {
+                return ResourceManager.GetString("CommentType_Enum_IdNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Podany Kod typu komentarza nie isntnieje.
         /// </summary>
         internal static string CommentType_Id_NotFound {
@@ -183,6 +192,15 @@ namespace Domain {
         internal static string Email_Value_Invalid {
             get {
                 return ResourceManager.GetString("Email_Value_Invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Przy danym Typie komentraza konieczna jest ocena.
+        /// </summary>
+        internal static string Evaluation_Requered {
+            get {
+                return ResourceManager.GetString("Evaluation_Requered", resourceCulture);
             }
         }
         

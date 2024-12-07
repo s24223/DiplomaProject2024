@@ -2,6 +2,7 @@
 using Domain.Features.Branch.Entities;
 using Domain.Features.BranchOffer.Entities;
 using Domain.Features.Comment.Entities;
+using Domain.Features.Comment.ValueObjects.CommentTypePart;
 using Domain.Features.Company.Entities;
 using Domain.Features.Intership.Entities;
 using Domain.Features.Notification.Entities;
@@ -519,9 +520,10 @@ namespace Domain.Shared.Factories
         /// <param name="evaluation"></param>
         /// <returns></returns>
         DomainComment CreateDomainComment
-             (
+            (
             Guid internshipId,
-            int commentTypeId,
+            CommentSenderEnum sender,
+            CommentTypeEnum type,
             string description,
             int? evaluation
             );

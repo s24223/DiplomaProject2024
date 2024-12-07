@@ -214,6 +214,15 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Problem aplikacyjny, nie wyszkakano comment type za podanym id.
+        /// </summary>
+        internal static string CommentType_Qwery_IdItemNotFound {
+            get {
+                return ResourceManager.GetString("CommentType_Qwery_IdItemNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Profil Firmowy/Comapny juz istnieje.
         /// </summary>
         internal static string Company_Cmd_ExistProfile {
