@@ -33,7 +33,6 @@ using Application.Features.Users.Mappers;
 using Application.Features.Users.Queries.QueriesUser.Interfaces;
 using Application.Features.Users.Queries.QueriesUser.Services;
 using Application.Shared.Interfaces.DomainRepositories;
-using Application.Shared.Interfaces.Exceptions;
 using Application.Shared.Services.Authentication;
 using Application.Shared.Services.OrderBy;
 using Domain.Features.Characteristic.Repositories;
@@ -55,7 +54,6 @@ namespace Application
             // Rejestracja IConfiguration jako Singleton
             serviceCollection.AddSingleton<IConfiguration>(configuration);
             serviceCollection.AddTransient<IAuthJwtSvc, AuthJwtSvc>();
-            serviceCollection.AddTransient<IExceptionsRepository, ExceptionsRepository>();
             serviceCollection.AddTransient<IOrderBySvc, OrderBySvc>();
 
             //Doamain Connections

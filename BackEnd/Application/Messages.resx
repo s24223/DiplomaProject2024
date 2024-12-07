@@ -117,6 +117,33 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Address_Cmd_DivisionId_NotFound" xml:space="preserve">
+    <value>Za podanymi danymi DivisionId nie został znaleziony</value>
+  </data>
+  <data name="Address_Cmd_Id_NotFound" xml:space="preserve">
+    <value>Za podanymi danym Id address nie oształ wyszukany</value>
+  </data>
+  <data name="Address_Cmd_StreetId_NotFound" xml:space="preserve">
+    <value>Za podanymi danymi StreetId nie został znaleziony</value>
+  </data>
+  <data name="BranchOffer_Cmd_Branch_NotFound" xml:space="preserve">
+    <value>Za podanymi danymi nie wyszukano Oddziału</value>
+  </data>
+  <data name="BranchOffer_Cmd_Ids_NotFound" xml:space="preserve">
+    <value>Za podanymi BranchOfferId, połaczen nie ozstało wyszukano</value>
+  </data>
+  <data name="BranchOffer_Cmd_Invalid_PublishEnd" xml:space="preserve">
+    <value>Niepoprawna wartosc Daty konca publikacji, powinna zaczync sie conajmniej pozniej startu publikacji</value>
+  </data>
+  <data name="BranchOffer_Cmd_Invalid_WorkEnd" xml:space="preserve">
+    <value>Niepoprawna wartosc WorkStart, powinna zaczync sie conajmniej tego samego dnia co PublishStart lub pózniej</value>
+  </data>
+  <data name="BranchOffer_Cmd_Invalid_WorkStart" xml:space="preserve">
+    <value>Niepoprawna wartosc daty pocztku Parcy, powinna zaczync sie conajmniej nastepnego dnia po zakonczeniu publikiacji</value>
+  </data>
+  <data name="BranchOffer_Cmd_Offer_NotFound" xml:space="preserve">
+    <value>Za podanymi danymi nie wyszukano Oferty</value>
+  </data>
   <data name="Branch_Cmd_Address_NotFound" xml:space="preserve">
     <value>Addres nie został znaleziony</value>
   </data>
@@ -179,6 +206,26 @@
   </data>
   <data name="Notification_Cmd_Id_NotFound" xml:space="preserve">
     <value>Nie znaleziono powiadomienia za podanym Id</value>
+  </data>
+  <data name="Offer_Cmd_Characteristic_NotFound" xml:space="preserve">
+    <value>Za podanymi danymi nie wyszukano Cehy Oferty</value>
+  </data>
+  <data name="Offer_Cmd_Ids_NotFound" xml:space="preserve">
+    <value>Za podanymi OfferIds, ofert nie ozstało wyszukano</value>
+  </data>
+  <data name="Offer_Cmd_Invalid_IsForStudents" xml:space="preserve">
+    <value>Problem aplikacyjny, niepoprawna wrtosc IsForStudents</value>
+    <comment>Problem aplikacyjny,</comment>
+  </data>
+  <data name="Offer_Cmd_Invalid_IsNegotiatedSalary" xml:space="preserve">
+    <value>Problem aplikacyjny, niepoprawna wrtosc IsNegotiatedSalary</value>
+    <comment>Problem aplikacyjny,</comment>
+  </data>
+  <data name="Offer_Cmd_Invalid_MaxSalary" xml:space="preserve">
+    <value>Wrtosc płacy minimalnej powinna byc taka sama jak minimalna lub wiecej</value>
+  </data>
+  <data name="Offer_Cmd_Invalid_MinSalary" xml:space="preserve">
+    <value>Wrtosc płacy minimalnej powinna byc 0 lub wiecej</value>
   </data>
   <data name="Person_Cmd_Address_NotFound" xml:space="preserve">
     <value>Za podanymi danymi addrees nie ostał znaleziony</value>
@@ -249,6 +296,20 @@
   </data>
   <data name="UserSecrets_Secret_NotConfigured" xml:space="preserve">
     <value>Nie jest skonfigurowany Secret w UserSecrets</value>
+  </data>
+  <data name="User_Cmd_Id_NotFound" xml:space="preserve">
+    <value>Problem aplikacyjny, nie wyszukany user za podanym ID</value>
+    <comment>Problem aplikacyjny,</comment>
+  </data>
+  <data name="User_Cmd_Invalid_IsHideProfile" xml:space="preserve">
+    <value>Problem aplikacyjny, niepoprawna wrtosc DatabaseBool</value>
+    <comment>Problem aplikacyjny,</comment>
+  </data>
+  <data name="User_Cmd_Login_NotFound" xml:space="preserve">
+    <value>Sprawdz dane i zaloguj sie ponownie</value>
+  </data>
+  <data name="User_Cmd_Login_NotUnique" xml:space="preserve">
+    <value>Wybierz inny login/email</value>
   </data>
   <data name="User_Jwt_IsNotGeneratedByThisServer" xml:space="preserve">
     <value>JWT nie jest wygenerowany przez dny serwer, zaloguj sie ponownie</value>

@@ -1,11 +1,11 @@
 ﻿using Application.Databases.Relational;
 using Application.Features.Users.Mappers;
-using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.User.Entities;
 using Domain.Features.User.Exceptions.Entities;
 using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Templates.Exceptions;
 using Domain.Shared.ValueObjects;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Users.Commands.Users.Interfaces
@@ -14,7 +14,6 @@ namespace Application.Features.Users.Commands.Users.Interfaces
     {
         //Values
         private readonly IUserMapper _mapper;
-        private readonly IExceptionsRepository _exceptionRepository;
         private readonly DiplomaProjectContext _context;
 
 
@@ -22,12 +21,10 @@ namespace Application.Features.Users.Commands.Users.Interfaces
         public UserCommandRepository
             (
             IUserMapper mapper,
-            IExceptionsRepository exceptionRepository,
             DiplomaProjectContext context
             )
         {
             _mapper = mapper;
-            _exceptionRepository = exceptionRepository;
             _context = context;
         }
 
@@ -60,7 +57,7 @@ namespace Application.Features.Users.Commands.Users.Interfaces
             }
             catch (Exception ex)
             {
-                throw _exceptionRepository.ConvertEFDbException(ex);
+                throw HandleException(ex);
             }
         }
 
@@ -91,7 +88,7 @@ namespace Application.Features.Users.Commands.Users.Interfaces
             }
             catch (Exception ex)
             {
-                throw _exceptionRepository.ConvertEFDbException(ex);
+                throw HandleException(ex);
             }
         }
 
@@ -114,7 +111,7 @@ namespace Application.Features.Users.Commands.Users.Interfaces
             }
             catch (Exception ex)
             {
-                throw _exceptionRepository.ConvertEFDbException(ex);
+                throw HandleException(ex);
             }
         }
 
@@ -159,7 +156,7 @@ namespace Application.Features.Users.Commands.Users.Interfaces
             {
                 throw new UserException
                     (
-                    Messages2.User_Ids_NotFound,
+                    $"{Messages.User_Cmd_Id_NotFound}: {id.Value}",
                     DomainExceptionTypeEnum.AppProblem
                     );
             }
@@ -180,11 +177,39 @@ namespace Application.Features.Users.Commands.Users.Interfaces
             {
                 throw new UserException
                     (
-                    Messages2.User_Login_NotFound,
+                    Messages.User_Cmd_Login_NotFound,
                     DomainExceptionTypeEnum.Unauthorized
                     );
             }
             return databaseUser;
+        }
+
+        private System.Exception HandleException(System.Exception ex)
+        {
+            if (ex is DbUpdateException dbEx && dbEx.InnerException is SqlException sqlEx)
+            {
+                var number = sqlEx.Number;
+                var message = sqlEx.Message;
+
+                if (number == 2627)
+                {
+                    if (message.Contains("User_UNIQUE_Login"))
+                    {
+                        return new UserException(Messages.User_Cmd_Login_NotUnique);
+                    }
+                }
+                if (number == 547)
+                {
+                    if (message.Contains("User_CHECK_IsHideProfile"))
+                    {
+                        return new UserException(
+                            Messages.User_Cmd_Invalid_IsHideProfile,
+                            DomainExceptionTypeEnum.AppProblem
+                            );
+                    }
+                }
+            }
+            return ex;
         }
     }
 }

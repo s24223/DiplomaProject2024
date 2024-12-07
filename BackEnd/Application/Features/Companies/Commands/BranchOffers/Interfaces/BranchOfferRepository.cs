@@ -1,7 +1,6 @@
 ﻿using Application.Databases.Relational;
 using Application.Databases.Relational.Models;
 using Application.Features.Companies.Mappers;
-using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.Branch.Exceptions.Entities;
 using Domain.Features.Branch.ValueObjects.Identificators;
 using Domain.Features.BranchOffer.Entities;
@@ -13,6 +12,7 @@ using Domain.Features.Offer.ValueObjects.Identificators;
 using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Providers;
 using Domain.Shared.Templates.Exceptions;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Companies.Commands.BranchOffers.Interfaces
@@ -22,7 +22,6 @@ namespace Application.Features.Companies.Commands.BranchOffers.Interfaces
         //Values
         private readonly IProvider _provider;
         private readonly ICompanyMapper _mapper;
-        private readonly IExceptionsRepository _exceptionRepository;
         private readonly DiplomaProjectContext _context;
 
 
@@ -31,13 +30,11 @@ namespace Application.Features.Companies.Commands.BranchOffers.Interfaces
             (
             IProvider provider,
             ICompanyMapper mapper,
-            IExceptionsRepository exceptionRepository,
             DiplomaProjectContext context
             )
         {
             _mapper = mapper;
             _provider = provider;
-            _exceptionRepository = exceptionRepository;
             _context = context;
         }
 
@@ -65,7 +62,7 @@ namespace Application.Features.Companies.Commands.BranchOffers.Interfaces
                 {
                     throw new BranchException
                         (
-                        Messages2.BranchOffer_Authorized_NotExistAnyBranchForCreatingOffer,
+                        Messages.BranchOffer_Cmd_Branch_NotFound,
                         DomainExceptionTypeEnum.NotFound
                         );
                 }
@@ -118,7 +115,7 @@ namespace Application.Features.Companies.Commands.BranchOffers.Interfaces
             }
             catch (System.Exception ex)
             {
-                throw _exceptionRepository.ConvertEFDbException(ex);
+                throw HandleException(ex);
             }
         }
 
@@ -166,7 +163,7 @@ namespace Application.Features.Companies.Commands.BranchOffers.Interfaces
             }
             catch (System.Exception ex)
             {
-                throw _exceptionRepository.ConvertEFDbException(ex);
+                throw HandleException(ex);
             }
         }
 
@@ -238,7 +235,7 @@ namespace Application.Features.Companies.Commands.BranchOffers.Interfaces
             }
             catch (System.Exception ex)
             {
-                throw _exceptionRepository.ConvertEFDbException(ex);
+                throw HandleException(ex);
             }
         }
 
@@ -274,7 +271,7 @@ namespace Application.Features.Companies.Commands.BranchOffers.Interfaces
             }
             catch (System.Exception ex)
             {
-                throw _exceptionRepository.ConvertEFDbException(ex);
+                throw HandleException(ex);
             }
         }
 
@@ -330,7 +327,7 @@ namespace Application.Features.Companies.Commands.BranchOffers.Interfaces
             {
                 throw new OfferException
                     (
-                    $"{Messages2.Offer_Ids_NotFound}\n{string.Join("\n", missingIds)}",
+                    $"{Messages.Offer_Cmd_Ids_NotFound}\n{string.Join("\n", missingIds)}",
                     DomainExceptionTypeEnum.NotFound
                     );
             }
@@ -366,7 +363,7 @@ namespace Application.Features.Companies.Commands.BranchOffers.Interfaces
             {
                 throw new BranchException
                     (
-                    $"{Messages2.Branch_Id_NotFound}\n{string.Join("\n", missingIds)}",
+                    $"{Messages.Branch_Cmd_Id_NotFound}\n{string.Join("\n", missingIds)}",
                     DomainExceptionTypeEnum.NotFound
                     );
             }
@@ -406,7 +403,7 @@ namespace Application.Features.Companies.Commands.BranchOffers.Interfaces
             {
                 throw new BranchOfferException
                     (
-                    $"{Messages2.BranchOffer_Ids_NotFound}\n{string.Join("\n", missingIds)}",
+                    $"{Messages.BranchOffer_Cmd_Ids_NotFound}\n{string.Join("\n", missingIds)}",
                     DomainExceptionTypeEnum.NotFound
                     );
             }
@@ -441,6 +438,39 @@ namespace Application.Features.Companies.Commands.BranchOffers.Interfaces
                 domainDictionary[kvp.Key] = _mapper.DomainOffer(kvp.Value);
             }
             return domainDictionary;
+        }
+
+        private System.Exception HandleException(System.Exception ex)
+        {
+            if (ex is DbUpdateException dbEx && dbEx.InnerException is SqlException sqlEx)
+            {
+                var number = sqlEx.Number;
+                var message = sqlEx.Message;
+
+                //547
+                //2627
+                var dictionaryUserProblem = new Dictionary<string, string>()
+                {
+                    {"BranchOffer_CHECK_WorkStart", Messages. BranchOffer_Cmd_Invalid_WorkStart},
+                    {"BranchOffer_CHECK_PublishEnd", Messages. BranchOffer_Cmd_Invalid_PublishEnd},
+                    {"BranchOffer_CHECK_WorkEnd", Messages. BranchOffer_Cmd_Invalid_WorkEnd},
+                    {"Offer_CHECK_MaxSalary", Messages. Offer_Cmd_Invalid_MaxSalary},
+                    {"Offer_CHECK_MinSalary", Messages. Offer_Cmd_Invalid_MinSalary},
+
+                };
+                var dictionaryAppProblem = new Dictionary<string, string>()
+                {
+                    {"Offer_CHECK_IsNegotiatedSalary", Messages. Offer_Cmd_Invalid_IsNegotiatedSalary},
+                    {"Offer_CHECK_IsForStudents", Messages. Offer_Cmd_Invalid_IsForStudents},
+                };
+                var dictionaryNotFound = new Dictionary<string, string>()
+                {
+                    {"BranchOffer_Branch", Messages. BranchOffer_Cmd_Branch_NotFound},
+                    {"BranchOffer_Offer", Messages. BranchOffer_Cmd_Offer_NotFound},
+                    {"OfferCharacteristicsList_Offer", Messages. Offer_Cmd_Characteristic_NotFound},
+                };
+            }
+            return ex;
         }
     }
 }

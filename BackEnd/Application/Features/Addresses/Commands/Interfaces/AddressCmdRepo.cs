@@ -1,11 +1,11 @@
 ﻿using Application.Databases.Relational;
 using Application.Databases.Relational.Models;
-using Application.Shared.Interfaces.Exceptions;
 using Domain.Features.Address.Entities;
 using Domain.Features.Address.Exceptions.Entities;
 using Domain.Features.Address.ValueObjects.Identificators;
 using Domain.Shared.Factories;
 using Domain.Shared.Templates.Exceptions;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Addresses.Commands.Interfaces
@@ -14,7 +14,6 @@ namespace Application.Features.Addresses.Commands.Interfaces
     {
         //Values
         private readonly IDomainFactory _domainFactory;
-        private readonly IExceptionsRepository _exceptionsRepository;
         private readonly DiplomaProjectContext _context;
 
 
@@ -22,12 +21,10 @@ namespace Application.Features.Addresses.Commands.Interfaces
         public AddressCmdRepo
             (
             IDomainFactory domainFactory,
-            IExceptionsRepository exceptionsRepository,
             DiplomaProjectContext context
             )
         {
             _domainFactory = domainFactory;
-            _exceptionsRepository = exceptionsRepository;
             _context = context;
         }
 
@@ -94,7 +91,7 @@ namespace Application.Features.Addresses.Commands.Interfaces
             }
             catch (System.Exception ex)
             {
-                throw _exceptionsRepository.ConvertEFDbException(ex);
+                throw HandleException(ex);
             }
         }
 
@@ -113,7 +110,7 @@ namespace Application.Features.Addresses.Commands.Interfaces
             }
             catch (System.Exception ex)
             {
-                throw _exceptionsRepository.ConvertEFDbException(ex);
+                throw HandleException(ex);
             }
         }
 
@@ -154,11 +151,44 @@ namespace Application.Features.Addresses.Commands.Interfaces
             {
                 throw new AddressException
                     (
-                    Messages2.Address_Id_NotFound,
+                    $"{Messages.Address_Cmd_Id_NotFound}: {id.Value}",
                     DomainExceptionTypeEnum.NotFound
                     );
             }
             return databaseAddress;
+        }
+
+        private System.Exception HandleException(System.Exception ex)
+        {
+            if (ex is DbUpdateException dbEx && dbEx.InnerException is SqlException sqlex)
+            {
+                //547 FK, CHECK
+                //2627 - PK UNIUE
+                var number = sqlex.Number;
+                var message = sqlex.Message;
+
+                var dictionary = new Dictionary<string, string>()
+                {
+                   { "Address_Division" ,Messages.Address_Cmd_DivisionId_NotFound},
+                   { "Address_Street", Messages.Address_Cmd_StreetId_NotFound},
+                };
+
+                if (number == 547)
+                {
+                    foreach (var x in dictionary)
+                    {
+                        if (message.Contains(x.Key))
+                        {
+                            return new AddressException
+                                (
+                                x.Value,
+                                DomainExceptionTypeEnum.NotFound
+                                );
+                        }
+                    }
+                }
+            }
+            return ex;
         }
     }
 }

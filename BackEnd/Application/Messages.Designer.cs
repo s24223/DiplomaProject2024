@@ -61,6 +61,33 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Za podanymi danymi DivisionId nie został znaleziony.
+        /// </summary>
+        internal static string Address_Cmd_DivisionId_NotFound {
+            get {
+                return ResourceManager.GetString("Address_Cmd_DivisionId_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Za podanymi danym Id address nie oształ wyszukany.
+        /// </summary>
+        internal static string Address_Cmd_Id_NotFound {
+            get {
+                return ResourceManager.GetString("Address_Cmd_Id_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Za podanymi danymi StreetId nie został znaleziony.
+        /// </summary>
+        internal static string Address_Cmd_StreetId_NotFound {
+            get {
+                return ResourceManager.GetString("Address_Cmd_StreetId_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Addres nie został znaleziony.
         /// </summary>
         internal static string Branch_Cmd_Address_NotFound {
@@ -102,6 +129,60 @@ namespace Application {
         internal static string Branch_Cmd_UrlSegmet_InputDuplicate {
             get {
                 return ResourceManager.GetString("Branch_Cmd_UrlSegmet_InputDuplicate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Za podanymi danymi nie wyszukano Oddziału.
+        /// </summary>
+        internal static string BranchOffer_Cmd_Branch_NotFound {
+            get {
+                return ResourceManager.GetString("BranchOffer_Cmd_Branch_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Za podanymi BranchOfferId, połaczen nie ozstało wyszukano.
+        /// </summary>
+        internal static string BranchOffer_Cmd_Ids_NotFound {
+            get {
+                return ResourceManager.GetString("BranchOffer_Cmd_Ids_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Niepoprawna wartosc Daty konca publikacji, powinna zaczync sie conajmniej pozniej startu publikacji.
+        /// </summary>
+        internal static string BranchOffer_Cmd_Invalid_PublishEnd {
+            get {
+                return ResourceManager.GetString("BranchOffer_Cmd_Invalid_PublishEnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Niepoprawna wartosc WorkStart, powinna zaczync sie conajmniej tego samego dnia co PublishStart lub pózniej.
+        /// </summary>
+        internal static string BranchOffer_Cmd_Invalid_WorkEnd {
+            get {
+                return ResourceManager.GetString("BranchOffer_Cmd_Invalid_WorkEnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Niepoprawna wartosc daty pocztku Parcy, powinna zaczync sie conajmniej nastepnego dnia po zakonczeniu publikiacji.
+        /// </summary>
+        internal static string BranchOffer_Cmd_Invalid_WorkStart {
+            get {
+                return ResourceManager.GetString("BranchOffer_Cmd_Invalid_WorkStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Za podanymi danymi nie wyszukano Oferty.
+        /// </summary>
+        internal static string BranchOffer_Cmd_Offer_NotFound {
+            get {
+                return ResourceManager.GetString("BranchOffer_Cmd_Offer_NotFound", resourceCulture);
             }
         }
         
@@ -237,6 +318,60 @@ namespace Application {
         internal static string Notification_Cmd_Id_NotFound {
             get {
                 return ResourceManager.GetString("Notification_Cmd_Id_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Za podanymi danymi nie wyszukano Cehy Oferty.
+        /// </summary>
+        internal static string Offer_Cmd_Characteristic_NotFound {
+            get {
+                return ResourceManager.GetString("Offer_Cmd_Characteristic_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Za podanymi OfferIds, ofert nie ozstało wyszukano.
+        /// </summary>
+        internal static string Offer_Cmd_Ids_NotFound {
+            get {
+                return ResourceManager.GetString("Offer_Cmd_Ids_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Problem aplikacyjny, niepoprawna wrtosc IsForStudents.
+        /// </summary>
+        internal static string Offer_Cmd_Invalid_IsForStudents {
+            get {
+                return ResourceManager.GetString("Offer_Cmd_Invalid_IsForStudents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Problem aplikacyjny, niepoprawna wrtosc IsNegotiatedSalary.
+        /// </summary>
+        internal static string Offer_Cmd_Invalid_IsNegotiatedSalary {
+            get {
+                return ResourceManager.GetString("Offer_Cmd_Invalid_IsNegotiatedSalary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrtosc płacy minimalnej powinna byc taka sama jak minimalna lub wiecej.
+        /// </summary>
+        internal static string Offer_Cmd_Invalid_MaxSalary {
+            get {
+                return ResourceManager.GetString("Offer_Cmd_Invalid_MaxSalary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrtosc płacy minimalnej powinna byc 0 lub wiecej.
+        /// </summary>
+        internal static string Offer_Cmd_Invalid_MinSalary {
+            get {
+                return ResourceManager.GetString("Offer_Cmd_Invalid_MinSalary", resourceCulture);
             }
         }
         
@@ -408,6 +543,42 @@ namespace Application {
         internal static string Url_Cmd_PathConflicts {
             get {
                 return ResourceManager.GetString("Url_Cmd_PathConflicts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Problem aplikacyjny, nie wyszukany user za podanym ID.
+        /// </summary>
+        internal static string User_Cmd_Id_NotFound {
+            get {
+                return ResourceManager.GetString("User_Cmd_Id_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Problem aplikacyjny, niepoprawna wrtosc DatabaseBool.
+        /// </summary>
+        internal static string User_Cmd_Invalid_IsHideProfile {
+            get {
+                return ResourceManager.GetString("User_Cmd_Invalid_IsHideProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sprawdz dane i zaloguj sie ponownie.
+        /// </summary>
+        internal static string User_Cmd_Login_NotFound {
+            get {
+                return ResourceManager.GetString("User_Cmd_Login_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wybierz inny login/email.
+        /// </summary>
+        internal static string User_Cmd_Login_NotUnique {
+            get {
+                return ResourceManager.GetString("User_Cmd_Login_NotUnique", resourceCulture);
             }
         }
         
