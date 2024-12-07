@@ -158,7 +158,6 @@ namespace Application.Features.Companies.Commands.BranchOffers.Services
                 return new ResponseItem<CreateBranchOffersResponseDto>
                 {
                     Status = EnumResponseStatus.UserFault,
-                    Message = Messages2.Branch_Id_NotFound,
                     Item = new CreateBranchOffersResponseDto(
                         [],
                         values.WithoutDuration,

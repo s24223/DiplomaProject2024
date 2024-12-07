@@ -28,7 +28,7 @@ namespace Application.Shared.DTOs
             }
             catch (Exception)
             {
-                throw new DateOnlyException($"{Messages2.DateOnly_DateOnlyRequestDto_InvalidDate}: {dto.Year}-{dto.Month}-{dto.Day}");
+                throw new DateOnlyException($"{Messages.DateOnly_ValueAttribute_InvalidDate}: {dto.Year}-{dto.Month}-{dto.Day}");
             }
         }
 

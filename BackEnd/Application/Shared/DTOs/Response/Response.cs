@@ -9,6 +9,6 @@ namespace Application.Shared.DTOs.Response
     {
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public EnumResponseStatus Status { get; set; } = EnumResponseStatus.Success;
-        public string Message { get; set; } = Messages2.ResponseSuccess;
+        public string Message { get; set; } = Messages.Response_Success;
     }
 }

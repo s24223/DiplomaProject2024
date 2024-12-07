@@ -137,7 +137,7 @@ namespace Application.Features.Users.Commands.Users.Services
                 //Incorrect Password
                 throw new UserException
                     (
-                    Messages2.User_InputPassword_Invalid,
+                    Messages.User_Cmd_Unautorized,
                     DomainExceptionTypeEnum.Unauthorized
                     );
             }
@@ -205,7 +205,7 @@ namespace Application.Features.Users.Commands.Users.Services
             {
                 throw new UserException
                     (
-                    Messages2.User_RefreshToken_IsNullOrWhiteSpace,
+                    Messages.User_Cmd_RefreshToken_IsNullOrWhiteSpace,
                     DomainExceptionTypeEnum.Unauthorized
                     );
             }
@@ -221,7 +221,7 @@ namespace Application.Features.Users.Commands.Users.Services
                 )
             {
                 throw new UserException(
-                    Messages2.User_RefreshToken_IsNullOrWhiteSpace,
+                    Messages.User_Cmd_RefreshToken_IsNullOrWhiteSpace,
                     DomainExceptionTypeEnum.Unauthorized
                     );
             }

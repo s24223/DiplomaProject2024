@@ -70,6 +70,15 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Połczenia pomiedy jednoska terytorialna a ulicamyi nie wyszukano.
+        /// </summary>
+        internal static string Address_Cmd_DivisionStreetCollocation_NotFound {
+            get {
+                return ResourceManager.GetString("Address_Cmd_DivisionStreetCollocation_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Za podanymi danym Id address nie oształ wyszukany.
         /// </summary>
         internal static string Address_Cmd_Id_NotFound {
@@ -84,6 +93,15 @@ namespace Application {
         internal static string Address_Cmd_StreetId_NotFound {
             get {
                 return ResourceManager.GetString("Address_Cmd_StreetId_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Za podanymi Danymi nie wyszukano adresów/ adresu.
+        /// </summary>
+        internal static string Address_Query_Id_NotFound {
+            get {
+                return ResourceManager.GetString("Address_Query_Id_NotFound", resourceCulture);
             }
         }
         
@@ -187,6 +205,15 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Za podanymi danymymi Ceha nie został wyszukana.
+        /// </summary>
+        internal static string Characteristic_Id_NotFound {
+            get {
+                return ResourceManager.GetString("Characteristic_Id_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Profil Firmowy/Comapny juz istnieje.
         /// </summary>
         internal static string Company_Cmd_ExistProfile {
@@ -237,6 +264,15 @@ namespace Application {
         internal static string Company_Cmd_NotUniqueUrlSegment {
             get {
                 return ResourceManager.GetString("Company_Cmd_NotUniqueUrlSegment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Niepoprawna data.
+        /// </summary>
+        internal static string DateOnly_ValueAttribute_InvalidDate {
+            get {
+                return ResourceManager.GetString("DateOnly_ValueAttribute_InvalidDate", resourceCulture);
             }
         }
         
@@ -372,6 +408,33 @@ namespace Application {
         internal static string Offer_Cmd_Invalid_MinSalary {
             get {
                 return ResourceManager.GetString("Offer_Cmd_Invalid_MinSalary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Podaj Id lub UrlSegment oddziału.
+        /// </summary>
+        internal static string Offer_Query_BranchData_NotGiven {
+            get {
+                return ResourceManager.GetString("Offer_Query_BranchData_NotGiven", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Podaj Id lub UrlSegment firmy.
+        /// </summary>
+        internal static string Offer_Query_CompanyData_NotGiven {
+            get {
+                return ResourceManager.GetString("Offer_Query_CompanyData_NotGiven", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Za podanymi danymi nie wyszukano zadnej oferty.
+        /// </summary>
+        internal static string Offer_Query_NotFound {
+            get {
+                return ResourceManager.GetString("Offer_Query_NotFound", resourceCulture);
             }
         }
         
@@ -529,6 +592,15 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Success.
+        /// </summary>
+        internal static string Response_Success {
+            get {
+                return ResourceManager.GetString("Response_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Za podanymi danymi nie zostało znaleziono rekordów.
         /// </summary>
         internal static string Url_Cmd_Ids_NotFound {
@@ -565,20 +637,29 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sprawdz dane i zaloguj sie ponownie.
-        /// </summary>
-        internal static string User_Cmd_Login_NotFound {
-            get {
-                return ResourceManager.GetString("User_Cmd_Login_NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Wybierz inny login/email.
         /// </summary>
         internal static string User_Cmd_Login_NotUnique {
             get {
                 return ResourceManager.GetString("User_Cmd_Login_NotUnique", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh Token Pusty.
+        /// </summary>
+        internal static string User_Cmd_RefreshToken_IsNullOrWhiteSpace {
+            get {
+                return ResourceManager.GetString("User_Cmd_RefreshToken_IsNullOrWhiteSpace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sprawdz dane i zaloguj sie ponownie.
+        /// </summary>
+        internal static string User_Cmd_Unautorized {
+            get {
+                return ResourceManager.GetString("User_Cmd_Unautorized", resourceCulture);
             }
         }
         

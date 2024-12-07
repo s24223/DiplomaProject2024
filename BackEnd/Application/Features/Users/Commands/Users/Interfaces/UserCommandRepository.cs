@@ -177,7 +177,7 @@ namespace Application.Features.Users.Commands.Users.Interfaces
             {
                 throw new UserException
                     (
-                    Messages.User_Cmd_Login_NotFound,
+                    Messages.User_Cmd_Unautorized,
                     DomainExceptionTypeEnum.Unauthorized
                     );
             }

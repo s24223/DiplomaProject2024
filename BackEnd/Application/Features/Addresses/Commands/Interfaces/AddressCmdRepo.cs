@@ -72,7 +72,7 @@ namespace Application.Features.Addresses.Commands.Interfaces
                 {
                     throw new AddressException
                         (
-                        Messages2.Address_Collocation_NotFound,
+                        Messages.Address_Cmd_DivisionStreetCollocation_NotFound,
                         DomainExceptionTypeEnum.NotFound
                         );
                 }

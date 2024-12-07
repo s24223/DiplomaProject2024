@@ -73,8 +73,8 @@ namespace Application.Features.Characteristics.Queries.Interfaces
             {
                 if (!characteristics.TryGetValue(pair.CharacteristicId, out var characteristic))
                 {
-                    throw new CharacteristicException
-                        ($"{Messages2.CharacteristicI_CharacteristicId_NotFound}: {pair.CharacteristicId.Value}");
+                    throw new CharacteristicException(
+                        $"{Messages.Characteristic_Id_NotFound}: {pair.CharacteristicId.Value}");
                 }
 
                 DomainQuality? quality = pair.QualityId != null ?
@@ -99,7 +99,7 @@ namespace Application.Features.Characteristics.Queries.Interfaces
                 }
                 else
                 {
-                    throw new CharacteristicException(Messages2.CharacteristicI_CharacteristicId_NotFound);
+                    throw new CharacteristicException(Messages.Characteristic_Id_NotFound);
                 }
             }
 

@@ -120,11 +120,17 @@
   <data name="Address_Cmd_DivisionId_NotFound" xml:space="preserve">
     <value>Za podanymi danymi DivisionId nie został znaleziony</value>
   </data>
+  <data name="Address_Cmd_DivisionStreetCollocation_NotFound" xml:space="preserve">
+    <value>Połczenia pomiedy jednoska terytorialna a ulicamyi nie wyszukano</value>
+  </data>
   <data name="Address_Cmd_Id_NotFound" xml:space="preserve">
     <value>Za podanymi danym Id address nie oształ wyszukany</value>
   </data>
   <data name="Address_Cmd_StreetId_NotFound" xml:space="preserve">
     <value>Za podanymi danymi StreetId nie został znaleziony</value>
+  </data>
+  <data name="Address_Query_Id_NotFound" xml:space="preserve">
+    <value>Za podanymi Danymi nie wyszukano adresów/ adresu</value>
   </data>
   <data name="BranchOffer_Cmd_Branch_NotFound" xml:space="preserve">
     <value>Za podanymi danymi nie wyszukano Oddziału</value>
@@ -159,6 +165,9 @@
   <data name="Branch_Cmd_UrlSegmet_InputDuplicate" xml:space="preserve">
     <value>Duplikat w podanych danych, wartosc z danym UrlSegmentem juz istnieje</value>
   </data>
+  <data name="Characteristic_Id_NotFound" xml:space="preserve">
+    <value>Za podanymi danymymi Ceha nie został wyszukana</value>
+  </data>
   <data name="Company_Cmd_ExistProfile" xml:space="preserve">
     <value>Profil Firmowy/Comapny juz istnieje</value>
   </data>
@@ -176,6 +185,9 @@
   </data>
   <data name="Company_Cmd_NotUniqueUrlSegment" xml:space="preserve">
     <value>Wybierz inny UrlSegment</value>
+  </data>
+  <data name="DateOnly_ValueAttribute_InvalidDate" xml:space="preserve">
+    <value>Niepoprawna data</value>
   </data>
   <data name="Internship_Cmd_ContractNum_Duplicate" xml:space="preserve">
     <value>Numer umowy powtarza sie, wybierz inny numer</value>
@@ -226,6 +238,15 @@
   </data>
   <data name="Offer_Cmd_Invalid_MinSalary" xml:space="preserve">
     <value>Wrtosc płacy minimalnej powinna byc 0 lub wiecej</value>
+  </data>
+  <data name="Offer_Query_BranchData_NotGiven" xml:space="preserve">
+    <value>Podaj Id lub UrlSegment oddziału</value>
+  </data>
+  <data name="Offer_Query_CompanyData_NotGiven" xml:space="preserve">
+    <value>Podaj Id lub UrlSegment firmy</value>
+  </data>
+  <data name="Offer_Query_NotFound" xml:space="preserve">
+    <value>Za podanymi danymi nie wyszukano zadnej oferty</value>
   </data>
   <data name="Person_Cmd_Address_NotFound" xml:space="preserve">
     <value>Za podanymi danymi addrees nie ostał znaleziony</value>
@@ -282,6 +303,9 @@
   <data name="Recruitment_Cmd_Recruitment_Exist" xml:space="preserve">
     <value>Już masz złozony wniosek, nie mozna ponownie ponownie złozyc wniosku o rekrutacje</value>
   </data>
+  <data name="Response_Success" xml:space="preserve">
+    <value>Success</value>
+  </data>
   <data name="Url_Cmd_Ids_NotFound" xml:space="preserve">
     <value>Za podanymi danymi nie zostało znaleziono rekordów</value>
   </data>
@@ -305,11 +329,14 @@
     <value>Problem aplikacyjny, niepoprawna wrtosc DatabaseBool</value>
     <comment>Problem aplikacyjny,</comment>
   </data>
-  <data name="User_Cmd_Login_NotFound" xml:space="preserve">
-    <value>Sprawdz dane i zaloguj sie ponownie</value>
-  </data>
   <data name="User_Cmd_Login_NotUnique" xml:space="preserve">
     <value>Wybierz inny login/email</value>
+  </data>
+  <data name="User_Cmd_RefreshToken_IsNullOrWhiteSpace" xml:space="preserve">
+    <value>Refresh Token Pusty</value>
+  </data>
+  <data name="User_Cmd_Unautorized" xml:space="preserve">
+    <value>Sprawdz dane i zaloguj sie ponownie</value>
   </data>
   <data name="User_Jwt_IsNotGeneratedByThisServer" xml:space="preserve">
     <value>JWT nie jest wygenerowany przez dny serwer, zaloguj sie ponownie</value>
