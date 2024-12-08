@@ -19,6 +19,7 @@ import NotificationDetailPgae from './pages/NotificationDetailsPage/Notification
 import NotificationCreate from './pages/NotificationCreate/NotificationCreate';
 import UrlDetailsPage from './pages/UrlDetailsPage/UrlDetailsPage';
 import EditUrlPage from './pages/UrlEditPage/EditUrlPage';
+import TestPage from './pages/TestPage/TestPage';
 
 const job = new Cron("*/5 * * * *", () => {
     console.log(`Cron run... ${new Date().toLocaleTimeString()}`)
@@ -83,7 +84,7 @@ function App() {
                 <Route path="/url/:id" element={<UrlDetailsPage />} />
                 <Route path="/url/edit/:id" element={<EditUrlPage />} />
                 
-
+                <Route path="test" element={<TestPage />} />
 
             </Routes>
         </Router>
