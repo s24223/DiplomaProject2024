@@ -237,7 +237,6 @@ namespace Application.Features.Users.Commands.Users.Services
                 roles.Add(_authenticationRepository.GetPersonRole());
             }
 
-            Console.WriteLine(data.User.Id);
             var jwt = _authenticationRepository.GenerateJwtStringAndDateTimeValidTo
                 (
                 data.User.Id.Value.ToString(),

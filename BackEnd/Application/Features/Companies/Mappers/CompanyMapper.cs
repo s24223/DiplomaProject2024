@@ -49,6 +49,7 @@ namespace Application.Features.Companies.Mappers
 
         public DomainBranch DomainBranch(Branch database)
         {
+
             return _domainFactory.CreateDomainBranch
                 (
                 database.Id,

@@ -9,6 +9,8 @@ using Application.Features.Companies.Commands.CompanyBranches.DTOs.CommandsCompa
 using Application.Features.Companies.Commands.CompanyBranches.DTOs.CommandsCompany.Update;
 using Application.Features.Companies.Commands.CompanyBranches.Services;
 using Application.Features.Companies.Queries.QueriesUser.Services;
+using Application.Features.Internships.Commands.Comments.DTOs;
+using Application.Features.Internships.Commands.Comments.Services;
 using Application.Features.Internships.Commands.Internships.DTOs;
 using Application.Features.Internships.Commands.Internships.Services;
 using Application.Features.Internships.Commands.Recrutments.DTOs;
@@ -53,6 +55,7 @@ namespace BackEnd.Controllers
         //Intership Servises
         private readonly IInternshipCmdSvc _internshipService;
         private readonly IRecruitmentCmdSvc _recruitmentService;
+        private readonly ICommentSvc _commentSvc;
 
 
         //Cosntructors
@@ -71,7 +74,8 @@ namespace BackEnd.Controllers
             IUserCompanySvc userCompanySvc,
             //Intership Servises
             IInternshipCmdSvc internshipService,
-            IRecruitmentCmdSvc recruitmentService
+            IRecruitmentCmdSvc recruitmentService,
+            ICommentSvc commentSvc
             )
         {
             //User Servises
@@ -88,6 +92,7 @@ namespace BackEnd.Controllers
             //Intership Servises
             _internshipService = internshipService;
             _recruitmentService = recruitmentService;
+            _commentSvc = commentSvc;
         }
 
 
@@ -674,6 +679,47 @@ namespace BackEnd.Controllers
                 (
                 claims,
                 idInternship,
+                dto,
+                cancellation
+                );
+            return StatusCode(200, result);
+        }
+
+
+        [Authorize]
+        [HttpPost("internship/{intershipId:guid}/commentWithEvalaution")]
+        public async Task<IActionResult> CreateCommentWitEvaluationAsync
+            (
+            Guid intershipId,
+            CreateCommentEvaluationReq dto,
+            CancellationToken cancellation
+            )
+        {
+            var claims = User.Claims.ToList();
+            var result = await _commentSvc.CreateWithEvaluationAsync
+                (
+                claims,
+                intershipId,
+                dto,
+                cancellation
+                );
+            return StatusCode(200, result);
+        }
+
+        [Authorize]
+        [HttpPost("internship/{intershipId:guid}/commentWithOutEvalaution")]
+        public async Task<IActionResult> CreateCommentWitOutEvaluationAsync
+            (
+            Guid intershipId,
+            CreateCommentReq dto,
+            CancellationToken cancellation
+            )
+        {
+            var claims = User.Claims.ToList();
+            var result = await _commentSvc.CreateWithOutEvaluationAsync
+                (
+                claims,
+                intershipId,
                 dto,
                 cancellation
                 );

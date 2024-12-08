@@ -19,7 +19,6 @@ namespace Application.Features.Characteristics.Queries.DTOs
             {
                 CharacteristicType = new CharTypeResp(domain.CharacteristicType);
 
-                Console.WriteLine(domain.CharacteristicType.QualityDictionary.Count());
                 if (domain.CharacteristicType.QualityDictionary.Any())
                 {
                     PossibleQualities = domain.CharacteristicType.QualityDictionary.Values

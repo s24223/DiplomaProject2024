@@ -27,10 +27,7 @@ namespace Application.Features.Companies.Commands.CompanyBranches.DTOs.CommandsC
                 new CreateBranchesResp(x.Item, x.IsDuplicate, isBeforeDb, hasDuplicates));
         }
 
-        public CreateCompanyResp
-            (
-            DomainCompany company
-            )
+        public CreateCompanyResp(DomainCompany company)
         {
             Company = new CompanyResp(company);
             Branches = company.Branches.Select(x =>

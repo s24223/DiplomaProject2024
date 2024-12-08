@@ -264,8 +264,9 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Interfaces
                 await _context.Branches.AddRangeAsync(databaseBranches, cancellation);
                 await _context.SaveChangesAsync(cancellation);
                 //Map to Domain
+
                 company = _mapper.DomainCompany(databaseCompany);
-                var branchesDictionary = await _mapper.DomainBranchesAsync(databaseBranches, cancellation);
+                var branchesDictionary = await _mapper.DomainBranchesAsync(databaseCompany.Branches, cancellation);
                 company.AddBranches(branchesDictionary.Values);
                 return company;
             }
@@ -495,6 +496,17 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Interfaces
                         {
                             return new CompanyException(errorMessage);
                         }
+                    }
+                }
+                if (number == 547)
+                {
+                    if (sqlEx.Message.Contains("Branch_Address"))
+                    {
+                        return new BranchException(Messages.Branch_Cmd_Address_NotFound);
+                    }
+                    if (sqlEx.Message.Contains("Branch_Company"))
+                    {
+                        return new BranchException(Messages.Branch_Cmd_Company_NotExsist);
                     }
                 }
             }

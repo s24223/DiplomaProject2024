@@ -214,6 +214,24 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Za podanym Id komentarzu nie wyszukano.
+        /// </summary>
+        internal static string Comment_Cmd_Id_NotFound {
+            get {
+                return ResourceManager.GetString("Comment_Cmd_Id_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Za podanymi danymi Stażu/Praktyk/Pracy nie wysukano.
+        /// </summary>
+        internal static string Comment_Cmd_Intership_NotFound {
+            get {
+                return ResourceManager.GetString("Comment_Cmd_Intership_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Problem aplikacyjny, nie wyszkakano comment type za podanym id.
         /// </summary>
         internal static string CommentType_Qwery_IdItemNotFound {

@@ -1,8 +1,10 @@
 ﻿using Application.Features.Characteristics.Queries.Services;
+using Application.Features.Internships.Commands.Comments.Services;
 using Application.Shared.Services.OrderBy;
 using Domain.Features.Notification.Repositories;
 using Domain.Features.Url.Repository;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace BackEnd.Controllers
 {
@@ -15,6 +17,7 @@ namespace BackEnd.Controllers
         private readonly IDomainUrlTypeDictionariesRepository _urlTypeDictionaries;
         private readonly ICharacteristicQueryService _characteristicService;
         private readonly IOrderBySvc _orderByService;
+        private readonly ICommentSvc _commentSvc;
 
 
         //Constructor
@@ -23,13 +26,15 @@ namespace BackEnd.Controllers
             IDomainNotificationDictionariesRepository notificationDictionaries,
             IDomainUrlTypeDictionariesRepository urlTypeDictionaries,
             ICharacteristicQueryService characteristicService,
-            IOrderBySvc orderByService
+            IOrderBySvc orderByService,
+            ICommentSvc commentSvc
             )
         {
             _notificationDictionaries = notificationDictionaries;
             _urlTypeDictionaries = urlTypeDictionaries;
             _characteristicService = characteristicService;
             _orderByService = orderByService;
+            _commentSvc = commentSvc;
         }
 
 
@@ -81,6 +86,20 @@ namespace BackEnd.Controllers
             else
             {
                 return Ok(_characteristicService.GetCharacteristics());
+            }
+        }
+
+        [HttpGet("comment/types")]
+        public IActionResult GetCommentTypes(
+            [Required] bool withEvaluation = true)
+        {
+            if (withEvaluation)
+            {
+                return Ok(_commentSvc.GetCommentTypesWithEvaluation());
+            }
+            else
+            {
+                return Ok(_commentSvc.GetCommentTypesWithOutEvaluation());
             }
         }
 

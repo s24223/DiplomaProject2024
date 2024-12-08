@@ -1,4 +1,5 @@
 ﻿using Application.Databases.Relational.Models;
+using Domain.Features.Comment.Entities;
 using Domain.Features.Intership.Entities;
 using Domain.Features.Recruitment.Entities;
 using Domain.Shared.Factories;
@@ -45,6 +46,17 @@ namespace Application.Features.Internships.Mappers
                 database.ContractStartDate,
                 database.ContractEndDate,
                 database.ContractNumber
+                );
+        }
+
+        public DomainComment DomainComment(Comment database)
+        {
+            return _domainFactory.CreateDomainComment(
+                database.InternshipId,
+                database.CommentTypeId,
+                database.Created,
+                database.Description,
+                database.Evaluation
                 );
         }
     }

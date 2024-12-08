@@ -105,11 +105,11 @@ namespace Application.Features.Companies.Commands.CompanyBranches.Services
 
             //Save DB
             domainCompany.AddBranches(domainBranches);
-            var outputData = await _repository.CreateCompanyAsync(domainCompany, cancellation);
+            domainCompany = await _repository.CreateCompanyAsync(domainCompany, cancellation);
 
             return new ResponseItem<CreateCompanyResp>
             {
-                Status = EnumResponseStatus.UserFault,
+                Status = EnumResponseStatus.Success,
                 Item = new CreateCompanyResp(domainCompany),
             };
         }

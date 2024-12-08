@@ -135,7 +135,6 @@ namespace Application.Features.Users.Commands.Notifications.Interfaces
              */
             //547 - CHECK, FK
 
-            Console.WriteLine(ex);
             var exceptions547 = new Dictionary<string, string>()
             {
                 {

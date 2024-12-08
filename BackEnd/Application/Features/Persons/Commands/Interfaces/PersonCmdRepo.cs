@@ -54,7 +54,6 @@ namespace Application.Features.Persons.Commands.Interfaces
             }
             catch (System.Exception ex)
             {
-                Console.WriteLine(ex);
                 throw HandleException(ex, person);
             }
         }
