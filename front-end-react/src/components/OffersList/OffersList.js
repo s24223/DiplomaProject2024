@@ -26,12 +26,11 @@ const OffersList = ({ offers }) => {
                     const city = hierarchy.find((item) => item.administrativeType.name === 'miasto')?.name;
 
                     return (
-                        <li key={offerId} onClick={() => handleOfferClick(offerId)}>
+                        <li key={offerId} className='offer-item' onClick={() => handleOfferClick(offerId)}>
                             <h2>{offerName}</h2>
                             <p>Company: {companyName}</p>
                             <p>Województwo: {voivodeship}, miasto: {city}</p>
                             <p>Description: {offerDescription}</p>
-                        
                         </li>
                     );
                 })}

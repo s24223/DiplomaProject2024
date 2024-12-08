@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import CancelButton from "../CancelButton/CancelButton";
+import { fetchCompanyData, updateCompany } from "../../services/CompanyService/ComapnyService";
 
 const EditCompany = () => {
     const [companyData, setCompanyData] = useState({
@@ -14,14 +14,9 @@ const EditCompany = () => {
     const [message, setMessage] = useState("");
 
     useEffect(() => {
-        const fetchCompanyData = async () => {
+        const loadCompanyData = async () => {
             try {
-                const response = await axios.get("https://localhost:7166/api/User", {
-                    headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
-                    },
-                });
-                const { company } = response.data.item;
+                const company = await fetchCompanyData();
 
                 if (company) {
                     setCompanyData({
@@ -40,7 +35,7 @@ const EditCompany = () => {
             }
         };
 
-        fetchCompanyData();
+        loadCompanyData();
     }, []);
 
     const handleInputChange = (e) => {
@@ -55,32 +50,15 @@ const EditCompany = () => {
         event.preventDefault();
 
         try {
-            const response = await axios.put(
-                "https://localhost:7166/api/User/company",
-                companyData,
-                {
-                    headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
+            await updateCompany(companyData);
 
             // Przekierowanie po sukcesie
             setMessage("Company updated successfully.");
             setTimeout(() => {
                 window.location.href = "/userProfile";
             }, 2000); // Czas na wyświetlenie wiadomości (2 sekundy)
-        } catch (error) {
-            console.error("Error updating company:", error.response?.data || error.message);
-
-            if (error.response?.data?.Message) {
-                setMessage(error.response.data.Message);
-            } else {
-                setMessage("Failed to update company. Please try again.");
-            }
-
-            
+        } catch (erroMessage) {
+            setMessage(erroMessage);           
             // Przekierowanie w przypadku błędu, jeśli `urlSegment` jest `null`
             if (companyData.urlSegment === null) {
                 setTimeout(() => {

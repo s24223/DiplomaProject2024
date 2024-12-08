@@ -86,9 +86,7 @@ const Profile = () => {
             <button onClick={handleCompanyEdit} className="button-two" style={{ position: 'absolute', top: 65, right: 10 }}>
                     Edit Company
             </button>
-            <button onClick={handleAddBranch} style={{ position: 'absolute', top: 95, right: 100 }}>
-                Add Bracnh
-            </button>
+            
             <h1>User Profile</h1>
             <h2>Personal Information</h2>
             <div className="bordered">
@@ -101,6 +99,22 @@ const Profile = () => {
                 <p><strong>Public Profile:</strong> {person?.isPublicProfile ? "Yes" : "No"}</p>
                 <p><strong>Description:</strong> {person?.description}</p>
             </div>
+            <h2>User Characteristics</h2>
+            {person?.characteristics?.length > 0 ? (
+                <div className="bordered">
+                    <ul>
+                        {person.characteristics.map((char) => (
+                            <li key={char.characteristic.id}>
+                              
+                                <strong>{char.characteristic.name}</strong> ({char.quality.name || "No description"})
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            ) : (
+                <p>No characteristics available.</p>
+            )}
+           
 
             <h2>Address</h2>
             {address ? (
@@ -113,7 +127,7 @@ const Profile = () => {
             ) : (
                 <p>No address provided.</p>
             )}
-            <p><strong>URLS:</strong></p>
+            
             <UrlList/>
 
 
@@ -128,25 +142,30 @@ const Profile = () => {
                     <p><strong>Branches:</strong> {branchCount}</p>
                     <p><strong>Active Offers:</strong> {activeOffersCount}</p>
                     <div className="bordered" />
+                    
                     {branchCount > 0 && <BranchList />}
+                    <button onClick={handleAddBranch} >
+                    Add Branch
+                    </button>
+                    <br/>
                 </div>
             )}
 
 
-            <h2>Characteristics</h2>
+            {/* <h2>haracteristics</h2>
             {companyCharacteristics?.length > 0 ? (
                 <div className="bordered">
                 <ul>
                     {companyCharacteristics.map((char) => (
                         <li key={char.characteristic.id}>
-                            <strong>{char.characteristic.name}</strong> ({char.type.name})
+                            <strong>{char.characteristic.name}</strong> ({char.quality.name})
                         </li>
                     ))}
                 </ul>
                 </div>
             ) : (
                 <p>No characteristics available.</p>
-            )}
+            )} */}
             <ReturnButton/>
         </div>
     );

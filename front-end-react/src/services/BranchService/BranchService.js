@@ -12,7 +12,7 @@ export const fetchBranchPost = async (body) => {
 }
 
 export const fetchBranchGet = async () => {
-    let response = await fetch('https://localhost:7166/api/User/company/branches',{
+    let response = await fetch('https://localhost:7166/api/User/company/branches/core',{
         method: 'GET',
         headers: {
             "Content-Type": "application/json",

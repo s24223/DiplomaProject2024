@@ -179,3 +179,7 @@
 .notification-div button:hover{
     background-color: #525151;
 }
+
+span{
+    color: black;
+}

@@ -44,6 +44,7 @@ const OfferDetails = () => {
             <p><strong>Email kontaktowy:</strong> {company?.contactEmail}</p>
             <p><strong>Opis firmy:</strong> {company?.description}</p>
             
+            <div className='bordered'></div>
             <h2>Oddział:</h2>
             <p><strong>Nazwa oddziału:</strong> {branch?.branch?.name}</p>
             <p><strong>Adres:</strong></p>
@@ -53,6 +54,7 @@ const OfferDetails = () => {
             <p><strong>Województwo:</strong> {branch?.branch?.address?.hierarchy[0]?.name}</p>
             <p><strong>Opis oddziału:</strong> {branch?.branch?.description}</p>
 
+            <div className='bordered'></div>
             <h2>Szczegóły oferty:</h2>
             
             <p><strong>Opis oferty:</strong> {offer?.description}</p>
@@ -61,8 +63,9 @@ const OfferDetails = () => {
             <p><strong>Negocjowalne wynagrodzenie:</strong> {offer?.isNegotiatedSalary ? "Tak" : "Nie"}</p>
             <p><strong>Płatna oferta:</strong> {offer?.isPaid ? "Tak" : "Nie"}</p>
 
+            <div className='bordered'></div>
             <h2>Informacje o zatrudnieniu:</h2>
-            {/* <p><strong>Id oferty:</strong> {branch.offerDetails.id}</p> */}
+            <p><strong>Id oferty:</strong> {branch.offerDetails.id}</p>
             <p><strong>Data publikacji:</strong> {new Date(branch?.offerDetails?.publishStart).toLocaleDateString()}</p>
             <p><strong>Data Zakończenia:</strong> {new Date(branch?.offerDetails?.publishEnd).toLocaleDateString()}</p>
             <p><strong>Ostatnia aktualizacja:</strong> {new Date(branch?.offerDetails?.lastUpdate).toLocaleDateString()}</p>
