@@ -59,6 +59,14 @@ namespace Domain.Features.Intership.Entities
         //=====================================================================================================
         //=====================================================================================================
         //Public Methods
+        public void AddComments(IEnumerable<DomainComment> comments)
+        {
+            foreach (DomainComment comment in comments)
+            {
+                AddComment(comment);
+            }
+        }
+
         public void AddComment(DomainComment domainComment)
         {
             if (domainComment.Id.IntershipId == Id && !_comments.ContainsKey(domainComment.Id))

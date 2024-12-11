@@ -1,6 +1,10 @@
 ﻿using Application.Databases.Relational.Models;
+using Application.Shared.DTOs.Features.Internships;
 using Application.Shared.Interfaces.SqlClient;
 using Domain.Features.Address.ValueObjects.Identificators;
+using Domain.Features.Intership.Exceptions.Entities;
+using Domain.Features.Recruitment.ValueObjects.Identificators;
+using Domain.Features.User.ValueObjects.Identificators;
 using Infrastructure.Exceptions.AppExceptions;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -249,6 +253,74 @@ namespace Infrastructure.Databases.Relational.MsSQL.SqlClientRepositories
                 throw HandleException(ex, $"DivisionId: {divisionId}");
             }
         }
+
+        public async Task<InternshipDetailsResp> GetStatisticDetailsByIntershipAsync
+            (
+            RecrutmentId recrutmentId,
+            UserId userId,
+            CancellationToken cancellation
+            )
+        {
+            try
+            {
+                await using (SqlConnection con = new SqlConnection(_connectionString))
+                {
+                    await con.OpenAsync(cancellation);
+
+                    await using (SqlCommand com = new SqlCommand())
+                    {
+                        com.Connection = con;
+
+                        com.CommandText = "GET_PARAMITERS_BY_INTERSHIP";
+                        com.CommandType = CommandType.StoredProcedure;
+
+                        com.Parameters.AddWithValue("@IntershipId", recrutmentId.Value);
+                        com.Parameters.AddWithValue("@UserId", userId.Value);
+
+                        await using var reader = await com.ExecuteReaderAsync(cancellation);
+                        int totalCount = 0;
+                        bool comapanyAllowedToPublish = false;
+                        bool personAllowedToPublish = false;
+                        int? comapanyEndEvaluation = -1;
+                        int? personEndEvaluation = -1;
+                        double? comapanyAvgInTimeEvaluation = -1;
+                        double? personAvgInTimeEvaluation = -1;
+
+                        while (await reader.ReadAsync(cancellation))
+                        {
+                            totalCount = (int)reader["TOTAL_COUNT"];
+                            comapanyAllowedToPublish = (int)reader["COMPANY_PUBLISH_ALLOWED_COUNT"] > 0;
+                            personAllowedToPublish = (int)reader["PERSON_PUBLISH_ALLOWED_COUNT"] > 0;
+                            comapanyEndEvaluation = (int)reader["COMPANY_END"];
+                            personEndEvaluation = (int)reader["PERSON_END"];
+                            comapanyAvgInTimeEvaluation = (double)reader["AVG_COMPANY_IN"];
+                            personAvgInTimeEvaluation = (double)reader["AVG_PERSON_IN"];
+
+                        }
+                        reader.Close();
+                        if (comapanyAvgInTimeEvaluation.HasValue && comapanyAvgInTimeEvaluation < 0)
+                        {
+                            comapanyAvgInTimeEvaluation = null;
+                        }
+                        return new InternshipDetailsResp
+                        {
+                            Count = totalCount,
+                            CompanyPermissionForPublication = comapanyAllowedToPublish,
+                            PersonPermissionForPublication = personAllowedToPublish,
+                            CompanyEndEvaluation = comapanyEndEvaluation,
+                            PersonEndEvaluation = personEndEvaluation,
+                            CompanyAvgEvaluationInTime = comapanyAvgInTimeEvaluation,
+                            PersonAvgEvaluationInTime = personAvgInTimeEvaluation
+                        };
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                throw HandleException(ex, $"RecrutmentId: {recrutmentId.Value},\r\nUserId: {userId.Value}");
+            }
+        }
+
         //=========================================================================================================
         //=========================================================================================================
         //=========================================================================================================
@@ -256,6 +328,20 @@ namespace Infrastructure.Databases.Relational.MsSQL.SqlClientRepositories
 
         private System.Exception HandleException(System.Exception ex, string? inputData = null)
         {
+            if (ex is SqlException sqlEx)
+            {
+                var number = sqlEx.Number;
+                var message = sqlEx.Message;
+
+                switch (number)
+                {
+                    case 50009:
+                        throw new IntershipException(
+                            $"{Messages.Intership_Query_Paramiter_NotFound}: {inputData}",
+                            Domain.Shared.Templates.Exceptions.DomainExceptionTypeEnum.NotFound);
+                };
+            }
+
             return new SqlClientException($"{ex.Message}: {inputData}");
         }
     }

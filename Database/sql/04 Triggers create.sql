@@ -60,6 +60,7 @@ BEGIN
 	DECLARE @Diff_ContractEndDate INT = NULL;
 	DECLARE @EXIST_COUNT_VALUES INT;
 	DECLARE @ThrowString NVARCHAR(50);
+	
 
 	--START SET TO DECALRE VALUES
 	SELECT 
@@ -111,12 +112,15 @@ BEGIN
 							SELECT TOP 1 @LastCreated = Comment.Created  FROM INSERTED I 
 							JOIN [Comment] ON 
 								Comment.CommentTypeId = I.CommentTypeId AND 
-								Comment.InternshipId = I.InternshipId 
+								Comment.InternshipId = I.InternshipId AND
+								Comment.Created <> I.Created
 							ORDER BY Comment.Created DESC;
 			
 							--SET DIFFERENT DAYS AND ID CommentTypeId
 							SET @Diff = DATEDIFF(DAY, @LastCreated, @Created ); 
-					
+							
+							--PRINT 'Aktualna data i czas: ' + CAST(@Created AS NVARCHAR);							
+							--PRINT 'bd: ' + CAST(@LastCreated AS NVARCHAR);
 
 							IF @Id = 1 OR @Id = 2
 								BEGIN 

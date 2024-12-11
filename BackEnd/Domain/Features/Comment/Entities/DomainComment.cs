@@ -84,6 +84,7 @@ namespace Domain.Features.Comment.Entities
         {
             _repo = repo;
             Description = description;
+            Evaluation = !evaluation.HasValue ? null : new CommentEvaluation(evaluation.Value);
             Type = _repo.GetValue(Id.CommentTypeId);
         }
         //====================================================================================================

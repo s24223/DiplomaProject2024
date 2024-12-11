@@ -1,5 +1,8 @@
 ﻿using Application.Databases.Relational.Models;
+using Application.Shared.DTOs.Features.Internships;
 using Domain.Features.Address.ValueObjects.Identificators;
+using Domain.Features.Recruitment.ValueObjects.Identificators;
+using Domain.Features.User.ValueObjects.Identificators;
 
 namespace Application.Shared.Interfaces.SqlClient
 {
@@ -32,6 +35,13 @@ namespace Application.Shared.Interfaces.SqlClient
         Task<IEnumerable<int>> GetDivisionIdsDownAsync
             (
             int divisionId,
+            CancellationToken cancellation
+            );
+
+        Task<InternshipDetailsResp> GetStatisticDetailsByIntershipAsync
+            (
+            RecrutmentId recrutmentId,
+            UserId userId,
             CancellationToken cancellation
             );
     }

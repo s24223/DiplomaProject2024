@@ -44,21 +44,6 @@ namespace Application.Features.Internships.Commands.Comments.Services
             CancellationToken cancellation
             )
         {
-            /*var id = GetId(claims);
-            var sender = await _repo.GetSenderRoleAsync(intershipId, id, cancellation);
-            var comment = _factory.CreateDomainComment
-                (
-                intershipId,
-                sender,
-                (CommentTypeEnum)dto.CommentTypeId,
-                dto.Description,
-                dto.Evaluation
-                );
-
-            return new ResponseItem<CommentResp>
-            {
-                Item = new CommentResp(comment)
-            };*/
             return await CreateAsync(claims, intershipId, dto, cancellation);
         }
 
@@ -70,60 +55,16 @@ namespace Application.Features.Internships.Commands.Comments.Services
             CancellationToken cancellation
             )
         {
-            /*var id = GetId(claims);
-            var sender = await _repo.GetSenderRoleAsync(intershipId, id, cancellation);
-            var comment = _factory.CreateDomainComment
-                (
-                intershipId,
-                sender,
-                (CommentTypeEnum)dto.CommentTypeId,
-                dto.Description,
-                null
-                );
-
-            return new ResponseItem<CommentResp>
-            {
-                Item = new CommentResp(comment)
-            };*/
             return await CreateAsync(claims, intershipId, dto, cancellation);
         }
 
         public Dictionary<int, string> GetCommentTypesWithEvaluation()
         {
-            /*var values = Enum.GetValues(typeof(CommentResp));
-            var dictionary = new Dictionary<int, string>();
-            foreach (var value in values)
-            {
-                if ((int)value < 1002)
-                {
-                    dictionary.Add((int)value, (string)value);
-                }
-            }
-            return dictionary;*/
-            //var evaluationBorder = 1002;//meaning less with, over without
             return GetCommentType(val => val < 1002);
         }
 
         public Dictionary<int, string> GetCommentTypesWithOutEvaluation()
         {
-            /*var values = Enum.GetValues(typeof(CommentResp));
-            var dictionary = new Dictionary<int, string>();
-            foreach (var value in values)
-            {
-                if ((int)value >= 1002)
-                {
-                    if ((int)value == 1004)
-                    {
-                        dictionary.Add((int)value, "Pozwolenie na publikację");
-                    }
-                    else
-                    {
-                        dictionary.Add((int)value, (string)value);
-                    }
-                }
-            }
-            return dictionary;*/
-            //var evaluationBorder = 1002;//meaning less with, over without
             return GetCommentType(val => val >= 1002);
         }
 

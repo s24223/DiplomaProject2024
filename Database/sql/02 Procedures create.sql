@@ -246,3 +246,124 @@ AS
 --========================================================================================
 GO
 --========================================================================================
+CREATE OR ALTER PROCEDURE GET_PARAMITERS_BY_INTERSHIP
+	@IntershipId uniqueidentifier,	
+	@UserId uniqueidentifier
+AS
+BEGIN
+	IF EXISTS 
+	(
+		SELECT * FROM Internship
+		JOIN Recruitment ON Internship.Id = Recruitment.Id
+		JOIN BranchOffer ON Recruitment.BranchOfferId = BranchOffer.Id
+		JOIN Branch ON BranchOffer.BranchId = Branch.Id
+		WHERE @UserId = Recruitment.PersonId OR @UserId =Branch.CompanyId
+	)
+		BEGIN
+			DECLARE @TOTAL_COUNT INT;
+			DECLARE @COMPANY_PUBLISH_ALLOWED_COUNT INT;			
+			DECLARE @PERSON_PUBLISH_ALLOWED_COUNT INT;
+						
+			DECLARE @COMPANY_END INT;			
+			DECLARE @PERSON_END INT;
+
+			DECLARE @AVG_COMPANY_IN FLOAT;			
+			DECLARE @AVG_PERSON_IN FLOAT;						
+
+			SELECT @TOTAL_COUNT = COUNT(1) 
+			FROM Comment
+			JOIN Internship ON Comment.InternshipId = Internship.Id
+			JOIN Recruitment ON Internship.Id = Recruitment.Id
+			JOIN BranchOffer ON Recruitment.BranchOfferId = BranchOffer.Id
+			JOIN Branch ON BranchOffer.BranchId = Branch.Id
+			WHERE (@UserId = Recruitment.PersonId OR @UserId =Branch.CompanyId)
+
+			SELECT @COMPANY_PUBLISH_ALLOWED_COUNT = COUNT(1) 
+			FROM Comment
+			JOIN Internship ON Comment.InternshipId = Internship.Id
+			JOIN Recruitment ON Internship.Id = Recruitment.Id
+			JOIN BranchOffer ON Recruitment.BranchOfferId = BranchOffer.Id
+			JOIN Branch ON BranchOffer.BranchId = Branch.Id
+			WHERE (@UserId = Recruitment.PersonId OR @UserId =Branch.CompanyId) AND
+				Comment.CommentTypeId = 1004;
+			
+			SELECT @PERSON_PUBLISH_ALLOWED_COUNT = COUNT(1) 
+			FROM Comment
+			JOIN Internship ON Comment.InternshipId = Internship.Id
+			JOIN Recruitment ON Internship.Id = Recruitment.Id
+			JOIN BranchOffer ON Recruitment.BranchOfferId = BranchOffer.Id
+			JOIN Branch ON BranchOffer.BranchId = Branch.Id
+			WHERE (@UserId = Recruitment.PersonId OR @UserId =Branch.CompanyId) AND
+				Comment.CommentTypeId = 1005;
+
+			SELECT  @COMPANY_END = Comment.Evaluation 
+			FROM Comment
+			JOIN Internship ON Comment.InternshipId = Internship.Id
+			JOIN Recruitment ON Internship.Id = Recruitment.Id
+			JOIN BranchOffer ON Recruitment.BranchOfferId = BranchOffer.Id
+			JOIN Branch ON BranchOffer.BranchId = Branch.Id
+			WHERE (@UserId = Recruitment.PersonId OR @UserId =Branch.CompanyId) AND
+				Comment.CommentTypeId = 1000
+			ORDER BY Comment.Created DESC;
+
+			SELECT  @PERSON_END = Comment.Evaluation 
+			FROM Comment
+			JOIN Internship ON Comment.InternshipId = Internship.Id
+			JOIN Recruitment ON Internship.Id = Recruitment.Id
+			JOIN BranchOffer ON Recruitment.BranchOfferId = BranchOffer.Id
+			JOIN Branch ON BranchOffer.BranchId = Branch.Id
+			WHERE (@UserId = Recruitment.PersonId OR @UserId =Branch.CompanyId)AND
+				Comment.CommentTypeId = 1001
+			ORDER BY Comment.Created DESC;
+
+			SELECT  @AVG_COMPANY_IN = Comment.Evaluation 
+			FROM Comment
+			JOIN Internship ON Comment.InternshipId = Internship.Id
+			JOIN Recruitment ON Internship.Id = Recruitment.Id
+			JOIN BranchOffer ON Recruitment.BranchOfferId = BranchOffer.Id
+			JOIN Branch ON BranchOffer.BranchId = Branch.Id
+			WHERE (@UserId = Recruitment.PersonId OR @UserId =Branch.CompanyId) AND
+				(
+				Comment.CommentTypeId = 1 OR
+				Comment.CommentTypeId = 7 OR
+				Comment.CommentTypeId = 30 OR
+				Comment.CommentTypeId = 90 OR				
+				Comment.CommentTypeId = 182 OR			
+				Comment.CommentTypeId = 365
+				)
+			ORDER BY Comment.Created DESC;
+
+			SELECT  @AVG_PERSON_IN = Comment.Evaluation 
+			FROM Comment
+			JOIN Internship ON Comment.InternshipId = Internship.Id
+			JOIN Recruitment ON Internship.Id = Recruitment.Id
+			JOIN BranchOffer ON Recruitment.BranchOfferId = BranchOffer.Id
+			JOIN Branch ON BranchOffer.BranchId = Branch.Id
+			WHERE (@UserId = Recruitment.PersonId OR @UserId =Branch.CompanyId) AND
+				(
+				Comment.CommentTypeId = 2 OR
+				Comment.CommentTypeId = 8 OR
+				Comment.CommentTypeId = 31 OR
+				Comment.CommentTypeId = 91 OR				
+				Comment.CommentTypeId = 183 OR			
+				Comment.CommentTypeId = 366
+				)
+			ORDER BY Comment.Created DESC;	
+
+			SELECT 
+				@TOTAL_COUNT AS 'TOTAL_COUNT',
+				@COMPANY_PUBLISH_ALLOWED_COUNT AS 'COMPANY_PUBLISH_ALLOWED_COUNT',
+				@PERSON_PUBLISH_ALLOWED_COUNT AS 'PERSON_PUBLISH_ALLOWED_COUNT',
+				ISNULL(@COMPANY_END, -1) AS 'COMPANY_END',		
+				ISNULL(@PERSON_END, -1) AS 'PERSON_END',
+				ISNULL(@AVG_COMPANY_IN, -1) AS 'AVG_COMPANY_IN',
+				ISNULL(@AVG_PERSON_IN, -1) AS 'AVG_PERSON_IN';
+		END
+	ELSE
+		BEGIN
+			THROW 50009, 'NOT FOUND ITEM BY PARAMITERS',1;
+		END
+END;
+--========================================================================================
+GO
+--========================================================================================

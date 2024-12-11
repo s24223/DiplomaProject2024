@@ -3,3 +3,4 @@ DROP PROCEDURE SelectAdministrativeDivisionUp;
 DROP PROCEDURE BranchesSorted;
 DROP PROCEDURE SelectDivisionIdsWithStreets;
 DROP PROCEDURE SelectDivisionIdsWithStreetsCount;
+DROP PROCEDURE GET_PARAMITERS_BY_INTERSHIP;

@@ -15,6 +15,7 @@ using Application.Features.Internships.Commands.Internships.DTOs;
 using Application.Features.Internships.Commands.Internships.Services;
 using Application.Features.Internships.Commands.Recrutments.DTOs;
 using Application.Features.Internships.Commands.Recrutments.Services;
+using Application.Features.Internships.Queries.Users.Servises;
 using Application.Features.Persons.Commands.DTOs;
 using Application.Features.Persons.Commands.Services;
 using Application.Features.Users.Commands.Notifications.DTOs.Create;
@@ -56,6 +57,7 @@ namespace BackEnd.Controllers
         private readonly IInternshipCmdSvc _internshipService;
         private readonly IRecruitmentCmdSvc _recruitmentService;
         private readonly ICommentSvc _commentSvc;
+        private readonly IUsersInternshipsSvc _userIntershipQuery;
 
 
         //Cosntructors
@@ -75,7 +77,8 @@ namespace BackEnd.Controllers
             //Intership Servises
             IInternshipCmdSvc internshipService,
             IRecruitmentCmdSvc recruitmentService,
-            ICommentSvc commentSvc
+            ICommentSvc commentSvc,
+            IUsersInternshipsSvc userIntershipQuery
             )
         {
             //User Servises
@@ -93,6 +96,7 @@ namespace BackEnd.Controllers
             _internshipService = internshipService;
             _recruitmentService = recruitmentService;
             _commentSvc = commentSvc;
+            _userIntershipQuery = userIntershipQuery;
         }
 
 
@@ -726,6 +730,57 @@ namespace BackEnd.Controllers
             return StatusCode(200, result);
         }
 
+
+        [Authorize]
+        [HttpGet("internship/{internshipId:guid}/comments")]
+        public async Task<IActionResult> GetCommentsAsync
+            (
+            Guid internshipId,
+            CancellationToken cancellation,
+            string? searchText = null,
+            int? commentType = null,
+            DateTime? from = null,
+            DateTime? to = null,
+            string orderBy = "created", // CommentTypeId
+            bool ascending = false,
+            int maxItems = 100,
+            int page = 1)
+        {
+            var claims = User.Claims.ToList();
+            if (page < 2)
+            {
+                var result = await _userIntershipQuery.CommentsFirstPageAsync(
+                    claims,
+                    internshipId,
+                    cancellation,
+                    searchText,
+                    commentType,
+                    from,
+                    to,
+                    orderBy,
+                    ascending,
+                    maxItems
+                    );
+                return StatusCode(200, result);
+            }
+            else
+            {
+                var result = await _userIntershipQuery.CommentsAsync(
+                    claims,
+                    internshipId,
+                    cancellation,
+                    searchText,
+                    commentType,
+                    from,
+                    to,
+                    orderBy,
+                    ascending,
+                    maxItems,
+                    page
+                    );
+                return StatusCode(200, result);
+            }
+        }
 
         //================================================================================================================
         //================================================================================================================

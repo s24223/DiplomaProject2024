@@ -22,6 +22,8 @@ using Application.Features.Internships.Commands.Internships.Services;
 using Application.Features.Internships.Commands.Recrutments.Interfaces;
 using Application.Features.Internships.Commands.Recrutments.Services;
 using Application.Features.Internships.Mappers;
+using Application.Features.Internships.Queries.Users.Interfaces;
+using Application.Features.Internships.Queries.Users.Servises;
 using Application.Features.Persons.Commands.Interfaces;
 using Application.Features.Persons.Commands.Services;
 using Application.Features.Persons.Mappers;
@@ -136,6 +138,11 @@ namespace Application
             //ComentPart
             serviceCollection.AddTransient<ICommentRepo, CommentRepo>();
             serviceCollection.AddTransient<ICommentSvc, CommentSvc>();
+
+            serviceCollection.AddTransient<IUsersInternshipsRepo, UsersInternshipsRepo>();
+            serviceCollection.AddTransient<IUsersInternshipsSvc, UsersInternshipsSvc>();
+
+
 
             //===============================================================================================================
             //Characteristic Part

@@ -232,6 +232,60 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Umowa zakonczyła sie.
+        /// </summary>
+        internal static string Comment_Cmd_UnablePublis_ContractEnd {
+            get {
+                return ResourceManager.GetString("Comment_Cmd_UnablePublis_ContractEnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nie mozna opublikować, dopiero po upływie dni.
+        /// </summary>
+        internal static string Comment_Cmd_UnablePublish_AfterDays {
+            get {
+                return ResourceManager.GetString("Comment_Cmd_UnablePublish_AfterDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nie mozna opublikować, umowa sie nie skonczyła, dopiero po upływie dni.
+        /// </summary>
+        internal static string Comment_Cmd_UnablePublish_ContractHasntEnd {
+            get {
+                return ResourceManager.GetString("Comment_Cmd_UnablePublish_ContractHasntEnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplikat koncowej opinii.
+        /// </summary>
+        internal static string Comment_Cmd_UnablePublish_DuplicateEndOpinion {
+            get {
+                return ResourceManager.GetString("Comment_Cmd_UnablePublish_DuplicateEndOpinion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplikat pozowlania na publikacje.
+        /// </summary>
+        internal static string Comment_Cmd_UnablePublish_DuplicateOfAllovedOfpublication {
+            get {
+                return ResourceManager.GetString("Comment_Cmd_UnablePublish_DuplicateOfAllovedOfpublication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nie mozna tego opublikować, Konca umowy nie ma.
+        /// </summary>
+        internal static string Comment_Cmd_UnablePublish_EndContractNull {
+            get {
+                return ResourceManager.GetString("Comment_Cmd_UnablePublish_EndContractNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Problem aplikacyjny, nie wyszkakano comment type za podanym id.
         /// </summary>
         internal static string CommentType_Qwery_IdItemNotFound {

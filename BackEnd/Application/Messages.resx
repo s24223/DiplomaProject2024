@@ -178,6 +178,24 @@
   <data name="Comment_Cmd_Intership_NotFound" xml:space="preserve">
     <value>Za podanymi danymi Stażu/Praktyk/Pracy nie wysukano</value>
   </data>
+  <data name="Comment_Cmd_UnablePublish_AfterDays" xml:space="preserve">
+    <value>Nie mozna opublikować, dopiero po upływie dni</value>
+  </data>
+  <data name="Comment_Cmd_UnablePublish_ContractHasntEnd" xml:space="preserve">
+    <value>Nie mozna opublikować, umowa sie nie skonczyła, dopiero po upływie dni</value>
+  </data>
+  <data name="Comment_Cmd_UnablePublish_DuplicateEndOpinion" xml:space="preserve">
+    <value>Duplikat koncowej opinii</value>
+  </data>
+  <data name="Comment_Cmd_UnablePublish_DuplicateOfAllovedOfpublication" xml:space="preserve">
+    <value>Duplikat pozowlania na publikacje</value>
+  </data>
+  <data name="Comment_Cmd_UnablePublish_EndContractNull" xml:space="preserve">
+    <value>Nie mozna tego opublikować, Konca umowy nie ma</value>
+  </data>
+  <data name="Comment_Cmd_UnablePublis_ContractEnd" xml:space="preserve">
+    <value>Umowa zakonczyła sie</value>
+  </data>
   <data name="Company_Cmd_ExistProfile" xml:space="preserve">
     <value>Profil Firmowy/Comapny juz istnieje</value>
   </data>

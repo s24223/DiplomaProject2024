@@ -61,6 +61,15 @@ namespace Infrastructure {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Za podanymi prametrami Stażu/Praktyk/Pracy nie wyszukano.
+        /// </summary>
+        internal static string Intership_Query_Paramiter_NotFound {
+            get {
+                return ResourceManager.GetString("Intership_Query_Paramiter_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sprawdż strukturę UserSecrets, najprawdopodobnej ona zmieniła się w kontekscie: ConnectionStrings : DbString.
         /// </summary>
         internal static string NotConfiguredConnectionString {

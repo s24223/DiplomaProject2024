@@ -54,12 +54,10 @@ namespace Application.Features.Internships.Commands.Comments.Interfaces
 
             if (intership.Recruitment.PersonId == userId.Value)
             {
-
                 return CommentSenderEnum.Person;
             }
             else if (intership.Recruitment.BranchOffer.Branch.CompanyId == userId.Value)
             {
-
                 return CommentSenderEnum.Company;
             }
             else
@@ -138,8 +136,7 @@ namespace Application.Features.Internships.Commands.Comments.Interfaces
                 db.CommentTypeId = domain.Id.CommentTypeId;
             }
             db.Description = domain.Description;
-            db.Evaluation = db.Evaluation;
-
+            db.Evaluation = domain.Evaluation?.Value;
             return db;
         }
 
@@ -153,17 +150,17 @@ namespace Application.Features.Internships.Commands.Comments.Interfaces
                 switch (number)
                 {
                     case 50003:
-                        return new CommentException("Nie mozna tego opublikować, Konca umowy nie ma");
+                        return new CommentException(Messages.Comment_Cmd_UnablePublish_EndContractNull);
                     case 50004:
-                        return new CommentException($"Nie mozna opublikować, umowa sie nie skonczyła, dopiero po upływie dni: {message}");
+                        return new CommentException($"{Messages.Comment_Cmd_UnablePublish_ContractHasntEnd}: {message}");
                     case 50005:
-                        return new CommentException("Duplikat koncowej opinii");
+                        return new CommentException(Messages.Comment_Cmd_UnablePublish_DuplicateEndOpinion);
                     case 50006:
-                        return new CommentException("Duplikat pozowlania na publikacje");
+                        return new CommentException(Messages.Comment_Cmd_UnablePublish_DuplicateOfAllovedOfpublication);
                     case 50007:
-                        return new CommentException($"Nie mozan zrobic, dopiero po upływie dni: {message}");
+                        return new CommentException($"{Messages.Comment_Cmd_UnablePublish_AfterDays}: {message}");
                     case 50008:
-                        return new CommentException("Umowa zakonczyła sie");
+                        return new CommentException(Messages.Comment_Cmd_UnablePublis_ContractEnd);
                 };
             }
             return ex;
