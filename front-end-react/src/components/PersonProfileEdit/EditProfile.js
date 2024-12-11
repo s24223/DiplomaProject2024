@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CancelButton from "../CancelButton/CancelButton";
+import { fetchCharacteristics } from "../../services/CharacteristicsService/CharacteristicsService";
+import { fetchUserProfile, updateUserProfile } from "../../services/ProfileService/ProfileService";
 
 const EditProfile = () => {
     const [profileData, setProfileData] = useState({
@@ -16,7 +18,9 @@ const EditProfile = () => {
         addressId: "",
         characteristics: [],
     });
+    const [allCharacteristics, setAllCharacteristics] = useState([])
     const [message, setMessage] = useState("");
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const token = sessionStorage.getItem("jwt") || localStorage.getItem("jwt");
@@ -27,21 +31,20 @@ const EditProfile = () => {
             return;
         }
 
-        const fetchProfileData = async () => {
+        const loadProfile = async () => {
             try {
-                const response = await axios.get("https://localhost:7166/api/User", {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
+                const characteristics = await fetchCharacteristics();
+                const person = await fetchUserProfile();
 
-                const person = response.data.item.person || {};
+
+                console.log("Characteristics:", characteristics); // Debugging line
 
                 // Formatowanie daty na "YYYY-MM-DD"
                 const formattedDate = person.birthDate
                     ? new Date(person.birthDate).toISOString().split("T")[0]
                     : "";
 
+                setAllCharacteristics(characteristics);
                 setProfileData({
                     urlSegment: person.urlSegment || "",
                     contactEmail: person.contactEmail || "",
@@ -55,13 +58,16 @@ const EditProfile = () => {
                     addressId: person.addressId || "",
                     characteristics: person.characteristics || [],
                 });
+                
+                setLoading(false);
             } catch (error) {
                 console.error("Error fetching profile data:", error);
                 setMessage("Failed to load profile data.");
+                setLoading(false);
             }
         };
 
-        fetchProfileData();
+        loadProfile();
     }, []);
 
     const handleInputChange = (e) => {
@@ -69,6 +75,28 @@ const EditProfile = () => {
         setProfileData((prevData) => ({
             ...prevData,
             [name]: value,
+        }));
+    };
+
+    const handleCharacteristicChange = (index, field, value) => {
+        setProfileData((prevData) => {
+            const updatedCharacteristics = [...prevData.characteristics];
+            updatedCharacteristics[index] = { ...updatedCharacteristics[index], [field]: value };
+            return { ...prevData, characteristics: updatedCharacteristics };
+        });
+    };
+
+    const addCharacteristic = () => {
+        setProfileData((prevData) => ({
+            ...prevData,
+            characteristics: [...prevData.characteristics, { characteristicId: "", qualityId: "" }],
+        }));
+    };
+
+    const removeCharacteristic = (index) => {
+        setProfileData((prevData) => ({
+            ...prevData,
+            characteristics: prevData.characteristics.filter((_, i) => i !== index),
         }));
     };
 
@@ -85,18 +113,20 @@ const EditProfile = () => {
                 birthDate: { year, month, day }, // Struktura zgodna z API
             };
 
-            await axios.put("https://localhost:7166/api/User/person", updatedData, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            await updateUserProfile(updatedData);
             setMessage("Profile updated successfully.");
+            setTimeout(() => {
+                window.location.href = "/userProfile"; 
+            }, 2000);
         } catch (error) {
-            console.error("Error updating profile:", error.response?.data || error.message);
+            console.error("Error updating profile:", error);
             setMessage("Failed to update profile. Please try again.");
         }
     };
 
+    if (loading) {
+        return <p>Loading profile data...</p>;
+    }
     return (
         <div className="centered">
             <h1>Edit Profile</h1>
@@ -172,11 +202,55 @@ const EditProfile = () => {
                         }
                     />
                     Public Profile
+
+                    <h3>Characteristics</h3>
+                {profileData.characteristics.map((char, index) => (
+                    <div key={index} style={{ marginBottom: "10px" }}>
+                        <input
+                            type="text"
+                            list={`characteristics-${index}`}
+                            placeholder="Characteristic"
+                            onChange={(e) =>
+                                handleCharacteristicChange(index, "characteristicId", e.target.value)
+                            }
+                            value={char.characteristicId || ""}
+                        />
+                        <datalist id={`characteristics-${index}`}>
+                            {allCharacteristics.map((item) => (
+                                <option key={item.characteristic.id} value={item.characteristic.id}>
+                                    {item.characteristic.name}
+                                </option>
+                            ))}
+                        </datalist>
+
+                        <select
+                            onChange={(e) =>
+                                handleCharacteristicChange(index, "qualityId", e.target.value)
+                            }
+                            value={char.qualityId || ""}
+                        >
+                            <option value="">Select Quality</option>
+                            {allCharacteristics
+                                .find((item) => item.characteristic.id.toString() === char.characteristicId)
+                                ?.possibleQualities.map((qual) => (
+                                    <option key={qual.id} value={qual.id}>
+                                        {qual.name}
+                                    </option>
+                                ))}
+                        </select>
+                        <button type="button" onClick={() => removeCharacteristic(index)}>
+                            Remove
+                        </button>
+                    </div>
+                ))}
+                <button type="button" onClick={addCharacteristic}>
+                    Add Characteristic
+                </button><br/><br/>
                 </label><br/>
                 <button type="submit">Save Changes</button><br/>
                 <CancelButton/>
             </form>
-            {message && <p>{message}</p>}
+            {message && <p style={{ color: message.includes("successfully") ? "green" : "red" }}>{message}</p>}
         </div>
     );
 };
