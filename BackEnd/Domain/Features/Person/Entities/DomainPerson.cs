@@ -31,6 +31,7 @@ namespace Domain.Features.Person.Entities
         public string? Description { get; private set; } = null;
         public DatabaseBool IsStudent { get; private set; } = null!;
         public DatabaseBool IsPublicProfile { get; private set; } = null!;
+        public int? Age { get; private set; } = null;
 
 
         //References
@@ -212,10 +213,14 @@ namespace Domain.Features.Person.Entities
             //Values with no exeptions
             Name = name;
             Surname = surname;
-            BirthDate = birthDate;
             Description = description;
             AddressId = addressId == null ?
                 null : new AddressId(addressId.Value);
+            if (birthDate.HasValue)
+            {
+                BirthDate = birthDate;
+                Age = _provider.TimeProvider().YearsDifference(birthDate.Value);
+            }
         }
 
 

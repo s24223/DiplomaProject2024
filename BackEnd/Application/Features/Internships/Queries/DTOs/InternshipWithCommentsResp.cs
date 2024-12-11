@@ -1,6 +1,7 @@
 ﻿using Application.Shared.DTOs.Features.Companies.Responses;
 using Application.Shared.DTOs.Features.Internships;
 using Application.Shared.DTOs.Features.Internships.Comments;
+using Application.Shared.DTOs.Features.Persons;
 using Domain.Features.Intership.Entities;
 
 namespace Application.Features.Internships.Queries.DTOs
@@ -8,6 +9,7 @@ namespace Application.Features.Internships.Queries.DTOs
     public class InternshipWithCommentsResp
     {
         //Values
+        public PersonPartialResp Person { get; set; } = null!;
         public CompanyResp Company { get; set; } = null!;
         public BranchResp Branch { get; set; } = null!;
         public BranchOfferResp BranchOffer { get; set; } = null!;
@@ -44,6 +46,10 @@ namespace Application.Features.Internships.Queries.DTOs
             if (domain.Recrutment.BranchOffer?.Branch?.Company != null)
             {
                 Company = new CompanyResp(domain.Recrutment.BranchOffer.Branch.Company);
+            }
+            if (domain.Recrutment.Person != null)
+            {
+                Person = new PersonPartialResp(domain.Recrutment.Person);
             }
         }
     }

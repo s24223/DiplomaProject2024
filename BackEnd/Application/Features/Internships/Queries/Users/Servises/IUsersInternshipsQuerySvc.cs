@@ -5,7 +5,7 @@ using System.Security.Claims;
 
 namespace Application.Features.Internships.Queries.Users.Servises
 {
-    public interface IUsersInternshipsSvc
+    public interface IUsersInternshipsQuerySvc
     {
         Task<ResponseItem<InternshipWithCommentsResp>> CommentsFirstPageAsync(
             IEnumerable<Claim> claims,

@@ -13,5 +13,16 @@
         {
             return DateOnly.FromDateTime(dateTime);
         }
+
+        public int YearsDifference(DateOnly dateOnly)
+        {
+            var today = GetDateOnlyToday();
+            if (dateOnly >= today)
+            {
+                return 0;
+            }
+            var result = new DateOnly().AddDays(today.DayNumber - dateOnly.DayNumber);
+            return result.Year - 1;
+        }
     }
 }

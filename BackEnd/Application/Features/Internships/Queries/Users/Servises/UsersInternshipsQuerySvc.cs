@@ -9,7 +9,7 @@ using System.Security.Claims;
 
 namespace Application.Features.Internships.Queries.Users.Servises
 {
-    public class UsersInternshipsSvc : IUsersInternshipsSvc
+    public class UsersInternshipsQuerySvc : IUsersInternshipsQuerySvc
     {
         //Values
         private readonly IUsersInternshipsRepo _repo;
@@ -17,7 +17,7 @@ namespace Application.Features.Internships.Queries.Users.Servises
 
 
         //Constructor
-        public UsersInternshipsSvc(
+        public UsersInternshipsQuerySvc(
             IUsersInternshipsRepo repo,
             IAuthJwtSvc jwt)
         {

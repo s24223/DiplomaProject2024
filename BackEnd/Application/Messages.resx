@@ -168,6 +168,9 @@
   <data name="Characteristic_Id_NotFound" xml:space="preserve">
     <value>Za podanymi danymymi Ceha nie został wyszukana</value>
   </data>
+  <data name="CommentType_Query_Enum_IdNotFound" xml:space="preserve">
+    <value>Za podanym id nie wyszukano Typu komentarza</value>
+  </data>
   <data name="CommentType_Qwery_IdItemNotFound" xml:space="preserve">
     <value>Problem aplikacyjny, nie wyszkakano comment type za podanym id</value>
     <comment>Problem aplikacyjny,</comment>

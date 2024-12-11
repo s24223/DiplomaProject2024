@@ -286,6 +286,15 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Za podanym id nie wyszukano Typu komentarza.
+        /// </summary>
+        internal static string CommentType_Query_Enum_IdNotFound {
+            get {
+                return ResourceManager.GetString("CommentType_Query_Enum_IdNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Problem aplikacyjny, nie wyszkakano comment type za podanym id.
         /// </summary>
         internal static string CommentType_Qwery_IdItemNotFound {

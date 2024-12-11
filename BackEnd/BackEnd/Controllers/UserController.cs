@@ -57,7 +57,7 @@ namespace BackEnd.Controllers
         private readonly IInternshipCmdSvc _internshipService;
         private readonly IRecruitmentCmdSvc _recruitmentService;
         private readonly ICommentSvc _commentSvc;
-        private readonly IUsersInternshipsSvc _userIntershipQuery;
+        private readonly IUsersInternshipsQuerySvc _userIntershipQuery;
 
 
         //Cosntructors
@@ -78,7 +78,7 @@ namespace BackEnd.Controllers
             IInternshipCmdSvc internshipService,
             IRecruitmentCmdSvc recruitmentService,
             ICommentSvc commentSvc,
-            IUsersInternshipsSvc userIntershipQuery
+            IUsersInternshipsQuerySvc userIntershipQuery
             )
         {
             //User Servises

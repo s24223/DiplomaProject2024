@@ -1,4 +1,7 @@
 ﻿using Application.Databases.Relational.Models;
+using Domain.Features.Comment.Exceptions.ValueObjects;
+using Domain.Features.Comment.ValueObjects.CommentTypePart;
+using Domain.Shared.Templates.Exceptions;
 
 namespace Application.Shared.ExtensionMethods
 {
@@ -25,6 +28,15 @@ namespace Application.Shared.ExtensionMethods
             DateTime? from = null,
             DateTime? to = null)
         {
+            if (
+                commentType.HasValue &&
+                !Enum.IsDefined<CommentTypeEnum>((CommentTypeEnum)commentType.Value))
+            {
+                throw new CommentTypeException(
+                    $"{Messages.CommentType_Query_Enum_IdNotFound}: {(int)commentType.Value}",
+                    DomainExceptionTypeEnum.NotFound);
+            }
+
             if (!string.IsNullOrWhiteSpace(searchText))
             {
                 var searchTerms = searchText

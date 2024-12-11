@@ -140,7 +140,7 @@ namespace Application
             serviceCollection.AddTransient<ICommentSvc, CommentSvc>();
 
             serviceCollection.AddTransient<IUsersInternshipsRepo, UsersInternshipsRepo>();
-            serviceCollection.AddTransient<IUsersInternshipsSvc, UsersInternshipsSvc>();
+            serviceCollection.AddTransient<IUsersInternshipsQuerySvc, UsersInternshipsQuerySvc>();
 
 
 

@@ -2,6 +2,7 @@
 using Application.Databases.Relational.Models;
 using Application.Features.Companies.Mappers;
 using Application.Features.Internships.Mappers;
+using Application.Features.Persons.Mappers;
 using Application.Shared.DTOs.Features.Internships;
 using Application.Shared.ExtensionMethods;
 using Application.Shared.Interfaces.SqlClient;
@@ -20,6 +21,7 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
         //Values
         private readonly IInternshipMapper _internshipMapper;
         private readonly ICompanyMapper _companyMapper;
+        private readonly IPersonMapper _personMapper;
         private readonly DiplomaProjectContext _context;
         private readonly ISqlClientRepo _sql;
 
@@ -28,11 +30,13 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
         public UsersInternshipsRepo(
             IInternshipMapper mapper,
             ICompanyMapper companyMapper,
+            IPersonMapper personMapper,
             DiplomaProjectContext context,
             ISqlClientRepo sql)
         {
             _internshipMapper = mapper;
             _companyMapper = companyMapper;
+            _personMapper = personMapper;
             _context = context;
             _sql = sql;
         }
@@ -137,6 +141,10 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
                 .ThenInclude(x => x.BranchOffer)
                 .ThenInclude(x => x.Offer)
 
+                .Include(x => x.Recruitment)
+                .ThenInclude(x => x.Person)
+                .ThenInclude(x => x.PersonCharacteristics)
+
                 .Where(x => x.Id == internshipId.Value)
                 .Where(x =>
                     x.Recruitment.PersonId == userId.Value ||
@@ -149,15 +157,18 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
             var internship = _internshipMapper.DomainIntership(database);
             var recruitment = _internshipMapper.DomainRecruitment(database.Recruitment);
             var branchOffer = _companyMapper.DomainBranchOffer(database.Recruitment.BranchOffer);
-            var branch = await _companyMapper.DomainBranchAsync(database.Recruitment.BranchOffer.Branch, cancellation);
+            var branch = _companyMapper.DomainBranchAsync(database.Recruitment.BranchOffer.Branch, cancellation);
             var offer = _companyMapper.DomainOffer(database.Recruitment.BranchOffer.Offer);
             var company = _companyMapper.DomainCompany(database.Recruitment.BranchOffer.Branch.Company);
+            var person = _personMapper.DomainPerson(database.Recruitment.Person, cancellation);
+            await Task.WhenAll(branch, person);
 
             internship.Recrutment = recruitment;
             recruitment.BranchOffer = branchOffer;
-            branchOffer.Branch = branch;
+            branchOffer.Branch = branch.Result;
             branchOffer.Offer = offer;
-            branch.Company = company;
+            branch.Result.Company = company;
+            recruitment.Person = person.Result;
 
             return internship;
         }

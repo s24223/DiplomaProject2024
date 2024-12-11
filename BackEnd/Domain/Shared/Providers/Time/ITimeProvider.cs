@@ -12,5 +12,7 @@
         //Converters
         DateTime ToDateTime(DateOnly dateOnly);
         DateOnly ToDateOnly(DateTime dateTime);
+
+        int YearsDifference(DateOnly dateOnly);
     }
 }
