@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { fetchProfilePost } from "../../services/ProfileService/ProfilceService";
+import React, { useState,useEffect } from "react";
 import CancelButton from "../CancelButton/CancelButton";
+import { fetchCharacteristics } from "../../services/CharacteristicsService/CharacteristicsService";
+import { fetchProfilePost } from "../../services/ProfileService/ProfileService";
 
 const CreateProfile = () => {
     const [urlSegmet, setUrlsegmet] = useState("string")
@@ -18,6 +19,7 @@ const CreateProfile = () => {
     const [isPublicProfile, setIsPublicProfile] = useState(false)
     const [addressId, setAddressId] = useState(null)
     const [characteristics, setCharacteristics] = useState([])
+    const [allCharacteristics, setAllCharacteristics] = useState([]);
     const [message, setMessage] = useState("");
 
     const handleBirthDate = (date) => {
@@ -28,6 +30,41 @@ const CreateProfile = () => {
             day: dateSegmented[2]
         });
     }
+
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        const loadCharacteristics = async() =>{
+            try{
+                const characteristic = await fetchCharacteristics();
+                setAllCharacteristics(characteristic)
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching characteristics:", error);
+                setMessage("Failed to load characteristics.");
+                setLoading(false);
+            }
+       
+        
+        };
+        loadCharacteristics();
+    }, []);
+
+    const handleCharacteristicChange = (index, field, value) => {
+        setCharacteristics((prev) => {
+            const updated = [...prev];
+            updated[index] = { ...updated[index], [field]: value };
+            return updated;
+        });
+    };
+
+    const addCharacteristic = () => {
+        setCharacteristics((prev) => [...prev, { characteristicId: "", qualityId: "" }]);
+    };
+
+    const removeCharacteristic = (index) => {
+        setCharacteristics((prev) => prev.filter((_, i) => i !== index));
+    };
+    
 
     const handleSubmit = async (event) => {
         event.preventDefault()
@@ -57,6 +94,9 @@ const CreateProfile = () => {
         }
     }
 
+    if (loading) {
+        return <p>Loading characteristics...</p>;
+    }
     return(
         <div>
             <form onSubmit={handleSubmit}>
@@ -76,6 +116,49 @@ const CreateProfile = () => {
                 <label htmlFor="public">public profile</label><br />
                 <label>Description:</label><br />
                 <textarea className="description" placeholder="Description" onChange={e => setDescription(e.target.value)} /><br /> 
+                <h3>Characteristics</h3>
+                {characteristics.map((char, index) => (
+                    <div key={index} style={{ marginBottom: "10px" }}>
+                        <input
+                            type="text"
+                            list={`characteristics-${index}`}
+                            placeholder="Characteristic"
+                            onChange={(e) =>
+                                handleCharacteristicChange(index, "characteristicId", e.target.value)
+                            }
+                            value={char.characteristicId || ""}
+                        />
+                        <datalist id={`characteristics-${index}`}>
+                            {allCharacteristics.map((item) => (
+                                <option key={item.characteristic.id} value={item.characteristic.id}>
+                                    {item.characteristic.name}
+                                </option>
+                            ))}
+                        </datalist>
+
+                        <select
+                            onChange={(e) =>
+                                handleCharacteristicChange(index, "qualityId", e.target.value)
+                            }
+                            value={char.qualityId || ""}
+                        >
+                            <option value="">Select Quality</option>
+                            {allCharacteristics
+                                .find((item) => item.characteristic.id.toString() === char.characteristicId)
+                                ?.possibleQualities.map((qual) => (
+                                    <option key={qual.id} value={qual.id}>
+                                        {qual.name}
+                                    </option>
+                                ))}
+                        </select>
+                        <button type="button" onClick={() => removeCharacteristic(index)}>
+                            Remove
+                        </button>
+                    </div>
+                ))}
+                <button type="button" onClick={addCharacteristic}>
+                    Add Characteristic
+                </button><br /><br />
                 <input type="submit" value="Create Profile" />
                 <CancelButton/>
             </form>
