@@ -33,5 +33,29 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
            bool ascending = false,
            int maxItems = 100,
            int page = 1);
+
+        Task<(IEnumerable<(DomainIntership Intership, InternshipDetailsResp Details)> Items,
+                int TotalCount)> GetInternshipsForPersonAsync(
+           UserId personId,
+           CancellationToken cancellation,
+           string? searchText = null,
+           DateTime? from = null,
+           DateTime? to = null,
+           string orderBy = "created", // ContractStartDate
+           bool ascending = true,
+           int maxItems = 100,
+           int page = 1);
+
+        Task<(IEnumerable<(DomainIntership Intership, InternshipDetailsResp Details)> Items,
+                int TotalCount)> GetInternshipsForCompanyAsync(
+           UserId companyId,
+           CancellationToken cancellation,
+           string? searchText = null,
+           DateTime? from = null,
+           DateTime? to = null,
+           string orderBy = "created", // ContractStartDate
+           bool ascending = true,
+           int maxItems = 100,
+           int page = 1);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Application.Databases.Relational;
 using Application.Databases.Relational.Models;
 using Application.Features.Companies.Mappers;
+using Application.Features.Internships.ExtensionMethods;
 using Application.Features.Internships.Mappers;
 using Application.Features.Persons.Mappers;
 using Application.Shared.DTOs.Features.Internships;
@@ -121,35 +122,137 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
         }
 
 
+        public async Task<(IEnumerable<(DomainIntership Intership, InternshipDetailsResp Details)> Items,
+                int TotalCount)> GetInternshipsForPersonAsync(
+           UserId personId,
+           CancellationToken cancellation,
+           string? searchText = null,
+           DateTime? from = null,
+           DateTime? to = null,
+           string orderBy = "created", // ContractStartDate
+           bool ascending = true,
+           int maxItems = 100,
+           int page = 1)
+        {
+            var items = await PrepareQueryInternshipForPerson(personId)
+                .InternshipFilter(searchText, from, to)
+                .InternshipOrderBy(orderBy, ascending)
+                .Pagination(maxItems, page)
+                .ToListAsync(cancellation);
+            var totalCount = await PrepareQueryInternshipForPerson(personId)
+                .InternshipFilter(searchText, from, to)
+                .CountAsync(cancellation);
+
+            var tasks = items.Select(async x =>
+            {
+                var details = await _sql.GetStatisticDetailsByIntershipAsync(
+                    new RecrutmentId(x.Recruitment.Id),
+                    new UserId(x.Recruitment.PersonId),
+                    cancellation);
+                return new KeyValuePair<Internship, InternshipDetailsResp>(x, details);
+            });
+            var result = await Task.WhenAll(tasks);
+
+            var list = new List<(DomainIntership Intership, InternshipDetailsResp Details)>();
+            foreach (var item in result)
+            {
+                var domain = await MapInternshipForPerson(item.Key, cancellation);
+                list.Add((domain, item.Value));
+            }
+
+            Console.WriteLine(totalCount);
+            return (list, totalCount);
+        }
+
+
+        public async Task<(IEnumerable<(DomainIntership Intership, InternshipDetailsResp Details)> Items,
+                        int TotalCount)> GetInternshipsForCompanyAsync(
+           UserId companyId,
+           CancellationToken cancellation,
+           string? searchText = null,
+           DateTime? from = null,
+           DateTime? to = null,
+           string orderBy = "created", // ContractStartDate
+           bool ascending = true,
+           int maxItems = 100,
+           int page = 1)
+        {
+            var items = await PrepareQueryInternshipForCompany(companyId)
+                .InternshipFilter(searchText, from, to)
+                .InternshipOrderBy(orderBy, ascending)
+                .Pagination(maxItems, page)
+                .ToListAsync(cancellation);
+            var totalCount = await PrepareQueryInternshipForCompany(companyId)
+                .InternshipFilter(searchText, from, to)
+                .CountAsync(cancellation);
+
+            var tasks = items.Select(async x =>
+            {
+                var details = await _sql.GetStatisticDetailsByIntershipAsync(
+                    new RecrutmentId(x.Recruitment.Id),
+                    new UserId(x.Recruitment.PersonId),
+                    cancellation);
+                return new KeyValuePair<Internship, InternshipDetailsResp>(x, details);
+            });
+            var result = await Task.WhenAll(tasks);
+
+            var list = new List<(DomainIntership Intership, InternshipDetailsResp Details)>();
+            foreach (var item in result)
+            {
+                var domain = await MapInternshipForCompany(item.Key, cancellation);
+                list.Add((domain, item.Value));
+            }
+
+            Console.WriteLine(totalCount);
+            return (list, totalCount);
+        }
+
         //================================================================================================
         //================================================================================================
         //================================================================================================
         //Private Methods
+        private IQueryable<Internship> PrepareQueryInternship()
+        {
+            return _context.Internships
+                    .Include(x => x.Comments)
+
+                    .Include(x => x.Recruitment)
+                    .ThenInclude(x => x.BranchOffer)
+                    .ThenInclude(x => x.Branch)
+                    .ThenInclude(x => x.Company)
+
+                    .Include(x => x.Recruitment)
+                    .ThenInclude(x => x.BranchOffer)
+                    .ThenInclude(x => x.Offer)
+
+                    .Include(x => x.Recruitment)
+                    .ThenInclude(x => x.Person)
+                    .ThenInclude(x => x.PersonCharacteristics)
+
+                    .AsQueryable();
+        }
+
+        private IQueryable<Internship> PrepareQueryInternshipForPerson(UserId personId)
+        {
+            return PrepareQueryInternship()
+                .Where(x => x.Recruitment.PersonId == personId.Value);
+        }
+
+        private IQueryable<Internship> PrepareQueryInternshipForCompany(UserId companyId)
+        {
+            return PrepareQueryInternship()
+                .Where(x => x.Recruitment.BranchOffer.Branch.CompanyId == companyId.Value);
+        }
+
         private IQueryable<Internship> PrepareQueryInternshipForComment(
             UserId userId,
             RecrutmentId internshipId)
         {
-            return _context.Internships
-                .Include(x => x.Comments)
-
-                .Include(x => x.Recruitment)
-                .ThenInclude(x => x.BranchOffer)
-                .ThenInclude(x => x.Branch)
-                .ThenInclude(x => x.Company)
-
-                .Include(x => x.Recruitment)
-                .ThenInclude(x => x.BranchOffer)
-                .ThenInclude(x => x.Offer)
-
-                .Include(x => x.Recruitment)
-                .ThenInclude(x => x.Person)
-                .ThenInclude(x => x.PersonCharacteristics)
-
+            return PrepareQueryInternship()
                 .Where(x => x.Id == internshipId.Value)
                 .Where(x =>
                     x.Recruitment.PersonId == userId.Value ||
-                    x.Recruitment.BranchOffer.Branch.CompanyId == userId.Value)
-                .AsQueryable();
+                    x.Recruitment.BranchOffer.Branch.CompanyId == userId.Value);
         }
 
         private async Task<DomainIntership> MapInternship(Internship database, CancellationToken cancellation)
@@ -168,6 +271,43 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
             branchOffer.Branch = branch.Result;
             branchOffer.Offer = offer;
             branch.Result.Company = company;
+            recruitment.Person = person.Result;
+
+            return internship;
+        }
+
+        private async Task<DomainIntership> MapInternshipForPerson(Internship database, CancellationToken cancellation)
+        {
+            var internship = _internshipMapper.DomainIntership(database);
+            var recruitment = _internshipMapper.DomainRecruitment(database.Recruitment);
+            var branchOffer = _companyMapper.DomainBranchOffer(database.Recruitment.BranchOffer);
+            var branch = await _companyMapper.DomainBranchAsync(database.Recruitment.BranchOffer.Branch, cancellation);
+            var offer = _companyMapper.DomainOffer(database.Recruitment.BranchOffer.Offer);
+            var company = _companyMapper.DomainCompany(database.Recruitment.BranchOffer.Branch.Company);
+
+            internship.Recrutment = recruitment;
+            recruitment.BranchOffer = branchOffer;
+            branchOffer.Branch = branch;
+            branchOffer.Offer = offer;
+            branch.Company = company;
+
+            return internship;
+        }
+
+        private async Task<DomainIntership> MapInternshipForCompany(Internship database, CancellationToken cancellation)
+        {
+            var internship = _internshipMapper.DomainIntership(database);
+            var recruitment = _internshipMapper.DomainRecruitment(database.Recruitment);
+            var branchOffer = _companyMapper.DomainBranchOffer(database.Recruitment.BranchOffer);
+            var branch = _companyMapper.DomainBranchAsync(database.Recruitment.BranchOffer.Branch, cancellation);
+            var offer = _companyMapper.DomainOffer(database.Recruitment.BranchOffer.Offer);
+            var person = _personMapper.DomainPerson(database.Recruitment.Person, cancellation);
+            await Task.WhenAll(branch, person);
+
+            internship.Recrutment = recruitment;
+            recruitment.BranchOffer = branchOffer;
+            branchOffer.Branch = branch.Result;
+            branchOffer.Offer = offer;
             recruitment.Person = person.Result;
 
             return internship;

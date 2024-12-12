@@ -6,7 +6,7 @@ using Domain.Features.Intership.Entities;
 
 namespace Application.Features.Internships.Queries.DTOs
 {
-    public class InternshipWithCommentsResp
+    public class CommentsWithInternshipResp
     {
         //Values
         public PersonPartialResp Person { get; set; } = null!;
@@ -21,7 +21,7 @@ namespace Application.Features.Internships.Queries.DTOs
 
 
         //Constructor
-        public InternshipWithCommentsResp(
+        public CommentsWithInternshipResp(
             DomainIntership domain,
             InternshipDetailsResp details,
             int totalCount)

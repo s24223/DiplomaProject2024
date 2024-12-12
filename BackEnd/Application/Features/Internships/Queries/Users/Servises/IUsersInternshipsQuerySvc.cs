@@ -7,7 +7,7 @@ namespace Application.Features.Internships.Queries.Users.Servises
 {
     public interface IUsersInternshipsQuerySvc
     {
-        Task<ResponseItem<InternshipWithCommentsResp>> CommentsFirstPageAsync(
+        Task<ResponseItem<CommentsWithInternshipResp>> CommentsFirstPageAsync(
             IEnumerable<Claim> claims,
             Guid internshipId,
             CancellationToken cancellation,
@@ -31,5 +31,27 @@ namespace Application.Features.Internships.Queries.Users.Servises
             bool ascending = false,
             int maxItems = 100,
             int page = 1);
+
+        Task<ResponseItems<CompanyInternshipResp>> GetInternshipsForCompanyAsync(
+           IEnumerable<Claim> claims,
+           CancellationToken cancellation,
+           string? searchText = null,
+           DateTime? from = null,
+           DateTime? to = null,
+           string orderBy = "created", // ContractStartDate
+           bool ascending = true,
+           int maxItems = 100,
+           int page = 1);
+
+        Task<ResponseItems<PersonInternshipResp>> GetInternshipsForPersonAsync(
+           IEnumerable<Claim> claims,
+           CancellationToken cancellation,
+           string? searchText = null,
+           DateTime? from = null,
+           DateTime? to = null,
+           string orderBy = "created", // ContractStartDate
+           bool ascending = true,
+           int maxItems = 100,
+           int page = 1);
     }
 }

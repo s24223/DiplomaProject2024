@@ -30,7 +30,7 @@ namespace Application.Features.Internships.Queries.Users.Servises
         //===============================================================================================
         //===============================================================================================
         //Public Methods
-        public async Task<ResponseItem<InternshipWithCommentsResp>> CommentsFirstPageAsync(
+        public async Task<ResponseItem<CommentsWithInternshipResp>> CommentsFirstPageAsync(
             IEnumerable<Claim> claims,
             Guid internshipId,
             CancellationToken cancellation,
@@ -55,9 +55,9 @@ namespace Application.Features.Internships.Queries.Users.Servises
                 ascending,
                 maxItems);
 
-            return new ResponseItem<InternshipWithCommentsResp>
+            return new ResponseItem<CommentsWithInternshipResp>
             {
-                Item = new InternshipWithCommentsResp(
+                Item = new CommentsWithInternshipResp(
                     result.Intership,
                     result.Details,
                     result.TotalCount),
@@ -98,6 +98,69 @@ namespace Application.Features.Internships.Queries.Users.Servises
                 Items = result.Select(x => new CommentResp(x)).ToList(),
             };
         }
+
+        public async Task<ResponseItems<CompanyInternshipResp>> GetInternshipsForCompanyAsync(
+           IEnumerable<Claim> claims,
+           CancellationToken cancellation,
+           string? searchText = null,
+           DateTime? from = null,
+           DateTime? to = null,
+           string orderBy = "created", // ContractStartDate
+           bool ascending = true,
+           int maxItems = 100,
+           int page = 1)
+        {
+            var userId = GetUserId(claims);
+            var result = await _repo.GetInternshipsForCompanyAsync(
+                userId,
+                cancellation,
+                searchText,
+                from,
+                to,
+                orderBy,
+                ascending,
+                maxItems,
+                page
+                );
+            return new ResponseItems<CompanyInternshipResp>
+            {
+                Items = result.Items.Select(x =>
+                    new CompanyInternshipResp(x.Intership, x.Details)).ToList(),
+                TotalCount = result.TotalCount,
+            };
+        }
+
+        public async Task<ResponseItems<PersonInternshipResp>> GetInternshipsForPersonAsync(
+           IEnumerable<Claim> claims,
+           CancellationToken cancellation,
+           string? searchText = null,
+           DateTime? from = null,
+           DateTime? to = null,
+           string orderBy = "created", // ContractStartDate
+           bool ascending = true,
+           int maxItems = 100,
+           int page = 1)
+        {
+            var userId = GetUserId(claims);
+            var result = await _repo.GetInternshipsForPersonAsync(
+                userId,
+                cancellation,
+                searchText,
+                from,
+                to,
+                orderBy,
+                ascending,
+                maxItems,
+                page
+                );
+            return new ResponseItems<PersonInternshipResp>
+            {
+                Items = result.Items.Select(x =>
+                    new PersonInternshipResp(x.Intership, x.Details)).ToList(),
+                TotalCount = result.TotalCount,
+            };
+        }
+
         //===============================================================================================
         //===============================================================================================
         //===============================================================================================

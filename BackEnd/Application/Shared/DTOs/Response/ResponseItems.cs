@@ -19,5 +19,6 @@
             }
         }
         public int Count { get; private set; } = 0;
+        public int TotalCount { get; set; } = 0;
     }
 }

@@ -689,6 +689,59 @@ namespace BackEnd.Controllers
             return StatusCode(200, result);
         }
 
+        [Authorize]
+        [HttpGet("person/internships")]
+        public async Task<IActionResult> GetInternshipsForPersonAsync(
+           CancellationToken cancellation,
+           string? searchText = null,
+           DateTime? from = null,
+           DateTime? to = null,
+           string orderBy = "created", // ContractStartDate
+           bool ascending = true,
+           int maxItems = 100,
+           int page = 1)
+        {
+            var claims = User.Claims.ToList();
+            var result = await _userIntershipQuery
+                .GetInternshipsForPersonAsync(
+                    claims,
+                    cancellation,
+                    searchText,
+                    from,
+                    to,
+                    orderBy,
+                    ascending,
+                    maxItems,
+                    page);
+            return StatusCode(200, result);
+        }
+
+        [Authorize]
+        [HttpGet("company/internships")]
+        public async Task<IActionResult> GetInternshipsForCompanyAsync(
+           CancellationToken cancellation,
+           string? searchText = null,
+           DateTime? from = null,
+           DateTime? to = null,
+           string orderBy = "created", // ContractStartDate
+           bool ascending = true,
+           int maxItems = 100,
+           int page = 1)
+        {
+            var claims = User.Claims.ToList();
+            var result = await _userIntershipQuery
+                .GetInternshipsForCompanyAsync(
+                    claims,
+                    cancellation,
+                    searchText,
+                    from,
+                    to,
+                    orderBy,
+                    ascending,
+                    maxItems,
+                    page);
+            return StatusCode(200, result);
+        }
 
         [Authorize]
         [HttpPost("internship/{intershipId:guid}/commentWithEvalaution")]
