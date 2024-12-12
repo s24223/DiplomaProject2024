@@ -1,4 +1,6 @@
-﻿using Application.Features.Internships.Queries.DTOs;
+﻿using Application.Features.Internships.Queries.DTOs.Comments;
+using Application.Features.Internships.Queries.DTOs.Internships;
+using Application.Features.Internships.Queries.DTOs.Recritments;
 using Application.Features.Internships.Queries.Users.Interfaces;
 using Application.Shared.DTOs.Features.Internships.Comments;
 using Application.Shared.DTOs.Response;
@@ -157,6 +159,76 @@ namespace Application.Features.Internships.Queries.Users.Servises
             {
                 Items = result.Items.Select(x =>
                     new PersonInternshipResp(x.Intership, x.Details)).ToList(),
+                TotalCount = result.TotalCount,
+            };
+        }
+
+
+
+        public async Task<ResponseItems<CompanyRecruitmentResp>> GetCompanyRecruitmentsAsync(
+            IEnumerable<Claim> claims,
+            CancellationToken cancellation,
+            string? searchText = null,
+            DateTime? from = null,
+            DateTime? to = null,
+            bool filterStatus = false,
+            bool? status = null, // true accepted, false denied
+            string orderBy = "created", // ContractStartDate
+            bool ascending = true,
+            int maxItems = 100,
+            int page = 1)
+        {
+            var companyId = GetUserId(claims);
+            var result = await _repo.GetCompanyRecruitmentsAsync(
+                companyId,
+                cancellation,
+                searchText,
+                from,
+                to,
+                filterStatus,
+                status,
+                orderBy,
+                ascending,
+                maxItems,
+                page);
+
+            return new ResponseItems<CompanyRecruitmentResp>
+            {
+                Items = result.Items.Select(x => new CompanyRecruitmentResp(x)).ToList(),
+                TotalCount = result.TotalCount,
+            };
+        }
+
+        public async Task<ResponseItems<PersonRecruitmentResp>> GetPersonRecruitmentsAsync(
+            IEnumerable<Claim> claims,
+            CancellationToken cancellation,
+            string? searchText = null,
+            DateTime? from = null,
+            DateTime? to = null,
+            bool filterStatus = false,
+            bool? status = null, // true accepted, false denied
+            string orderBy = "created", // ContractStartDate
+            bool ascending = true,
+            int maxItems = 100,
+            int page = 1)
+        {
+            var personId = GetUserId(claims);
+            var result = await _repo.GetPersonRecruitmentsAsync(
+                personId,
+                cancellation,
+                searchText,
+                from,
+                to,
+                filterStatus,
+                status,
+                orderBy,
+                ascending,
+                maxItems,
+                page);
+
+            return new ResponseItems<PersonRecruitmentResp>
+            {
+                Items = result.Items.Select(x => new PersonRecruitmentResp(x)).ToList(),
                 TotalCount = result.TotalCount,
             };
         }

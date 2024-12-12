@@ -628,6 +628,7 @@ namespace BackEnd.Controllers
             return StatusCode(201, result);
         }
 
+
         [Authorize]
         [HttpPut("recruitment/{recruitmentId:guid}/answer")]
         public async Task<IActionResult> SetAnswerRecruitmentByCompanyAsync
@@ -646,6 +647,64 @@ namespace BackEnd.Controllers
                 cancellation
                 );
             return StatusCode(200, result);
+        }
+
+        [Authorize]
+        [HttpGet("company/recruitment")]
+        public async Task<IActionResult> GetCompanyRecruitmentsAsync(
+            CancellationToken cancellation,
+            string? searchText = null,
+            DateTime? from = null,
+            DateTime? to = null,
+            bool filterStatus = false,
+            bool? status = null, // true accepted, false denied
+            string orderBy = "created", // ContractStartDate
+            bool ascending = true,
+            int maxItems = 100,
+            int page = 1)
+        {
+            var claims = User.Claims.ToList();
+            var result = await _userIntershipQuery.GetCompanyRecruitmentsAsync(
+                claims,
+                cancellation,
+                searchText,
+                from,
+                to,
+                filterStatus,
+                status,
+                orderBy,
+                ascending,
+                maxItems);
+            return StatusCode(201, result);
+        }
+
+        [Authorize]
+        [HttpGet("person/recruitment")]
+        public async Task<IActionResult> GetPersonRecruitmentsAsync(
+            CancellationToken cancellation,
+            string? searchText = null,
+            DateTime? from = null,
+            DateTime? to = null,
+            bool filterStatus = false,
+            bool? status = null, // true accepted, false denied
+            string orderBy = "created", // ContractStartDate
+            bool ascending = true,
+            int maxItems = 100,
+            int page = 1)
+        {
+            var claims = User.Claims.ToList();
+            var result = await _userIntershipQuery.GetPersonRecruitmentsAsync(
+                claims,
+                cancellation,
+                searchText,
+                from,
+                to,
+                filterStatus,
+                status,
+                orderBy,
+                ascending,
+                maxItems);
+            return StatusCode(201, result);
         }
 
         //Intership Part

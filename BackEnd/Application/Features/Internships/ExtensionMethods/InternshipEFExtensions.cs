@@ -2,11 +2,16 @@
 using Domain.Features.Comment.Exceptions.ValueObjects;
 using Domain.Features.Comment.ValueObjects.CommentTypePart;
 using Domain.Shared.Templates.Exceptions;
+using Domain.Shared.ValueObjects;
 
 namespace Application.Features.Internships.ExtensionMethods
 {
     public static class InternshipEFExtensions
     {
+        //Values 
+        private static readonly string _databaseTrue = new DatabaseBool(true).Code;
+        private static readonly string _databaseFalse = new DatabaseBool(false).Code;
+
         //================================================================================================
         //Comments
         public static IQueryable<Comment> CommentsFilter(
@@ -141,6 +146,89 @@ namespace Application.Features.Internships.ExtensionMethods
                             .ThenByDescending(x => x.ContractStartDate);
                     break;
             };
+
+            return query;
+        }
+
+        //================================================================================================
+        //Recruitment
+        public static IQueryable<Recruitment> RecruitmentFilter(
+            this IQueryable<Recruitment> query,
+            string? searchText = null,
+            DateTime? from = null,
+            DateTime? to = null,
+            bool filterStatus = false,
+            bool? status = null
+            )
+        {
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                var searchTerms = searchText
+                    .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                query = query.Where(c =>
+                    searchTerms.Any(t =>
+                    (c.PersonMessage != null && c.PersonMessage.Contains(t)) ||
+                    (c.CompanyResponse != null && c.CompanyResponse.Contains(t))
+                    ));
+            }
+
+
+            if (from.HasValue && to.HasValue && from > to)
+            {
+                var dateTime = from.Value;
+                from = to.Value;
+                to = dateTime;
+            }
+            if (from.HasValue)
+            {
+                query = query.Where(x => x.Created >= from.Value);
+            }
+            if (to.HasValue)
+            {
+                query = query.Where(x => x.Created <= to.Value);
+            }
+
+            if (filterStatus)
+            {
+                if (status == true)
+                {
+                    query = query.Where(x => x.IsAccepted == _databaseTrue);
+                }
+                else if (status == false)
+                {
+                    query = query.Where(x => x.IsAccepted == _databaseFalse);
+                }
+                else
+                {
+                    query = query.Where(x => x.IsAccepted == null);
+                }
+            }
+
+            return query;
+        }
+
+        public static IQueryable<Recruitment> RecruitmentOrderBy(
+            this IQueryable<Recruitment> query,
+            string orderBy = "created", // isaccepted
+            bool ascending = true
+            )
+        {
+            switch (orderBy)
+            {
+                case "isaccepted":
+                    query = ascending ?
+                        query.OrderBy(x => x.IsAccepted)
+                            .ThenBy(x => x.Created) :
+                        query.OrderByDescending(x => x.IsAccepted)
+                            .ThenByDescending(x => x.Created);
+                    break;
+                default:
+                    query = ascending ?
+                        query.OrderBy(x => x.Created) :
+                        query.OrderByDescending(x => x.Created);
+                    break;
+            }
 
             return query;
         }

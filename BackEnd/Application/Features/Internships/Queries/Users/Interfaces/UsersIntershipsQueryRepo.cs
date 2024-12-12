@@ -10,6 +10,7 @@ using Application.Shared.Interfaces.SqlClient;
 using Domain.Features.Comment.Entities;
 using Domain.Features.Intership.Entities;
 using Domain.Features.Intership.Exceptions.Entities;
+using Domain.Features.Recruitment.Entities;
 using Domain.Features.Recruitment.ValueObjects.Identificators;
 using Domain.Features.User.ValueObjects.Identificators;
 using Microsoft.EntityFrameworkCore;
@@ -134,12 +135,12 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
            int maxItems = 100,
            int page = 1)
         {
-            var items = await PrepareQueryInternshipForPerson(personId)
+            var items = await PrepareQueryPersonInternships(personId)
                 .InternshipFilter(searchText, from, to)
                 .InternshipOrderBy(orderBy, ascending)
                 .Pagination(maxItems, page)
                 .ToListAsync(cancellation);
-            var totalCount = await PrepareQueryInternshipForPerson(personId)
+            var totalCount = await PrepareQueryPersonInternships(personId)
                 .InternshipFilter(searchText, from, to)
                 .CountAsync(cancellation);
 
@@ -165,24 +166,28 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
         }
 
 
-        public async Task<(IEnumerable<(DomainIntership Intership, InternshipDetailsResp Details)> Items,
-                        int TotalCount)> GetInternshipsForCompanyAsync(
-           UserId companyId,
-           CancellationToken cancellation,
-           string? searchText = null,
-           DateTime? from = null,
-           DateTime? to = null,
-           string orderBy = "created", // ContractStartDate
-           bool ascending = true,
-           int maxItems = 100,
-           int page = 1)
+        public async Task<(
+            IEnumerable<(DomainIntership Intership, InternshipDetailsResp Details)> Items,
+            int TotalCount
+            )> GetInternshipsForCompanyAsync
+            (
+               UserId companyId,
+               CancellationToken cancellation,
+               string? searchText = null,
+               DateTime? from = null,
+               DateTime? to = null,
+               string orderBy = "created", // ContractStartDate
+               bool ascending = true,
+               int maxItems = 100,
+               int page = 1
+            )
         {
-            var items = await PrepareQueryInternshipForCompany(companyId)
+            var items = await PrepareQueryCompanyInternships(companyId)
                 .InternshipFilter(searchText, from, to)
                 .InternshipOrderBy(orderBy, ascending)
                 .Pagination(maxItems, page)
                 .ToListAsync(cancellation);
-            var totalCount = await PrepareQueryInternshipForCompany(companyId)
+            var totalCount = await PrepareQueryCompanyInternships(companyId)
                 .InternshipFilter(searchText, from, to)
                 .CountAsync(cancellation);
 
@@ -207,10 +212,76 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
             return (list, totalCount);
         }
 
+
+        public async Task<(IEnumerable<DomainRecruitment> Items, int TotalCount)>
+            GetPersonRecruitmentsAsync(
+            UserId personId,
+            CancellationToken cancellation,
+            string? searchText = null,
+            DateTime? from = null,
+            DateTime? to = null,
+            bool filterStatus = false,
+            bool? status = null, // true accepted, false denied
+            string orderBy = "created", // ContractStartDate
+            bool ascending = true,
+            int maxItems = 100,
+            int page = 1)
+        {
+            var items = await PrepareQueryPersonRecruitments(personId)
+                .RecruitmentFilter(searchText, from, to, filterStatus, status)
+                .RecruitmentOrderBy(orderBy, ascending)
+                .Pagination(maxItems, page)
+                .ToListAsync(cancellation);
+            var totalCount = await PrepareQueryPersonRecruitments(personId)
+                .RecruitmentFilter(searchText, from, to, filterStatus, status)
+                .CountAsync(cancellation);
+
+            var domains = new List<DomainRecruitment>();
+            foreach (var item in items)
+            {
+                var domain = await MapRecruitmentForPerson(item, cancellation);
+                domains.Add(domain);
+            }
+            return (domains, totalCount);
+        }
+
+        public async Task<(IEnumerable<DomainRecruitment> Items, int TotalCount)>
+            GetCompanyRecruitmentsAsync(
+            UserId companyId,
+            CancellationToken cancellation,
+            string? searchText = null,
+            DateTime? from = null,
+            DateTime? to = null,
+            bool filterStatus = false,
+            bool? status = null, // true accepted, false denied
+            string orderBy = "created", // ContractStartDate
+            bool ascending = true,
+            int maxItems = 100,
+            int page = 1)
+        {
+            var items = await PrepareQueryCompanyRecruitments(companyId)
+                .RecruitmentFilter(searchText, from, to, filterStatus, status)
+                .RecruitmentOrderBy(orderBy, ascending)
+                .Pagination(maxItems, page)
+                .ToListAsync(cancellation);
+            var totalCount = await PrepareQueryPersonRecruitments(companyId)
+                .RecruitmentFilter(searchText, from, to, filterStatus, status)
+                .CountAsync(cancellation);
+
+            var domains = new List<DomainRecruitment>();
+            foreach (var item in items)
+            {
+                var domain = await MapRecruitmentForCompany(item, cancellation);
+                domains.Add(domain);
+            }
+            return (domains, totalCount);
+        }
+
         //================================================================================================
         //================================================================================================
         //================================================================================================
         //Private Methods
+
         private IQueryable<Internship> PrepareQueryInternship()
         {
             return _context.Internships
@@ -224,6 +295,7 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
                     .Include(x => x.Recruitment)
                     .ThenInclude(x => x.BranchOffer)
                     .ThenInclude(x => x.Offer)
+                    .ThenInclude(x => x.OfferCharacteristics)
 
                     .Include(x => x.Recruitment)
                     .ThenInclude(x => x.Person)
@@ -232,13 +304,13 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
                     .AsQueryable();
         }
 
-        private IQueryable<Internship> PrepareQueryInternshipForPerson(UserId personId)
+        private IQueryable<Internship> PrepareQueryPersonInternships(UserId personId)
         {
             return PrepareQueryInternship()
                 .Where(x => x.Recruitment.PersonId == personId.Value);
         }
 
-        private IQueryable<Internship> PrepareQueryInternshipForCompany(UserId companyId)
+        private IQueryable<Internship> PrepareQueryCompanyInternships(UserId companyId)
         {
             return PrepareQueryInternship()
                 .Where(x => x.Recruitment.BranchOffer.Branch.CompanyId == companyId.Value);
@@ -311,6 +383,107 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
             recruitment.Person = person.Result;
 
             return internship;
+        }
+
+        //=============================================================================================
+        private IQueryable<Recruitment> PrepareQueryRecruitments()
+        {
+            return _context.Recruitments
+
+                    .Include(x => x.BranchOffer)
+                    .ThenInclude(x => x.Branch)
+                    .ThenInclude(x => x.Company)
+
+                    .Include(x => x.BranchOffer)
+                    .ThenInclude(x => x.Offer)
+                    .ThenInclude(x => x.OfferCharacteristics)
+
+                    .Include(x => x.Internship)
+                    .Include(x => x.Person)
+                    .ThenInclude(x => x.PersonCharacteristics)
+
+                    .AsQueryable();
+        }
+
+        private IQueryable<Recruitment> PrepareQueryPersonRecruitments(UserId personId)
+        {
+            return PrepareQueryRecruitments()
+                .Where(x => x.PersonId == personId.Value);
+        }
+        private IQueryable<Recruitment> PrepareQueryCompanyRecruitments(UserId companyId)
+        {
+            return PrepareQueryRecruitments()
+                .Where(x => x.BranchOffer.Branch.CompanyId == companyId.Value);
+        }
+
+        private async Task<DomainRecruitment> MapRecruitment(
+            Recruitment database, CancellationToken cancellation)
+        {
+            var recruitment = _internshipMapper.DomainRecruitment(database);
+            var branchOffer = _companyMapper.DomainBranchOffer(database.BranchOffer);
+            var branch = _companyMapper.DomainBranchAsync(database.BranchOffer.Branch, cancellation);
+            var offer = _companyMapper.DomainOffer(database.BranchOffer.Offer);
+            var company = _companyMapper.DomainCompany(database.BranchOffer.Branch.Company);
+            var person = _personMapper.DomainPerson(database.Person, cancellation);
+            await Task.WhenAll(branch, person);
+
+            recruitment.BranchOffer = branchOffer;
+            branchOffer.Branch = branch.Result;
+            branchOffer.Offer = offer;
+            branch.Result.Company = company;
+            recruitment.Person = person.Result;
+
+            if (database.Internship != null)
+            {
+                var internship = _internshipMapper.DomainIntership(database.Internship);
+                recruitment.Intership = internship;
+            }
+            return recruitment;
+        }
+
+        private async Task<DomainRecruitment> MapRecruitmentForPerson(
+            Recruitment database, CancellationToken cancellation)
+        {
+            var recruitment = _internshipMapper.DomainRecruitment(database);
+            var branchOffer = _companyMapper.DomainBranchOffer(database.BranchOffer);
+            var branch = await _companyMapper.DomainBranchAsync(database.BranchOffer.Branch, cancellation);
+            var offer = _companyMapper.DomainOffer(database.BranchOffer.Offer);
+            var company = _companyMapper.DomainCompany(database.BranchOffer.Branch.Company);
+
+            recruitment.BranchOffer = branchOffer;
+            branchOffer.Branch = branch;
+            branchOffer.Offer = offer;
+            branch.Company = company;
+
+            if (database.Internship != null)
+            {
+                var internship = _internshipMapper.DomainIntership(database.Internship);
+                recruitment.Intership = internship;
+            }
+            return recruitment;
+        }
+
+        private async Task<DomainRecruitment> MapRecruitmentForCompany(
+            Recruitment database, CancellationToken cancellation)
+        {
+            var recruitment = _internshipMapper.DomainRecruitment(database);
+            var branchOffer = _companyMapper.DomainBranchOffer(database.BranchOffer);
+            var branch = _companyMapper.DomainBranchAsync(database.BranchOffer.Branch, cancellation);
+            var offer = _companyMapper.DomainOffer(database.BranchOffer.Offer);
+            var person = _personMapper.DomainPerson(database.Person, cancellation);
+            await Task.WhenAll(branch, person);
+
+            recruitment.BranchOffer = branchOffer;
+            branchOffer.Branch = branch.Result;
+            branchOffer.Offer = offer;
+            recruitment.Person = person.Result;
+
+            if (database.Internship != null)
+            {
+                var internship = _internshipMapper.DomainIntership(database.Internship);
+                recruitment.Intership = internship;
+            }
+            return recruitment;
         }
     }
 }

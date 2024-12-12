@@ -1,14 +1,13 @@
 ﻿using Application.Shared.DTOs.Features.Companies.Responses;
 using Application.Shared.DTOs.Features.Internships;
-using Application.Shared.DTOs.Features.Persons;
 using Domain.Features.Intership.Entities;
 
-namespace Application.Features.Internships.Queries.DTOs
+namespace Application.Features.Internships.Queries.DTOs.Internships
 {
-    public class CompanyInternshipResp
+    public class PersonInternshipResp
     {
         //Values
-        public PersonPartialResp Person { get; set; } = null!;
+        public CompanyResp Company { get; set; } = null!;
         public BranchResp Branch { get; set; } = null!;
         public BranchOfferResp BranchOffer { get; set; } = null!;
         public OfferResp Offer { get; set; } = null!;
@@ -17,7 +16,7 @@ namespace Application.Features.Internships.Queries.DTOs
 
 
         //Constructor
-        public CompanyInternshipResp(
+        public PersonInternshipResp(
             DomainIntership domain,
             InternshipDetailsResp details)
         {
@@ -36,9 +35,9 @@ namespace Application.Features.Internships.Queries.DTOs
             {
                 Branch = new BranchResp(domain.Recrutment.BranchOffer.Branch);
             }
-            if (domain.Recrutment.Person != null)
+            if (domain.Recrutment.BranchOffer?.Branch?.Company != null)
             {
-                Person = new PersonPartialResp(domain.Recrutment.Person);
+                Company = new CompanyResp(domain.Recrutment.BranchOffer.Branch.Company);
             }
         }
     }

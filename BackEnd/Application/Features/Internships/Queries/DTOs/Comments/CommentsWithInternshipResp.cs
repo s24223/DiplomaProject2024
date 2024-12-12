@@ -4,7 +4,7 @@ using Application.Shared.DTOs.Features.Internships.Comments;
 using Application.Shared.DTOs.Features.Persons;
 using Domain.Features.Intership.Entities;
 
-namespace Application.Features.Internships.Queries.DTOs
+namespace Application.Features.Internships.Queries.DTOs.Comments
 {
     public class CommentsWithInternshipResp
     {
