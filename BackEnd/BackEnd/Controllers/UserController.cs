@@ -704,8 +704,60 @@ namespace BackEnd.Controllers
                 orderBy,
                 ascending,
                 maxItems);
-            return StatusCode(201, result);
+            return StatusCode(200, result);
         }
+
+        [Authorize]
+        [HttpGet("company/branches&offers/{branchOfferId:guid}/recruitments")]
+        public async Task<IActionResult> GetPersonRecruitmentsAsync(
+            Guid branchOfferId,
+            CancellationToken cancellation,
+            string? searchText = null,
+            DateTime? from = null,
+            DateTime? to = null,
+            bool filterStatus = false,
+            bool? status = null, // true accepted, false denied
+            string orderBy = "created", // ContractStartDate
+            bool ascending = true,
+            int maxItems = 100,
+            int page = 1)
+        {
+            var claims = User.Claims.ToList();
+            if (page < 2)
+            {
+                var result = await _userIntershipQuery.GetBranchOfferRecruitmentsFirstPageAsync(
+                        claims,
+                        branchOfferId,
+                        cancellation,
+                        searchText,
+                        from,
+                        to,
+                        filterStatus,
+                        status,
+                        orderBy,
+                        ascending,
+                        maxItems);
+                return StatusCode(200, result);
+            }
+            else
+            {
+                var result = await _userIntershipQuery.GetBranchOfferRecruitmentsAsync(
+                        claims,
+                        branchOfferId,
+                        cancellation,
+                        searchText,
+                        from,
+                        to,
+                        filterStatus,
+                        status,
+                        orderBy,
+                        ascending,
+                        maxItems,
+                        page);
+                return StatusCode(200, result);
+            }
+        }
+
 
         //Intership Part
         [Authorize]

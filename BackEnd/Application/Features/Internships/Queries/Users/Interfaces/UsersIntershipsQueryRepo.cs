@@ -7,6 +7,9 @@ using Application.Features.Persons.Mappers;
 using Application.Shared.DTOs.Features.Internships;
 using Application.Shared.ExtensionMethods;
 using Application.Shared.Interfaces.SqlClient;
+using Domain.Features.BranchOffer.Entities;
+using Domain.Features.BranchOffer.Exceptions.Entities;
+using Domain.Features.BranchOffer.ValueObjects.Identificators;
 using Domain.Features.Comment.Entities;
 using Domain.Features.Intership.Entities;
 using Domain.Features.Intership.Exceptions.Entities;
@@ -277,6 +280,81 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
             return (domains, totalCount);
         }
 
+        public async Task<(DomainBranchOffer BranchOffer, int TotalCount)>
+            GetBranchOfferRecruitmentsFirstPageAsync(
+            UserId companyId,
+            BranchOfferId branchOfferId,
+            CancellationToken cancellation,
+            string? searchText = null,
+            DateTime? from = null,
+            DateTime? to = null,
+            bool filterStatus = false,
+            bool? status = null, // true accepted, false denied
+            string orderBy = "created", // ContractStartDate
+            bool ascending = true,
+            int maxItems = 100)
+        {
+            var branchOffer = await PrepareQueryBranchOffers()
+                .Where(x => x.Id == branchOfferId.Value)
+                .FirstOrDefaultAsync(cancellation);
+
+            if (branchOffer == null)
+            {
+                throw new BranchOfferException(
+                    Messages.BranchOffer_Cmd_Ids_NotFound,
+                    Domain.Shared.Templates.Exceptions.DomainExceptionTypeEnum.NotFound
+                    );
+            }
+            var items = await PrepareQueryCompanyRecruitments(companyId)
+                .Where(x => x.BranchOffer.Id == branchOfferId.Value)
+                .RecruitmentFilter(searchText, from, to, filterStatus, status)
+                .RecruitmentOrderBy(orderBy, ascending)
+                .Pagination(maxItems, 1)
+                .ToListAsync(cancellation);
+            var totalCount = await PrepareQueryCompanyRecruitments(companyId)
+                .Where(x => x.BranchOffer.Id == branchOfferId.Value)
+                .RecruitmentFilter(searchText, from, to, filterStatus, status)
+                .CountAsync(cancellation);
+
+            var domainBranchOffer = await MapBranchOfferForRecruitment(branchOffer, cancellation);
+            var domainRecruitments = await MapRecruitmentsForBranchOffer(items, cancellation);
+            domainBranchOffer.AddRecrutments(domainRecruitments);
+
+            return (domainBranchOffer, totalCount);
+        }
+
+        public async Task<(IEnumerable<DomainRecruitment> Items, int TotalCount)>
+            GetBranchOfferRecruitmentsAsync(
+            UserId companyId,
+            BranchOfferId branchOfferId,
+            CancellationToken cancellation,
+            string? searchText = null,
+            DateTime? from = null,
+            DateTime? to = null,
+            bool filterStatus = false,
+            bool? status = null, // true accepted, false denied
+            string orderBy = "created", // ContractStartDate
+            bool ascending = true,
+            int maxItems = 100,
+            int page = 1)
+        {
+            var items = await PrepareQueryCompanyRecruitments(companyId)
+                .Where(x => x.BranchOffer.Id == branchOfferId.Value)
+                .RecruitmentFilter(searchText, from, to, filterStatus, status)
+                .RecruitmentOrderBy(orderBy, ascending)
+                .Pagination(maxItems, page)
+                .ToListAsync(cancellation);
+            var totalCount = await PrepareQueryCompanyRecruitments(companyId)
+                .Where(x => x.BranchOffer.Id == branchOfferId.Value)
+                .RecruitmentFilter(searchText, from, to, filterStatus, status)
+                .CountAsync(cancellation);
+
+            var domainRecruitments = await MapRecruitmentsForBranchOffer(items, cancellation);
+
+            return (domainRecruitments, totalCount);
+        }
+
+
         //================================================================================================
         //================================================================================================
         //================================================================================================
@@ -301,6 +379,7 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
                     .ThenInclude(x => x.Person)
                     .ThenInclude(x => x.PersonCharacteristics)
 
+                    .AsNoTracking()
                     .AsQueryable();
         }
 
@@ -402,6 +481,7 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
                     .Include(x => x.Person)
                     .ThenInclude(x => x.PersonCharacteristics)
 
+                    .AsNoTracking()
                     .AsQueryable();
         }
 
@@ -485,5 +565,60 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
             }
             return recruitment;
         }
+
+
+        private IQueryable<BranchOffer> PrepareQueryBranchOffers()
+        {
+            return _context.BranchOffers
+                .Include(x => x.Offer)
+                .ThenInclude(x => x.OfferCharacteristics)
+                .Include(x => x.Branch)
+                .AsNoTracking();
+        }
+
+        private IQueryable<Recruitment> PrepareQueryPersonRecruitment()
+        {
+            return _context.Recruitments
+                .Include(x => x.Person)
+                .ThenInclude(x => x.PersonCharacteristics)
+                .Include(x => x.Internship)
+                .AsNoTracking();
+        }
+
+        private async Task<DomainBranchOffer> MapBranchOfferForRecruitment(
+            BranchOffer database, CancellationToken cancellation)
+        {
+            var branchOffer = _companyMapper.DomainBranchOffer(database);
+            var branch = await _companyMapper.DomainBranchAsync(database.Branch, cancellation);
+            var offer = _companyMapper.DomainOffer(database.Offer);
+
+            branchOffer.Branch = branch;
+            branchOffer.Offer = offer;
+
+            return branchOffer;
+        }
+
+        private async Task<IEnumerable<DomainRecruitment>> MapRecruitmentsForBranchOffer(
+            IEnumerable<Recruitment> recruitments, CancellationToken cancellation)
+        {
+            var result = new List<DomainRecruitment>();
+            foreach (var database in recruitments)
+            {
+                var recruitment = _internshipMapper.DomainRecruitment(database);
+                var person = await _personMapper.DomainPerson(database.Person, cancellation);
+
+                recruitment.Person = person;
+
+                if (database.Internship != null)
+                {
+                    var internship = _internshipMapper.DomainIntership(database.Internship);
+                    recruitment.Intership = internship;
+                }
+
+                result.Add(recruitment);
+            }
+            return result;
+        }
+
     }
 }

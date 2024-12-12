@@ -1,10 +1,12 @@
 ﻿using Application.Features.Internships.Queries.DTOs.Comments;
 using Application.Features.Internships.Queries.DTOs.Internships;
 using Application.Features.Internships.Queries.DTOs.Recritments;
+using Application.Features.Internships.Queries.DTOs.Recritments.BranchOffers;
 using Application.Features.Internships.Queries.Users.Interfaces;
 using Application.Shared.DTOs.Features.Internships.Comments;
 using Application.Shared.DTOs.Response;
 using Application.Shared.Services.Authentication;
+using Domain.Features.BranchOffer.ValueObjects.Identificators;
 using Domain.Features.Recruitment.ValueObjects.Identificators;
 using Domain.Features.User.ValueObjects.Identificators;
 using System.Security.Claims;
@@ -229,6 +231,78 @@ namespace Application.Features.Internships.Queries.Users.Servises
             return new ResponseItems<PersonRecruitmentResp>
             {
                 Items = result.Items.Select(x => new PersonRecruitmentResp(x)).ToList(),
+                TotalCount = result.TotalCount,
+            };
+        }
+
+        public async Task<ResponseItem<BranchOfferRecruitmentResp>> GetBranchOfferRecruitmentsFirstPageAsync(
+            IEnumerable<Claim> claims,
+            Guid branchOfferId,
+            CancellationToken cancellation,
+            string? searchText = null,
+            DateTime? from = null,
+            DateTime? to = null,
+            bool filterStatus = false,
+            bool? status = null, // true accepted, false denied
+            string orderBy = "created", // ContractStartDate
+            bool ascending = true,
+            int maxItems = 100)
+        {
+            var personId = GetUserId(claims);
+            var result = await _repo.GetBranchOfferRecruitmentsFirstPageAsync(
+                personId,
+                new BranchOfferId(branchOfferId),
+                cancellation,
+                searchText,
+                from,
+                to,
+                filterStatus,
+                status,
+                orderBy,
+                ascending,
+                maxItems);
+
+            return new ResponseItem<BranchOfferRecruitmentResp>
+            {
+                Item = new BranchOfferRecruitmentResp(
+                    result.BranchOffer, result.TotalCount)
+            };
+        }
+
+        public async Task<ResponseItems<BranchOfferPersonRecruitmentResp>> GetBranchOfferRecruitmentsAsync(
+            IEnumerable<Claim> claims,
+            Guid branchOfferId,
+            CancellationToken cancellation,
+            string? searchText = null,
+            DateTime? from = null,
+            DateTime? to = null,
+            bool filterStatus = false,
+            bool? status = null, // true accepted, false denied
+            string orderBy = "created", // ContractStartDate
+            bool ascending = true,
+            int maxItems = 100,
+            int page = 1)
+        {
+            var personId = GetUserId(claims);
+            var result = await _repo.GetBranchOfferRecruitmentsAsync(
+                personId,
+                new BranchOfferId(branchOfferId),
+                cancellation,
+                searchText,
+                from,
+                to,
+                filterStatus,
+                status,
+                orderBy,
+                ascending,
+                maxItems,
+                page);
+
+            return new ResponseItems<BranchOfferPersonRecruitmentResp>
+            {
+                Items = result.Items
+                    .Select(x => new BranchOfferPersonRecruitmentResp(x))
+                    .ToList(),
                 TotalCount = result.TotalCount,
             };
         }
