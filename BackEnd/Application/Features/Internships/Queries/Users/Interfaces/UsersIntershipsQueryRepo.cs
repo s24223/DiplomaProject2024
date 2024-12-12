@@ -95,7 +95,7 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
             return (details, internship, totalCount);
         }
 
-        public async Task<IEnumerable<DomainComment>> GetCommentsAsync(
+        public async Task<(IEnumerable<DomainComment> Items, int TotalCount)> GetCommentsAsync(
            UserId userId,
            RecrutmentId internshipId,
            CancellationToken cancellation,
@@ -120,9 +120,11 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
                         .CommentsOrderBy(orderBy, ascending)
                         .Pagination(maxItems, page)
                         .ToListAsync(cancellation);
-
+            var totalCount = await queryCore.SelectMany(x => x.Comments)
+                        .CommentsFilter(searchText, commentType)
+                        .CountAsync(cancellation);
             var comments = dbResponse.Select(x => _internshipMapper.DomainComment(x));
-            return comments;
+            return (comments, totalCount);
         }
 
 

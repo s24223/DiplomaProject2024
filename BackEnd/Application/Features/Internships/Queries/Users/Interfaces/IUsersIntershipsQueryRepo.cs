@@ -24,7 +24,7 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
             bool ascending = false,
             int maxItems = 100);
 
-        Task<IEnumerable<DomainComment>> GetCommentsAsync(
+        Task<(IEnumerable<DomainComment> Items, int TotalCount)> GetCommentsAsync(
            UserId userId,
            RecrutmentId internshipId,
            CancellationToken cancellation,

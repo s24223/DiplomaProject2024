@@ -99,7 +99,8 @@ namespace Application.Features.Internships.Queries.Users.Servises
 
             return new ResponseItems<CommentResp>
             {
-                Items = result.Select(x => new CommentResp(x)).ToList(),
+                Items = result.Items.Select(x => new CommentResp(x)).ToList(),
+                TotalCount = result.TotalCount,
             };
         }
 
