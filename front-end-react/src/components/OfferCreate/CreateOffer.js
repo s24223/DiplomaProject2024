@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { assignOfferToBranch, createOffer } from "../../services/OffersService/OffersService";
+import { fetchCharacteristics } from "../../services/CharacteristicsService/CharacteristicsService";
+import MainPageButton from "../MainPageButton/MainPageButton";
+import LoginButton from "../LoginButton/LoginButton";
 
 const CreateOffer = ({ branchId, onClose }) => {
     const [name, setName] = useState("");
@@ -13,6 +16,11 @@ const CreateOffer = ({ branchId, onClose }) => {
     const [workStart, setWorkStart] = useState({ year: null, month: null, day: null });
     const [workEnd, setWorkEnd] = useState({ year: null, month: null, day: null });
     const [message, setMessage] = useState("");
+
+    const [characteristics, setCharacteristics] = useState([])
+    const [allCharacteristics, setAllCharacteristics] = useState([]);
+
+
 
     const handleWorkStart = (date) => {
         const dateSegmented = date.split("-");
@@ -32,13 +40,62 @@ const CreateOffer = ({ branchId, onClose }) => {
         });
     };
 
+
+
+    const [loading, setLoading] = useState(true);
+        useEffect(() => {
+            const loadCharacteristics = async() =>{
+                try{
+                    const characteristic = await fetchCharacteristics();
+                    setAllCharacteristics(characteristic)
+                    setLoading(false);
+                } catch (error) {
+                    console.error("Error fetching characteristics:", error);
+                    setMessage("Failed to load characteristics.");
+                    setLoading(false);
+                }
+           
+            
+            };
+            loadCharacteristics();
+        }, []);
+    
+        const handleCharacteristicChange = (index, field, value) => {
+            setCharacteristics((prev) => {
+                const updated = [...prev];
+                updated[index] = { ...updated[index], [field]: value };
+                return updated;
+            });
+        };
+    
+        const addCharacteristic = () => {
+            setCharacteristics((prev) => [...prev, { characteristicId: "", qualityId: "" }]);
+        };
+    
+        const removeCharacteristic = (index) => {
+            setCharacteristics((prev) => prev.filter((_, i) => i !== index));
+        };
+        
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!name || !description || !minSalary || !maxSalary || !publishStart || !publishEnd) {
+        if (!name || !minSalary || !maxSalary || !publishStart || !publishEnd) {
             alert("All fields are required.");
             return;
         }
+
+        // Preprocess characteristics
+        const processedCharacteristics = characteristics.map((char) => {
+            // const characteristic = allCharacteristics.find(
+            //     (item) => item.characteristic.id.toString() === char.characteristicId
+            // );
+
+            return char; // Keep the original characteristic if type is "Języki komunikacji"
+        });
+
+
+
 
         const offerData = [
             {
@@ -48,12 +105,13 @@ const CreateOffer = ({ branchId, onClose }) => {
                 maxSalary: parseFloat(maxSalary),
                 isNegotiatedSalary,
                 isForStudents,
-                characteristics: [
-                    {
-                        characteristicId: 1,
-                        qualityId: 11,
-                    },
-                ],
+                // characteristics: [
+                //     {
+                //         characteristicId: 1,
+                //         qualityId: 11,
+                //     },
+                // ],
+                characteristics: processedCharacteristics,
             },
         ];
 
@@ -86,8 +144,14 @@ const CreateOffer = ({ branchId, onClose }) => {
         }
     };
 
+    if (loading) {
+        return <p>Loading characteristics...</p>;
+    }
+
     return (
         <div>
+            <MainPageButton/>
+            <LoginButton/>
             <h3>Create Offer</h3>
             <form onSubmit={handleSubmit}>
                 <label>Name:</label>
@@ -172,6 +236,59 @@ const CreateOffer = ({ branchId, onClose }) => {
                     onChange={(e) => handleWorkEnd(e.target.value)}
                     required
                 />
+                <h3>Characteristics</h3>
+                {characteristics.map((char, index) => {
+                    // Find the selected characteristic to determine if quality should be selectable
+                    const selectedCharacteristic = allCharacteristics.find(
+                        (item) => item.characteristic.id.toString() === char.characteristicId
+                    );
+
+                    return (
+                        <div key={index} style={{ marginBottom: "10px" }}>
+                            <input
+                                type="text"
+                                list={`characteristics-${index}`}
+                                placeholder="Characteristic"
+                                onChange={(e) =>
+                                    handleCharacteristicChange(index, "characteristicId", e.target.value)
+                                }
+                                value={
+                                    selectedCharacteristic
+                                    ? selectedCharacteristic.characteristic.name 
+                                    : char.characteristicId || ""}
+                            />
+                            <datalist id={`characteristics-${index}`}>
+                                {allCharacteristics.map((item) => (
+                                    <option key={item.characteristic.id} value={item.characteristic.id}>
+                                        {item.characteristic.name}
+                                    </option>
+                                ))}
+                            </datalist>
+
+                            <select
+                                onChange={(e) =>
+                                    handleCharacteristicChange(index, "qualityId", e.target.value)
+                                }
+                                value={char.qualityId || ""}
+                            >
+                                <option value="">Select Quality</option>
+                                {selectedCharacteristic?.possibleQualities.map((qual) => (
+                                        <option key={qual.id} value={qual.id}>
+                                            {qual.name}
+                                        </option>
+                                    ))}
+                            </select>
+                            <button type="button" onClick={() => removeCharacteristic(index)}>
+                                Remove
+                            </button>
+                        </div>
+                    );
+                })}
+                <button type="button" onClick={addCharacteristic}>
+                    Add Characteristic
+                </button>
+                <br />
+                <br />
                 <br />
                 <button type="submit">Create Offer</button>
                 <button type="button" onClick={onClose}>

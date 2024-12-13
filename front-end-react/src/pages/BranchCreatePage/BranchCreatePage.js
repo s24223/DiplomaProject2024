@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { fetchBranchPost } from '../../services/BranchService/BranchService';
+import CancelButton from '../../components/CancelButton/CancelButton';
+import MainPageButton from '../../components/MainPageButton/MainPageButton';
+import LoginButton from '../../components/LoginButton/LoginButton';
 
 const CreateBranchPage = () => {
     const [addressId, setAddressId] = useState();
@@ -25,6 +28,8 @@ const CreateBranchPage = () => {
 
     return(
         <div className='centered'>
+            <MainPageButton/>
+            <LoginButton/>
             <h2>Add branch</h2>
             <form onSubmit={handleSubmit}>
                 <label htmlFor='address'>AddressId:</label><br />
@@ -36,6 +41,7 @@ const CreateBranchPage = () => {
                 <label htmlFor='description'>Description:</label><br />
                 <input type='text' id='description' onChange={e => setDescription(e.target.value)} /><br />
                 <input type='submit' value="Add Branch" />
+                <CancelButton/>
             </form>
         </div>
     )

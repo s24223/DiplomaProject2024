@@ -4,8 +4,9 @@ import { fetchBranchPut } from '../../services/BranchService/BranchService';
 import ProfileButton from '../../components/ProfileButton/ProfileButton';
 import CancelButton from '../../components/CancelButton/CancelButton';
 import CreateOffer from '../../components/OfferCreate/CreateOffer';
-import axios from 'axios'
 import { fetchBranchOffers } from '../../services/OffersService/OffersService';
+import LoginButton from '../../components/LoginButton/LoginButton';
+import MainPageButton from '../../components/MainPageButton/MainPageButton';
 
 const BranchDetailPage = () => {
     const [editMode, setEditMode] = useState(false);
@@ -73,6 +74,8 @@ const BranchDetailPage = () => {
             {
             item && 
             <div>
+                <MainPageButton/>
+                <LoginButton/>
                 <ProfileButton/>
                 <button onClick={() => setEditMode(!editMode)}>Edit mode</button><br />
                 Name: {editMode? <input type='text' placeholder={item.name} onChange={e => setName(e.target.value)} value={name} />: item.name}<br />

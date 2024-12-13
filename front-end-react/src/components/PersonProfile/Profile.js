@@ -64,7 +64,7 @@ const Profile = () => {
         company,
         branchCount,
         activeOffersCount,
-        companyCharacteristics,
+        //companyCharacteristics,
     } = userData;
 
     const address = person?.address;
@@ -74,20 +74,18 @@ const Profile = () => {
             <MainPageButton/>
             <LoginButton />
             <ReturnButton/>
-            <button className="button-two" onClick={handleProfileEdit} style={{ position: 'absolute', top: 35, right: 10 }}>
-                    Edit Profile
-            </button>
-            <button className="button-one" onClick={handleProfileCreate} style={{ position: 'absolute', top: 35, right: 82 }}>
-                    Create Profile
-            </button>
-            <button onClick={handleCompanyCreate} className="button-one" style={{ position: 'absolute', top: 65, right: 100 }}>
-                    Create Company
-            </button>
-            <button onClick={handleCompanyEdit} className="button-two" style={{ position: 'absolute', top: 65, right: 10 }}>
-                    Edit Company
-            </button>
+            
+         
+            
             
             <h1>User Profile</h1>
+            <button className="button-one" onClick={handleProfileCreate} >
+                    Create Profile
+            </button>
+            <button className="button-two" onClick={handleProfileEdit}>
+                    Edit Profile
+            </button>
+            
             <h2>Personal Information</h2>
             <div className="bordered">
                 <p><strong>Name:</strong> {person?.name}</p>
@@ -106,7 +104,7 @@ const Profile = () => {
                         {person.characteristics.map((char) => (
                             <li key={char.characteristic.id}>
                               
-                                <strong>{char.characteristic.name}</strong> ({char.quality.name || "No description"})
+                                <strong>{char.characteristic.name}</strong> {char?.quality?.name}
                             </li>
                         ))}
                     </ul>
@@ -129,6 +127,15 @@ const Profile = () => {
             )}
             
             <UrlList/>
+            <br/>
+            <br/>
+            <br/>
+            <button onClick={handleCompanyCreate} >
+                    Create Company
+            </button>
+            <button onClick={handleCompanyEdit} >
+                    Edit Company
+            </button>
 
 
             {company && (

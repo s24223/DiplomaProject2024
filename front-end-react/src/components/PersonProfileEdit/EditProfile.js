@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import CancelButton from "../CancelButton/CancelButton";
 import { fetchCharacteristics } from "../../services/CharacteristicsService/CharacteristicsService";
 import { fetchUserProfile, updateUserProfile } from "../../services/ProfileService/ProfileService";
@@ -37,7 +36,7 @@ const EditProfile = () => {
                 const person = await fetchUserProfile();
 
 
-                console.log("Characteristics:", characteristics); // Debugging line
+                // console.log("Characteristics:", characteristics); // Debugging line
 
                 // Formatowanie daty na "YYYY-MM-DD"
                 const formattedDate = person.birthDate
@@ -46,7 +45,7 @@ const EditProfile = () => {
 
                 setAllCharacteristics(characteristics);
                 setProfileData({
-                    urlSegment: person.urlSegment || "",
+                    urlSegment: person.urlSegment || "" ,
                     contactEmail: person.contactEmail || "",
                     name: person.name || "",
                     surname: person.surname || "",
@@ -55,8 +54,11 @@ const EditProfile = () => {
                     description: person.description || "",
                     isStudent: person.isStudent || false,
                     isPublicProfile: person.isPublicProfile || false,
-                    addressId: person.addressId || "",
-                    characteristics: person.characteristics || [],
+                    addressId: person.addressId || null,
+                    characteristics: person.characteristics.map((char) => ({
+                        characteristicId: char.characteristic.id,
+                        qualityId: char.quality?.id || "",
+                    })),
                 });
                 
                 setLoading(false);
@@ -105,12 +107,27 @@ const EditProfile = () => {
         try {
             const token = sessionStorage.getItem("jwt") || localStorage.getItem("jwt");
 
+            // przygotowanie characteristics z wuality=null kiedy potrzeba(nie są to języki mowy)  
+            const updatedCharacteristics = profileData.characteristics.map((char) => {
+                const matchedCharacteristic = allCharacteristics.find(
+                    (item) => item.characteristic.id.toString() === char.characteristicId.toString()
+                );
+
+                if (matchedCharacteristic?.characteristicType.id !== 6) {
+                    // If not "Języki komunikacji", set qualityId to null
+                    return { ...char, qualityId: null };
+                }
+
+                return char;
+            });
+
             // Rozdzielenie daty na year, month, day
             const [year, month, day] = profileData.birthDate.split("-").map(Number);
 
             const updatedData = {
                 ...profileData,
                 birthDate: { year, month, day }, // Struktura zgodna z API
+                characteristics: updatedCharacteristics,
             };
 
             await updateUserProfile(updatedData);
@@ -204,48 +221,66 @@ const EditProfile = () => {
                     Public Profile
 
                     <h3>Characteristics</h3>
-                {profileData.characteristics.map((char, index) => (
-                    <div key={index} style={{ marginBottom: "10px" }}>
-                        <input
-                            type="text"
-                            list={`characteristics-${index}`}
-                            placeholder="Characteristic"
-                            onChange={(e) =>
-                                handleCharacteristicChange(index, "characteristicId", e.target.value)
-                            }
-                            value={char.characteristicId || ""}
-                        />
-                        <datalist id={`characteristics-${index}`}>
-                            {allCharacteristics.map((item) => (
-                                <option key={item.characteristic.id} value={item.characteristic.id}>
-                                    {item.characteristic.name}
-                                </option>
-                            ))}
-                        </datalist>
+                {profileData.characteristics.map((char, index) => {
+                    // Find the selected characteristic to determine if quality should be selectable
+                    const selectedCharacteristic = allCharacteristics.find(
+                        (item) => item.characteristic.id.toString() === char.characteristicId.toString()
+                    );
 
-                        <select
-                            onChange={(e) =>
-                                handleCharacteristicChange(index, "qualityId", e.target.value)
-                            }
-                            value={char.qualityId || ""}
-                        >
-                            <option value="">Select Quality</option>
-                            {allCharacteristics
-                                .find((item) => item.characteristic.id.toString() === char.characteristicId)
-                                ?.possibleQualities.map((qual) => (
-                                    <option key={qual.id} value={qual.id}>
-                                        {qual.name}
+                    const isQualitySelectable = selectedCharacteristic?.characteristicType.id === 6;
+
+                    return (
+                        <div key={index} style={{ marginBottom: "10px" }}>
+                            {/* Input for characteristic with text search */}
+                            <input
+                                type="text"
+                                list={`characteristics-${index}`}
+                                placeholder="Characteristic"
+                                onChange={(e) =>
+                                    handleCharacteristicChange(index, "characteristicId", e.target.value)
+                                }
+                                value={
+                                    selectedCharacteristic
+                                        ? selectedCharacteristic.characteristic.name // Show the name of the characteristic
+                                        : char.characteristicId || ""
+                                }
+                            />
+                            <datalist id={`characteristics-${index}`}>
+                                {allCharacteristics.map((item) => (
+                                    <option key={item.characteristic.id} value={item.characteristic.id}>
+                                        {item.characteristic.name}
                                     </option>
                                 ))}
-                        </select>
-                        <button type="button" onClick={() => removeCharacteristic(index)}>
-                            Remove
-                        </button>
-                    </div>
-                ))}
+                            </datalist>
+
+                            {/* Select for quality, disabled if quality is not selectable */}
+                            <select
+                                onChange={(e) =>
+                                    handleCharacteristicChange(index, "qualityId", e.target.value)
+                                }
+                                value={char.qualityId || ""}
+                                disabled={!isQualitySelectable} // Disable if quality cannot be selected
+                            >
+                                <option value="">Select Quality</option>
+                                {isQualitySelectable &&
+                                    selectedCharacteristic?.possibleQualities.map((qual) => (
+                                        <option key={qual.id} value={qual.id}>
+                                            {qual.name}
+                                        </option>
+                                    ))}
+                            </select>
+
+                            {/* Remove characteristic button */}
+                            <button type="button" onClick={() => removeCharacteristic(index)}>
+                                Remove
+                            </button>
+                        </div>
+                    );
+                })}
                 <button type="button" onClick={addCharacteristic}>
                     Add Characteristic
-                </button><br/><br/>
+                </button>
+                <br/><br/>
                 </label><br/>
                 <button type="submit">Save Changes</button><br/>
                 <CancelButton/>
@@ -256,3 +291,4 @@ const EditProfile = () => {
 };
 
 export default EditProfile;
+

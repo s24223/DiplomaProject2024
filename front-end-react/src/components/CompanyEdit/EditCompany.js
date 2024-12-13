@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import CancelButton from "../CancelButton/CancelButton";
 import { fetchCompanyData, updateCompany } from "../../services/CompanyService/ComapnyService";
+import LoginButton from "../LoginButton/LoginButton";
+import MainPageButton from "../MainPageButton/MainPageButton";
 
 const EditCompany = () => {
     const [companyData, setCompanyData] = useState({
@@ -73,6 +75,8 @@ const EditCompany = () => {
 
     return (
         <div className="centered">
+            <MainPageButton/>
+            <LoginButton/>
             <h1>Edit Company</h1>
             <form onSubmit={handleEditCompany}>
                 <label>Name:</label><br/>
