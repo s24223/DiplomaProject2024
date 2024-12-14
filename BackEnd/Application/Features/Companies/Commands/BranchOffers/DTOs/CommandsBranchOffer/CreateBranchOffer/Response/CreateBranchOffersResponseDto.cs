@@ -1,5 +1,4 @@
-﻿using Application.Features.Companies.Commands.BranchOffers.DTOs.CommandsBranchOffer;
-using Application.Features.Companies.Commands.BranchOffers.DTOs.CommandsBranchOffer.CreateBranchOffer.Response.Models;
+﻿using Application.Features.Companies.Commands.BranchOffers.DTOs.CommandsBranchOffer.CreateBranchOffer.Response.Models;
 using Domain.Features.BranchOffer.Entities;
 
 namespace Application.Features.Companies.Commands.BranchOffers.DTOs.CommandsBranchOffer.CreateBranchOffer.Response

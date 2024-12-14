@@ -3,7 +3,7 @@ using Application.Shared.DTOs.Response;
 
 namespace Application.Features.Addresses.Queries.Services
 {
-    public interface IAddressQueryService
+    public interface IAddressQuerySvc
     {
         //DQL
         Task<ResponseItem<AddressResponseDto>> GetAddressAsync

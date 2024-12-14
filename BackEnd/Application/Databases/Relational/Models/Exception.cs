@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Application.Databases.Relational.Models;
+﻿namespace Application.Databases.Relational.Models;
 
 public partial class Exception
 {
