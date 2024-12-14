@@ -5,14 +5,14 @@ using Domain.Features.Address.ValueObjects.Identificators;
 
 namespace Application.Features.Addresses.Queries.Services
 {
-    public class AddressQueryService : IAddressQueryService
+    public class AddressQuerySvc : IAddressQuerySvc
     {
         //Values
         private readonly IAddressQueryRepo _repository;
 
 
         //Cosntructor
-        public AddressQueryService
+        public AddressQuerySvc
             (
             IAddressQueryRepo repository
             )

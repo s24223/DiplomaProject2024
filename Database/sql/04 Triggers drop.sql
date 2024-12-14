@@ -1,2 +1,3 @@
 DROP TRIGGER Internship_UNIQUE_ContractNumber;
 DROP TRIGGER Comment_DateLimit;
+DROP TRIGGER CREATE_PATH;

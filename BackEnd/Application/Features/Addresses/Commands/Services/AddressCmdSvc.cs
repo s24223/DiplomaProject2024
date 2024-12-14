@@ -31,7 +31,7 @@ namespace Application.Features.Addresses.Commands.Services
         //==================================================================================================
         //Public Methods
         //DML
-        public async Task<ResponseItem<CreateAddressResponseDto>> CreateAsync
+        public async Task<ResponseItem<CreateAddressResp>> CreateAsync
             (
             CreateAddressReq dto,
             CancellationToken cancellation
@@ -59,9 +59,9 @@ namespace Application.Features.Addresses.Commands.Services
                 dto.ApartmentNumber,
                 cancellation);
 
-            return new ResponseItem<CreateAddressResponseDto>
+            return new ResponseItem<CreateAddressResp>
             {
-                Item = new CreateAddressResponseDto
+                Item = new CreateAddressResp
                 {
                     AddressId = addressId,
                 }

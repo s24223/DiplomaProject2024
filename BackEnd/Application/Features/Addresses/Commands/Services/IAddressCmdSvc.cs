@@ -5,7 +5,7 @@ namespace Application.Features.Addresses.Commands.Services
 {
     public interface IAddressCmdSvc
     {
-        Task<ResponseItem<CreateAddressResponseDto>> CreateAsync(
+        Task<ResponseItem<CreateAddressResp>> CreateAsync(
             CreateAddressReq dto,
             CancellationToken cancellation);
     }

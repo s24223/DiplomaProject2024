@@ -97,7 +97,7 @@ namespace Application
             serviceCollection.AddTransient<IAddressCmdSvc, AddressCmdSvc>();
 
             serviceCollection.AddTransient<IAddressQueryRepo, AddressQueryRepo>();
-            serviceCollection.AddTransient<IAddressQueryService, AddressQueryService>();
+            serviceCollection.AddTransient<IAddressQuerySvc, AddressQuerySvc>();
 
             //===============================================================================================================
             //Person Module 
@@ -141,8 +141,6 @@ namespace Application
 
             serviceCollection.AddTransient<IUsersInternshipsRepo, UsersInternshipsRepo>();
             serviceCollection.AddTransient<IUsersInternshipsQuerySvc, UsersInternshipsQuerySvc>();
-
-
 
             //===============================================================================================================
             //Characteristic Part

@@ -11,13 +11,13 @@ namespace BackEnd.Controllers
     {
         //Values
         private readonly IAddressCmdSvc _commandService;
-        private readonly IAddressQueryService _queryService;
+        private readonly IAddressQuerySvc _queryService;
 
 
         //Controllers
         public AddressController(
             IAddressCmdSvc commandService,
-            IAddressQueryService queryService)
+            IAddressQuerySvc queryService)
         {
             _commandService = commandService;
             _queryService = queryService;
