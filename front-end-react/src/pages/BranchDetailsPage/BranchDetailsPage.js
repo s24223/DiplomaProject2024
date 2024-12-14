@@ -7,6 +7,7 @@ import CreateOffer from '../../components/OfferCreate/CreateOffer';
 import { fetchBranchOffers } from '../../services/OffersService/OffersService';
 import LoginButton from '../../components/LoginButton/LoginButton';
 import MainPageButton from '../../components/MainPageButton/MainPageButton';
+import AddressImage from '../../components/AddressImage/AddressImage';
 
 const BranchDetailPage = () => {
     const [editMode, setEditMode] = useState(false);
@@ -89,6 +90,7 @@ const BranchDetailPage = () => {
                 <p>Ulica: {item.address.street.name}</p>
                 <p>Dom: {item.address.buildingNumber}</p>
                 <p>Apartment number: {item.address.apartmentNumber}</p>
+                <p><AddressImage lon={item.address.lon} lat={item.address.lat} /></p>
                 <h2>Offers</h2>
                     {loadingOffers ? (
                         <p>Loading offers...</p>

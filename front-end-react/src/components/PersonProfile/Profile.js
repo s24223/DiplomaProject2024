@@ -5,6 +5,7 @@ import MainPageButton from "../../components/MainPageButton/MainPageButton";
 import BranchList from "../BranchList/BranchList";
 import UrlList from "../UrlList/UrlList";
 import ReturnButton from "../CancelButton/ReturnButton";
+import AddressImage from "../AddressImage/AddressImage";
 
 const Profile = () => {
     const [userData, setUserData] = useState(null);
@@ -121,6 +122,7 @@ const Profile = () => {
                     <p><strong>ZIP Code:</strong> {address.zipCode}</p>
                     <p><strong>City:</strong> {address.hierarchy?.find(item => item.administrativeType.name === "miasto")?.name}</p>
                     <p><strong>Voivodeship:</strong> {address.hierarchy?.find(item => item.administrativeType.name === "województwo")?.name}</p>
+                    <p><AddressImage lon={address.lon} lat={address.lat} /></p>
                 </div>
             ) : (
                 <p>No address provided.</p>

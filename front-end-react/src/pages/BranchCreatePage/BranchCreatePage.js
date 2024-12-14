@@ -3,12 +3,17 @@ import { fetchBranchPost } from '../../services/BranchService/BranchService';
 import CancelButton from '../../components/CancelButton/CancelButton';
 import MainPageButton from '../../components/MainPageButton/MainPageButton';
 import LoginButton from '../../components/LoginButton/LoginButton';
+import AddressAutocomplete from '../../components/AddressAutoComplete/AddressAutoComplete';
 
 const CreateBranchPage = () => {
     const [addressId, setAddressId] = useState();
     const [urlSegment, setUrlsegmet] = useState();
     const [name, setName] = useState();
     const [description, setDescription] = useState('');
+
+    const childToParent = (addressIdFromChild) => {
+        setAddressId(addressIdFromChild)
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -31,9 +36,9 @@ const CreateBranchPage = () => {
             <MainPageButton/>
             <LoginButton/>
             <h2>Add branch</h2>
-            <form onSubmit={handleSubmit}>
+            <form className='form' onSubmit={handleSubmit}>
                 <label htmlFor='address'>AddressId:</label><br />
-                <input type="text" id='address' onChange={e => setAddressId(e.target.value)} required /><br />
+                <AddressAutocomplete childToParent={childToParent} /><br />
                 <label htmlFor='urlSegment'>UrlSegment:</label><br />
                 <input type="text" id='urlSegment' onChange={e => setUrlsegmet(e.target.value)} required /><br />
                 <label htmlFor='name'>Name:</label><br />

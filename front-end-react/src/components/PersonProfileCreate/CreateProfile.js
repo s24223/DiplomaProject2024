@@ -3,6 +3,7 @@ import CancelButton from "../CancelButton/CancelButton";
 import { fetchCharacteristics } from "../../services/CharacteristicsService/CharacteristicsService";
 import { fetchProfilePost } from "../../services/ProfileService/ProfileService";
 import LoginButton from "../LoginButton/LoginButton";
+import AddressAutocomplete from "../AddressAutoComplete/AddressAutoComplete";
 
 const CreateProfile = () => {
     const [urlSegmet, setUrlsegmet] = useState("string")
@@ -65,6 +66,10 @@ const CreateProfile = () => {
     const removeCharacteristic = (index) => {
         setCharacteristics((prev) => prev.filter((_, i) => i !== index));
     };
+
+    const childToParent = (addressIdFromChild) => {
+        setAddressId(addressIdFromChild)
+    }
     
 
     const handleSubmit = async (event) => {
@@ -114,7 +119,7 @@ const CreateProfile = () => {
         return <p>Loading characteristics...</p>;
     }
     return(
-        <div>
+        <div className="form">
             <LoginButton/>
             <form onSubmit={handleSubmit}>
                 <label>Name:</label><br />
@@ -127,6 +132,8 @@ const CreateProfile = () => {
                 <input type="email" placeholder="Email" onChange={e => setContactEmail(e.target.value)} required /><br />
                 <label>Phone Number (format: 123456789):</label><br />
                 <input type="tel" placeholder="Phone number" pattern="[0-9]{9}" onChange={e => setContactPhoneNum(e.target.value)} required /><br />
+                <label>xAddress:</label><br />
+                <AddressAutocomplete childToParent={childToParent} />
                 <input id="student" type="checkbox" onChange={e => setIsStudent(e.target.checked)} />
                 <label htmlFor="student">a student</label><br />
                 <input id="public" type="checkbox" onChange={e => setIsPublicProfile(e.target.checked)} />
