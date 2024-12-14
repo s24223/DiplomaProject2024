@@ -162,7 +162,77 @@ BEGIN
 				BEGIN
 					THROW 50008, 'UNABLE SET THIS TYPE OF COMMENT BECAUSE CONTRACT END',1;
 				END
-		END	
+		END;
+END;
+
+--==============================================================================================
+GO
+--==============================================================================================
+CREATE OR ALTER TRIGGER CREATE_PATH
+ON [dbo].[AdministrativeDivision]
+AFTER INSERT, UPDATE
+AS 
+BEGIN
+	DECLARE @PARENT_ID INT = NULL;	
+	DECLARE @ID INT;
+	DECLARE @PATH NVARCHAR(800) = NULL;
+	DECLARE @LEVEL INT = 0;
+
+	SELECT
+		
+		@ID = I.Id,
+		@PARENT_ID = I.ParentDivisionId
+	FROM inserted AS I;
+
+	IF @PARENT_ID IS NOT NULL
+		BEGIN 
+			WITH HierarchyUp AS 
+			(
+				SELECT  
+					[AD].[Id] ,
+					[AD].[Name] ,
+					[AD].[ParentDivisionId] ,
+					[AD].[AdministrativeTypeId],
+					0 AS Level
+				FROM [dbo].[AdministrativeDivision] AS [AD]
+				WHERE [AD].[Id] = @PARENT_ID
+
+				UNION ALL	
+
+				SELECT  
+					[ADF].[Id] ,
+					[ADF].[Name] ,
+					[ADF].[ParentDivisionId] ,
+					[ADF].[AdministrativeTypeId],
+					[HU].[Level] + 1 
+				FROM [dbo].[AdministrativeDivision] AS [ADF] 
+				JOIN HierarchyUp AS [HU] ON [ADF].Id  = [HU].[ParentDivisionId]
+			),
+			STRING_COUNT AS
+			(
+				SELECT  
+					STRING_AGG(CAST([HU].[Id] AS VARCHAR), '-' ) 
+					WITHIN GROUP (ORDER BY [HU].[Level] DESC) AS CombinedIDs,
+					COUNT(*) AS TotalRecords
+				FROM [HierarchyUp] AS [HU] 
+			)
+			SELECT 
+				@PATH = [SC].[CombinedIDs],
+				@LEVEL = [SC].[TotalRecords]
+			FROM [STRING_COUNT] AS [SC];
+		END;
+	
+	UPDATE [dbo].[AdministrativeDivision]
+		SET AdministrativeDivision.Level = @LEVEL
+    FROM [dbo].[AdministrativeDivision] T
+    INNER JOIN INSERTED I
+    ON T.Id = I.Id;
+
+	UPDATE [dbo].[AdministrativeDivision]
+		SET AdministrativeDivision.PathIds = @PATH
+    FROM [dbo].[AdministrativeDivision] T
+    INNER JOIN INSERTED I
+    ON T.Id = I.Id;
 END;
 --==============================================================================================
 GO

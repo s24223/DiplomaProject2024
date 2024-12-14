@@ -2,6 +2,7 @@
 using Application.Databases.Relational.Models;
 using Application.Features.Addresses.Queries.Interfaces;
 using Application.Features.Companies.Mappers;
+using Application.Shared.ExtensionMethods;
 using Application.Shared.Interfaces.SqlClient;
 using Domain.Features.Address.ValueObjects.Identificators;
 using Domain.Features.Branch.Entities;
@@ -62,24 +63,16 @@ namespace Application.Features.Companies.Queries.QueriesUser.Interfaces
             //Adapt data 
             AdaptQueryParameters(ref itemsCount, ref page);
 
-            //Get Prepared by Database
-            var data = await _sqlClientRepo.GetBranchIdsSorted
-                (
-                companyId.Value,
-                divisionId,
-                streetId,
-                itemsCount,
-                page,
-                ascending,
-                cancellation
-                );
-
-
+            var count = await _context.Branches.CountAsync(cancellation);
             var databseBranches = await _context.Branches
+                .Include(b => b.Address)
+                .ThenInclude(b => b.Division)
                 .Include(x => x.BranchOffers)
                 .ThenInclude(x => x.Offer)
                 .ThenInclude(x => x.OfferCharacteristics)
-                .Where(x => data.Ids.Any(id => x.Id == id))
+                .OrderBy(x => x.Address.Division.PathIds)
+                .Pagination(itemsCount, page)
+                .AsNoTracking()
                 .ToListAsync(cancellation);
 
 
@@ -101,7 +94,7 @@ namespace Application.Features.Companies.Queries.QueriesUser.Interfaces
                 domainBranches.Add(domainBranch);
             }
 
-            return (data.TotalCount, domainBranches);
+            return (count, domainBranches);
         }
 
 

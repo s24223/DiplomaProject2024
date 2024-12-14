@@ -1,5 +1,4 @@
-﻿using Domain.Features.Address.Entities;
-using Domain.Features.Address.ValueObjects.Identificators;
+﻿using Domain.Features.Address.ValueObjects;
 
 namespace Application.Features.Addresses.Commands.Interfaces
 {
@@ -7,21 +6,18 @@ namespace Application.Features.Addresses.Commands.Interfaces
     {
         Task<Guid> CreateAsync
             (
-            DomainAddress address,
+            string wojewodztwo,
+            string? powiat,
+            string? gmina,
+            string city,
+            string? dzielnica,
+            string? street,
+            double lon,
+            double lat,
+            ZipCode postcode,
+            BuildingNumber houseNumber,
+            ApartmentNumber? apartmentNumber,
             CancellationToken cancellation
             );
-
-        Task UpdateAsync
-            (
-            DomainAddress address,
-            CancellationToken cancellation
-            );
-
-        Task<DomainAddress> GetAddressAsync
-            (
-            AddressId id,
-            CancellationToken cancellation
-            );
-
     }
 }

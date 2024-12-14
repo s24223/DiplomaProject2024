@@ -13,6 +13,8 @@ namespace Domain.Features.Address.Entities
         public BuildingNumber BuildingNumber { get; private set; } = null!;
         public ApartmentNumber? ApartmentNumber { get; private set; }
         public ZipCode ZipCode { get; private set; } = null!;
+        public double Lon { get; private set; } = 0;
+        public double Lat { get; private set; } = 0;
 
 
         //References
@@ -22,37 +24,41 @@ namespace Domain.Features.Address.Entities
         public IReadOnlyCollection<DomainAdministrativeDivision> Hierarchy => _hierarchy;
 
         //Street 
-        public StreetId StreetId { get; private set; }
-        private DomainStreet _street = null!;
-        public DomainStreet Street
+        public StreetId? StreetId { get; private set; }
+        private DomainStreet? _street = null!;
+        public DomainStreet? Street
         {
             get { return _street; }
             set
             {
-                if (StreetId != value.Id)
+                if (StreetId != null && value != null)
                 {
-                    throw new AddressException
-                        (
-                        Messages.Address_Street_Invalid,
-                        DomainExceptionTypeEnum.AppProblem
-                        );
+                    if (StreetId != value.Id)
+                    {
+                        throw new AddressException
+                            (
+                            Messages.Address_Street_Invalid,
+                            DomainExceptionTypeEnum.AppProblem
+                            );
+
+                    }
+                    _street = value;
                 }
-                _street = value;
             }
         }
 
 
         //Constructor
-        public DomainAddress
-            (
+        public DomainAddress(
             Guid? id,
             int divisionId,
-            int streetId,
+            int? streetId,
             string buildingNumber,
             string? apartmentNumber,
             string zipCode,
-            IProvider provider
-            )
+            double lon,
+            double lat,
+            IProvider provider)
         {
             //Values with exceptions
             ZipCode = (ZipCode)zipCode;
@@ -61,8 +67,10 @@ namespace Domain.Features.Address.Entities
 
             //values with no exceptions
             Id = new AddressId(id);
-            StreetId = new StreetId(streetId);
+            StreetId = !streetId.HasValue ? null : new StreetId(streetId.Value);
             DivisionId = new DivisionId(divisionId);
+            Lon = lon;
+            Lat = lat;
         }
 
 
@@ -83,10 +91,6 @@ namespace Domain.Features.Address.Entities
             _hierarchy = databseDictionary.Values.ToList();
         }
 
-        public void SetZipCode(string zipCode)
-        {
-            ZipCode = (ZipCode)zipCode;
-        }
         //====================================================================================================
         //====================================================================================================
         //====================================================================================================

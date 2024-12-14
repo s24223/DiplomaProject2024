@@ -56,6 +56,8 @@ public partial class DiplomaProjectMsSQLContext : DiplomaProjectContext
             entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
             entity.Property(e => e.ApartmentNumber).HasMaxLength(100);
             entity.Property(e => e.BuildingNumber).HasMaxLength(100);
+            entity.Property(e => e.Lat).HasColumnName("lat");
+            entity.Property(e => e.Lon).HasColumnName("lon");
             entity.Property(e => e.ZipCode).HasMaxLength(10);
 
             entity.HasOne(d => d.Division).WithMany(p => p.Addresses)
@@ -72,12 +74,13 @@ public partial class DiplomaProjectMsSQLContext : DiplomaProjectContext
         {
             entity.HasKey(e => e.Id).HasName("AdministrativeDivision_pk");
 
-            entity.ToTable("AdministrativeDivision");
+            entity.ToTable("AdministrativeDivision", tb => tb.HasTrigger("CREATE_PATH"));
 
             entity.HasIndex(e => e.ParentDivisionId, "IDX_AdministrativeDivision_ParentDivisionId");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Name).HasMaxLength(100);
+            entity.Property(e => e.PathIds).HasMaxLength(800);
 
             entity.HasOne(d => d.AdministrativeType).WithMany(p => p.AdministrativeDivisions)
                 .HasForeignKey(d => d.AdministrativeTypeId)
@@ -234,7 +237,7 @@ public partial class DiplomaProjectMsSQLContext : DiplomaProjectContext
         {
             entity.HasKey(e => new { e.CommentTypeId, e.Created, e.InternshipId }).HasName("Comment_pk");
 
-            entity.ToTable("Comment");
+            entity.ToTable("Comment", tb => tb.HasTrigger("Comment_DateLimit"));
 
             entity.Property(e => e.Created).HasColumnType("datetime");
 
@@ -504,7 +507,7 @@ public partial class DiplomaProjectMsSQLContext : DiplomaProjectContext
         {
             entity.HasKey(e => e.Id).HasName("Recruitment_pk");
 
-            entity.ToTable("Recruitment", tb => tb.HasTrigger("Recruitment_Invalid_BranchOffer"));
+            entity.ToTable("Recruitment");
 
             entity.HasIndex(e => new { e.PersonId, e.BranchOfferId }, "Recruitment_UNIQUE").IsUnique();
 

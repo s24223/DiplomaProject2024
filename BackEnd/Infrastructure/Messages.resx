@@ -126,4 +126,8 @@
   <data name="NotConfiguredUserSecrets" xml:space="preserve">
     <value>Sprawdż UserSecrets, najprawdopodobnej one nie zostały skonfigurowane w UI/UX projekcie</value>
   </data>
+  <data name="Procedure_FIND_Division_Street" xml:space="preserve">
+    <value>Problem z wyszukaniem danych w ramach parametrów
+</value>
+  </data>
 </root>

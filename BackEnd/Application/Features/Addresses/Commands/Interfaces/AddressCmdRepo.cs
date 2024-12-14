@@ -1,8 +1,8 @@
 ﻿using Application.Databases.Relational;
 using Application.Databases.Relational.Models;
-using Domain.Features.Address.Entities;
+using Application.Shared.Interfaces.SqlClient;
 using Domain.Features.Address.Exceptions.Entities;
-using Domain.Features.Address.ValueObjects.Identificators;
+using Domain.Features.Address.ValueObjects;
 using Domain.Shared.Factories;
 using Domain.Shared.Templates.Exceptions;
 using Microsoft.Data.SqlClient;
@@ -13,17 +13,19 @@ namespace Application.Features.Addresses.Commands.Interfaces
     public class AddressCmdRepo : IAddressCmdRepo
     {
         //Values
+        private readonly ISqlClientRepo _sql;
         private readonly IDomainFactory _domainFactory;
         private readonly DiplomaProjectContext _context;
 
 
         //Cosntructor
-        public AddressCmdRepo
-            (
+        public AddressCmdRepo(
+            ISqlClientRepo sql,
             IDomainFactory domainFactory,
             DiplomaProjectContext context
             )
         {
+            _sql = sql;
             _domainFactory = domainFactory;
             _context = context;
         }
@@ -36,54 +38,49 @@ namespace Application.Features.Addresses.Commands.Interfaces
         //DML
         public async Task<Guid> CreateAsync
             (
-            DomainAddress address,
+            string wojewodztwo,
+            string? powiat,
+            string? gmina,
+            string city,
+            string? dzielnica,
+            string? street,
+            double lon,
+            double lat,
+            ZipCode postcode,
+            BuildingNumber houseNumber,
+            ApartmentNumber? apartmentNumber,
             CancellationToken cancellation
             )
         {
             try
             {
-                var redundancy = await _context.Addresses.Where(x =>
-                    x.DivisionId == address.DivisionId.Value &&
-                    x.StreetId == address.StreetId.Value &&
-                    x.BuildingNumber == (string)address.BuildingNumber &&
-                    x.ApartmentNumber == (string?)address.ApartmentNumber
-                    ).FirstOrDefaultAsync(cancellation);
+                var pair = await _sql.GetDivisionIdStreetIdAsync(
+                    wojewodztwo, powiat, gmina, city, dzielnica, street, cancellation);
 
-                if (redundancy != null)
-                {
-                    //updating Zip Code Thinking a new is correct
-                    if (redundancy.ZipCode != address.ZipCode.Value)
-                    {
-                        redundancy.ZipCode = (string)address.ZipCode;
-                        await _context.SaveChangesAsync(cancellation);
-                    }
-                    return redundancy.Id;
-                }
-
-                var collocation = await _context.Streets
-                    .Include(x => x.Divisions)
+                var duplicate = await _context.Addresses
                     .Where(x =>
-                        x.Id == address.StreetId.Value &&
-                        x.Divisions.Any(y => y.Id == address.DivisionId.Value)
-                    ).AsNoTracking()
+                        x.DivisionId == pair.DivisionId &&
+                        x.StreetId == pair.StreetId &&
+                        x.BuildingNumber == (string)houseNumber &&
+                        x.ApartmentNumber == (string?)apartmentNumber
+                        )
+                    .AsNoTracking()
                     .FirstOrDefaultAsync(cancellation);
 
-                if (collocation == null)
+                if (duplicate != null)
                 {
-                    throw new AddressException
-                        (
-                        Messages.Address_Cmd_DivisionStreetCollocation_NotFound,
-                        DomainExceptionTypeEnum.NotFound
-                        );
+                    return duplicate.Id;
                 }
 
                 var databaseAddress = new Address
                 {
-                    DivisionId = address.DivisionId.Value,
-                    StreetId = address.StreetId.Value,
-                    BuildingNumber = (string)address.BuildingNumber,
-                    ApartmentNumber = (string?)address.ApartmentNumber,
-                    ZipCode = (string)address.ZipCode,
+                    DivisionId = pair.DivisionId,
+                    StreetId = pair.StreetId,
+                    BuildingNumber = (string)houseNumber,
+                    ApartmentNumber = (string?)apartmentNumber,
+                    ZipCode = (string)postcode,
+                    Lon = lon,
+                    Lat = lat,
                 };
                 await _context.Addresses.AddAsync(databaseAddress, cancellation);
                 await _context.SaveChangesAsync(cancellation);
@@ -96,67 +93,10 @@ namespace Application.Features.Addresses.Commands.Interfaces
         }
 
 
-        public async Task UpdateAsync
-            (
-            DomainAddress address,
-            CancellationToken cancellation
-            )
-        {
-            try
-            {
-                var databaseAddress = await GetDatabaseAddress(address.Id, cancellation);
-                databaseAddress.ZipCode = (string)address.ZipCode;
-                await _context.SaveChangesAsync(cancellation);
-            }
-            catch (System.Exception ex)
-            {
-                throw HandleException(ex);
-            }
-        }
-
-        public async Task<DomainAddress> GetAddressAsync
-            (
-            AddressId id,
-            CancellationToken cancellation
-            )
-        {
-            var databseAddress = await GetDatabaseAddress(id, cancellation);
-            return _domainFactory.CreateDomainAddress
-                (
-                databseAddress.Id,
-                databseAddress.DivisionId,
-                databseAddress.StreetId ?? -1,
-                databseAddress.BuildingNumber,
-                databseAddress.ApartmentNumber,
-                databseAddress.ZipCode
-                );
-        }
-
-
         //====================================================================================================
         //====================================================================================================
         //====================================================================================================
-        //Private Methods
-        private async Task<Address> GetDatabaseAddress
-            (
-            AddressId id,
-            CancellationToken cancellation
-            )
-        {
-            var databaseAddress = await _context.Addresses
-                .Where(x => x.Id == id.Value)
-                .FirstOrDefaultAsync(cancellation);
-
-            if (databaseAddress == null)
-            {
-                throw new AddressException
-                    (
-                    $"{Messages.Address_Cmd_Id_NotFound}: {id.Value}",
-                    DomainExceptionTypeEnum.NotFound
-                    );
-            }
-            return databaseAddress;
-        }
+        //Private Methods        
 
         private System.Exception HandleException(System.Exception ex)
         {

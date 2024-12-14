@@ -12,6 +12,11 @@ namespace Domain.Features.Address.ValueObjects
         //Cosntructor
         public ZipCode(string value)
         {
+            value = value
+                .Replace("-", "")
+                .Replace(" ", "")
+                .Trim();
+
             if (!IsvalidZipCode(value))
             {
                 throw new ZipCodeException(Messages.ZipCode_Value_Invalid);

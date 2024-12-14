@@ -64,7 +64,7 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
             bool ascending = false,
             int maxItems = 100)
         {
-            var details = await _sql.GetStatisticDetailsByIntershipAsync(
+            var details = await _sql.GetInternshipDetailsAsync(
                 internshipId,
                 userId,
                 cancellation);
@@ -108,7 +108,7 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
            int maxItems = 100,
            int page = 1)
         {
-            var details = await _sql.GetStatisticDetailsByIntershipAsync(
+            var details = await _sql.GetInternshipDetailsAsync(
                 internshipId,
                 userId,
                 cancellation);
@@ -151,7 +151,7 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
 
             var tasks = items.Select(async x =>
             {
-                var details = await _sql.GetStatisticDetailsByIntershipAsync(
+                var details = await _sql.GetInternshipDetailsAsync(
                     new RecrutmentId(x.Recruitment.Id),
                     new UserId(x.Recruitment.PersonId),
                     cancellation);
@@ -198,7 +198,7 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
 
             var tasks = items.Select(async x =>
             {
-                var details = await _sql.GetStatisticDetailsByIntershipAsync(
+                var details = await _sql.GetInternshipDetailsAsync(
                     new RecrutmentId(x.Recruitment.Id),
                     new UserId(x.Recruitment.PersonId),
                     cancellation);

@@ -13,6 +13,10 @@ public partial class AdministrativeDivision
 
     public int AdministrativeTypeId { get; set; }
 
+    public int Level { get; set; }
+
+    public string? PathIds { get; set; }
+
     public virtual ICollection<Address> Addresses { get; set; } = new List<Address>();
 
     public virtual AdministrativeType AdministrativeType { get; set; } = null!;

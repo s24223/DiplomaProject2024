@@ -1,19 +1,10 @@
-﻿using Application.Features.Addresses.Queries.DTOs;
-using Application.Shared.DTOs.Features.Addresses;
-using Domain.Features.Address.Entities;
+﻿using Domain.Features.Address.Entities;
 using Domain.Features.Address.ValueObjects.Identificators;
 
 namespace Application.Features.Addresses.Queries.Interfaces
 {
     public interface IAddressQueryRepo
     {
-        Task<IEnumerable<CollocationResponseDto>> GetCollocationsAsync
-            (
-            string divisionName,
-            string streetName,
-            CancellationToken cancellation
-            );
-
         Task<DomainAddress> GetAddressAsync
             (
             AddressId id,
@@ -25,6 +16,13 @@ namespace Application.Features.Addresses.Queries.Interfaces
           IEnumerable<AddressId> ids,
           CancellationToken cancellation
           );
+
+        /*Task<IEnumerable<CollocationResponseDto>> GetCollocationsAsync
+            (
+            string divisionName,
+            string streetName,
+            CancellationToken cancellation
+            );        
 
         Task<IEnumerable<DivisionStreetsResponseDto>> GetDivisionsDownVerticalAsync
             (
@@ -41,6 +39,6 @@ namespace Application.Features.Addresses.Queries.Interfaces
             (
             int divisionId,
             CancellationToken cancellation
-            );
+            );*/
     }
 }

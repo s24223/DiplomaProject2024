@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2024-12-05 23:12:41.335
+-- Last modification date: 2024-12-13 19:06:30.117
 
 -- foreign keys
 ALTER TABLE Address DROP CONSTRAINT Address_Division;

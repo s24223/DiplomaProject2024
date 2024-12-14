@@ -660,6 +660,7 @@ namespace Domain.Shared.Factories
         //=================================================================================================
         //=================================================================================================
         //Address Part
+        /*
         public DomainAddress CreateDomainAddress
             (
             int divisionId,
@@ -680,16 +681,16 @@ namespace Domain.Shared.Factories
             _provider
             );
         }
-
-        public DomainAddress CreateDomainAddress
-            (
-            Guid id,
+*/
+        public DomainAddress CreateDomainAddress(
+            Guid? id,
             int divisionId,
-            int streetId,
+            int? streetId,
             string buildingNumber,
             string? apartmentNumber,
-            string zipCode
-            )
+            string zipCode,
+            double lon,
+            double lat)
         {
             return new DomainAddress
                 (
@@ -699,6 +700,8 @@ namespace Domain.Shared.Factories
                 buildingNumber,
                 apartmentNumber,
                 zipCode,
+                lon,
+                lat,
             _provider
             );
         }

@@ -1,8 +1,6 @@
-﻿using Application.Features.Addresses.Commands.DTOs.Create;
-using Application.Features.Addresses.Commands.DTOs.Update;
+﻿using Application.Features.Addresses.Commands.DTOs;
 using Application.Features.Addresses.Commands.Interfaces;
 using Application.Shared.DTOs.Response;
-using Domain.Features.Address.ValueObjects.Identificators;
 using Domain.Shared.Factories;
 
 namespace Application.Features.Addresses.Commands.Services
@@ -35,19 +33,32 @@ namespace Application.Features.Addresses.Commands.Services
         //DML
         public async Task<ResponseItem<CreateAddressResponseDto>> CreateAsync
             (
-            CreateAddressRequestDto dto,
+            CreateAddressReq dto,
             CancellationToken cancellation
             )
         {
-            var adress = _domainFactory.CreateDomainAddress
-                (
-                dto.DivisionId,
-                dto.StreetId,
-                dto.BuildingNumber,
+            string kraj = dto.Country.Trim();
+            string wojewodztwo = dto.State.Replace("województwo", "").Trim();
+            string? powiat = dto.County?.Replace("powiat", "").Trim();
+            string? gmina = dto.Municipality?.Replace("gmina", "").Trim();
+            string city = dto.City.Trim();
+            string? dzielnica = dto.Suburb?.Trim();
+            string? street = dto.Street?.Trim();
+
+            var addressId = await _repository.CreateAsync(
+                wojewodztwo,
+                powiat,
+                gmina,
+                city,
+                dzielnica,
+                street,
+                dto.Lon,
+                dto.Lat,
+                dto.Postcode,
+                dto.HouseNumber,
                 dto.ApartmentNumber,
-                dto.ZipCode
-                );
-            var addressId = await _repository.CreateAsync(adress, cancellation);
+                cancellation);
+
             return new ResponseItem<CreateAddressResponseDto>
             {
                 Item = new CreateAddressResponseDto
@@ -55,19 +66,6 @@ namespace Application.Features.Addresses.Commands.Services
                     AddressId = addressId,
                 }
             };
-        }
-
-        public async Task<Response> UpdateAsync
-            (
-            Guid id,
-            UpdateAddressRequestDto dto,
-            CancellationToken cancellation
-            )
-        {
-            var address = await _repository.GetAddressAsync(new AddressId(id), cancellation);
-            address.SetZipCode(dto.ZipCode);
-            await _repository.UpdateAsync(address, cancellation);
-            return new Response { };
         }
 
         //==================================================================================================

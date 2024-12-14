@@ -1,6 +1,4 @@
-﻿using Application.Databases.Relational.Models;
-using Application.Shared.DTOs.Features.Internships;
-using Domain.Features.Address.ValueObjects.Identificators;
+﻿using Application.Shared.DTOs.Features.Internships;
 using Domain.Features.Recruitment.ValueObjects.Identificators;
 using Domain.Features.User.ValueObjects.Identificators;
 
@@ -8,7 +6,26 @@ namespace Application.Shared.Interfaces.SqlClient
 {
     public interface ISqlClientRepo
     {
-        Task<IEnumerable<(int DivisionId, Street Street)>> GetCollocationsAsync
+        Task<InternshipDetailsResp> GetInternshipDetailsAsync
+            (
+            RecrutmentId recrutmentId,
+            UserId userId,
+            CancellationToken cancellation
+            );
+
+        Task<(int DivisionId, int? StreetId)> GetDivisionIdStreetIdAsync
+            (
+            string wojewodztwo,
+            string? powiat,
+            string? gmina,
+            string city,
+            string? dzielnica,
+            string? street,
+            CancellationToken cancellation
+            );
+
+        //Past Procedures
+        /*Task<IEnumerable<(int DivisionId, Street Street)>> GetCollocationsAsync
             (
             string divisionName,
             string streetName,
@@ -36,13 +53,6 @@ namespace Application.Shared.Interfaces.SqlClient
             (
             int divisionId,
             CancellationToken cancellation
-            );
-
-        Task<InternshipDetailsResp> GetStatisticDetailsByIntershipAsync
-            (
-            RecrutmentId recrutmentId,
-            UserId userId,
-            CancellationToken cancellation
-            );
+            );*/
     }
 }

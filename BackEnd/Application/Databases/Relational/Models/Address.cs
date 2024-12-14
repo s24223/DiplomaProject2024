@@ -14,6 +14,10 @@ public partial class Address
 
     public string ZipCode { get; set; } = null!;
 
+    public double Lon { get; set; }
+
+    public double Lat { get; set; }
+
     public virtual ICollection<Branch> Branches { get; set; } = new List<Branch>();
 
     public virtual AdministrativeDivision Division { get; set; } = null!;

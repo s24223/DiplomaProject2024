@@ -86,5 +86,15 @@ namespace Infrastructure {
                 return ResourceManager.GetString("NotConfiguredUserSecrets", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Problem z wyszukaniem danych w ramach parametrów
+        ///.
+        /// </summary>
+        internal static string Procedure_FIND_Division_Street {
+            get {
+                return ResourceManager.GetString("Procedure_FIND_Division_Street", resourceCulture);
+            }
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace Application.Features.Addresses.Mappers
         private readonly IDomainFactory _domainFactory;
 
 
-        //Cosnructor
+        //Constructor
         public AddressMapper(IDomainFactory domainFactory)
         {
             _domainFactory = domainFactory;
@@ -28,7 +28,7 @@ namespace Application.Features.Addresses.Mappers
            Dictionary<DivisionId, AdministrativeDivision> databseDictionary
            )
         {
-            var domainHierachy = databseDictionary.ToDictionary(
+            var domainHierarchy = databseDictionary.ToDictionary(
                 x => x.Key,
                 x => new DomainAdministrativeDivision
                 (
@@ -44,21 +44,26 @@ namespace Application.Features.Addresses.Mappers
                 (
                 databaseAddress.Id,
                 databaseAddress.DivisionId,
-                databaseAddress.StreetId ?? -1,
+                databaseAddress.StreetId,
                 databaseAddress.BuildingNumber,
                 databaseAddress.ApartmentNumber,
-                databaseAddress.ZipCode
+                databaseAddress.ZipCode,
+                databaseAddress.Lon,
+                databaseAddress.Lat
                 );
-            address.Street = new DomainStreet
-                (
-                databaseAddress.Street.Id,
-                databaseAddress.Street.Name,
-                (databaseAddress.Street.AdministrativeType == null
-                ? null : databaseAddress.Street.AdministrativeType.Id),
-                (databaseAddress.Street.AdministrativeType == null
-                ? null : databaseAddress.Street.AdministrativeType.Name)
-                );
-            address.SetHierarchy(domainHierachy);
+
+            if (databaseAddress.Street != null)
+            {
+                address.Street = new DomainStreet
+                    (
+                    databaseAddress.Street.Id,
+                    databaseAddress.Street.Name,
+                    databaseAddress.Street.AdministrativeType?.Id,
+                    databaseAddress.Street.AdministrativeType?.Name
+                    );
+            }
+
+            address.SetHierarchy(domainHierarchy);
             return address;
         }
         //================================================================================================================

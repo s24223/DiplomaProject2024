@@ -551,24 +551,24 @@ namespace Domain.Shared.Factories
         //=================================================================================================
         //=================================================================================================
         //Address Module
-
-        /// <summary>
-        /// For Creating New DomainAddress
-        /// </summary>
-        /// <param name="divisionId"></param>
-        /// <param name="streetId"></param>
-        /// <param name="buildingNumber"></param>
-        /// <param name="apartmentNumber"></param>
-        /// <param name="zipCode"></param>
-        /// <returns></returns>
-        DomainAddress CreateDomainAddress
-            (
-            int divisionId,
-            int streetId,
-            string buildingNumber,
-            string? apartmentNumber,
-            string zipCode
-            );
+        /*
+                /// <summary>
+                /// For Creating New DomainAddress
+                /// </summary>
+                /// <param name="divisionId"></param>
+                /// <param name="streetId"></param>
+                /// <param name="buildingNumber"></param>
+                /// <param name="apartmentNumber"></param>
+                /// <param name="zipCode"></param>
+                /// <returns></returns>
+                DomainAddress CreateDomainAddress
+                    (
+                    int divisionId,
+                    int streetId,
+                    string buildingNumber,
+                    string? apartmentNumber,
+                    string zipCode
+                    );*/
 
         /// <summary>       
         /// For creating Regular DomainAddress, mostly for maping from Database on Domain
@@ -580,15 +580,15 @@ namespace Domain.Shared.Factories
         /// <param name="apartmentNumber"></param>
         /// <param name="zipCode"></param>
         /// <returns></returns>
-        DomainAddress CreateDomainAddress
-            (
-            Guid id,
+        DomainAddress CreateDomainAddress(
+            Guid? id,
             int divisionId,
-            int streetId,
+            int? streetId,
             string buildingNumber,
             string? apartmentNumber,
-            string zipCode
-            );
+            string zipCode,
+            double lon,
+            double lat);
         //=================================================================================================
         //=================================================================================================
         //=================================================================================================

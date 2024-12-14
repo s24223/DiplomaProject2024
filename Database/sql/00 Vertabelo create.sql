@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2024-12-05 23:12:41.335
+-- Last modification date: 2024-12-13 19:06:30.117
 
 -- tables
 -- Table: Address
@@ -10,6 +10,8 @@ CREATE TABLE Address (
     BuildingNumber nvarchar(100)  NOT NULL,
     ApartmentNumber nvarchar(100)  NULL,
     ZipCode nvarchar(10)  NOT NULL,
+    lon float(53)  NOT NULL,
+    lat float(53)  NOT NULL,
     CONSTRAINT Address_pk PRIMARY KEY  (Id)
 );
 
@@ -19,6 +21,8 @@ CREATE TABLE AdministrativeDivision (
     Name nvarchar(100)  NOT NULL,
     ParentDivisionId int  NULL,
     AdministrativeTypeId int  NOT NULL,
+    Level int  NOT NULL,
+    PathIds nvarchar(800)  NULL,
     CONSTRAINT AdministrativeDivision_pk PRIMARY KEY  (Id)
 );
 
