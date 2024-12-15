@@ -3,7 +3,7 @@ using Application.Shared.DTOs.Response;
 
 namespace Application.Features.Characteristics.Queries.Services
 {
-    public interface ICharacteristicQueryService
+    public interface ICharacteristicQuerySvc
     {
         ResponseItems<GetCharacteristicTypeResponseDto> GetCharacteristicTypes();
         ResponseItems<GetCharacteristicResponseDto> GetCharacteristics();

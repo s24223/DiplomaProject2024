@@ -10,7 +10,7 @@ using System.Security.Claims;
 
 namespace Application.Features.Internships.Commands.Comments.Services
 {
-    public class CommentSvc : ICommentSvc
+    public class CommentSvc : ICommentCmdSvc
     {
         //Values
         private readonly IDomainFactory _factory;

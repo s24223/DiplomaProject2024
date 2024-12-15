@@ -15,9 +15,9 @@ namespace BackEnd.Controllers
         //Values
         private readonly IDomainNotificationDictionariesRepository _notificationDictionaries;
         private readonly IDomainUrlTypeDictionariesRepository _urlTypeDictionaries;
-        private readonly ICharacteristicQueryService _characteristicService;
+        private readonly ICharacteristicQuerySvc _characteristicService;
         private readonly IOrderBySvc _orderByService;
-        private readonly ICommentSvc _commentSvc;
+        private readonly ICommentCmdSvc _commentSvc;
 
 
         //Constructor
@@ -25,9 +25,9 @@ namespace BackEnd.Controllers
             (
             IDomainNotificationDictionariesRepository notificationDictionaries,
             IDomainUrlTypeDictionariesRepository urlTypeDictionaries,
-            ICharacteristicQueryService characteristicService,
+            ICharacteristicQuerySvc characteristicService,
             IOrderBySvc orderByService,
-            ICommentSvc commentSvc
+            ICommentCmdSvc commentSvc
             )
         {
             _notificationDictionaries = notificationDictionaries;

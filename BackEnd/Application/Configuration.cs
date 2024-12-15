@@ -137,7 +137,7 @@ namespace Application
             serviceCollection.AddTransient<IInternshipCmdSvc, InternshipCmdSvc>();
             //ComentPart
             serviceCollection.AddTransient<ICommentRepo, CommentRepo>();
-            serviceCollection.AddTransient<ICommentSvc, CommentSvc>();
+            serviceCollection.AddTransient<ICommentCmdSvc, CommentSvc>();
 
             serviceCollection.AddTransient<IUsersInternshipsRepo, UsersInternshipsRepo>();
             serviceCollection.AddTransient<IUsersInternshipsQuerySvc, UsersInternshipsQuerySvc>();
@@ -147,8 +147,8 @@ namespace Application
             serviceCollection.AddTransient<ICharacteristicMapper, CharacteristicMapper>();
 
             //Characteristic Part
-            serviceCollection.AddTransient<ICharacteristicQueryRepository, CharacteristicQueryRepository>();
-            serviceCollection.AddTransient<ICharacteristicQueryService, CharacteristicQueryService>();
+            serviceCollection.AddTransient<ICharacteristicQueryRepository, CharacteristicQueryRepo>();
+            serviceCollection.AddTransient<ICharacteristicQuerySvc, CharacteristicQuerySvc>();
 
             return serviceCollection;
         }

@@ -1,7 +1,9 @@
 ﻿using Application.Databases.Relational;
 using Application.Features.Companies.Mappers;
 using Application.Features.Persons.Mappers;
+using Application.Features.Users.ExtensionMethods;
 using Application.Features.Users.Mappers;
+using Application.Shared.ExtensionMethods;
 using Domain.Features.Notification.Entities;
 using Domain.Features.Url.Entities;
 using Domain.Features.User.Entities;
@@ -9,7 +11,6 @@ using Domain.Features.User.Exceptions.Entities;
 using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Providers;
 using Domain.Shared.Templates.Exceptions;
-using Domain.Shared.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Users.Queries.QueriesUser.Interfaces
@@ -39,7 +40,6 @@ namespace Application.Features.Users.Queries.QueriesUser.Interfaces
             _personMapper = personMapper;
             _companyMapper = companyMapper;
             _context = context;
-
             _now = _provider.TimeProvider().GetDateTimeNow();
         }
 
@@ -48,13 +48,11 @@ namespace Application.Features.Users.Queries.QueriesUser.Interfaces
         //===================================================================================================
         //===================================================================================================
         //Public Methods
-        public async Task
-            <(
+        public async Task<(
             DomainUser User,
             int BranchCount,
             int ActiveOffersCount,
-            IEnumerable<int> ActiveOffersCharacteristicIds
-            )>
+            IEnumerable<int> ActiveOffersCharacteristicIds)>
             GetUserDataAsync(UserId id, CancellationToken cancellation)
         {
             var data = await _context.Users
@@ -121,61 +119,22 @@ namespace Application.Features.Users.Queries.QueriesUser.Interfaces
             int page = 1
             )
         {
-            //Adapt data 
-            itemsCount = (itemsCount < 10) ? 10 : itemsCount;
-            itemsCount = (itemsCount > 100) ? 100 : itemsCount;
-            page = (page < 1) ? 1 : page;
-            orderBy = orderBy.Trim().ToLower();
-
-
             //Prepare Query
-            var query = _context.Urls.AsQueryable();
-            query = query.Where(x => x.UserId == id.Value);
+            var query = _context.Urls
+                .Where(x => x.UserId == id.Value)
+                .UrlFilter(searchText)
+                .UrlOrderBy(orderBy, ascending);
 
-            if (!string.IsNullOrWhiteSpace(searchText))
-            {
-                var searchTerms = searchText
-                    .Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-                query = query.Where(x =>
-                     (x.Name != null && searchTerms.Any(st => x.Name.Contains(st))) ||
-                     searchTerms.Any(st => x.Path.Contains(st))
-                     );
-            }
-
-            ///IF CHANGE HERE OBLIGATORY CHANGE IN 
-            ///"IOrderByService"
-            switch (orderBy)
-            {
-                case "typeId":
-                    query = ascending ?
-                        query.OrderBy(x => x.UrlTypeId).ThenBy(x => x.Created) :
-                    query.OrderByDescending(x => x.UrlTypeId).ThenByDescending(x => x.Created);
-                    break;
-                case "path":
-                    query = ascending ?
-                        query.OrderBy(x => x.Path).ThenBy(x => x.Created) :
-                    query.OrderByDescending(x => x.Path).ThenByDescending(x => x.Created);
-                    break;
-                default:
-                    query = ascending ?
-                        query.OrderBy(x => x.Created) :
-                    query.OrderByDescending(x => x.Created);
-                    break;
-            };
-
-            //Databse Select
+            //Database Select
             var totalCount = await query.CountAsync(cancellation);
             var items = await query
-                .Skip((page - 1) * itemsCount)
-                .Take(itemsCount)
+                .Pagination(itemsCount, page)
                 .ToListAsync(cancellation);
-
 
             return (
                 totalCount,
                 items.Select(x => _userMapper.DomainUrl(x))
-            );
+                );
         }
 
 
@@ -197,103 +156,20 @@ namespace Application.Features.Users.Queries.QueriesUser.Interfaces
             int page = 1
             )
         {
-            var databaseBoolTrue = new DatabaseBool(true).Code;
-            var databaseBoolFalse = new DatabaseBool(false).Code;
-
-            //Adapt data 
-            itemsCount = (itemsCount < 10) ? 10 : itemsCount;
-            itemsCount = (itemsCount > 100) ? 100 : itemsCount;
-            page = (page < 1) ? 1 : page;
-            orderBy = orderBy.Trim().ToLower();
-            //Swap If Time is invalid
-            if (createdStart.HasValue && createdEnd.HasValue && createdStart > createdEnd)
-            {
-                var start = createdStart.Value;
-                createdStart = createdEnd.Value;
-                createdEnd = start;
-            }
-            if (completedStart.HasValue && completedEnd.HasValue && completedStart > completedEnd)
-            {
-                var start = completedStart.Value;
-                completedStart = completedEnd.Value;
-                completedEnd = start;
-            }
-
-
             //Prepare Query
             var query = _context.Notifications.AsQueryable();
-            query = query.Where(x => x.UserId == id.Value);
-
-            if (!string.IsNullOrWhiteSpace(searchText))
-            {
-                var searchTerms = searchText
-                    .Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-                query = query.Where(x =>
-                     (x.UserMessage != null && searchTerms.Any(st => x.UserMessage.Contains(st))) ||
-                     (x.Response != null && searchTerms.Any(st => x.Response.Contains(st)))
-                     );
-            }
-
-            if (hasReaded.HasValue)
-            {
-                query = hasReaded.Value ?
-                    query.Where(x => x.IsReadedByUser == databaseBoolTrue) :
-                    query.Where(x => x.IsReadedByUser == databaseBoolFalse);
-            }
-            if (senderId.HasValue)
-            {
-                query = query.Where(x => x.NotificationSenderId == senderId.Value);
-            }
-            if (statusId.HasValue)
-            {
-                query = query.Where(x => x.NotificationStatusId == statusId.Value);
-            }
-            //Time Vlaidation
-            if (createdStart.HasValue)
-            {
-                query = query.Where(x => x.Created >= createdStart.Value);
-            }
-            if (createdEnd.HasValue)
-            {
-                query = query.Where(x => x.Created <= createdEnd.Value);
-            }
-            if (completedStart.HasValue)
-            {
-                query = query.Where(x => x.Completed >= completedStart.Value);
-            }
-            if (completedEnd.HasValue)
-            {
-                query = query.Where(x => x.Completed <= completedEnd.Value);
-            }
-
-            ///IF CHANGE HERE OBLIGATORY CHANGE IN 
-            ///"IOrderByService"
-            switch (orderBy)
-            {
-                case "completed":
-                    query = ascending ?
-                        query.OrderBy(x => x.Completed) :
-                        query.OrderByDescending(x => x.Completed);
-                    break;
-                default:
-                    //Created
-                    query = ascending ?
-                        query.OrderBy(x => x.Created) :
-                        query.OrderByDescending(x => x.Created);
-                    break;
-            }
+            query = query.Where(x => x.UserId == id.Value)
+                .NotificationFilter(searchText, hasReaded, senderId, statusId,
+                    createdStart, createdEnd, completedStart, completedEnd)
+                .NotificationOrderBy(orderBy, ascending);
 
             //Prepare Query
             var totalCount = await query.CountAsync(cancellation);
             var items = await query
-                .Skip((page - 1) * itemsCount)
-                .Take(itemsCount)
+                .Pagination(itemsCount, page)
                 .ToListAsync(cancellation);
 
-
-            return
-                (
+            return (
                 totalCount,
                 items.Select(x => _userMapper.DomainNotification(x))
                 );

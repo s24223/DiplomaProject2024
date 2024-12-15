@@ -5,7 +5,7 @@ using System.Security.Claims;
 
 namespace Application.Features.Internships.Commands.Comments.Services
 {
-    public interface ICommentSvc
+    public interface ICommentCmdSvc
     {
         Task<ResponseItem<CommentResp>> CreateWithEvaluationAsync
             (

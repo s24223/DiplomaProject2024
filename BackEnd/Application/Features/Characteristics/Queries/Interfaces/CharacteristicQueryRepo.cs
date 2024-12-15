@@ -9,7 +9,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Application.Features.Characteristics.Queries.Interfaces
 {
-    public class CharacteristicQueryRepository : ICharacteristicQueryRepository
+    public class CharacteristicQueryRepo : ICharacteristicQueryRepository
     {
         //Values
         private readonly ICharacteristicMapper _mapper;
@@ -23,7 +23,7 @@ namespace Application.Features.Characteristics.Queries.Interfaces
 
 
         //Cosntructor
-        public CharacteristicQueryRepository
+        public CharacteristicQueryRepo
             (
             ICharacteristicMapper mapper,
             DiplomaProjectContext context,
@@ -136,8 +136,8 @@ namespace Application.Features.Characteristics.Queries.Interfaces
             _cache.Set(_cacheKeyCharacteristics, dictionary, cacheOptions);
         }
 
-        private Dictionary<CharacteristicTypeId, DomainCharacteristicType>
-            MapToDomainCharacteristicTypes()
+        private Dictionary<CharacteristicTypeId,
+            DomainCharacteristicType> MapToDomainCharacteristicTypes()
         {
             var sharedQualities = _context.Qualities
                 .AsNoTracking()

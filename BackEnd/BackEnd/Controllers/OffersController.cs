@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BackEnd.Controllers
 {
+    //[Route("api/[controller]")]
     [Route("api/[controller]")]
     [ApiController]
     public class OffersController : ControllerBase
@@ -10,12 +11,8 @@ namespace BackEnd.Controllers
         //Values
         private readonly ICompanyQueryService _companyQuery;
 
-
         //Cnstructor
-        public OffersController
-            (
-            ICompanyQueryService companyQuery
-            )
+        public OffersController(ICompanyQueryService companyQuery)
         {
             _companyQuery = companyQuery;
         }
@@ -24,6 +21,7 @@ namespace BackEnd.Controllers
         //=====================================================================================================
         //=====================================================================================================
         //=====================================================================================================
+
         //Public Methods
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetOfferAsync

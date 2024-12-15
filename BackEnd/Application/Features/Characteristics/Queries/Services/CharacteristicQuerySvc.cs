@@ -4,16 +4,14 @@ using Domain.Features.Characteristic.Repositories;
 
 namespace Application.Features.Characteristics.Queries.Services
 {
-    public class CharacteristicQueryService : ICharacteristicQueryService
+    public class CharacteristicQuerySvc : ICharacteristicQuerySvc
     {
         //Values
         private readonly ICharacteristicQueryRepository _repository;
 
-        //Cosntructor
-        public CharacteristicQueryService
-            (
-            ICharacteristicQueryRepository repository
-            )
+
+        //Constructor
+        public CharacteristicQuerySvc(ICharacteristicQueryRepository repository)
         {
             _repository = repository;
         }
