@@ -183,3 +183,8 @@
 span{
     color: black;
 }
+
+.form{
+    max-width: 50%;
+    margin: auto;
+}
