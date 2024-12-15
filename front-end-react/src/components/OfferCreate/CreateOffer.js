@@ -91,6 +91,7 @@ const CreateOffer = ({ branchId, onClose }) => {
             //     (item) => item.characteristic.id.toString() === char.characteristicId
             // );
 
+            //I taqk bedzie trzeba sprawdzac zaraz, czy ktróreś characteristic types potrzebują quality
             return char; // Keep the original characteristic if type is "Języki komunikacji"
         });
 
@@ -105,12 +106,6 @@ const CreateOffer = ({ branchId, onClose }) => {
                 maxSalary: parseFloat(maxSalary),
                 isNegotiatedSalary,
                 isForStudents,
-                // characteristics: [
-                //     {
-                //         characteristicId: 1,
-                //         qualityId: 11,
-                //     },
-                // ],
                 characteristics: processedCharacteristics,
             },
         ];

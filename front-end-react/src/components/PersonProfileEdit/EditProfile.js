@@ -105,7 +105,6 @@ const EditProfile = () => {
     const handleProfileUpdate = async (event) => {
         event.preventDefault();
         try {
-            const token = sessionStorage.getItem("jwt") || localStorage.getItem("jwt");
 
             // przygotowanie characteristics z wuality=null kiedy potrzeba(nie są to języki mowy)  
             const updatedCharacteristics = profileData.characteristics.map((char) => {

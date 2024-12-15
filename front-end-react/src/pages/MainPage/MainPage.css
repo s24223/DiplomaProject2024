@@ -188,3 +188,83 @@ span{
     max-width: 50%;
     margin: auto;
 }
+
+/* Container for the main page layout */
+.main-container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Sidebar for filters */
+.filters-sidebar {
+    flex: 0 0 20%; /* Sidebar zajmuje 20% szerokości */
+    padding: 20px;
+    background-color: #1e1c1c;
+    border-right: 1px solid #ddd;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+.filters-sidebar h3 {
+    margin-bottom: 10px;
+}
+
+.filters-sidebar form input,
+.filters-sidebar form select {
+    width: 100%;
+    margin: 10px 0;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+/* Container for the list of offers */
+.offers-container {
+    flex: 1; /* Pozostała przestrzeń */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #1e1c1c;
+}
+
+/* Offers List */
+.offers-list {
+    width: 100%;
+    max-width: 800px;
+}
+
+.offer-item {
+    border: 1px solid #ccc;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.offer-item:hover {
+    background-color: #1e1c1c;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: gray;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pagination button:disabled {
+    background-color: #1e1c1c;
+    cursor: not-allowed;
+}

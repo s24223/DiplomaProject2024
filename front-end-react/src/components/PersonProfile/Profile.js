@@ -80,9 +80,10 @@ const Profile = () => {
             
             
             <h1>User Profile</h1>
-            <button className="button-one" onClick={handleProfileCreate} >
-                    Create Profile
-            </button>
+
+            {person ? (
+                <>
+            
             <button className="button-two" onClick={handleProfileEdit}>
                     Edit Profile
             </button>
@@ -129,20 +130,13 @@ const Profile = () => {
             )}
             
             <UrlList/>
-            <br/>
-            <br/>
-            <br/>
-            <button onClick={handleCompanyCreate} >
-                    Create Company
-            </button>
-            <button onClick={handleCompanyEdit} >
-                    Edit Company
-            </button>
-
-
-            {company && (
+           
+            {company ? (
+                
                 <div className="bordered">
+
                     <h2>Company</h2>
+                    <button onClick={handleCompanyEdit} >Edit Company</button>
                     {/* <p><strong>Id:</strong> {company?.companyId}</p><br/> */}
 
                     <p><strong>Name:</strong> {company?.name}</p>
@@ -158,24 +152,18 @@ const Profile = () => {
                     </button>
                     <br/>
                 </div>
+            ): (
+                <button onClick={handleCompanyCreate}>Create Company</button>
+            )}
+            </>
+            ) : (
+                <button className="button-one" onClick={handleProfileCreate}>Create Profile</button>
             )}
 
+            <br/>
+            <br/>
+             
 
-            {/* <h2>haracteristics</h2>
-            {companyCharacteristics?.length > 0 ? (
-                <div className="bordered">
-                <ul>
-                    {companyCharacteristics.map((char) => (
-                        <li key={char.characteristic.id}>
-                            <strong>{char.characteristic.name}</strong> ({char.quality.name})
-                        </li>
-                    ))}
-                </ul>
-                </div>
-            ) : (
-                <p>No characteristics available.</p>
-            )} */}
-            <ReturnButton/>
         </div>
     );
 };

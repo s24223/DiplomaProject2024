@@ -34,7 +34,7 @@ const UrlDetailsPage = () => {
 
         try {
             const response = await axios.put(
-                "https://localhost:7166/api/User/urls",
+                "https://localhost:7166/api/User/urls/urls",
                 [updatedUrl],
                 {
                     headers: {

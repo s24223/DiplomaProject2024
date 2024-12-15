@@ -25,14 +25,38 @@ export const fetchBranchOffers = async (companyId, branchId, params = {}) => {
 };
 
 
-export const fetchOffers = async (query) => {
-    const response = await fetch(`https://localhost:7166/api/Offers?query=${query}`, {
-        method: 'GET',
-        withCredentials: true,    
-        crossorigin: true,  
-        headers: {'Access-Control-Allow-Origin': '*'},
-    });
-    if (!response.ok) throw new Error("Error fetching offers");
+// export const fetchOffers = async (query) => {
+//     const response = await fetch(`https://localhost:7166/api/Offers?query=${query}`, {
+//         method: 'GET',
+//         withCredentials: true,    
+//         crossorigin: true,  
+//         headers: {'Access-Control-Allow-Origin': '*'},
+//     });
+//     if (!response.ok) throw new Error("Error fetching offers");
+//     return await response.json();
+// };
+
+export const fetchOffers = async (filters) => {
+    const queryParams = new URLSearchParams();
+
+    for (const key in filters) {
+        if (filters[key] !== '' && filters[key] !== null) {
+            queryParams.append(key, filters[key]);
+        }
+    }
+
+    const response = await fetch(
+        `https://localhost:7166/api/Offers?${queryParams.toString()}`,
+        {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${sessionStorage.getItem('jwt')}`,
+                'Access-Control-Allow-Origin': '*',
+            },
+        }
+    );
+
+    if (!response.ok) throw new Error('Error fetching offers');
     return await response.json();
 };
 

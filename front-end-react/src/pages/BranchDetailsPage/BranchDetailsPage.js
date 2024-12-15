@@ -82,6 +82,8 @@ const BranchDetailPage = () => {
                 Name: {editMode? <input type='text' placeholder={item.name} onChange={e => setName(e.target.value)} value={name} />: item.name}<br />
                 Description: {editMode? <input type='text' placeholder={item.description} onChange={e => setDescription(e.target.value)} value={description} /> : item.description? item.description : <>NaN</>}<br />
                 Url Segment: {editMode? <input type='text' placeholder={item.urlSegment} onChange={e => setUrlsegmet(e.target.value)} value={urlSegment} /> : item.urlSegment? item.urlSegment : <>NaN</>}<br />
+                {editMode && <button onClick={handleChange}>Change</button>}
+                <br/>
                 Address: {item.address.hierarchy.map((addressPart) => (
                     <p key={addressPart.id}>{addressPart.administrativeType.name}: {addressPart.name}</p>
                 ))}
@@ -114,7 +116,7 @@ const BranchDetailPage = () => {
                         <p>No offers available.</p>
                     )}
                 <label style={{color:'green'}}>{messageStatus}</label><br />
-                {editMode && <button onClick={handleChange}>Change</button>}
+                
                 <button onClick={() => setShowCreateOffer(true)}>Add Offer</button>
                 <CancelButton/>
                 {showCreateOffer && (

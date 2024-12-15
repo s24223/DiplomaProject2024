@@ -44,7 +44,7 @@ const CreateUrl = ({ onClose, refreshUrls }) => {
 
         try {
             const response = await axios.post(
-                "https://localhost:7166/api/User/urls",
+                "https://localhost:7166/api/User/urls/urls",
                 [
                     {
                         urlTypeId,

@@ -18,7 +18,7 @@ const EditUrlPage = () => {
     const handleSave = async () => {
         try {
             await axios.put(
-                "https://localhost:7166/api/User/urls",
+                "https://localhost:7166/api/User//urls",
                 [
                     {
                         urlTypeId: url.urlTypeId,
@@ -50,7 +50,7 @@ const EditUrlPage = () => {
 
         try {
             await axios.delete(
-                "https://localhost:7166/api/User/urls",
+                "https://localhost:7166/api/User/urls/urls",
                 {
                     headers: {
                         Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
