@@ -12,6 +12,7 @@ using Domain.Features.Address.ValueObjects.Identificators;
 using Domain.Features.Branch.Entities;
 using Domain.Features.Characteristic.Repositories;
 using Domain.Features.Characteristic.ValueObjects.Identificators;
+using Domain.Features.Company.Exceptions.Entities;
 using Domain.Features.Offer.Entities;
 using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Providers;
@@ -228,7 +229,9 @@ namespace Application.Features.Companies.Queries.QueriesUser.Interfaces
                                 .ToList(),
                         }).ToList(),
                 }).FirstOrDefaultAsync(cancellation) ??
-                throw new System.Exception("Impossible Pagination in Middleware");
+                throw new CompanyException(
+                    Messages.Company_Cmd_Id_NotFound,
+                    Domain.Shared.Templates.Exceptions.DomainExceptionTypeEnum.NotFound);
 
 
             var addressesIds = queryResult.Branches
