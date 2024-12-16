@@ -26,7 +26,7 @@ namespace Application.Shared.Services.Authentication
         private readonly DateTime _now;
 
         private readonly int _iterationCountOfHashPassword = 10000;
-        private readonly int _timeInMinutesValidJWT = 10;
+        private readonly int _timeInMinutesValidJWT = 100;
         private readonly int _timeInHourValidRefreshToken = 48;
 
         private readonly string _personRole = "person";

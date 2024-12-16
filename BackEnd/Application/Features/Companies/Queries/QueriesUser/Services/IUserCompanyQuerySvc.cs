@@ -1,10 +1,11 @@
 ﻿using Application.Features.Companies.Queries.QueriesUser.DTOs;
+using Application.Features.Companies.Queries.QueriesUser.DTOs.CompanyResponse;
 using Application.Shared.DTOs.Response;
 using System.Security.Claims;
 
 namespace Application.Features.Companies.Queries.QueriesUser.Services
 {
-    public interface IUserCompanySvc
+    public interface IUserCompanyQuerySvc
     {
         Task<ResponseItem<GetCoreBranchesResp>> GetCoreBranchesAsync
            (
@@ -32,5 +33,23 @@ namespace Application.Features.Companies.Queries.QueriesUser.Services
             int itemsCount = 100,
             int page = 1
             );
+
+        Task<ResponseItem<CompanyWithDetailsResp>> GetCompanyAsync(
+            IEnumerable<Claim> claims,
+            CancellationToken cancellation,
+            int? divisionId = null,
+            int? streetId = null,
+            bool ascending = true,
+            int itemsCount = 100,
+            int page = 1);
+
+        Task<ResponseItems<BranchWithDeatilsToCompanyResp>> GetBranchesWithDetailsAsync(
+            IEnumerable<Claim> claims,
+            CancellationToken cancellation,
+            int? divisionId = null,
+            int? streetId = null,
+            bool ascending = true,
+            int itemsCount = 100,
+            int page = 1);
     }
 }

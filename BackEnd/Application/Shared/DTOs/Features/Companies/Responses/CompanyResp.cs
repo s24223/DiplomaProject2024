@@ -1,4 +1,5 @@
-﻿using Domain.Features.Company.Entities;
+﻿using Application.Databases.Relational.Models;
+using Domain.Features.Company.Entities;
 
 namespace Application.Shared.DTOs.Features.Companies.Responses
 {
@@ -24,6 +25,17 @@ namespace Application.Shared.DTOs.Features.Companies.Responses
             ContactEmail = domain.ContactEmail;
             UrlSegment = domain.UrlSegment;
             Description = domain.Description;
+        }
+
+        public CompanyResp(Company database)
+        {
+            CompanyId = database.UserId;
+            Created = database.Created;
+            Name = database.Name;
+            Regon = database.Regon;
+            ContactEmail = database.ContactEmail;
+            UrlSegment = database.UrlSegment;
+            Description = database.Description;
         }
     }
 }

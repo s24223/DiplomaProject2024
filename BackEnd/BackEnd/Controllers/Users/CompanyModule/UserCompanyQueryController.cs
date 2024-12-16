@@ -9,11 +9,11 @@ namespace BackEnd.Controllers.Users.CompanyModule
     public class UserCompanyQueryController : ControllerBase
     {
         //Values
-        private readonly IUserCompanySvc _userCompanySvc;
+        private readonly IUserCompanyQuerySvc _userCompanySvc;
 
 
         //Constructor
-        public UserCompanyQueryController(IUserCompanySvc userCompanySvc)
+        public UserCompanyQueryController(IUserCompanyQuerySvc userCompanySvc)
         {
             _userCompanySvc = userCompanySvc;
         }
@@ -90,6 +90,55 @@ namespace BackEnd.Controllers.Users.CompanyModule
                 );
             return StatusCode(200, result);
         }
+
+        [Authorize]
+        [HttpGet()]
+        public async Task<IActionResult> GetCompanyAsync(
+            CancellationToken cancellation,
+            int? divisionId = null,
+            int? streetId = null,
+            bool ascending = true,
+            int itemsCount = 100,
+            int page = 1)
+        {
+            var claims = User.Claims.ToList();
+            var data = await _userCompanySvc.GetCompanyAsync
+                (
+                claims,
+                cancellation,
+                divisionId,
+                streetId,
+                ascending,
+                itemsCount,
+                page
+                );
+            return StatusCode(200, data);
+        }
+
+        [Authorize]
+        [HttpGet("branches/details")]
+        public async Task<IActionResult> GetBranchesWithDetailsAsync(
+            CancellationToken cancellation,
+            int? divisionId = null,
+            int? streetId = null,
+            bool ascending = true,
+            int itemsCount = 100,
+            int page = 1)
+        {
+            var claims = User.Claims.ToList();
+            var data = await _userCompanySvc.GetBranchesWithDetailsAsync
+                (
+                claims,
+                cancellation,
+                divisionId,
+                streetId,
+                ascending,
+                itemsCount,
+                page
+                );
+            return StatusCode(200, data);
+        }
+
         //================================================================================================================
         //branches&offers
 

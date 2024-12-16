@@ -33,6 +33,7 @@ public partial class DiplomaProjectMsSQLContext : DiplomaProjectContext
             {
                 throw new InfrastructureLayerException(Messages.NotConfiguredConnectionString);
             }
+            //optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);
             optionsBuilder.EnableSensitiveDataLogging();
             optionsBuilder.UseSqlServer(connectionString);
             //.LogTo(Console.WriteLine);

@@ -1,10 +1,11 @@
-﻿using Domain.Features.Branch.Entities;
+﻿using Application.Features.Companies.Queries.QueriesUser.DTOs.CompanyResponse;
+using Domain.Features.Branch.Entities;
 using Domain.Features.Offer.Entities;
 using Domain.Features.User.ValueObjects.Identificators;
 
 namespace Application.Features.Companies.Queries.QueriesUser.Interfaces
 {
-    public interface IUserCompanyRepo
+    public interface IUserCompanyQueryRepo
     {
         Task<(int TotalCount, IEnumerable<DomainBranch> Items)> GetCoreBranchesAsync
             (
@@ -32,5 +33,23 @@ namespace Application.Features.Companies.Queries.QueriesUser.Interfaces
             int itemsCount = 100,
             int page = 1
             );
+
+        Task<CompanyWithDetailsResp> GetCompanyAsync(
+            UserId companyId,
+            CancellationToken cancellation,
+            int? divisionId = null,
+            int? streetId = null,
+            bool ascending = true,
+            int itemsCount = 100,
+            int page = 1);
+
+        Task<(IEnumerable<BranchWithDeatilsToCompanyResp> Items, int TotalCount)> GetBranchesWithDetailsAsync(
+            UserId companyId,
+            CancellationToken cancellation,
+            int? divisionId = null,
+            int? streetId = null,
+            bool ascending = true,
+            int itemsCount = 100,
+            int page = 1);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Application.Features.Companies.Queries.QueriesUser.DTOs;
+using Application.Features.Companies.Queries.QueriesUser.DTOs.CompanyResponse;
 using Application.Features.Companies.Queries.QueriesUser.Interfaces;
 using Application.Shared.DTOs.Response;
 using Application.Shared.Services.Authentication;
@@ -7,16 +8,16 @@ using System.Security.Claims;
 
 namespace Application.Features.Companies.Queries.QueriesUser.Services
 {
-    public class UserCompanySvc : IUserCompanySvc
+    public class UserCompanyQuerySvc : IUserCompanyQuerySvc
     {
         //Values
-        private readonly IUserCompanyRepo _userCompanyRepo;
+        private readonly IUserCompanyQueryRepo _userCompanyRepo;
         private readonly IAuthJwtSvc _authentication;
 
         //Constructor
-        public UserCompanySvc
+        public UserCompanyQuerySvc
             (
-            IUserCompanyRepo userCompanyRepo,
+            IUserCompanyQueryRepo userCompanyRepo,
             IAuthJwtSvc authentication
             )
         {
@@ -95,6 +96,69 @@ namespace Application.Features.Companies.Queries.QueriesUser.Services
             return new ResponseItem<GetCoreOffersResp>
             {
                 Item = new GetCoreOffersResp(data.Items, data.TotalCount),
+            };
+        }
+
+        public async Task<ResponseItem<CompanyWithDetailsResp>> GetCompanyAsync(
+            IEnumerable<Claim> claims,
+            CancellationToken cancellation,
+            int? divisionId = null,
+            int? streetId = null,
+            bool ascending = true,
+            int itemsCount = 100,
+            int page = 1)
+        {
+            try
+            {
+
+                var id = GetId(claims);
+                var data = await _userCompanyRepo.GetCompanyAsync
+                (
+                id,
+                cancellation,
+                divisionId,
+                streetId,
+                ascending,
+                itemsCount,
+                page
+                );
+
+
+                return new ResponseItem<CompanyWithDetailsResp>
+                {
+                    Item = data,
+                };
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+
+        public async Task<ResponseItems<BranchWithDeatilsToCompanyResp>> GetBranchesWithDetailsAsync(
+            IEnumerable<Claim> claims,
+            CancellationToken cancellation,
+            int? divisionId = null,
+            int? streetId = null,
+            bool ascending = true,
+            int itemsCount = 100,
+            int page = 1)
+        {
+            var id = GetId(claims);
+            var result = await _userCompanyRepo.GetBranchesWithDetailsAsync(
+                id,
+                cancellation,
+                divisionId,
+                streetId,
+                ascending,
+                itemsCount,
+                page);
+
+            return new ResponseItems<BranchWithDeatilsToCompanyResp>
+            {
+                Items = result.Items.ToList(),
+                TotalCount = result.TotalCount,
             };
         }
         //===============================================================================================

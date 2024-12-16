@@ -1,4 +1,6 @@
-﻿using Application.Shared.DTOs.Features.Addresses;
+﻿using Application.Databases.Relational.Models;
+using Application.Shared.DTOs.Features.Addresses;
+using Domain.Features.Address.Entities;
 using Domain.Features.Branch.Entities;
 
 namespace Application.Shared.DTOs.Features.Companies.Responses
@@ -28,6 +30,21 @@ namespace Application.Shared.DTOs.Features.Companies.Responses
             {
                 Address = new AddressResponseDto(domain.Address);
             }
+        }
+
+        public BranchResp(Branch database, DomainAddress? address)
+        {
+            Id = database.Id;
+            CompanyId = database.CompanyId;
+            AddressId = database.AddressId;
+            UrlSegment = database.UrlSegment;
+            Name = database.Name;
+            Description = database.Description;
+            if (address != null)
+            {
+                Address = new AddressResponseDto(address);
+            }
+
         }
     }
 }

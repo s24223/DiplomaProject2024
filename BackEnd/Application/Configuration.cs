@@ -123,8 +123,8 @@ namespace Application
             serviceCollection.AddTransient<IOfferQueryRepository, OfferQueryRepository>();
             serviceCollection.AddTransient<ICompanyQueryService, CompanyQueryService>();
 
-            serviceCollection.AddTransient<IUserCompanyRepo, UserCompanyRepo>();
-            serviceCollection.AddTransient<IUserCompanySvc, UserCompanySvc>();
+            serviceCollection.AddTransient<IUserCompanyQueryRepo, UserCompanyQueryRepo>();
+            serviceCollection.AddTransient<IUserCompanyQuerySvc, UserCompanyQuerySvc>();
             //===============================================================================================================
             //Intership module 
             serviceCollection.AddTransient<IInternshipMapper, InternshipMapper>();
