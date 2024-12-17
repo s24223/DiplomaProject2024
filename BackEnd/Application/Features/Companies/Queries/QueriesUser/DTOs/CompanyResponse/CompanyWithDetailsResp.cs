@@ -6,8 +6,8 @@ namespace Application.Features.Companies.Queries.QueriesUser.DTOs.CompanyRespons
     public class CompanyWithDetailsResp
     {
         public CompanyResp Company { get; set; } = null!;
-        public int BranchesCount { get; set; } = 0;
-        public int OffersCount { get; set; } = 0;
+        public int BranchesTotalCount { get; set; } = 0;
+        public int OffersTotalCount { get; set; } = 0;
         public int BranchOfferPastCount { get; set; } = 0;
         public int BranchOfferActiveCount { get; set; } = 0;
         public int BranchOfferFutureCount { get; set; } = 0;
@@ -22,10 +22,21 @@ namespace Application.Features.Companies.Queries.QueriesUser.DTOs.CompanyRespons
             get { return _branches; }
             set
             {
-                Count = value.Count();
+                BranchesCount = value.Count();
                 _branches = value;
             }
         }
-        public int Count { get; private set; } = 0;
+        public int BranchesCount { get; private set; } = 0;
+        private IEnumerable<OfferWithDetailsToCompanyResp> _offers { get; set; } = [];
+        public IEnumerable<OfferWithDetailsToCompanyResp> Offers
+        {
+            get { return _offers; }
+            set
+            {
+                OffersCount = value.Count();
+                _offers = value;
+            }
+        }
+        public int OffersCount { get; private set; } = 0;
     }
 }

@@ -94,24 +94,43 @@ namespace BackEnd.Controllers.Users.CompanyModule
         [Authorize]
         [HttpGet()]
         public async Task<IActionResult> GetCompanyAsync(
+            [FromHeader] IEnumerable<int> characteristics,
             CancellationToken cancellation,
             int? divisionId = null,
             int? streetId = null,
-            bool ascending = true,
-            int itemsCount = 100,
-            int page = 1)
+            bool ascendingBranch = true,
+            int itemsCountBranch = 100,
+            int pageBranch = 1,
+            string? searchText = null,
+            bool? isNegotiatedSalary = null,
+            bool? isForStudents = null,
+            decimal? minSalary = null,
+            decimal? maxSalary = null,
+            string orderByOffer = "created",
+            bool ascendingOffer = true,
+            int itemsCountOffer = 100,
+            int pageOffer = 1)
         {
             var claims = User.Claims.ToList();
             var data = await _userCompanySvc.GetCompanyAsync
                 (
                 claims,
+                characteristics,
                 cancellation,
                 divisionId,
                 streetId,
-                ascending,
-                itemsCount,
-                page
-                );
+                ascendingBranch,
+                itemsCountBranch,
+                pageBranch,
+                searchText,
+                isNegotiatedSalary,
+                isForStudents,
+                minSalary,
+                maxSalary,
+                orderByOffer,
+                ascendingOffer,
+                itemsCountOffer,
+                pageOffer);
             return StatusCode(200, data);
         }
 
@@ -139,6 +158,37 @@ namespace BackEnd.Controllers.Users.CompanyModule
             return StatusCode(200, data);
         }
 
+        [Authorize]
+        [HttpGet("offers/details")]
+        public async Task<IActionResult> GetOfferWithDetailsAsync(
+            [FromHeader] IEnumerable<int> characteristics,
+            CancellationToken cancellation,
+            string? searchText = null,
+            bool? isNegotiatedSalary = null,
+            bool? isForStudents = null,
+            decimal? minSalary = null,
+            decimal? maxSalary = null,
+            string orderBy = "created",
+            bool ascending = true,
+            int itemsCount = 100,
+            int page = 1)
+        {
+            var claims = User.Claims.ToList();
+            var data = await _userCompanySvc.GetOfferWithDetailsAsync(
+                claims,
+                characteristics,
+                cancellation,
+                searchText,
+                isNegotiatedSalary,
+                isForStudents,
+                minSalary,
+                maxSalary,
+                orderBy,
+                ascending,
+                itemsCount,
+                page);
+            return StatusCode(200, data);
+        }
         //================================================================================================================
         //branches&offers
 

@@ -130,12 +130,23 @@ namespace Application.Features.Companies.Queries.QueriesUser.Interfaces
 
         public async Task<CompanyWithDetailsResp> GetCompanyAsync(
             UserId companyId,
+            IEnumerable<int> characteristics,
             CancellationToken cancellation,
             int? divisionId = null,
             int? streetId = null,
-            bool ascending = true,
-            int itemsCount = 100,
-            int page = 1)
+            bool ascendingBranch = true,
+            int itemsCountBranch = 100,
+            int pageBranch = 1,
+            string? searchText = null,
+            bool? isNegotiatedSalary = null,
+            bool? isForStudents = null,
+            decimal? minSalary = null,
+            decimal? maxSalary = null,
+            string orderByOffer = "created",
+            bool ascendingOffer = true,
+            int itemsCountOffer = 100,
+            int pageOffer = 1
+            )
         {
             var branchesQuery = PrepareBranchesQuery(companyId);
             var branchOffersQuery = PrepareBranchOffersQuery(companyId);
@@ -143,6 +154,8 @@ namespace Application.Features.Companies.Queries.QueriesUser.Interfaces
             var internshipsQuery = PrepareInternshipsQuery(companyId);
             var branchOffersForCharacteristicsQuery =
                 PrepareBranchOffersWithCharacteristicsQuery(companyId);
+            var queryOffer = PrepareQueryOffersCore(companyId, characteristics, searchText, isNegotiatedSalary,
+                isForStudents, minSalary, maxSalary, orderByOffer, ascendingOffer);
 
             var queryResult = await _context.Companies
                 .Where(x => x.UserId == companyId.Value)
@@ -184,8 +197,8 @@ namespace Application.Features.Companies.Queries.QueriesUser.Interfaces
                         .ToList(),
                     Branches = branchesQuery
                         .BranchFilter(divisionId, streetId)
-                        .BranchOrderBy("", ascending)
-                        .Pagination(itemsCount, page)
+                        .BranchOrderBy("", ascendingBranch)
+                        .Pagination(itemsCountBranch, pageBranch)
                         .Select(b => new
                         {
                             Item = b,
@@ -228,6 +241,46 @@ namespace Application.Features.Companies.Queries.QueriesUser.Interfaces
                                 .Select(x => x.CharacteristicId)
                                 .ToList(),
                         }).ToList(),
+                    Offers = queryOffer
+                        .Pagination(itemsCountOffer, pageOffer)
+                        .Select(o => new
+                        {
+                            Item = o,
+                            BranchOfferPastCount = branchOffersQuery
+                                        .Where(x =>
+                                            x.PublishStart < _now &&
+                                            (x.PublishEnd != null && x.PublishEnd < _now) &&
+                                            (x.PublishStart != x.PublishEnd))
+                                        .Where(x => x.OfferId == o.Id)
+                                        .Count(),
+                            BranchOfferActiveCount = branchOffersQuery
+                                        .Where(x =>
+                                            x.PublishStart <= _now && (
+                                                x.PublishEnd == null ||
+                                                (x.PublishEnd != null && x.PublishEnd > _now)))
+                                        .Where(x => x.OfferId == o.Id)
+                                        .Count(),
+                            BranchOfferFutureCount = branchOffersQuery
+                                        .Where(x => x.PublishStart > _now)
+                                        .Where(x => x.OfferId == o.Id)
+                                        .Count(),
+                            RcruitmentAcceptedCount = recruitmentQuery
+                                        .Where(x => x.IsAccepted == _dbTrue)
+                                        .Where(x => x.BranchOffer.OfferId == o.Id)
+                                        .Count(),
+                            RcruitmentDeniedCount = recruitmentQuery
+                                        .Where(x => x.IsAccepted == _dbFalse)
+                                        .Where(x => x.BranchOffer.OfferId == o.Id)
+                                        .Count(),
+                            RcruitmentWaitingCount = recruitmentQuery
+                                        .Where(x => x.IsAccepted == null)
+                                        .Where(x => x.BranchOffer.OfferId == o.Id)
+                                        .Count(),
+                            InternshipCount = internshipsQuery
+                                        .Where(x => x.Recruitment.BranchOffer.OfferId == o.Id)
+                                        .Count(),
+                        })
+                        .ToList()
                 }).FirstOrDefaultAsync(cancellation) ??
                 throw new CompanyException(
                     Messages.Company_Cmd_Id_NotFound,
@@ -243,8 +296,8 @@ namespace Application.Features.Companies.Queries.QueriesUser.Interfaces
             return new CompanyWithDetailsResp
             {
                 Company = new CompanyResp(queryResult.Item),
-                BranchesCount = queryResult.BranchesCount,
-                OffersCount = queryResult.OffersCount,
+                BranchesTotalCount = queryResult.BranchesCount,
+                OffersTotalCount = queryResult.OffersCount,
                 BranchOfferPastCount = queryResult.BranchOfferPastCount,
                 BranchOfferActiveCount = queryResult.BranchOfferActiveCount,
                 BranchOfferFutureCount = queryResult.BranchOfferFutureCount,
@@ -268,6 +321,17 @@ namespace Application.Features.Companies.Queries.QueriesUser.Interfaces
                     InternshipCount = x.InternshipCount,
                     BranchCharacteristics = ConvertCharacteristics(x.CharacteristicIds),
 
+                }).ToList(),
+                Offers = queryResult.Offers.Select(x => new OfferWithDetailsToCompanyResp
+                {
+                    Offer = new OfferResp(_companyMapper.DomainOffer(x.Item)),
+                    BranchOfferPastCount = x.BranchOfferPastCount,
+                    BranchOfferActiveCount = x.BranchOfferActiveCount,
+                    BranchOfferFutureCount = x.BranchOfferFutureCount,
+                    RecruitmentAcceptedCount = x.RcruitmentAcceptedCount,
+                    RecruitmentDeniedCount = x.RcruitmentDeniedCount,
+                    RecruitmentWaitingCount = x.RcruitmentWaitingCount,
+                    InternshipCount = x.InternshipCount,
                 }).ToList(),
             };
         }
@@ -362,6 +426,85 @@ namespace Application.Features.Companies.Queries.QueriesUser.Interfaces
             return (items, totalCount);
         }
 
+
+        public async Task<(IEnumerable<OfferWithDetailsToCompanyResp> Items, int TotalCount)> GetOfferWithDetailsAsync(
+            UserId companyId,
+            IEnumerable<int> characteristics,
+            CancellationToken cancellation,
+            string? searchText = null,
+            bool? isNegotiatedSalary = null,
+            bool? isForStudents = null,
+            decimal? minSalary = null,
+            decimal? maxSalary = null,
+            string orderBy = "created",
+            bool ascending = true,
+            int itemsCount = 100,
+            int page = 1
+            )
+        {
+            var query = PrepareQueryOffersCore(companyId, characteristics, searchText, isNegotiatedSalary,
+                isForStudents, minSalary, maxSalary, orderBy, ascending);
+            var branchOffersQuery = PrepareBranchOffersQuery(companyId);
+            var recruitmentQuery = PrepareRecruitmentQuery(companyId);
+            var internshipsQuery = PrepareInternshipsQuery(companyId);
+            var branchOffersForCharacteristicsQuery =
+                PrepareBranchOffersWithCharacteristicsQuery(companyId);
+
+            var totalCount = await query.CountAsync(cancellation);
+            var queryResult = await query
+                .Pagination(itemsCount, page)
+                .Select(o => new
+                {
+                    Item = o,
+                    BranchOfferPastCount = branchOffersQuery
+                                .Where(x =>
+                                    x.PublishStart < _now &&
+                                    (x.PublishEnd != null && x.PublishEnd < _now) &&
+                                    (x.PublishStart != x.PublishEnd))
+                                .Where(x => x.OfferId == o.Id)
+                                .Count(),
+                    BranchOfferActiveCount = branchOffersQuery
+                                .Where(x =>
+                                    x.PublishStart <= _now && (
+                                        x.PublishEnd == null ||
+                                        (x.PublishEnd != null && x.PublishEnd > _now)))
+                                .Where(x => x.OfferId == o.Id)
+                                .Count(),
+                    BranchOfferFutureCount = branchOffersQuery
+                                .Where(x => x.PublishStart > _now)
+                                .Where(x => x.OfferId == o.Id)
+                                .Count(),
+                    RcruitmentAcceptedCount = recruitmentQuery
+                                .Where(x => x.IsAccepted == _dbTrue)
+                                .Where(x => x.BranchOffer.OfferId == o.Id)
+                                .Count(),
+                    RcruitmentDeniedCount = recruitmentQuery
+                                .Where(x => x.IsAccepted == _dbFalse)
+                                .Where(x => x.BranchOffer.OfferId == o.Id)
+                                .Count(),
+                    RcruitmentWaitingCount = recruitmentQuery
+                                .Where(x => x.IsAccepted == null)
+                                .Where(x => x.BranchOffer.OfferId == o.Id)
+                                .Count(),
+                    InternshipCount = internshipsQuery
+                                .Where(x => x.Recruitment.BranchOffer.OfferId == o.Id)
+                                .Count(),
+                })
+                .ToListAsync(cancellation);
+
+            var items = queryResult.Select(x => new OfferWithDetailsToCompanyResp
+            {
+                Offer = new OfferResp(_companyMapper.DomainOffer(x.Item)),
+                BranchOfferPastCount = x.BranchOfferPastCount,
+                BranchOfferActiveCount = x.BranchOfferActiveCount,
+                BranchOfferFutureCount = x.BranchOfferFutureCount,
+                RecruitmentAcceptedCount = x.RcruitmentAcceptedCount,
+                RecruitmentDeniedCount = x.RcruitmentDeniedCount,
+                RecruitmentWaitingCount = x.RcruitmentWaitingCount,
+                InternshipCount = x.InternshipCount,
+            });
+            return (items, totalCount);
+        }
         //====================================================================================================
         //====================================================================================================
         //====================================================================================================

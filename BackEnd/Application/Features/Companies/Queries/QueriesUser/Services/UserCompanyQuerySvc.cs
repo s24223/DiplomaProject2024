@@ -101,12 +101,22 @@ namespace Application.Features.Companies.Queries.QueriesUser.Services
 
         public async Task<ResponseItem<CompanyWithDetailsResp>> GetCompanyAsync(
             IEnumerable<Claim> claims,
+            IEnumerable<int> characteristics,
             CancellationToken cancellation,
             int? divisionId = null,
             int? streetId = null,
-            bool ascending = true,
-            int itemsCount = 100,
-            int page = 1)
+            bool ascendingBranch = true,
+            int itemsCountBranch = 100,
+            int pageBranch = 1,
+            string? searchText = null,
+            bool? isNegotiatedSalary = null,
+            bool? isForStudents = null,
+            decimal? minSalary = null,
+            decimal? maxSalary = null,
+            string orderByOffer = "created",
+            bool ascendingOffer = true,
+            int itemsCountOffer = 100,
+            int pageOffer = 1)
         {
             try
             {
@@ -115,13 +125,22 @@ namespace Application.Features.Companies.Queries.QueriesUser.Services
                 var data = await _userCompanyRepo.GetCompanyAsync
                 (
                 id,
+                characteristics,
                 cancellation,
                 divisionId,
                 streetId,
-                ascending,
-                itemsCount,
-                page
-                );
+                ascendingBranch,
+                itemsCountBranch,
+                pageBranch,
+                searchText,
+                isNegotiatedSalary,
+                isForStudents,
+                minSalary,
+                maxSalary,
+                orderByOffer,
+                ascendingOffer,
+                itemsCountOffer,
+                pageOffer);
 
 
                 return new ResponseItem<CompanyWithDetailsResp>
@@ -161,6 +180,43 @@ namespace Application.Features.Companies.Queries.QueriesUser.Services
                 TotalCount = result.TotalCount,
             };
         }
+
+        public async Task<ResponseItems<OfferWithDetailsToCompanyResp>> GetOfferWithDetailsAsync(
+            IEnumerable<Claim> claims,
+            IEnumerable<int> characteristics,
+            CancellationToken cancellation,
+            string? searchText = null,
+            bool? isNegotiatedSalary = null,
+            bool? isForStudents = null,
+            decimal? minSalary = null,
+            decimal? maxSalary = null,
+            string orderBy = "created",
+            bool ascending = true,
+            int itemsCount = 100,
+            int page = 1)
+        {
+            var id = GetId(claims);
+            var result = await _userCompanyRepo.GetOfferWithDetailsAsync(
+                id,
+                characteristics,
+                cancellation,
+                searchText,
+                isNegotiatedSalary,
+                isForStudents,
+                minSalary,
+                maxSalary,
+                orderBy,
+                ascending,
+                itemsCount,
+                page);
+
+            return new ResponseItems<OfferWithDetailsToCompanyResp>
+            {
+                Items = result.Items.ToList(),
+                TotalCount = result.TotalCount,
+            };
+        }
+
         //===============================================================================================
         //===============================================================================================
         //===============================================================================================
