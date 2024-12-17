@@ -172,5 +172,55 @@ namespace Application.Features.Companies.ExtensionMethods
             };
             return query;
         }
+
+        public static IQueryable<BranchOffer> BranchOfferFilter(
+            this IQueryable<BranchOffer> query,
+            DateTime? from = null,
+            DateTime? to = null)
+        {
+            if (from.HasValue)
+            {
+                query = query.Where(x => x.PublishStart >= from.Value);
+            }
+            if (to.HasValue)
+            {
+                query = query.Where(x =>
+                    x.PublishEnd <= to.Value ||
+                    x.PublishEnd == null);
+            }
+            return query;
+        }
+
+        public static IQueryable<BranchOffer> BranchOfferOrderBy(
+            this IQueryable<BranchOffer> query,
+            string orderBy = "publishstart",
+            bool ascending = true)
+        {
+            orderBy = orderBy.ToLower();
+            switch (orderBy)
+            {
+                case "lastupdate":
+                    return ascending ?
+                        query
+                            .OrderBy(x => x.LastUpdate)
+                            .ThenBy(x => x.PublishStart) :
+                        query
+                            .OrderByDescending(x => x.LastUpdate)
+                            .ThenByDescending(x => x.PublishStart);
+                case "publishstart":
+                    return ascending ?
+                        query
+                            .OrderBy(x => x.PublishStart)
+                            .ThenBy(x => x.LastUpdate) :
+                        query
+                            .OrderByDescending(x => x.PublishStart)
+                            .ThenByDescending(x => x.LastUpdate);
+
+                default:
+                    return ascending ?
+                        query.OrderBy(x => x.PublishStart) :
+                        query.OrderByDescending(x => x.PublishStart);
+            }
+        }
     }
 }

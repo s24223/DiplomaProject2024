@@ -1,8 +1,12 @@
 ﻿using Application.Features.Companies.Queries.QueriesUser.DTOs;
+using Application.Features.Companies.Queries.QueriesUser.DTOs.BranchResponse;
 using Application.Features.Companies.Queries.QueriesUser.DTOs.CompanyResponse;
+using Application.Features.Companies.Queries.QueriesUser.DTOs.OfferResponse;
 using Application.Features.Companies.Queries.QueriesUser.Interfaces;
 using Application.Shared.DTOs.Response;
 using Application.Shared.Services.Authentication;
+using Domain.Features.Branch.ValueObjects.Identificators;
+using Domain.Features.Offer.ValueObjects.Identificators;
 using Domain.Features.User.ValueObjects.Identificators;
 using System.Security.Claims;
 
@@ -155,7 +159,7 @@ namespace Application.Features.Companies.Queries.QueriesUser.Services
             }
         }
 
-        public async Task<ResponseItems<BranchWithDeatilsToCompanyResp>> GetBranchesWithDetailsAsync(
+        public async Task<ResponseItems<GetBranchCompanyResp>> GetBranchesWithDetailsAsync(
             IEnumerable<Claim> claims,
             CancellationToken cancellation,
             int? divisionId = null,
@@ -174,14 +178,14 @@ namespace Application.Features.Companies.Queries.QueriesUser.Services
                 itemsCount,
                 page);
 
-            return new ResponseItems<BranchWithDeatilsToCompanyResp>
+            return new ResponseItems<GetBranchCompanyResp>
             {
                 Items = result.Items.ToList(),
                 TotalCount = result.TotalCount,
             };
         }
 
-        public async Task<ResponseItems<OfferWithDetailsToCompanyResp>> GetOfferWithDetailsAsync(
+        public async Task<ResponseItems<GetOfferCompanyResp>> GetOfferWithDetailsAsync(
             IEnumerable<Claim> claims,
             IEnumerable<int> characteristics,
             CancellationToken cancellation,
@@ -210,13 +214,92 @@ namespace Application.Features.Companies.Queries.QueriesUser.Services
                 itemsCount,
                 page);
 
-            return new ResponseItems<OfferWithDetailsToCompanyResp>
+            return new ResponseItems<GetOfferCompanyResp>
             {
                 Items = result.Items.ToList(),
                 TotalCount = result.TotalCount,
             };
         }
 
+
+        public async Task<ResponseItem<GetOfferResp>> GetOfferAsync(
+            IEnumerable<Claim> claims,
+            Guid offerId,
+            CancellationToken cancellation,
+            DateTime? from = null,
+            DateTime? to = null,
+            string orderBy = "publishstart",
+            bool ascending = true,
+            int itemsCount = 100,
+            int page = 1)
+        {
+            var id = GetId(claims);
+            var result = await _userCompanyRepo.GetOfferAsync(
+                id,
+                new OfferId(offerId),
+                cancellation,
+                from,
+                to,
+                orderBy,
+                ascending,
+                itemsCount,
+                page);
+
+            return new ResponseItem<GetOfferResp>
+            {
+                Item = result,
+            };
+        }
+
+        public async Task<ResponseItem<GetBranchResp>> GetBranchAsync(
+           IEnumerable<Claim> claims,
+           Guid branchId,
+           CancellationToken cancellation,
+           DateTime? from = null,
+           DateTime? to = null,
+           string orderBy = "publishstart",
+           bool ascending = true,
+           int itemsCount = 100,
+           int page = 1)
+        {
+            var id = GetId(claims);
+            var result = await _userCompanyRepo.GetBranchAsync(
+                id,
+                new BranchId(branchId),
+                cancellation,
+                from,
+                to,
+                orderBy,
+                ascending,
+                itemsCount,
+                page);
+
+            return new ResponseItem<GetBranchResp>
+            {
+                Item = result,
+            };
+        }
+
+        public async Task<ResponseItems<GetBranchOfferResp>> GetBranchOffersAsync(
+            IEnumerable<Claim> claims,
+            CancellationToken cancellation,
+            DateTime? from = null,
+            DateTime? to = null,
+            string orderBy = "publishstart",
+            bool ascending = true,
+            int itemsCount = 100,
+            int page = 1)
+        {
+            var id = GetId(claims);
+            var result = await _userCompanyRepo.GetBranchOffersAsync(id, cancellation,
+                from, to, orderBy, ascending, itemsCount, page);
+
+            return new ResponseItems<GetBranchOfferResp>
+            {
+                Items = result.Items.ToList(),
+                TotalCount = result.TotalCount,
+            };
+        }
         //===============================================================================================
         //===============================================================================================
         //===============================================================================================
@@ -225,5 +308,6 @@ namespace Application.Features.Companies.Queries.QueriesUser.Services
         {
             return _authentication.GetIdNameFromClaims(claims);
         }
+
     }
 }

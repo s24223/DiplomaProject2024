@@ -16,8 +16,8 @@ namespace Application.Features.Companies.Queries.QueriesUser.DTOs.CompanyRespons
         public int RecruitmentAcceptedCount { get; set; } = 0;
         public int InternshipCount { get; set; } = 0;
         public IEnumerable<CharAndCharTypeResp>? CompanyCharacteristics { get; set; } = null;
-        private IEnumerable<BranchWithDeatilsToCompanyResp> _branches { get; set; } = [];
-        public IEnumerable<BranchWithDeatilsToCompanyResp> Branches
+        private IEnumerable<GetBranchCompanyResp> _branches { get; set; } = [];
+        public IEnumerable<GetBranchCompanyResp> Branches
         {
             get { return _branches; }
             set
@@ -27,8 +27,8 @@ namespace Application.Features.Companies.Queries.QueriesUser.DTOs.CompanyRespons
             }
         }
         public int BranchesCount { get; private set; } = 0;
-        private IEnumerable<OfferWithDetailsToCompanyResp> _offers { get; set; } = [];
-        public IEnumerable<OfferWithDetailsToCompanyResp> Offers
+        private IEnumerable<GetOfferCompanyResp> _offers { get; set; } = [];
+        public IEnumerable<GetOfferCompanyResp> Offers
         {
             get { return _offers; }
             set

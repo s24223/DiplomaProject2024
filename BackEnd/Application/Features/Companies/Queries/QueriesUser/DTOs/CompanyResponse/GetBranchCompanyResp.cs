@@ -3,7 +3,7 @@ using Application.Shared.DTOs.Features.Companies.Responses;
 
 namespace Application.Features.Companies.Queries.QueriesUser.DTOs.CompanyResponse
 {
-    public class BranchWithDeatilsToCompanyResp
+    public class GetBranchCompanyResp
     {
         public BranchResp Branch { get; set; } = null!;
         public int BranchOfferPastCount { get; set; } = 0;

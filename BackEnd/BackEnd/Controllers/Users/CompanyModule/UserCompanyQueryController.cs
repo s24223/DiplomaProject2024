@@ -189,8 +189,82 @@ namespace BackEnd.Controllers.Users.CompanyModule
                 page);
             return StatusCode(200, data);
         }
-        //================================================================================================================
-        //branches&offers
+
+        [Authorize]
+        [HttpGet("offers/{offerId:guid}")]
+        public async Task<IActionResult> GetOfferAsync(
+            Guid offerId,
+            CancellationToken cancellation,
+            DateTime? from = null,
+            DateTime? to = null,
+            string orderBy = "publishstart",
+            bool ascending = true,
+            int itemsCount = 100,
+            int page = 1)
+        {
+            var claims = User.Claims.ToList();
+            var data = await _userCompanySvc.GetOfferAsync(
+                claims,
+                offerId,
+                cancellation,
+                from,
+                to,
+                orderBy,
+                ascending,
+                itemsCount,
+                page);
+            return StatusCode(200, data);
+        }
+
+        [Authorize]
+        [HttpGet("branches/{branchId:guid}")]
+        public async Task<IActionResult> GetBranchAsync(
+            Guid branchId,
+            CancellationToken cancellation,
+            DateTime? from = null,
+            DateTime? to = null,
+            string orderBy = "publishstart",
+            bool ascending = true,
+            int itemsCount = 100,
+            int page = 1)
+        {
+            var claims = User.Claims.ToList();
+            var data = await _userCompanySvc.GetBranchAsync(
+                claims,
+                branchId,
+                cancellation,
+                from,
+                to,
+                orderBy,
+                ascending,
+                itemsCount,
+                page);
+            return StatusCode(200, data);
+        }
+
+        [Authorize]
+        [HttpGet("branches&offers")]
+        public async Task<IActionResult> GetBranchOffersAsync(
+            CancellationToken cancellation,
+            DateTime? from = null,
+            DateTime? to = null,
+            string orderBy = "publishstart",
+            bool ascending = true,
+            int itemsCount = 100,
+            int page = 1)
+        {
+            var claims = User.Claims.ToList();
+            var data = await _userCompanySvc.GetBranchOffersAsync(
+                claims,
+                cancellation,
+                from,
+                to,
+                orderBy,
+                ascending,
+                itemsCount,
+                page);
+            return StatusCode(200, data);
+        }
 
         //================================================================================================================
         //================================================================================================================

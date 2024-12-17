@@ -2,7 +2,7 @@
 
 namespace Application.Features.Companies.Queries.QueriesUser.DTOs.CompanyResponse
 {
-    public class OfferWithDetailsToCompanyResp
+    public class GetOfferCompanyResp
     {
         public OfferResp Offer { get; set; } = null!;
         public int BranchOfferPastCount { get; set; } = 0;
