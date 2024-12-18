@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import LoginButton from '../../components/LoginButton/LoginButton';
 import MainPageButton from '../../components/MainPageButton/MainPageButton';
 import ApplyButton from '../../components/ApplyButton/ApplyButton'
+import AddressImage from "../AddressImage/AddressImage";
 
 const OfferDetails = () => {
     const { offerId } = useParams();
@@ -53,6 +54,7 @@ const OfferDetails = () => {
             <br/>
             <p><strong>Województwo:</strong> {branch?.branch?.address?.hierarchy[0]?.name}</p>
             <p><strong>Opis oddziału:</strong> {branch?.branch?.description}</p>
+            <p><AddressImage lon={branch.branch?.address?.lon} lat={branch.branch?.address?.lat} /></p>
 
             <div className='bordered'></div>
             <h2>Szczegóły oferty:</h2>

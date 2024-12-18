@@ -3,7 +3,7 @@ import { GeoapifyGeocoderAutocomplete, GeoapifyContext } from '@geoapify/react-g
 import '@geoapify/geocoder-autocomplete/styles/minimal.css'
 import { fetchAddressPost } from "../../services/AddressService/AddressService";
 
-const api_key = "17217a7c061e45d28862b5f3c4e2a91f"
+const api_key = ""
 
 const AddressAutocomplete = ({childToParent}) => {
     const [language] = useState('pl')

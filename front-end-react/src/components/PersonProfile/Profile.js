@@ -80,6 +80,11 @@ const Profile = () => {
             
             
             <h1>User Profile</h1>
+            <button
+                onClick={() => window.location.href = "/personRecruitment"}
+            >
+                View Applications
+            </button>
 
             {person ? (
                 <>
@@ -119,6 +124,8 @@ const Profile = () => {
             <h2>Address</h2>
             {address ? (
                 <div className="bordered">
+                    <p><strong>I
+                        id :</strong> {address.id}</p>
                     <p><strong>Street:</strong> {address.street?.name} {address.buildingNumber}/{address.apartmentNumber}</p>
                     <p><strong>ZIP Code:</strong> {address.zipCode}</p>
                     <p><strong>City:</strong> {address.hierarchy?.find(item => item.administrativeType.name === "miasto")?.name}</p>
@@ -128,7 +135,7 @@ const Profile = () => {
             ) : (
                 <p>No address provided.</p>
             )}
-            
+
             <UrlList/>
            
             {company ? (
@@ -149,6 +156,11 @@ const Profile = () => {
                     {branchCount > 0 && <BranchList />}
                     <button onClick={handleAddBranch} >
                     Add Branch
+                    </button>
+                    <button
+                        onClick={() => window.location.href = "/companyRecruitment"}
+                    >
+                        Manage Applications
                     </button>
                     <br/>
                 </div>

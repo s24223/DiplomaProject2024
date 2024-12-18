@@ -50,7 +50,6 @@ export const fetchOffers = async (filters) => {
         {
             method: 'GET',
             headers: {
-                Authorization: `Bearer ${sessionStorage.getItem('jwt')}`,
                 'Access-Control-Allow-Origin': '*',
             },
         }
