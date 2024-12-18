@@ -23,7 +23,7 @@ const OffersList = ({ offers }) => {
                     } = offerItem;
 
                     const voivodeship = hierarchy.find((item) => item.administrativeType.name === 'województwo')?.name;
-                    const city = hierarchy.find((item) => item.administrativeType.name === 'miasto')?.name;
+                    const city = hierarchy.find((item) => item.administrativeType.name.includes('miasto'))?.name;
 
                     return (
                         <li key={offerId} className='offer-item' onClick={() => handleOfferClick(offerId)}>

@@ -128,7 +128,7 @@ const Profile = () => {
                         id :</strong> {address.id}</p>
                     <p><strong>Street:</strong> {address.street?.name} {address.buildingNumber}/{address.apartmentNumber}</p>
                     <p><strong>ZIP Code:</strong> {address.zipCode}</p>
-                    <p><strong>City:</strong> {address.hierarchy?.find(item => item.administrativeType.name === "miasto")?.name}</p>
+                    <p><strong>City:</strong> {address.hierarchy?.find(item => item.administrativeType.name.includes("miasto"))?.name}</p>
                     <p><strong>Voivodeship:</strong> {address.hierarchy?.find(item => item.administrativeType.name === "województwo")?.name}</p>
                     <p><AddressImage lon={address.lon} lat={address.lat} /></p>
                 </div>
