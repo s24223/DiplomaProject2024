@@ -176,7 +176,7 @@ BEGIN
 			ORDER BY [CombinedIDs] '+@SortOrder+' , [HU].[StreetName], [HU].[StreetId]';
 	SET @SQL = @SQL + N' OFFSET ((@Page - 1) * @maxItems) ROWS      
 			FETCH NEXT @MaxItems ROWS ONLY ;';
-	PRINT @SQL; 
+	--PRINT @SQL; 
 	EXEC sp_executesql @SQL,
 	N'@companyId UNIQUEIDENTIFIER, @DivisionId INT, @StreetId INT, @Page INT, @MaxItems INT', 
 	@companyId, @DivisionId, @StreetId, @Page, @MaxItems;

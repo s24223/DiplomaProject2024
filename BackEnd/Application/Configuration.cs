@@ -11,8 +11,8 @@ using Application.Features.Companies.Commands.BranchOffers.Services;
 using Application.Features.Companies.Commands.CompanyBranches.Interfaces;
 using Application.Features.Companies.Commands.CompanyBranches.Services;
 using Application.Features.Companies.Mappers;
-using Application.Features.Companies.Queries.QueriesOffer.Interfaces;
-using Application.Features.Companies.Queries.QueriesOffer.Services;
+using Application.Features.Companies.Queries.QueriesPublic.Repositories;
+using Application.Features.Companies.Queries.QueriesPublic.Services;
 using Application.Features.Companies.Queries.QueriesUser.Interfaces;
 using Application.Features.Companies.Queries.QueriesUser.Services;
 using Application.Features.Internships.Commands.Comments.Interfaces;
@@ -120,11 +120,11 @@ namespace Application
             serviceCollection.AddTransient<IBranchOfferCommandService, BranchOfferCommandService>();
 
             //Queries
-            serviceCollection.AddTransient<IOfferQueryRepository, OfferQueryRepository>();
-            serviceCollection.AddTransient<ICompanyQueryService, CompanyQueryService>();
-
             serviceCollection.AddTransient<IUserCompanyQueryRepo, UserCompanyQueryRepo>();
             serviceCollection.AddTransient<IUserCompanyQuerySvc, UserCompanyQuerySvc>();
+
+            serviceCollection.AddTransient<IBranchOfferQueryRepo, BranchOfferQueryRepo>();
+            serviceCollection.AddTransient<IBranchOfferQuerySvc, BranchOfferQuerySvc>();
             //===============================================================================================================
             //Intership module 
             serviceCollection.AddTransient<IInternshipMapper, InternshipMapper>();

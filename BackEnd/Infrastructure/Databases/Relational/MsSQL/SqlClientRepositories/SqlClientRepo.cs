@@ -168,6 +168,56 @@ namespace Infrastructure.Databases.Relational.MsSQL.SqlClientRepositories
             }
         }
 
+        public async Task<(int? WojId, IEnumerable<int> DivisionIds)> GetChildDivisionIdsAsync(
+            string wojewodztwo,
+            string? divisionName,
+            CancellationToken cancellation)
+        {
+            try
+            {
+                await using (SqlConnection con = new SqlConnection(_connectionString))
+                {
+                    await con.OpenAsync(cancellation);
+
+                    await using (SqlCommand com = new SqlCommand())
+                    {
+                        com.Connection = con;
+
+                        com.CommandText = "DIVISION_IDS_SELECTOR";
+                        com.CommandType = CommandType.StoredProcedure;
+
+                        com.Parameters.AddWithValue("@WOJ_NAME", wojewodztwo);
+                        com.Parameters.AddWithValue("@DIVISION_NAME",
+                            (string.IsNullOrWhiteSpace(divisionName) ? DBNull.Value : divisionName));
+
+                        await using var reader = await com.ExecuteReaderAsync(cancellation);
+                        int? wojewodztwoId = null;
+                        int? divisionId = null;
+                        var ids = new List<int>();
+
+                        while (await reader.ReadAsync(cancellation))
+                        {
+                            if (!wojewodztwoId.HasValue)
+                            {
+                                wojewodztwoId = reader["WOJ_ID"] == DBNull.Value ? null : (int)reader["WOJ_ID"];
+                            }
+
+                            divisionId = reader["DIV_ID"] == DBNull.Value ? null : (int)reader["DIV_ID"];
+                            if (divisionId.HasValue)
+                            {
+                                ids.Add(divisionId.Value);
+                            }
+                        }
+                        reader.Close();
+                        return (wojewodztwoId, ids);
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                throw HandleException(ex, $"WojewodztwoId: {wojewodztwo},\r\nDivisionName: {divisionName}");
+            }
+        }
         //=========================================================================================================
         //=========================================================================================================
         //=========================================================================================================
@@ -197,6 +247,8 @@ namespace Infrastructure.Databases.Relational.MsSQL.SqlClientRepositories
         }
 
         private string? AdaptString(string? s) => string.IsNullOrWhiteSpace(s) ? null : s;
+
+
 
         //=========================================================================================================
         //=========================================================================================================

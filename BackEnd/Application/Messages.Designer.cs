@@ -97,11 +97,29 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Za podanymi danymi Jednostke terytorialna nie wyszukano, sprawdz nazwe wojewodstwa lub nazwe jednostki.
+        /// </summary>
+        internal static string Address_Query_DivisionName_NotFound {
+            get {
+                return ResourceManager.GetString("Address_Query_DivisionName_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Za podanymi Danymi nie wyszukano adresów/ adresu.
         /// </summary>
         internal static string Address_Query_Id_NotFound {
             get {
                 return ResourceManager.GetString("Address_Query_Id_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Za podanymi danymi Wojewodstwa nie wyszukano, sprawdz poprawnosc wprowadzonych danych.
+        /// </summary>
+        internal static string Address_Query_WojName_NotFound {
+            get {
+                return ResourceManager.GetString("Address_Query_WojName_NotFound", resourceCulture);
             }
         }
         
@@ -147,6 +165,24 @@ namespace Application {
         internal static string Branch_Cmd_UrlSegmet_InputDuplicate {
             get {
                 return ResourceManager.GetString("Branch_Cmd_UrlSegmet_InputDuplicate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Za podanymi danymi Oddziału nie wyszukano.
+        /// </summary>
+        internal static string Branch_Query_Branch_NotFound {
+            get {
+                return ResourceManager.GetString("Branch_Query_Branch_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Niepoprwane dane z UrlSegmentu w ramach Branch, wpisz poprawne dane.
+        /// </summary>
+        internal static string Branch_Query_UrlSegmentBranch_Invalid {
+            get {
+                return ResourceManager.GetString("Branch_Query_UrlSegmentBranch_Invalid", resourceCulture);
             }
         }
         

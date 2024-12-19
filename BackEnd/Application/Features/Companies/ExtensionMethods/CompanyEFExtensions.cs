@@ -1,4 +1,7 @@
 ﻿using Application.Databases.Relational.Models;
+using Domain.Features.Company.ValueObjects;
+using Domain.Features.Offer.ValueObjects;
+using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.ValueObjects;
 
 namespace Application.Features.Companies.ExtensionMethods
@@ -221,6 +224,153 @@ namespace Application.Features.Companies.ExtensionMethods
                         query.OrderBy(x => x.PublishStart) :
                         query.OrderByDescending(x => x.PublishStart);
             }
+        }
+
+        public static IQueryable<BranchOffer> Filter(
+            this IQueryable<BranchOffer> query,
+            IEnumerable<int> characteristics,
+            IEnumerable<int> divisionIds,
+            int? wojId = null,
+            string? streetName = null,//-
+            UserId? userId = null,
+            string? companyName = null,
+            Regon? regon = null,
+            string? searchText = null,
+            DateTime? publishFrom = null,
+            DateTime? publishTo = null,
+            DateTime? workFrom = null,
+            DateTime? workTo = null,
+            Money? minSalary = null,
+            Money? maxSalary = null,
+            bool? isForStudents = null,
+            bool? isNegotiatedSalary = null)
+        {
+            if (divisionIds.Any())
+            {
+                query = query.Where(x => divisionIds.Any(y =>
+                    x.Branch.Address != null &&
+                    x.Branch.Address.Division.Id == y
+                ));
+
+                if (streetName != null)
+                {
+                    var searchTerms = streetName
+                    .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                    query = query.Where(x =>
+                     x.Branch.Address != null &&
+                     x.Branch.Address.Street != null &&
+                     searchTerms.Any(st => x.Branch.Address.Street.Name.Contains(st))
+                     );
+                }
+            }
+            else
+            {
+                if (wojId.HasValue)
+                {
+                    query = query.Where(x =>
+                        x.Branch.Address != null &&
+                        x.Branch.Address.Division.PathIds != null &&
+                        x.Branch.Address.Division.PathIds.Contains($"{wojId.Value}-"));
+                }
+            }
+
+            if (characteristics.Any())
+            {
+                query = query.Where(x =>
+                    x.Offer.OfferCharacteristics
+                    .Any(y => characteristics.Contains(y.CharacteristicId))
+                    );
+            }
+
+            if (userId != null)
+            {
+                query = query.Where(x => !x.Recruitments
+                    .Where(y => y.BranchOfferId == x.Id).Any()
+                    );
+            }
+
+            if (!string.IsNullOrWhiteSpace(companyName))
+            {
+                var searchTerms = companyName
+                    .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                query = query.Where(x =>
+                     (x.Branch.Company.Name != null &&
+                     searchTerms.Any(st => x.Branch.Company.Name.Contains(st)))
+                     );
+            }
+            if (regon != null)
+            {
+                query = query.Where(x => x.Branch.Company.Regon == regon.Value);
+            }
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                var searchTerms = searchText
+                    .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                query = query.Where(x =>
+                     (x.Branch.Company.Name != null &&
+                     searchTerms.Any(st => x.Branch.Company.Name.Contains(st))) ||
+                     (x.Branch.Company.Description != null &&
+                     searchTerms.Any(st => x.Branch.Company.Description.Contains(st)) ||
+                     (x.Branch.Name != null &&
+                     searchTerms.Any(st => x.Branch.Name.Contains(st))) ||
+                     (x.Branch.Description != null &&
+                     searchTerms.Any(st => x.Branch.Description.Contains(st))) ||
+                     (x.Offer.Name != null &&
+                     searchTerms.Any(st => x.Offer.Name.Contains(st))) ||
+                     (x.Offer.Description != null &&
+                     searchTerms.Any(st => x.Offer.Description.Contains(st)))
+                     ));
+            }
+
+            if (publishFrom.HasValue)
+            {
+                query = query.Where(x => x.PublishStart >= publishFrom.Value);
+            }
+            if (publishTo.HasValue)
+            {
+                query = query.Where(x =>
+                    x.PublishEnd == null ||
+                    (x.PublishEnd != null || x.PublishEnd <= publishTo.Value));
+            }
+            if (workFrom.HasValue)
+            {
+                var dateOnly = DateOnly.FromDateTime(workFrom.Value);
+                query = query.Where(x =>
+                    x.WorkStart != null && x.WorkStart >= dateOnly);
+            }
+            if (workTo.HasValue)
+            {
+                var dateOnly = DateOnly.FromDateTime(workTo.Value);
+                query = query.Where(x =>
+                    x.WorkEnd == null ||
+                    (x.WorkEnd != null && x.WorkEnd <= dateOnly));
+            }
+            if (minSalary != null && minSalary.Value > 0)
+            {
+                query = query.Where(x =>
+                    x.Offer.MinSalary != null &&
+                    x.Offer.MinSalary >= minSalary.Value);
+            }
+            if (maxSalary != null && maxSalary.Value > 0)
+            {
+                query = query.Where(x =>
+                    x.Offer.MaxSalary != null &&
+                    x.Offer.MaxSalary <= maxSalary.Value);
+            }
+            if (isForStudents != null && isForStudents == true)
+            {
+                query = query.Where(x => x.Offer.IsForStudents == _dbTrue);
+            }
+            if (isNegotiatedSalary != null && isNegotiatedSalary == true)
+            {
+                query = query.Where(x =>
+                    x.Offer.IsNegotiatedSalary != null &&
+                    x.Offer.IsNegotiatedSalary == _dbTrue);
+            }
+            return query;
         }
     }
 }

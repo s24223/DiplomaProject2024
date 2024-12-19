@@ -24,6 +24,11 @@ namespace Application.Shared.Interfaces.SqlClient
             CancellationToken cancellation
             );
 
+        Task<(int? WojId, IEnumerable<int> DivisionIds)> GetChildDivisionIdsAsync(
+            string wojewodztwo,
+            string? divisionName,
+            CancellationToken cancellation);
+
         //Past Procedures
         /*Task<IEnumerable<(int DivisionId, Street Street)>> GetCollocationsAsync
             (

@@ -286,3 +286,120 @@ END;
 --========================================================================================
 GO
 --========================================================================================
+
+CREATE OR ALTER PROCEDURE DIVISION_IDS_SELECTOR
+	@WOJ_NAME NVARCHAR(MAX), -- = 
+	 @DIVISION_NAME NVARCHAR(MAX) = NULL -- = 'WARSZAWA'
+AS 
+BEGIN	
+	DECLARE @WOJ_ID INT;
+	SELECT TOP 1 @WOJ_ID =[AD].[Id]
+	FROM [dbo].[AdministrativeDivision] AS [AD]
+	WHERE 
+		[AD].[ParentDivisionId] IS NULL AND
+		[AD].[Name] LIKE '%'+@WOJ_NAME+'%';
+
+	IF @DIVISION_NAME IS NULL
+		BEGIN
+			SELECT NULL AS 'DIV_ID',
+			--[Name] ,
+			--[ParentDivisionId] ,
+			--[AdministrativeTypeId] ,
+			--[Level] ,
+			--[PathIds],
+			@WOJ_ID AS 'WOJ_ID';
+		END;
+	ELSE
+		BEGIN
+			WITH SELECT_CHILS_WOJ AS 
+			(
+				SELECT 
+					[Id] ,
+					[Name] ,
+					[ParentDivisionId] ,
+					[AdministrativeTypeId] ,
+					[Level] ,
+					[PathIds] 
+				FROM [dbo].[AdministrativeDivision] AS [AD]
+				WHERE 
+					[AD].[PathIds] LIKE ''+CAST(@WOJ_ID AS NVARCHAR)+'-%' OR 
+					[AD].ParentDivisionId = @WOJ_ID
+			),
+			SELECT_SIMILAR_DIVISIONS AS 
+			(
+				SELECT 
+					[Id] ,
+					[Name] ,
+					[ParentDivisionId] ,
+					[AdministrativeTypeId] ,
+					[Level] ,
+					[PathIds] 
+				FROM SELECT_CHILS_WOJ AS [C]
+				CROSS APPLY (
+					SELECT STRING_AGG(value, ' ') AS WordsSorted
+					FROM STRING_SPLIT(@DIVISION_NAME, ' ')
+					) AS inputWords
+				CROSS APPLY (
+					SELECT STRING_AGG(value, ' ') AS WordsSorted
+					FROM STRING_SPLIT(C.Name, ' ')
+					) AS nameWords
+				WHERE inputWords.WordsSorted = nameWords.WordsSorted
+			),
+			SELECT_CHILDS_SIMILAR_DIVISIONS AS 
+			(
+				SELECT 
+					[AD].[Id] ,
+					[AD].[Name] ,
+					[AD].[ParentDivisionId] ,
+					[AD].[AdministrativeTypeId] ,
+					[AD].[Level] ,
+					[AD].[PathIds] 
+				FROM [dbo].[AdministrativeDivision] AS [AD]
+				JOIN SELECT_SIMILAR_DIVISIONS AS [PAR] 
+				ON [AD].ID =  [PAR].[Id]
+
+				UNION ALL
+
+				SELECT 
+					[AD2].[Id] ,
+					[AD2].[Name] ,
+					[AD2].[ParentDivisionId] ,
+					[AD2].[AdministrativeTypeId] ,
+					[AD2].[Level] ,
+					[AD2].[PathIds] 
+				FROM [dbo].[AdministrativeDivision] AS [AD2]
+				JOIN  SELECT_CHILDS_SIMILAR_DIVISIONS AS [PAR2] ON
+					[AD2].ParentDivisionId =  [PAR2].[Id]
+			),
+			SELECT_LOW_LEVEL_CHILDS AS 
+			(
+				SELECT 
+					[SC].[Id] ,
+					[SC].[Name] ,
+					[SC].[ParentDivisionId] ,
+					[SC].[AdministrativeTypeId] ,
+					[SC].[Level] ,
+					[SC].[PathIds] 
+				FROM SELECT_CHILDS_SIMILAR_DIVISIONS AS [SC]
+				WHERE NOT EXISTS 
+					(
+						SELECT 1 
+						FROM [dbo].[AdministrativeDivision] AS [AD]
+						WHERE [AD].[ParentDivisionId] = [SC].[Id]
+					)
+			)
+			SELECT 
+					DISTINCT
+					[Id] AS 'DIV_ID',
+					--[Name] ,
+					--[ParentDivisionId] ,
+					--[AdministrativeTypeId] ,
+					--[Level] ,
+					--[PathIds],
+					@WOJ_ID AS 'WOJ_ID'
+			FROM SELECT_LOW_LEVEL_CHILDS;
+		END;	
+END;
+--========================================================================================
+GO
+--========================================================================================
