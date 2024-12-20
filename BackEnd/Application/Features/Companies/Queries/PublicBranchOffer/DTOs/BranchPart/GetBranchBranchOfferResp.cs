@@ -1,6 +1,6 @@
 ﻿using Application.Shared.DTOs.Features.Companies.Responses;
 
-namespace Application.Features.Companies.Queries.QueriesPublic.DTOs.BranchPart
+namespace Application.Features.Companies.Queries.PublicBranchOffer.DTOs.BranchPart
 {
     public class GetBranchBranchOfferResp
     {

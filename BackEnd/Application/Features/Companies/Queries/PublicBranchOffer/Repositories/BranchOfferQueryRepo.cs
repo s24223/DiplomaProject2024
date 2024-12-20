@@ -2,9 +2,9 @@
 using Application.Databases.Relational.Models;
 using Application.Features.Companies.ExtensionMethods;
 using Application.Features.Companies.Mappers;
-using Application.Features.Companies.Queries.QueriesPublic.DTOs;
-using Application.Features.Companies.Queries.QueriesPublic.DTOs.BranchPart;
-using Application.Features.Companies.Queries.QueriesPublic.DTOs.OffersPart;
+using Application.Features.Companies.Queries.PublicBranchOffer.DTOs;
+using Application.Features.Companies.Queries.PublicBranchOffer.DTOs.BranchPart;
+using Application.Features.Companies.Queries.PublicBranchOffer.DTOs.OffersPart;
 using Application.Shared.DTOs.Features.Companies.Responses;
 using Application.Shared.ExtensionMethods;
 using Application.Shared.Interfaces.SqlClient;
@@ -21,7 +21,7 @@ using Domain.Shared.Templates.Exceptions;
 using Domain.Shared.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Features.Companies.Queries.QueriesPublic.Repositories
+namespace Application.Features.Companies.Queries.PublicBranchOffer.Repositories
 {
     public class BranchOfferQueryRepo : IBranchOfferQueryRepo
     {
@@ -84,6 +84,7 @@ namespace Application.Features.Companies.Queries.QueriesPublic.Repositories
 
             var totalCount = await query.CountAsync(cancellation);
             var results = await query
+                .BranchOfferOrderBy(characteristics, orderBy, ascending)
                 .Pagination(maxItems, page)
                 .AsNoTracking()
                 .ToListAsync(cancellation);
@@ -168,7 +169,8 @@ namespace Application.Features.Companies.Queries.QueriesPublic.Repositories
                 .Filter([], divisionData.DivisionIds, divisionData.WojId,
                 streetName, userId, null, null, searchText, publishFrom, publishTo,
                 workFrom, workTo, null, null, null, null)
-                .Where(x => x.OfferId == offerId.Value);
+            .Where(x => x.OfferId == offerId.Value)
+            .BranchOfferOrderBy([], orderBy, ascending);
 
 
             var result = await _context.Offers
@@ -235,6 +237,7 @@ namespace Application.Features.Companies.Queries.QueriesPublic.Repositories
 
             var totalCount = await branchOfferQuery.CountAsync(cancellation);
             var items = await branchOfferQuery
+                .BranchOfferOrderBy([], orderBy, ascending)
                 .Pagination(maxItems, page)
                 .ToListAsync(cancellation);
 
@@ -279,10 +282,11 @@ namespace Application.Features.Companies.Queries.QueriesPublic.Repositories
                int maxItems = 100,
                int page = 1)
         {
-            var branchQuery = PrepareBrnachQuery(companyId, branchId,
+            var branchQuery = PrepareBranchQuery(companyId, branchId,
                 companyUrlSegment, branchUrlSegment);
 
-            var query = PrepareBranchOfferQuery().Filter(characteristics, [],
+            var query = PrepareBranchOfferQuery()
+                .Filter(characteristics, [],
                 null, null, userId, null, null, searchText, publishFrom,
                 publishTo, workFrom, workTo, minSalary, maxSalary, isForStudents, isNegotiatedSalary);
 
@@ -294,6 +298,7 @@ namespace Application.Features.Companies.Queries.QueriesPublic.Repositories
                     .AsQueryable()
                     .Count(),
                 BranchOffers = query
+                    .BranchOfferOrderBy(characteristics, orderBy, ascending)
                     .Pagination(maxItems, page)
                     .AsQueryable()
                     .Where(x => x.BranchId == b.Id)
@@ -344,7 +349,7 @@ namespace Application.Features.Companies.Queries.QueriesPublic.Repositories
               int maxItems = 100,
               int page = 1)
         {
-            var branchQuery = PrepareBrnachQuery(companyId, branchId,
+            var branchQuery = PrepareBranchQuery(companyId, branchId,
                 companyUrlSegment, branchUrlSegment);
 
             var query = PrepareBranchOfferQuery().Filter(characteristics, [],
@@ -359,6 +364,7 @@ namespace Application.Features.Companies.Queries.QueriesPublic.Repositories
                     .AsQueryable()
                     .Count(),
                 BranchOffers = query
+                    .BranchOfferOrderBy(characteristics, orderBy, ascending)
                     .Pagination(maxItems, page)
                     .AsQueryable()
                     .Where(x => x.BranchId == b.Id)
@@ -381,7 +387,29 @@ namespace Application.Features.Companies.Queries.QueriesPublic.Repositories
         }
         //Company
         //Company/Urls
-
+        public async Task GetCompanyAsync(
+            UserId? companyId,
+            UrlSegment? companyUrlSegment,
+            CancellationToken cancellation,
+            IEnumerable<int> characteristics,
+            UserId? userId = null,
+            string? wojewodstwo = null,
+            string? divisionName = null,
+            string? streetName = null,
+            string? searchText = null,
+            DateTime? publishFrom = null,
+            DateTime? publishTo = null,
+            DateTime? workFrom = null,
+            DateTime? workTo = null,
+            Money? minSalary = null,
+            Money? maxSalary = null,
+            bool? isForStudents = null,
+            bool? isNegotiatedSalary = null,
+            string orderBy = "publishStart",
+            bool ascending = true,
+            int maxItems = 100,
+            int page = 1)
+        { }
         //===================================================================================
         //===================================================================================
         //===================================================================================
@@ -408,7 +436,7 @@ namespace Application.Features.Companies.Queries.QueriesPublic.Repositories
                 .Where(x =>
                     x.PublishStart <= _now &&
                     (x.PublishEnd == null ||
-                    (x.PublishEnd != null && x.PublishEnd >= _now))
+                    x.PublishEnd != null && x.PublishEnd >= _now)
                 );
         }
 
@@ -439,7 +467,7 @@ namespace Application.Features.Companies.Queries.QueriesPublic.Repositories
             return (divisionsData.WojId.Value, divisionsData.DivisionIds);
         }
 
-        private IQueryable<Branch> PrepareBrnachQuery(
+        private IQueryable<Branch> PrepareBranchQuery(
                UserId? companyId,
                BranchId? branchId,
                UrlSegment? companyUrlSegment,

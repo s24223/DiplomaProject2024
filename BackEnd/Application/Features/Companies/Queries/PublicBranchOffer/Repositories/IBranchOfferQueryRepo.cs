@@ -1,6 +1,6 @@
-﻿using Application.Features.Companies.Queries.QueriesPublic.DTOs;
-using Application.Features.Companies.Queries.QueriesPublic.DTOs.BranchPart;
-using Application.Features.Companies.Queries.QueriesPublic.DTOs.OffersPart;
+﻿using Application.Features.Companies.Queries.PublicBranchOffer.DTOs;
+using Application.Features.Companies.Queries.PublicBranchOffer.DTOs.BranchPart;
+using Application.Features.Companies.Queries.PublicBranchOffer.DTOs.OffersPart;
 using Domain.Features.Branch.ValueObjects.Identificators;
 using Domain.Features.BranchOffer.ValueObjects.Identificators;
 using Domain.Features.Company.ValueObjects;
@@ -9,7 +9,7 @@ using Domain.Features.Offer.ValueObjects.Identificators;
 using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.ValueObjects;
 
-namespace Application.Features.Companies.Queries.QueriesPublic.Repositories
+namespace Application.Features.Companies.Queries.PublicBranchOffer.Repositories
 {
     public interface IBranchOfferQueryRepo
     {

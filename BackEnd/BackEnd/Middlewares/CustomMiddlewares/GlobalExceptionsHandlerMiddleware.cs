@@ -135,6 +135,14 @@ namespace BackEnd.Middlewares.CustomMiddlewares
                     break;
             }
 
+            var dbEx = new Application.Databases.Relational.Models.Exception
+            {
+                ExceptionType = ex.GetType().ToString(),
+                Message = ex.ToString(),
+            };
+
+            await dbContext.SaveChangesAsync();
+
             response.ContentType = "application/json";
             response.StatusCode = 500;
 
@@ -142,7 +150,7 @@ namespace BackEnd.Middlewares.CustomMiddlewares
             {
                 Status = EnumResponseStatus.AppFault,
                 Message = ex.Message,
-                ProblemId = Guid.NewGuid()
+                ProblemId = dbEx.Id,
             };
 
             var result = JsonSerializer.Serialize(errorResponse);

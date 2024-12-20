@@ -11,8 +11,10 @@ using Application.Features.Companies.Commands.BranchOffers.Services;
 using Application.Features.Companies.Commands.CompanyBranches.Interfaces;
 using Application.Features.Companies.Commands.CompanyBranches.Services;
 using Application.Features.Companies.Mappers;
-using Application.Features.Companies.Queries.QueriesPublic.Repositories;
-using Application.Features.Companies.Queries.QueriesPublic.Services;
+using Application.Features.Companies.Queries.PublicBranchOffer.Repositories;
+using Application.Features.Companies.Queries.PublicBranchOffer.Services;
+using Application.Features.Companies.Queries.PublicCompany.Interfaces;
+using Application.Features.Companies.Queries.PublicCompany.Services;
 using Application.Features.Companies.Queries.QueriesUser.Interfaces;
 using Application.Features.Companies.Queries.QueriesUser.Services;
 using Application.Features.Internships.Commands.Comments.Interfaces;
@@ -125,6 +127,9 @@ namespace Application
 
             serviceCollection.AddTransient<IBranchOfferQueryRepo, BranchOfferQueryRepo>();
             serviceCollection.AddTransient<IBranchOfferQuerySvc, BranchOfferQuerySvc>();
+
+            serviceCollection.AddTransient<ICompanyQueryRepo, CompanyQueryRepo>();
+            serviceCollection.AddTransient<ICompanyQuerySvc, CompanyQuerySvc>();
             //===============================================================================================================
             //Intership module 
             serviceCollection.AddTransient<IInternshipMapper, InternshipMapper>();

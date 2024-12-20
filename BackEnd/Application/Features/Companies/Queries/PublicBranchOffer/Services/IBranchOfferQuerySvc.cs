@@ -1,9 +1,9 @@
-﻿using Application.Features.Companies.Queries.QueriesPublic.DTOs;
-using Application.Features.Companies.Queries.QueriesPublic.DTOs.BranchPart;
-using Application.Features.Companies.Queries.QueriesPublic.DTOs.OffersPart;
+﻿using Application.Features.Companies.Queries.PublicBranchOffer.DTOs;
+using Application.Features.Companies.Queries.PublicBranchOffer.DTOs.BranchPart;
+using Application.Features.Companies.Queries.PublicBranchOffer.DTOs.OffersPart;
 using Application.Shared.DTOs.Response;
 
-namespace Application.Features.Companies.Queries.QueriesPublic.Services
+namespace Application.Features.Companies.Queries.PublicBranchOffer.Services
 {
     public interface IBranchOfferQuerySvc
     {

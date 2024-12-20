@@ -372,5 +372,81 @@ namespace Application.Features.Companies.ExtensionMethods
             }
             return query;
         }
+
+        public static IQueryable<BranchOffer> BranchOfferOrderBy(
+            this IQueryable<BranchOffer> query,
+            IEnumerable<int> characteristics,
+            string orderBy = "publishstart",// characteristics
+            bool ascending = true)
+        {
+            orderBy = orderBy.ToLower();
+
+            if (orderBy == "characteristics" && characteristics.Any())
+            {
+                return query = ascending ?
+                    query.Select(x => new
+                    {
+                        Item = x,
+                        MatchCount = x.Offer.OfferCharacteristics
+                            .Count(c => characteristics.Contains(c.CharacteristicId))
+                    })
+                    .OrderBy(x => x.MatchCount)
+                    .ThenBy(x => x.Item.PublishStart)
+                    .Select(x => x.Item).AsQueryable() :
+                    query.Select(x => new
+                    {
+                        Item = x,
+                        MatchCount = x.Offer.OfferCharacteristics
+                            .Count(c => characteristics.Contains(c.CharacteristicId))
+                    })
+                    .OrderByDescending(x => x.MatchCount)
+                    .ThenByDescending(x => x.Item.PublishStart)
+                    .Select(x => x.Item).AsQueryable();
+            }
+
+            switch (orderBy)
+            {
+                case "maxsalary":
+                    return ascending ?
+                        query.OrderBy(x => x.Offer.MaxSalary)
+                            .ThenBy(x => x.PublishStart) :
+                        query.OrderByDescending(x => x.Offer.MaxSalary)
+                            .ThenByDescending(x => x.PublishStart);
+
+                case "minsalary":
+                    return ascending ?
+                        query.OrderBy(x => x.Offer.MinSalary)
+                            .ThenBy(x => x.PublishStart) :
+                        query.OrderByDescending(x => x.Offer.MinSalary)
+                            .ThenByDescending(x => x.PublishStart);
+
+                case "workend":
+                    return ascending ?
+                        query.OrderBy(x => x.WorkEnd)
+                            .ThenBy(x => x.PublishStart) :
+                        query.OrderByDescending(x => x.WorkEnd)
+                            .ThenByDescending(x => x.PublishStart);
+
+                case "workstart":
+                    return ascending ?
+                        query.OrderBy(x => x.WorkStart)
+                            .ThenBy(x => x.PublishStart) :
+                        query.OrderByDescending(x => x.WorkStart)
+                            .ThenByDescending(x => x.PublishStart);
+
+                case "publishend":
+                    return ascending ?
+                        query.OrderBy(x => x.PublishEnd)
+                            .ThenBy(x => x.PublishStart) :
+                        query.OrderByDescending(x => x.PublishEnd)
+                            .ThenByDescending(x => x.PublishStart);
+
+                default:// "publishstart": 
+                    return ascending ?
+                        query.OrderBy(x => x.PublishStart) :
+                        query.OrderByDescending(x => x.PublishStart);
+
+            }
+        }
     }
 }

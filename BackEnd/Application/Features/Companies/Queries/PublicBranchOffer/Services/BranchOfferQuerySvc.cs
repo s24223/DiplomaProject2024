@@ -1,7 +1,7 @@
-﻿using Application.Features.Companies.Queries.QueriesPublic.DTOs;
-using Application.Features.Companies.Queries.QueriesPublic.DTOs.BranchPart;
-using Application.Features.Companies.Queries.QueriesPublic.DTOs.OffersPart;
-using Application.Features.Companies.Queries.QueriesPublic.Repositories;
+﻿using Application.Features.Companies.Queries.PublicBranchOffer.DTOs;
+using Application.Features.Companies.Queries.PublicBranchOffer.DTOs.BranchPart;
+using Application.Features.Companies.Queries.PublicBranchOffer.DTOs.OffersPart;
+using Application.Features.Companies.Queries.PublicBranchOffer.Repositories;
 using Application.Shared.DTOs.Response;
 using Application.Shared.Services.Authentication;
 using Domain.Features.Branch.ValueObjects.Identificators;
@@ -11,7 +11,7 @@ using Domain.Features.Offer.ValueObjects.Identificators;
 using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.ValueObjects;
 
-namespace Application.Features.Companies.Queries.QueriesPublic.Services
+namespace Application.Features.Companies.Queries.PublicBranchOffer.Services
 {
     public class BranchOfferQuerySvc : IBranchOfferQuerySvc
     {

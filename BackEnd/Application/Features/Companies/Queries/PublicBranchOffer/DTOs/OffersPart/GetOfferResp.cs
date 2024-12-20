@@ -1,6 +1,6 @@
 ﻿using Application.Shared.DTOs.Features.Companies.Responses;
 
-namespace Application.Features.Companies.Queries.QueriesPublic.DTOs.OffersPart
+namespace Application.Features.Companies.Queries.PublicBranchOffer.DTOs.OffersPart
 {
     public class GetOfferResp
     {

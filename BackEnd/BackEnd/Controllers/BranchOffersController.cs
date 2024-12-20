@@ -1,4 +1,4 @@
-﻿using Application.Features.Companies.Queries.QueriesPublic.Services;
+﻿using Application.Features.Companies.Queries.PublicBranchOffer.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BackEnd.Controllers
