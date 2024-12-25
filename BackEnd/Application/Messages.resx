@@ -229,6 +229,9 @@
   <data name="Company_Cmd_NotUniqueUrlSegment" xml:space="preserve">
     <value>Wybierz inny UrlSegment</value>
   </data>
+  <data name="Company_Query_NotFound" xml:space="preserve">
+    <value>Nie wyszukano firmy</value>
+  </data>
   <data name="DateOnly_ValueAttribute_InvalidDate" xml:space="preserve">
     <value>Niepoprawna data</value>
   </data>
@@ -354,6 +357,9 @@
   </data>
   <data name="Url_Cmd_PathConflicts" xml:space="preserve">
     <value>W podanych danych wystepuja duplikaty</value>
+  </data>
+  <data name="Url_Query_CompanyIdOrUrl_Requered" xml:space="preserve">
+    <value>Nie podano ani id ani UrlSegment firmy</value>
   </data>
   <data name="UserSecrets_Audience_NotConfigured" xml:space="preserve">
     <value>Nie jest skonfigurowany Audience w UserSecrets</value>

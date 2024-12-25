@@ -141,6 +141,7 @@ namespace BackEnd.Middlewares.CustomMiddlewares
                 Message = ex.ToString(),
             };
 
+            await dbContext.Exceptions.AddAsync(dbEx);
             await dbContext.SaveChangesAsync();
 
             response.ContentType = "application/json";

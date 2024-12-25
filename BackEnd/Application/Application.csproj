@@ -33,7 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Companies\Queries\PublicCompany\DTOs\" />
     <Folder Include="Features\Persons\Queries\" />
   </ItemGroup>
 

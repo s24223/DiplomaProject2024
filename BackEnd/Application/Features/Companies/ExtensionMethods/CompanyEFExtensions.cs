@@ -448,5 +448,57 @@ namespace Application.Features.Companies.ExtensionMethods
 
             }
         }
+
+
+        public static IQueryable<Company> Filter(
+            this IQueryable<Company> query,
+            IEnumerable<int> characteristics,
+            string? companyName = null,
+            Regon? regon = null,
+            string? searchText = null)
+        {
+            if (regon != null)
+            {
+                query = query.Where(x => x.Regon == regon.Value);
+            }
+            if (!string.IsNullOrWhiteSpace(companyName))
+            {
+                var searchTerms = companyName
+                    .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                query = query.Where(x =>
+                     (x.Name != null &&
+                     searchTerms.Any(st => x.Name.Contains(st)))
+                     );
+            }
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                var searchTerms = searchText
+                    .Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                query = query.Where(x =>
+                     (x.Name != null &&
+                     searchTerms.Any(st => x.Name.Contains(st))) ||
+                     (x.Description != null &&
+                     searchTerms.Any(st => x.Description.Contains(st))) ||
+                     (x.Branches.Any() &&
+                     searchTerms.Any(st =>
+                        x.Branches.Any(b => b.Description != null && b.Description.Contains(st)) ||
+                        x.Branches.Any(b => b.Name != null && b.Name.Contains(st))
+                        ))
+                     );
+            }
+            if (characteristics.Any())
+            {
+                query = query.Where(c => c.Branches
+                    .Any(b => b.BranchOffers
+                        .Any(bo => bo.Offer.OfferCharacteristics
+                            .Any(och => characteristics.Contains(och.CharacteristicId))
+                            )
+                        )
+                    );
+            }
+            return query;
+        }
     }
 }

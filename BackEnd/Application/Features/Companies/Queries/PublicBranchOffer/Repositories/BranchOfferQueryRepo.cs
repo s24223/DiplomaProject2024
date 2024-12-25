@@ -385,31 +385,7 @@ namespace Application.Features.Companies.Queries.PublicBranchOffer.Repositories
 
             return (items, result.TotalCount);
         }
-        //Company
-        //Company/Urls
-        public async Task GetCompanyAsync(
-            UserId? companyId,
-            UrlSegment? companyUrlSegment,
-            CancellationToken cancellation,
-            IEnumerable<int> characteristics,
-            UserId? userId = null,
-            string? wojewodstwo = null,
-            string? divisionName = null,
-            string? streetName = null,
-            string? searchText = null,
-            DateTime? publishFrom = null,
-            DateTime? publishTo = null,
-            DateTime? workFrom = null,
-            DateTime? workTo = null,
-            Money? minSalary = null,
-            Money? maxSalary = null,
-            bool? isForStudents = null,
-            bool? isNegotiatedSalary = null,
-            string orderBy = "publishStart",
-            bool ascending = true,
-            int maxItems = 100,
-            int page = 1)
-        { }
+
         //===================================================================================
         //===================================================================================
         //===================================================================================

@@ -394,6 +394,15 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nie wyszukano firmy.
+        /// </summary>
+        internal static string Company_Query_NotFound {
+            get {
+                return ResourceManager.GetString("Company_Query_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Niepoprawna data.
         /// </summary>
         internal static string DateOnly_ValueAttribute_InvalidDate {
@@ -741,6 +750,15 @@ namespace Application {
         internal static string Url_Cmd_PathConflicts {
             get {
                 return ResourceManager.GetString("Url_Cmd_PathConflicts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nie podano ani id ani UrlSegment firmy.
+        /// </summary>
+        internal static string Url_Query_CompanyIdOrUrl_Requered {
+            get {
+                return ResourceManager.GetString("Url_Query_CompanyIdOrUrl_Requered", resourceCulture);
             }
         }
         
