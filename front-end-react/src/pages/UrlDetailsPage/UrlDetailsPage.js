@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import MainPageButton from "../../components/MainPageButton/MainPageButton";
-import LoginButton from "../../components/LoginButton/LoginButton";
-import ReturnButton from "../../components/CancelButton/ReturnButton";
+import MainPageButton from "../../components/Buttons/MainPageButton/MainPageButton";
+import LoginButton from "../../components/Buttons/LoginButton/LoginButton";
+import ReturnButton from "../../components/Buttons/CancelButton/ReturnButton";
 
 const UrlDetailsPage = () => {
     const location = useLocation();

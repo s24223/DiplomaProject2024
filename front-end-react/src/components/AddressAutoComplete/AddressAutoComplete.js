@@ -8,6 +8,7 @@ const api_key = "17217a7c061e45d28862b5f3c4e2a91f"
 const AddressAutocomplete = ({ childToParent }) => {
     const [language] = useState('pl')
     const [apartmentNumber, setApratmentNumber] = useState(null)
+    const [houseNumber, setHouseNumber] = useState(null)
     const [mapTile, setMapTile] = useState()
     const [address, setAddress] = useState()
 
@@ -40,7 +41,7 @@ const AddressAutocomplete = ({ childToParent }) => {
             "street": address.street,
             "lon": address.lon,
             "lat": address.lat,
-            "houseNumber": address.housenumber,
+            "houseNumber": houseNumber,
             "apartmentNumber": apartmentNumber
         }
 
@@ -64,6 +65,7 @@ const AddressAutocomplete = ({ childToParent }) => {
                     suggestionsChange={onSuggectionChange}
                 />
             </GeoapifyContext>
+            <input type="text" placeholder="House Number" onChange={(e) => setHouseNumber(e.target.value)} /><br />
             <input type="text" placeholder="Apartment Number" onChange={(e) => setApratmentNumber(e.target.value)} /><br />
             {mapTile && <><img width="600" height="400" src={mapTile} /><br /></>}
             <button onClick={e => confirmAddress(e)}>Confirm address</button>

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { assignOfferToBranch, createOffer } from "../../services/OffersService/OffersService";
 import { fetchCharacteristics } from "../../services/CharacteristicsService/CharacteristicsService";
-import MainPageButton from "../MainPageButton/MainPageButton";
-import LoginButton from "../LoginButton/LoginButton";
 
 const CreateOffer = ({ branchId, onClose }) => {
     const [name, setName] = useState("");
@@ -145,8 +143,6 @@ const CreateOffer = ({ branchId, onClose }) => {
 
     return (
         <div>
-            <MainPageButton/>
-            <LoginButton/>
             <h3>Create Offer</h3>
             <form onSubmit={handleSubmit}>
                 <label>Name:</label>

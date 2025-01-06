@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import LoginButton from "../../components/LoginButton/LoginButton";
-import MainPageButton from "../../components/MainPageButton/MainPageButton";
 import BranchList from "../BranchList/BranchList";
 import UrlList from "../UrlList/UrlList";
-import ReturnButton from "../CancelButton/ReturnButton";
 import AddressImage from "../AddressImage/AddressImage";
 
 const Profile = () => {
@@ -71,14 +68,8 @@ const Profile = () => {
     const address = person?.address;
 
     return (
-        <div className="user-profile">
-            <MainPageButton/>
-            <LoginButton />
-            <ReturnButton/>
-            
+        <div className="user-profile">     
          
-            
-            
             <h1>User Profile</h1>
             <button
                 onClick={() => window.location.href = "/personRecruitment"}

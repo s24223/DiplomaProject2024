@@ -1,8 +1,7 @@
 import React, { useState,useEffect } from "react";
-import CancelButton from "../CancelButton/CancelButton";
+import CancelButton from "../Buttons/CancelButton/CancelButton";
 import { fetchCharacteristics } from "../../services/CharacteristicsService/CharacteristicsService";
 import { fetchProfilePost } from "../../services/ProfileService/ProfileService";
-import LoginButton from "../LoginButton/LoginButton";
 import AddressAutocomplete from "../AddressAutoComplete/AddressAutoComplete";
 
 const CreateProfile = () => {
@@ -50,6 +49,13 @@ const CreateProfile = () => {
         };
         loadCharacteristics();
     }, []);
+    
+    const getMinimumBirthDate = () => {
+        const today = new Date();
+        today.setFullYear(today.getFullYear() - 17); // Odejmij 17 lat
+        return today.toISOString().split("T")[0]; // Format YYYY-MM-DD
+    };
+    
 
     const handleCharacteristicChange = (index, field, value) => {
         setCharacteristics((prev) => {
@@ -71,23 +77,39 @@ const CreateProfile = () => {
         setAddressId(addressIdFromChild)
     }
     
+    
 
     const handleSubmit = async (event) => {
         event.preventDefault()
+
+        const today = new Date();
+        const birthDateObj = new Date(birthDate.year, birthDate.month - 1, birthDate.day); // Uwaga: miesiące w JavaScript są indeksowane od 0
+
+        const age = today.getFullYear() - birthDateObj.getFullYear();
+        const isOldEnough = age > 18 || (age === 18 && today >= new Date(birthDateObj.setFullYear(today.getFullYear())));
+
+        if (!isOldEnough) {
+            setMessage("You must be at least 17 years old to create a profile.");
+            return;
+        }
         
         // Preprocess characteristics
         const processedCharacteristics = characteristics.map((char) => {
-            const characteristic = allCharacteristics.find(
+
+            const matchedCharacteristic = allCharacteristics.find(
                 (item) => item.characteristic.id.toString() === char.characteristicId
             );
+            if ([1, 2, 3, 4, 9].includes(matchedCharacteristic?.characteristicType.id)) {
+                    return null;
+                }
 
-            // Check characteristicType.id and adjust qualityId
-            if (characteristic?.characteristicType.id !== 6) {
-                return { ...char, qualityId: null }; // Set qualityId to null if not "Języki komunikacji"
+
+            if (matchedCharacteristic?.characteristicType.id !== 6) {
+                return { ...char, qualityId: null };
             }
 
-            return char; // Keep the original characteristic if type is "Języki komunikacji"
-        });
+            return char; 
+        }).filter((char) => char !== null);
 
 
         let body = {
@@ -120,14 +142,21 @@ const CreateProfile = () => {
     }
     return(
         <div className="form">
-            <LoginButton/>
             <form onSubmit={handleSubmit}>
                 <label>Name:</label><br />
                 <input type="text" placeholder="Name" onChange={e => setName(e.target.value)} required /><br />
                 <label>Surname:</label><br />
                 <input type="text" placeholder="Surname" onChange={e => setSurname(e.target.value)} required /><br />
                 <label>BirthDate:</label><br />
-                <input type="date" onChange={e => handleBirthDate(e.target.value)} required /><br />
+                <p>Please enter your birth date. You must be at least 17 years old to create a profile.</p>
+
+                <input
+                    type="date"
+                    max={getMinimumBirthDate()} // Maksymalna dopuszczalna data
+                    onChange={(e) => handleBirthDate(e.target.value)}
+                    required
+                /><br />
+
                 <label>Email:</label><br />
                 <input type="email" placeholder="Email" onChange={e => setContactEmail(e.target.value)} required /><br />
                 <label>Phone Number (format: 123456789):</label><br />
@@ -164,7 +193,10 @@ const CreateProfile = () => {
                                     : char.characteristicId || ""}
                             />
                             <datalist id={`characteristics-${index}`}>
-                                {allCharacteristics.map((item) => (
+                                {allCharacteristics
+                                .filter( (item) =>
+                                    ![1, 2, 3, 4, 9].includes(item.characteristicType.id)                                 )
+                                .map((item) => (
                                     <option key={item.characteristic.id} value={item.characteristic.id}>
                                         {item.characteristic.name}
                                     </option>

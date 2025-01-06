@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import { fetchLogin } from '../../services/LoginService/LoginService';
 import './LoginPage.css'
-import MainPageButton from '../../components/MainPageButton/MainPageButton';
 
 const LoginPage = () => {
     const [email, setEmail] = useState();
@@ -34,7 +33,7 @@ const LoginPage = () => {
 
     return(
         <div className='centered'>
-            <MainPageButton/><br/>
+
             {errorMsg && errorMsg}
             <label className='title-text'>Logowanie</label>
             <form onSubmit={handleLogin}>

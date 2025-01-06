@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import CancelButton from "../CancelButton/CancelButton";
+import CancelButton from "../Buttons/CancelButton/CancelButton";
 import { fetchCharacteristics } from "../../services/CharacteristicsService/CharacteristicsService";
 import { fetchUserProfile, updateUserProfile } from "../../services/ProfileService/ProfileService";
-
+import AddressAutocomplete from "../AddressAutoComplete/AddressAutoComplete";
 const EditProfile = () => {
     const [profileData, setProfileData] = useState({
         urlSegment: "",
@@ -71,9 +71,26 @@ const EditProfile = () => {
 
         loadProfile();
     }, []);
+    const childToParent = (addressIdFromChild) => {
+        setProfileData((prevData) => ({
+            ...prevData,
+            addressId: addressIdFromChild,
+        }));
+    };
+    
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+        if (name === "birthDate") {
+            const age = calculateAge(value);
+            if (age < 18) {
+                setMessage("You must be at least 18 years old.");
+                return; // Uniemożliwia zapisanie niewłaściwej daty
+            } else {
+                setMessage(""); // Czyści wiadomość o błędzie
+            }
+        }
+
         setProfileData((prevData) => ({
             ...prevData,
             [name]: value,
@@ -101,16 +118,32 @@ const EditProfile = () => {
             characteristics: prevData.characteristics.filter((_, i) => i !== index),
         }));
     };
+    
+    const calculateAge = (birthDate) => {
+        const today = new Date();
+        const birthDateObj = new Date(birthDate);
+        let age = today.getFullYear() - birthDateObj.getFullYear();
+        const monthDiff = today.getMonth() - birthDateObj.getMonth();
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDateObj.getDate())) {
+            age--;
+        }
+        return age;
+    };
+    
 
     const handleProfileUpdate = async (event) => {
         event.preventDefault();
         try {
+            
 
-            // przygotowanie characteristics z wuality=null kiedy potrzeba(nie są to języki mowy)  
+            // przygotowanie characteristics z quality=null kiedy potrzeba(nie są to języki mowy)  
             const updatedCharacteristics = profileData.characteristics.map((char) => {
                 const matchedCharacteristic = allCharacteristics.find(
                     (item) => item.characteristic.id.toString() === char.characteristicId.toString()
                 );
+                if ([1, 2, 3, 4, 9].includes(matchedCharacteristic?.characteristicType.id)) {
+                    return null;
+                }
 
                 if (matchedCharacteristic?.characteristicType.id !== 6) {
                     // If not "Języki komunikacji", set qualityId to null
@@ -118,13 +151,14 @@ const EditProfile = () => {
                 }
 
                 return char;
-            });
+            }).filter((char) => char !== null); // Usuwanie nulli;
 
             // Rozdzielenie daty na year, month, day
             const [year, month, day] = profileData.birthDate.split("-").map(Number);
 
             const updatedData = {
                 ...profileData,
+                addressId: profileData.addressId,
                 birthDate: { year, month, day }, // Struktura zgodna z API
                 characteristics: updatedCharacteristics,
             };
@@ -184,13 +218,21 @@ const EditProfile = () => {
                     name="birthDate"
                     value={profileData.birthDate}
                     onChange={handleInputChange}
+                    required
                 /><br/>
+                {message && <p style={{ color: "red" }}>{message}</p>}
                 <label>Description:</label><br/>
                 <textarea
                     name="description"
                     value={profileData.description}
                     onChange={handleInputChange}
                 ></textarea><br />
+                <label>Address:</label><br />
+                    <AddressAutocomplete
+                    childToParent={childToParent}
+                    defaultValue={profileData.addressId}
+                /><br />
+
                 <label>
                     <input
                         type="checkbox"
@@ -220,7 +262,7 @@ const EditProfile = () => {
                     Public Profile
 
                     <h3>Characteristics</h3>
-                {profileData.characteristics.map((char, index) => {
+                    {profileData.characteristics.map((char, index) => {
                     // Find the selected characteristic to determine if quality should be selectable
                     const selectedCharacteristic = allCharacteristics.find(
                         (item) => item.characteristic.id.toString() === char.characteristicId.toString()
@@ -245,7 +287,12 @@ const EditProfile = () => {
                                 }
                             />
                             <datalist id={`characteristics-${index}`}>
-                                {allCharacteristics.map((item) => (
+                                {allCharacteristics
+                                 .filter(
+                                    (item) =>
+                                        ![1, 2, 3, 4, 9].includes(item.characteristicType.id)
+                                )
+                                .map((item) => (
                                     <option key={item.characteristic.id} value={item.characteristic.id}>
                                         {item.characteristic.name}
                                     </option>

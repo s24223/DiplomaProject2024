@@ -1,0 +1,1 @@
+export const isValidRegon = (regon) => /^[0-9]{9}$|^[0-9]{14}$/.test(regon);

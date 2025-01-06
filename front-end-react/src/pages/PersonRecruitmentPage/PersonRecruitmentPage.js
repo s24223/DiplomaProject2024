@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import LoginButton from "../../components/LoginButton/LoginButton";
-import MainPageButton from "../../components/MainPageButton/MainPageButton";
-import ReturnButton from "../../components/CancelButton/ReturnButton";
 
 const PersonRecruitmentPage = () => {
     const [applications, setApplications] = useState([]);
@@ -46,9 +43,7 @@ const PersonRecruitmentPage = () => {
 
     return (
         <div className="applications">
-            <MainPageButton/>
-            <LoginButton/>
-            <ReturnButton/>
+
             <h1>My Applications</h1>
             {applications.length > 0 ? (
                 <ul>

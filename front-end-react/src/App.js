@@ -2,26 +2,32 @@
 import React from 'react';
 import { Cron } from 'croner';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import UrlDetailsPage from './pages/UrlDetailsPage/UrlDetailsPage';
+import TestPage from './pages/TestPage/TestPage';
 import MainPage from './pages/MainPage/MainPage';
-import OfferDetailsPage from './pages/OfferDetailsPage/OfferDetailsPage';
+import OfferDetailsPage from './pages/Offer/OfferDetailsPage';
+import EditUrlPage from './pages/UrlEditPage/EditUrlPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
-import ProfilePage from './pages/ProfilePage/ProfilePage';
-import ProfileCreatePage from './pages/ProfileCreatePage/ProfileCreatePage';
-import EditProfilePage from './pages/EditProfilePage/EditProfilePage';
+import ProfilePage from './pages/Profile/ProfilePage';
+import ProfileCreatePage from './pages/Profile/ProfileCreatePage';
+import EditProfilePage from './pages/Profile/EditProfilePage';
 import ChangePasswordPage from './pages/ChangePasswordPage/ChangePasswordPage';
-import CompanyCreatePage from './pages/CompanyCreatePage/CompanyCreatePage';
-import CompanyEditPage from './pages/CompanyEditPage/CompanyEditPage';
-import CreateBranchPage from './pages/BranchCreatePage/BranchCreatePage';
-import BranchDetailPage from './pages/BranchDetailsPage/BranchDetailsPage';
-import NotificationPage from './pages/NotificationPage/NotificationPage';
-import NotificationDetailPgae from './pages/NotificationDetailsPage/NotificationDetailPage';
-import NotificationCreate from './pages/NotificationCreate/NotificationCreate';
-import UrlDetailsPage from './pages/UrlDetailsPage/UrlDetailsPage';
-import EditUrlPage from './pages/UrlEditPage/EditUrlPage';
-import TestPage from './pages/TestPage/TestPage';
-import CompanyRecruitmentPage from './pages/CompanyRecruitmentPage/CompanyRecruitmentPage';
+import CompanyCreatePage from './pages/Company/CompanyCreatePage';
+import CompanyEditPage from './pages/Company/CompanyEditPage';
+import CompanyRecruitmentPage from './pages/Company/CompanyRecruitmentPage';
+import BranchCreatePage from './pages/Branch/BranchCreatePage';
+import BranchDetailPage from './pages/Branch/BranchDetailsPage';
+import NotificationPage from './pages/Notification/NotificationPage/NotificationPage';
+import NotificationDetailPage from './pages/Notification/NotificationDetailsPage/NotificationDetailPage';
+import NotificationCreate from './pages/Notification/NotificationCreate/NotificationCreate';
+import CompanyDetailsPublic from './components/CompanyDetailsPublic/CompanyDetailsPublic';
+import BranchDetailsPublic from './components/BranchDetailsPublic/BranchDetailsPublic'
 import PersonRecruitmentPage from './pages/PersonRecruitmentPage/PersonRecruitmentPage';
+import LoginButton from './components/Buttons/LoginButton/LoginButton';
+import ReturnButton from './components/Buttons/CancelButton/ReturnButton';
+import MainPageButton from './components/Buttons/MainPageButton/MainPageButton';
+import NotificationButton from './components/Buttons/NotificationButton/NotificationButton';
 
 const job = new Cron("*/5 * * * *", () => {
     console.log(`Cron run... ${new Date().toLocaleTimeString()}`)
@@ -61,38 +67,59 @@ const job = new Cron("*/5 * * * *", () => {
 function App() {
     return (
         <Router>
-            <Routes>
-                <Route path="/" element={<MainPage />} />
-                <Route path="/offers" element={<MainPage />} />
-                <Route path="/offers/:offerId" element={<OfferDetailsPage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/register" element={<RegisterPage />} />
-                <Route path="/userProfile" element={<ProfilePage />} />
-                <Route path="/userCreateProfile" element={<ProfileCreatePage />} />
-                
-                <Route path="/userEditProfile" element={<EditProfilePage />} />
-                <Route path="/changePassword" element={<ChangePasswordPage />} />
-
-                <Route path="/userCreateCompany" element={<CompanyCreatePage />} />
-                <Route path="/userEditCompany" element={<CompanyEditPage />} />
-
-                <Route path="/createBranch" element={<CreateBranchPage />} />
-                <Route path="/branch/:id" element={<BranchDetailPage />} />
-
-                <Route path="notification" element={<NotificationPage />} />
-                <Route path="notification/:id" element={<NotificationDetailPgae />} />
-                <Route path="/notification/create" element={<NotificationCreate />} />
-                
-                <Route path="/url/:id" element={<UrlDetailsPage />} />
-                <Route path="/url/edit/:id" element={<EditUrlPage />} />
-                
-                <Route path="test" element={<TestPage />} />
+            <div>
+                <div className="header">
+                    <NotificationButton />
+                    <LoginButton />
+                </div>
+                <div className="header2">
+                    <MainPageButton/>
+                    <ReturnButton/>
+                </div>
+                <Routes>
+                    <Route path="/" element={<MainPage />} />
+                    <Route path="/offers" element={<MainPage />} />
+                    {/* <Route path="/offers/:offerId" element={<OfferDetailsPage />} />
+                    */}
+                    <Route path="/offers/:offerId" element={<OfferDetailsPage mode="view" />} />
+                    <Route path="/offers/:offerId/edit" element={<OfferDetailsPage mode="edit" />} />
 
 
-                <Route path="/companyRecruitment" element={<CompanyRecruitmentPage />} />
-                <Route path="/personRecruitment" element={<PersonRecruitmentPage />} />
 
-            </Routes>
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/userProfile" element={<ProfilePage />} />
+                    <Route path="/userCreateProfile" element={<ProfileCreatePage />} />
+                    
+                    <Route path="/userEditProfile" element={<EditProfilePage />} />
+                    <Route path="/changePassword" element={<ChangePasswordPage />} />
+
+                    <Route path="/userCreateCompany" element={<CompanyCreatePage />} />
+                    <Route path="/userEditCompany" element={<CompanyEditPage />} />
+
+                    <Route path="/createBranch" element={<BranchCreatePage />} />
+                    <Route path="/branch/:id" element={<BranchDetailPage />} />
+
+                    <Route path="notification" element={<NotificationPage />} />
+                    <Route path="notification/:id" element={<NotificationDetailPage />} />
+                    <Route path="/notification/create" element={<NotificationCreate />} />
+                    
+                    <Route path="/url/:id" element={<UrlDetailsPage />} />
+                    <Route path="/url/edit/:id" element={<EditUrlPage />} />
+                    
+                    <Route path="test" element={<TestPage />} />
+
+
+                    <Route path="/companyRecruitment" element={<CompanyRecruitmentPage />} />
+                    <Route path="/personRecruitment" element={<PersonRecruitmentPage />} />
+
+
+                    <Route path="/company/:companyId" element={<CompanyDetailsPublic />} />
+                    <Route path="public/branch/:branchId" element={<BranchDetailsPublic />} />
+
+
+                </Routes>
+            </div>
         </Router>
     );
 }

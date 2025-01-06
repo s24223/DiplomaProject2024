@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-export const fetchBranchOffers = async (companyId, branchId, params = {}) => {
+export const fetchBranchOffers = async (branchId, params = {}) => {
     const queryParams = new URLSearchParams({
         orderBy: 'publishStart',
         ascending: 'true',
@@ -11,30 +11,29 @@ export const fetchBranchOffers = async (companyId, branchId, params = {}) => {
         ...params,
     }).toString();
 
-    const response = await axios.get(
-        `https://localhost:7166/api/Offers/companies/${companyId}/branches/${branchId}?${queryParams}`,
-        {
-            headers: {
-                Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
-            },
-        }
-    );
+    try {
+        const response = await axios.get(
+            `https://localhost:7166/api/BranchOffers/branches/${branchId}/branchOffers?${queryParams}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+                },
+            }
+        );
 
-    if (!response.status === 200) throw new Error("Error fetching branch offers");
-    return response.data.item;
+        if (response.status !== 200) {
+            throw new Error(`Error fetching branch offers: ${response.statusText}`);
+        }
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching branch offers:", error);
+        throw error; // Rzucamy błąd do wyższej warstwy
+    }
 };
 
 
-// export const fetchOffers = async (query) => {
-//     const response = await fetch(`https://localhost:7166/api/Offers?query=${query}`, {
-//         method: 'GET',
-//         withCredentials: true,    
-//         crossorigin: true,  
-//         headers: {'Access-Control-Allow-Origin': '*'},
-//     });
-//     if (!response.ok) throw new Error("Error fetching offers");
-//     return await response.json();
-// };
+
+
 
 export const fetchOffers = async (filters) => {
     const queryParams = new URLSearchParams();
@@ -46,7 +45,7 @@ export const fetchOffers = async (filters) => {
     }
 
     const response = await fetch(
-        `https://localhost:7166/api/Offers?${queryParams.toString()}`,
+        `https://localhost:7166/api/BranchOffers?${queryParams.toString()}`,
         {
             method: 'GET',
             headers: {
@@ -61,7 +60,7 @@ export const fetchOffers = async (filters) => {
 
 export const fetchOfferDetails = async (offerId) => {
     try {
-        const response = await axios.get(`https://localhost:7166/api/Offers/${offerId}`, {
+        const response = await axios.get(`https://localhost:7166/api/BranchOffers/offers/${offerId}`, {
             headers: {
                 Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
                 "Content-Type": "application/json",
@@ -110,3 +109,26 @@ export const assignOfferToBranch = async (publishData) => {
         throw error.response?.data?.Message || "Failed to assign offer to branch.";
     }
 };
+
+export const updateOffer = async (offerData) => {
+    try {
+        const response = await fetch("https://localhost:7166/api/User/company/offers", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+            },
+            body: JSON.stringify([offerData]),
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to update offer.");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Error updating offer:", error);
+        throw error;
+    }
+};
+

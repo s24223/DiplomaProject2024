@@ -1,195 +1,9 @@
-:root{
+:root {
     background: #1e1c1c;
     color: white;
+    font-family: Arial, sans-serif;
 }
 
-.main-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    /* border: 1px solid red; */
-    height: 100%;
-}
-
-.header {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-}
-
-.title {
-    margin-top: 60px;
-    font-size: 24px;
-}
-
-.offers-list {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.offer-item {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin: 10px;
-    width: 100%;
-    max-width: 500px;
-    border-radius: 5px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.login-button {
-    padding: 8px 16px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.title-text{
-    text-align: center;
-    font-size: 60px;
-}
-
-.searchBar{
-    align-items: center;
-    /* border: 1px solid rebeccapurple; */
-    width: 30%;
-    background-color: #e7e2e2;
-    border-radius: 5px;
-}
-
-.searchBar input{
-    width: calc(100% - 90px);
-    height: 85%;
-    background-color: #e7e2e2;
-    color: black;
-    border-radius: 5px;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-}
-
-.searchBar button{
-    border: 2px solid #aca7a7;
-    color: white;
-    background-color: #332f2f;
-    padding: 10px 20px;
-    font-size: 13px;
-    cursor: pointer;
-    border-radius: 5px;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-}
-
-.searchBar button:hover{
-    background: #525151;
-}
-
-.offers-list{
-    /* border: 1px solid blue; */
-    width: 70%;
-    display: flex;
-    align-items: normal;
-}
-
-.offers-list li{
-    border: 2px solid #aca7a7;
-    background-color: #332f2f;
-    border-radius: 5px;
-    list-style-type: none;
-    display: inline-block;
-    padding: 25px;
-    cursor: pointer;
-    display: inline-block;
-    text-align: left;
-}
-
-.offers-list li:hover{
-    background-color: #525151;
-}
-
-.offers-list li p{
-    padding-left: 25px;
-    line-height: 10px;
-}
-
-.offers-list li h2{
-    font-size: 25px;
-    line-height: 14px;
-}
-
-.offers-list ul{
-    /* border: 1px solid yellow; */
-    padding-left: 0;
-    text-align: center;
-    /* margin: auto; */
-}
-
-.login-div{
-    /* border: 1px solid rgb(0, 255, 255); */
-    position: absolute;
-    right: 10px;
-    top: 5px;
-}
-
-.login-div button{
-    border: 2px solid #aca7a7;
-    background-color: #332f2f;
-    color: white;
-    cursor: pointer;
-    padding: 3px 6px;
-}
-
-.login-div button:hover{
-    background-color: #525151;
-}
-
-.button-one{
-    border-radius: 3px;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-}
-
-.button-two{
-    border-radius: 3px;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-}
-/* 
-.two-button{
-    border: 1px solid tomato;
-} */
-
-.notification-div{
-    /* border: 1px solid red; */
-    position: absolute;
-    top: 36px;
-    right: 10px;
-}
-
-.notification-div button{
-    border: 2px solid #aca7a7;
-    background-color: #332f2f;
-    color: white;
-    cursor: pointer;
-    padding: 3px 6px;
-    border-radius: 3px;
-}
-
-.notification-div button:hover{
-    background-color: #525151;
-}
-
-span{
-    color: black;
-}
-
-.form{
-    max-width: 50%;
-    margin: auto;
-}
-
-/* Container for the main page layout */
 .main-container {
     display: flex;
     flex-direction: row;
@@ -197,7 +11,6 @@ span{
     margin: 0;
 }
 
-/* Sidebar for filters */
 .filters-sidebar {
     flex: 0 0 20%; /* Sidebar zajmuje 20% szerokości */
     padding: 20px;
@@ -216,9 +29,18 @@ span{
     margin: 10px 0;
     padding: 8px;
     box-sizing: border-box;
+    border-radius: 5px;
+    background: #332f2f;
+    color: white;
+    border: 1px solid #ddd;
 }
 
-/* Container for the list of offers */
+.filters-sidebar form input:focus,
+.filters-sidebar form select:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
 .offers-container {
     flex: 1; /* Pozostała przestrzeń */
     padding: 20px;
@@ -228,26 +50,31 @@ span{
     background-color: #1e1c1c;
 }
 
-/* Offers List */
+.title {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
 .offers-list {
     width: 100%;
     max-width: 800px;
 }
 
 .offer-item {
-    border: 1px solid #ccc;
+    border: 2px solid #aca7a7;
     margin: 10px 0;
     padding: 15px;
     border-radius: 5px;
     cursor: pointer;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #332f2f;
+    color: white;
 }
 
 .offer-item:hover {
-    background-color: #1e1c1c;
+    background-color: #525151;
 }
 
-/* Pagination */
 .pagination {
     display: flex;
     justify-content: center;
@@ -258,13 +85,57 @@ span{
     margin: 0 10px;
     padding: 10px 20px;
     background-color: #007bff;
-    color: gray;
+    color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
 .pagination button:disabled {
-    background-color: #1e1c1c;
+    background-color: #525151;
     cursor: not-allowed;
+}
+.header {
+    position: fixed; /* Zawsze na górze ekranu */
+    top: 10px;
+    right: 20px; /* Przesunięcie od prawej krawędzi */
+    display: flex;
+    gap: 10px; /* Odstęp między przyciskami */
+    z-index: 1000; /* Na wierzchu względem innych elementów */
+}
+
+.header button {
+    padding: 8px 12px;
+    border-radius: 5px;
+    background-color: #332f2f;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.header button:hover {
+    background-color: #525151;
+}
+.header2 {
+    position: fixed; /* Zawsze na górze ekranu */
+    top: 10px;
+    left: 20px; /* Przesunięcie od prawej krawędzi */
+    display: flex;
+    gap: 10px; /* Odstęp między przyciskami */
+    z-index: 1000; /* Na wierzchu względem innych elementów */
+}
+
+.header2 button {
+    padding: 8px 12px;
+    border-radius: 5px;
+    background-color: #332f2f;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.header2 button:hover {
+    background-color: #525151;
 }
