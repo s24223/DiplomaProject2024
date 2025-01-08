@@ -5,6 +5,7 @@ const OferDetailsPage = () =>{
     return(
         <div>
             <OfferDetails/>
+            <h1>OferDetailsPage</h1>
             
         </div>
     )

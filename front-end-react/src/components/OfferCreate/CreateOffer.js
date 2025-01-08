@@ -19,6 +19,40 @@ const CreateOffer = ({ branchId, onClose }) => {
     const [allCharacteristics, setAllCharacteristics] = useState([]);
 
 
+    const [creationStartTime, setCreationStartTime] = useState(new Date());
+
+    // Ustaw czas rozpoczęcia po pierwszym renderze
+    useEffect(() => {
+        setCreationStartTime(new Date());
+    }, []);
+
+    const validateDates = () => {
+        const now = new Date();
+        const publishStartDate = new Date(publishStart);
+        const publishEndDate = new Date(publishEnd);
+        const workStartDate = new Date(`${workStart.year}-${workStart.month}-${workStart.day}`);
+        const workEndDate = new Date(`${workEnd.year}-${workEnd.month}-${workEnd.day}`);
+    
+        if (publishStartDate < new Date(creationStartTime.getTime() + 5 * 60 * 1000)) {
+            setMessage("Publish Start must be at least 5 minutes from now.");
+            return false;
+        }
+        if (publishEndDate <= publishStartDate) {
+            setMessage("Publish End must be after Publish Start.");
+            return false;
+        }
+        if (workStartDate <= new Date(publishEndDate.getTime() + 24 * 60 * 60 * 1000)) {
+            setMessage("Work Start must be at least 1 day after Publish End.");
+            return false;
+        }
+        if (workEndDate <= workStartDate) {
+            setMessage("Work End must be after Work Start.");
+            return false;
+        }
+    
+        return true;
+    };
+    
 
     const handleWorkStart = (date) => {
         const dateSegmented = date.split("-");
@@ -78,10 +112,20 @@ const CreateOffer = ({ branchId, onClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!name || !minSalary || !maxSalary || !publishStart || !publishEnd) {
+        if(!minSalary){
+            minSalary=0;
+        }
+        if(!maxSalary){
+            maxSalary=0;
+        }
+        if (!name ||  !publishStart || !publishEnd) {//!minSalary || !maxSalary ||
             alert("All fields are required.");
             return;
         }
+        if (!validateDates()) {
+            return;
+        }
+    
 
         // Preprocess characteristics
         const processedCharacteristics = characteristics.map((char) => {
@@ -205,6 +249,11 @@ const CreateOffer = ({ branchId, onClose }) => {
                     onChange={(e) => setPublishStart(e.target.value)}
                     required
                 />
+                <p style={{ color: "red" }}>
+                    {publishStart && new Date(publishStart) < new Date(creationStartTime.getTime() + 5 * 60 * 1000) 
+                        ? "Publish Start must be at least 5 minutes from now." 
+                        : ""}
+                </p>
                 <br />
                 <label>Publish End:</label>
                 <input
@@ -213,6 +262,11 @@ const CreateOffer = ({ branchId, onClose }) => {
                     onChange={(e) => setPublishEnd(e.target.value)}
                     required
                 />
+                <p style={{ color: "red" }}>
+                    {publishEnd && new Date(publishEnd) <= new Date(publishStart) 
+                        ? "Publish End must be after Publish Start." 
+                        : ""}
+                </p>
                 <br />
                 <label>Work Start:</label>
                 <input
@@ -220,6 +274,13 @@ const CreateOffer = ({ branchId, onClose }) => {
                     onChange={(e) => handleWorkStart(e.target.value)}
                     required
                 />
+                <p style={{ color: "red" }}>
+                    {workStart.year &&
+                    new Date(`${workStart.year}-${workStart.month}-${workStart.day}`) <=
+                        new Date(new Date(publishEnd).getTime() + 24 * 60 * 60 * 1000)
+                        ? "Work Start must be at least 1 full day after Publish End."
+                        : ""}
+                </p>
                 <br />
                 <label>Work End:</label>
                 <input
@@ -227,6 +288,14 @@ const CreateOffer = ({ branchId, onClose }) => {
                     onChange={(e) => handleWorkEnd(e.target.value)}
                     required
                 />
+                <p style={{ color: "red" }}>
+                    {workEnd.year &&
+                    new Date(`${workEnd.year}-${workEnd.month}-${workEnd.day}`) <=
+                        new Date(`${workStart.year}-${workStart.month}-${workStart.day}`)
+                        ? "Work End must be after Work Start."
+                        : ""}
+                </p>
+                
                 <h3>Characteristics</h3>
                 {characteristics.map((char, index) => {
                     // Find the selected characteristic to determine if quality should be selectable

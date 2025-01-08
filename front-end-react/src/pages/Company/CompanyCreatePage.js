@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import CompanyCreateForm from "../../components/Forms/AfterLogIn/CompanyCreateForm";
+import CompanyCreateForm from "../../components/AfterLogIn/CompanyCreateForm";
 import { isValidRegon } from "../../utils/validators";
 import CancelButton from "../../components/Buttons/CancelButton/CancelButton";
 import { createCompany } from "../../services/CompanyService/CompanyService";

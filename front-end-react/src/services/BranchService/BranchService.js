@@ -35,3 +35,31 @@ export const fetchBranchPut = async (body) => {
     })
     return response
 }
+
+export const fetchBranchDetails = async (branchId) => {
+    const response = await fetch(
+        `https://localhost:7166/api/BranchOffers/branches/${branchId}/branchOffers`
+    );
+    if (!response.ok) {
+        throw new Error('Failed to fetch branch details');
+    }
+    return await response.json();
+};
+
+// export const updateBranchDetails = async (branchId, updatedData) => {
+//     const response = await fetch(
+//         `https://localhost:7166/api/Branches/${branchId}`,
+//         {
+//             method: 'PUT',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 Authorization: `Bearer ${sessionStorage.getItem('jwt')}`,
+//             },
+//             body: JSON.stringify(updatedData),
+//         }
+//     );
+//     if (!response.ok) {
+//         throw new Error('Failed to update branch details');
+//     }
+//     return await response.json();
+// };

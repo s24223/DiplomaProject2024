@@ -55,3 +55,20 @@ export const updateCompany = async (companyData) => {
     }
 };
 
+export const fetchCompanyDetails = async (companyId, page, maxItems, selectedWojewodztwo) => {
+    const queryParams = new URLSearchParams({
+        orderBy: 'hierarchy',
+        ascending: true,
+        maxItems,
+        page,
+        wojewodztwo: selectedWojewodztwo || '',
+    }).toString();
+
+    const response = await fetch(
+        `https://localhost:7166/api/Companies/${companyId}/branch?${queryParams}`
+    );
+    if (!response.ok) {
+        throw new Error('Failed to fetch company details');
+    }
+    return await response.json();
+};

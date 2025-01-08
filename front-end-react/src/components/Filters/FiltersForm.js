@@ -3,13 +3,13 @@ import React from "react";
 const FilterForm = ({ filters, onFilterChange }) => (
     <form className="filters-form">
         <h3>Filters</h3>
-        <input
+        {/* <input
             type="text"
             name="searchText"
             placeholder="Search Text"
             value={filters.searchText}
             onChange={onFilterChange}
-        />
+        /> */}
         <input
             type="text"
             name="companyName"
@@ -17,13 +17,13 @@ const FilterForm = ({ filters, onFilterChange }) => (
             value={filters.companyName}
             onChange={onFilterChange}
         />
-        <input
+        {/* <input
             type="text"
             name="regon"
             placeholder="REGON"
             value={filters.regon}
             onChange={onFilterChange}
-        />
+        /> */}
         <input
             type="text"
             name="wojewodstwo"
@@ -33,7 +33,7 @@ const FilterForm = ({ filters, onFilterChange }) => (
         />
         <input
             type="text"
-            name="divisionName"
+            name="Dzielnica"
             placeholder="Division Name"
             value={filters.divisionName}
             onChange={onFilterChange}
@@ -45,6 +45,7 @@ const FilterForm = ({ filters, onFilterChange }) => (
             value={filters.streetName}
             onChange={onFilterChange}
         />
+        <p>publishFrom</p>
         <input
             type="date"
             name="publishFrom"
@@ -52,6 +53,7 @@ const FilterForm = ({ filters, onFilterChange }) => (
             value={filters.publishFrom}
             onChange={onFilterChange}
         />
+        <p>publishTo</p>
         <input
             type="date"
             name="publishTo"

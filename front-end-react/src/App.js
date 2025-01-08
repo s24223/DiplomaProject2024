@@ -12,22 +12,22 @@ import RegisterPage from './pages/RegisterPage/RegisterPage';
 import ProfilePage from './pages/Profile/ProfilePage';
 import ProfileCreatePage from './pages/Profile/ProfileCreatePage';
 import EditProfilePage from './pages/Profile/EditProfilePage';
-import ChangePasswordPage from './pages/ChangePasswordPage/ChangePasswordPage';
+// import ChangePasswordPage from './pages/ChangePasswordPage/ChangePasswordPage';
 import CompanyCreatePage from './pages/Company/CompanyCreatePage';
 import CompanyEditPage from './pages/Company/CompanyEditPage';
 import CompanyRecruitmentPage from './pages/Company/CompanyRecruitmentPage';
 import BranchCreatePage from './pages/Branch/BranchCreatePage';
-import BranchDetailPage from './pages/Branch/BranchDetailsPage';
+import BranchDetailPagePrivate from './pages/Branch/BranchDetailsPagePrivate';
 import NotificationPage from './pages/Notification/NotificationPage/NotificationPage';
 import NotificationDetailPage from './pages/Notification/NotificationDetailsPage/NotificationDetailPage';
 import NotificationCreate from './pages/Notification/NotificationCreate/NotificationCreate';
 import CompanyDetailsPublic from './components/CompanyDetailsPublic/CompanyDetailsPublic';
-import BranchDetailsPublic from './components/BranchDetailsPublic/BranchDetailsPublic'
 import PersonRecruitmentPage from './pages/PersonRecruitmentPage/PersonRecruitmentPage';
 import LoginButton from './components/Buttons/LoginButton/LoginButton';
 import ReturnButton from './components/Buttons/CancelButton/ReturnButton';
 import MainPageButton from './components/Buttons/MainPageButton/MainPageButton';
 import NotificationButton from './components/Buttons/NotificationButton/NotificationButton';
+import BranchDetailsPagePublic from './pages/Branch/BranchDetailsPagePublic';
 
 const job = new Cron("*/5 * * * *", () => {
     console.log(`Cron run... ${new Date().toLocaleTimeString()}`)
@@ -92,13 +92,13 @@ function App() {
                     <Route path="/userCreateProfile" element={<ProfileCreatePage />} />
                     
                     <Route path="/userEditProfile" element={<EditProfilePage />} />
-                    <Route path="/changePassword" element={<ChangePasswordPage />} />
+                    {/* <Route path="/changePassword" element={<ChangePasswordPage />} /> */}
 
                     <Route path="/userCreateCompany" element={<CompanyCreatePage />} />
                     <Route path="/userEditCompany" element={<CompanyEditPage />} />
 
                     <Route path="/createBranch" element={<BranchCreatePage />} />
-                    <Route path="/branch/:id" element={<BranchDetailPage />} />
+                    <Route path="/branch/:id" element={<BranchDetailPagePrivate />} />
 
                     <Route path="notification" element={<NotificationPage />} />
                     <Route path="notification/:id" element={<NotificationDetailPage />} />
@@ -115,7 +115,7 @@ function App() {
 
 
                     <Route path="/company/:companyId" element={<CompanyDetailsPublic />} />
-                    <Route path="public/branch/:branchId" element={<BranchDetailsPublic />} />
+                    <Route path="public/branch/:branchId" element={<BranchDetailsPagePublic />} />
 
 
                 </Routes>

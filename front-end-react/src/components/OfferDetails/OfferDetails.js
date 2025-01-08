@@ -114,6 +114,9 @@ const OfferDetails = () => {
 
 export default OfferDetails;
 
+
+
+
 // import React, { useState, useEffect } from 'react';
 // import { useParams } from 'react-router-dom';
 // import ApplyButton from '../Buttons/ApplyButton/ApplyButton';

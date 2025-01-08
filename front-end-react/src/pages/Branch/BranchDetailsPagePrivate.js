@@ -6,7 +6,7 @@ import CreateOffer from '../../components/OfferCreate/CreateOffer';
 import { fetchBranchOffers } from '../../services/OffersService/OffersService';
 import AddressImage from '../../components/AddressImage/AddressImage';
 
-const BranchDetailPage = () => {
+const BranchDetailPagePrivate = () => {
     const [editMode, setEditMode] = useState(false);
     const item = useLocation().state.item
 
@@ -72,6 +72,7 @@ const BranchDetailPage = () => {
 
     return(
         <div className='centered'>
+            <h1>BranchDetailsPage</h1>
             {
             item && 
             <div>
@@ -130,6 +131,5 @@ const BranchDetailPage = () => {
     )
 }
 
-export default BranchDetailPage;
-
+export default BranchDetailPagePrivate;
 
