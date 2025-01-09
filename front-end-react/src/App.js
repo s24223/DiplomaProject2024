@@ -11,7 +11,7 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
 import ProfilePage from './pages/Profile/ProfilePage';
 import ProfileCreatePage from './pages/Profile/ProfileCreatePage';
-import EditProfilePage from './pages/Profile/EditProfilePage';
+import ProfileEditPage from './pages/Profile/ProfileEditPage';
 // import ChangePasswordPage from './pages/ChangePasswordPage/ChangePasswordPage';
 import CompanyCreatePage from './pages/Company/CompanyCreatePage';
 import CompanyEditPage from './pages/Company/CompanyEditPage';
@@ -91,7 +91,7 @@ function App() {
                     <Route path="/userProfile" element={<ProfilePage />} />
                     <Route path="/userCreateProfile" element={<ProfileCreatePage />} />
                     
-                    <Route path="/userEditProfile" element={<EditProfilePage />} />
+                    <Route path="/userEditProfile" element={<ProfileEditPage />} />
                     {/* <Route path="/changePassword" element={<ChangePasswordPage />} /> */}
 
                     <Route path="/userCreateCompany" element={<CompanyCreatePage />} />

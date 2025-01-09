@@ -129,13 +129,16 @@ const CreateOffer = ({ branchId, onClose }) => {
 
         // Preprocess characteristics
         const processedCharacteristics = characteristics.map((char) => {
-            // const characteristic = allCharacteristics.find(
-            //     (item) => item.characteristic.id.toString() === char.characteristicId
-            // );
+            const processedCharacteristics = allCharacteristics.find(
+                (item) => item.characteristic.id.toString() === char.characteristicId.toString()
+            );
+            if ([2, 3, 4].includes(processedCharacteristics?.characteristicType.id)) {
+                return { ...char, qualityId: null };
+            }
 
-            //I taqk bedzie trzeba sprawdzac zaraz, czy ktróreś characteristic types potrzebują quality
+           
             return char; // Keep the original characteristic if type is "Języki komunikacji"
-        });
+        }).filter((char) => char !== null);;
 
 
 
@@ -303,6 +306,7 @@ const CreateOffer = ({ branchId, onClose }) => {
                         (item) => item.characteristic.id.toString() === char.characteristicId
                     );
 
+                    const isQualitySelectable = ![2, 3, 4].includes(selectedCharacteristic?.characteristicType.id);
                     return (
                         <div key={index} style={{ marginBottom: "10px" }}>
                             <input
@@ -318,7 +322,8 @@ const CreateOffer = ({ branchId, onClose }) => {
                                     : char.characteristicId || ""}
                             />
                             <datalist id={`characteristics-${index}`}>
-                                {allCharacteristics.map((item) => (
+                                {allCharacteristics
+                                .map((item) => (
                                     <option key={item.characteristic.id} value={item.characteristic.id}>
                                         {item.characteristic.name}
                                     </option>
@@ -330,6 +335,7 @@ const CreateOffer = ({ branchId, onClose }) => {
                                     handleCharacteristicChange(index, "qualityId", e.target.value)
                                 }
                                 value={char.qualityId || ""}
+                                disabled={!isQualitySelectable}
                             >
                                 <option value="">Select Quality</option>
                                 {selectedCharacteristic?.possibleQualities.map((qual) => (

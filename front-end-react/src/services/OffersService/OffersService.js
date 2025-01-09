@@ -58,7 +58,7 @@ export const fetchOffers = async (filters) => {
     return await response.json();
 };
 
-export const fetchOfferDetails = async (offerId) => {
+export const fetchOfferDetailsPrivate = async (offerId) => {
     try {
         const response = await axios.get(`https://localhost:7166/api/BranchOffers/offers/${offerId}`, {
             headers: {
@@ -70,6 +70,18 @@ export const fetchOfferDetails = async (offerId) => {
     } catch (error) {
         console.error("Error fetching offer details:", error.response?.data || error.message);
         throw new Error("Failed to fetch offer details.");
+    }
+};
+export const fetchOfferDetailsPublic = async (offerId) => {
+    try {
+        const response = await axios.get(`https://localhost:7166/api/BranchOffers/offers/${offerId}`, {
+            headers: { 'Access-Control-Allow-Origin': '*' },
+            withCredentials: true,
+        });
+        return response.data.item;
+    } catch (error) {
+        console.error("Error fetching offer details:", error);
+        throw error;
     }
 };
 // Tworzenie nowej oferty
