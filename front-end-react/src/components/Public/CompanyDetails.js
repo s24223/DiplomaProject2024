@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 const CompanyDetails = ({ companyInfo, branches, wojewodztwa, selectedWojewodztwo, onWojewodztwoChange, onMaxItemsChange }) => {
     return (
         <div>
+            <h1>Company offerDetails</h1>
             <h1>{companyInfo.name}</h1>
             <p><strong>Opis:</strong> {companyInfo.description || 'Brak opisu'}</p>
             <p><strong>URL:</strong> {companyInfo.urlSegment}</p>

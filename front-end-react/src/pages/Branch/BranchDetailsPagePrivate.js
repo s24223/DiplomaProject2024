@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom';
 import { fetchBranchPut } from '../../services/BranchService/BranchService';
 import CancelButton from '../../components/Buttons/CancelButton/CancelButton';
-import CreateOffer from '../../components/OfferCreate/CreateOffer';
+import CreateOffer from '../../components/Offers/CreateOffer';
 import { fetchBranchOffers } from '../../services/OffersService/OffersService';
 import AddressImage from '../../components/AddressImage/AddressImage';
 
@@ -77,6 +77,8 @@ const BranchDetailPagePrivate = () => {
             item && 
             <div>
 
+                
+
                 <button onClick={() => setEditMode(!editMode)}>Edit mode</button><br />
                 Name: {editMode? <input type='text' placeholder={item.name} onChange={e => setName(e.target.value)} value={name} />: item.name}<br />
                 Description: {editMode? <input type='text' placeholder={item.description} onChange={e => setDescription(e.target.value)} value={description} /> : item.description? item.description : <>NaN</>}<br />
@@ -102,7 +104,9 @@ const BranchDetailPagePrivate = () => {
                         {offers.map(({ offer }) => (
                             <li key={offer.id}>
                                 <p>{offer.name}</p>
-                                <Link to={`/offers/${offer.id}/edit`}>Edit</Link>
+                                <Link to={`/offers/${offer.id}/edit`}
+                                state={{ offerDetails: offer }}
+                                >Edit</Link>
                             </li>
                         ))}
                     </ul>

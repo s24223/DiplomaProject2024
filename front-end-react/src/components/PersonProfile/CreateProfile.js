@@ -52,7 +52,7 @@ const CreateProfile = () => {
     
     const getMinimumBirthDate = () => {
         const today = new Date();
-        today.setFullYear(today.getFullYear() - 17); // Odejmij 17 lat
+        today.setFullYear(today.getFullYear() - 18); // Odejmij 17 lat
         return today.toISOString().split("T")[0]; // Format YYYY-MM-DD
     };
     
@@ -89,7 +89,7 @@ const CreateProfile = () => {
         const isOldEnough = age > 18 || (age === 18 && today >= new Date(birthDateObj.setFullYear(today.getFullYear())));
 
         if (!isOldEnough) {
-            setMessage("You must be at least 17 years old to create a profile.");
+            setMessage("You must be at least 18 years old to create a profile.");
             return;
         }
         
@@ -148,7 +148,7 @@ const CreateProfile = () => {
                 <label>Surname:</label><br />
                 <input type="text" placeholder="Surname" onChange={e => setSurname(e.target.value)} required /><br />
                 <label>BirthDate:</label><br />
-                <p>Please enter your birth date. You must be at least 17 years old to create a profile.</p>
+                <p>Please enter your birth date. You must be at least 18 years old to create a profile.</p>
 
                 <input
                     type="date"

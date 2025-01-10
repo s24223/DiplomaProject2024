@@ -21,13 +21,14 @@ import BranchDetailPagePrivate from './pages/Branch/BranchDetailsPagePrivate';
 import NotificationPage from './pages/Notification/NotificationPage/NotificationPage';
 import NotificationDetailPage from './pages/Notification/NotificationDetailsPage/NotificationDetailPage';
 import NotificationCreate from './pages/Notification/NotificationCreate/NotificationCreate';
-import CompanyDetailsPublic from './components/CompanyDetailsPublic/CompanyDetailsPublic';
+import CompanyDetailsPublic from './components/Company/CompanyDetailsPublic';
 import PersonRecruitmentPage from './pages/PersonRecruitmentPage/PersonRecruitmentPage';
 import LoginButton from './components/Buttons/LoginButton/LoginButton';
 import ReturnButton from './components/Buttons/CancelButton/ReturnButton';
 import MainPageButton from './components/Buttons/MainPageButton/MainPageButton';
 import NotificationButton from './components/Buttons/NotificationButton/NotificationButton';
 import BranchDetailsPagePublic from './pages/Branch/BranchDetailsPagePublic';
+import PrivateOfferDetailsPage from './pages/Offer/PrivateOfferDetailsPage';
 
 const job = new Cron("*/5 * * * *", () => {
     console.log(`Cron run... ${new Date().toLocaleTimeString()}`)
@@ -81,8 +82,9 @@ function App() {
                     <Route path="/offers" element={<MainPage />} />
                     {/* <Route path="/offers/:offerId" element={<OfferDetailsPage />} />
                     */}
-                    <Route path="/offers/:offerId" element={<OfferDetailsPage mode="view" />} />
-                    <Route path="/offers/:offerId/edit" element={<OfferDetailsPage mode="edit" />} />
+                    <Route path="/offers/:offerId" element={<OfferDetailsPage/>} />
+                    <Route path="/offers/:offerId/edit" element={<PrivateOfferDetailsPage />} />
+
 
 
 

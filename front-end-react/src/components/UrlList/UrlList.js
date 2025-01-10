@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import CreateUrl from "../UrlCreate/CreateUrl";
+import { fetchUrls } from "../../services/URLService/UrlService";
 
 const UrlList = () => {
     const [urlList, setUrlList] = useState([]);
@@ -9,17 +9,10 @@ const UrlList = () => {
     const [showAddForm, setShowAddForm] = useState(false);
 
     // Funkcja do pobierania listy URL-i
-    const fetchUrlList = async () => {
+    const loadUrlList = async () => {
         try {
-            const response = await axios.get(
-                "https://localhost:7166/api/User/urls?orderBy=created&ascending=true&itemsCount=100&page=1",
-                {
-                    headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
-                    },
-                }
-            );
-            setUrlList(response.data.item.urls);
+            const urls = await fetchUrls();
+            setUrlList(urls);
         } catch (err) {
             console.error("Error fetching URLs:", err);
             setError("Failed to load URLs. Please try again.");
@@ -28,7 +21,7 @@ const UrlList = () => {
 
     // Pobierz listę URL-i podczas inicjalizacji komponentu
     useEffect(() => {
-        fetchUrlList();
+        loadUrlList();
     }, []);
 
     if (error) {
@@ -41,7 +34,7 @@ const UrlList = () => {
             {/* Przycisk do dodania nowego URL-a */}
             <button onClick={() => setShowAddForm(true)}>Add URL</button>
             {showAddForm && (
-                <CreateUrl onClose={() => setShowAddForm(false)} refreshUrls={fetchUrlList} />
+                <CreateUrl onClose={() => setShowAddForm(false)} refreshUrls={loadUrlList} />
             )}
 
             {/* Lista URL-i */}

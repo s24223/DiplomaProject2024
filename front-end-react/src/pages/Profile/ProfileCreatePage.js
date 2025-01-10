@@ -1,5 +1,5 @@
 import React from "react";
-import CreateProfile from "../../components/PersonProfileCreate/CreateProfile";
+import CreateProfile from "../../components/PersonProfile/CreateProfile";
 import './ProfileCreatePage.css'
 
 
