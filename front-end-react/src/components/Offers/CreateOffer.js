@@ -132,7 +132,7 @@ const CreateOffer = ({ branchId, onClose }) => {
             const processedCharacteristics = allCharacteristics.find(
                 (item) => item.characteristic.id.toString() === char.characteristicId.toString()
             );
-            if ([2, 3, 4].includes(processedCharacteristics?.characteristicType.id)) {
+            if ([1, 2, 3, 4].includes(processedCharacteristics?.characteristicType.id)) {
                 return { ...char, qualityId: null };
             }
 
@@ -306,7 +306,7 @@ const CreateOffer = ({ branchId, onClose }) => {
                         (item) => item.characteristic.id.toString() === char.characteristicId
                     );
 
-                    const isQualitySelectable = ![2, 3, 4].includes(selectedCharacteristic?.characteristicType.id);
+                    const isQualitySelectable = ![1, 2, 3, 4].includes(selectedCharacteristic?.characteristicType.id);
                     return (
                         <div key={index} style={{ marginBottom: "10px" }}>
                             <input

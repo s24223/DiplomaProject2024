@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { fetchCompanyBranches } from '../../services/CompanyService/CompanyService';
 
 const CompanyDetailsPublic = () => {
     const storedCompanyDetails = JSON.parse(localStorage.getItem('companyDetails') || '{}');
@@ -17,7 +18,7 @@ const CompanyDetailsPublic = () => {
     
     const fetchCompanyDetails = async () => {
         setLoading(true);
-        try {
+        
             const queryParams = new URLSearchParams({
                 orderBy: 'hierarchy',
                 ascending: true,
@@ -26,12 +27,8 @@ const CompanyDetailsPublic = () => {
                 wojewodztwo: selectedWojewodztwo || '', // Filtr według województwa
             }).toString();
 
-            const response = await fetch(
-                `https://localhost:7166/api/Companies/${companyId}/branch?${queryParams}`
-            );
-            if (!response.ok) throw new Error('Failed to fetch company details');
-
-            const data = await response.json();
+        try {
+            const data = await fetchCompanyBranches(companyId, queryParams);
             const uniqueWojewodztwa = [
                 ...new Set(data.items.map((item) => item.branch.address.hierarchy[0]?.name)),
             ];
@@ -134,6 +131,7 @@ const CompanyDetailsPublic = () => {
                 <span>Strona: {page}</span>
                 <button onClick={() => setPage((prev) => prev + 1)}>Następna</button>
             </div>
+            <h1>CompanyDetailsPublic</h1>
         </div>
     );
 };

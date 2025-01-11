@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchBranchDetails } from '../../services/BranchService/BranchService';
-import BranchDetailsPublic from '../../components/BranchDetails/BranchDetailsPublic';
+import BranchDetailsPublic from '../../components/Branch/BranchDetailsPublic';
 
 const BranchDetailsPagePublic = () => {
     const { branchId } = useParams();

@@ -36,25 +36,3 @@
     transform: rotate(360deg);
   }
 }
-.header {
-  position: fixed; /* Zawsze na górze ekranu */
-  top: 10px;
-  right: 20px; /* Przesunięcie od prawej krawędzi */
-  display: flex;
-  gap: 10px; /* Odstęp między przyciskami */
-  z-index: 1000; /* Na wierzchu względem innych elementów */
-}
-
-.header button {
-  padding: 8px 12px;
-  border-radius: 5px;
-  background-color: #332f2f;
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.header button:hover {
-  background-color: #525151;
-}

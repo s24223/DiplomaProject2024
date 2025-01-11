@@ -118,101 +118,101 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Address_Cmd_DivisionId_NotFound" xml:space="preserve">
-    <value>Za podanymi danymi DivisionId nie został znaleziony</value>
+    <value>Za podanymi danymi nie został znaleziony DivisionId </value>
   </data>
   <data name="Address_Cmd_DivisionStreetCollocation_NotFound" xml:space="preserve">
-    <value>Połczenia pomiedy jednoska terytorialna a ulicamyi nie wyszukano</value>
+    <value> Nie znaleziono połączenia pomiędzy jednostką terytorialną a ulicami</value>
   </data>
   <data name="Address_Cmd_Id_NotFound" xml:space="preserve">
-    <value>Za podanymi danym Id address nie oształ wyszukany</value>
+    <value>Za podanymi danym nie został znaleziony Id</value>
   </data>
   <data name="Address_Cmd_StreetId_NotFound" xml:space="preserve">
-    <value>Za podanymi danymi StreetId nie został znaleziony</value>
+    <value>Za podanymi danymi nie został znaleziony StreetId </value>
   </data>
   <data name="Address_Query_DivisionName_NotFound" xml:space="preserve">
-    <value>Za podanymi danymi Jednostke terytorialna nie wyszukano, sprawdz nazwe wojewodstwa lub nazwe jednostki</value>
+    <value>Za podanymi danymi nie znaleziono Jednostki terytorialnej, sprawdź nazwę województwa lub nazwę jednostki</value>
   </data>
   <data name="Address_Query_Id_NotFound" xml:space="preserve">
-    <value>Za podanymi Danymi nie wyszukano adresów/ adresu</value>
+    <value>Za podanymi danymi nie znaleziono adresów/ adresu</value>
   </data>
   <data name="Address_Query_WojName_NotFound" xml:space="preserve">
-    <value>Za podanymi danymi Wojewodstwa nie wyszukano, sprawdz poprawnosc wprowadzonych danych</value>
+    <value>Za podanymi danymi nie znaleziono Województwa, sprawdz poprawnosc wprowadzonych danych</value>
   </data>
   <data name="BranchOffer_Cmd_Branch_NotFound" xml:space="preserve">
-    <value>Za podanymi danymi nie wyszukano Oddziału</value>
+    <value>Za podanymi danymi nie znaleziono Oddziału</value>
   </data>
   <data name="BranchOffer_Cmd_Ids_NotFound" xml:space="preserve">
-    <value>Za podanymi BranchOfferId, połaczen nie ozstało wyszukano</value>
+    <value>Za podanymi BranchOfferId, połączenie nie zostało wyszukane</value>
   </data>
   <data name="BranchOffer_Cmd_Invalid_PublishEnd" xml:space="preserve">
-    <value>Niepoprawna wartosc Daty konca publikacji, powinna zaczync sie conajmniej pozniej startu publikacji</value>
+    <value>Niepoprawna wartość Daty końca publikacji, powinna zaczynać się co najmniej później niż start publikacji</value>
   </data>
   <data name="BranchOffer_Cmd_Invalid_WorkEnd" xml:space="preserve">
-    <value>Niepoprawna wartosc WorkStart, powinna zaczync sie conajmniej tego samego dnia co PublishStart lub pózniej</value>
+    <value>Niepoprawna wartość WorkStart, powinna zaczynać się co najmniej tego samego dnia co PublishStart </value>
   </data>
   <data name="BranchOffer_Cmd_Invalid_WorkStart" xml:space="preserve">
-    <value>Niepoprawna wartosc daty pocztku Parcy, powinna zaczync sie conajmniej nastepnego dnia po zakonczeniu publikiacji</value>
+    <value>Niepoprawna wartość daty początku pracy, powinna zaczynać się co najmniej następnego dnia po zakończeniu publikacji</value>
   </data>
   <data name="BranchOffer_Cmd_Offer_NotFound" xml:space="preserve">
-    <value>Za podanymi danymi nie wyszukano Oferty</value>
+    <value>Za podanymi danymi nie znaleziono oferty</value>
   </data>
   <data name="Branch_Cmd_Address_NotFound" xml:space="preserve">
-    <value>Addres nie został znaleziony</value>
+    <value>Address nie został znaleziony</value>
   </data>
   <data name="Branch_Cmd_Company_NotExsist" xml:space="preserve">
     <value>Profil Company/Firmy nie istnieje</value>
   </data>
   <data name="Branch_Cmd_Id_NotFound" xml:space="preserve">
-    <value>Za podanym Id/s oddaiło nie znaleziono</value>
+    <value>Za podanym Id/s nie znaleziono oddziału </value>
   </data>
   <data name="Branch_Cmd_UrlSegmet_DbDuplicate" xml:space="preserve">
-    <value>Duplikat po stronie Bazy danych, wartosc z danym UrlSegmentem juz istnieje</value>
+    <value>Duplikat po stronie Bazy danych, wartość z danym UrlSegmentem już istnieje</value>
   </data>
   <data name="Branch_Cmd_UrlSegmet_InputDuplicate" xml:space="preserve">
-    <value>Duplikat w podanych danych, wartosc z danym UrlSegmentem juz istnieje</value>
+    <value>Duplikat w podanych danych, wartość z danym UrlSegmentem już istnieje</value>
   </data>
   <data name="Branch_Query_Branch_NotFound" xml:space="preserve">
-    <value>Za podanymi danymi Oddziału nie wyszukano</value>
+    <value>Za podanymi danymi nie znaleziono oddziału </value>
   </data>
   <data name="Branch_Query_UrlSegmentBranch_Invalid" xml:space="preserve">
     <value>Niepoprwane dane z UrlSegmentu w ramach Branch, wpisz poprawne dane</value>
   </data>
   <data name="Characteristic_Id_NotFound" xml:space="preserve">
-    <value>Za podanymi danymymi Ceha nie został wyszukana</value>
+    <value>Za podanymi danymi Cecha nie została wyszukana</value>
   </data>
   <data name="CommentType_Query_Enum_IdNotFound" xml:space="preserve">
-    <value>Za podanym id nie wyszukano Typu komentarza</value>
+    <value>Za podanym id nie znaleziono typu komentarza</value>
   </data>
   <data name="CommentType_Qwery_IdItemNotFound" xml:space="preserve">
-    <value>Problem aplikacyjny, nie wyszkakano comment type za podanym id</value>
+    <value>Problem aplikacyjny, za podanym id nie znaleziono comment type </value>
     <comment>Problem aplikacyjny,</comment>
   </data>
   <data name="Comment_Cmd_Id_NotFound" xml:space="preserve">
-    <value>Za podanym Id komentarzu nie wyszukano</value>
+    <value>Za podanym Id nie znaleziono komentarza</value>
   </data>
   <data name="Comment_Cmd_Intership_NotFound" xml:space="preserve">
-    <value>Za podanymi danymi Stażu/Praktyk/Pracy nie wysukano</value>
+    <value>Za podanymi danymi nie znaleziono Stażu/Praktyk/Pracy</value>
   </data>
   <data name="Comment_Cmd_UnablePublish_AfterDays" xml:space="preserve">
-    <value>Nie mozna opublikować, dopiero po upływie dni</value>
+    <value>Nie można opublikować, dopiero po upływie dnia</value>
   </data>
   <data name="Comment_Cmd_UnablePublish_ContractHasntEnd" xml:space="preserve">
-    <value>Nie mozna opublikować, umowa sie nie skonczyła, dopiero po upływie dni</value>
+    <value>Nie można opublikować, umowa się nie skończyła</value>
   </data>
   <data name="Comment_Cmd_UnablePublish_DuplicateEndOpinion" xml:space="preserve">
-    <value>Duplikat koncowej opinii</value>
+    <value>Duplikat końcowej opinii</value>
   </data>
   <data name="Comment_Cmd_UnablePublish_DuplicateOfAllovedOfpublication" xml:space="preserve">
-    <value>Duplikat pozowlania na publikacje</value>
+    <value>Duplikat nie pozwala na publikacje</value>
   </data>
   <data name="Comment_Cmd_UnablePublish_EndContractNull" xml:space="preserve">
-    <value>Nie mozna tego opublikować, Konca umowy nie ma</value>
+    <value>Nie można opublikować, nie ustalono końca umowy</value>
   </data>
   <data name="Comment_Cmd_UnablePublis_ContractEnd" xml:space="preserve">
-    <value>Umowa zakonczyła sie</value>
+    <value>Umowa zakończyła się</value>
   </data>
   <data name="Company_Cmd_ExistProfile" xml:space="preserve">
-    <value>Profil Firmowy/Comapny juz istnieje</value>
+    <value>Profil Firmowy/Company już istnieje</value>
   </data>
   <data name="Company_Cmd_Id_NotFound" xml:space="preserve">
     <value>Nie posiadasz profilu Firmy/Company</value>
@@ -221,10 +221,10 @@
     <value>Wybierz inny kontaktowy email dla Firmy/Company</value>
   </data>
   <data name="Company_Cmd_NotUniqueName" xml:space="preserve">
-    <value>Wpoisz inna nazwe firmy jesli ty jestes posiadaczem zgłoś problem z podana nazwa firmy</value>
+    <value>Wpisz inną nazwę firmy. Jeżeli to ty jesteś posiadaczem zgłoś problem z podana nazwa firmy</value>
   </data>
   <data name="Company_Cmd_NotUniqueRegon" xml:space="preserve">
-    <value>Wpoisz inny REGON, jesli ty jestes posiadaczem zgłoś problem z podaym REGONem</value>
+    <value>Wpisz inny REGON. Jeżeli to ty jesteś posiadaczem zgłoś problem z podanym REGON-em</value>
   </data>
   <data name="Company_Cmd_NotUniqueUrlSegment" xml:space="preserve">
     <value>Wybierz inny UrlSegment</value>
@@ -236,54 +236,54 @@
     <value>Niepoprawna data</value>
   </data>
   <data name="Internship_Cmd_ContractNum_Duplicate" xml:space="preserve">
-    <value>Numer umowy powtarza sie, wybierz inny numer</value>
+    <value>Numer umowy powtarza się, wybierz inny numer</value>
   </data>
   <data name="Internship_Cmd_Exist" xml:space="preserve">
     <value>Praktyka/staż istnieje</value>
   </data>
   <data name="Internship_Cmd_Id_NotFound" xml:space="preserve">
-    <value>Praktyka/staż  za podanym Id nie istnieje</value>
+    <value>Praktyka/staż  za podanym nie istnieje Id</value>
   </data>
   <data name="Internship_Cmd_Recruitment_NotExist" xml:space="preserve">
-    <value>Rekrutacja nie istnieje za podanym Id</value>
+    <value>Za podanym Id, rekrutacja nie istnieje </value>
   </data>
   <data name="Internship_Cmd_Recruitment_PositiveNotExist" xml:space="preserve">
-    <value>Pozytywnej rekrutacji nie isntieje za podanym Id</value>
+    <value>Za podanym Id nie istnieje pozytywna rekrutacja</value>
   </data>
   <data name="Notification_Cmd_CHECK_IsReadedByUser" xml:space="preserve">
     <value>Problem aplikacyjny, niepoprawna wartość bazodanowa CONSTRAINT Notification_CHECK_IsReadedByUser</value>
     <comment>Problem aplikacyjny,</comment>
   </data>
   <data name="Notification_Cmd_FK_Notification_NotificationSender" xml:space="preserve">
-    <value>Problem aplikacyjny, nie isntnieje FK Notification_NotificationSender</value>
+    <value>Problem aplikacyjny, nie istnieje FK Notification_NotificationSender</value>
     <comment>Problem aplikacyjny,</comment>
   </data>
   <data name="Notification_Cmd_FK_Notification_NotificationStatus" xml:space="preserve">
-    <value>Problem aplikacyjny, nie isntnieje FK Notification_NotificationStatus</value>
+    <value>Problem aplikacyjny, nie istnieje FK Notification_NotificationStatus</value>
     <comment>Problem aplikacyjny,</comment>
   </data>
   <data name="Notification_Cmd_Id_NotFound" xml:space="preserve">
     <value>Nie znaleziono powiadomienia za podanym Id</value>
   </data>
   <data name="Offer_Cmd_Characteristic_NotFound" xml:space="preserve">
-    <value>Za podanymi danymi nie wyszukano Cehy Oferty</value>
+    <value>Za podanymi danymi nie wyszukano Cech Oferty</value>
   </data>
   <data name="Offer_Cmd_Ids_NotFound" xml:space="preserve">
-    <value>Za podanymi OfferIds, ofert nie ozstało wyszukano</value>
+    <value>Za podanymi OfferIds, nie znaleziono ofert </value>
   </data>
   <data name="Offer_Cmd_Invalid_IsForStudents" xml:space="preserve">
-    <value>Problem aplikacyjny, niepoprawna wrtosc IsForStudents</value>
+    <value>Problem aplikacyjny, niepoprawna wartość IsForStudents</value>
     <comment>Problem aplikacyjny,</comment>
   </data>
   <data name="Offer_Cmd_Invalid_IsNegotiatedSalary" xml:space="preserve">
-    <value>Problem aplikacyjny, niepoprawna wrtosc IsNegotiatedSalary</value>
+    <value>Problem aplikacyjny, niepoprawna wartość IsNegotiatedSalary</value>
     <comment>Problem aplikacyjny,</comment>
   </data>
   <data name="Offer_Cmd_Invalid_MaxSalary" xml:space="preserve">
-    <value>Wrtosc płacy minimalnej powinna byc taka sama jak minimalna lub wiecej</value>
+    <value>Wartość płacy minimalnej powinna być taka sama lub wyższa od minimalnej</value>
   </data>
   <data name="Offer_Cmd_Invalid_MinSalary" xml:space="preserve">
-    <value>Wrtosc płacy minimalnej powinna byc 0 lub wiecej</value>
+    <value>Wartość płacy minimalnej powinna być 0 lub wjęcej</value>
   </data>
   <data name="Offer_Query_BranchData_NotGiven" xml:space="preserve">
     <value>Podaj Id lub UrlSegment oddziału</value>
@@ -292,13 +292,13 @@
     <value>Podaj Id lub UrlSegment firmy</value>
   </data>
   <data name="Offer_Query_NotFound" xml:space="preserve">
-    <value>Za podanymi danymi nie wyszukano zadnej oferty</value>
+    <value>Za podanymi danymi nie wyszukano żadnej oferty</value>
   </data>
   <data name="Person_Cmd_Address_NotFound" xml:space="preserve">
-    <value>Za podanymi danymi addrees nie ostał znaleziony</value>
+    <value>Za podanymi danymi nie ostały znalezione addrees </value>
   </data>
   <data name="Person_Cmd_ExistProfile" xml:space="preserve">
-    <value>Profil Osoby juz istnieje, nie ma moliwosci ponownie utworzyć</value>
+    <value>Profil Osoby już istnieje, nie ma możliwości ponownie utworzyć</value>
   </data>
   <data name="Person_Cmd_Id_NotFound" xml:space="preserve">
     <value>Nie posiadasz profilu osoby</value>
@@ -308,55 +308,55 @@
     <comment>Problem aplikacyjny,</comment>
   </data>
   <data name="Person_Cmd_IncorrectIsPublicProfile" xml:space="preserve">
-    <value>Problem aplikacyjny, niepoprawny kod IsPublicProfile po strone Backendu</value>
+    <value>Problem aplikacyjny, niepoprawny kod IsPublicProfile po stronie Backendu</value>
     <comment>Problem aplikacyjny,</comment>
   </data>
   <data name="Person_Cmd_IncorrectIsStudent" xml:space="preserve">
-    <value>Problem aplikacyjny, niepoprawny kod IsStudent po strone Backendu</value>
+    <value>Problem aplikacyjny, niepoprawny kod IsStudent po stronie Backendu</value>
     <comment>Problem aplikacyjny,</comment>
   </data>
   <data name="Person_Cmd_NotUniqueContactEmail" xml:space="preserve">
-    <value>Musisz wybrac inny email do kontaktu w profilu osoby</value>
+    <value>Musisz wybrać inny email do kontaktu w profilu osoby</value>
   </data>
   <data name="Person_Cmd_NotUniqueContactPhoneNum" xml:space="preserve">
-    <value>Musisz wybrac nr. telefon email do kontaktu w profilu osoby</value>
+    <value>Musisz wybrać nr. telefon email do kontaktu w profilu osoby</value>
   </data>
   <data name="Person_Cmd_NotUniqueUrlSegment" xml:space="preserve">
-    <value>Musisz wybrac inny Url Segment w profilu osoby</value>
+    <value>Musisz wybrać inny Url Segment w profilu osoby</value>
   </data>
   <data name="Recruitment_Cmd_BranchOffer_Expired" xml:space="preserve">
-    <value>Brak mozliwosci rekrutacji, oferta neważna</value>
+    <value>Brak możliwości rekrutacji, oferta nieważna</value>
   </data>
   <data name="Recruitment_Cmd_BranchOffer_Future" xml:space="preserve">
-    <value>Brak mozliwosci rekrutacji, oferta nieopublikowana</value>
+    <value>Brak możliwości rekrutacji, oferta nieopublikowana</value>
   </data>
   <data name="Recruitment_Cmd_BranchOffer_NotFound" xml:space="preserve">
-    <value>Za podanymi danymi BranchOffer nie istnieje</value>
+    <value>Za podanymi danymi nie istnieje BranchOffer</value>
   </data>
   <data name="Recruitment_Cmd_Id_NotFound" xml:space="preserve">
-    <value>Za podanym Id rekrutacja nie została znaleiona</value>
+    <value>Za podanym Id nie została znaleziona rekrutacja </value>
   </data>
   <data name="Recruitment_Cmd_IntoHisCompany" xml:space="preserve">
-    <value>Brak mozliwosci rekrutacji do włsanej firmy</value>
+    <value>Brak możliwości rekrutacji do własnej firmy</value>
   </data>
   <data name="Recruitment_Cmd_IsAccepted_Invalid" xml:space="preserve">
-    <value>Problem aplikacyjny, nieporawne dane Code IsAccepted</value>
+    <value>Problem aplikacyjny, niepoprawne dane Code IsAccepted</value>
     <comment>Problem aplikacyjny,</comment>
   </data>
   <data name="Recruitment_Cmd_Person_NotFound" xml:space="preserve">
     <value>Profil Osoby nie isnieje</value>
   </data>
   <data name="Recruitment_Cmd_Recruitment_Exist" xml:space="preserve">
-    <value>Już masz złozony wniosek, nie mozna ponownie ponownie złozyc wniosku o rekrutacje</value>
+    <value>Już masz złożony wniosek, nie można ponownie ponownie złożyć wniosku o tą rekrutacje</value>
   </data>
   <data name="Response_Success" xml:space="preserve">
     <value>Success</value>
   </data>
   <data name="Url_Cmd_Ids_NotFound" xml:space="preserve">
-    <value>Za podanymi danymi nie zostało znaleziono rekordów</value>
+    <value>Za podanymi danymi nie znaleziono rekordów</value>
   </data>
   <data name="Url_Cmd_PathConflicts" xml:space="preserve">
-    <value>W podanych danych wystepuja duplikaty</value>
+    <value>W podanych danych występują duplikaty</value>
   </data>
   <data name="Url_Query_CompanyIdOrUrl_Requered" xml:space="preserve">
     <value>Nie podano ani id ani UrlSegment firmy</value>
@@ -371,11 +371,11 @@
     <value>Nie jest skonfigurowany Secret w UserSecrets</value>
   </data>
   <data name="User_Cmd_Id_NotFound" xml:space="preserve">
-    <value>Problem aplikacyjny, nie wyszukany user za podanym ID</value>
+    <value>Problem aplikacyjny, nie znaleziono user za podanym ID</value>
     <comment>Problem aplikacyjny,</comment>
   </data>
   <data name="User_Cmd_Invalid_IsHideProfile" xml:space="preserve">
-    <value>Problem aplikacyjny, niepoprawna wrtosc DatabaseBool</value>
+    <value>Problem aplikacyjny, niepoprawna wartość DatabaseBool</value>
     <comment>Problem aplikacyjny,</comment>
   </data>
   <data name="User_Cmd_Login_NotUnique" xml:space="preserve">
@@ -385,13 +385,13 @@
     <value>Refresh Token Pusty</value>
   </data>
   <data name="User_Cmd_Unautorized" xml:space="preserve">
-    <value>Sprawdz dane i zaloguj sie ponownie</value>
+    <value>Sprawdź dane i zaloguj się ponownie</value>
   </data>
   <data name="User_Jwt_IsNotGeneratedByThisServer" xml:space="preserve">
-    <value>JWT nie jest wygenerowany przez dny serwer, zaloguj sie ponownie</value>
+    <value>JWT nie jest wygenerowany przez dny serwer, zaloguj się ponownie</value>
   </data>
   <data name="User_Jwt_NameIsNotGuid" xml:space="preserve">
-    <value>Problem aplikacyjny, name z JWT powinien byc Guidem</value>
+    <value>Problem aplikacyjny, name z JWT powinien być Guidem</value>
     <comment>Problem aplikacyjny,</comment>
   </data>
 </root>

@@ -118,16 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Intership_Query_Paramiter_NotFound" xml:space="preserve">
-    <value>Za podanymi prametrami Stażu/Praktyk/Pracy nie wyszukano</value>
+    <value>Za podanymi parametrami nie znaleziono Stażu/Praktyk/Pracy</value>
   </data>
   <data name="NotConfiguredConnectionString" xml:space="preserve">
-    <value>Sprawdż strukturę UserSecrets, najprawdopodobnej ona zmieniła się w kontekscie: ConnectionStrings : DbString</value>
+    <value>Sprawdź strukturę UserSecrets, najprawdopodobniej ona zmieniła się w kontekście: ConnectionStrings : DbString</value>
   </data>
   <data name="NotConfiguredUserSecrets" xml:space="preserve">
-    <value>Sprawdż UserSecrets, najprawdopodobnej one nie zostały skonfigurowane w UI/UX projekcie</value>
+    <value>Sprawdź UserSecrets, najprawdopodobniej one nie zostały skonfigurowane w UI/UX projekcie</value>
   </data>
   <data name="Procedure_FIND_Division_Street" xml:space="preserve">
-    <value>Problem z wyszukaniem danych w ramach parametrów
-</value>
+    <value>Problem z wyszukaniem danych w ramach parametrów</value>
   </data>
 </root>

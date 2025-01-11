@@ -32,15 +32,16 @@ const PrivateOfferDetailsPage = () => {
 
     return (
         <div>
-            {isLoggedIn && (
-                <button onClick={() => setEditMode(!editMode)}>
-                    {editMode ? "Cancel Edit" : "Edit Mode"}
-                </button>
-            )}
+            
             {editMode && isLoggedIn ? (
                 <OfferEditForm offerDetails={offerDetails} onCancelEdit={() => setEditMode(false)} />
             ) : (
                 <OfferDetails offerDetails={offerDetails} />
+            )}
+            {isLoggedIn && (
+                <button onClick={() => setEditMode(!editMode)}>
+                    {editMode ? "Cancel Edit" : "Edit Mode"}
+                </button>
             )}
         </div>
     );

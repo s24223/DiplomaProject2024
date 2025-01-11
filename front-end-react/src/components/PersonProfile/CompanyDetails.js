@@ -1,6 +1,7 @@
 import React from "react";
-import BranchList from "../BranchList/BranchList";
-import UrlList from "../UrlList/UrlList";
+import BranchList from "../Branch/ProfileBranchList";
+import UrlList from "../Url/UrlList";
+
 
 const CompanyDetails = ({ company, branchCount, activeOffersCount }) => {
     const handleAddBranch = () => {

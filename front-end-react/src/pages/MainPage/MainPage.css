@@ -96,15 +96,26 @@
     cursor: not-allowed;
 }
 .header {
-    position: fixed; /* Zawsze na górze ekranu */
-    top: 10px;
-    right: 20px; /* Przesunięcie od prawej krawędzi */
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 10px 20px;
+    background-color: #1e1c1c;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
     display: flex;
-    gap: 10px; /* Odstęp między przyciskami */
-    z-index: 1000; /* Na wierzchu względem innych elementów */
+    justify-content: space-between; /* Rozdziela przyciski na lewej i prawej stronie */
+    align-items: center;
+    box-sizing: border-box;
 }
 
-.header button {
+.buttons-group-left, .buttons-group-right {
+    display: flex;
+    gap: 10px;
+}
+
+
+.header button{
     padding: 8px 12px;
     border-radius: 5px;
     background-color: #332f2f;
@@ -114,28 +125,6 @@
     transition: background-color 0.3s ease;
 }
 
-.header button:hover {
-    background-color: #525151;
-}
-.header2 {
-    position: fixed; /* Zawsze na górze ekranu */
-    top: 10px;
-    left: 20px; /* Przesunięcie od prawej krawędzi */
-    display: flex;
-    gap: 10px; /* Odstęp między przyciskami */
-    z-index: 1000; /* Na wierzchu względem innych elementów */
-}
-
-.header2 button {
-    padding: 8px 12px;
-    border-radius: 5px;
-    background-color: #332f2f;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.header2 button:hover {
+.header button:hover{
     background-color: #525151;
 }

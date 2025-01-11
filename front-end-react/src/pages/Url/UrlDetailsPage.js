@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import UrlDetailsView from "../../components/URL/UrlDetailsView";
+import UrlDetailsView from "../../components/Url/UrlDetailsView";
 import UrlForm from "../../components/Forms/UrlDetailsForm";
 import { deleteUrl } from "../../services/URLService/UrlService";
 

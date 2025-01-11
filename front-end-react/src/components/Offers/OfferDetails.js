@@ -39,6 +39,7 @@ const OfferDetails = ({ offerDetails }) => {
             <h2>Oddział:</h2>
             <p><strong>Nazwa oddziału:</strong> {branch?.name}</p>
             <p><strong>Adres:</strong></p>
+            <p>BranchID: {branch.id}</p>
             <p>ul. {branch?.address?.street?.name} {branch?.address?.buildingNumber}/{branch?.address?.apartmentNumber}</p>
             <p>{branch?.address?.zipCode?.slice(0, 2)}-{branch?.address?.zipCode?.slice(2)} {branch?.address?.hierarchy[2]?.name}</p>
             <p>{branch?.address?.hierarchy[1]?.name}</p>
@@ -68,8 +69,9 @@ const OfferDetails = ({ offerDetails }) => {
             )}
             <div className="bordered"></div>
             <h2>Informacje o zatrudnieniu:</h2>
+            
             <p><strong>Id oferty:</strong> {offer.id}</p>
-            <p><strong>branchOfferId oferty:</strong> {branchOffer?.branchOffer.id}</p>
+            <p><strong>branchOfferId oferty:</strong> {branchOffer?.branchOffer.id}</p> 
             <p><strong>Data publikacji:</strong> {new Date(branchOffer?.branchOffer?.publishStart).toLocaleDateString()}</p>
             <p><strong>Data zakończenia:</strong> {new Date(branchOffer?.branchOffer?.publishEnd).toLocaleDateString()}</p>
             <p><strong>Okres zatrudnienia:</strong> {branchOffer?.branchOffer?.workDuration?.years} lat, {branch?.offerDetails?.workDuration?.months} miesięcy, {branch.offerDetails?.workDuration?.days} dni</p>

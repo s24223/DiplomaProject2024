@@ -72,3 +72,13 @@ export const fetchCompanyDetails = async (companyId, page, maxItems, selectedWoj
     }
     return await response.json();
 };
+
+export const fetchCompanyBranches = async (companyId, queryParams) => {
+    try {
+        const response = await axios.get(`https://localhost:7166/api/Companies/${companyId}/branch?${queryParams}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching company branches:", error);
+        throw new Error("Failed to fetch company branches.");
+    }
+};

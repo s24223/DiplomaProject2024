@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import CreateUrl from "../UrlCreate/CreateUrl";
+import CreateUrl from "../Url/CreateUrl";
 import { fetchUrls } from "../../services/URLService/UrlService";
 
 const UrlList = () => {

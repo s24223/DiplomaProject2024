@@ -20,6 +20,8 @@ export const fetchBranchOffers = async (branchId, params = {}) => {
                 },
             }
         );
+        console.log('Request URL:', `https://localhost:7166/api/BranchOffers/branches/${branchId}/branchOffers?${queryParams}`);
+
 
         if (response.status !== 200) {
             throw new Error(`Error fetching branch offers: ${response.statusText}`);
@@ -124,20 +126,19 @@ export const assignOfferToBranch = async (publishData) => {
 
 export const updateOffer = async (offerData) => {
     try {
-        const response = await fetch("https://localhost:7166/api/User/company/offers", {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
-            },
-            body: JSON.stringify([offerData]),
-        });
-
-        if (!response.ok) {
-            throw new Error("Failed to update offer.");
+        const response = await axios.put(
+            `https://localhost:7166/api/User/company/offers`,
+            [offerData], // API oczekuje tablicy
+            {
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+                },
+            }
+        );
+        if (response.status !== 200) {
+            throw new Error("Failed to update the offer.");
         }
-
-        return await response.json();
+        return response.data;
     } catch (error) {
         console.error("Error updating offer:", error);
         throw error;

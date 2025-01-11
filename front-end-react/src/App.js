@@ -2,11 +2,11 @@
 import React from 'react';
 import { Cron } from 'croner';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import UrlDetailsPage from './pages/UrlDetailsPage/UrlDetailsPage';
+import UrlDetailsPage from './pages/Url/UrlDetailsPage';
 import TestPage from './pages/TestPage/TestPage';
 import MainPage from './pages/MainPage/MainPage';
 import OfferDetailsPage from './pages/Offer/OfferDetailsPage';
-import EditUrlPage from './pages/UrlEditPage/EditUrlPage';
+import EditUrlPage from './pages/Url/EditUrlPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
 import ProfilePage from './pages/Profile/ProfilePage';
@@ -70,14 +70,19 @@ function App() {
     return (
         <Router>
             <div>
-                <div className="header">
-                    <NotificationButton />
-                    <LoginButton />
+            <div className="header">
+                    <div className="buttons-group-left">
+                        <MainPageButton />
+                        <ReturnButton />
+                    </div>
+                    <div className="buttons-group-right">
+                        <NotificationButton />
+                        <LoginButton />
+                    </div>
+                    
                 </div>
-                <div className="header2">
-                    <MainPageButton/>
-                    <ReturnButton/>
-                </div>
+
+                
                 <Routes>
                     <Route path="/" element={<MainPage />} />
                     <Route path="/offers" element={<MainPage />} />
@@ -122,6 +127,7 @@ function App() {
 
                     <Route path='/changePassword' element={<ProfileChnagePassword />} />
                 </Routes>
+                
             </div>
         </Router>
     );

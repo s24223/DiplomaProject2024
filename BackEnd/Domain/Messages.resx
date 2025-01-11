@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Address_DivisionsHierarchy_NotFound" xml:space="preserve">
-    <value>Problem aplikacyjny, w rmach podawanej listy DomainAdministrativeDivision nie istnieje AdministrativeDivisionId podawane w ramach konstruktora</value>
+    <value>Problem aplikacyjny, w ramach podawanej listy DomainAdministrativeDivision nie istnieje AdministrativeDivisionId podawane w ramach konstruktora</value>
     <comment>App Problem</comment>
   </data>
   <data name="Address_Street_Invalid" xml:space="preserve">
@@ -126,50 +126,50 @@
     <comment>App Problem</comment>
   </data>
   <data name="ApartmentNumber_Value_Invalid" xml:space="preserve">
-    <value>Podana wartość nr mieszkania nie spełnia wymagań, może byc tylko wartośc liczbowa</value>
+    <value>Podana wartość nr mieszkania nie spełnia wymagań, może być tylko wartość liczbowa</value>
   </data>
   <data name="BranchOffer_PublishEnd_Invalid" xml:space="preserve">
     <value>Data zakończenia publikacji nie może być mniejsza data utworzenia</value>
   </data>
   <data name="BranchOffer_WorkEnd_Invalid" xml:space="preserve">
-    <value>Data zakonczenia pracy nie może być wczesniej od daty pocztaku pracy</value>
+    <value>Data zakończenia pracy nie może być wcześniej niż daty początku pracy</value>
   </data>
   <data name="BranchOffer_WorkStart_Invalid" xml:space="preserve">
-    <value>Data poczatku pracy może byc najwcześniej kolejnego dnia po dacie zakończenia publikacji </value>
+    <value>Data początku pracy może być najwcześniej kolejnego dnia po dacie zakończenia publikacji </value>
   </data>
   <data name="Branch_Address_NotSameAddressId" xml:space="preserve">
     <value>Problem aplikacyjny, podawany address nie jest tożsamy z addressId podanym w konstruktorze, kontekst DomainBranch</value>
     <comment>App Problem</comment>
   </data>
   <data name="BuildingNumber_Value_Invalid" xml:space="preserve">
-    <value>Podana wartosc Nr. budynku jest niepoprawna, powinna zaczynac sie od 1-9  i mogą zawierac sie znaki od A-Z także może byc'/' i numery</value>
+    <value>Nr. budynku jest niepoprawny, powinien zaczynać się od 1-9  i może zawierać znaki od A-Z także może być '/' i numery</value>
   </data>
   <data name="CommentEvaluation_Value_Invalid" xml:space="preserve">
-    <value>Podana wartość oceny nie może byc mniejsza 0 i nie może byc większa od 5</value>
+    <value>Podana wartość oceny nie może być mniejsza od 0 ani większa od 5</value>
   </data>
   <data name="CommentType_Enum_IdNotFound" xml:space="preserve">
-    <value>Nie istnieje typu komantarza z podana wrtoscia  Id</value>
+    <value>Nie istnieje typ komentarza z podanym  Id</value>
   </data>
   <data name="CommentType_Id_NotFound" xml:space="preserve">
-    <value>Podany Kod typu komentarza nie isntnieje</value>
+    <value>Podany Kod typu komentarza nie istnieje</value>
   </data>
   <data name="ContractNumber_Value_IsNullOrWhiteSpace" xml:space="preserve">
-    <value>Nr. kontraktu nie może być pusty</value>
+    <value>Nr. kontaktu nie może być pusty</value>
   </data>
   <data name="DatabaseBool_Code_Invalid" xml:space="preserve">
-    <value>Problem aplikacyjny, Podana wartość kodu nie istnieje, sprawdż dane i popraw kod, Problem aplikacyjny związany z rożnymidanymi po stronie bazy danych i Backendzie</value>
+    <value>Problem aplikacyjny, Podana wartość kodu nie istnieje, sprawdź dane i popraw kod, problem aplikacyjny związany z rożnymi danymi po stronie bazy danych i Backendy</value>
   </data>
   <data name="DomainUserProblem_ProblemStatus_DoneOrAnnulled" xml:space="preserve">
-    <value>Brak możliwości zmiany statusu, sprawa została Zmknięta</value>
+    <value>Brak możliwości zmiany statusu, sprawa została zmknięta</value>
   </data>
   <data name="Email_Value_Invalid" xml:space="preserve">
-    <value>Podany adress Email nie spełnia wymagań</value>
+    <value>Podany adres e-mail nie spełnia wymagań</value>
   </data>
   <data name="Evaluation_Requered" xml:space="preserve">
-    <value>Przy danym Typie komentraza konieczna jest ocena</value>
+    <value>Przy danym Typie komentarza konieczna jest ocena</value>
   </data>
   <data name="Money_Value_Invalid" xml:space="preserve">
-    <value>Podana wartość srodka płatniczego nie spełnia wymagań, musi być maksymalnie po 2 liczbach po przecinku</value>
+    <value>Podana wartość pieniężna nie spełnia wymagań, musi być maksymalnie po 2 liczbach po przecinku</value>
   </data>
   <data name="Notification_IsExistAnswer_False" xml:space="preserve">
     <value>Nie ma odpowiedzi dla przeczytania</value>
@@ -178,22 +178,22 @@
     <value>Już przeczytane</value>
   </data>
   <data name="Notification_Sender_NotFound" xml:space="preserve">
-    <value>ProblemAplikacyjny, Seneder Not Found</value>
+    <value>Problem Aplikacyjny, Seneder Not Found</value>
     <comment>App Problem</comment>
   </data>
   <data name="Notification_StatusAnnul_NotFound" xml:space="preserve">
-    <value>Problem aplikacyjny, nie nzaleziony status annull (4), lub jest problem z pobieraniem daych z BD </value>
+    <value>Problem aplikacyjny, nie znaleziony status annull (4), lub jest problem z pobieraniem daych z BD </value>
     <comment>App Problem</comment>
   </data>
   <data name="Notification_Status_NotFound" xml:space="preserve">
-    <value>ProblemAplikacyjny, Status Not Found</value>
+    <value>Problem Aplikacyjny, Status Not Found</value>
     <comment>App Problem</comment>
   </data>
   <data name="Notification_Status_UnableAnnulCompleted" xml:space="preserve">
-    <value>Nie można zmienic statusu</value>
+    <value>Nie można zmienić statusu</value>
   </data>
   <data name="Offer_IsNegotiatedSalary_Empty" xml:space="preserve">
-    <value>W ramach podanych nalezy uzupełnić czy dane wynagrodzenie poddjae sie negociacjom</value>
+    <value>W ramach podanych należy uzupełnić czy dane wynagrodzenie poddaje się negocjacjom</value>
   </data>
   <data name="Offer_MaxSalary_Invalid" xml:space="preserve">
     <value>Maksymalne wynagrodzenie nie może być mniejsze od minimalnego wynagrodzenia</value>
@@ -203,26 +203,26 @@
     <comment>App Problem</comment>
   </data>
   <data name="Person_BirthDate_InFuture" xml:space="preserve">
-    <value>Podana data urodzenie jest niepoprawna, data urodzenia nie może być w prszyszłości</value>
+    <value>Podana data urodzenie jest niepoprawna, data urodzenia nie może być w przszyszłości</value>
   </data>
   <data name="PhoneNumber_Value_Invalid" xml:space="preserve">
     <value>Podana wartość nr. telefonu nie spełnia wymagań, powinno zwierać 9 cyfr</value>
   </data>
   <data name="ProblemStatus_Code_NotFound" xml:space="preserve">
-    <value>Problem aplikacyjny, Podany kod w ramach dostepnych ProblemStatus nie istnieje</value>
+    <value>Problem aplikacyjny, Podany kod w ramach dostępnych ProblemStatus nie istnieje</value>
     <comment>App Problem</comment>
   </data>
   <data name="Regon_Value_Invalid" xml:space="preserve">
-    <value>Podany nr. REGON nie spełnia wymagań, powinien zawierac 9 lub 14 cyfr</value>
+    <value>Podany nr. REGON nie spełnia wymagań, powinien zawierać 9 lub 14 cyfr</value>
   </data>
   <data name="SegmentUrl_Value_Invalid" xml:space="preserve">
-    <value>Podany Segment Url nie spełnia wymagań, może zawierac zanki małe i duże od a-z i/lub '-', '_'</value>
+    <value>Podany Segment Url nie spełnia wymagań, może zawierać znaki małe i duże od a-z i/lub '-', '_'</value>
   </data>
   <data name="UrlType_Id_NotFound" xml:space="preserve">
-    <value>Podawany id w ramach UrlType nie został znależiony</value>
+    <value>Podawany id w ramach UrlType nie został znaleziony</value>
   </data>
   <data name="Url_Path_Invalid" xml:space="preserve">
-    <value>scierza powinna zaczynac sie od https://... lub  http://...</value>
+    <value>Ścieżka powinna zaczynać się od https://... lub  http://...</value>
   </data>
   <data name="ZipCode_Value_Invalid" xml:space="preserve">
     <value>Podany Kod pocztowy nie spełnia warunków, powinien zawierać tylko 5 cyfr</value>

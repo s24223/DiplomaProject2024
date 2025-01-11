@@ -61,7 +61,7 @@ namespace Infrastructure {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi prametrami Stażu/Praktyk/Pracy nie wyszukano.
+        ///   Looks up a localized string similar to Za podanymi parametrami nie znaleziono Stażu/Praktyk/Pracy.
         /// </summary>
         internal static string Intership_Query_Paramiter_NotFound {
             get {
@@ -70,7 +70,7 @@ namespace Infrastructure {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sprawdż strukturę UserSecrets, najprawdopodobnej ona zmieniła się w kontekscie: ConnectionStrings : DbString.
+        ///   Looks up a localized string similar to Sprawdź strukturę UserSecrets, najprawdopodobniej ona zmieniła się w kontekście: ConnectionStrings : DbString.
         /// </summary>
         internal static string NotConfiguredConnectionString {
             get {
@@ -79,7 +79,7 @@ namespace Infrastructure {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sprawdż UserSecrets, najprawdopodobnej one nie zostały skonfigurowane w UI/UX projekcie.
+        ///   Looks up a localized string similar to Sprawdź UserSecrets, najprawdopodobniej one nie zostały skonfigurowane w UI/UX projekcie.
         /// </summary>
         internal static string NotConfiguredUserSecrets {
             get {
@@ -88,8 +88,7 @@ namespace Infrastructure {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Problem z wyszukaniem danych w ramach parametrów
-        ///.
+        ///   Looks up a localized string similar to Problem z wyszukaniem danych w ramach parametrów.
         /// </summary>
         internal static string Procedure_FIND_Division_Street {
             get {
