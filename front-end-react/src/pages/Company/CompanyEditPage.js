@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import CompanyEditForm from "../../components/AfterLogIn/CompanyEditForm";
+import CompanyEditForm from "../../components/Forms/CompanyEditForm";
 import { fetchCompanyData, updateCompany } from "../../services/CompanyService/CompanyService";
 import CancelButton from "../../components/Buttons/CancelButton/CancelButton";
 
