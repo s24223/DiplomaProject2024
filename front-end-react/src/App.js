@@ -29,6 +29,7 @@ import MainPageButton from './components/Buttons/MainPageButton/MainPageButton';
 import NotificationButton from './components/Buttons/NotificationButton/NotificationButton';
 import BranchDetailsPagePublic from './pages/Branch/BranchDetailsPagePublic';
 import PrivateOfferDetailsPage from './pages/Offer/PrivateOfferDetailsPage';
+import ProfileChnagePassword from './pages/Profile/ProfilePasswordChange';
 
 const job = new Cron("*/5 * * * *", () => {
     console.log(`Cron run... ${new Date().toLocaleTimeString()}`)
@@ -119,7 +120,7 @@ function App() {
                     <Route path="/company/:companyId" element={<CompanyDetailsPublic />} />
                     <Route path="public/branch/:branchId" element={<BranchDetailsPagePublic />} />
 
-
+                    <Route path='/changePassword' element={<ProfileChnagePassword />} />
                 </Routes>
             </div>
         </Router>

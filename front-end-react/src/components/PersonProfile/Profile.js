@@ -56,6 +56,9 @@ const Profile = () => {
                         Create Company
                     </button>
                 )}
+                <button onClick={() => (window.location.href='/changePassword')}>
+                    Change password
+                </button>
             </div>
 
             {person && <ProfileDetails person={person} />}
