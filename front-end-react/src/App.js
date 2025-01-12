@@ -12,7 +12,6 @@ import RegisterPage from './pages/RegisterPage/RegisterPage';
 import ProfilePage from './pages/Profile/ProfilePage';
 import ProfileCreatePage from './pages/Profile/ProfileCreatePage';
 import ProfileEditPage from './pages/Profile/ProfileEditPage';
-// import ChangePasswordPage from './pages/ChangePasswordPage/ChangePasswordPage';
 import CompanyCreatePage from './pages/Company/CompanyCreatePage';
 import CompanyEditPage from './pages/Company/CompanyEditPage';
 import CompanyRecruitmentPage from './pages/Company/CompanyRecruitmentPage';
@@ -82,7 +81,7 @@ function App() {
                     
                 </div>
 
-                
+                <div className="new-container">
                 <Routes>
                     <Route path="/" element={<MainPage />} />
                     <Route path="/offers" element={<MainPage />} />
@@ -127,7 +126,7 @@ function App() {
 
                     <Route path='/changePassword' element={<ProfileChnagePassword />} />
                 </Routes>
-                
+                </div>
             </div>
         </Router>
     );

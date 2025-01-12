@@ -1,4 +1,5 @@
 :root {
+    --header-height: 60px;
     background: #1e1c1c;
     color: white;
     font-family: Arial, sans-serif;
@@ -9,7 +10,12 @@
     flex-direction: row;
     height: 100vh;
     margin: 0;
+    
 }
+.new-container {
+    padding-top: var(--header-height);
+}
+
 
 .filters-sidebar {
     flex: 0 0 20%; /* Sidebar zajmuje 20% szerokości */
@@ -96,6 +102,7 @@
     cursor: not-allowed;
 }
 .header {
+    height: var(--header-height);
     position: fixed;
     top: 0;
     width: 100%;
