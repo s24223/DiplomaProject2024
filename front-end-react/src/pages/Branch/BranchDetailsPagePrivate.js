@@ -72,7 +72,7 @@ const BranchDetailPagePrivate = () => {
 
     return(
         <div className='centered'>
-            <h1>BranchDetailsPage</h1>
+            <h1>BranchDetailsPagePriv</h1>
             {
             item && 
             <div>
@@ -81,15 +81,16 @@ const BranchDetailPagePrivate = () => {
 
                 <button onClick={() => setEditMode(!editMode)}>Edit mode</button><br />
                 Name: {editMode? <input type='text' placeholder={item.name} onChange={e => setName(e.target.value)} value={name} />: item.name}<br />
-                Description: {editMode? <input type='text' placeholder={item.description} onChange={e => setDescription(e.target.value)} value={description} /> : item.description? item.description : <>NaN</>}<br />
-                Url Segment: {editMode? <input type='text' placeholder={item.urlSegment} onChange={e => setUrlsegmet(e.target.value)} value={urlSegment} /> : item.urlSegment? item.urlSegment : <>NaN</>}<br />
+                Description: {editMode? <input type='text' placeholder={item.description} onChange={e => setDescription(e.target.value)} value={description} /> : item.description? item.description : <>No description</>}<br />
+                Url Segment: {editMode? <input type='text' placeholder={item.urlSegment} onChange={e => setUrlsegmet(e.target.value)} value={urlSegment} /> : item.urlSegment? item.urlSegment : <>No url segment</>}<br />
                 {editMode && <button onClick={handleChange}>Change</button>}
                 <br/>
                 
                 {/* <p>comapnyID: {item.companyId}</p>*/}
                 {/* <p>branchID: {item.id}</p>  */}
+                <h3>Adres:</h3>
                 <p>ul. {item.address.street.name}  {item.address.buildingNumber} m.  {item.address.apartmentNumber}</p>
-                Address: {item.address.hierarchy.map((addressPart) => (
+                 {item.address.hierarchy.map((addressPart) => (
                     <p key={addressPart.id}>{addressPart.administrativeType.name}: {addressPart.name}</p>
                 ))}
                 <p><AddressImage lon={item.address.lon} lat={item.address.lat} /></p>

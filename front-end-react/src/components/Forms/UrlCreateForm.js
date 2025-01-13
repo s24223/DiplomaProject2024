@@ -51,7 +51,7 @@ const CreateUrlForm = ({ onSubmit, urlTypes, onClose }) => {
                 ))}
             </select>
             <br />
-            <label>Description:</label>
+            <label>Description:</label><br/>
             <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
