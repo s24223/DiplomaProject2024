@@ -333,7 +333,7 @@ namespace Application.Features.Companies.ExtensionMethods
             {
                 query = query.Where(x =>
                     x.PublishEnd == null ||
-                    (x.PublishEnd != null || x.PublishEnd <= publishTo.Value));
+                    (x.PublishEnd != null && x.PublishEnd <= publishTo.Value));
             }
             if (workFrom.HasValue)
             {
