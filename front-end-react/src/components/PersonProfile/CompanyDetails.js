@@ -1,6 +1,6 @@
 import React from "react";
 import BranchList from "../Branch/ProfileBranchList";
-import UrlList from "../Url/UrlList";
+import UrlList from "../URL/UrlList";
 
 
 const CompanyDetails = ({ company, branchCount, activeOffersCount }) => {
