@@ -4,12 +4,14 @@ import { useNavigate } from "react-router-dom";
 const ApplyButton = ({ branchId }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [personMessage, setPersonMessage] = useState('');
+    const [file, setFile] = useState();
     const navigate = useNavigate(); 
 
     // Otwórz lub zamknij modal
     const toggleModal = () => setIsModalOpen(!isModalOpen);
 
     const handleApply = async () => {
+        console.log(file)
         try {
             const authToken = sessionStorage.getItem("jwt");
             if (!authToken) {
@@ -56,6 +58,8 @@ const ApplyButton = ({ branchId }) => {
                 <div className="modal-overlay">
                     <div className="modal-content">
                         <h2>Enter Your Message</h2>
+                        <label>CV:</label>
+                        <input type='file' onChange={e => setFile(e.target.value)} accept='application/pdf' /><br />
                         <textarea
                             value={personMessage}
                             onChange={(e) => setPersonMessage(e.target.value)}
