@@ -3,10 +3,12 @@ import { fetchOffers } from "../../services/OffersService/OffersService";
 import FilterForm from "../../components/Filters/FiltersForm";
 import Pagination from "../../components/Filters/Pagination";
 import OffersList from "../../components/Offers/OffersList";
-
+import { jwtRefresh } from "../../services/JwtRefreshService/JwtRefreshService";
 import "./MainPage.css"; 
 
 const MainPage = () => {
+    jwtRefresh();
+
     const [offers, setOffers] = useState(null);
     const [filters, setFilters] = useState({
         searchText: '',

@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { fetchBranchPost } from '../../services/BranchService/BranchService';
 import CancelButton from '../../components/Buttons/CancelButton/CancelButton';
 import AddressAutocomplete from '../../components/AddressAutoComplete/AddressAutoComplete';
+import { jwtRefresh } from '../../services/JwtRefreshService/JwtRefreshService';
 
 const CreateBranchPage = () => {
+    jwtRefresh();
+
     const [addressId, setAddressId] = useState();
     const [urlSegment, setUrlsegmet] = useState();
     const [name, setName] = useState();

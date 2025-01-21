@@ -11,7 +11,7 @@ const DeleteUrlButton = ({ url, onDeleteSuccess }) => {
                 "https://localhost:7166/api/User/urls",
                 {
                     headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+                        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
                     },
                     data: [{ urlTypeId: url.urlTypeId, created: url.created }],
                 }

@@ -4,8 +4,11 @@ import axios from "axios";
 import MainPageButton from "../../components/Buttons/MainPageButton/MainPageButton";
 import ReturnButton from "../../components/Buttons/CancelButton/ReturnButton";
 import LoginButton from "../../components/Buttons/LoginButton/LoginButton";
+import { jwtRefresh } from "../../services/JwtRefreshService/JwtRefreshService";
 
 const EditUrlPage = () => {
+    jwtRefresh();
+    
     const location = useLocation();
     const navigate = useNavigate();
     const url = location.state.urlItem;
@@ -31,7 +34,7 @@ const EditUrlPage = () => {
                 ],
                 {
                     headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+                        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
                     },
                 }
             );
@@ -52,7 +55,7 @@ const EditUrlPage = () => {
                 "https://localhost:7166/api/User/urls/urls",
                 {
                     headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+                        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
                     },
                     data: [{ urlTypeId: url.urlTypeId, created: url.created }],
                 }

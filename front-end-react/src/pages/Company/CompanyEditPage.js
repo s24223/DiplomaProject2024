@@ -2,8 +2,11 @@ import React, { useState, useEffect } from "react";
 import CompanyEditForm from "../../components/Forms/CompanyEditForm";
 import { fetchCompanyData, updateCompany } from "../../services/CompanyService/CompanyService";
 import CancelButton from "../../components/Buttons/CancelButton/CancelButton";
+import { jwtRefresh } from "../../services/JwtRefreshService/JwtRefreshService";
 
 const EditCompanyPage = () => {
+    jwtRefresh();
+    
     const [companyData, setCompanyData] = useState({
         urlSegment: null,
         contactEmail: "",

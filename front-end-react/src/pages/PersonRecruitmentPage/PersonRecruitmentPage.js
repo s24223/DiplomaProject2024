@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { jwtRefresh } from "../../services/JwtRefreshService/JwtRefreshService";
 
 const PersonRecruitmentPage = () => {
+    jwtRefresh();
+    
     const [applications, setApplications] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -11,7 +14,7 @@ const PersonRecruitmentPage = () => {
             try {
                 const response = await axios.get("https://localhost:7166/api/User/person/recruitment", {
                     headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+                        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
                     },
                     params: {
                         filterStatus: false,

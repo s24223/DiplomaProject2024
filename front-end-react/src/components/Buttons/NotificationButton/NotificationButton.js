@@ -2,7 +2,10 @@ import React from 'react'
 
 const NotificationButton = () => {
     const handleClick = () => {
-        window.location.href = "/notification"
+        if(!localStorage.getItem("jwt"))
+            window.location.href = '/notification/create'
+        else
+            window.location.href = "/notification"
     }
 
     return(

@@ -3,8 +3,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import UrlDetailsView from "../../components/URL/UrlDetailsView";
 import UrlForm from "../../components/Forms/UrlDetailsForm";
 import { deleteUrl } from "../../services/URLService/UrlService";
+import { jwtRefresh } from "../../services/JwtRefreshService/JwtRefreshService";
 
 const UrlDetailsPage = () => {
+    jwtRefresh();
+    
     const location = useLocation();
     const navigate = useNavigate();
     const { urlItem } = location.state;

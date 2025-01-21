@@ -1,9 +1,11 @@
 import React from "react";
 import CreateProfile from "../../components/PersonProfile/CreateProfile";
-import './ProfileCreatePage.css'
+import { jwtRefresh } from "../../services/JwtRefreshService/JwtRefreshService";
 
 
 const ProfileCreatePage = () =>{
+    jwtRefresh();
+    
     return(
         <div className="centered">
             <h2>Ceate Profile</h2>

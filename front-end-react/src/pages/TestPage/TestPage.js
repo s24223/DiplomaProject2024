@@ -1,10 +1,11 @@
 import React from 'react';
-import AddressAutocomplete from '../../components/AddressAutoComplete/AddressAutoComplete';
+import { jwtRefresh } from '../../services/JwtRefreshService/JwtRefreshService';
 
 const TestPage = () => {
+    jwtRefresh()
     return(
         <div>
-            <AddressAutocomplete />
+
         </div>
     )
 }

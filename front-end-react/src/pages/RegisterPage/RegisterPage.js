@@ -1,8 +1,10 @@
 import React, {useState} from 'react'
 import { fetchRegistration } from '../../services/RegisterService/RegisterService';
-import './RegisterPage.css'
+import { jwtRefresh } from '../../services/JwtRefreshService/JwtRefreshService';
 
 const RegisterPage = () => {
+    jwtRefresh();
+    
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [passwordRepeat, setPasswordRepeat] = useState();
@@ -12,7 +14,7 @@ const RegisterPage = () => {
     const handleRegistration = async (event) => {
         event.preventDefault()
 
-        if (password != passwordRepeat){
+        if (password !== passwordRepeat){
             setPasswordError('Passwords do not match')
             return
         }
@@ -29,14 +31,10 @@ const RegisterPage = () => {
         }
     }
 
-    const handleLoginButton = () => {
-        window.location.href="/login"
-    }
-
     return(
         <div className='centered'>
             {errorMsg && errorMsg}
-            <label className='title-text'>Rejestracja</label>
+            <label className='title-text'>Sign up</label>
             <form onSubmit={handleRegistration}>
                 <label>Email:</label><br />
                 <input type="email" id="email" name="email" placeholder='Email' onChange={e => setEmail(e.target.value)} /><br />
@@ -45,9 +43,8 @@ const RegisterPage = () => {
                 <label>Repeat password:</label><br />
                 {passwordError && <>{passwordError}<br /></>}
                 <input type='password' placeholder='Repeat password' onChange={e => setPasswordRepeat(e.target.value)} /><br />
-                <input type="submit" value="Zarejestruj" />
+                <input type="submit" value="Sign up" />
             </form>
-            <button onClick={handleLoginButton}>Login</button>
         </div>
     )
 }

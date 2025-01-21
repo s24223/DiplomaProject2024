@@ -24,7 +24,7 @@ const EditUrlButton = ({ url, onEditSuccess }) => {
                 [updatedUrl],
                 {
                     headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+                        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
                     },
                 }
             );

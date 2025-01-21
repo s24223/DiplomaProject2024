@@ -7,7 +7,7 @@ export const fetchProfilePost = async (body) => {
             headers: {
                 "Content-Type": "application/json",
                 "Access-Contorl-Allow-Origin": "*",
-                "Authorization": `Bearer ${sessionStorage.getItem("jwt")}`
+                "Authorization": `Bearer ${localStorage.getItem("jwt")}`
             },
             body: JSON.stringify(body)
         }
@@ -21,7 +21,7 @@ export const fetchProfilePost = async (body) => {
 
 
 export const fetchUserProfile = async () => {
-    const token = sessionStorage.getItem("jwt") || localStorage.getItem("jwt");
+    const token = localStorage.getItem("jwt") || localStorage.getItem("jwt");
     if (!token) throw new Error("No authorization token found.");
     
     const response = await axios.get(`https://localhost:7166/api/User`, {
@@ -33,7 +33,7 @@ export const fetchUserProfile = async () => {
 };
 
 export const updateUserProfile = async (profileData) => {
-    const token = sessionStorage.getItem("jwt") || localStorage.getItem("jwt");
+    const token = localStorage.getItem("jwt") || localStorage.getItem("jwt");
     if (!token) throw new Error("No authorization token found.");
 
     const response = await axios.put(`https://localhost:7166/api/User/person`, profileData, {

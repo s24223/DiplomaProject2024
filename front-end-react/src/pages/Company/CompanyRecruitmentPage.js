@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { jwtRefresh } from "../../services/JwtRefreshService/JwtRefreshService";
 
 const CompanyRecruitmentPage = () => {
+    jwtRefresh();
+    
     const [applications, setApplications] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -12,7 +15,7 @@ const CompanyRecruitmentPage = () => {
             try {
                 const response = await axios.get("https://localhost:7166/api/User/company/recruitment", {
                     headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+                        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
                     },
                     params: {
                         filterStatus: true,
@@ -46,7 +49,7 @@ const CompanyRecruitmentPage = () => {
                 { companyResponse, isAccepted },
                 {
                     headers: {
-                        Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+                        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
                     },
                 }
             );

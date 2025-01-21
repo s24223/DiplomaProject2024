@@ -10,7 +10,7 @@ const EditProfile = () => {
     const [message, setMessage] = useState("");
 
     useEffect(() => {
-        const token = sessionStorage.getItem("jwt") || localStorage.getItem("jwt");
+        const token = localStorage.getItem("jwt") || localStorage.getItem("jwt");
 
         if (!token) {
             alert("You must be logged in to edit your profile.");

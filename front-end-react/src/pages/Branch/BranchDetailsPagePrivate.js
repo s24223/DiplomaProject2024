@@ -5,8 +5,11 @@ import CancelButton from '../../components/Buttons/CancelButton/CancelButton';
 import CreateOffer from '../../components/Offers/CreateOffer';
 import { fetchBranchOffers } from '../../services/OffersService/OffersService';
 import AddressImage from '../../components/AddressImage/AddressImage';
+import { jwtRefresh } from '../../services/JwtRefreshService/JwtRefreshService';
 
 const BranchDetailPagePrivate = () => {
+    jwtRefresh();
+
     const [editMode, setEditMode] = useState(false);
     const item = useLocation().state.item
 

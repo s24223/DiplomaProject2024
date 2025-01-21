@@ -6,7 +6,7 @@ export const fetchCharacteristics = async () => {
             "https://localhost:7166/api/Dictionaries/characteristics?isOrderByType=false",
             {
                 headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+                    Authorization: `Bearer ${localStorage.getItem("jwt")}`,
                 },
             }
         );

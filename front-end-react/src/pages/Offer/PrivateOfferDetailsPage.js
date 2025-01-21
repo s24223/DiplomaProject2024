@@ -3,15 +3,18 @@ import { useParams } from "react-router-dom";
 import OfferDetails from "../../components/Offers/OfferDetails";
 import OfferEditForm from "../../components/Forms/OfferEditForm";
 import { fetchOfferDetailsPublic } from "../../services/OffersService/OffersService";
+import { jwtRefresh } from "../../services/JwtRefreshService/JwtRefreshService";
 
 const PrivateOfferDetailsPage = () => {
+    jwtRefresh();
+    
     const { offerId } = useParams();
     const [offerDetails, setOfferDetails] = useState(null);
     const [editMode, setEditMode] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const isLoggedIn = !!sessionStorage.getItem("jwt");
+    const isLoggedIn = !!localStorage.getItem("jwt");
 
     useEffect(() => {
         const loadOfferDetails = async () => {

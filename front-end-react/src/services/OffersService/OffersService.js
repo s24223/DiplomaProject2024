@@ -16,7 +16,7 @@ export const fetchBranchOffers = async (branchId, params = {}) => {
             `https://localhost:7166/api/BranchOffers/branches/${branchId}/branchOffers?${queryParams}`,
             {
                 headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+                    Authorization: `Bearer ${localStorage.getItem("jwt")}`,
                 },
             }
         );
@@ -64,7 +64,7 @@ export const fetchOfferDetailsPrivate = async (offerId) => {
     try {
         const response = await axios.get(`https://localhost:7166/api/BranchOffers/offers/${offerId}`, {
             headers: {
-                Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+                Authorization: `Bearer ${localStorage.getItem("jwt")}`,
                 "Content-Type": "application/json",
             },
         });
@@ -94,7 +94,7 @@ export const createOffer = async (offerData) => {
             offerData,
             {
                 headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+                    Authorization: `Bearer ${localStorage.getItem("jwt")}`,
                 },
             }
         );
@@ -113,7 +113,7 @@ export const assignOfferToBranch = async (publishData) => {
             publishData,
             {
                 headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+                    Authorization: `Bearer ${localStorage.getItem("jwt")}`,
                 },
             }
         );
@@ -131,7 +131,7 @@ export const updateOffer = async (offerData) => {
             [offerData], // API oczekuje tablicy
             {
                 headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+                    Authorization: `Bearer ${localStorage.getItem("jwt")}`,
                 },
             }
         );

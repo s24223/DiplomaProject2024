@@ -1,16 +1,10 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const OffersList = ({ offers }) => {
-    const navigate = useNavigate();
-
-    const handleOfferClick = (offerId) => {
-        navigate(`/offers/${offerId}`);
-    };
-
     return (
         <div className='offers-list'>
-            <ul>
+            <ul className='bulletless-list'>
                 {offers.map((offerItem) => {
                     const {
                         company: { name: companyName },
@@ -26,13 +20,14 @@ const OffersList = ({ offers }) => {
                     const city = hierarchy.find((item) => item.administrativeType.name.includes('miasto'))?.name;
 
                     return (
-                        <li key={offerId} className='offer-item' onClick={() => handleOfferClick(offerId)}>
-                            
-                            <h2>{offerName}</h2>
-                            <p>Company: {companyName}</p>
-                            <p>Województwo: {voivodeship}, miasto: {city}</p>
-                            <p>Description: {offerDescription}</p>
-                        </li>
+                        <Link key={offerId} className='decoractionless-link' to={{pathname:`/offers/${offerId}`}}>
+                            <li key={offerId} className='offer-item'>
+                                <h2>{offerName}</h2>
+                                <p>Company: {companyName}</p>
+                                <p>Voivodeship: {voivodeship}, city: {city}</p>
+                                <p>Description: {offerDescription}</p>
+                            </li>
+                        </Link>
                     );
                 })}
             </ul>

@@ -1,7 +1,8 @@
 import Profile from "../../components/PersonProfile/Profile";
-import './ProfilePage.css'
+import { jwtRefresh } from "../../services/JwtRefreshService/JwtRefreshService";
 
 const ProfilePage = () => {
+    jwtRefresh();
 
     return(
         <div>

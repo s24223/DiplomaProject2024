@@ -4,11 +4,11 @@ export const fetchLogout = () => {
         headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
-            'Authorization': `Bearer ${sessionStorage.getItem("jwt")}`
+            'Authorization': `Bearer ${localStorage.getItem("jwt")}`
         }
     }).then(response => response.json())
-    sessionStorage.removeItem("jwt")
-    sessionStorage.removeItem("jwtValidTo")
-    sessionStorage.removeItem("refreshToken")
-    sessionStorage.removeItem("refreshTokenValidTo")
+    localStorage.removeItem("jwt")
+    localStorage.removeItem("jwtValidTo")
+    localStorage.removeItem("refreshToken")
+    localStorage.removeItem("refreshTokenValidTo")
 }

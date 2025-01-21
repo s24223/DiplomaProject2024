@@ -13,10 +13,10 @@ const ApplyButton = ({ branchId }) => {
     const handleApply = async () => {
         console.log(file)
         try {
-            const authToken = sessionStorage.getItem("jwt");
+            const authToken = localStorage.getItem("jwt");
             if (!authToken) {
                 // Zapisz bieżącą ścieżkę przed przekierowaniem na stronę logowania
-                sessionStorage.setItem("redirectAfterLogin", window.location.pathname);
+                localStorage.setItem("redirectAfterLogin", window.location.pathname);
                 alert("Brak tokenu uwierzytelniającego. Zaloguj się, aby aplikować.");
                 navigate("/login");
                 return;

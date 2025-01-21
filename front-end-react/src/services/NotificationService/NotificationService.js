@@ -4,7 +4,7 @@ export const fetchNotificationGetAuthorized = async () =>{
         headers: {
             "Content-Type": "application/json",
             "Access-Contorl-Allow-Origin": "*",
-            "Authorization": `Bearer ${sessionStorage.getItem("jwt")}`
+            "Authorization": `Bearer ${localStorage.getItem("jwt")}`
         }
     })
 
@@ -17,7 +17,7 @@ export const fetchNotificationPostAuthorized = async (body) => {
         headers: {
             "Content-Type": "application/json",
             "Access-Contorl-Allow-Origin": "*",
-            "Authorization": `Bearer ${sessionStorage.getItem("jwt")}`
+            "Authorization": `Bearer ${localStorage.getItem("jwt")}`
         },
         body: JSON.stringify(body)
     })

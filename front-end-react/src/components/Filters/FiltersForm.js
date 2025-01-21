@@ -27,7 +27,7 @@ const FilterForm = ({ filters, onFilterChange }) => (
         <input
             type="text"
             name="wojewodstwo"
-            placeholder="Województwo"
+            placeholder="Voivodeship"
             value={filters.wojewodstwo}
             onChange={onFilterChange}
         />
@@ -93,6 +93,8 @@ const FilterForm = ({ filters, onFilterChange }) => (
                 onChange={onFilterChange}
             />
         </label>
+        <label>
+            Sort:
         <select name="orderBy" value={filters.orderBy} onChange={onFilterChange}>
             <option value="publishStart">Publish Start</option>
             <option value="salaryMin">Min Salary</option>
@@ -102,6 +104,7 @@ const FilterForm = ({ filters, onFilterChange }) => (
             <option value={true}>Ascending</option>
             <option value={false}>Descending</option>
         </select>
+        </label>
     </form>
 );
 

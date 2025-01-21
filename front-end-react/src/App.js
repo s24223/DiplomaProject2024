@@ -1,6 +1,4 @@
-// export default App;
 import React from 'react';
-import { Cron } from 'croner';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import UrlDetailsPage from './pages/Url/UrlDetailsPage';
 import TestPage from './pages/TestPage/TestPage';
@@ -29,41 +27,6 @@ import NotificationButton from './components/Buttons/NotificationButton/Notifica
 import BranchDetailsPagePublic from './pages/Branch/BranchDetailsPagePublic';
 import PrivateOfferDetailsPage from './pages/Offer/PrivateOfferDetailsPage';
 import ProfileChnagePassword from './pages/Profile/ProfilePasswordChange';
-
-const job = new Cron("*/5 * * * *", () => {
-    console.log(`Cron run... ${new Date().toLocaleTimeString()}`)
-    if(sessionStorage.getItem("jwt")){
-        const fetchDummy = async () => {
-            let response = await fetch("https://localhost:7166/api/User/refresh", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${sessionStorage.getItem("jwt")}`,
-                    "Access-Control-Allow-Origin": "*"
-                },
-                body: JSON.stringify({"refreshToken": sessionStorage.getItem("refreshToken")})
-            })
-            console.log(response)
-            if (response.ok)
-            {
-                response = await response.json()
-                sessionStorage.setItem("jwt", response.jwt)
-                sessionStorage.setItem("jwtValidTo", response.jwtValidTo)
-                sessionStorage.setItem("refreshToken", response.refereshToken)
-                sessionStorage.setItem("refreshTokenValidTo", response.refereshTokenValidTo)
-            } 
-            else 
-            {
-                sessionStorage.removeItem("jwt")
-                sessionStorage.removeItem("jwtValidTo")
-                sessionStorage.removeItem("refreshToken")
-                sessionStorage.removeItem("refreshTokenValidTo")
-            }
-        }
-        fetchDummy()
-    }
-    console.log(`Cron run ended ${new Date().toLocaleTimeString()}`)
-})
 
 function App() {
     return (

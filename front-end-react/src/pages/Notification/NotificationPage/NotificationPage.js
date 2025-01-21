@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import { fetchNotificationGetAuthorized } from '../../../services/NotificationService/NotificationService'
 import { Link } from 'react-router-dom';
-import './NotificationPage.css'
+import { jwtRefresh } from '../../../services/JwtRefreshService/JwtRefreshService';
 
 const NotificationPage = () => {
+    if(!localStorage.getItem("jwt"))
+        window.location.href = '/notification/create'
+    
+    jwtRefresh();
+
+    const fetchDummy = async () => {
+        let response = await fetchNotificationGetAuthorized()
+        setNotificationList(response.item.urls)
+    }
+
+    fetchDummy()
+
     const [notificationList, setNotificationList] = useState([])
 
     useEffect(() => {
-        if(!sessionStorage.getItem("jwt"))
-            window.location.href = '/notification/create'
-
-        const fetchDummy = async () => {
-            let response = await fetchNotificationGetAuthorized()
-            setNotificationList(response.item.urls)
-        }
-
-        fetchDummy()
+        
     }, [])
 
     const handleCreateButton = () => {

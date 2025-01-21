@@ -50,7 +50,7 @@ const NotificationCreate = () => {
 
     return(
         <div>
-            {sessionStorage.getItem("jwt")?
+            {localStorage.getItem("jwt")?
                 <form onSubmit={handleSubmit}>
                     <label htmlFor='userMessage'>Your message</label><br />
                     <input type='text' id='userMessage' onChange={e => {setUserMessage(e.target.value)}} required /><br />

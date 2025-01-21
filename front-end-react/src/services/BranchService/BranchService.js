@@ -3,7 +3,7 @@ export const fetchBranchPost = async (body) => {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${sessionStorage.getItem("jwt")}`,
+            "Authorization": `Bearer ${localStorage.getItem("jwt")}`,
             "Access-Contorl-Allow-Origin": "*"
         },
         body: JSON.stringify(body)
@@ -16,7 +16,7 @@ export const fetchBranchGet = async () => {
         method: 'GET',
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${sessionStorage.getItem("jwt")}`,
+            "Authorization": `Bearer ${localStorage.getItem("jwt")}`,
             "Access-Contorl-Allow-Origin": "*"
         }
     })
@@ -28,7 +28,7 @@ export const fetchBranchPut = async (body) => {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${sessionStorage.getItem("jwt")}`,
+            "Authorization": `Bearer ${localStorage.getItem("jwt")}`,
             "Access-Contorl-Allow-Origin": "*"
         },
         body: JSON.stringify(body)
@@ -53,7 +53,7 @@ export const fetchBranchDetails = async (branchId) => {
 //             method: 'PUT',
 //             headers: {
 //                 'Content-Type': 'application/json',
-//                 Authorization: `Bearer ${sessionStorage.getItem('jwt')}`,
+//                 Authorization: `Bearer ${localStorage.getItem('jwt')}`,
 //             },
 //             body: JSON.stringify(updatedData),
 //         }

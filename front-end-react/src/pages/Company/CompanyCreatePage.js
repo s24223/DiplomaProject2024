@@ -3,8 +3,11 @@ import CompanyCreateForm from "../../components/Forms/CompanyCreateForm";
 import { isValidRegon } from "../../utils/validators";
 import CancelButton from "../../components/Buttons/CancelButton/CancelButton";
 import { createCompany } from "../../services/CompanyService/CompanyService";
+import { jwtRefresh } from "../../services/JwtRefreshService/JwtRefreshService";
 
 const CreateCompanyPage = () => {
+    jwtRefresh();
+    
     const [companyData, setCompanyData] = useState({
         urlSegment: null,
         contactEmail: "",

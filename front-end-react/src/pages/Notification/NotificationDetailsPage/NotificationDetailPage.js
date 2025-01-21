@@ -1,8 +1,10 @@
 import React from 'react'
 import { useLocation, Link } from 'react-router-dom'
-import './NotificationDetailPage.css'
+import { jwtRefresh } from '../../../services/JwtRefreshService/JwtRefreshService'
 
 const NotificationDetailPgae = () => {
+    jwtRefresh();
+
     const elem = useLocation().state.elem
 
     console.log(elem)

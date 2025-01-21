@@ -39,8 +39,11 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import OfferDetails from "../../components/Offers/OfferDetails";
 import { fetchOfferDetailsPublic } from "../../services/OffersService/OffersService";
+import { jwtRefresh } from "../../services/JwtRefreshService/JwtRefreshService";
 
 const OfferDetailsPage = () => {
+    jwtRefresh();
+    
     const { offerId } = useParams();
     const [offerDetails, setOfferDetails] = useState(null);
     const [loading, setLoading] = useState(true);

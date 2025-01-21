@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react'
+import { jwtRefresh } from '../../services/JwtRefreshService/JwtRefreshService';
 
 const ProfileChnagePassword = () => {
+    jwtRefresh();
+    
     const [oldPassword, setOldPassword] = useState();
     const [newPassword, setNewPassword] = useState();
     const [newPasswordRepeat, setNewPasswordRepeat] = useState()
     const [message, setMessage] = useState('')
 
     useEffect(() => {
-        if (!sessionStorage.getItem("jwt")){
+        if (!localStorage.getItem("jwt")){
             window.location.href='/'
         }
     }, [])
@@ -15,7 +18,7 @@ const ProfileChnagePassword = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         //check if old password match
-        if(newPassword != newPasswordRepeat){
+        if(newPassword !== newPasswordRepeat){
             setMessage('New passwords doesn\'t match')
             return
         }
@@ -29,7 +32,7 @@ const ProfileChnagePassword = () => {
                 headers:{
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*',
-                    Authorization: `Bearer ${sessionStorage.getItem("jwt")}`
+                    Authorization: `Bearer ${localStorage.getItem("jwt")}`
                 },
                 body: JSON.stringify({newPassword:newPassword})
             })

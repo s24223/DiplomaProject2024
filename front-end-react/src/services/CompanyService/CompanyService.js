@@ -7,7 +7,7 @@ export const createCompany = async (companyData) => {
             companyData,
             {
                 headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+                    Authorization: `Bearer ${localStorage.getItem("jwt")}`,
                     "Content-Type": "application/json",
                 },
             }
@@ -24,7 +24,7 @@ export const fetchCompanyData = async () => {
     try {
         const response = await axios.get("https://localhost:7166/api/User", {
             headers: {
-                Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+                Authorization: `Bearer ${localStorage.getItem("jwt")}`,
             },
         });
         const { company } = response.data.item;
@@ -43,7 +43,7 @@ export const updateCompany = async (companyData) => {
             companyData,
             {
                 headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem("jwt")}`,
+                    Authorization: `Bearer ${localStorage.getItem("jwt")}`,
                     "Content-Type": "application/json",
                 },
             }
