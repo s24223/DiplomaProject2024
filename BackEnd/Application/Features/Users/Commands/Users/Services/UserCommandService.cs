@@ -93,6 +93,16 @@ namespace Application.Features.Users.Commands.Users.Services
             var id = _authenticationRepository.GetIdNameFromClaims(claims);
             var userData = await _repository.GetUserDataByIdAsync(id, cancellation);
 
+            var inputPasswordHashed = _authenticationRepository.HashPassword(dto.OldPassword, userData.Salt);
+            if (inputPasswordHashed != userData.Password)
+            {
+                throw new UserException
+                    (
+                    Messages.User_Cmd_Unautorized,
+                    DomainExceptionTypeEnum.Unauthorized
+                    );
+            }
+
             userData.User.LastPasswordUpdate = _provider.TimeProvider().GetDateTimeNow();
 
             var salt = _authenticationRepository.GenerateSalt();
