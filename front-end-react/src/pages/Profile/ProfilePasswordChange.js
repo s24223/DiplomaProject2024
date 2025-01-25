@@ -17,7 +17,6 @@ const ProfileChnagePassword = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        //check if old password match
         if(newPassword !== newPasswordRepeat){
             setMessage('New passwords doesn\'t match')
             return
@@ -34,7 +33,7 @@ const ProfileChnagePassword = () => {
                     'Access-Control-Allow-Origin': '*',
                     Authorization: `Bearer ${localStorage.getItem("jwt")}`
                 },
-                body: JSON.stringify({newPassword:newPassword})
+                body: JSON.stringify({newPassword:newPassword, oldPassword:oldPassword})
             })
             if(response.ok){
                 window.location.href='/userProfile'

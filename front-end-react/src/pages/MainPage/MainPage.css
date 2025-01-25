@@ -227,7 +227,7 @@ nav ul{
 }
 
 nav ul{
-    border: 1px solid rebeccapurple;
+    border: none;
     width: 25%;
     height: 200px;
     overflow: hidden;
