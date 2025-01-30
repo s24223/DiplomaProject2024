@@ -19,6 +19,7 @@ namespace BackEnd
             var jwtSection = builder.Configuration.GetSection("JwtData");
             var connectionStringsSection = builder.Configuration.GetSection("ConnectionStrings");
             var emailStringsSection = builder.Configuration.GetSection("EmailStrings");
+            var mongoStringsSection = builder.Configuration.GetSection("MongoDb");
 
             var issuer = jwtSection["Issuer"];
             var audience = jwtSection["Audience"];
@@ -26,6 +27,8 @@ namespace BackEnd
             var connectionString = connectionStringsSection["DbString"];
             var emailString = emailStringsSection["Email"];
             var passwordString = emailStringsSection["Password"];
+            var mongoDbString = mongoStringsSection["DbString"];
+            var mongoDbName = mongoStringsSection["DbName"];
 
             if (string.IsNullOrWhiteSpace(issuer))
             {
@@ -50,6 +53,14 @@ namespace BackEnd
             if (string.IsNullOrWhiteSpace(passwordString))
             {
                 throw new NotImplementedException("Not configured Email");
+            }
+            if (string.IsNullOrWhiteSpace(mongoDbString))
+            {
+                throw new NotImplementedException("MopngoDB ConnectionString not Configured");
+            }
+            if (string.IsNullOrWhiteSpace(mongoDbName))
+            {
+                throw new NotImplementedException("MopngoDB DbName not Configured");
             }
 
             // Add services to the container.

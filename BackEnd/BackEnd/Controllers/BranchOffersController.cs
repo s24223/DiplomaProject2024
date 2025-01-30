@@ -45,11 +45,11 @@ namespace BackEnd.Controllers
             int maxItems = 100,
             int page = 1)
         {
-            string? jwt = null;
+            string? jwt = null;/*
             if (Request.Headers.TryGetValue("Authorization", out var authorizationHeader))
             {
                 jwt = authorizationHeader.ToString().Replace("Bearer ", "");
-            }
+            }*/
             var result = await _offerQuerySvc.GetBranchOffersAsync(cancellation, characteristics,
              jwt, companyName, regon, wojewodstwo, divisionName, streetName,
              searchText, publishFrom, publishTo, workFrom, workTo, minSalary, maxSalary, isForStudents,
@@ -63,11 +63,11 @@ namespace BackEnd.Controllers
             Guid id,
             CancellationToken cancellation)
         {
-            string? jwt = null;
+            string? jwt = null;/*
             if (Request.Headers.TryGetValue("Authorization", out var authorizationHeader))
             {
                 jwt = authorizationHeader.ToString().Replace("Bearer ", "");
-            }
+            }*/
             var result = await _offerQuerySvc.GetBranchOfferAsync(id, cancellation, jwt);
             return StatusCode(200, result);
         }
@@ -89,11 +89,11 @@ namespace BackEnd.Controllers
             int maxItems = 100,
             int page = 1)
         {
-            string? jwt = null;
+            string? jwt = null;/*
             if (Request.Headers.TryGetValue("Authorization", out var authorizationHeader))
             {
                 jwt = authorizationHeader.ToString().Replace("Bearer ", "");
-            }
+            }*/
             var result = await _offerQuerySvc.GetOfferAsync(offerId, cancellation, jwt, wojewodstwo,
                 divisionName, streetName,
                 searchText, publishFrom, publishTo, workFrom, workTo, orderBy, ascending, maxItems, page);
@@ -117,11 +117,11 @@ namespace BackEnd.Controllers
             int maxItems = 100,
             int page = 1)
         {
-            string? jwt = null;
+            string? jwt = null;/*
             if (Request.Headers.TryGetValue("Authorization", out var authorizationHeader))
             {
                 jwt = authorizationHeader.ToString().Replace("Bearer ", "");
-            }
+            }*/
             var result = await _offerQuerySvc.GetOfferBranchOffersAsync(offerId, cancellation, jwt,
                 wojewodstwo, divisionName, streetName,
                 searchText, publishFrom, publishTo, workFrom, workTo, orderBy, ascending, maxItems, page);
@@ -153,11 +153,11 @@ namespace BackEnd.Controllers
                int maxItems = 100,
                int page = 1)
         {
-            string? jwt = null;
+            string? jwt = null;/*
             if (Request.Headers.TryGetValue("Authorization", out var authorizationHeader))
             {
                 jwt = authorizationHeader.ToString().Replace("Bearer ", "");
-            }
+            }*/
             var result = await _offerQuerySvc.GetBranchAsync(companyId, branchId,
                 companyUrlSegment, branchUrlSegment, cancellation, characteristics,
                 jwt, searchText, publishFrom, publishTo, workFrom, workTo, minSalary,
@@ -191,11 +191,11 @@ namespace BackEnd.Controllers
                int maxItems = 100,
                int page = 1)
         {
-            string? jwt = null;
+            string? jwt = null;/*
             if (Request.Headers.TryGetValue("Authorization", out var authorizationHeader))
             {
                 jwt = authorizationHeader.ToString().Replace("Bearer ", "");
-            }
+            }*/
             var result = await _offerQuerySvc.GetBranchBranchOffersAsync(companyId, branchId,
                 companyUrlSegment, branchUrlSegment, cancellation, characteristics,
                 jwt, searchText, publishFrom, publishTo, workFrom, workTo, minSalary,
