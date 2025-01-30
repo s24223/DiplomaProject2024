@@ -24,15 +24,18 @@ const ApplyButton = ({ branchId }) => {
 
             const url = `https://localhost:7166/api/User/recruitment?branchOfferId=${branchId}`;
 
+            let formData = new FormData()
+            formData.append("PersonMessage", personMessage)
+            formData.append("File", document.getElementById("file").files[0])
+
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authToken}`,
                     'Access-Control-Allow-Origin': '*',
                 },
                 credentials: 'include',
-                body: JSON.stringify({ personMessage }), // Wysyłanie wiadomości wpisanej przez użytkownika
+                body: formData, // Wysyłanie wiadomości wpisanej przez użytkownika
             });
 
             if (!response.ok) throw new Error("Failed to apply for the offer");
@@ -59,7 +62,7 @@ const ApplyButton = ({ branchId }) => {
                     <div className="modal-content">
                         <h2>Enter Your Message</h2>
                         <label>CV:</label>
-                        <input type='file' onChange={e => setFile(e.target.value)} accept='application/pdf' /><br />
+                        <input id='file' type='file' accept='application/pdf' /><br />
                         <textarea
                             value={personMessage}
                             onChange={(e) => setPersonMessage(e.target.value)}

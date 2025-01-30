@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { jwtRefresh } from "../../services/JwtRefreshService/JwtRefreshService";
+import { Link } from "react-router-dom";
 
 const CompanyRecruitmentPage = () => {
     jwtRefresh();
-    
+
     const [applications, setApplications] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -74,7 +75,7 @@ const CompanyRecruitmentPage = () => {
 
     return (
         <div className="applications">
-            
+
             <h1>Applications</h1>
             {applications.length > 0 ? (
                 <ul>
@@ -88,6 +89,33 @@ const CompanyRecruitmentPage = () => {
                             <p>Message: {application.recruitment.personMessage || "No message provided"}</p>
                             <p>Offer: {application.offer.name}</p>
                             <p>Branch: {application.branch.name}</p>
+                            <p><a onClick={e => {
+                                let fileName = application.recruitment.url
+                                fetch(`https://localhost:7166/api/User/cv/${fileName}`, {
+                                    method: 'GET',
+                                    headers: {
+                                        'Content-Type': 'application/pdf',
+                                        "Authorization": `Bearer ${localStorage.getItem("jwt")}`,
+                                    },
+                                })
+                                    .then((response) => response.blob())
+                                    .then((blob) => {
+                                        const url = window.URL.createObjectURL(blob);
+
+                                        const link = document.createElement('a');
+                                        link.href = url;
+                                        link.setAttribute(
+                                            'download',
+                                            `${fileName}.pdf`,
+                                        );
+
+                                        document.body.appendChild(link);
+
+                                        link.click();
+
+                                        link.parentNode.removeChild(link);
+                                    });
+                            }} style={{textDecoration: "underline", color: "blue", cursor: "pointer"}}>DownloadCv</a></p>
                             <button
                                 onClick={() => handleResponse(application.recruitment.id, true)}
                             >
