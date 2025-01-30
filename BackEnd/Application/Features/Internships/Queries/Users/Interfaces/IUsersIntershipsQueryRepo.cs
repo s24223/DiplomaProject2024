@@ -118,5 +118,10 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
             bool ascending = true,
             int maxItems = 100,
             int page = 1);
+
+        Task<(MemoryStream Stream, string Name)?> GetCvAsync(
+            UserId userId,
+            string fileId,
+            CancellationToken cancellation);
     }
 }

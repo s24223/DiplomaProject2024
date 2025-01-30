@@ -25,7 +25,7 @@ namespace Application.Features.Internships.Mappers
         //Intership Module
         public DomainRecruitment DomainRecruitment(Recruitment database)
         {
-            return _domainFactory.CreateDomainRecruitment
+            var domain = _domainFactory.CreateDomainRecruitment
                 (
                 database.Id,
                 database.PersonId,
@@ -35,6 +35,8 @@ namespace Application.Features.Internships.Mappers
                 database.CompanyResponse,
                 database.IsAccepted
                 );
+            domain.Url = database.CvUrl;
+            return domain;
         }
 
         public DomainIntership DomainIntership(Internship database)

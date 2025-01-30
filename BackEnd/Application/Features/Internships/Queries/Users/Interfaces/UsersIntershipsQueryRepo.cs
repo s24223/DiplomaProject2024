@@ -1,4 +1,5 @@
-﻿using Application.Databases.Relational;
+﻿using Application.Databases.NonRelational;
+using Application.Databases.Relational;
 using Application.Databases.Relational.Models;
 using Application.Features.Companies.Mappers;
 using Application.Features.Internships.ExtensionMethods;
@@ -29,6 +30,7 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
         private readonly IPersonMapper _personMapper;
         private readonly DiplomaProjectContext _context;
         private readonly ISqlClientRepo _sql;
+        private readonly NonRelationalDbRepository _nonRelationalDb;
 
 
         //Constructor
@@ -37,13 +39,15 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
             ICompanyMapper companyMapper,
             IPersonMapper personMapper,
             DiplomaProjectContext context,
-            ISqlClientRepo sql)
+            ISqlClientRepo sql,
+            NonRelationalDbRepository nonRelationalDb)
         {
             _internshipMapper = mapper;
             _companyMapper = companyMapper;
             _personMapper = personMapper;
             _context = context;
             _sql = sql;
+            _nonRelationalDb = nonRelationalDb;
         }
 
 
@@ -356,6 +360,29 @@ namespace Application.Features.Internships.Queries.Users.Interfaces
             return (domainRecruitments, totalCount);
         }
 
+        public async Task<(MemoryStream Stream, string Name)?> GetCvAsync(
+            UserId userId,
+            string fileId,
+            CancellationToken cancellation)
+        {
+            var count = await _context.Recruitments
+                .Include(x => x.BranchOffer)
+                .ThenInclude(x => x.Branch)
+                .Where(x =>
+                    x.CvUrl == fileId &&
+                    (
+                    x.PersonId == userId.Value ||
+                    x.BranchOffer.Branch.CompanyId == userId.Value
+                    ))
+                .CountAsync(cancellation);
+
+            if (count == 0)
+            {
+                return null;
+            }
+
+            return await _nonRelationalDb.GetAsync(fileId, cancellation);
+        }
 
         //================================================================================================
         //================================================================================================

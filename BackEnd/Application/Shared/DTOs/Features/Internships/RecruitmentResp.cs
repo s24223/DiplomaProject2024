@@ -11,6 +11,7 @@ namespace Application.Shared.DTOs.Features.Internships
         public DateTime Created { get; set; }
         //public string? CvUrl { get; set; }
         public string? PersonMessage { get; set; }
+        public string? Url { get; set; } = null;
         public string? CompanyResponse { get; set; }
         public bool? IsAccepted { get; set; }
 
@@ -25,6 +26,7 @@ namespace Application.Shared.DTOs.Features.Internships
             PersonMessage = domain.PersonMessage;
             CompanyResponse = domain.CompanyResponse;
             IsAccepted = domain.IsAccepted?.Value;
+            Url = domain.Url;
         }
     }
 }

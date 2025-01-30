@@ -1,6 +1,8 @@
 ﻿using Application.Features.Users.Commands.Users.DTOs.Create;
 using Application.Features.Users.Commands.Users.DTOs.LoginIn;
 using Application.Features.Users.Commands.Users.DTOs.Refresh;
+using Application.Features.Users.Commands.Users.DTOs.ResetPassword;
+using Application.Features.Users.Commands.Users.DTOs.ResetPasswordLink;
 using Application.Features.Users.Commands.Users.DTOs.UpdateLogin;
 using Application.Features.Users.Commands.Users.DTOs.UpdatePassword;
 using Application.Shared.DTOs.Response;
@@ -14,36 +16,36 @@ namespace Application.Features.Users.Commands.Users.Services
         //Data Part
         Task<Response> CreateAsync
             (
-            CreateUserRequestDto dto,
+            CreateUserReq dto,
             CancellationToken cancellation
             );
 
         Task<Response> UpdateLoginAsync
             (
             IEnumerable<Claim> claims,
-            UpdateLoginRequestDto dto,
+            UpdateLoginReq dto,
             CancellationToken cancellation
             );
 
         Task<Response> UpdatePasswordAsync
             (
             IEnumerable<Claim> claims,
-            UpdatePasswordRequestDto dto,
+            UpdatePasswordReq dto,
             CancellationToken cancellation
             );
 
         //==========================================================================================================================================
-        //Authetication Part
-        Task<ResponseItem<LoginInResponseDto>> LoginInAsync
+        //Authentication Part
+        Task<ResponseItem<LoginInResp>> LoginInAsync
             (
-            LoginInRequestDto dto,
+            LoginInReq dto,
             CancellationToken cancellation
             );
 
-        Task<ResponseItem<RefreshResponseDto>> RefreshTokenAsync
+        Task<ResponseItem<RefreshResp>> RefreshTokenAsync
             (
             string jwtFromHeader,
-            RefreshRequestDto dto,
+            RefreshReq dto,
             CancellationToken cancellation
             );
 
@@ -52,5 +54,19 @@ namespace Application.Features.Users.Commands.Users.Services
             IEnumerable<Claim> claims,
             CancellationToken cancellation
             );
+
+        Task<Response> ActivateAsync(
+            Guid id,
+            string activationUrlSegment,
+            CancellationToken cancellation);
+        Task<Response> ResetPasswordInitiateAsync(
+            ResetPasswordLinkReq req,
+            CancellationToken cancellation);
+
+        Task<Response> ResetPasswordAsync(
+            Guid id,
+            string resetPasswordUrlSegment,
+            ResetPasswordReq req,
+            CancellationToken cancellation);
     }
 }

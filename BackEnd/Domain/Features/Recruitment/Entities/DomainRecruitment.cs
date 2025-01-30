@@ -16,6 +16,7 @@ namespace Domain.Features.Recruitment.Entities
         public DateTime Created { get; private set; }
         public string? PersonMessage { get; private set; }
         public string? CompanyResponse { get; private set; }
+        public string? Url { get; set; } = null;
         public DatabaseBool? IsAccepted { get; private set; }
 
 

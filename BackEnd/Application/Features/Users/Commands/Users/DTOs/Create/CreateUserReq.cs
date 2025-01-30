@@ -2,7 +2,7 @@
 
 namespace Application.Features.Users.Commands.Users.DTOs.Create
 {
-    public class CreateUserRequestDto
+    public class CreateUserReq
     {
         [Required]
         [EmailAddress]

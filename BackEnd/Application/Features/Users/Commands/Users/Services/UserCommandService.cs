@@ -1,12 +1,16 @@
 ﻿using Application.Features.Users.Commands.Users.DTOs.Create;
 using Application.Features.Users.Commands.Users.DTOs.LoginIn;
 using Application.Features.Users.Commands.Users.DTOs.Refresh;
+using Application.Features.Users.Commands.Users.DTOs.ResetPassword;
+using Application.Features.Users.Commands.Users.DTOs.ResetPasswordLink;
 using Application.Features.Users.Commands.Users.DTOs.UpdateLogin;
 using Application.Features.Users.Commands.Users.DTOs.UpdatePassword;
 using Application.Features.Users.Commands.Users.Interfaces;
 using Application.Shared.DTOs.Response;
+using Application.Shared.Interfaces.Email;
 using Application.Shared.Services.Authentication;
 using Domain.Features.User.Exceptions.Entities;
+using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Factories;
 using Domain.Shared.Providers;
 using Domain.Shared.Templates.Exceptions;
@@ -22,7 +26,10 @@ namespace Application.Features.Users.Commands.Users.Services
         private readonly IUserCommandRepository _repository;
         private readonly IDomainFactory _domainFactory;
         private readonly IAuthJwtSvc _authenticationRepository;
-
+        private readonly IEmailService _emailService;
+        private static readonly string _url = "https://localhost:7166/api/User/";
+        private static readonly string _urlActivation = $"{_url}activate/";
+        private static readonly string _urlReset = $"{_url}reset/";
 
         //Constructor
         public UserCommandService
@@ -30,13 +37,15 @@ namespace Application.Features.Users.Commands.Users.Services
             IProvider provider,
             IUserCommandRepository repository,
             IDomainFactory domainFactory,
-            IAuthJwtSvc authentication
+            IAuthJwtSvc authentication,
+            IEmailService emailService
             )
         {
             _provider = provider;
             _repository = repository;
             _domainFactory = domainFactory;
             _authenticationRepository = authentication;
+            _emailService = emailService;
         }
 
 
@@ -46,7 +55,7 @@ namespace Application.Features.Users.Commands.Users.Services
         //Public Methods
         public async Task<Response> CreateAsync
             (
-            CreateUserRequestDto dto,
+            CreateUserReq dto,
             CancellationToken cancellation
             )
         {
@@ -54,15 +63,137 @@ namespace Application.Features.Users.Commands.Users.Services
             var salt = _authenticationRepository.GenerateSalt();
             var password = _authenticationRepository.HashPassword(dto.Password, salt);
 
-            await _repository.CreateUserAsync(domainUser, password, salt, cancellation);
+            var activationUrlSegment = GenerateUrlSegment();
 
+            var id = await _repository.CreateUserAsync(domainUser, salt, password, activationUrlSegment, cancellation);
+
+            var url = $"{_urlActivation}{id.ToString()}/{activationUrlSegment}";
+            await _emailService.SendAsync(
+                dto.Email,
+                "Activation Account",
+                @$"<div>Click on URL for activate account</div><div>{url}</div>");
             return new Response { };
         }
+
+        public async Task<Response> ActivateAsync(Guid id, string activationUrlSegment, CancellationToken cancellation)
+        {
+            var userData = await _repository.GetUserDataByIdAsync(new UserId(id), cancellation);
+            if (string.IsNullOrWhiteSpace(userData.ActivationUrlSegment))
+            {
+                throw new UserException
+                    (
+                    Messages.User_Cmd_ProfileActive,
+                    DomainExceptionTypeEnum.NotFound
+                    );
+            }
+            if (userData.ActivationUrlSegment != activationUrlSegment)
+            {
+                throw new UserException
+                    (
+                    Messages.User_Cmd_Unautorized,
+                    DomainExceptionTypeEnum.Unauthorized
+                    );
+            }
+            await _repository.UpdateAsync(
+                userData.User,
+                userData.Salt,
+                userData.Password,
+                null,
+                userData.RefreshToken,
+                userData.ExpiredToken,
+                userData.ResetPasswordUrlSegment,
+                userData.ResetPasswordInitiated,
+                userData.IsHideProfile,
+                cancellation);
+
+            await _emailService.SendAsync(
+                userData.User.Login.Value,
+                "Account Activated",
+                @$"<div>Your Account Activated</div>");
+            return new Response { };
+        }
+
+
+        public async Task<Response> ResetPasswordInitiateAsync(
+            ResetPasswordLinkReq req,
+            CancellationToken cancellation)
+        {
+            var userData = await _repository.GetUserDataByLoginEmailAsync(
+                new Email(req.Email),
+                cancellation);
+
+
+            var urlSegment = GenerateUrlSegment();
+
+            await _repository.UpdateAsync(
+                userData.User,
+                userData.Salt,
+                userData.Password,
+                userData.ActivationUrlSegment,
+                userData.RefreshToken,
+                userData.ExpiredToken,
+                urlSegment,
+                _provider.TimeProvider().GetDateTimeNow(),
+                userData.IsHideProfile,
+                cancellation);
+
+            var url = $"{_urlReset}{userData.User.Id.Value.ToString()}/{urlSegment}";
+            await _emailService.SendAsync(
+                userData.User.Login.Value.ToString(),
+                "Reset password",
+                @$"<div>Click on URL for reset password</div><div>{url}</div>");
+            return new Response { };
+        }
+
+        public async Task<Response> ResetPasswordAsync(
+            Guid id,
+            string resetPasswordUrlSegment,
+            ResetPasswordReq req,
+            CancellationToken cancellation)
+        {
+            var userData = await _repository.GetUserDataByIdAsync(new UserId(id), cancellation);
+            if (userData.ResetPasswordUrlSegment != resetPasswordUrlSegment)
+            {
+                throw new UserException
+                    (
+                    Messages.User_Cmd_Unautorized,
+                    DomainExceptionTypeEnum.Unauthorized
+                    );
+            }
+
+            var salt = _authenticationRepository.GenerateSalt();
+            var password = _authenticationRepository.HashPassword(req.NewPassword, salt);
+
+            userData.User.LastPasswordUpdate = _provider.TimeProvider().GetDateTimeNow();
+            userData.ResetPasswordUrlSegment = null;
+            userData.ResetPasswordInitiated = null;
+            userData.Salt = salt;
+            userData.Password = password;
+
+            await _repository.UpdateAsync(
+                userData.User,
+                userData.Salt,
+                userData.Password,
+                userData.ActivationUrlSegment,
+                userData.RefreshToken,
+                userData.ExpiredToken,
+                userData.ResetPasswordUrlSegment,
+                userData.ResetPasswordInitiated,
+                userData.IsHideProfile,
+                cancellation);
+
+            await _emailService.SendAsync(
+                userData.User.Login.Value,
+                "Password Changed",
+                @$"<div>Password Changed</div>");
+            return new Response { };
+        }
+
 
         public async Task<Response> UpdateLoginAsync
             (
             IEnumerable<Claim> claims,
-            UpdateLoginRequestDto dto,
+            UpdateLoginReq dto,
             CancellationToken cancellation
             )
         {
@@ -70,23 +201,23 @@ namespace Application.Features.Users.Commands.Users.Services
             var userData = await _repository.GetUserDataByIdAsync(id, cancellation);
             userData.User.Login = new Email(dto.NewLogin);
 
-            await _repository.UpdateAsync
-                (
+            await _repository.UpdateAsync(
                 userData.User,
-                userData.Password,
                 userData.Salt,
+                userData.Password,
+                userData.ActivationUrlSegment,
                 userData.RefreshToken,
                 userData.ExpiredToken,
-                cancellation
-               );
-
+                userData.ResetPasswordUrlSegment,
+                userData.ResetPasswordInitiated,
+                userData.IsHideProfile,
+                cancellation);
             return new Response { };
         }
 
-        public async Task<Response> UpdatePasswordAsync
-            (
+        public async Task<Response> UpdatePasswordAsync(
             IEnumerable<Claim> claims,
-            UpdatePasswordRequestDto dto,
+            UpdatePasswordReq dto,
             CancellationToken cancellation
             )
         {
@@ -108,24 +239,25 @@ namespace Application.Features.Users.Commands.Users.Services
             var salt = _authenticationRepository.GenerateSalt();
             var password = _authenticationRepository.HashPassword(dto.NewPassword, salt);
 
-            await _repository.UpdateAsync
-                (
+            await _repository.UpdateAsync(
                 userData.User,
-                password,
                 salt,
+                password,
+                userData.ActivationUrlSegment,
                 userData.RefreshToken,
                 userData.ExpiredToken,
-                cancellation
-                );
-
+                userData.ResetPasswordUrlSegment,
+                userData.ResetPasswordInitiated,
+                userData.IsHideProfile,
+                cancellation);
             return new Response { };
         }
 
         //==========================================================================================================================================
-        //Authetication Part
-        public async Task<ResponseItem<LoginInResponseDto>> LoginInAsync
+        //Authentication Part
+        public async Task<ResponseItem<LoginInResp>> LoginInAsync
             (
-            LoginInRequestDto dto,
+            LoginInReq dto,
             CancellationToken cancellation
             )
         {
@@ -151,14 +283,24 @@ namespace Application.Features.Users.Commands.Users.Services
                     DomainExceptionTypeEnum.Unauthorized
                     );
             }
+            if (!string.IsNullOrWhiteSpace(userData.ActivationUrlSegment)) //Nie aktywowano konta
+            {
+                //Incorrect Password
+                throw new UserException
+                    (
+                    Messages.User_Cmd_ProfileNotActivated,
+                    DomainExceptionTypeEnum.Unauthorized
+                    );
+            }
+
 
 
             var roles = new List<string>();
-            if (userData.User.Company != null)
+            if (userData.HasCompanyProfile)
             {
                 roles.Add(_authenticationRepository.GetCompanyRole());
             }
-            if (userData.User.Person != null)
+            if (userData.HasPersonProfile)
             {
                 roles.Add(_authenticationRepository.GetPersonRole());
             }
@@ -180,21 +322,33 @@ namespace Application.Features.Users.Commands.Users.Services
                 userData.RefreshToken = refresh.RefreshToken;
                 userData.ExpiredToken = refresh.ValidTo;
             }
+            if (userData.ResetPasswordUrlSegment != null ||
+               userData.ResetPasswordInitiated != null)
+            {
+                userData.ResetPasswordUrlSegment = null;
+                userData.ResetPasswordInitiated = null;
+            }
+            if (userData.IsHideProfile)
+            {
+                userData.IsHideProfile = false;
+            }
 
-            await _repository.UpdateAsync
-                (
-                userData.User,
-                userData.Password,
-                userData.Salt,
-                userData.RefreshToken,
-                userData.ExpiredToken,
-                cancellation
-                );
+            await _repository.UpdateAsync(
+               userData.User,
+               userData.Salt,
+               userData.Password,
+               userData.ActivationUrlSegment,
+               userData.RefreshToken,
+               userData.ExpiredToken,
+               userData.ResetPasswordUrlSegment,
+               userData.ResetPasswordInitiated,
+               userData.IsHideProfile,
+               cancellation);
 
             //Correct
-            return new ResponseItem<LoginInResponseDto>
+            return new ResponseItem<LoginInResp>
             {
-                Item = new LoginInResponseDto
+                Item = new LoginInResp
                 {
                     Jwt = jwt.Jwt,
                     JwtValidTo = jwt.ValidTo,
@@ -204,10 +358,10 @@ namespace Application.Features.Users.Commands.Users.Services
             };
         }
 
-        public async Task<ResponseItem<RefreshResponseDto>> RefreshTokenAsync
+        public async Task<ResponseItem<RefreshResp>> RefreshTokenAsync
             (
             string jwtFromHeader,
-            RefreshRequestDto dto,
+            RefreshReq dto,
             CancellationToken cancellation
             )
         {
@@ -253,9 +407,9 @@ namespace Application.Features.Users.Commands.Users.Services
                 roles
                 );
 
-            return new ResponseItem<RefreshResponseDto>
+            return new ResponseItem<RefreshResp>
             {
-                Item = new RefreshResponseDto
+                Item = new RefreshResp
                 {
                     Jwt = jwt.Jwt,
                     JwtValidTo = jwt.ValidTo,
@@ -272,7 +426,18 @@ namespace Application.Features.Users.Commands.Users.Services
             )
         {
             var id = _authenticationRepository.GetIdNameFromClaims(claims);
-            await _repository.LogOutAndDeleteRefreshTokenDataAsync(id, cancellation);
+            var userData = await _repository.GetUserDataByIdAsync(id, cancellation);
+            await _repository.UpdateAsync(
+                userData.User,
+                userData.Salt,
+                userData.Password,
+                userData.ActivationUrlSegment,
+                null,
+                null,
+                userData.ResetPasswordUrlSegment,
+                userData.ResetPasswordInitiated,
+                userData.IsHideProfile,
+                cancellation);
             return new Response { };
         }
 
@@ -280,5 +445,10 @@ namespace Application.Features.Users.Commands.Users.Services
         //============================================================================================================
         //============================================================================================================
         //Private Methods
+
+        private string GenerateUrlSegment() =>
+            _authenticationRepository.GenerateSalt().Replace("+", "-")
+            .Replace("/", "_")
+            .Replace("=", "");
     }
 }

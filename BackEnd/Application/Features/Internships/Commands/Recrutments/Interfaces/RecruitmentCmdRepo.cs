@@ -1,4 +1,5 @@
-﻿using Application.Databases.Relational;
+﻿using Application.Databases.NonRelational;
+using Application.Databases.Relational;
 using Application.Databases.Relational.Models;
 using Application.Features.Internships.Mappers;
 using Domain.Features.Recruitment.Entities;
@@ -8,6 +9,7 @@ using Domain.Features.User.ValueObjects.Identificators;
 using Domain.Shared.Providers;
 using Domain.Shared.Templates.Exceptions;
 using Domain.Shared.ValueObjects;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,19 +21,22 @@ namespace Application.Features.Internships.Commands.Recrutments.Interfaces
         private readonly IProvider _provider;
         private readonly IInternshipMapper _mapper;
         private readonly DiplomaProjectContext _context;
+        private readonly NonRelationalDbRepository _nonRelational;
 
 
-        //Cosntructor
+        //Constructor
         public RecruitmentCmdRepo
             (
             IProvider provider,
             IInternshipMapper mapper,
-            DiplomaProjectContext context
+            DiplomaProjectContext context,
+            NonRelationalDbRepository nonRelational
             )
         {
             _provider = provider;
             _mapper = mapper;
             _context = context;
+            _nonRelational = nonRelational;
         }
 
 
@@ -44,6 +49,7 @@ namespace Application.Features.Internships.Commands.Recrutments.Interfaces
         public async Task<DomainRecruitment> CreateAsync
             (
             DomainRecruitment domain,
+            IFormFile? file,
             CancellationToken cancellation
             )
         {
@@ -58,6 +64,15 @@ namespace Application.Features.Internships.Commands.Recrutments.Interfaces
                 var db = MapRecruitment(domain, null);
                 await _context.Recruitments.AddAsync(db, cancellation);
                 await _context.SaveChangesAsync(cancellation);
+
+                if (file != null)
+                {
+                    var fileName = await _nonRelational.SaveAsync(file, cancellation);
+                    db.CvUrl = fileName;
+                    await _context.SaveChangesAsync(cancellation);
+                    domain.Url = fileName;
+                }
+
                 return _mapper.DomainRecruitment(db);
             }
             catch (System.Exception ex)

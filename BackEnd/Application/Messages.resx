@@ -381,6 +381,12 @@
   <data name="User_Cmd_Login_NotUnique" xml:space="preserve">
     <value>Wybierz inny login/email</value>
   </data>
+  <data name="User_Cmd_ProfileActive" xml:space="preserve">
+    <value>Profil aktywny</value>
+  </data>
+  <data name="User_Cmd_ProfileNotActivated" xml:space="preserve">
+    <value>Profil nie aktywowanoi, wejdz na maila i aktywuj</value>
+  </data>
   <data name="User_Cmd_RefreshToken_IsNullOrWhiteSpace" xml:space="preserve">
     <value>Refresh Token Pusty</value>
   </data>

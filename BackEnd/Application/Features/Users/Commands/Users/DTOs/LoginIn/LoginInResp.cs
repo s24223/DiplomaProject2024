@@ -1,6 +1,6 @@
 ﻿namespace Application.Features.Users.Commands.Users.DTOs.LoginIn
 {
-    public class LoginInResponseDto
+    public class LoginInResp
     {
         public required string Jwt { get; set; } = null!;
         public required DateTime JwtValidTo { get; set; }

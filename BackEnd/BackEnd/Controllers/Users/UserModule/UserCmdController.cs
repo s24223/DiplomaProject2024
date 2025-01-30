@@ -1,6 +1,8 @@
 ﻿using Application.Features.Users.Commands.Users.DTOs.Create;
 using Application.Features.Users.Commands.Users.DTOs.LoginIn;
 using Application.Features.Users.Commands.Users.DTOs.Refresh;
+using Application.Features.Users.Commands.Users.DTOs.ResetPassword;
+using Application.Features.Users.Commands.Users.DTOs.ResetPasswordLink;
 using Application.Features.Users.Commands.Users.DTOs.UpdateLogin;
 using Application.Features.Users.Commands.Users.DTOs.UpdatePassword;
 using Application.Features.Users.Commands.Users.Services;
@@ -32,7 +34,7 @@ namespace BackEnd.Controllers.Users.UserModule
         [HttpPost()]
         public async Task<IActionResult> CreateUserProfileAsync
             (
-            CreateUserRequestDto dto,
+            CreateUserReq dto,
             CancellationToken cancellation
             )
         {
@@ -44,7 +46,7 @@ namespace BackEnd.Controllers.Users.UserModule
         [HttpPost("login")]
         public async Task<IActionResult> LoginInAsync
             (
-            LoginInRequestDto dto,
+            LoginInReq dto,
             CancellationToken cancellation
             )
         {
@@ -56,7 +58,7 @@ namespace BackEnd.Controllers.Users.UserModule
         [HttpPut("login")]
         public async Task<IActionResult> UpdateLoginAsync
             (
-            UpdateLoginRequestDto dto,
+            UpdateLoginReq dto,
             CancellationToken cancellation
             )
         {
@@ -83,7 +85,7 @@ namespace BackEnd.Controllers.Users.UserModule
         [HttpPost("refresh")]
         public async Task<IActionResult> RefreshAsync
             (
-            RefreshRequestDto dto,
+            RefreshReq dto,
             CancellationToken cancellation
             )
         {
@@ -101,12 +103,50 @@ namespace BackEnd.Controllers.Users.UserModule
         [HttpPut("password")]
         public async Task<IActionResult> UpdatePasswordAsync
             (
-            UpdatePasswordRequestDto dto,
+            UpdatePasswordReq dto,
             CancellationToken cancellation
             )
         {
             var claims = User.Claims.ToList();
             var result = await _userService.UpdatePasswordAsync(claims, dto, cancellation);
+            return Ok(result);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("activate/{id:guid}/{activationUrlSegment}")]
+        public async Task<IActionResult> ActivateAsync
+            (
+            Guid id, string activationUrlSegment, CancellationToken cancellation
+            )
+        {
+            var result = await _userService.ActivateAsync(id, activationUrlSegment, cancellation);
+            return Ok(result);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("reset")]
+        public async Task<IActionResult> ResetPasswordInitiateAsync(
+            ResetPasswordLinkReq req,
+            CancellationToken cancellation
+            )
+        {
+            var result = await _userService.ResetPasswordInitiateAsync(req, cancellation);
+            return Ok(result);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("reset/{id:guid}/{resetPasswordUrlSegment}")]
+        public async Task<IActionResult> ResetPasswordAsync(
+            Guid id,
+            string resetPasswordUrlSegment,
+            ResetPasswordReq req,
+            CancellationToken cancellation)
+        {
+            var result = await _userService.ResetPasswordAsync(
+                id,
+                resetPasswordUrlSegment,
+                req,
+                cancellation);
             return Ok(result);
         }
     }

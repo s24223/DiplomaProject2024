@@ -1,6 +1,6 @@
 ﻿namespace Application.Features.Users.Commands.Users.DTOs.Refresh
 {
-    public class RefreshResponseDto
+    public class RefreshResp
     {
         public required string Jwt { get; set; } = null!;
         public required DateTime JwtValidTo { get; set; }

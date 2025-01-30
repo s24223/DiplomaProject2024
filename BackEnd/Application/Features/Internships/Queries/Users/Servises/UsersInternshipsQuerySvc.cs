@@ -308,6 +308,14 @@ namespace Application.Features.Internships.Queries.Users.Servises
             };
         }
 
+        public async Task<(MemoryStream Stream, string Name)?> GetCvAsync(
+            IEnumerable<Claim> claims,
+            string fileId,
+            CancellationToken cancellation)
+        {
+            var userId = GetUserId(claims);
+            return await _repo.GetCvAsync(userId, fileId, cancellation);
+        }
         //===============================================================================================
         //===============================================================================================
         //===============================================================================================

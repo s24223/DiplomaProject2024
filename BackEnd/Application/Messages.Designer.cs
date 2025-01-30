@@ -61,7 +61,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi DivisionId nie został znaleziony.
+        ///   Looks up a localized string similar to Za podanymi danymi nie został znaleziony DivisionId .
         /// </summary>
         internal static string Address_Cmd_DivisionId_NotFound {
             get {
@@ -70,7 +70,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Połczenia pomiedy jednoska terytorialna a ulicamyi nie wyszukano.
+        ///   Looks up a localized string similar to  Nie znaleziono połączenia pomiędzy jednostką terytorialną a ulicami.
         /// </summary>
         internal static string Address_Cmd_DivisionStreetCollocation_NotFound {
             get {
@@ -79,7 +79,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danym Id address nie oształ wyszukany.
+        ///   Looks up a localized string similar to Za podanymi danym nie został znaleziony Id.
         /// </summary>
         internal static string Address_Cmd_Id_NotFound {
             get {
@@ -88,7 +88,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi StreetId nie został znaleziony.
+        ///   Looks up a localized string similar to Za podanymi danymi nie został znaleziony StreetId .
         /// </summary>
         internal static string Address_Cmd_StreetId_NotFound {
             get {
@@ -97,7 +97,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi Jednostke terytorialna nie wyszukano, sprawdz nazwe wojewodstwa lub nazwe jednostki.
+        ///   Looks up a localized string similar to Za podanymi danymi nie znaleziono Jednostki terytorialnej, sprawdź nazwę województwa lub nazwę jednostki.
         /// </summary>
         internal static string Address_Query_DivisionName_NotFound {
             get {
@@ -106,7 +106,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi Danymi nie wyszukano adresów/ adresu.
+        ///   Looks up a localized string similar to Za podanymi danymi nie znaleziono adresów/ adresu.
         /// </summary>
         internal static string Address_Query_Id_NotFound {
             get {
@@ -115,7 +115,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi Wojewodstwa nie wyszukano, sprawdz poprawnosc wprowadzonych danych.
+        ///   Looks up a localized string similar to Za podanymi danymi nie znaleziono Województwa, sprawdz poprawnosc wprowadzonych danych.
         /// </summary>
         internal static string Address_Query_WojName_NotFound {
             get {
@@ -124,7 +124,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Addres nie został znaleziony.
+        ///   Looks up a localized string similar to Address nie został znaleziony.
         /// </summary>
         internal static string Branch_Cmd_Address_NotFound {
             get {
@@ -142,7 +142,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanym Id/s oddaiło nie znaleziono.
+        ///   Looks up a localized string similar to Za podanym Id/s nie znaleziono oddziału .
         /// </summary>
         internal static string Branch_Cmd_Id_NotFound {
             get {
@@ -151,7 +151,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Duplikat po stronie Bazy danych, wartosc z danym UrlSegmentem juz istnieje.
+        ///   Looks up a localized string similar to Duplikat po stronie Bazy danych, wartość z danym UrlSegmentem już istnieje.
         /// </summary>
         internal static string Branch_Cmd_UrlSegmet_DbDuplicate {
             get {
@@ -160,7 +160,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Duplikat w podanych danych, wartosc z danym UrlSegmentem juz istnieje.
+        ///   Looks up a localized string similar to Duplikat w podanych danych, wartość z danym UrlSegmentem już istnieje.
         /// </summary>
         internal static string Branch_Cmd_UrlSegmet_InputDuplicate {
             get {
@@ -169,7 +169,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi Oddziału nie wyszukano.
+        ///   Looks up a localized string similar to Za podanymi danymi nie znaleziono oddziału .
         /// </summary>
         internal static string Branch_Query_Branch_NotFound {
             get {
@@ -187,7 +187,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi nie wyszukano Oddziału.
+        ///   Looks up a localized string similar to Za podanymi danymi nie znaleziono Oddziału.
         /// </summary>
         internal static string BranchOffer_Cmd_Branch_NotFound {
             get {
@@ -196,7 +196,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi BranchOfferId, połaczen nie ozstało wyszukano.
+        ///   Looks up a localized string similar to Za podanymi BranchOfferId, połączenie nie zostało wyszukane.
         /// </summary>
         internal static string BranchOffer_Cmd_Ids_NotFound {
             get {
@@ -205,7 +205,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Niepoprawna wartosc Daty konca publikacji, powinna zaczync sie conajmniej pozniej startu publikacji.
+        ///   Looks up a localized string similar to Niepoprawna wartość Daty końca publikacji, powinna zaczynać się co najmniej później niż start publikacji.
         /// </summary>
         internal static string BranchOffer_Cmd_Invalid_PublishEnd {
             get {
@@ -214,7 +214,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Niepoprawna wartosc WorkStart, powinna zaczync sie conajmniej tego samego dnia co PublishStart lub pózniej.
+        ///   Looks up a localized string similar to Niepoprawna wartość WorkStart, powinna zaczynać się co najmniej tego samego dnia co PublishStart .
         /// </summary>
         internal static string BranchOffer_Cmd_Invalid_WorkEnd {
             get {
@@ -223,7 +223,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Niepoprawna wartosc daty pocztku Parcy, powinna zaczync sie conajmniej nastepnego dnia po zakonczeniu publikiacji.
+        ///   Looks up a localized string similar to Niepoprawna wartość daty początku pracy, powinna zaczynać się co najmniej następnego dnia po zakończeniu publikacji.
         /// </summary>
         internal static string BranchOffer_Cmd_Invalid_WorkStart {
             get {
@@ -232,7 +232,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi nie wyszukano Oferty.
+        ///   Looks up a localized string similar to Za podanymi danymi nie znaleziono oferty.
         /// </summary>
         internal static string BranchOffer_Cmd_Offer_NotFound {
             get {
@@ -241,7 +241,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymymi Ceha nie został wyszukana.
+        ///   Looks up a localized string similar to Za podanymi danymi Cecha nie została wyszukana.
         /// </summary>
         internal static string Characteristic_Id_NotFound {
             get {
@@ -250,7 +250,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanym Id komentarzu nie wyszukano.
+        ///   Looks up a localized string similar to Za podanym Id nie znaleziono komentarza.
         /// </summary>
         internal static string Comment_Cmd_Id_NotFound {
             get {
@@ -259,7 +259,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi Stażu/Praktyk/Pracy nie wysukano.
+        ///   Looks up a localized string similar to Za podanymi danymi nie znaleziono Stażu/Praktyk/Pracy.
         /// </summary>
         internal static string Comment_Cmd_Intership_NotFound {
             get {
@@ -268,7 +268,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Umowa zakonczyła sie.
+        ///   Looks up a localized string similar to Umowa zakończyła się.
         /// </summary>
         internal static string Comment_Cmd_UnablePublis_ContractEnd {
             get {
@@ -277,7 +277,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nie mozna opublikować, dopiero po upływie dni.
+        ///   Looks up a localized string similar to Nie można opublikować, dopiero po upływie dnia.
         /// </summary>
         internal static string Comment_Cmd_UnablePublish_AfterDays {
             get {
@@ -286,7 +286,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nie mozna opublikować, umowa sie nie skonczyła, dopiero po upływie dni.
+        ///   Looks up a localized string similar to Nie można opublikować, umowa się nie skończyła.
         /// </summary>
         internal static string Comment_Cmd_UnablePublish_ContractHasntEnd {
             get {
@@ -295,7 +295,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Duplikat koncowej opinii.
+        ///   Looks up a localized string similar to Duplikat końcowej opinii.
         /// </summary>
         internal static string Comment_Cmd_UnablePublish_DuplicateEndOpinion {
             get {
@@ -304,7 +304,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Duplikat pozowlania na publikacje.
+        ///   Looks up a localized string similar to Duplikat nie pozwala na publikacje.
         /// </summary>
         internal static string Comment_Cmd_UnablePublish_DuplicateOfAllovedOfpublication {
             get {
@@ -313,7 +313,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nie mozna tego opublikować, Konca umowy nie ma.
+        ///   Looks up a localized string similar to Nie można opublikować, nie ustalono końca umowy.
         /// </summary>
         internal static string Comment_Cmd_UnablePublish_EndContractNull {
             get {
@@ -322,7 +322,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanym id nie wyszukano Typu komentarza.
+        ///   Looks up a localized string similar to Za podanym id nie znaleziono typu komentarza.
         /// </summary>
         internal static string CommentType_Query_Enum_IdNotFound {
             get {
@@ -331,7 +331,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Problem aplikacyjny, nie wyszkakano comment type za podanym id.
+        ///   Looks up a localized string similar to Problem aplikacyjny, za podanym id nie znaleziono comment type .
         /// </summary>
         internal static string CommentType_Qwery_IdItemNotFound {
             get {
@@ -340,7 +340,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Profil Firmowy/Comapny juz istnieje.
+        ///   Looks up a localized string similar to Profil Firmowy/Company już istnieje.
         /// </summary>
         internal static string Company_Cmd_ExistProfile {
             get {
@@ -367,7 +367,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wpoisz inna nazwe firmy jesli ty jestes posiadaczem zgłoś problem z podana nazwa firmy.
+        ///   Looks up a localized string similar to Wpisz inną nazwę firmy. Jeżeli to ty jesteś posiadaczem zgłoś problem z podana nazwa firmy.
         /// </summary>
         internal static string Company_Cmd_NotUniqueName {
             get {
@@ -376,7 +376,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wpoisz inny REGON, jesli ty jestes posiadaczem zgłoś problem z podaym REGONem.
+        ///   Looks up a localized string similar to Wpisz inny REGON. Jeżeli to ty jesteś posiadaczem zgłoś problem z podanym REGON-em.
         /// </summary>
         internal static string Company_Cmd_NotUniqueRegon {
             get {
@@ -412,7 +412,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Numer umowy powtarza sie, wybierz inny numer.
+        ///   Looks up a localized string similar to Numer umowy powtarza się, wybierz inny numer.
         /// </summary>
         internal static string Internship_Cmd_ContractNum_Duplicate {
             get {
@@ -430,7 +430,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Praktyka/staż  za podanym Id nie istnieje.
+        ///   Looks up a localized string similar to Praktyka/staż  za podanym nie istnieje Id.
         /// </summary>
         internal static string Internship_Cmd_Id_NotFound {
             get {
@@ -439,7 +439,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rekrutacja nie istnieje za podanym Id.
+        ///   Looks up a localized string similar to Za podanym Id, rekrutacja nie istnieje .
         /// </summary>
         internal static string Internship_Cmd_Recruitment_NotExist {
             get {
@@ -448,7 +448,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pozytywnej rekrutacji nie isntieje za podanym Id.
+        ///   Looks up a localized string similar to Za podanym Id nie istnieje pozytywna rekrutacja.
         /// </summary>
         internal static string Internship_Cmd_Recruitment_PositiveNotExist {
             get {
@@ -466,7 +466,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Problem aplikacyjny, nie isntnieje FK Notification_NotificationSender.
+        ///   Looks up a localized string similar to Problem aplikacyjny, nie istnieje FK Notification_NotificationSender.
         /// </summary>
         internal static string Notification_Cmd_FK_Notification_NotificationSender {
             get {
@@ -475,7 +475,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Problem aplikacyjny, nie isntnieje FK Notification_NotificationStatus.
+        ///   Looks up a localized string similar to Problem aplikacyjny, nie istnieje FK Notification_NotificationStatus.
         /// </summary>
         internal static string Notification_Cmd_FK_Notification_NotificationStatus {
             get {
@@ -493,7 +493,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi nie wyszukano Cehy Oferty.
+        ///   Looks up a localized string similar to Za podanymi danymi nie wyszukano Cech Oferty.
         /// </summary>
         internal static string Offer_Cmd_Characteristic_NotFound {
             get {
@@ -502,7 +502,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi OfferIds, ofert nie ozstało wyszukano.
+        ///   Looks up a localized string similar to Za podanymi OfferIds, nie znaleziono ofert .
         /// </summary>
         internal static string Offer_Cmd_Ids_NotFound {
             get {
@@ -511,7 +511,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Problem aplikacyjny, niepoprawna wrtosc IsForStudents.
+        ///   Looks up a localized string similar to Problem aplikacyjny, niepoprawna wartość IsForStudents.
         /// </summary>
         internal static string Offer_Cmd_Invalid_IsForStudents {
             get {
@@ -520,7 +520,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Problem aplikacyjny, niepoprawna wrtosc IsNegotiatedSalary.
+        ///   Looks up a localized string similar to Problem aplikacyjny, niepoprawna wartość IsNegotiatedSalary.
         /// </summary>
         internal static string Offer_Cmd_Invalid_IsNegotiatedSalary {
             get {
@@ -529,7 +529,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wrtosc płacy minimalnej powinna byc taka sama jak minimalna lub wiecej.
+        ///   Looks up a localized string similar to Wartość płacy minimalnej powinna być taka sama lub wyższa od minimalnej.
         /// </summary>
         internal static string Offer_Cmd_Invalid_MaxSalary {
             get {
@@ -538,7 +538,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wrtosc płacy minimalnej powinna byc 0 lub wiecej.
+        ///   Looks up a localized string similar to Wartość płacy minimalnej powinna być 0 lub wjęcej.
         /// </summary>
         internal static string Offer_Cmd_Invalid_MinSalary {
             get {
@@ -565,7 +565,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi nie wyszukano zadnej oferty.
+        ///   Looks up a localized string similar to Za podanymi danymi nie wyszukano żadnej oferty.
         /// </summary>
         internal static string Offer_Query_NotFound {
             get {
@@ -574,7 +574,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi addrees nie ostał znaleziony.
+        ///   Looks up a localized string similar to Za podanymi danymi nie ostały znalezione addrees .
         /// </summary>
         internal static string Person_Cmd_Address_NotFound {
             get {
@@ -583,7 +583,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Profil Osoby juz istnieje, nie ma moliwosci ponownie utworzyć.
+        ///   Looks up a localized string similar to Profil Osoby już istnieje, nie ma możliwości ponownie utworzyć.
         /// </summary>
         internal static string Person_Cmd_ExistProfile {
             get {
@@ -610,7 +610,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Problem aplikacyjny, niepoprawny kod IsPublicProfile po strone Backendu.
+        ///   Looks up a localized string similar to Problem aplikacyjny, niepoprawny kod IsPublicProfile po stronie Backendu.
         /// </summary>
         internal static string Person_Cmd_IncorrectIsPublicProfile {
             get {
@@ -619,7 +619,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Problem aplikacyjny, niepoprawny kod IsStudent po strone Backendu.
+        ///   Looks up a localized string similar to Problem aplikacyjny, niepoprawny kod IsStudent po stronie Backendu.
         /// </summary>
         internal static string Person_Cmd_IncorrectIsStudent {
             get {
@@ -628,7 +628,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Musisz wybrac inny email do kontaktu w profilu osoby.
+        ///   Looks up a localized string similar to Musisz wybrać inny email do kontaktu w profilu osoby.
         /// </summary>
         internal static string Person_Cmd_NotUniqueContactEmail {
             get {
@@ -637,7 +637,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Musisz wybrac nr. telefon email do kontaktu w profilu osoby.
+        ///   Looks up a localized string similar to Musisz wybrać nr. telefon email do kontaktu w profilu osoby.
         /// </summary>
         internal static string Person_Cmd_NotUniqueContactPhoneNum {
             get {
@@ -646,7 +646,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Musisz wybrac inny Url Segment w profilu osoby.
+        ///   Looks up a localized string similar to Musisz wybrać inny Url Segment w profilu osoby.
         /// </summary>
         internal static string Person_Cmd_NotUniqueUrlSegment {
             get {
@@ -655,7 +655,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Brak mozliwosci rekrutacji, oferta neważna.
+        ///   Looks up a localized string similar to Brak możliwości rekrutacji, oferta nieważna.
         /// </summary>
         internal static string Recruitment_Cmd_BranchOffer_Expired {
             get {
@@ -664,7 +664,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Brak mozliwosci rekrutacji, oferta nieopublikowana.
+        ///   Looks up a localized string similar to Brak możliwości rekrutacji, oferta nieopublikowana.
         /// </summary>
         internal static string Recruitment_Cmd_BranchOffer_Future {
             get {
@@ -673,7 +673,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi BranchOffer nie istnieje.
+        ///   Looks up a localized string similar to Za podanymi danymi nie istnieje BranchOffer.
         /// </summary>
         internal static string Recruitment_Cmd_BranchOffer_NotFound {
             get {
@@ -682,7 +682,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanym Id rekrutacja nie została znaleiona.
+        ///   Looks up a localized string similar to Za podanym Id nie została znaleziona rekrutacja .
         /// </summary>
         internal static string Recruitment_Cmd_Id_NotFound {
             get {
@@ -691,7 +691,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Brak mozliwosci rekrutacji do włsanej firmy.
+        ///   Looks up a localized string similar to Brak możliwości rekrutacji do własnej firmy.
         /// </summary>
         internal static string Recruitment_Cmd_IntoHisCompany {
             get {
@@ -700,7 +700,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Problem aplikacyjny, nieporawne dane Code IsAccepted.
+        ///   Looks up a localized string similar to Problem aplikacyjny, niepoprawne dane Code IsAccepted.
         /// </summary>
         internal static string Recruitment_Cmd_IsAccepted_Invalid {
             get {
@@ -718,7 +718,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Już masz złozony wniosek, nie mozna ponownie ponownie złozyc wniosku o rekrutacje.
+        ///   Looks up a localized string similar to Już masz złożony wniosek, nie można ponownie ponownie złożyć wniosku o tą rekrutacje.
         /// </summary>
         internal static string Recruitment_Cmd_Recruitment_Exist {
             get {
@@ -736,7 +736,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Za podanymi danymi nie zostało znaleziono rekordów.
+        ///   Looks up a localized string similar to Za podanymi danymi nie znaleziono rekordów.
         /// </summary>
         internal static string Url_Cmd_Ids_NotFound {
             get {
@@ -745,7 +745,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to W podanych danych wystepuja duplikaty.
+        ///   Looks up a localized string similar to W podanych danych występują duplikaty.
         /// </summary>
         internal static string Url_Cmd_PathConflicts {
             get {
@@ -763,7 +763,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Problem aplikacyjny, nie wyszukany user za podanym ID.
+        ///   Looks up a localized string similar to Problem aplikacyjny, nie znaleziono user za podanym ID.
         /// </summary>
         internal static string User_Cmd_Id_NotFound {
             get {
@@ -772,7 +772,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Problem aplikacyjny, niepoprawna wrtosc DatabaseBool.
+        ///   Looks up a localized string similar to Problem aplikacyjny, niepoprawna wartość DatabaseBool.
         /// </summary>
         internal static string User_Cmd_Invalid_IsHideProfile {
             get {
@@ -790,6 +790,24 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Profil aktywny.
+        /// </summary>
+        internal static string User_Cmd_ProfileActive {
+            get {
+                return ResourceManager.GetString("User_Cmd_ProfileActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profil nie aktywowanoi, wejdz na maila i aktywuj.
+        /// </summary>
+        internal static string User_Cmd_ProfileNotActivated {
+            get {
+                return ResourceManager.GetString("User_Cmd_ProfileNotActivated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Refresh Token Pusty.
         /// </summary>
         internal static string User_Cmd_RefreshToken_IsNullOrWhiteSpace {
@@ -799,7 +817,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sprawdz dane i zaloguj sie ponownie.
+        ///   Looks up a localized string similar to Sprawdź dane i zaloguj się ponownie.
         /// </summary>
         internal static string User_Cmd_Unautorized {
             get {
@@ -808,7 +826,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to JWT nie jest wygenerowany przez dny serwer, zaloguj sie ponownie.
+        ///   Looks up a localized string similar to JWT nie jest wygenerowany przez dny serwer, zaloguj się ponownie.
         /// </summary>
         internal static string User_Jwt_IsNotGeneratedByThisServer {
             get {
@@ -817,7 +835,7 @@ namespace Application {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Problem aplikacyjny, name z JWT powinien byc Guidem.
+        ///   Looks up a localized string similar to Problem aplikacyjny, name z JWT powinien być Guidem.
         /// </summary>
         internal static string User_Jwt_NameIsNotGuid {
             get {

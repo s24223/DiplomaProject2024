@@ -1,4 +1,6 @@
 ﻿using Application.Databases.Relational;
+using Application.Features.Companies.Mappers;
+using Application.Features.Persons.Mappers;
 using Application.Features.Users.Mappers;
 using Domain.Features.User.Entities;
 using Domain.Features.User.Exceptions.Entities;
@@ -14,17 +16,24 @@ namespace Application.Features.Users.Commands.Users.Interfaces
     {
         //Values
         private readonly IUserMapper _mapper;
+        private readonly ICompanyMapper _companyMapper;
+        private readonly IPersonMapper _personMapper;
         private readonly DiplomaProjectContext _context;
 
+        private static readonly string _dbTrue = new DatabaseBool(true).Code;
+        private static readonly string _dbFalse = new DatabaseBool(false).Code;
 
         //Constructor
-        public UserCommandRepository
-            (
+        public UserCommandRepository(
             IUserMapper mapper,
+            ICompanyMapper companyMapper,
+            IPersonMapper personMapper,
             DiplomaProjectContext context
             )
         {
             _mapper = mapper;
+            _companyMapper = companyMapper;
+            _personMapper = personMapper;
             _context = context;
         }
 
@@ -35,25 +44,26 @@ namespace Application.Features.Users.Commands.Users.Interfaces
         //==========================================================================================================================================
         //Public Methods
         //DML
-        public async Task CreateUserAsync
-            (
+        public async Task<Guid> CreateUserAsync(
             DomainUser user,
-            string password,
             string salt,
-            CancellationToken cancellation
-            )
+            string password,
+            string activationUrlSegment,
+            CancellationToken cancellation)
         {
             try
             {
                 var databaseUser = new Databases.Relational.Models.User
                 {
                     Login = user.Login.Value,
-                    Password = password,
                     Salt = salt,
+                    Password = password,
+                    CreatedProfileUrlSegment = activationUrlSegment,
                     //LastPasswordUpdate by DB Default Default_User_LastUpdatePassword
                 };
                 await _context.Users.AddAsync(databaseUser, cancellation);
                 await _context.SaveChangesAsync(cancellation);
+                return databaseUser.Id;
             }
             catch (Exception ex)
             {
@@ -61,14 +71,20 @@ namespace Application.Features.Users.Commands.Users.Interfaces
             }
         }
 
-
         public async Task UpdateAsync
             (
             DomainUser user,
-            string password,
             string salt,
+            string password,
+            string? activationUrlSegment,
+
             string? refreshToken,
             DateTime? expiredToken,
+
+            string? resetPasswordUrlSegment,
+            DateTime? resetPasswordInitiated,
+
+            bool isHideProfile,
             CancellationToken cancellation
             )
         {
@@ -77,35 +93,20 @@ namespace Application.Features.Users.Commands.Users.Interfaces
                 var databaseUser = await GetDatabaseUserAsync(user.Id, cancellation);
 
                 databaseUser.Login = user.Login.Value;
-                databaseUser.Password = password;
                 databaseUser.Salt = salt;
+                databaseUser.Password = password;
+                databaseUser.CreatedProfileUrlSegment = activationUrlSegment;
+
                 databaseUser.RefreshToken = refreshToken;
                 databaseUser.ExpiredToken = expiredToken;
+
                 databaseUser.LastLoginIn = user.LastLoginIn;
                 databaseUser.LastPasswordUpdate = user.LastPasswordUpdate;
 
-                await _context.SaveChangesAsync(cancellation);
-            }
-            catch (Exception ex)
-            {
-                throw HandleException(ex);
-            }
-        }
+                databaseUser.ResetPasswordUrlSegment = resetPasswordUrlSegment;
+                databaseUser.ResetPasswordInitiated = resetPasswordInitiated;
 
-
-        //Authentication Part
-        public async Task LogOutAndDeleteRefreshTokenDataAsync
-            (
-            UserId id,
-            CancellationToken cancellation
-            )
-        {
-            try
-            {
-                var databaseUser = await GetDatabaseUserAsync(id, cancellation);
-
-                databaseUser.RefreshToken = null;
-                databaseUser.ExpiredToken = null;
+                databaseUser.IsHideProfile = isHideProfile ? _dbTrue : _dbFalse;
 
                 await _context.SaveChangesAsync(cancellation);
             }
@@ -116,7 +117,22 @@ namespace Application.Features.Users.Commands.Users.Interfaces
         }
 
         //DQL
-        public async Task<(DomainUser User, string Password, string Salt, string? RefreshToken, DateTime? ExpiredToken)> GetUserDataByLoginEmailAsync
+        public async Task<(
+            DomainUser User,
+            string Salt,
+            string Password,
+            string? ActivationUrlSegment,
+
+            string? RefreshToken,
+            DateTime? ExpiredToken,
+
+            string? ResetPasswordUrlSegment,
+            DateTime? ResetPasswordInitiated,
+
+            bool IsHideProfile,
+            bool HasPersonProfile,
+            bool HasCompanyProfile
+            )> GetUserDataByLoginEmailAsync
              (
              Email login,
              CancellationToken cancellation
@@ -125,10 +141,40 @@ namespace Application.Features.Users.Commands.Users.Interfaces
             var databaseUser = await GetDatabaseUserAsync(login, cancellation);
             var domainUser = _mapper.DomainUser(databaseUser);
 
-            return (domainUser, databaseUser.Password, databaseUser.Salt, databaseUser.RefreshToken, databaseUser.ExpiredToken);
+            return (
+                domainUser,
+                databaseUser.Salt,
+                databaseUser.Password,
+                databaseUser.CreatedProfileUrlSegment,
+
+                databaseUser.RefreshToken,
+                databaseUser.ExpiredToken,
+
+                databaseUser.ResetPasswordUrlSegment,
+                databaseUser.ResetPasswordInitiated,
+
+                databaseUser.IsHideProfile == _dbTrue,
+                databaseUser.Person != null,
+                databaseUser.Company != null
+                );
         }
 
-        public async Task<(DomainUser User, string Password, string Salt, string? RefreshToken, DateTime? ExpiredToken)> GetUserDataByIdAsync
+        public async Task<(
+            DomainUser User,
+            string Salt,
+            string Password,
+            string? ActivationUrlSegment,
+
+            string? RefreshToken,
+            DateTime? ExpiredToken,
+
+            string? ResetPasswordUrlSegment,
+            DateTime? ResetPasswordInitiated,
+
+            bool IsHideProfile,
+            bool HasPersonProfile,
+            bool HasCompanyProfile
+            )> GetUserDataByIdAsync
             (
             UserId id,
             CancellationToken cancellation
@@ -137,7 +183,23 @@ namespace Application.Features.Users.Commands.Users.Interfaces
             var databaseUser = await GetDatabaseUserAsync(id, cancellation);
             var domainUser = _mapper.DomainUser(databaseUser);
 
-            return (domainUser, databaseUser.Password, databaseUser.Salt, databaseUser.RefreshToken, databaseUser.ExpiredToken);
+
+            return (
+                domainUser,
+                databaseUser.Salt,
+                databaseUser.Password,
+                databaseUser.CreatedProfileUrlSegment,
+
+                databaseUser.RefreshToken,
+                databaseUser.ExpiredToken,
+
+                databaseUser.ResetPasswordUrlSegment,
+                databaseUser.ResetPasswordInitiated,
+
+                databaseUser.IsHideProfile == _dbTrue,
+                databaseUser.Person != null,
+                databaseUser.Company != null
+                );
         }
 
         //==========================================================================================================================================
@@ -151,6 +213,8 @@ namespace Application.Features.Users.Commands.Users.Interfaces
             )
         {
             var databaseUser = await _context.Users
+                .Include(x => x.Person)
+                .Include(x => x.Company)
                 .FirstOrDefaultAsync(x => x.Id == id.Value, cancellation);
             if (databaseUser == null)
             {
@@ -211,5 +275,6 @@ namespace Application.Features.Users.Commands.Users.Interfaces
             }
             return ex;
         }
+
     }
 }

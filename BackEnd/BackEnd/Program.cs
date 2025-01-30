@@ -15,14 +15,17 @@ namespace BackEnd
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            //Werify is exist Important data in UserSecret
+            //Verify is exist Important data in UserSecret
             var jwtSection = builder.Configuration.GetSection("JwtData");
             var connectionStringsSection = builder.Configuration.GetSection("ConnectionStrings");
+            var emailStringsSection = builder.Configuration.GetSection("EmailStrings");
 
             var issuer = jwtSection["Issuer"];
             var audience = jwtSection["Audience"];
             var secret = jwtSection["Secret"];
             var connectionString = connectionStringsSection["DbString"];
+            var emailString = emailStringsSection["Email"];
+            var passwordString = emailStringsSection["Password"];
 
             if (string.IsNullOrWhiteSpace(issuer))
             {
@@ -39,6 +42,14 @@ namespace BackEnd
             if (string.IsNullOrWhiteSpace(connectionString))
             {
                 throw new NotImplementedException(Messages.NotConfiguredSecret);
+            }
+            if (string.IsNullOrWhiteSpace(emailString))
+            {
+                throw new NotImplementedException("Not configured Email");
+            }
+            if (string.IsNullOrWhiteSpace(passwordString))
+            {
+                throw new NotImplementedException("Not configured Email");
             }
 
             // Add services to the container.

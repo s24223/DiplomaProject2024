@@ -54,7 +54,7 @@ namespace Application.Features.Internships.Commands.Recrutments.Services
                     dto.PersonMessage
                 );
 
-            domain = await _repository.CreateAsync(domain, cancellation);
+            domain = await _repository.CreateAsync(domain, dto.File, cancellation);
             return new ResponseItem<RecruitmentResp>
             {
                 Item = new RecruitmentResp(domain),

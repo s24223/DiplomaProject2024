@@ -239,6 +239,24 @@ namespace BackEnd.Controllers.Users.InternshipModule
             }
         }
 
+
+        [Authorize]
+        [HttpGet("cv/{fileId}")]
+        public async Task<IActionResult> GetCvAsync(
+            string fileId,
+            CancellationToken cancellation)
+        {
+            var claims = User.Claims.ToList();
+            var result = await _userIntershipQuery.GetCvAsync(claims, fileId, cancellation);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            Response.Headers.Add("Content-Disposition", $"attachment; filename*=UTF-8''{result.Value.Name}.pdf");
+            Response.ContentType = "application/pdf"; // Możesz dynamicznie ustawić Content-Type na podstawie pliku
+
+            return File(result.Value.Stream, "application/pdf");
+        }
         //=============================================================================================
         //=============================================================================================
         //=============================================================================================

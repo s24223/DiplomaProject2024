@@ -2,7 +2,7 @@
 
 namespace Application.Features.Users.Commands.Users.DTOs.LoginIn
 {
-    public class LoginInRequestDto
+    public class LoginInReq
     {
         [Required]
         [EmailAddress]

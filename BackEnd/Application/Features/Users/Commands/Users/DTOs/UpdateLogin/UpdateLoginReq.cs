@@ -2,7 +2,7 @@
 
 namespace Application.Features.Users.Commands.Users.DTOs.UpdateLogin
 {
-    public class UpdateLoginRequestDto
+    public class UpdateLoginReq
     {
         [Required]
         [EmailAddress]

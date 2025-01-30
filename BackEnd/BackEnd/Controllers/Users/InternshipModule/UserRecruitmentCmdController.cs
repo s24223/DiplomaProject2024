@@ -36,8 +36,13 @@ namespace BackEnd.Controllers.Users.InternshipModule
             )
         {
             var claims = User.Claims.ToList();
-            var result = await _recruitmentService.CreateByPersonAsync
-                (
+
+            if (dto.File != null && dto.File.ContentType != "application/pdf")
+            {
+                return BadRequest("Przesłany plik nie jest plikiem PDF.");
+            }
+
+            var result = await _recruitmentService.CreateByPersonAsync(
                 claims,
                 branchOfferId,
                 dto,

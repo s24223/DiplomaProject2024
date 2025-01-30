@@ -109,5 +109,10 @@ namespace Application.Features.Internships.Queries.Users.Servises
             bool ascending = true,
             int maxItems = 100,
             int page = 1);
+
+        Task<(MemoryStream Stream, string Name)?> GetCvAsync(
+           IEnumerable<Claim> claims,
+           string fileId,
+           CancellationToken cancellation);
     }
 }

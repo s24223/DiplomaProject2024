@@ -9,43 +9,67 @@ namespace Application.Features.Users.Commands.Users.Interfaces
         //==========================================================================================================================================
         //DML
         //Data Part
-        Task CreateUserAsync
-            (
-            DomainUser user,
-            string password,
-            string salt,
-            CancellationToken cancellation
-        );
+        Task<Guid> CreateUserAsync(
+             DomainUser user,
+             string salt,
+             string password,
+             string activationUrlSegment,
+             CancellationToken cancellation);
 
-        Task UpdateAsync
-            (
+        Task UpdateAsync(
             DomainUser user,
-            string password,
             string salt,
+            string password,
+            string? activationUrlSegment,
+
             string? refreshToken,
             DateTime? expiredToken,
-            CancellationToken cancellation
-            );
 
-        //Authentication Part
-        Task LogOutAndDeleteRefreshTokenDataAsync
-            (
-            UserId id,
+            string? resetPasswordUrlSegment,
+            DateTime? resetPasswordInitiated,
+
+            bool isHideProfile,
             CancellationToken cancellation
             );
 
         //==========================================================================================================================================
         //DQL
-        Task<(DomainUser User, string Password, string Salt, string? RefreshToken, DateTime? ExpiredToken)>
-            GetUserDataByLoginEmailAsync
-             (
+        Task<(
+            DomainUser User,
+            string Salt,
+            string Password,
+            string? ActivationUrlSegment,
+
+            string? RefreshToken,
+            DateTime? ExpiredToken,
+
+            string? ResetPasswordUrlSegment,
+            DateTime? ResetPasswordInitiated,
+
+            bool IsHideProfile,
+            bool HasPersonProfile,
+            bool HasCompanyProfile
+            )> GetUserDataByLoginEmailAsync(
              Email login,
              CancellationToken cancellation
-        );
+             );
 
-        Task<(DomainUser User, string Password, string Salt, string? RefreshToken, DateTime? ExpiredToken)>
-            GetUserDataByIdAsync
-            (
+        Task<(
+            DomainUser User,
+            string Salt,
+            string Password,
+            string? ActivationUrlSegment,
+
+            string? RefreshToken,
+            DateTime? ExpiredToken,
+
+            string? ResetPasswordUrlSegment,
+            DateTime? ResetPasswordInitiated,
+
+            bool IsHideProfile,
+            bool HasPersonProfile,
+            bool HasCompanyProfile
+            )> GetUserDataByIdAsync(
             UserId id,
             CancellationToken cancellation
             );
