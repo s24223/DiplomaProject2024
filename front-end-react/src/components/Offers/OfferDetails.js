@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ApplyButton from "../Buttons/ApplyButton/ApplyButton";
 import AddressImage from "../AddressImage/AddressImage";
 
 const OfferDetails = ({ offerDetails }) => {
@@ -18,7 +17,7 @@ const OfferDetails = ({ offerDetails }) => {
             <p>
                 <strong>Firma:</strong>{" "}
                 <Link
-                    to={`/company/${branchOffer?.company?.companyId}`}
+                    to={`/company/${branchOffer?.company?.companyId}`}  className="hidden-link"
                     onClick={() => {
                         localStorage.setItem(
                             "companyDetails",
@@ -75,8 +74,8 @@ const OfferDetails = ({ offerDetails }) => {
             <p><strong>Data publikacji:</strong> {new Date(branchOffer?.branchOffer?.publishStart).toLocaleDateString()}</p>
             <p><strong>Data zakończenia:</strong> {new Date(branchOffer?.branchOffer?.publishEnd).toLocaleDateString()}</p>
             <p><strong>Okres zatrudnienia:</strong> {branchOffer?.branchOffer?.workDuration.years} lat, {branchOffer?.branchOffer?.workDuration?.months} miesięcy, {branchOffer.branchOffer?.workDuration?.days} dni</p>
-            <ApplyButton branchId={branchOffer?.branchOffer?.id} />
-        <h1>OfferDetails</h1>
+            {/* <p>branchOffer?.branchOffer?.id: {branchOffer?.branchOffer?.id}</p> */}
+        {/* <h1>OfferDetails</h1> */}
         </div>
     );
 };

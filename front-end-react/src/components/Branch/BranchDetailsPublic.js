@@ -12,7 +12,7 @@ const BranchDetailsPublic = ({ branchInfo, offers }) => (
                 {offers.map((offer) => (
                     <li key={offer.id}>
                         <h3>
-                            <Link to={`/offers/${offer.id}`}>
+                            <Link to={`/offers/${offer.id}`} className="hidden-link">
                                 {offer.name || 'Brak nazwy'}
                             </Link>
                         </h3>

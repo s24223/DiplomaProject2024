@@ -112,7 +112,7 @@ const CompanyDetailsPublic = () => {
                             <p>
                                 <strong>Oferty:</strong> {branch.branchOffersCount || 0}
                             </p>
-                            <Link to={`/public/branch/${branch.id}`}>Zobacz szczegóły oddziału</Link>
+                            <Link to={`/public/branch/${branch.id}`} className="hidden-link">Zobacz szczegóły oddziału</Link>
                         </li>
                     ))}
                 </ul>

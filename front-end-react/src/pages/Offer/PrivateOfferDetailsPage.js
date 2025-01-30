@@ -41,11 +41,13 @@ const PrivateOfferDetailsPage = () => {
             ) : (
                 <OfferDetails offerDetails={offerDetails} />
             )}
-            {isLoggedIn && (
-                <button onClick={() => setEditMode(!editMode)}>
-                    {editMode ? "Cancel Edit" : "Edit Mode"}
-                </button>
-            )}
+            <div className="edit-container" >
+                {isLoggedIn && (
+                    <button onClick={() => setEditMode(!editMode)} >
+                        {editMode ? "Cancel Edit" : "Edit Mode"}
+                    </button>
+                )}
+            </div>
         </div>
     );
 };

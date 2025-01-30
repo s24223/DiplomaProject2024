@@ -8,7 +8,20 @@ const ApplyButton = ({ branchId }) => {
     const navigate = useNavigate(); 
 
     // Otwórz lub zamknij modal
-    const toggleModal = () => setIsModalOpen(!isModalOpen);
+    const toggleModal = () => {
+        const authToken = localStorage.getItem("jwt");
+
+        if (!authToken) {
+            // Zapisanie bieżącej ścieżki do przekierowania po zalogowaniu
+            localStorage.setItem("redirectAfterLogin", window.location.pathname);
+            alert("Log in to apply.");
+            navigate("/login"); // Przekierowanie do logowania
+            return;
+        }
+        
+        setIsModalOpen(!isModalOpen);
+    
+    };
 
     const handleApply = async () => {
         console.log(file)

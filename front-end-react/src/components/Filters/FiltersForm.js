@@ -12,8 +12,8 @@ const FilterForm = ({ filters, onFilterChange }) => (
         /> */}
         <input
             type="text"
-            name="companyName"
-            placeholder="Company Name"
+            name="Company"
+            placeholder="Company"
             value={filters.companyName}
             onChange={onFilterChange}
         />
@@ -26,26 +26,26 @@ const FilterForm = ({ filters, onFilterChange }) => (
         /> */}
         <input
             type="text"
-            name="wojewodstwo"
-            placeholder="Voivodeship"
+            name="Wojewodstwo"
+            placeholder="Wojewodztwo"
             value={filters.wojewodstwo}
             onChange={onFilterChange}
         />
         <input
             type="text"
             name="Dzielnica"
-            placeholder="Division Name"
+            placeholder="Division"
             value={filters.divisionName}
             onChange={onFilterChange}
         />
         <input
             type="text"
             name="streetName"
-            placeholder="Street Name"
+            placeholder="Street"
             value={filters.streetName}
             onChange={onFilterChange}
         />
-        <p>publishFrom</p>
+        publishFrom
         <input
             type="date"
             name="publishFrom"
@@ -53,7 +53,7 @@ const FilterForm = ({ filters, onFilterChange }) => (
             value={filters.publishFrom}
             onChange={onFilterChange}
         />
-        <p>publishTo</p>
+        publishTo
         <input
             type="date"
             name="publishTo"

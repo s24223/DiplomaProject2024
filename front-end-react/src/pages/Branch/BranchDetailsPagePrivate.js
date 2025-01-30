@@ -49,8 +49,8 @@ const BranchDetailPagePrivate = () => {
         fetchOffers();
     }, []);
 
-    const handleChange = () => {
-        const fetchDummy = async () => {
+    const handleChange = async() => {
+        try {
             let response = await fetchBranchPut([{
                 "branchId": item.id,
                 "addressId": item.addressId,
@@ -64,14 +64,23 @@ const BranchDetailPagePrivate = () => {
                 item.name = name
                 item.description = description
                 item.urlSegment = urlSegment
-                setMessageStatus('Success')
-                await sleep(1000)
-                setMessageStatus('')
-            }
-        }
+                setMessageStatus({ type: "success", text: "Edit success" });
 
-        fetchDummy()
+            // Zamykamy tryb edycji po sukcesie
+            setEditMode(false)
+            }else {
+                throw new Error("Edit failed");
+            }
+        }catch (error) {
+            setMessageStatus({ type: "error", text: "Edit failed" });
+        }
+        setTimeout(() => {
+            setMessageStatus(null);
+        }, 2000);
+
     }
+    
+    
 
     return(
         <div className='centered'>
@@ -87,6 +96,15 @@ const BranchDetailPagePrivate = () => {
                 Description: {editMode? <input type='text' placeholder={item.description} onChange={e => setDescription(e.target.value)} value={description} /> : item.description? item.description : <>No description</>}<br />
                 Url Segment: {editMode? <input type='text' placeholder={item.urlSegment} onChange={e => setUrlsegmet(e.target.value)} value={urlSegment} /> : item.urlSegment? item.urlSegment : <>No url segment</>}<br />
                 {editMode && <button onClick={handleChange}>Change</button>}
+                {messageStatus && (
+                    <p style={{ 
+                        color: messageStatus.type === "success" ? "green" : "red",
+                        fontWeight: "bold",
+                        marginTop: "10px"
+                    }}>
+                        {messageStatus.text}
+                    </p>
+                )}
                 <br/>
                 
                 {/* <p>comapnyID: {item.companyId}</p>*/}
@@ -107,8 +125,8 @@ const BranchDetailPagePrivate = () => {
                     <ul>
                         {offers.map(({ offer }) => (
                             <li key={offer.id}>
-                                <p>{offer.name}</p>
-                                <Link to={`/offers/${offer.id}/edit`}
+                                <br/>
+                                    {offer.name} <Link to={`/offers/${offer.id}/edit`} className="hidden-link"
                                 state={{ offerDetails: offer }}
                                 >Edit</Link>
                             </li>
@@ -119,8 +137,9 @@ const BranchDetailPagePrivate = () => {
                     <p>No offers available.</p>
                 )}
 
-                <label style={{color:'green'}}>{messageStatus}</label><br />
                 
+                
+
                 <button onClick={() => setShowCreateOffer(true)}>Add Offer</button>
                 <CancelButton/>
                 {showCreateOffer && (

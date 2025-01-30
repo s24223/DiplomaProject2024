@@ -250,3 +250,19 @@ h2{
 .url{
     text-decoration: underline;
 }
+
+
+
+.apply-container, .edit-container {
+    margin-bottom: 20px; /* Dystans od szczegółów oferty */
+    margin-left: 480px;
+    /* text-align: center; */
+}
+
+.hidden-link {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: normal;
+    cursor: pointer;
+    border-bottom: none;
+}

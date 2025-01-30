@@ -89,7 +89,10 @@ const CompanyRecruitmentPage = () => {
                             <p>Message: {application.recruitment.personMessage || "No message provided"}</p>
                             <p>Offer: {application.offer.name}</p>
                             <p>Branch: {application.branch.name}</p>
-                            <p><a onClick={e => {
+                            <p>
+                            
+                            { application.recruitment.url&&
+                            <a onClick={e => {
                                 let fileName = application.recruitment.url
                                 fetch(`https://localhost:7166/api/User/cv/${fileName}`, {
                                     method: 'GET',
@@ -115,7 +118,7 @@ const CompanyRecruitmentPage = () => {
 
                                         link.parentNode.removeChild(link);
                                     });
-                            }} style={{textDecoration: "underline", color: "blue", cursor: "pointer"}}>DownloadCv</a></p>
+                            }} style={{textDecoration: "underline", color: "blue", cursor: "pointer"}}>DownloadCv</a>}</p>
                             <button
                                 onClick={() => handleResponse(application.recruitment.id, true)}
                             >

@@ -35,30 +35,40 @@ export const fetchBranchOffers = async (branchId, params = {}) => {
 
 
 
-
-
 export const fetchOffers = async (filters) => {
     const queryParams = new URLSearchParams();
 
+    // Dodajemy tylko niepuste wartości do query params
     for (const key in filters) {
         if (filters[key] !== '' && filters[key] !== null) {
             queryParams.append(key, filters[key]);
         }
     }
 
+    const headers = {
+        'Access-Control-Allow-Origin': '*',
+    };
+
+    // Sprawdzamy, czy użytkownik jest zalogowany i dodajemy token do nagłówka
+    const token = localStorage.getItem("jwt");
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    // Wysyłamy zapytanie do API
     const response = await fetch(
         `https://localhost:7166/api/BranchOffers?${queryParams.toString()}`,
         {
             method: 'GET',
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-            },
+            headers,
         }
     );
 
     if (!response.ok) throw new Error('Error fetching offers');
+
     return await response.json();
 };
+
 
 export const fetchOfferDetailsPrivate = async (offerId) => {
     try {

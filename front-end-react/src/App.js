@@ -48,12 +48,10 @@ function App() {
                 <Routes>
                     <Route path="/" element={<MainPage />} />
                     <Route path="/offers" element={<MainPage />} />
-                    {/* <Route path="/offers/:offerId" element={<OfferDetailsPage />} />
-                    */}
+                    
+
                     <Route path="/offers/:offerId" element={<OfferDetailsPage/>} />
                     <Route path="/offers/:offerId/edit" element={<PrivateOfferDetailsPage />} />
-
-
 
 
                     <Route path="/login" element={<LoginPage />} />
@@ -62,7 +60,6 @@ function App() {
                     <Route path="/userCreateProfile" element={<ProfileCreatePage />} />
                     
                     <Route path="/userEditProfile" element={<ProfileEditPage />} />
-                    {/* <Route path="/changePassword" element={<ChangePasswordPage />} /> */}
 
                     <Route path="/userCreateCompany" element={<CompanyCreatePage />} />
                     <Route path="/userEditCompany" element={<CompanyEditPage />} />
