@@ -1,4 +1,5 @@
-﻿using Application.Features.Users.Commands.Users.DTOs.Create;
+﻿using Application.Features.Users.Commands.Users.DTOs;
+using Application.Features.Users.Commands.Users.DTOs.Create;
 using Application.Features.Users.Commands.Users.DTOs.LoginIn;
 using Application.Features.Users.Commands.Users.DTOs.Refresh;
 using Application.Features.Users.Commands.Users.DTOs.ResetPassword;
@@ -253,6 +254,33 @@ namespace Application.Features.Users.Commands.Users.Services
             return new Response { };
         }
 
+
+        public async Task<Response> DeleteAsync(
+            IEnumerable<Claim> claims,
+            DeleteProfileReq req,
+            CancellationToken cancellation)
+        {
+            var userId = _authenticationRepository.GetIdNameFromClaims(claims);
+            var userData = await _repository.GetUserDataByIdAsync(userId, cancellation);
+
+            var hashedPassword = _authenticationRepository
+                .HashPassword(req.Password, userData.Salt);
+            if (hashedPassword != userData.Password)
+            {
+                throw new UserException
+                    (
+                    Messages.User_Cmd_Unautorized,
+                    DomainExceptionTypeEnum.Unauthorized
+                    );
+            }
+            try
+            {
+
+                await _repository.DeleteAsync(userId, cancellation);
+            }
+            catch (Exception ex) { Console.WriteLine(ex); }
+            return new Response { };
+        }
         //==========================================================================================================================================
         //Authentication Part
         public async Task<ResponseItem<LoginInResp>> LoginInAsync

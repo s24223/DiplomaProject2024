@@ -31,6 +31,8 @@ namespace Application.Features.Companies.Queries.PublicBranchOffer.Repositories
         private readonly ISqlClientRepo _sql;
         private readonly ICompanyMapper _companyMapper;
         private readonly DateTime _now;
+        private readonly string _trueDBCode = new DatabaseBool(true).Code;
+        private readonly string _falseDBCode = new DatabaseBool(false).Code;
 
 
         //Constructor
@@ -400,6 +402,7 @@ namespace Application.Features.Companies.Queries.PublicBranchOffer.Repositories
 
                 .Include(x => x.Branch)
                 .ThenInclude(x => x.Company)
+                .ThenInclude(x => x.User)
 
                 .Include(x => x.Branch)
                 .ThenInclude(x => x.Address)
@@ -410,6 +413,7 @@ namespace Application.Features.Companies.Queries.PublicBranchOffer.Repositories
                 .ThenInclude(x => x.Street)
 
                 .Where(x =>
+                    x.Branch.Company.User.IsHideProfile == _falseDBCode &&
                     x.PublishStart <= _now &&
                     (x.PublishEnd == null ||
                     x.PublishEnd != null && x.PublishEnd >= _now)
@@ -451,7 +455,9 @@ namespace Application.Features.Companies.Queries.PublicBranchOffer.Repositories
         {
             IQueryable<Branch> branchQuery = _context.Branches
                 .Include(x => x.Address)
-                .Include(x => x.Company);
+                .Include(x => x.Company)
+                .ThenInclude(x => x.User)
+                .Where(x => x.Company.User.IsHideProfile == _falseDBCode);
 
             if (branchId != null)
             {

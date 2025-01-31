@@ -36,6 +36,8 @@ namespace Application.Features.Companies.Queries.PublicCompany.Interfaces
         private readonly IUserMapper _userMapper;
         private readonly ISqlClientRepo _sqlClientRepo;
         private readonly ICharacteristicQueryRepository _characteristic;
+        private readonly string _trueDBCode = new DatabaseBool(true).Code;
+        private readonly string _falseDBCode = new DatabaseBool(false).Code;
 
 
         //Constructor
@@ -62,30 +64,6 @@ namespace Application.Features.Companies.Queries.PublicCompany.Interfaces
         //===============================================================================================
         //===============================================================================================
         //Public Methods
-        public void GetBranchOffersAsync(
-           CancellationToken cancellation,
-           IEnumerable<int> characteristics,
-           UserId? userId = null,
-           string? companyName = null,
-           Regon? regon = null,
-           string? wojewodstwo = null,
-           string? divisionName = null,
-           string? streetName = null,
-           string? searchText = null,
-           DateTime? publishFrom = null,
-           DateTime? publishTo = null,
-           DateTime? workFrom = null,
-           DateTime? workTo = null,
-           Money? minSalary = null,
-           Money? maxSalary = null,
-           bool? isForStudents = null,
-           bool? isNegotiatedSalary = null,
-           string orderBy = "publishStart",
-           bool ascending = true,
-           int maxItems = 100,
-           int page = 1)
-        { }
-
         public async Task<(IEnumerable<GetCompanyItemResp> Items, int TotalCount)> GetCompaniesAsync(
            CancellationToken cancellation,
            IEnumerable<int> characteristics,
@@ -167,72 +145,6 @@ namespace Application.Features.Companies.Queries.PublicCompany.Interfaces
             return (respTtems, totalCount);
         }
         //Company
-        public async Task GetCompanyAsync(
-            UserId? companyId,
-            UrlSegment? companyUrlSegment,
-            CancellationToken cancellation,
-            IEnumerable<int> characteristics,
-            UserId? userId = null,
-            string? wojewodstwo = null,
-            string? divisionName = null,
-            string? streetName = null,
-            string? searchText = null,
-            DateTime? publishFrom = null,
-            DateTime? publishTo = null,
-            DateTime? workFrom = null,
-            DateTime? workTo = null,
-            Money? minSalary = null,
-            Money? maxSalary = null,
-            bool? isForStudents = null,
-            bool? isNegotiatedSalary = null,
-            string orderBy = "publishStart",
-            bool ascending = true,
-            int maxItems = 100,
-            int page = 1)
-        { }
-        //Company/urls
-        /*
-                public async Task<(IEnumerable<UrlResp> Items, int TotalCount)> GetUrlsAsync(
-                    UserId? companyId,
-                    UrlSegment? companyUrlSegment,
-                    CancellationToken cancellation,
-                    string? searchText = null,
-                    string orderBy = "created", //typeId, name
-                    bool ascending = true,
-                    int maxItems = 100,
-                    int page = 1)
-                {
-                    var companyQuery = PrepareCompanyQuery(companyId, companyUrlSegment);
-                    var urlsQuery = _context.Urls
-                        .UrlOrderBy(orderBy, ascending)
-                        .UrlFilter(searchText)
-                        .AsQueryable();
-
-                    var resultQuery = await companyQuery
-                        .Select(c => new
-                        {
-                            Comapny = c,
-                            Totalcount = urlsQuery
-                                .Where(x => x.UserId == c.UserId)
-                                .Count(),
-                            Items = urlsQuery
-                                .Where(x => x.UserId == c.UserId)
-                                //.Pagination(maxItems, page)
-                                .Skip(maxItems * (page - 1))
-                                .Take(maxItems)
-                                .ToArray(),
-
-                        })
-                        .FirstOrDefaultAsync(cancellation) ?? throw new CompanyException(
-                            Messages.Company_Query_NotFound,
-                            DomainExceptionTypeEnum.NotFound);
-
-                    var returnItems = resultQuery.Items.Select(x => new UrlResp(
-                        _userMapper.DomainUrl(x)));
-
-                    return (returnItems, resultQuery.Totalcount);
-                }
-        */
 
         public async Task<(IEnumerable<UrlResp> Items, int TotalCount)> GetUrlsAsync(
             UserId companyId,
@@ -244,7 +156,8 @@ namespace Application.Features.Companies.Queries.PublicCompany.Interfaces
             int page = 1)
         {
             var companyQuery = _context.Companies
-                .Where(c => c.UserId == companyId.Value);
+                .Include(x => x.User)
+                .Where(c => c.UserId == companyId.Value && c.User.IsHideProfile == _falseDBCode);
             var urlsQuery = _context.Urls
                 .Where(url => url.UserId == companyId.Value)
                 .UrlOrderBy(orderBy, ascending)
@@ -288,7 +201,8 @@ namespace Application.Features.Companies.Queries.PublicCompany.Interfaces
            int page = 1)
         {
             var companyQuery = _context.Companies
-                .Where(c => c.UserId == companyId.Value);
+                .Include(x => x.User)
+                .Where(c => c.UserId == companyId.Value && c.User.IsHideProfile == _falseDBCode);
 
             var branchOfferQuery = PrepareBranchOfferQuery();
             var offerTotalQuery = _context.Offers
@@ -380,7 +294,8 @@ namespace Application.Features.Companies.Queries.PublicCompany.Interfaces
             }
 
             var companyQuery = _context.Companies
-                .Where(c => c.UserId == companyId.Value);
+                .Include(x => x.User)
+                .Where(c => c.UserId == companyId.Value && c.User.IsHideProfile == _falseDBCode);
             var branchesQuery = _context.Branches
                 .Include(x => x.Address)
                 .ThenInclude(x => x.Division)
@@ -481,6 +396,8 @@ namespace Application.Features.Companies.Queries.PublicCompany.Interfaces
                 .ThenInclude(x => x.BranchOffers)
                 .ThenInclude(x => x.Offer)
                 .ThenInclude(x => x.OfferCharacteristics)
+                .Include(x => x.User)
+                .Where(x => x.User.IsHideProfile == _falseDBCode)
                 .AsQueryable();
         }
 
@@ -514,9 +431,11 @@ namespace Application.Features.Companies.Queries.PublicCompany.Interfaces
             return _context.BranchOffers
                 .Include(x => x.Branch)
                 .ThenInclude(x => x.Company)
+                .ThenInclude(x => x.User)
                 .Include(x => x.Offer)
                 .ThenInclude(x => x.OfferCharacteristics)
                 .Where(x =>
+                    x.Branch.Company.User.IsHideProfile == _falseDBCode &&
                     x.PublishStart <= _now &&
                     (x.PublishEnd == null || (x.PublishEnd != null && x.PublishEnd >= _now)));
         }

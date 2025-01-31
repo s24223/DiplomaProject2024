@@ -32,6 +32,10 @@ namespace Application.Features.Users.Commands.Users.Interfaces
             CancellationToken cancellation
             );
 
+        Task DeleteAsync(
+            UserId id,
+            CancellationToken cancellation);
+
         //==========================================================================================================================================
         //DQL
         Task<(

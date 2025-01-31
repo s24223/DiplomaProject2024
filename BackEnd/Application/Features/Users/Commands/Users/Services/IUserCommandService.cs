@@ -1,4 +1,5 @@
-﻿using Application.Features.Users.Commands.Users.DTOs.Create;
+﻿using Application.Features.Users.Commands.Users.DTOs;
+using Application.Features.Users.Commands.Users.DTOs.Create;
 using Application.Features.Users.Commands.Users.DTOs.LoginIn;
 using Application.Features.Users.Commands.Users.DTOs.Refresh;
 using Application.Features.Users.Commands.Users.DTOs.ResetPassword;
@@ -33,6 +34,11 @@ namespace Application.Features.Users.Commands.Users.Services
             UpdatePasswordReq dto,
             CancellationToken cancellation
             );
+
+        Task<Response> DeleteAsync(
+            IEnumerable<Claim> claims,
+            DeleteProfileReq req,
+            CancellationToken cancellation);
 
         //==========================================================================================================================================
         //Authentication Part

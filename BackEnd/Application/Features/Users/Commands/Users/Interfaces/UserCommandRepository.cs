@@ -5,6 +5,7 @@ using Application.Features.Users.Mappers;
 using Domain.Features.User.Entities;
 using Domain.Features.User.Exceptions.Entities;
 using Domain.Features.User.ValueObjects.Identificators;
+using Domain.Shared.Providers;
 using Domain.Shared.Templates.Exceptions;
 using Domain.Shared.ValueObjects;
 using Microsoft.Data.SqlClient;
@@ -19,6 +20,7 @@ namespace Application.Features.Users.Commands.Users.Interfaces
         private readonly ICompanyMapper _companyMapper;
         private readonly IPersonMapper _personMapper;
         private readonly DiplomaProjectContext _context;
+        private readonly IProvider _provider;
 
         private static readonly string _dbTrue = new DatabaseBool(true).Code;
         private static readonly string _dbFalse = new DatabaseBool(false).Code;
@@ -28,13 +30,15 @@ namespace Application.Features.Users.Commands.Users.Interfaces
             IUserMapper mapper,
             ICompanyMapper companyMapper,
             IPersonMapper personMapper,
-            DiplomaProjectContext context
+            DiplomaProjectContext context,
+            IProvider provider
             )
         {
             _mapper = mapper;
             _companyMapper = companyMapper;
             _personMapper = personMapper;
             _context = context;
+            _provider = provider;
         }
 
 
@@ -65,7 +69,7 @@ namespace Application.Features.Users.Commands.Users.Interfaces
                 await _context.SaveChangesAsync(cancellation);
                 return databaseUser.Id;
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 throw HandleException(ex);
             }
@@ -110,7 +114,7 @@ namespace Application.Features.Users.Commands.Users.Interfaces
 
                 await _context.SaveChangesAsync(cancellation);
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 throw HandleException(ex);
             }
@@ -200,6 +204,73 @@ namespace Application.Features.Users.Commands.Users.Interfaces
                 databaseUser.Person != null,
                 databaseUser.Company != null
                 );
+        }
+
+        public async Task DeleteAsync(
+            UserId id,
+            CancellationToken cancellation)
+        {
+            var user = await _context.Users
+                .Include(x => x.Urls)
+                .Include(x => x.Notifications)
+                .Include(x => x.Person)
+                .ThenInclude(x => x.PersonCharacteristics)
+                .Include(x => x.Person)
+                .ThenInclude(x => x.Recruitments)
+                .ThenInclude(x => x.Internship)
+                .ThenInclude(x => x.Comments)
+                .Include(x => x.Company)
+                .ThenInclude(x => x.Branches)
+                .ThenInclude(x => x.BranchOffers)
+                .ThenInclude(x => x.Recruitments)
+                .ThenInclude(x => x.Internship)
+                .ThenInclude(x => x.Comments)
+                .Where(x => x.Id == id.Value)
+                .FirstAsync(cancellation);
+
+
+            if (user.Person != null)
+            {
+
+                foreach (var personRecruitment in user.Person.Recruitments)
+                {
+                    if (personRecruitment.Internship != null)
+                    {
+                        _context.Comments.RemoveRange(personRecruitment.Internship.Comments);
+                        _context.Internships.Remove(personRecruitment.Internship);
+                    }
+                }
+                _context.Recruitments.RemoveRange(user.Person.Recruitments);
+                _context.PersonCharacteristics.RemoveRange(user.Person.PersonCharacteristics);
+                _context.People.Remove(user.Person);
+            }
+
+            if (user.Company != null)
+            {
+                foreach (var branch in user.Company.Branches)
+                {
+                    foreach (var branchOffer in branch.BranchOffers)
+                    {
+                        foreach (var recruitment in branchOffer.Recruitments)
+                        {
+                            if (recruitment.Internship != null)
+                            {
+                                _context.Comments.RemoveRange(recruitment.Internship.Comments);
+                                _context.Internships.Remove(recruitment.Internship);
+                            }
+                        }
+                        _context.Recruitments.RemoveRange(branchOffer.Recruitments);
+                    }
+                    _context.BranchOffers.RemoveRange(branch.BranchOffers);
+                }
+                _context.Branches.RemoveRange(user.Company.Branches);
+                _context.Companies.Remove(user.Company);
+            }
+
+            _context.Urls.RemoveRange(user.Urls);
+            _context.Notifications.RemoveRange(user.Notifications);
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
         }
 
         //==========================================================================================================================================

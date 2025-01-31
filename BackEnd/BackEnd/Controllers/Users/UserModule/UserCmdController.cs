@@ -1,4 +1,5 @@
-﻿using Application.Features.Users.Commands.Users.DTOs.Create;
+﻿using Application.Features.Users.Commands.Users.DTOs;
+using Application.Features.Users.Commands.Users.DTOs.Create;
 using Application.Features.Users.Commands.Users.DTOs.LoginIn;
 using Application.Features.Users.Commands.Users.DTOs.Refresh;
 using Application.Features.Users.Commands.Users.DTOs.ResetPassword;
@@ -30,6 +31,17 @@ namespace BackEnd.Controllers.Users.UserModule
         //================================================================================================================
         //================================================================================================================
         //Public Methods
+        [Authorize]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAsync(
+            DeleteProfileReq req,
+            CancellationToken cancellation)
+        {
+            var claims = User.Claims.ToList();
+            var result = await _userService.DeleteAsync(claims, req, cancellation);
+            return Ok(result);
+        }
+
         [AllowAnonymous]
         [HttpPost()]
         public async Task<IActionResult> CreateUserProfileAsync
