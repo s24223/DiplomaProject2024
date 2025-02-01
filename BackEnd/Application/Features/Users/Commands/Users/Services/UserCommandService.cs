@@ -273,12 +273,7 @@ namespace Application.Features.Users.Commands.Users.Services
                     DomainExceptionTypeEnum.Unauthorized
                     );
             }
-            try
-            {
-
-                await _repository.DeleteAsync(userId, cancellation);
-            }
-            catch (Exception ex) { Console.WriteLine(ex); }
+            await _repository.DeleteAsync(userId, cancellation);
             return new Response { };
         }
         //==========================================================================================================================================

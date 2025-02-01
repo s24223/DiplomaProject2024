@@ -11,7 +11,7 @@ namespace Domain.Features.Comment.ValueObjects.Identificators
         public int CommentTypeId { get; private set; }
         public DateTime Created { get; private set; }
 
-        //Cosntructor
+        //Constructor
         public CommentId
             (
             RecrutmentId intershipId,

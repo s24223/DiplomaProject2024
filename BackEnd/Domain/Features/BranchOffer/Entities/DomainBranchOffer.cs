@@ -1,6 +1,5 @@
 ﻿using Domain.Features.Branch.Entities;
 using Domain.Features.Branch.ValueObjects.Identificators;
-using Domain.Features.BranchOffer.Exceptions.Entities;
 using Domain.Features.BranchOffer.ValueObjects.Identificators;
 using Domain.Features.Offer.Entities;
 using Domain.Features.Offer.ValueObjects.Identificators;
@@ -113,82 +112,82 @@ namespace Domain.Features.BranchOffer.Entities
             LastUpdate = _provider.TimeProvider().GetDateTimeNow();
         }
 
-
-        public static
-            (
-            IEnumerable<(DomainBranchOffer Core, DomainBranchOffer Duplicate)> Duplicates,
-            IEnumerable<DomainBranchOffer> Correct
-            )
-            ReturnDuplicatesAndCorrectValues(IEnumerable<DomainBranchOffer> branchOffers)
-        {
-            if (branchOffers.Count() < 2)
-            {
-                return ([], branchOffers);
-            }
-
-            var groups = branchOffers.GroupBy(x => new { x.BranchId, x.OfferId });
-            var correctEndList = new List<DomainBranchOffer>();
-            var duplicatesEndList = new List<(DomainBranchOffer Core, DomainBranchOffer Duplicate)>();
-
-            if (groups.Count() == branchOffers.Count())
-            {
-                return (duplicatesEndList, branchOffers);
-            }
-
-            foreach (var group in groups)
-            {
-                var groupList = group.ToList();
-                var correct = new List<DomainBranchOffer>();
-                var duplicates = new List<(DomainBranchOffer Core, DomainBranchOffer Duplicate)>();
-
-                //Wyszukaj najwczesniejszy nielimitowany PublishEnd
-                var minUnlimited = groupList.Where(x => !x.PublishEnd.HasValue).OrderBy(x => x.PublishStart).FirstOrDefault();
-                if (minUnlimited != null)
+        /*
+                public static
+                    (
+                    IEnumerable<(DomainBranchOffer Core, DomainBranchOffer Duplicate)> Duplicates,
+                    IEnumerable<DomainBranchOffer> Correct
+                    )
+                    ReturnDuplicatesAndCorrectValues(IEnumerable<DomainBranchOffer> branchOffers)
                 {
-                    correct.Add(minUnlimited);
-                    groupList.Remove(minUnlimited);
-
-                    var removeRange = groupList.Where(x => x.PublishStart >= minUnlimited.PublishStart).ToList();
-                    foreach (var remove in removeRange)
+                    if (branchOffers.Count() < 2)
                     {
-                        duplicates.Add((minUnlimited, remove));
+                        return ([], branchOffers);
                     }
-                    groupList.RemoveAll(x => removeRange.Contains(x));
-                }
 
-                //Jesli lista niepiusta
-                if (groupList.Any())
-                {
-                    //Działaj z tymi które maja watosci PublishEnd
-                    groupList = groupList
-                        .Where(x => x.PublishEnd.HasValue)
-                        .OrderBy(x => x.PublishEnd)
-                        .ToList();
+                    var groups = branchOffers.GroupBy(x => new { x.BranchId, x.OfferId });
+                    var correctEndList = new List<DomainBranchOffer>();
+                    var duplicatesEndList = new List<(DomainBranchOffer Core, DomainBranchOffer Duplicate)>();
 
-                    do
+                    if (groups.Count() == branchOffers.Count())
                     {
-                        var last = groupList.Last();
-                        groupList.Remove(last);
-                        correct.Add(last);
+                        return (duplicatesEndList, branchOffers);
+                    }
 
-                        var listAfter = groupList
-                            .Where(x => x.PublishEnd >= last.PublishStart || x.PublishStart >= last.PublishStart)
-                            .ToList();
+                    foreach (var group in groups)
+                    {
+                        var groupList = group.ToList();
+                        var correct = new List<DomainBranchOffer>();
+                        var duplicates = new List<(DomainBranchOffer Core, DomainBranchOffer Duplicate)>();
 
-                        foreach (var removeItem in listAfter)
+                        //Wyszukaj najwczesniejszy nielimitowany PublishEnd
+                        var minUnlimited = groupList.Where(x => !x.PublishEnd.HasValue).OrderBy(x => x.PublishStart).FirstOrDefault();
+                        if (minUnlimited != null)
                         {
-                            duplicates.Add((last, removeItem));
+                            correct.Add(minUnlimited);
+                            groupList.Remove(minUnlimited);
+
+                            var removeRange = groupList.Where(x => x.PublishStart >= minUnlimited.PublishStart).ToList();
+                            foreach (var remove in removeRange)
+                            {
+                                duplicates.Add((minUnlimited, remove));
+                            }
+                            groupList.RemoveAll(x => removeRange.Contains(x));
                         }
-                        groupList.RemoveAll(x => listAfter.Contains(x));
 
-                    } while (groupList.Any());
-                    correctEndList.AddRange(correct);
-                    duplicatesEndList.AddRange(duplicates);
+                        //Jesli lista niepiusta
+                        if (groupList.Any())
+                        {
+                            //Działaj z tymi które maja watosci PublishEnd
+                            groupList = groupList
+                                .Where(x => x.PublishEnd.HasValue)
+                                .OrderBy(x => x.PublishEnd)
+                                .ToList();
+
+                            do
+                            {
+                                var last = groupList.Last();
+                                groupList.Remove(last);
+                                correct.Add(last);
+
+                                var listAfter = groupList
+                                    .Where(x => x.PublishEnd >= last.PublishStart || x.PublishStart >= last.PublishStart)
+                                    .ToList();
+
+                                foreach (var removeItem in listAfter)
+                                {
+                                    duplicates.Add((last, removeItem));
+                                }
+                                groupList.RemoveAll(x => listAfter.Contains(x));
+
+                            } while (groupList.Any());
+                            correctEndList.AddRange(correct);
+                            duplicatesEndList = duplicates;
+                        }
+                    }
+                    return (duplicatesEndList, correctEndList);
                 }
-            }
-            return (duplicatesEndList, correctEndList);
-        }
-
+        */
 
         public static
             (
@@ -211,7 +210,7 @@ namespace Domain.Features.BranchOffer.Entities
             var listWithDuration = new List<DomainBranchOffer>();
             foreach (var item in values)
             {
-                if (item.PublishEnd.HasValue && item.PublishStart == item.PublishEnd)
+                if (item.PublishEnd.HasValue && item.PublishStart == item.PublishEnd.Value)
                 {
                     valuesWithoutDuration.Add(item);
                 }
@@ -348,35 +347,35 @@ namespace Domain.Features.BranchOffer.Entities
             //ThrowExceptionIfIsNotValid();
         }
 
-
-        private void ThrowExceptionIfIsNotValid()
-        {
-            if (
-                PublishEnd is not null &&
-                PublishEnd < PublishStart
-                )
-            {
-                //Context: Data konca publikacji nie może byc mniejsza a niz data obecna
-                throw new BranchOfferException(Messages.BranchOffer_PublishEnd_Invalid);
-            }
-            if (
-                PublishEnd is not null &&
-                WorkStart is not null &&
-                _provider.TimeProvider().ToDateTime(WorkStart.Value) < PublishEnd
-                )
-            {
-                //Context: Data Początku pracy powinna być najwczesniij kolejnego dnia po ukonczeniu rekrutacji
-                throw new BranchOfferException(Messages.BranchOffer_WorkStart_Invalid);
-            }
-            if (
-                WorkStart is not null &&
-                WorkEnd is not null &&
-                WorkEnd < WorkStart
-                )
-            {
-                //Context: Data pocztku pracy nie może byc wieksza od konca
-                throw new BranchOfferException(Messages.BranchOffer_WorkEnd_Invalid);
-            }
-        }
+        /*
+                private void ThrowExceptionIfIsNotValid()
+                {
+                    if (
+                        PublishEnd is not null &&
+                        PublishEnd < PublishStart
+                        )
+                    {
+                        //Context: Data konca publikacji nie może byc mniejsza a niz data obecna
+                        throw new BranchOfferException(Messages.BranchOffer_PublishEnd_Invalid);
+                    }
+                    if (
+                        PublishEnd is not null &&
+                        WorkStart is not null &&
+                        _provider.TimeProvider().ToDateTime(WorkStart.Value) < PublishEnd
+                        )
+                    {
+                        //Context: Data Początku pracy powinna być najwczesniij kolejnego dnia po ukonczeniu rekrutacji
+                        throw new BranchOfferException(Messages.BranchOffer_WorkStart_Invalid);
+                    }
+                    if (
+                        WorkStart is not null &&
+                        WorkEnd is not null &&
+                        WorkEnd < WorkStart
+                        )
+                    {
+                        //Context: Data pocztku pracy nie może byc wieksza od konca
+                        throw new BranchOfferException(Messages.BranchOffer_WorkEnd_Invalid);
+                    }
+                }*/
     }
 }

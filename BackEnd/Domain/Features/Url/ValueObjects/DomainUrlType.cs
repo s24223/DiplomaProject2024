@@ -8,7 +8,7 @@
         public string Description { get; private set; } = null!;
 
 
-        //Cosntructor
+        //Constructor
         public DomainUrlType(int id, string name, string description)
         {
             Id = id;

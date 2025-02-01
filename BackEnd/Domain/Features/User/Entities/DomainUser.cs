@@ -96,7 +96,7 @@ namespace Domain.Features.User.Entities
         //==================================================================================================
         //==================================================================================================
         //==================================================================================================
-        //Pivate Methods
+        //Private Methods
         private void AddNotification(DomainNotification notification)
         {
             if (notification.UserId == Id && !_notifications.ContainsKey(notification.Id))

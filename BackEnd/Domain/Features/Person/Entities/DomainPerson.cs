@@ -4,7 +4,6 @@ using Domain.Features.Address.ValueObjects.Identificators;
 using Domain.Features.Characteristic.Entities;
 using Domain.Features.Characteristic.Repositories;
 using Domain.Features.Characteristic.ValueObjects.Identificators;
-using Domain.Features.Person.Exceptions.Entities;
 using Domain.Features.Person.ValueObjects;
 using Domain.Features.Recruitment.Entities;
 using Domain.Features.Recruitment.ValueObjects.Identificators;
@@ -223,16 +222,16 @@ namespace Domain.Features.Person.Entities
             }
         }
 
-
-        private void ThrowExceptionIfIsNotValid()
-        {
-            if (
-                BirthDate is not null &&
-                BirthDate > _provider.TimeProvider().GetDateOnlyToday()
-                )
-            {
-                throw new PersonException(Messages.Person_BirthDate_InFuture);
-            }
-        }
+        /*
+                private void ThrowExceptionIfIsNotValid()
+                {
+                    if (
+                        BirthDate is not null &&
+                        BirthDate > _provider.TimeProvider().GetDateOnlyToday()
+                        )
+                    {
+                        throw new PersonException(Messages.Person_BirthDate_InFuture);
+                    }
+                }*/
     }
 }

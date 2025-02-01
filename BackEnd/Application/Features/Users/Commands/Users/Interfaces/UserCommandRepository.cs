@@ -1,4 +1,5 @@
 ﻿using Application.Databases.Relational;
+using Application.Databases.Relational.Models;
 using Application.Features.Companies.Mappers;
 using Application.Features.Persons.Mappers;
 using Application.Features.Users.Mappers;
@@ -225,6 +226,11 @@ namespace Application.Features.Users.Commands.Users.Interfaces
                 .ThenInclude(x => x.Recruitments)
                 .ThenInclude(x => x.Internship)
                 .ThenInclude(x => x.Comments)
+                .Include(x => x.Company)
+                .ThenInclude(x => x.Branches)
+                .ThenInclude(x => x.BranchOffers)
+                .ThenInclude(x => x.Offer)
+                .ThenInclude(x => x.OfferCharacteristics)
                 .Where(x => x.Id == id.Value)
                 .FirstAsync(cancellation);
 
@@ -244,7 +250,7 @@ namespace Application.Features.Users.Commands.Users.Interfaces
                 _context.PersonCharacteristics.RemoveRange(user.Person.PersonCharacteristics);
                 _context.People.Remove(user.Person);
             }
-
+            var offers = new List<Offer>();
             if (user.Company != null)
             {
                 foreach (var branch in user.Company.Branches)
@@ -260,6 +266,8 @@ namespace Application.Features.Users.Commands.Users.Interfaces
                             }
                         }
                         _context.Recruitments.RemoveRange(branchOffer.Recruitments);
+                        _context.OfferCharacteristics.RemoveRange(branchOffer.Offer.OfferCharacteristics);
+                        offers.Add(branchOffer.Offer);
                     }
                     _context.BranchOffers.RemoveRange(branch.BranchOffers);
                 }
@@ -267,6 +275,8 @@ namespace Application.Features.Users.Commands.Users.Interfaces
                 _context.Companies.Remove(user.Company);
             }
 
+
+            _context.Offers.RemoveRange(offers);
             _context.Urls.RemoveRange(user.Urls);
             _context.Notifications.RemoveRange(user.Notifications);
             _context.Users.Remove(user);

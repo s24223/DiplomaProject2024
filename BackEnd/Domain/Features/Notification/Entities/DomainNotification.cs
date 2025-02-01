@@ -124,7 +124,7 @@ namespace Domain.Features.Notification.Entities
                     Messages.Notification_IsExistAnswer_False
                     );
             }
-            if (!IsReadedAnswerByUser.Value)
+            if (IsReadedAnswerByUser.Value)
             {
                 throw new NotificationException
                     (

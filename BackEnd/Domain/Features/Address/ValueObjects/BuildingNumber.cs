@@ -9,7 +9,7 @@ namespace Domain.Features.Address.ValueObjects
         public string Value { get; private set; }
 
 
-        //Cosntructor
+        //Constructor
         public BuildingNumber(string value)
         {
             value = value.Trim();
@@ -42,7 +42,7 @@ namespace Domain.Features.Address.ValueObjects
         //Private Methods
         private bool IsValidBuildingNumber(string value)
         {
-            return Regex.IsMatch(value, @"^[1-9][0-9]*[a-zA-Z]?[/]?[1-9]?[0-9]*$");
+            return Regex.IsMatch(value, @"^[1-9][0-9]*[a-zA-Z]?(/([1-9][0-9]*))?$");
         }
     }
 }

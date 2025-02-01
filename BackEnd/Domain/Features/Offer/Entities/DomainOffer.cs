@@ -125,7 +125,7 @@ namespace Domain.Features.Offer.Entities
             //Pochodne
             IsPaid = MinSalary is not null && MinSalary.Value > 0;
 
-            //ThrowExceptionIfNotValid();
+            ThrowExceptionIfNotValid();
         }
 
 
