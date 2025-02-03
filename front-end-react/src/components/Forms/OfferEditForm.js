@@ -185,12 +185,12 @@ const OfferEditForm = ({ offerDetails, onCancelEdit }) => {
                         <input
                             type="text"
                             list={`characteristics-${index}`}
-                            value={selectedCharacteristic
-                                ? selectedCharacteristic.characteristic.name
-                                : char.characteristicId || ""}
-                            placeholder="Characteristic"
-                            onChange={(e) =>
-                                handleCharacteristicChange(index, "characteristicId", e.target.value)
+                            value={selectedCharacteristic?.characteristic?.name ||
+                                allCharacteristics.find(item => item.characteristic.id === char.characteristicId)?.characteristic.name || ""
+                        }
+                        placeholder="Characteristic"
+                        onChange={(e) =>
+                            handleCharacteristicChange(index, "characteristicId", e.target.value)
                             }
                         />
                         <datalist id={`characteristics-${index}`}>
