@@ -12,6 +12,9 @@ const UrlList = () => {
     const loadUrlList = async () => {
         try {
             const urls = await fetchUrls();
+            if(urls.error){
+                throw new Error(urls.error)
+            }
             setUrlList(urls);
         } catch (err) {
             console.error("Error fetching URLs:", err);

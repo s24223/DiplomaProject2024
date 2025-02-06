@@ -49,6 +49,9 @@ const AddressAutocomplete = ({ childToParent }) => {
 
         const fetchDummy = async () => {
             const res = await fetchAddressPost(body)
+            if(res.error){
+                throw new Error(res.error)
+            }
             childToParent(res.item.addressId)
         }
 
@@ -67,7 +70,7 @@ const AddressAutocomplete = ({ childToParent }) => {
             </GeoapifyContext>
             <input type="text" placeholder="House Number" onChange={(e) => setHouseNumber(e.target.value)} /><br />
             <input type="text" placeholder="Apartment Number" onChange={(e) => setApratmentNumber(e.target.value)} /><br />
-            {mapTile && <><img width="600" height="400" src={mapTile} /><br /></>}
+            {mapTile && <><img alt="" width="600" height="400" src={mapTile} /><br /></>}
             <button onClick={e => confirmAddress(e)}>Confirm address</button>
         </div>
     )

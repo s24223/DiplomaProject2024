@@ -1,15 +1,21 @@
+import axios from "axios";
+
 export const fetchRegistration = async (body) => {
-    let responseData;
-    await fetch('https://localhost:7166/api/User',{
-        method: 'POST',
+    return await axios.post('https://localhost:7166/api/User', body, {
         headers:{
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'
         },
-        body: JSON.stringify(body)
-    }).then((res) => {
-        if (!res.ok) throw new Error(res.body)
-            else return res.json()
-    }).then(data => responseData = data)
-    return responseData
+    }).then(res => res.data).catch(error => {
+        switch(error.response.status){
+            case 500:
+                const idAppProblem = error.response.data.ProblemId
+                window.location.href = `/notification/create/${idAppProblem}`
+                break;
+            case 400:
+                return { error: "There is already an account with this e-mail"}
+            default:
+                return { error: error.response.data.Message}
+        }
+    })
 }

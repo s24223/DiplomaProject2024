@@ -2,38 +2,62 @@ import axios from "axios";
 
 
 export const updateUrl = async (urlData) => {
-    const response = await axios.put(`https://localhost:7166/api/User/urls/urls`, [urlData], {
+    return await axios.put(`https://localhost:7166/api/User/urls/urls`, [urlData], {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`,
         },
+    }).then(res => res.data).catch(error => {
+        switch (error.response.status) {
+            case 500:
+                const idAppProblem = error.response.data.ProblemId
+                window.location.href = `/notification/create/${idAppProblem}`
+                break;
+            default:
+                return { error: error.response.data.Message }
+        }
     });
-    return response.data;
 };
 
 export const deleteUrl = async (urlItem) => {
-    const response = await axios.delete(`https://localhost:7166/api/User/urls/urls`, {
+    return await axios.delete(`https://localhost:7166/api/User/urls/urls`, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`,
         },
         data: [{ urlTypeId: urlItem.urlTypeId, created: urlItem.created }],
+    }).then(res => res.data).catch(error => {
+        switch (error.response.status) {
+            case 500:
+                const idAppProblem = error.response.data.ProblemId
+                window.location.href = `/notification/create/${idAppProblem}`
+                break;
+            default:
+                return { error: error.response.data.Message }
+        }
     });
-    return response.data;
 };
 
 
 // Pobierz typy URL-i
 export const fetchUrlTypes = async () => {
-    const response = await axios.get("https://localhost:7166/api/Dictionaries/user/urls/types", {
+    return await axios.get("https://localhost:7166/api/Dictionaries/user/urls/types", {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`,
         },
+    }).then(res => Object.values(res.data)).catch(error => { // Zamień obiekt na tablicę
+        switch (error.response.status) {
+            case 500:
+                const idAppProblem = error.response.data.ProblemId
+                window.location.href = `/notification/create/${idAppProblem}`
+                break;
+            default:
+                return { error: error.response.data.Message }
+        }
     });
-    return Object.values(response.data); // Zamień obiekt na tablicę
 };
 
 // Dodaj nowy URL
 export const addUrl = async (urlData) => {
-    const response = await axios.post(
+    return await axios.post(
         "https://localhost:7166/api/User/urls/urls",
         [urlData],
         {
@@ -41,27 +65,34 @@ export const addUrl = async (urlData) => {
                 Authorization: `Bearer ${localStorage.getItem("jwt")}`,
             },
         }
-    );
-
-    if (response.status !== 201) {
-        throw new Error("Failed to add URL.");
-    }
-
-    return response.data;
+    ).then(res => res.data).catch(error => {
+        switch (error.response.status) {
+            case 500:
+                const idAppProblem = error.response.data.ProblemId
+                window.location.href = `/notification/create/${idAppProblem}`
+                break;
+            default:
+                return { error: error.response.data.Message }
+        }
+    });
 };
+
 export const fetchUrls = async () => {
-    const response = await axios.get(
+    return await axios.get(
         "https://localhost:7166/api/User/urls?orderBy=created&ascending=true&itemsCount=100&page=1",
         {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("jwt")}`,
             },
         }
-    );
-
-    if (response.status !== 200) {
-        throw new Error("Failed to fetch URLs.");
-    }
-
-    return response.data.item.urls;
+    ).then(res => res.data.item.urls).catch(error => {
+        switch (error.response.status) {
+            case 500:
+                const idAppProblem = error.response.data.ProblemId
+                window.location.href = `/notification/create/${idAppProblem}`
+                break;
+            default:
+                return { error: error.response.data.Message }
+        }
+    });
 };

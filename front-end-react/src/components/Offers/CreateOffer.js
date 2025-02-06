@@ -27,7 +27,6 @@ const CreateOffer = ({ branchId, onClose }) => {
     }, []);
 
     const validateDates = () => {
-        const now = new Date();
         const publishStartDate = new Date(publishStart);
         const publishEndDate = new Date(publishEnd);
         const workStartDate = new Date(`${workStart.year}-${workStart.month}-${workStart.day}`);
@@ -79,6 +78,9 @@ const CreateOffer = ({ branchId, onClose }) => {
             const loadCharacteristics = async() =>{
                 try{
                     const characteristic = await fetchCharacteristics();
+                    if(characteristic.error){
+                        throw new Error(characteristic.error)
+                    }
                     setAllCharacteristics(characteristic)
                     setLoading(false);
                 } catch (error) {
@@ -113,10 +115,10 @@ const CreateOffer = ({ branchId, onClose }) => {
         e.preventDefault();
 
         if(!minSalary){
-            minSalary=0;
+            setMinSalary(0);
         }
         if(!maxSalary){
-            maxSalary=0;
+            setMaxSalary(0);
         }
         if (!name ||  !publishStart || !publishEnd) {//!minSalary || !maxSalary ||
             alert("All fields are required.");
@@ -159,6 +161,10 @@ const CreateOffer = ({ branchId, onClose }) => {
             // Tworzenie oferty
             const createdOffer=await createOffer(offerData);
 
+            if(createdOffer.error){
+                throw new Error(createdOffer.error)
+            }
+
                 // Przypisanie oferty do oddziału
                 const publishData = [
                     {
@@ -171,7 +177,10 @@ const CreateOffer = ({ branchId, onClose }) => {
                     },
                 ];
 
-                await assignOfferToBranch(publishData);
+                let res = await assignOfferToBranch(publishData);
+                if(res.error){
+                    throw new Error(res.error)
+                }
 
                 setMessage("Offer created and added to branch successfully!");
                 setTimeout(() => {

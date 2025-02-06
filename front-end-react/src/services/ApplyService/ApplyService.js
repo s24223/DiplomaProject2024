@@ -1,16 +1,22 @@
-export const fetchLogin = async ({branchId}) => {
-    let responseData = ''
-    await fetch(`https://localhost:7166/api/Internship/recruitment?branchOfferId=${branchId}`,{
-        method: 'POST',
+import axios from "axios"
+
+export const fetchApply = async ({ url, formData }) => {
+    return await axios.post(url, formData, {
         headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
+            'Authorization': `Bearer ${localStorage.getItem("jwt")}`,
+            'Access-Control-Allow-Origin': '*',
         },
-        body: JSON.stringify(body)
-    }).then((res) => {
-        if (!res.ok) throw new Error(res.status)
-            else return res.json();
+    }).then(res => {
+        alert("Application successful!")
+        return res.data
+    }).catch(error => {
+        switch (error.response.status) {
+            case 500:
+                const idAppProblem = error.response.data.ProblemId
+                window.location.href = `/notification/create/${idAppProblem}`
+                break;
+            default:
+                return { error: error.response.data.Message }
+        }
     })
-    .then(data => responseData = data)
-    return responseData
 }

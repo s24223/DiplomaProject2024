@@ -5,7 +5,7 @@ import { fetchProfilePost } from "../../services/ProfileService/ProfileService";
 import AddressAutocomplete from "../AddressAutoComplete/AddressAutoComplete";
 
 const CreateProfile = () => {
-    const [urlSegmet, setUrlsegmet] = useState("string")
+    // const [urlSegmet, setUrlsegmet] = useState("string")
     const [contactEmail, setContactEmail] = useState()
     const [name, setName] = useState()
     const [surname, setSurname] = useState()
@@ -37,6 +37,9 @@ const CreateProfile = () => {
         const loadCharacteristics = async() =>{
             try{
                 const characteristic = await fetchCharacteristics();
+                if(characteristic.error){
+                    throw new Error(characteristic.error)
+                }
                 setAllCharacteristics(characteristic)
                 setLoading(false);
             } catch (error) {
@@ -113,7 +116,7 @@ const CreateProfile = () => {
 
 
         let body = {
-            urlSegmet,
+            urlSegmet: "string",
             contactEmail,
             name,
             surname,

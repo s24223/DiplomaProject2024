@@ -25,9 +25,10 @@ const CreateBranchPage = () => {
                 "name": name,
                 "description": description
             }]);
-            if(response.ok){
-                window.location.href = "/userProfile"
+            if(response.error){
+                throw new Error(response.error)
             }
+            window.location.href = "/userProfile"
         }
         fetchDummy()
     }

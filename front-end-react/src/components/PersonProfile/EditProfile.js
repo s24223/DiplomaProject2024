@@ -21,7 +21,13 @@ const EditProfile = () => {
         const loadProfile = async () => {
             try {
                 const characteristics = await fetchCharacteristics();
+                if(characteristics.error){
+                    throw new Error(characteristics.error)
+                }
                 const person = await fetchUserProfile();
+                if(person.error){
+                    throw new Error(person.error)
+                }
 
                 // Formatowanie daty na "YYYY-MM-DD"
                 const formattedDate = person.birthDate
@@ -58,7 +64,10 @@ const EditProfile = () => {
 
     const handleProfileUpdate = async (updatedData) => {
         try {
-            await updateUserProfile(updatedData);
+            let res = await updateUserProfile(updatedData);
+            if(res.error){
+                throw new Error(res.error)
+            }
             setMessage("Profile updated successfully.");
             setTimeout(() => {
                 window.location.href = "/userProfile";

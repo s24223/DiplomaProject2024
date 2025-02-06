@@ -24,7 +24,10 @@ const UrlDetailsPage = () => {
         if (!confirmDelete) return;
 
         try {
-            await deleteUrl(urlItem);
+            let res = await deleteUrl(urlItem);
+            if(res.error){
+                throw new Error(res.error)
+            }
             alert("URL deleted successfully.");
             navigate("/userProfile");
         } catch (err) {

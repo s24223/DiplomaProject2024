@@ -14,7 +14,10 @@ const UrlForm = ({ urlItem, onSaveSuccess, onCancelEdit }) => {
         };
 
         try {
-            await updateUrl(updatedUrl);
+            let res = await updateUrl(updatedUrl);
+            if(res.error){
+                throw new Error(res.error)
+            }
             onSaveSuccess();
         } catch (err) {
             console.error("Error updating URL:", err);

@@ -17,6 +17,9 @@ const OfferDetailsPage = () => {
         const loadOfferDetails = async () => {
             try {
                 const data = await fetchOfferDetailsPublic(offerId);
+                if(data.error){
+                    throw new Error(data.error)
+                }
                 setOfferDetails(data);
             } catch (err) {
                 setError("Failed to load offer details.");

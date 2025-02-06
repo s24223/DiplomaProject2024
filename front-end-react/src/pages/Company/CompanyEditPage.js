@@ -21,6 +21,9 @@ const EditCompanyPage = () => {
         const loadCompanyData = async () => {
             try {
                 const company = await fetchCompanyData();
+                if(company.error){
+                    throw new Error(company.error)
+                }
                 if (company) {
                     setCompanyData({
                         urlSegment: company.urlSegment || "",
@@ -51,7 +54,10 @@ const EditCompanyPage = () => {
     const handleEditCompany = async (e) => {
         e.preventDefault();
         try {
-            await updateCompany(companyData);
+            let res = await updateCompany(companyData);
+            if(res.error){
+                throw new Error(res.error)
+            }
             setMessage("Company updated successfully.");
             setTimeout(() => (window.location.href = "/userProfile"), 2000);
         } catch (error) {

@@ -1,65 +1,73 @@
+import axios from "axios";
+
 export const fetchBranchPost = async (body) => {
-    let response = await fetch('https://localhost:7166/api/User/company/branches', {
-        method: 'POST',
+    return await axios.post('https://localhost:7166/api/User/company/branches', body, {
         headers: {
-            "Content-Type": "application/json",
             "Authorization": `Bearer ${localStorage.getItem("jwt")}`,
             "Access-Contorl-Allow-Origin": "*"
         },
-        body: JSON.stringify(body)
+    }).then(res => res.data).catch(error => {
+        switch (error.response.status) {
+            case 500:
+                const idAppProblem = error.response.data.ProblemId
+                window.location.href = `/notification/create/${idAppProblem}`
+                break;
+            default:
+                return { error: error.response.data.Message }
+        }
     })
-    return response;
 }
 
 export const fetchBranchGet = async () => {
-    let response = await fetch('https://localhost:7166/api/User/company/branches/core',{
-        method: 'GET',
+    return await axios.get('https://localhost:7166/api/User/company/branches/core', {
         headers: {
-            "Content-Type": "application/json",
             "Authorization": `Bearer ${localStorage.getItem("jwt")}`,
             "Access-Contorl-Allow-Origin": "*"
         }
+    }).then(res => res.data).catch(error => {
+        switch (error.response.status) {
+            case 500:
+                const idAppProblem = error.response.data.ProblemId
+                window.location.href = `/notification/create/${idAppProblem}`
+                break;
+            default:
+                return { error: error.response.data.Message }
+        }
     })
-    return await response.json();
 }
 
 export const fetchBranchPut = async (body) => {
-    let response = await fetch('https://localhost:7166/api/User/company/branches',{
-        method: "PUT",
+    return await axios.put('https://localhost:7166/api/User/company/branches', body, {
         headers: {
-            "Content-Type": "application/json",
             "Authorization": `Bearer ${localStorage.getItem("jwt")}`,
             "Access-Contorl-Allow-Origin": "*"
         },
-        body: JSON.stringify(body)
+    }).then(res => res.data).catch(error => {
+        switch (error.response.status) {
+            case 500:
+                const idAppProblem = error.response.data.ProblemId
+                window.location.href = `/notification/create/${idAppProblem}`
+                break;
+            default:
+                return { error: error.response.data.Message }
+        }
     })
-    return response
 }
 
 export const fetchBranchDetails = async (branchId) => {
-    const response = await fetch(
-        `https://localhost:7166/api/BranchOffers/branches/${branchId}/branchOffers`
-    );
-    if (!response.ok) {
-        throw new Error('Failed to fetch branch details');
-    }
-    return await response.json();
+    return await axios.get(`https://localhost:7166/api/BranchOffers/branches/${branchId}/branchOffers`, {
+        headers: {
+            "Access-Contorl-Allow-Origin": "*"
+        }
+    })
+        .then(res => res.data).catch(error => {
+            switch (error.response.status) {
+                case 500:
+                    const idAppProblem = error.response.data.ProblemId
+                    window.location.href = `/notification/create/${idAppProblem}`
+                    break;
+                default:
+                    return { error: error.response.data.Message }
+            }
+        })
 };
-
-// export const updateBranchDetails = async (branchId, updatedData) => {
-//     const response = await fetch(
-//         `https://localhost:7166/api/Branches/${branchId}`,
-//         {
-//             method: 'PUT',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-//             },
-//             body: JSON.stringify(updatedData),
-//         }
-//     );
-//     if (!response.ok) {
-//         throw new Error('Failed to update branch details');
-//     }
-//     return await response.json();
-// };

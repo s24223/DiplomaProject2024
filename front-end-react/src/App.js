@@ -27,6 +27,7 @@ import NotificationButton from './components/Buttons/NotificationButton/Notifica
 import BranchDetailsPagePublic from './pages/Branch/BranchDetailsPagePublic';
 import PrivateOfferDetailsPage from './pages/Offer/PrivateOfferDetailsPage';
 import ProfileChnagePassword from './pages/Profile/ProfilePasswordChange';
+import DeleteProfilePage from './pages/Profile/ProfileDelete';
 
 function App() {
     return (
@@ -60,6 +61,7 @@ function App() {
                     <Route path="/userCreateProfile" element={<ProfileCreatePage />} />
                     
                     <Route path="/userEditProfile" element={<ProfileEditPage />} />
+                    <Route path="/deleteAccount" element={<DeleteProfilePage />} />
 
                     <Route path="/userCreateCompany" element={<CompanyCreatePage />} />
                     <Route path="/userEditCompany" element={<CompanyEditPage />} />
@@ -67,9 +69,10 @@ function App() {
                     <Route path="/createBranch" element={<BranchCreatePage />} />
                     <Route path="/branch/:id" element={<BranchDetailPagePrivate />} />
 
-                    <Route path="notification" element={<NotificationPage />} />
-                    <Route path="notification/:id" element={<NotificationDetailPage />} />
+                    <Route path="/notification" element={<NotificationPage />} />
+                    <Route path="/notification/:id" element={<NotificationDetailPage />} />
                     <Route path="/notification/create" element={<NotificationCreate />} />
+                    <Route path='/notification/create/:id' element={<NotificationCreate />} />
                     
                     <Route path="/url/:id" element={<UrlDetailsPage />} />
                     <Route path="/url/edit/:id" element={<EditUrlPage />} />

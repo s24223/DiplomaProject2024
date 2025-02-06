@@ -11,33 +11,36 @@ const LoginButton = () => {
     };
 
     const handleLogOut = () => {
-        fetchLogout()
-        window.location.reload()
-        window.location.href = '/'
+        const fetchDummy = async () => {
+            await fetchLogout()
+            window.location.reload()
+            window.location.href = '/'
+        }
+        fetchDummy()
     };
 
     const handleProfile = () => {
-        window.location.href = "/userProfile"; 
+        window.location.href = "/userProfile";
     };
     return (
         <div className='login-div'>
             {localStorage.getItem("jwt") === null ?
-            <div className='two-button'>
-                <button className='button-one' onClick={handleLogin} >
-                    Log in
-                </button>
-                <button className='button-two' onClick={handleRegistration} >
-                    Sign up
-                </button>
-            </div> : 
-            <div className='two-button'>
-                <button className='button-one' onClick={handleProfile} >
-                Profile
-                </button>
-                <button className='button-two' onClick={handleLogOut} >
-                    Log out    
-                </button>    
-            </div>}
+                <div className='two-button'>
+                    <button className='button-one' onClick={handleLogin} >
+                        Log in
+                    </button>
+                    <button className='button-two' onClick={handleRegistration} >
+                        Sign up
+                    </button>
+                </div> :
+                <div className='two-button'>
+                    <button className='button-one' onClick={handleProfile} >
+                        Profile
+                    </button>
+                    <button className='button-two' onClick={handleLogOut} >
+                        Log out
+                    </button>
+                </div>}
         </div>
     );
 };

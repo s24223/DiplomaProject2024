@@ -34,6 +34,9 @@ const MainPage = () => {
         const loadOffers = async () => {
             try {
                 const data = await fetchOffers(filters);
+                if(data.error){
+                    throw new Error(data.error)
+                }
                 setOffers(data);
             } catch (error) {
                 console.error('Error fetching offers:', error);

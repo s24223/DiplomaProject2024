@@ -32,7 +32,10 @@ const CreateCompanyPage = () => {
         }
 
         try {
-            await createCompany(companyData);
+            let res = await createCompany(companyData);
+            if(res.error){
+                throw new Error(res.error)
+            }
             setMessage("Company created successfully.");
             setTimeout(() => (window.location.href = "/userProfile"), 2000);
         } catch (err) {

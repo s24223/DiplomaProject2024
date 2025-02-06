@@ -8,6 +8,9 @@ const BranchList = () =>{
     useEffect(() => {
         const fetchDummy = async () => {
             let response = await fetchBranchGet()
+            if(response.error){
+                throw new Error(response.error)
+            }
             setBrarnchList(response.item.branches)
         }
 

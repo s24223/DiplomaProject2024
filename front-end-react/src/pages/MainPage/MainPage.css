@@ -10,15 +10,17 @@
     flex-direction: row;
     height: 100vh;
     margin: 0;
-    
+
 }
+
 .new-container {
     padding-top: var(--header-height);
 }
 
 
 .filters-sidebar {
-    flex: 0 0 20%; /* Sidebar zajmuje 20% szerokości */
+    flex: 0 0 20%;
+    /* Sidebar zajmuje 20% szerokości */
     padding: 20px;
     background-color: #1e1c1c;
     border-right: 1px solid #ddd;
@@ -48,7 +50,8 @@
 }
 
 .offers-container {
-    flex: 1; /* Pozostała przestrzeń */
+    flex: 1;
+    /* Pozostała przestrzeń */
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -81,7 +84,7 @@
     background-color: #525151;
 }
 
-.offer-item:hover h2{
+.offer-item:hover h2 {
     background-color: #525151;
 }
 
@@ -105,6 +108,7 @@
     background-color: #525151;
     cursor: not-allowed;
 }
+
 .header {
     height: var(--header-height);
     position: fixed;
@@ -115,18 +119,20 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     display: flex;
-    justify-content: space-between; /* Rozdziela przyciski na lewej i prawej stronie */
+    justify-content: space-between;
+    /* Rozdziela przyciski na lewej i prawej stronie */
     align-items: center;
     box-sizing: border-box;
 }
 
-.buttons-group-left, .buttons-group-right {
+.buttons-group-left,
+.buttons-group-right {
     display: flex;
     gap: 10px;
 }
 
 
-.header button{
+.header button {
     padding: 8px 12px;
     border-radius: 5px;
     background-color: #332f2f;
@@ -136,37 +142,43 @@
     transition: background-color 0.3s ease;
 }
 
-.header button:hover{
+.header button:hover {
     background-color: #525151;
 }
 
-.bulletless-list{
+.bulletless-list {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
-.decoractionless-link{
+.decoractionless-link {
     text-decoration: none;
 }
 
-.centered{
+.centered {
     display: block;
     justify-content: center;
     text-align: center;
 }
 
-form label{
+form label {
     font-size: large;
 }
 
-form input[type=email],[type=password],[type=text],[type=tel],[type=date], textarea{
+form input[type=email],
+[type=password],
+[type=text],
+[type=tel],
+[type=date],
+textarea {
     background-color: #e7e2e2;
     color: black;
     border-radius: 5px;
 }
 
-form input[type=submit], button{
+form input[type=submit],
+button {
     border: 2px solid #aca7a7;
     color: white;
     background-color: #332f2f;
@@ -175,22 +187,23 @@ form input[type=submit], button{
     cursor: pointer;
     border-radius: 5px;
 }
-    
-form input[type=submit]:hover, button:hover{
+
+form input[type=submit]:hover,
+button:hover {
     background: #525151;
 }
 
-#linkToCreateOnExistant{
+#linkToCreateOnExistant {
     text-decoration: none;
     color: white;
 }
 
-#notificationLink{
+#notificationLink {
     text-decoration: none;
     color: white;
 }
 
-nav ul{
+nav ul {
     border: none;
     height: 50%;
     overflow: hidden;
@@ -218,7 +231,7 @@ nav ul{
     font-weight: bold;
 }
 
-#branchLink{
+#branchLink {
     text-decoration: none;
     color: white;
     border: none;
@@ -226,7 +239,7 @@ nav ul{
     cursor: pointer;
 }
 
-nav ul{
+nav ul {
     border: none;
     width: 25%;
     height: 200px;
@@ -234,27 +247,29 @@ nav ul{
     overflow-y: scroll;
 }
 
-h1{
+h1 {
     text-align: center;
 }
 
-h2{
+h2 {
     background-color: #332f2f;
 }
 
-.bordered{
+.bordered {
     /* border-top: 1px solid #aca7a7; */
     border-bottom: 1px solid #aca7a7;
 }
 
-.url{
+.url {
     text-decoration: underline;
 }
 
 
 
-.apply-container, .edit-container {
-    margin-bottom: 20px; /* Dystans od szczegółów oferty */
+.apply-container,
+.edit-container {
+    margin-bottom: 20px;
+    /* Dystans od szczegółów oferty */
     margin-left: 480px;
     /* text-align: center; */
 }
@@ -265,4 +280,10 @@ h2{
     font-weight: normal;
     cursor: pointer;
     border-bottom: none;
+}
+
+.error-message {
+    background-color: red;
+    text-align: center;
+    line-height: 35px;
 }

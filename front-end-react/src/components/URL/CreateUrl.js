@@ -9,6 +9,9 @@ const CreateUrl = ({ onClose, refreshUrls }) => {
         const loadUrlTypes = async () => {
             try {
                 const types = await fetchUrlTypes();
+                if(types?.error){
+                    throw new Error(types.error)
+                }
                 setUrlTypes(types);
             } catch (err) {
                 console.error("Error fetching URL types:", err);
@@ -21,7 +24,10 @@ const CreateUrl = ({ onClose, refreshUrls }) => {
 
     const handleSubmit = async (urlData) => {
         try {
-            await addUrl(urlData);
+            let res = await addUrl(urlData);
+            if(res.error){
+                throw new Error(res.error)
+            }
             alert("URL added successfully.");
             refreshUrls(); // Odśwież listę URL-i
             onClose(); // Zamknij formularz

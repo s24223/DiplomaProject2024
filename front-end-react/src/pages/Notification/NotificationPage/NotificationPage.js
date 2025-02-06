@@ -11,6 +11,9 @@ const NotificationPage = () => {
 
     const fetchDummy = async () => {
         let response = await fetchNotificationGetAuthorized()
+        if(response.error){
+            throw new Error(response.error)
+        }
         setNotificationList(response.item.urls)
     }
 

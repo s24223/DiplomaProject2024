@@ -1,16 +1,22 @@
+import axios from "axios"
+
 export const fetchLogin = async (body) => {
-    let responseData = ''
-    await fetch('https://localhost:7166/api/User/login',{
-        method: 'POST',
+    let data = await axios.post('https://localhost:7166/api/User/login', body, {
         headers: {
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-        },
-        body: JSON.stringify(body)
-    }).then((res) => {
-        if (!res.ok) throw new Error(res.status)
-            else return res.json();
+            'Access-Control-Allow-Origin': '*',
+        }
+    }).then(res => res.data).catch(error => {
+        switch (error.response.status) {
+            case 500:
+                const idAppProblem = error.response.data.ProblemId
+                window.location.href = `/notification/create/${idAppProblem}`
+                break;
+            case 401:
+                return { error: "Email or password is inccorect" }
+            default:
+                return { error: error.response.data.Message }
+        }
     })
-    .then(data => responseData = data).then(res => console.log(res))
-    return responseData
+    return data
 }

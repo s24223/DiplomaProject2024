@@ -24,6 +24,9 @@ const OfferEditForm = ({ offerDetails, onCancelEdit }) => {
         const loadCharacteristics = async () => {
             try {
                 const characteristics = await fetchCharacteristics();
+                if(characteristics.error){
+                    throw new Error(characteristics.error)
+                }
                 setAllCharacteristics(characteristics);
             } catch (error) {
                 console.error("Error fetching characteristics:", error);
@@ -83,7 +86,7 @@ const OfferEditForm = ({ offerDetails, onCancelEdit }) => {
             .filter((char) => char !== null);
 
         try {
-            await updateOffer({
+            let res = await updateOffer({
                 offerId: offerDetails.offer.id,
                 name: formData.name,
                 description: formData.description,
@@ -93,6 +96,9 @@ const OfferEditForm = ({ offerDetails, onCancelEdit }) => {
                 isNegotiatedSalary: formData.isNegotiatedSalary,
                 characteristics: processedCharacteristics,
             });
+            if(res.error){
+                throw new Error(res.error)
+            }
             alert("Offer updated successfully!");
             onCancelEdit();
         } catch (error) {

@@ -17,6 +17,9 @@ const BranchDetailsPagePublic = () => {
         const loadBranchDetails = async () => {
             try {
                 const data = await fetchBranchDetails(branchId);
+                if(data.error){
+                    throw new Error(data.error)
+                }
                 setBranchInfo({
                     ...data.items[0]?.branch,
                     branchOffersCount: data.items.length,

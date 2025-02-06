@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { fetchApply } from '../../../services/ApplyService/ApplyService';
 
 const ApplyButton = ({ branchId }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [personMessage, setPersonMessage] = useState('');
-    const [file, setFile] = useState();
-    const navigate = useNavigate(); 
 
     // Otwórz lub zamknij modal
     const toggleModal = () => {
@@ -13,25 +11,22 @@ const ApplyButton = ({ branchId }) => {
 
         if (!authToken) {
             // Zapisanie bieżącej ścieżki do przekierowania po zalogowaniu
-            localStorage.setItem("redirectAfterLogin", window.location.pathname);
             alert("Log in to apply.");
-            navigate("/login"); // Przekierowanie do logowania
+            window.location.href = "/login" // Przekierowanie do logowania
             return;
         }
-        
+
         setIsModalOpen(!isModalOpen);
-    
+
     };
 
     const handleApply = async () => {
-        console.log(file)
         try {
             const authToken = localStorage.getItem("jwt");
             if (!authToken) {
                 // Zapisz bieżącą ścieżkę przed przekierowaniem na stronę logowania
-                localStorage.setItem("redirectAfterLogin", window.location.pathname);
-                alert("Brak tokenu uwierzytelniającego. Zaloguj się, aby aplikować.");
-                navigate("/login");
+                alert("Missing authorization token. Please log in to apply.");
+                window.location.href = "/login"
                 return;
             }
 
@@ -41,19 +36,10 @@ const ApplyButton = ({ branchId }) => {
             formData.append("PersonMessage", personMessage)
             formData.append("File", document.getElementById("file").files[0])
 
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${authToken}`,
-                    'Access-Control-Allow-Origin': '*',
-                },
-                credentials: 'include',
-                body: formData, // Wysyłanie wiadomości wpisanej przez użytkownika
-            });
-
-            if (!response.ok) throw new Error("Failed to apply for the offer");
-            const result = await response.json();
-            console.log("Successfully applied:", result);
+            let response = await fetchApply({ url, formData });
+            if(response.error){
+                throw new Error("Failed to apply for the offer")
+            }
             alert("Application successful!");
 
             // Zamknij modal po pomyślnym przesłaniu wiadomości
@@ -79,7 +65,7 @@ const ApplyButton = ({ branchId }) => {
                         <textarea
                             value={personMessage}
                             onChange={(e) => setPersonMessage(e.target.value)}
-                            placeholder="Wpisz swoją wiadomość..."
+                            placeholder="Enter your message..."
                             rows="4"
                             cols="50"
                         />

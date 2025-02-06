@@ -13,6 +13,9 @@ const Profile = () => {
         const loadUserData = async () => {
             try {
                 const data = await fetchUserProfile();
+                if(data.error){
+                    throw new Error(data.error)
+                }
                 setUserData(data);
                 setLoading(false);
             } catch (err) {
@@ -58,6 +61,9 @@ const Profile = () => {
                 )}
                 <button onClick={() => (window.location.href='/changePassword')}>
                     Change password
+                </button>
+                <button style={{color: 'red'}} onClick={() => (window.location.href="deleteAccount")}>
+                    Delete account
                 </button>
             </div>
 

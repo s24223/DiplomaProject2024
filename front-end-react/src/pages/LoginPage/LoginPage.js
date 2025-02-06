@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { fetchLogin } from '../../services/LoginService/LoginService';
 
 const LoginPage = () => {
@@ -8,33 +8,39 @@ const LoginPage = () => {
 
     const handleLogin = async (event) => {
         event.preventDefault()
-        console.log({email, password})
-        try{
-            const response = await fetchLogin({email, password})
+        try {
+            const response = await fetchLogin({ email, password })
+
+            if (response.error) {
+                setErrorMsg(response.error)
+                return
+            }
+
             localStorage.setItem("jwt", response.jwt)
             localStorage.setItem("jwtValidTo", response.jwtValidTo)
             localStorage.setItem("refreshToken", response.refereshToken)
             localStorage.setItem("refreshTokenValidTo", response.refereshTokenValidTo)
             window.history.back();
-        } catch(error){
-            console.log(error)
-            //TODO: check error message and setmessage representive
+        } catch (error) {
             setErrorMsg('error')
         }
     }
 
-    return(
-        <div className='centered'>
-
-            {errorMsg && errorMsg}
-            <label className='title-text'>Log in</label>
-            <form onSubmit={handleLogin}>
-                <label>Email:</label><br />
-                <input type="email" id="email" name="email" placeholder='Email' onChange={e => setEmail(e.target.value)} /><br />
-                <label>Password:</label><br />
-                <input type="password" id="password" name="password" placeholder='Password' onChange={e => setPassword(e.target.value)} /><br />
-                <input type="submit" value="Log in" />
-            </form>
+    return (
+        <div>
+            {errorMsg && <header className='error-message'>
+                {errorMsg}
+            </header>}
+            <div className='centered'>
+                <label className='title-text'>Log in</label>
+                <form onSubmit={handleLogin}>
+                    <label>Email:</label><br />
+                    <input type="email" id="email" name="email" placeholder='Email' onChange={e => setEmail(e.target.value)} /><br />
+                    <label>Password:</label><br />
+                    <input type="password" id="password" name="password" placeholder='Password' onChange={e => setPassword(e.target.value)} /><br />
+                    <input type="submit" value="Log in" />
+                </form>
+            </div>
         </div>
     )
 }

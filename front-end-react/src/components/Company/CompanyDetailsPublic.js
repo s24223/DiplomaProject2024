@@ -15,40 +15,42 @@ const CompanyDetailsPublic = () => {
     const [wojewodztwa, setWojewodztwa] = useState([]);
     const [selectedWojewodztwo, setSelectedWojewodztwo] = useState('');
 
-    
-    const fetchCompanyDetails = async () => {
-        setLoading(true);
-        
-            const queryParams = new URLSearchParams({
-                orderBy: 'hierarchy',
-                ascending: true,
-                maxItems,
-                page,
-                wojewodztwo: selectedWojewodztwo || '', // Filtr według województwa
-            }).toString();
-
-        try {
-            const data = await fetchCompanyBranches(companyId, queryParams);
-            const uniqueWojewodztwa = [
-                ...new Set(data.items.map((item) => item.branch.address.hierarchy[0]?.name)),
-            ];
-            setWojewodztwa(uniqueWojewodztwa);
-            setBranches(data.items.map((item) => ({
-                ...item.branch,
-                branchOffersCount: item.branchOffersCount || 0,
-            })));
-            setCompanyInfo(data.company);
-        } catch (err) {
-            setError('Error fetching company details');
-            console.error(err);
-        } finally {
-            setLoading(false);
-        }
-    };
-
     useEffect(() => {
+        const fetchCompanyDetails = async () => {
+            setLoading(true);
+            
+                const queryParams = new URLSearchParams({
+                    orderBy: 'hierarchy',
+                    ascending: true,
+                    maxItems,
+                    page,
+                    wojewodztwo: selectedWojewodztwo || '', // Filtr według województwa
+                }).toString();
+    
+            try {
+                const data = await fetchCompanyBranches(companyId, queryParams);
+                if (data.error){
+                    throw new Error(data.error)
+                }
+                const uniqueWojewodztwa = [
+                    ...new Set(data.items.map((item) => item.branch.address.hierarchy[0]?.name)),
+                ];
+                setWojewodztwa(uniqueWojewodztwa);
+                setBranches(data.items.map((item) => ({
+                    ...item.branch,
+                    branchOffersCount: item.branchOffersCount || 0,
+                })));
+                setCompanyInfo(data.company);
+            } catch (err) {
+                setError('Error fetching company details');
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
         fetchCompanyDetails();
-    }, [page, maxItems, selectedWojewodztwo]);
+    }, [companyId, maxItems, page, selectedWojewodztwo]);
 
     const handleMaxItemsChange = (e) => {
         setMaxItems(Number(e.target.value));
@@ -66,19 +68,19 @@ const CompanyDetailsPublic = () => {
     return (
         <div className="company-details">
             <h1>{companyName || companyInfo?.name}</h1>
-            <p><strong>Opis:</strong> {companyDescription || companyInfo?.description || 'Brak opisu'}</p>
+            <p><strong>Description:</strong> {companyDescription || companyInfo?.description || 'Brak opisu'}</p>
             <p><strong>URL:</strong> {companyUrl || companyInfo?.urlSegment}</p>
 
-            <h2>Oddziały</h2>
+            <h2>Branches</h2>
 
             {/* Filtr według województwa */}
-            <label htmlFor="wojewodztwo">Filtry:</label>
+            <label htmlFor="wojewodztwo">Filters:</label>
             <select
                 id="wojewodztwo"
                 value={selectedWojewodztwo}
                 onChange={handleWojewodztwoChange}
             >
-                <option value="">Wszystkie województwa</option>
+                <option value="">All voivodeships</option>
                 {wojewodztwa.map((wojewodztwo) => (
                     <option key={wojewodztwo} value={wojewodztwo}>
                         {wojewodztwo}
@@ -88,7 +90,7 @@ const CompanyDetailsPublic = () => {
             <br/>
 
             {/* Wybór liczby elementów na stronie */}
-            <label htmlFor="maxItems">Liczba oddziałów na stronie:</label>
+            <label htmlFor="maxItems">Amount of branches on the page:</label>
             <select id="maxItems" value={maxItems} onChange={handleMaxItemsChange}>
                 <option value={5}>5</option>
                 <option value={10}>10</option>
@@ -104,20 +106,20 @@ const CompanyDetailsPublic = () => {
                     {branches.map((branch) => (
                         <li key={branch.id}>
                             <p>
-                                <strong>Nazwa:</strong> {branch.name || 'Brak nazwy'}
+                                <strong>Name:</strong> {branch.name || 'Brak nazwy'}
                             </p>
                             <p>
-                                <strong>Adres:</strong> ul. {branch.address?.street?.name}, {branch.address?.buildingNumber}/{branch.address?.apartmentNumber}, {branch.address?.zipCode}, {branch.address?.hierarchy[1]?.name}
+                                <strong>Address:</strong> ul. {branch.address?.street?.name}, {branch.address?.buildingNumber}/{branch.address?.apartmentNumber}, {branch.address?.zipCode}, {branch.address?.hierarchy[1]?.name}
                             </p>
                             <p>
-                                <strong>Oferty:</strong> {branch.branchOffersCount || 0}
+                                <strong>Offers:</strong> {branch.branchOffersCount || 0}
                             </p>
-                            <Link to={`/public/branch/${branch.id}`} className="hidden-link">Zobacz szczegóły oddziału</Link>
+                            <Link to={`/public/branch/${branch.id}`} className="hidden-link">View branch details</Link>
                         </li>
                     ))}
                 </ul>
             ) : (
-                <p>Brak dostępnych oddziałów.</p>
+                <p>No available branches.</p>
             )}
 
             {/* Paginacja */}
@@ -126,10 +128,10 @@ const CompanyDetailsPublic = () => {
                     onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
                     disabled={page === 1}
                 >
-                    Poprzednia
+                    Previous
                 </button>
-                <span>Strona: {page}</span>
-                <button onClick={() => setPage((prev) => prev + 1)}>Następna</button>
+                <span>Page: {page}</span>
+                <button onClick={() => setPage((prev) => prev + 1)}>Next</button>
             </div>
             <h1>CompanyDetailsPublic</h1>
         </div>

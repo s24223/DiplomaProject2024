@@ -1,7 +1,7 @@
-import { Navigate } from "react-router-dom";
+import axios from "axios";
 
 export const jwtRefresh = async () => {
-    if (!localStorage.getItem("jwt")){
+    if (!localStorage.getItem("jwt")) {
         return
     }
 
@@ -17,40 +17,34 @@ export const jwtRefresh = async () => {
     let refreshExparation = Date.parse(localStorage.getItem("refreshTokenValidTo"))
     let currentTime = Date.parse(new Date())
 
-    if ((jwtExparation - currentTime) <= 10){
-        if((refreshExparation - currentTime) <= 1){
+    if ((jwtExparation - currentTime) <= 10) {
+        if ((refreshExparation - currentTime) <= 1) {
             // log out
             clearStorage();
         }
-        else{
+        else {
             // refresh
-            let response = await fetch("https://localhost:7166/api/User/refresh", {
-                method: "POST",
+            return await axios.post("https://localhost:7166/api/User/refresh", { "refreshToken": localStorage.getItem("refreshToken") }, {
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${localStorage.getItem("jwt")}`,
                     "Access-Control-Allow-Origin": "*"
                 },
-                body: JSON.stringify({"refreshToken": localStorage.getItem("refreshToken")})
-            })
-            if (response.ok){
-                response = await response.json();
-                localStorage.setItem("jwt", response.jwt);
-                localStorage.setItem("jwtValidTo", response.jwtValidTo);
-                localStorage.setItem("refreshToken", response.refereshToken);
-                localStorage.setItem("refreshTokenValidTo", response.refereshTokenValidTo);
-            }
-            else{
-                if (response.status === 500){
-                    response = await response.json();
-                    Navigate({
-                        to: "/notification/create", 
-                        state:{
-                            idAppProblem: response.idAppProblem
-                        }
-                    })
+            }).then((res) => {
+                localStorage.setItem("jwt", res.data.jwt);
+                localStorage.setItem("jwtValidTo", res.data.jwtValidTo);
+                localStorage.setItem("refreshToken", res.data.refereshToken);
+                localStorage.setItem("refreshTokenValidTo", res.data.refereshTokenValidTo);
+            }).catch(error => {
+                switch (error.response.status) {
+                    case 500:
+                        const idAppProblem = error.response.data.ProblemId
+                        window.location.href = `/notification/create/${idAppProblem}`
+                        break;
+                    default:
+                        return { error: error.response.data.message }
                 }
-            }
+            })
         }
     }
 

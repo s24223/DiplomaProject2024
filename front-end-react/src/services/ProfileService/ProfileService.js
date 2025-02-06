@@ -1,20 +1,22 @@
 import axios from "axios";
 
 export const fetchProfilePost = async (body) => {
-    await fetch("https://localhost:7166/api/User/person",
+    return await axios.post("https://localhost:7166/api/User/person", body,
         {
-            method: "POST",
             headers: {
-                "Content-Type": "application/json",
                 "Access-Contorl-Allow-Origin": "*",
                 "Authorization": `Bearer ${localStorage.getItem("jwt")}`
             },
-            body: JSON.stringify(body)
         }
-    ).then((response) => {
-        if (!response.ok)
-            throw new Error(response.status)
-        else console.log(response.json())
+    ).then(res => res.data).catch(error => {
+        switch (error.response.status) {
+            case 500:
+                const idAppProblem = error.response.data.ProblemId
+                window.location.href = `/notification/create/${idAppProblem}`
+                break;
+            default:
+                throw new Error( error.response.data.Message)
+        }
     });
 }
 
@@ -24,23 +26,61 @@ export const fetchUserProfile = async () => {
     const token = localStorage.getItem("jwt") || localStorage.getItem("jwt");
     if (!token) throw new Error("No authorization token found.");
     
-    const response = await axios.get(`https://localhost:7166/api/User`, {
+    return await axios.get(`https://localhost:7166/api/User`, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
+    }).then(res => res.data.item.person).catch(error => {
+        switch (error.response.status) {
+            case 500:
+                const idAppProblem = error.response.data.ProblemId
+                window.location.href = `/notification/create/${idAppProblem}`
+                break;
+            default:
+                return { error: error.response.data.Message }
+        }
     });
-    return response.data.item.person;
 };
 
 export const updateUserProfile = async (profileData) => {
     const token = localStorage.getItem("jwt") || localStorage.getItem("jwt");
     if (!token) throw new Error("No authorization token found.");
 
-    const response = await axios.put(`https://localhost:7166/api/User/person`, profileData, {
+    return await axios.put(`https://localhost:7166/api/User/person`, profileData, {
         headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
         },
+    }).then(res => res.data).catch(error => {
+        switch (error.response.status) {
+            case 500:
+                const idAppProblem = error.response.data.ProblemId
+                window.location.href = `/notification/create/${idAppProblem}`
+                break;
+            default:
+                return { error: error.response.data.Message }
+        }
     });
-    return response.data;
 };
+
+export const deleteUserProfile = async (body) => {
+    console.log(body)
+    return await fetch(`https://localhost:7166/api/User`, {
+        method: 'DELETE',
+        headers:{
+            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+            "Access-Contorl-Allow-Origin": "*",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+    }).then(res => res.data).catch(error => {
+        switch (error.response.status) {
+            case 500:
+                const idAppProblem = error.response.data.ProblemId
+                window.location.href = `/notification/create/${idAppProblem}`
+                break;
+            default:
+                throw new Error(error.response.data.Message)
+        }
+    })
+}

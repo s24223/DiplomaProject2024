@@ -1,35 +1,42 @@
-export const fetchNotificationGetAuthorized = async () =>{
-    let response = await fetch('https://localhost:7166/api/User/notifications/authorized', {
-        method: 'GET',
+import axios from "axios"
+
+export const fetchNotificationGetAuthorized = async () => {
+    return await axios.get('https://localhost:7166/api/User/notifications/authorized', {
         headers: {
-            "Content-Type": "application/json",
             "Access-Contorl-Allow-Origin": "*",
             "Authorization": `Bearer ${localStorage.getItem("jwt")}`
         }
+    }).then(res => res.data).catch(error => {
+        switch (error.response.status) {
+            case 500:
+                const idAppProblem = error.response.data.ProblemId
+                window.location.href = `/notification/create/${idAppProblem}`
+                break;
+            default:
+                return { error: error.response.data.Message }
+        }
     })
-
-    return await response.json()
 }
 
 export const fetchNotificationPostAuthorized = async (body) => {
-    return await fetch('https://localhost:7166/api/User/notifications/authorized', {
-        method: "POST",
+    return await axios.post('https://localhost:7166/api/User/notifications/authorized', body, {
         headers: {
-            "Content-Type": "application/json",
             "Access-Contorl-Allow-Origin": "*",
             "Authorization": `Bearer ${localStorage.getItem("jwt")}`
         },
-        body: JSON.stringify(body)
+    }).then(res => res.data).catch(error => {
+        alert("We are currently facing problems handling your request. Please try again later.")
+        throw new Error(error)
     })
 }
 
 export const fetchNotificationPostUnAuthorized = async (body) => {
-    return await fetch('https://localhost:7166/api/User/notifications/unauthorized', {
-        method: "POST",
+    return await axios.post('https://localhost:7166/api/User/notifications/unauthorized', body, {
         headers: {
-            "Content-Type": "application/json",
             "Access-Contorl-Allow-Origin": "*"
         },
-        body: JSON.stringify(body)
+    }).then(res => res.data).catch(error => {
+        alert("We are currently facing problems handling your request. Please try again later.")
+        throw new Error(error)
     })
 }
