@@ -85,6 +85,18 @@ namespace DomainTests
         }
 
         [Fact]
+        public void UrlId_RandomData_ToString()
+        {
+            var userId = new UserId(Guid.NewGuid());
+            var type = 1;
+            var dateTime = DateTime.Now;
+
+            var url = new UrlId(userId, type, dateTime);
+            var act = $"{url}";
+            Assert.Contains(dateTime.ToString(), act);
+        }
+
+        [Fact]
         public void RecrutmentId_Guid_Null()
         {
             var arrange = (Guid?)null;
@@ -474,6 +486,12 @@ namespace DomainTests
             Assert.Throws<ApartmentNumberException>(() => (ApartmentNumber?)value);
         }
 
+        [Fact]
+        public void ApartmentNumber_IsNull_StringNull()
+        {
+            var act = (string?)((ApartmentNumber?)null);
+            Assert.Null(act);
+        }
 
         [InlineData("1", "1")]
         [InlineData(" 12a ", "12a")]
@@ -515,6 +533,24 @@ namespace DomainTests
         public void ZipCode_Theory_ZipCodeException(string value)
         {
             Assert.Throws<ZipCodeException>(() => (ZipCode)value);
+        }
+
+        [Fact]
+        public void DatabaseBool_Null_Null()
+        {
+            var arrange = (DatabaseBool?)null;
+            var act = (bool?)arrange;
+            Assert.Null(act);
+        }
+        [InlineData("Y", true)]
+        [InlineData("y", true)]
+        [InlineData("N", false)]
+        [InlineData("n", false)]
+        [Theory]
+        public void DatabaseBool_TheoryStringNullable_Correct(string value, bool expected)
+        {
+            var act = (DatabaseBool?)value;
+            Assert.Equal(expected, (bool?)act);
         }
 
         [InlineData("Y", true)]
@@ -586,6 +622,14 @@ namespace DomainTests
         public void Email_Theory_EmailException(string value)
         {
             Assert.Throws<EmailException>(() => (Email)value);
+        }
+
+        [Fact]
+        public void UrlSegment_Null_Null()
+        {
+            var arrange = (UrlSegment?)null;
+            var act = (string?)arrange;
+            Assert.Null(act);
         }
 
         [InlineData("aaaAADf")]

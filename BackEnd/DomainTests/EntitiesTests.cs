@@ -25,7 +25,7 @@ namespace DomainTests
     {
         //Properties
         private readonly ITestOutputHelper _output;
-        private readonly DomainFactory _domainFactory;
+        private readonly IDomainFactory _domainFactory;
 
 
         //Constructor
@@ -571,6 +571,37 @@ namespace DomainTests
             branch.Address = address;
             var act = branch.Address == address;
             Assert.True(act);
+        }
+
+        [Fact]
+        public void DomainBranch_DomainAddress_StreetNull_Correct()
+        {
+            var address = _domainFactory.CreateDomainAddress(
+                Guid.NewGuid(),
+                1,
+                null,
+                "1",
+                null,
+                "12345",
+                1,
+                1);
+            var street = new DomainStreet(1, "", 1, "");
+            address.Street = street;
+            Assert.Null(address.StreetId);
+            Assert.Null(address.Street);
+            Assert.Null(street.StreetType);
+        }
+
+        [InlineData(null, "")]
+        [InlineData(1, "")]
+        [InlineData(1, "\n")]
+        [InlineData(1, null)]
+        [InlineData(null, null)]
+        [Theory]
+        public void DomainStreet_DomainAdministrativeType_IsNull(int? id, string? name)
+        {
+            var street = new DomainStreet(1, "", id, name);
+            Assert.Null(street.StreetType);
         }
 
         [Fact]

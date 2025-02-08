@@ -1,4 +1,8 @@
-﻿using Domain.Shared.Providers.Time;
+﻿using Domain.Shared.Providers.ExceptionMessage;
+using Domain.Shared.Providers.Time;
+using Microsoft.Data.SqlClient;
+using System.Reflection;
+using System.Runtime.Serialization;
 
 namespace DomainTests
 {
@@ -6,6 +10,7 @@ namespace DomainTests
     {
         //Properties 
         private readonly ITimeProvider _timeProvider = new Domain.Shared.Providers.Time.TimeProvider();
+        private readonly IExceptionMessageProvider _exceptionProvider = new Domain.Shared.Providers.ExceptionMessage.ExceptionMessageProvider();
 
         //============================================================================================
         //============================================================================================
@@ -54,11 +59,100 @@ namespace DomainTests
         [InlineData(2)]
         [InlineData(0)]
         [Theory]
-        public void YearsDifference_Correct(int addYears)
+        public void TimeProvider_YearsDifference_Correct(int addYears)
         {
             var date = DateOnly.FromDateTime(DateTime.Today.AddYears(addYears));
             var act = _timeProvider.YearsDifference(date);
             Assert.Equal(0, act);
+        }
+
+        [InlineData(true)]
+        [InlineData(false)]
+        [Theory]
+        public void ExceptionMessageProvider_GenerateExceptionMessage_Correct(bool isNullMethod)
+        {
+            var type = this.GetType();
+            var method = isNullMethod ? null : MethodBase.GetCurrentMethod();
+            var inputData = "in";
+            var message = "ho ho ow";
+            var act = _exceptionProvider.GenerateExceptionMessage(
+                type, method, inputData, message
+                );
+            Assert.Contains(inputData, act);
+            Assert.Contains(message, act);
+        }
+
+        [InlineData(true)]
+        [InlineData(false)]
+        [Theory]
+        public void ExceptionMessageProvider_GenerateExceptionMessageWithException_Correct(bool isNullMethod)
+        {
+            var type = this.GetType();
+            var method = isNullMethod ? null : MethodBase.GetCurrentMethod();
+            var ex = new Exception();
+            var inputData = "in";
+            var message = "ho ho ow";
+            var act = _exceptionProvider.GenerateExceptionMessage(
+                type, method, ex, inputData, message
+                );
+            Assert.Contains(inputData, act);
+            Assert.Contains(message, act);
+            Assert.Contains(ex.GetType().Name, act);
+        }
+
+
+        [InlineData(true)]
+        [InlineData(false)]
+        [Theory]
+        public void ExceptionMessageProvider_GenerateExceptionMessageWithSqlException_Correct(bool isNullMethod)
+        {
+            var type = this.GetType();
+            var method = isNullMethod ? null : MethodBase.GetCurrentMethod();
+            SqlException ex = CreateFakeSqlException(2627, "Duplicate key error");
+
+            var inputData = "in";
+            var message = "ho ho ow";
+            var act = _exceptionProvider.GenerateExceptionMessage(
+                type, method, ex, inputData, message
+                );
+
+            Assert.Contains(inputData, act);
+            Assert.Contains(message, act);
+            Assert.Contains(ex.GetType().Name, act);
+        }
+
+
+        //=================================================================================================
+        //=================================================================================================
+        //=================================================================================================
+        //private methods
+
+        private SqlException CreateFakeSqlException(int errorCode, string message)
+        {
+            var serializationInfo = new SerializationInfo(typeof(SqlException), new FormatterConverter());
+
+            serializationInfo.AddValue("ClassName", typeof(SqlException).FullName);
+            serializationInfo.AddValue("Message", message);
+            serializationInfo.AddValue("Data", null);
+            serializationInfo.AddValue("InnerException", null); // Poprawka!
+            serializationInfo.AddValue("HelpURL", null);
+            serializationInfo.AddValue("StackTraceString", null);
+            serializationInfo.AddValue("RemoteStackTraceString", null);
+            serializationInfo.AddValue("RemoteStackIndex", 0);
+            serializationInfo.AddValue("ExceptionMethod", null);
+            serializationInfo.AddValue("HResult", errorCode);
+            serializationInfo.AddValue("Source", "FakeSqlServer");
+
+            var context = new StreamingContext(StreamingContextStates.All);
+
+            var sqlExceptionCtor = typeof(SqlException)
+                .GetConstructor(BindingFlags.Instance | BindingFlags.NonPublic,
+                                null, new[] { typeof(SerializationInfo), typeof(StreamingContext) }, null);
+
+            if (sqlExceptionCtor == null)
+                throw new InvalidOperationException("Constructor for SqlException not found. Check your .NET version.");
+
+            return (SqlException)sqlExceptionCtor.Invoke(new object[] { serializationInfo, context });
         }
     }
 }

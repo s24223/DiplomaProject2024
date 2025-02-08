@@ -1,4 +1,5 @@
-﻿using Domain.Shared.Factories;
+﻿using Domain.Features.Characteristic.Factories;
+using Domain.Shared.Factories;
 using Domain.Shared.Providers;
 using Domain.Shared.Providers.ExceptionMessage;
 using DomainTests.Fakes;
@@ -10,21 +11,24 @@ namespace DomainTests
     {
         //Properties
         private readonly ITestOutputHelper _output;
-        private readonly DomainFactory _domainFactory;
+        private readonly IDomainFactory _domainFactory;
+        private readonly ICharacteristicFactory _characteristicFactory;
 
 
         //Constructor
         public DomainFactoryTests(ITestOutputHelper output)
         {
             _output = output;
-            _domainFactory = new DomainFactory(
-                new Provider(
+            IProvider provider = new Provider(
                     new ExceptionMessageProvider(),
-                    new Domain.Shared.Providers.Time.TimeProvider()),
+                    new Domain.Shared.Providers.Time.TimeProvider());
+            _domainFactory = new DomainFactory(
+                provider,
                 new DomainNotificationsFake(),
                 new DomainUrlFake(),
                 new CharacteristicsFake(),
                 new CommentTypeFake());
+            _characteristicFactory = new CharacteristicFactory(provider);
         }
 
 
@@ -198,5 +202,37 @@ namespace DomainTests
             Assert.Equal(null, internship.ContractEndDate);
             Assert.Equal("a", internship.ContractNumber.Value);
         }
+
+        [Fact]
+        public void CharacteristicFactory_DomainCharacteristicType_Correct()
+        {
+            var act = _characteristicFactory.DomainCharacteristicType(
+                1, "Name", "Desc");
+            Assert.Equal("Name", act.Name);
+            Assert.Equal("Desc", actual: act.Description);
+        }
+
+
+        [Fact]
+        public void CharacteristicFactory_DomainCharacteristic_Correct()
+        {
+            var act = _characteristicFactory.DomainCharacteristic(
+                1, "Name", "Desc", 1, []);
+            Assert.Equal("Name", act.Name);
+            Assert.Equal("Desc", act.Description);
+            Assert.Equal(1, act.CharacteristicTypeId.Value);
+            Assert.Equal(0, act.ConnectedIds.Count());
+        }
+
+
+        [Fact]
+        public void CharacteristicFactory_DomainQuality_Correct()
+        {
+            var act = _characteristicFactory.DomainQuality(
+                1, "Name", "Desc");
+            Assert.Equal("Name", act.Name);
+            Assert.Equal("Desc", actual: act.Description);
+        }
+
     }
 }
