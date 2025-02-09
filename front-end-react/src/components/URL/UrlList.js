@@ -12,7 +12,7 @@ const UrlList = () => {
     const loadUrlList = async () => {
         try {
             const urls = await fetchUrls();
-            if(urls.error){
+            if (urls.error) {
                 throw new Error(urls.error)
             }
             setUrlList(urls);
@@ -32,10 +32,10 @@ const UrlList = () => {
     }
 
     return (
-        <div className="bordered">
+        <div id="url-list" className="bordered">
             <h2>URL List</h2>
             {/* Przycisk do dodania nowego URL-a */}
-            <button onClick={() => setShowAddForm(true)}>Add URL</button>
+            <button id="add-url-button" onClick={() => setShowAddForm(true)}>Add URL</button>
             {showAddForm && (
                 <CreateUrl onClose={() => setShowAddForm(false)} refreshUrls={loadUrlList} />
             )}
@@ -45,7 +45,7 @@ const UrlList = () => {
                 <ul>
                     {urlList.map((urlItem) => (
                         <li key={urlItem.userId} className="url">
-                            <Link 
+                            <Link
                                 to={{
                                     pathname: `/url/${urlItem.userId}`,
                                 }}

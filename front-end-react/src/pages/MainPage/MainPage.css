@@ -10,13 +10,11 @@
     flex-direction: row;
     height: 100vh;
     margin: 0;
-
 }
 
 .new-container {
     padding-top: var(--header-height);
 }
-
 
 .filters-sidebar {
     flex: 0 0 20%;
@@ -24,7 +22,9 @@
     padding: 20px;
     background-color: #1e1c1c;
     border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
     box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+    overflow-y: scroll;
 }
 
 .filters-sidebar h3 {
@@ -78,24 +78,35 @@
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     background-color: #332f2f;
     color: white;
+    transition: all .6s;
 }
 
 .offer-item:hover {
     background-color: #525151;
+    transform: scale(1.09);
+    transition: all .6s;
+    box-shadow: 3px 3px 3px rgba(231, 231, 230, 0.466);
+}
+
+.offer-item h2{
+    transition: all .6s;
 }
 
 .offer-item:hover h2 {
     background-color: #525151;
+    transition: all .6s;
 }
 
 .pagination {
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    padding-bottom: 20px;
 }
 
 .pagination button {
     margin: 0 10px;
+    margin-top: -6px;
     padding: 10px 20px;
     background-color: #007bff;
     color: white;
@@ -131,6 +142,9 @@
     gap: 10px;
 }
 
+.buttons-group-right button{
+    margin-right: 3px;
+}
 
 .header button {
     padding: 8px 12px;
@@ -189,8 +203,11 @@ button {
 }
 
 form input[type=submit]:hover,
-button:hover {
+button:hover{
     background: #525151;
+    transform: scale(1.09);
+    transition: all .2s;
+    box-shadow: 3px 3px 3px rgba(231, 231, 230, 0.466);
 }
 
 #linkToCreateOnExistant {
@@ -225,6 +242,7 @@ nav ul {
 .offer-details p {
     font-size: 16px;
     margin: 8px 0;
+    padding-left: 10px;
 }
 
 .offer-details strong {
@@ -286,4 +304,68 @@ h2 {
     background-color: red;
     text-align: center;
     line-height: 35px;
+}
+
+.profile-actions,
+#notification-detail,
+#notification-create{
+    padding-left: 10px;
+}
+
+.profile-actions button{
+    margin-right: 4px;
+}
+
+.profile-details p{
+    padding-left: 10px;
+}
+
+.profile-details h2{
+    text-indent: 5px;
+}
+
+#url-list ul{
+    margin-left: 10px;
+}
+
+#create-url ul{
+    padding-left: 10px;
+}
+
+#create-url h3{
+    text-indent: 5px;
+}
+
+#create-url-form{
+    padding-left: 10px;
+}
+
+#add-url-button,
+#notification-list button,
+#notification-detail button{
+    margin-left: 10px;
+}
+
+.user-profile{
+    padding-bottom: 20px;
+}
+
+#log-in-page-button,
+#sign-up-page-button,
+#address-page-button,
+#change-password-page-button,
+#create-company-page-button,
+#edit-company-page-button,
+.create-notification-page-button{
+    margin-top: 5px;
+}
+
+.geoapify-autocomplete-item{
+    color: black;
+}
+
+.address-div{
+    width: 30vw;
+    margin-left: auto;
+    margin-right: auto;
 }

@@ -59,9 +59,9 @@ const AddressAutocomplete = ({ childToParent }) => {
     }
 
     return (
-        <div>
+        <div className="address-div">
             <GeoapifyContext apiKey={api_key}>
-                <GeoapifyGeocoderAutocomplete placeholder="Enter address here"
+                <GeoapifyGeocoderAutocomplete id='address-api' placeholder="Enter address here"
                     lang={language}
                     filterByCountryCode={['pl']}
                     placeSelect={onPlaceSelect}
@@ -71,7 +71,7 @@ const AddressAutocomplete = ({ childToParent }) => {
             <input type="text" placeholder="House Number" onChange={(e) => setHouseNumber(e.target.value)} /><br />
             <input type="text" placeholder="Apartment Number" onChange={(e) => setApratmentNumber(e.target.value)} /><br />
             {mapTile && <><img alt="" width="600" height="400" src={mapTile} /><br /></>}
-            <button onClick={e => confirmAddress(e)}>Confirm address</button>
+            <button id="address-page-button" onClick={e => confirmAddress(e)}>Confirm address</button>
         </div>
     )
 }

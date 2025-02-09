@@ -47,12 +47,12 @@ const NotificationCreate = () => {
     }
 
     return (
-        <div>
+        <div id='notification-create' className='centered'>
             {localStorage.getItem("jwt") ?
                 <form onSubmit={handleSubmit}>
-                    <label htmlFor='userMessage'>Your message</label><br />
+                    <label htmlFor='userMessage'>Your message:</label><br />
                     <input type='text' id='userMessage' onChange={e => { setUserMessage(e.target.value) }} required /><br />
-                    <input type='submit' value='Create' />
+                    <input className='create-notification-page-button' type='submit' value='Create' />
                 </form>
                 :
                 <form onSubmit={handleSubmitUnAuth}>
@@ -60,7 +60,7 @@ const NotificationCreate = () => {
                     <input type='text' id='userMessage' onChange={e => setUserMessage(e.target.value)} required /><br />
                     <label htmlFor='emailInp'>Email:</label><br />
                     <input type='email' id='emailInp' onChange={e => setEmail(e.target.value)} required /><br />
-                    <input type='submit' value='Create' />
+                    <input className='create-notification-page-button' type='submit' value='Create' />
                 </form>
             }
         </div>

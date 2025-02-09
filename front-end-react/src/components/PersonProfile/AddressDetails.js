@@ -2,7 +2,7 @@ import React from "react";
 import AddressImage from "../AddressImage/AddressImage";
 
 const AddressDetails = ({ address }) => (
-    <div>
+    <div className="profile-details">
         <h2>Address</h2>
         <div className="bordered">
             <p><strong>Street:</strong> {address.street?.name} {address.buildingNumber}/{address.apartmentNumber}</p>

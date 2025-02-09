@@ -38,7 +38,7 @@ const CreateUrl = ({ onClose, refreshUrls }) => {
     };
 
     return (
-        <div>
+        <div id="create-url">
             <h3>Add URL</h3>
             <CreateUrlForm onSubmit={handleSubmit} urlTypes={urlTypes} onClose={onClose} />
         </div>

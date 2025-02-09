@@ -38,7 +38,7 @@ const LoginPage = () => {
                     <input type="email" id="email" name="email" placeholder='Email' onChange={e => setEmail(e.target.value)} /><br />
                     <label>Password:</label><br />
                     <input type="password" id="password" name="password" placeholder='Password' onChange={e => setPassword(e.target.value)} /><br />
-                    <input type="submit" value="Log in" />
+                    <input id='log-in-page-button' type="submit" value="Log in" />
                 </form>
             </div>
         </div>

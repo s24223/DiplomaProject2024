@@ -9,7 +9,7 @@ const CompanyDetails = ({ company, branchCount, activeOffersCount }) => {
     };
 
     return (
-        <div>
+        <div className="profile-details">
             <h2>Company</h2>
             <div className="bordered">
                 <p><strong>Name:</strong> {company.name}</p>
@@ -20,7 +20,9 @@ const CompanyDetails = ({ company, branchCount, activeOffersCount }) => {
             </div>
             <UrlList />
             {branchCount > 0 && <BranchList />}
+            &nbsp;
             <button onClick={handleAddBranch}>Add Branch</button>
+            &nbsp;
             <button onClick={() => (window.location.href = "/companyRecruitment")}>
                 Manage Applications
             </button>

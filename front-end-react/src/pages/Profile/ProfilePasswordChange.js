@@ -54,7 +54,7 @@ const ProfileChnagePassword = () => {
                 <input type='password' onChange={e => setNewPassword(e.target.value)} required /><br />
                 <label>Repeat new password:</label><br />
                 <input type='password' onChange={e => setNewPasswordRepeat(e.target.value)} required /><br />
-                <input type='submit' value="Change" />
+                <input id='change-password-page-button' type='submit' value="Change" />
             </form>
         </div>
     )

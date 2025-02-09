@@ -18,7 +18,7 @@ const BranchList = () =>{
     }, [])
 
     return(
-        <div>
+        <div className='profile-details'>
             {branchList && <h2>Branch list:</h2>}
             <nav>
                 <ul>

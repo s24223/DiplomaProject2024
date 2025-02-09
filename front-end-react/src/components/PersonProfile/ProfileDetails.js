@@ -1,7 +1,7 @@
 import React from "react";
 
 const ProfileDetails = ({ person }) => (
-    <div>
+    <div className="profile-details">
         <h2>Personal Information</h2>
         <div className="bordered">
             <p><strong>Name:</strong> {person.name}</p>

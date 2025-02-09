@@ -10,7 +10,7 @@ const NotificationDetailPgae = () => {
     console.log(elem)
 
     return(
-        <div>
+        <div id='notification-detail' className='centered'>
             Created: {elem.created}<br />
             Completed: {elem.completed? elem.completed : "No"}<br />
             {elem.previousProblemId && <>Previous Id: {elem.previousProblemId}<br /></>}

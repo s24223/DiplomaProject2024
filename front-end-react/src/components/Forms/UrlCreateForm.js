@@ -19,8 +19,8 @@ const CreateUrlForm = ({ onSubmit, urlTypes, onClose }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>Name:</label>
+        <form id="create-url-form" onSubmit={handleSubmit}>
+            <label>Name: </label>
             <input
                 type="text"
                 value={name}
@@ -29,7 +29,7 @@ const CreateUrlForm = ({ onSubmit, urlTypes, onClose }) => {
                 required
             />
             <br />
-            <label>Path:</label>
+            <label>Path: </label>
             <input
                 type="text"
                 value={path}
@@ -38,7 +38,7 @@ const CreateUrlForm = ({ onSubmit, urlTypes, onClose }) => {
                 required
             />
             <br />
-            <label>Type:</label>
+            <label>Type: </label>
             <select
                 value={urlTypeId}
                 onChange={(e) => setUrlTypeId(Number(e.target.value))}
@@ -59,6 +59,7 @@ const CreateUrlForm = ({ onSubmit, urlTypes, onClose }) => {
             ></textarea>
             <br />
             <button type="submit">Add URL</button>
+            &nbsp;
             <button type="button" onClick={onClose}>
                 Cancel
             </button>

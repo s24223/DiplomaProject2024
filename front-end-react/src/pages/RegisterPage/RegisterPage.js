@@ -46,7 +46,7 @@ const RegisterPage = () => {
                     <input type="password" id="password" name="password" placeholder='Password' onChange={e => setPassword(e.target.value)} /><br />
                     <label>Repeat password:</label><br />
                     <input type='password' placeholder='Repeat password' onChange={e => setPasswordRepeat(e.target.value)} /><br />
-                    <input type="submit" value="Sign up" />
+                    <input id='sign-up-page-button' type="submit" value="Sign up" />
                 </form>
             </div>
         </div>

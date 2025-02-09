@@ -31,7 +31,7 @@ const CompanyEditForm = ({ companyData, onInputChange, onSubmit }) => (
             value={companyData.urlSegment || ""}
             onChange={onInputChange}
         /><br/>
-        <button type="submit">Save Changes</button>
+        <button id="edit-company-page-button" type="submit">Save Changes</button>
     </form>
 );
 

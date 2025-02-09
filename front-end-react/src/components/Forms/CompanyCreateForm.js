@@ -41,7 +41,7 @@ const CompanyCreateForm = ({ companyData, onInputChange, onSubmit }) => (
             value={companyData.urlSegment || ""}
             onChange={onInputChange}
         /><br/>
-        <button type="submit">Create Company</button>
+        <button id="create-company-page-button" type="submit">Create Company</button>
     </form>
 );
 

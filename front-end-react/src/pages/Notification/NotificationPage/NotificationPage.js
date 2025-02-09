@@ -4,17 +4,27 @@ import { Link } from 'react-router-dom';
 import { jwtRefresh } from '../../../services/JwtRefreshService/JwtRefreshService';
 
 const NotificationPage = () => {
-    if(!localStorage.getItem("jwt"))
+    const [errorMessage, setErrorMessage] = useState();
+
+    if (!localStorage.getItem("jwt"))
         window.location.href = '/notification/create'
-    
+
     jwtRefresh();
 
     const fetchDummy = async () => {
         let response = await fetchNotificationGetAuthorized()
-        if(response.error){
-            throw new Error(response.error)
+        if (response) {
+            if (response.error) {
+                throw new Error(response.error)
+            }
+            if (response.item) {
+
+                setNotificationList(response.item.urls)
+            }
         }
-        setNotificationList(response.item.urls)
+        else{
+            setErrorMessage('Something went wrong when trying to retrive your notifications')
+        }
     }
 
     fetchDummy()
@@ -22,21 +32,22 @@ const NotificationPage = () => {
     const [notificationList, setNotificationList] = useState([])
 
     useEffect(() => {
-        
+
     }, [])
 
     const handleCreateButton = () => {
         window.location.href = "/notification/create"
     }
 
-    return(
-        <div>
+    return (
+        <div id='notification-list'>
+            {errorMessage && <header className='error-message'>{errorMessage}</header>}
             <nav>
                 <ul>
                     {notificationList && notificationList.map((elem) => (
                         <li key={elem.id}><Link id="notificationLink"
-                        to={{ pathname: `/notification/${elem.id}` }}
-                        state = {{ elem }}>
+                            to={{ pathname: `/notification/${elem.id}` }}
+                            state={{ elem }}>
                             {elem.created}</Link></li>
                     ))}
                 </ul>
