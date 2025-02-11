@@ -21,10 +21,12 @@ const BranchDetailsPagePublic = () => {
                     throw new Error(data.error)
                 }
                 setBranchInfo({
-                    ...data.items[0]?.branch,
-                    branchOffersCount: data.items.length,
+                    companyName: data.item.company.name,
+                    branchName: data.item.branch.name,
+                    branchAddress: data.item.branch.address,
+                    
                 });
-                setOffers(data.items.map((item) => item.offer));
+                setOffers(data.item.branchOffers.map((item) => item.offer));
             } catch (err) {
                 setError('Failed to load branch details');
             } finally {

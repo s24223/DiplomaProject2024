@@ -35,12 +35,14 @@ const UrlList = () => {
         <div id="url-list" className="bordered">
             <h2>URL List</h2>
             {/* Przycisk do dodania nowego URL-a */}
-            <button id="add-url-button" onClick={() => setShowAddForm(true)}>Add URL</button>
+            <button id="add-url-button" onClick={() => setShowAddForm((prev) => !prev)}>
+                {showAddForm ? "Add URL" : "Add URL"}
+            </button>
             {showAddForm && (
                 <CreateUrl onClose={() => setShowAddForm(false)} refreshUrls={loadUrlList} />
             )}
 
-            {/* Lista URL-i */}
+            {/* Lista URL */}
             {urlList.length > 0 ? (
                 <ul>
                     {urlList.map((urlItem) => (

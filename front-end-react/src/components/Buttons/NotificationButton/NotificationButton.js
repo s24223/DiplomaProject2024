@@ -10,7 +10,7 @@ const NotificationButton = () => {
 
     return(
         <div className='notification-div'>
-            <button onClick={handleClick}>Notification</button>
+            <button onClick={handleClick}>Report</button>
         </div>
     )
 }

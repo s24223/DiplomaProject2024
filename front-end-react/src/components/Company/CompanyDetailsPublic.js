@@ -106,7 +106,7 @@ const CompanyDetailsPublic = () => {
                     {branches.map((branch) => (
                         <li key={branch.id}>
                             <p>
-                                <strong>Name:</strong> {branch.name || 'Brak nazwy'}
+                                <strong>Branch Name:</strong> {branch.name || 'Brak nazwy'}
                             </p>
                             <p>
                                 <strong>Address:</strong> ul. {branch.address?.street?.name}, {branch.address?.buildingNumber}/{branch.address?.apartmentNumber}, {branch.address?.zipCode}, {branch.address?.hierarchy[1]?.name}
@@ -133,7 +133,7 @@ const CompanyDetailsPublic = () => {
                 <span>Page: {page}</span>
                 <button onClick={() => setPage((prev) => prev + 1)}>Next</button>
             </div>
-            <h1>CompanyDetailsPublic</h1>
+            {/* <h1>CompanyDetailsPublic</h1> */}
         </div>
     );
 };

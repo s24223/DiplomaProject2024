@@ -55,7 +55,7 @@ export const fetchBranchPut = async (body) => {
 }
 
 export const fetchBranchDetails = async (branchId) => {
-    return await axios.get(`https://localhost:7166/api/BranchOffers/branches/${branchId}/branchOffers`, {
+    return await axios.get(`https://localhost:7166/api/BranchOffers/branches/${branchId}`, {
         headers: {
             "Access-Contorl-Allow-Origin": "*"
         }

@@ -86,7 +86,7 @@ const BranchDetailPagePrivate = () => {
 
     return (
         <div className='centered'>
-            <h1>BranchDetailsPagePriv</h1>
+            <h1>{name}</h1>
             {
                 item &&
                 <div>
