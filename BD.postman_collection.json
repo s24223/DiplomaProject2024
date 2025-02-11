@@ -1,0 +1,2136 @@
+{
+	"info": {
+		"_postman_id": "61a855cc-f944-437b-9a7d-3d808e0a7693",
+		"name": "BD",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26683594"
+	},
+	"item": [
+		{
+			"name": "User1",
+			"item": [
+				{
+					"name": "Address",
+					"item": [
+						{
+							"name": "Address1",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"country\": \"polska\",\r\n  \"state\": \"województwo lubelskie\",\r\n  \"county\": null,\r\n  \"municipality\": null,\r\n  \"city\": \"Lublin\",\r\n  \"postcode\": \"20-035\",\r\n  \"suburb\": \"Wieniawa\",\r\n  \"street\": \"Mariana Langiewicza\",\r\n  \"lon\": 22.5339562,\r\n  \"lat\": 51.2468595,\r\n  \"houseNumber\": \"26\",\r\n  \"apartmentNumber\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/Address",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"Address"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Address2",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"country\": \"polska\",\r\n  \"state\": \"województwo dolnośląskie\",\r\n  \"county\": null,\r\n  \"municipality\": null,\r\n  \"city\": \"Wrocław\",\r\n  \"postcode\": \"51-318\",\r\n  \"suburb\": \"Psie Pole\",\r\n  \"street\": \"aleja Jana III Sobieskiego\",\r\n  \"lon\": 17.1216049,\r\n  \"lat\": 51.1504116,\r\n  \"houseNumber\": \"15\",\r\n  \"apartmentNumber\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/Address",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"Address"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Address3",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"country\": \"polska\",\r\n  \"state\": \"województwo mazowieckie\",\r\n  \"county\": \"powiat piaseczyński\",\r\n  \"municipality\": \"gmina Konstancin-Jeziorna\",\r\n  \"city\": \"Gassy\",\r\n  \"postcode\": \"05-520\",\r\n  \"suburb\": null,\r\n  \"street\": null,\r\n  \"lon\": 17.1216049,\r\n  \"lat\": 51.1504116,\r\n  \"houseNumber\": \"15\",\r\n  \"apartmentNumber\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/Address",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"Address"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Address4",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"country\": \"polska\",\r\n  \"state\": \"województwo dolnośląskie\",\r\n  \"county\": \"powiat górowski\",\r\n  \"municipality\": \"gmina Wąsosz\",\r\n  \"city\": \"Chocieborowice\",\r\n  \"postcode\": \"56-210\",\r\n  \"suburb\": null,\r\n  \"street\": null,\r\n  \"lon\": 17.1216049,\r\n  \"lat\": 51.1504116,\r\n  \"houseNumber\": \"12\",\r\n  \"apartmentNumber\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/Address",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"Address"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Address5",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"country\": \"polska\",\r\n  \"state\": \"województwo mazowieckie\",\r\n  \"county\": \"powiat pruszkowski\",\r\n  \"municipality\": null,\r\n  \"city\": \"Pruszków\",\r\n  \"postcode\": \"05-520\",\r\n  \"suburb\": \"Malichy\",\r\n  \"street\": \"Okopowa\",\r\n  \"lon\": 20.711690314193746,\r\n  \"lat\": 52.1306369,\r\n  \"houseNumber\": \"12\",\r\n  \"apartmentNumber\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/Address",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"Address"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetAddress",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7166/api/Address/",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"Address",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "UserActions",
+					"item": [
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"user@example.com\",\r\n  \"password\": \"string\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/login",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Refresh",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2ZjJhNmJiZC0zMzljLTQ4NmMtOTUzYS01NGVmZTczOTE4M2MiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2UxNjI0NWMtYTcwNS00YzQxLWIzNjgtYzRjYjk5YTJjNTU3IiwiZXhwIjoxNzMzNDI1MjE5LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.XfB9Lgk--K75locWFuidLkRI1FitscAic_jpVTODY_w",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"refreshToken\": \"TYF7j9mQ1QkRia8Vc0qCmGX5Mw2Hg8s3oUfQi6FzYq5NKnunlHsoQlxKv6MojHLvF+RI2V3kHEwFYay7GV3MvyDYKweI4X9dGAIsNGagQEpRf46/tW6IuXF22LDqfSX4xSwku+uFhEPPng0ckjlpEiUugcsj/1jSpRd3tPuVAXZuJEKrWsNFz/m1rbSpQZAWeskY4QjOluE6drcJbYdsaLWNjkUmg5ozvA3jj4UwI2OGSMr8qst6dJYpIrTvYb1jB6sz6ZEjHqPnQ41XuOYlr3bg4DqvhSo2RmDyEhGPV2pGTm8x7uDCr80EVS5+zsSS0RiFXGrB0pzMv8ftqLooSPSS1sYp9D4nn4a9CZP10H06KXMYbgjx/xdLfS2YNQ5PQK99m8UIM0lEmLaHjnPrNi99ewZQDZfDxvZwxbT5HTvkHg0xSAcFdg4gSYVwd7ZJPQlV7+fCd+vkMt/X8B8ESxbJRgruWriLBP/58SCFRI5V8RwdtJ080I3YhS8KDLWmElvc/u6tV8lhFJz86VWHiXR5pl2Gudf7XXcX1jdTBGVhKV7kXxoz5DTdqBgIlgkCTCiZYNgpQam7X2UGHAymFt7/PT/1w4bSM3cBu9WotzU5AQYoXHcIgYrjBf3BAEcawtSqj+kf9ChFYfo68Icob/2aySbJVjo810r57l6STRRXQ0xwhYVjG8rmeoDcds3xA0vxjYzOCMBwmadL7yHN4brE60hsif8WDbgmYMXRCMoXeot70sFwFfNdRTwVZ96kcTLALc2Skyj+G/Xazs61fBiyJHab2JrwRnnnbZ9rST03UMD0BqN4FtKrrjJQgFuadWG7rvugSIS6Fr74pbfcaqLVOVSr69is3AwQssWXU6pvW3dku7ibudPxVEoH2gqZeSIgV3Jd6pSMrOa6IyvV+TH+asET1DdiwSNIxH86kJPlj2GbpsszA12kcf9FoA7rAQM6WAkH3/Do4NLGQVJ6Dkp0fwpnoHj8nkynMedoqX0HxTmuz1A/OYsRrpYvoaBGk77Kjyx3G4KpYqppuzTIhrk8mxVloEL5Ydx5p005nsnO5xzQudYaJtsf2Hlc8eF4W7RAtvInyvPihUH7dZuoJfuRrKaJOxBbmxY2vXLhlpyPTIGkvl+W1Z8D8nnrMWdi5K4kgdoMM7BuuJMffpQisIp8vx7hK7CzMK3LH6ZgCmqUC2SLAEoHG21jUFpn/bSNRzKpO6Ed7P7zKyphuTZAjraC6Ps4vCKhzKUQH8Bv7zchRiEmpyFkBKPb3UIyj/+Zwhyq/CBLuRXhqDqwBxjdc6/4ixIJHlU2xKmevKcqQthWpo5NMniGP7bi7u5HUQfr4VYlZDnxN8xJg/vxhhl4CA==\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/refresh",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"refresh"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CreateUser",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"user@example.com\",\r\n  \"password\": \"string\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LogOut",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlZjk1OTZmZS05ZGVmLTQ0MTQtOWU1NC0zMDUwMjExYmNiOGYiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2UxNjI0NWMtYTcwNS00YzQxLWIzNjgtYzRjYjk5YTJjNTU3IiwiZXhwIjoxNzMzNDI1MDQ2LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.SWQ18UXFxijHUn8-QqZ9mivDn8s_eHpQxsxpM79oS_c",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7166/api/User/logOut",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"logOut"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UpdateLogin",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkMWRlNWM3MC0xNGJkLTRiY2YtODdjYS1jZTI4MWU1MzI5ZGQiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2UxNjI0NWMtYTcwNS00YzQxLWIzNjgtYzRjYjk5YTJjNTU3IiwiZXhwIjoxNzMzNDI0OTk3LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.x0pTCMrUveXn1l64aJOX1qz_8p9ZAThlUxaPVibDUbU",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"newLogin\": \"user@example.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/login",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UpdatePassword",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2ZjJhNmJiZC0zMzljLTQ4NmMtOTUzYS01NGVmZTczOTE4M2MiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2UxNjI0NWMtYTcwNS00YzQxLWIzNjgtYzRjYjk5YTJjNTU3IiwiZXhwIjoxNzMzNDI1MjE5LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.XfB9Lgk--K75locWFuidLkRI1FitscAic_jpVTODY_w",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"newPassword\": \"string\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/password",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Personal Data",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2NTk0YjBjMi04YjQ0LTQxZDYtYWVhNy1mZGFjMDc0ZWQ4ZmUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMDE1OTBkZDUtZmFhOC00OTc1LWExNTktZTlhOTEwMDdmOWFhIiwiZXhwIjoxNzMzNTIzNTY3LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.g9NcIXfCLf7OVIRbrSqtt1kaiem6gf3KVBX637iZ9zs",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7166/api/User",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Notifications",
+					"item": [
+						{
+							"name": "CreateAutorized1",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzYjg4NjE4OC1iNWJmLTRlOGItYTAyMC04NTBkYzQ0ZTUyYzkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2UxNjI0NWMtYTcwNS00YzQxLWIzNjgtYzRjYjk5YTJjNTU3IiwiZXhwIjoxNzMzNDI1NTY4LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.v9qXgxg6CeaNOpASscV917g5sTb1UQ2oWwGbD_k9Wiw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"previousProblemId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n  \"idAppProblem\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n  \"userMessage\": \"string\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/notifications/authorized",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"notifications",
+										"authorized"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CreateAutorized2",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzYjg4NjE4OC1iNWJmLTRlOGItYTAyMC04NTBkYzQ0ZTUyYzkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2UxNjI0NWMtYTcwNS00YzQxLWIzNjgtYzRjYjk5YTJjNTU3IiwiZXhwIjoxNzMzNDI1NTY4LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.v9qXgxg6CeaNOpASscV917g5sTb1UQ2oWwGbD_k9Wiw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"previousProblemId\": null,\r\n  \"idAppProblem\": null,\r\n  \"userMessage\": \"Message\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/notifications/authorized",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"notifications",
+										"authorized"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CreateUnautorized1",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"string@wp.pl\",\r\n  \"previousProblemId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n  \"idAppProblem\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n  \"userMessage\": \"string\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/notifications/unauthorized",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"notifications",
+										"unauthorized"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CreateUnautorized2",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"string@wp.pl\",\r\n  \"previousProblemId\": null,\r\n  \"idAppProblem\": null,\r\n  \"userMessage\": \"Message\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/notifications/unauthorized",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"notifications",
+										"unauthorized"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AnnulAutorizedIncorrect",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkY2MxZGUxNS0zNmZmLTRmMGUtOGFjZS1jZmI4ZjczNzllNzEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2UxNjI0NWMtYTcwNS00YzQxLWIzNjgtYzRjYjk5YTJjNTU3IiwiZXhwIjoxNzMzNDI1OTMyLCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.CnB227M7wwm93iEGASbZQ8MrAq7TSqlF6FmblGFIcVc",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7166/api/User/notifications/authorized/610aa4ea-7dec-45f7-b8c3-8884545215fe/annul",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"notifications",
+										"authorized",
+										"610aa4ea-7dec-45f7-b8c3-8884545215fe",
+										"annul"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AnnulAutorizedCorrect",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkY2MxZGUxNS0zNmZmLTRmMGUtOGFjZS1jZmI4ZjczNzllNzEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2UxNjI0NWMtYTcwNS00YzQxLWIzNjgtYzRjYjk5YTJjNTU3IiwiZXhwIjoxNzMzNDI1OTMyLCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.CnB227M7wwm93iEGASbZQ8MrAq7TSqlF6FmblGFIcVc",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7166/api/User/notifications/authorized/1a816c9c-dcf9-45aa-9455-0926e80d6b9c/annul",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"notifications",
+										"authorized",
+										"1a816c9c-dcf9-45aa-9455-0926e80d6b9c",
+										"annul"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AnnulAutorizedRead",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkY2MxZGUxNS0zNmZmLTRmMGUtOGFjZS1jZmI4ZjczNzllNzEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2UxNjI0NWMtYTcwNS00YzQxLWIzNjgtYzRjYjk5YTJjNTU3IiwiZXhwIjoxNzMzNDI1OTMyLCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.CnB227M7wwm93iEGASbZQ8MrAq7TSqlF6FmblGFIcVc",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7166/api/User/notifications/authorized/1a816c9c-dcf9-45aa-9455-0926e80d6b9c/read",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"notifications",
+										"authorized",
+										"1a816c9c-dcf9-45aa-9455-0926e80d6b9c",
+										"read"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxNDllOWQ1MS02NDA5LTQwM2QtOTg4MC01YTAwYTcwMmJiNmYiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2UxNjI0NWMtYTcwNS00YzQxLWIzNjgtYzRjYjk5YTJjNTU3IiwiZXhwIjoxNzMzNDI2NTk2LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.k3IRt1VVk5Swxbsam4imNI_GQ4Q5_PAK_9u3VLj9-0E",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7166/api/User/notifications/authorized?orderBy=created&ascending=true&itemsCount=100&page=1\n",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"notifications",
+										"authorized"
+									],
+									"query": [
+										{
+											"key": "hasReaded",
+											"value": "true",
+											"disabled": true
+										},
+										{
+											"key": "senderId",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "statusId",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "orderBy",
+											"value": "created"
+										},
+										{
+											"key": "ascending",
+											"value": "true"
+										},
+										{
+											"key": "itemsCount",
+											"value": "100"
+										},
+										{
+											"key": "page",
+											"value": "1\n"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Urls*",
+					"item": [
+						{
+							"name": "Get",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MzE3M2ZkNC01MjczLTQyYjAtYTUzYS02N2NlNzg5Nzg1MWYiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2UxNjI0NWMtYTcwNS00YzQxLWIzNjgtYzRjYjk5YTJjNTU3IiwiZXhwIjoxNzMzNDI3NDY0LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.5p2vTQD65pjUM9gtJnb26pKdS_7IYwXqhIHygkQ0rmk",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7166/api/User/urls?orderBy=created&ascending=true&itemsCount=100&page=1",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"urls"
+									],
+									"query": [
+										{
+											"key": "searchText",
+											"value": "git",
+											"disabled": true
+										},
+										{
+											"key": "orderBy",
+											"value": "created"
+										},
+										{
+											"key": "ascending",
+											"value": "true"
+										},
+										{
+											"key": "itemsCount",
+											"value": "100"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MzE3M2ZkNC01MjczLTQyYjAtYTUzYS02N2NlNzg5Nzg1MWYiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2UxNjI0NWMtYTcwNS00YzQxLWIzNjgtYzRjYjk5YTJjNTU3IiwiZXhwIjoxNzMzNDI3NDY0LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.5p2vTQD65pjUM9gtJnb26pKdS_7IYwXqhIHygkQ0rmk",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n  {\r\n    \"urlTypeId\": 2,\r\n    \"path\": \"https://github.com/s25316\",\r\n    \"name\": \"string\",\r\n    \"description\": \"string\"\r\n  },\r\n  {\r\n    \"urlTypeId\": 3,\r\n    \"path\": \"https://github.com/s24223/DiplomaProject2024\",\r\n    \"name\": null,\r\n    \"description\": null\r\n  },\r\n  {\r\n    \"urlTypeId\": 3,\r\n    \"path\": \"https://github.com/s25316/for-recruitment\",\r\n    \"name\": null,\r\n    \"description\": null\r\n  }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/urls",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"urls"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create2",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MzE3M2ZkNC01MjczLTQyYjAtYTUzYS02N2NlNzg5Nzg1MWYiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2UxNjI0NWMtYTcwNS00YzQxLWIzNjgtYzRjYjk5YTJjNTU3IiwiZXhwIjoxNzMzNDI3NDY0LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.5p2vTQD65pjUM9gtJnb26pKdS_7IYwXqhIHygkQ0rmk",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n  {\r\n    \"urlTypeId\": 2,\r\n    \"path\": \"https://learn.microsoft.com/pl-pl/ef/\",\r\n    \"name\": \"string\",\r\n    \"description\": \"string\"\r\n  },\r\n  {\r\n    \"urlTypeId\": 3,\r\n    \"path\": \"https://learn.microsoft.com/pl-pl/ef/core/get-started/overview/first-app?tabs=netcore-cli\",\r\n    \"name\": null,\r\n    \"description\": null\r\n  },\r\n  {\r\n    \"urlTypeId\": 3,\r\n    \"path\": \"https://learn.microsoft.com/pl-pl/ef/core/\",\r\n    \"name\": null,\r\n    \"description\": null\r\n  },\r\n  {\r\n    \"urlTypeId\": 3,\r\n    \"path\": \"https://learn.microsoft.com/en-us/aspnet/core/security/authentication/jwt-authn?view=aspnetcore-9.0&tabs=windows\",\r\n    \"name\": null,\r\n    \"description\": null\r\n  },\r\n  {\r\n    \"urlTypeId\": 3,\r\n    \"path\": \"https://github.com/jwt-dotnet/jwt\",\r\n    \"name\": null,\r\n    \"description\": null\r\n  },\r\n  {\r\n    \"urlTypeId\": 3,\r\n    \"path\": \"https://learn.microsoft.com/pl-pl/dotnet/api/system.identitymodel.tokens.jwt.jwtconstants?view=msal-web-dotnet-latest&viewFallbackFrom=azure-dotnet\",\r\n    \"name\": null,\r\n    \"description\": null\r\n  },\r\n  {\r\n    \"urlTypeId\": 3,\r\n    \"path\": \"https://learn.microsoft.com/pl-pl/dotnet/api/system.data.sqlclient.sqlconnection?view=netframework-4.8.1\",\r\n    \"name\": null,\r\n    \"description\": null\r\n  },\r\n  {\r\n    \"urlTypeId\": 3,\r\n    \"path\": \"https://learn.microsoft.com/en-us/dotnet/api/system.data.sqlclient.sqlconnection?view=net-8.0-pp\",\r\n    \"name\": null,\r\n    \"description\": null\r\n  },\r\n  {\r\n    \"urlTypeId\": 3,\r\n    \"path\": \"https://learn.microsoft.com/pl-pl/dotnet/api/system.data.sqlclient?view=windowsdesktop-9.0\",\r\n    \"name\": null,\r\n    \"description\": null\r\n  },\r\n  {\r\n    \"urlTypeId\": 3,\r\n    \"path\": \"https://learn.microsoft.com/en-us/dotnet/api/microsoft.data.sqlclient.sqlconnection?view=sqlclient-dotnet-standard-5.2\",\r\n    \"name\": null,\r\n    \"description\": null\r\n  }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/urls",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"urls"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1ZDQwNDQxMy03NWFlLTQ2ZDMtODFjOC04YWJhMzE5M2IwZmQiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2UxNjI0NWMtYTcwNS00YzQxLWIzNjgtYzRjYjk5YTJjNTU3IiwiZXhwIjoxNzMzNDI2Nzk3LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.e1d_Nj3vm5J40ksF36ATk_V4UmRUE0JgtRC0tzSbuVs",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"urlTypeId\": 2,\r\n        \"created\": \"2024-12-05T20:21:00.293\"\r\n    },\r\n    {\r\n        \"urlTypeId\": 3,\r\n        \"created\": \"2024-12-05T20:21:00.303\"\r\n    },\r\n    {\r\n        \"urlTypeId\": 3,\r\n        \"created\": \"2024-12-05T20:21:00.313\"\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/urls",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"urls"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MzE3M2ZkNC01MjczLTQyYjAtYTUzYS02N2NlNzg5Nzg1MWYiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2UxNjI0NWMtYTcwNS00YzQxLWIzNjgtYzRjYjk5YTJjNTU3IiwiZXhwIjoxNzMzNDI3NDY0LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.5p2vTQD65pjUM9gtJnb26pKdS_7IYwXqhIHygkQ0rmk",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"urlTypeId\": 2,\r\n        \"created\": \"2024-12-05T20:27:59.457\",\r\n        \"data\": {\r\n            \"path\": \"https://github.com/s25316_12\",\r\n            \"name\": \"string\",\r\n            \"description\": \"string\"\r\n        }\r\n    },\r\n    {\r\n        \"urlTypeId\": 3,\r\n        \"created\": \"2024-12-05T20:27:59.467\",\r\n        \"data\": {\r\n            \"path\": \"https://github.com/s24223/DiplomaProject2024-15\",\r\n            \"name\": \"string\",\r\n            \"description\": \"string\"\r\n        }\r\n    },\r\n    {\r\n        \"urlTypeId\": 3,\r\n        \"created\": \"2024-12-05T20:27:59.477\",\r\n        \"data\": {\r\n            \"path\": \"https://github.com/s25316/for-recruitment_12\",\r\n            \"name\": \"string\",\r\n            \"description\": \"string\"\r\n        }\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/urls",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"urls"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Company",
+					"item": [
+						{
+							"name": "CompanyCreate",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0YjFiMjJhNC1lMTFhLTQ1ODMtYmRkNi01MjVkNzdmYTZiMDMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2QwNTZjYTYtMDAzNC00MTg5LWEzNTAtMjg4MGM5ZDM2NzU1IiwiZXhwIjoxNzMzNjcxNDk5LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.z8Csm8sJubaayX1y4eN3SOzCal7m2RC7xq-1Te99fVY",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"urlSegment\": \"string\",\r\n    \"contactEmail\": \"user@example.com\",\r\n    \"name\": \"string\",\r\n    \"regon\": \"123456789\",\r\n    \"description\": \"string\",\r\n    \"branches\": [\r\n        {\r\n            \"addressId\": \"7aab9fa3-c618-40f0-88b1-44a6da4cc483\",\r\n            \"urlSegment\": \"string\",\r\n            \"name\": \"string\",\r\n            \"description\": \"string\"\r\n        },\r\n        {\r\n            \"addressId\": \"7aab9fa3-c618-40f0-88b1-44a6da4cc483\",\r\n            \"urlSegment\": null,\r\n            \"name\": \"string\",\r\n            \"description\": \"string\"\r\n        },\r\n        {\r\n            \"addressId\": \"7aab9fa3-c618-40f0-88b1-44a6da4cc483\",\r\n            \"urlSegment\": null,\r\n            \"name\": \"string\",\r\n            \"description\": \"string\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/company",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"company"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CreateBranches",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjNTE5N2Q2NC0xMTdlLTQwZGQtYjFiMS1kMDk3ZmU4YmRmM2UiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2UxNjI0NWMtYTcwNS00YzQxLWIzNjgtYzRjYjk5YTJjNTU3IiwiZXhwIjoxNzMzNDMzNDMyLCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.uJ7CEha2qk70HDLYxFy2c_oNvr-zRnv-Oc2wHa1uTI0",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n  {\r\n    \"addressId\": \"b639f6a6-766a-4b61-8d17-ff5c6f7032b6\",\r\n    \"urlSegment\": \"string\",\r\n    \"name\": \"string\",\r\n    \"description\": \"string\"\r\n  },\r\n  {\r\n    \"addressId\": \"b639f6a6-766a-4b61-8d17-ff5c6f7032b6\",\r\n    \"urlSegment\": null,\r\n    \"name\": \"string\",\r\n    \"description\": \"string\"\r\n  },\r\n  {\r\n    \"addressId\": \"b639f6a6-766a-4b61-8d17-ff5c6f7032b6\",\r\n    \"urlSegment\": null,\r\n    \"name\": \"string\",\r\n    \"description\": \"string\"\r\n  }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/company/branches",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"company",
+										"branches"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CreateOffers1",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlNDM1MWZhOS1iN2VjLTQyOWItOTY1Yi00Y2E2NzkwZWVjZTAiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2QwNTZjYTYtMDAzNC00MTg5LWEzNTAtMjg4MGM5ZDM2NzU1IiwiZXhwIjoxNzMzNjY3NTgyLCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.uEF_Z37xd9a56oY3CYVU9t-k_EcySfcPbTTwX7lBnAM",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n  {\r\n    \"name\": \"string\",\r\n    \"description\": \"string\",\r\n    \"minSalary\": 0,\r\n    \"maxSalary\": 0,\r\n    \"isNegotiatedSalary\": true,\r\n    \"isForStudents\": true,\r\n    \"characteristics\": [\r\n      {\r\n        \"characteristicId\": 401,\r\n        \"qualityId\": null\r\n      },\r\n      {\r\n        \"characteristicId\": 1001,\r\n        \"qualityId\": null\r\n      },\r\n      {\r\n        \"characteristicId\": 1002,\r\n        \"qualityId\": null\r\n      },\r\n      {\r\n        \"characteristicId\": 1003,\r\n        \"qualityId\": null\r\n      },\r\n      {\r\n        \"characteristicId\": 402,\r\n        \"qualityId\": null\r\n      },\r\n      {\r\n        \"characteristicId\": 1019,\r\n        \"qualityId\": null\r\n      },\r\n      {\r\n        \"characteristicId\": 1020,\r\n        \"qualityId\": null\r\n      },\r\n      {\r\n        \"characteristicId\": 1021,\r\n        \"qualityId\": null\r\n      }\r\n    ]\r\n  }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/company/offers",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"company",
+										"offers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CreateOffers2",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiYTgyMjVmNi1kZWJiLTQwYWItODBhMi03NmJjZWZiYTU0ZWIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2UxNjI0NWMtYTcwNS00YzQxLWIzNjgtYzRjYjk5YTJjNTU3IiwiZXhwIjoxNzMzNDM0MjEzLCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.nNl86zic8rQS40d5EGegRli_Fw4uFZ61cTun8jwwVxs",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n  {\r\n    \"name\": \"string\",\r\n    \"description\": \"string\",\r\n    \"minSalary\": 0,\r\n    \"maxSalary\": 0,\r\n    \"isNegotiatedSalary\": true,\r\n    \"isForStudents\": true,\r\n    \"characteristics\": [\r\n      {\r\n        \"characteristicId\": 401,\r\n        \"qualityId\": null\r\n      }\r\n    ]\r\n  }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/company/offers",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"company",
+										"offers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UpdateCompany",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1NmY2Y2IxMi1mNzE2LTRmNTAtOTk4ZS0yZjMzNGM2NWJiZDgiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2UxNjI0NWMtYTcwNS00YzQxLWIzNjgtYzRjYjk5YTJjNTU3IiwiZXhwIjoxNzMzNDMzNjc1LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.TU3BUZoKjcuS8UMQqfR3hwCnViWDGUSKGcb_MoPaSHk",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"urlSegment\": \"string_updated\",\r\n  \"contactEmail\": \"user_updated@example.com\",\r\n  \"name\": \"string_updated\",\r\n  \"description\": \"string_updated\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/company",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"company"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UpdateBranches",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n  {\r\n    \"branchId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"addressId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"urlSegment\": \"string\",\r\n    \"name\": \"string\",\r\n    \"description\": \"string\"\r\n  }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/company/branches",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"company",
+										"branches"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UpdateOffer",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5ZDc1OWQ3Ny0yMTJjLTRjZTktOGMyZC05NjY3MTBkN2EwYzQiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2UxNjI0NWMtYTcwNS00YzQxLWIzNjgtYzRjYjk5YTJjNTU3IiwiZXhwIjoxNzMzNDM2NjIxLCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.LWjKIcgWQXGigsjttepoho3NzO_-q8XZPwtPEdkj3ug",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n  {\r\n    \"offerId\": \"6a14e569-ffe7-44f8-9243-261a0518a384\",\r\n    \"name\": \"string\",\r\n    \"description\": \"string\",\r\n    \"minSalary\": 0,\r\n    \"maxSalary\": 0,\r\n    \"isNegotiatedSalary\": false,\r\n    \"isForStudents\": false,\r\n    \"characteristics\": [\r\n      {\r\n        \"characteristicId\": 405,\r\n        \"qualityId\": null\r\n      }\r\n    ]\r\n  },\r\n  {\r\n    \"offerId\": \"f06fe6a9-92f2-4d00-ba5e-7dcdbacc85a1\",\r\n    \"name\": \"string\",\r\n    \"description\": \"string\",\r\n    \"minSalary\": 0,\r\n    \"maxSalary\": 0,\r\n    \"isNegotiatedSalary\": false,\r\n    \"isForStudents\": false,\r\n    \"characteristics\": [\r\n      {\r\n        \"characteristicId\": 406,\r\n        \"qualityId\": null\r\n      }\r\n    ]\r\n  }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/company/offers",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"company",
+										"offers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetBranchesCore",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlZGZkMzNiOC0wMGIxLTRiZTctOTk2Ny1iNDlmZmI3MDFmYzkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2QwNTZjYTYtMDAzNC00MTg5LWEzNTAtMjg4MGM5ZDM2NzU1IiwiZXhwIjoxNzMzNjY5MjU0LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.sAr_RPp-9HTCC2vYGmXSIWvLLw_3f5bydakGhMsvRuU",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7166/api/User/company/branches/core?ascending=true&itemsCount=100&page=1",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"company",
+										"branches",
+										"core"
+									],
+									"query": [
+										{
+											"key": "divisionId",
+											"value": "12",
+											"disabled": true
+										},
+										{
+											"key": "streetId",
+											"value": "12",
+											"disabled": true
+										},
+										{
+											"key": "ascending",
+											"value": "true"
+										},
+										{
+											"key": "itemsCount",
+											"value": "100"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetOffersCore",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzYjdlMzdjNy02ODI0LTQ5NTQtYmUwMS1jMDk2MzkzMTEzMWYiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2UxNjI0NWMtYTcwNS00YzQxLWIzNjgtYzRjYjk5YTJjNTU3IiwiZXhwIjoxNzMzNDM2OTUxLCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.7dlvCnoyTIBnw_VnQ2td3G3i6iZX2EcpF-uvMf6Yaog",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7166/api/User/company/offers/core?searchText=&orderBy=created&ascending=true&itemsCount=100&page=1",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"company",
+										"offers",
+										"core"
+									],
+									"query": [
+										{
+											"key": "searchText",
+											"value": ""
+										},
+										{
+											"key": "isNegotiatedSalary",
+											"value": "true",
+											"disabled": true
+										},
+										{
+											"key": "isForStudents",
+											"value": "true",
+											"disabled": true
+										},
+										{
+											"key": "minSalary",
+											"value": "12",
+											"disabled": true
+										},
+										{
+											"key": "maxSalary",
+											"value": "12",
+											"disabled": true
+										},
+										{
+											"key": "orderBy",
+											"value": "created"
+										},
+										{
+											"key": "ascending",
+											"value": "true"
+										},
+										{
+											"key": "itemsCount",
+											"value": "100"
+										},
+										{
+											"key": "divisionId",
+											"value": "12",
+											"disabled": true
+										},
+										{
+											"key": "streetId",
+											"value": "12",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CreateBranchOffer*",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhZmIxMDNiNS1kYTVmLTQ4MDUtOWM4Yi1lMGU1MWQxM2I0YjAiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRiNTgyOTAtMTEzNi00MmUzLTkxNWQtZGZkZWQzOWQ1ZTRlIiwiZXhwIjoxNzM0MzE0MTc1LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.c9G4BNzRS_RU8rXECO9LyLBjp3cn8qwYPIjyKxgCwic",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n  {\r\n    \"branchId\": \"d8a1ad49-dce2-4a60-b0e4-ad96a4904911\",\r\n    \"offerId\": \"9eb13fb8-4369-4f5e-9a72-dcc1acd408b5\",\r\n    \"publishStart\": \"2024-12-15T22:01:43.414Z\",\r\n    \"publishEnd\": \"2024-12-31T22:01:43.414Z\",\r\n    \"workStart\": {\r\n      \"year\": 9999,\r\n      \"month\": 12,\r\n      \"day\": 31\r\n    },\r\n    \"workEnd\": {\r\n      \"year\": 9999,\r\n      \"month\": 12,\r\n      \"day\": 31\r\n    }\r\n  }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/company/branches&offers",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"company",
+										"branches&offers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CreateBranchOffer* 2",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjODhkMDcyMC04MmZiLTRkZTAtYWZlYi00YmY1MWRhYjNlZGEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMDE1OTBkZDUtZmFhOC00OTc1LWExNTktZTlhOTEwMDdmOWFhIiwiZXhwIjoxNzMzNTI2NzI5LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.VM0xwyq58Bs7cG8kCKHJqjpTWsAZhWnzc5WCXrcT7U0",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n  {\r\n    \"branchId\": \"e95c513d-9ca9-4b1b-9b0d-5be5f4cd860b\",\r\n    \"offerId\": \"ba3b06c9-e704-4e0c-84e4-8fba72f8fe37\",\r\n    \"publishStart\": \"2024-12-06T22:01:43.414Z\",\r\n    \"publishEnd\": \"2024-12-15T22:01:43.414Z\",\r\n    \"workStart\": {\r\n      \"year\": 9999,\r\n      \"month\": 12,\r\n      \"day\": 31\r\n    },\r\n    \"workEnd\": {\r\n      \"year\": 9999,\r\n      \"month\": 12,\r\n      \"day\": 31\r\n    }\r\n  }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/company/branches&offers",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"company",
+										"branches&offers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CreateBranchOffer*",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2NTk0YjBjMi04YjQ0LTQxZDYtYWVhNy1mZGFjMDc0ZWQ4ZmUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMDE1OTBkZDUtZmFhOC00OTc1LWExNTktZTlhOTEwMDdmOWFhIiwiZXhwIjoxNzMzNTIzNTY3LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.g9NcIXfCLf7OVIRbrSqtt1kaiem6gf3KVBX637iZ9zs",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n  {\r\n    \"branchOfferId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"publishStart\": \"2024-12-05T22:10:10.550Z\",\r\n    \"publishEnd\": \"2024-12-12T22:10:10.550Z\",\r\n    \"workStart\": {\r\n      \"year\": 9999,\r\n      \"month\": 12,\r\n      \"day\": 31\r\n    },\r\n    \"workEnd\": {\r\n      \"year\": 9999,\r\n      \"month\": 12,\r\n      \"day\": 31\r\n    }\r\n  }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/company/branches&offers",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"company",
+										"branches&offers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetCOmpanyDetails",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3MmE3NTg5Ny1lMDhmLTQ2ZWEtOWU4YS01MGZlYzRjNTVjODciLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRiNTgyOTAtMTEzNi00MmUzLTkxNWQtZGZkZWQzOWQ1ZTRlIiwiZXhwIjoxNzM0MzE3NTk5LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.K-w5jtgHwHsfmZ2KHvKI6aQkgfYg1ucNYDkzz2OY_Y4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7166/api/User/company",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"company"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetBranches Details",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIyMGYyMDIzOC0xMzc4LTRmN2ItOWQ0Zi0wOThiNTI5NWU5M2QiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRiNTgyOTAtMTEzNi00MmUzLTkxNWQtZGZkZWQzOWQ1ZTRlIiwiZXhwIjoxNzM0MzI5MTUwLCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.QL6DG9Mj61GuMyDI0YMPpVh7-asWDhrFOYt4wrZjxdU",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7166/api/User/company/branches/details?page=2",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"company",
+										"branches",
+										"details"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Interships",
+					"item": [
+						{
+							"name": "Recrutment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2NTk0YjBjMi04YjQ0LTQxZDYtYWVhNy1mZGFjMDc0ZWQ4ZmUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMDE1OTBkZDUtZmFhOC00OTc1LWExNTktZTlhOTEwMDdmOWFhIiwiZXhwIjoxNzMzNTIzNTY3LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.g9NcIXfCLf7OVIRbrSqtt1kaiem6gf3KVBX637iZ9zs",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"personMessage\": \"Message\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/recruitment?branchOfferId=96fbc560-7373-4766-8229-de950c3c0e00",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"recruitment"
+									],
+									"query": [
+										{
+											"key": "branchOfferId",
+											"value": "96fbc560-7373-4766-8229-de950c3c0e00"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "RecrutmentAnswer",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0M2MxMjYwOS1iNTY3LTRlYTEtOGQyYi05ZjYwMzQwOWJlODYiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2QwNTZjYTYtMDAzNC00MTg5LWEzNTAtMjg4MGM5ZDM2NzU1IiwiZXhwIjoxNzMzNjc1NTg5LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.FiQLcbSUhL-by5AiLBdV4cnILWzRcqbVpLoysyt9ix8",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"companyResponse\": \"Response3\",\r\n  \"isAccepted\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/recruitment/1156DC26-CC6E-4222-BEB7-3CC61A9B63ED/answer",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"recruitment",
+										"1156DC26-CC6E-4222-BEB7-3CC61A9B63ED",
+										"answer"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CreateInteship",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0M2MxMjYwOS1iNTY3LTRlYTEtOGQyYi05ZjYwMzQwOWJlODYiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2QwNTZjYTYtMDAzNC00MTg5LWEzNTAtMjg4MGM5ZDM2NzU1IiwiZXhwIjoxNzMzNjc1NTg5LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.FiQLcbSUhL-by5AiLBdV4cnILWzRcqbVpLoysyt9ix8",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"contactNumber\": \"string\",\r\n  \"contractStartDate\": {\r\n    \"year\": 2024,\r\n    \"month\": 12,\r\n    \"day\": 31\r\n  },\r\n  \"contractEndDate\": {\r\n    \"year\": 2025,\r\n    \"month\": 12,\r\n    \"day\": 31\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/internship?recrutmentId=1156DC26-CC6E-4222-BEB7-3CC61A9B63ED",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"internship"
+									],
+									"query": [
+										{
+											"key": "recrutmentId",
+											"value": "1156DC26-CC6E-4222-BEB7-3CC61A9B63ED"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UpdateIntership",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5ZTE0NzVhZS02NWUyLTQ5MzUtYjU5ZS1iZGU3N2U2NzM2ZWEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMDE1OTBkZDUtZmFhOC00OTc1LWExNTktZTlhOTEwMDdmOWFhIiwiZXhwIjoxNzMzNTI4NTY5LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.TJcJc9b6GeeA4fnN1quktEdGuD2RziLN2_GgDkDjhtE",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"contractNumber\": \"ABC123456\",\r\n  \"contractStartDate\": {\r\n    \"year\": 2025,\r\n    \"month\": 12,\r\n    \"day\": 31\r\n  },\r\n  \"contractEndDate\": {\r\n    \"year\": 9999,\r\n    \"month\": 12,\r\n    \"day\": 31\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/internship/cfca1cb3-3b61-489f-be1f-acfa81c94a1a",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"internship",
+										"cfca1cb3-3b61-489f-be1f-acfa81c94a1a"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CommentWithEvaluation",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0M2MxMjYwOS1iNTY3LTRlYTEtOGQyYi05ZjYwMzQwOWJlODYiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2QwNTZjYTYtMDAzNC00MTg5LWEzNTAtMjg4MGM5ZDM2NzU1IiwiZXhwIjoxNzMzNjc1NTg5LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.FiQLcbSUhL-by5AiLBdV4cnILWzRcqbVpLoysyt9ix8",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"commentTypeId\": 1,\r\n  \"description\": \"string\",\r\n  \"evaluation\": 5\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/internship/1156DC26-CC6E-4222-BEB7-3CC61A9B63ED/commentWithEvalaution",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"internship",
+										"1156DC26-CC6E-4222-BEB7-3CC61A9B63ED",
+										"commentWithEvalaution"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Person",
+					"item": [
+						{
+							"name": "CreatePerson",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5ZDc3N2Q4MS1kOGU4LTRiMTAtOTI2MS00ZmY2ZjM1ZGUyMTUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiN2QwNTZjYTYtMDAzNC00MTg5LWEzNTAtMjg4MGM5ZDM2NzU1IiwiZXhwIjoxNzMzNTg4NzAyLCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.25X4bD9ZLPCRDhlbYVg-h8F9pFBUY4OZ1vTQ3Fn4DSw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"urlSegment\": \"string\",\r\n  \"contactEmail\": \"user@example.com\",\r\n  \"name\": \"string\",\r\n  \"surname\": \"string\",\r\n  \"birthDate\": {\r\n    \"year\": 1995,\r\n    \"month\": 12,\r\n    \"day\": 31\r\n  },\r\n  \"contactPhoneNum\": \"123456789\",\r\n  \"description\": \"string\",\r\n  \"isStudent\": true,\r\n  \"isPublicProfile\": true,\r\n  \"addressId\": \"7aab9fa3-c618-40f0-88b1-44a6da4cc483\",\r\n  \"characteristics\": [\r\n    {\r\n      \"characteristicId\": 401,\r\n      \"qualityId\": null\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/person",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"person"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "User2",
+			"item": [
+				{
+					"name": "UserActions",
+					"item": [
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"user2@example.com\",\r\n  \"password\": \"string\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/login",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CreateUser",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"user2@example.com\",\r\n  \"password\": \"string\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Personal Data",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI2NTk0YjBjMi04YjQ0LTQxZDYtYWVhNy1mZGFjMDc0ZWQ4ZmUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMDE1OTBkZDUtZmFhOC00OTc1LWExNTktZTlhOTEwMDdmOWFhIiwiZXhwIjoxNzMzNTIzNTY3LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.g9NcIXfCLf7OVIRbrSqtt1kaiem6gf3KVBX637iZ9zs",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7166/api/User",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Interships",
+					"item": [
+						{
+							"name": "Recrutment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4NmQ2MmUyNi04OTU2LTQ4ZmItYTRlNC05MTg0NWNlNDk4MjkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMDE3YzA2ZjMtY2JhZS00NmY0LWI3OGItOGM1MDVmY2M0NDNkIiwiZXhwIjoxNzMzNjcyODEwLCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.yv8Z6sETi9uCLtP28UWM5Q6BT7cuPMVRXxO_4U4DXo4",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"personMessage\": \"Message\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/recruitment?branchOfferId=2fa93b33-4706-4537-88cd-8a270540f1e4",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"recruitment"
+									],
+									"query": [
+										{
+											"key": "branchOfferId",
+											"value": "2fa93b33-4706-4537-88cd-8a270540f1e4"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CommentWithEvaluation Copy",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI5ZWI3Y2FmMi04YjZhLTQ4NGEtOWU3OS03OWE2ZGVkNjAzYjkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMDE3YzA2ZjMtY2JhZS00NmY0LWI3OGItOGM1MDVmY2M0NDNkIiwiZXhwIjoxNzMzOTQ5OTQ4LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.ZJvUplQDRkizhdqFysEh7DQF7pahbtqd45npJzxlbvY",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"commentTypeId\": 1,\r\n  \"description\": \"string\",\r\n  \"evaluation\": 5\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/internship/1156DC26-CC6E-4222-BEB7-3CC61A9B63ED/commentWithEvalaution",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"internship",
+										"1156DC26-CC6E-4222-BEB7-3CC61A9B63ED",
+										"commentWithEvalaution"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetComments",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhOGIwMGJkMC03OTZjLTQ0OTUtOTQ2OC1iYTY5ODc2ZjQzNjAiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiMDE3YzA2ZjMtY2JhZS00NmY0LWI3OGItOGM1MDVmY2M0NDNkIiwiZXhwIjoxNzMzNjg3NTY4LCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0.RnkTxs-iSD81UtNWer0NBabtKafFZV6eKzzdXiFpAuQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:7166/api/User/internship/1156DC26-CC6E-4222-BEB7-3CC61A9B63ED/comments?orderBy=created&ascending=false&maxItems=100&page=1",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"internship",
+										"1156DC26-CC6E-4222-BEB7-3CC61A9B63ED",
+										"comments"
+									],
+									"query": [
+										{
+											"key": "orderBy",
+											"value": "created"
+										},
+										{
+											"key": "ascending",
+											"value": "false"
+										},
+										{
+											"key": "maxItems",
+											"value": "100"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Person",
+					"item": [
+						{
+							"name": "CreatePerson",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmZjY3NjFiOC01OTEyLTQyOTktYmY3NS1mNGY1NGJhN2QyNWQiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYTJkNmFlNjAtYmM2Mi00ZmQ1LThlZTEtYzM3MzlhZDE0OTcwIiwiZXhwIjoxNzM0MzE1NzIyLCJpc3MiOiJteUFwcCIsImF1ZCI6Im15QXBwIn0._PJaa_Dbjv1ZxJeYPxjfmMsKMAv1OjwcSNcFcNlzhag",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"urlSegment\": \"string2\",\r\n  \"contactEmail\": \"user2@example.com\",\r\n  \"name\": \"string\",\r\n  \"surname\": \"string\",\r\n  \"birthDate\": {\r\n    \"year\": 1995,\r\n    \"month\": 12,\r\n    \"day\": 31\r\n  },\r\n  \"contactPhoneNum\": \"123456788\",\r\n  \"description\": \"string\",\r\n  \"isStudent\": true,\r\n  \"isPublicProfile\": true,\r\n  \"addressId\": \"fc8ec262-29a8-4093-a7e6-a903a894a304\",\r\n  \"characteristics\": [\r\n    {\r\n      \"characteristicId\": 401,\r\n      \"qualityId\": null\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7166/api/User/person",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7166",
+									"path": [
+										"api",
+										"User",
+										"person"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
