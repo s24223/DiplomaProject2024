@@ -28,6 +28,9 @@ import BranchDetailsPagePublic from './pages/Branch/BranchDetailsPagePublic';
 import PrivateOfferDetailsPage from './pages/Offer/PrivateOfferDetailsPage';
 import ProfileChnagePassword from './pages/Profile/ProfilePasswordChange';
 import DeleteProfilePage from './pages/Profile/ProfileDelete';
+import ResetPasswordPage from './pages/ResetPasswordPage/ResetPasswordPage';
+import AccountActivationPage from './pages/AccountActivationPage/AccoutActivationPage';
+import ResetPasswordEmailPage from './pages/ResetPasswordEmailPage/ResetPasswordEmailPage';
 
 function App() {
     return (
@@ -79,7 +82,6 @@ function App() {
                     
                     <Route path="test" element={<TestPage />} />
 
-
                     <Route path="/companyRecruitment" element={<CompanyRecruitmentPage />} />
                     <Route path="/personRecruitment" element={<PersonRecruitmentPage />} />
 
@@ -88,6 +90,9 @@ function App() {
                     <Route path="public/branch/:branchId" element={<BranchDetailsPagePublic />} />
 
                     <Route path='/changePassword' element={<ProfileChnagePassword />} />
+                    <Route path='/reset/:userId/:secretString' element={<ResetPasswordPage />} />
+                    <Route path='/activate/:userId/:secretString' element={<AccountActivationPage />} />
+                    <Route path='/reset' element={<ResetPasswordEmailPage />} />
                 </Routes>
                 </div>
             </div>

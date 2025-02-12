@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { fetchLogin } from '../../services/LoginService/LoginService';
+import { Link } from 'react-router-dom';
 
 const LoginPage = () => {
     const [email, setEmail] = useState();
@@ -40,6 +41,7 @@ const LoginPage = () => {
                     <input type="password" id="password" name="password" placeholder='Password' onChange={e => setPassword(e.target.value)} /><br />
                     <input id='log-in-page-button' type="submit" value="Log in" />
                 </form>
+                <Link to="/reset">Forgot password</Link>
             </div>
         </div>
     )

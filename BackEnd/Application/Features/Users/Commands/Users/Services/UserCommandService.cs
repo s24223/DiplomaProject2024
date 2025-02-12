@@ -28,7 +28,7 @@ namespace Application.Features.Users.Commands.Users.Services
         private readonly IDomainFactory _domainFactory;
         private readonly IAuthJwtSvc _authenticationRepository;
         private readonly IEmailService _emailService;
-        private static readonly string _url = "https://localhost:7166/api/User/";
+        private static readonly string _url = "http://localhost:3000/";
         private static readonly string _urlActivation = $"{_url}activate/";
         private static readonly string _urlReset = $"{_url}reset/";
 
