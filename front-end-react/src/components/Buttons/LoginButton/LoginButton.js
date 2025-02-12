@@ -27,7 +27,7 @@ const LoginButton = () => {
             {localStorage.getItem("jwt") === null ?
                 <div className='two-button'>
                     <button className='button-one' onClick={handleLogin} >
-                        Log in
+                        LogIn
                     </button>
                     <button className='button-two' onClick={handleRegistration} >
                         Sign up
@@ -38,7 +38,7 @@ const LoginButton = () => {
                         Profile
                     </button>
                     <button className='button-two' onClick={handleLogOut} >
-                        Log out
+                        LogOut
                     </button>
                 </div>}
         </div>

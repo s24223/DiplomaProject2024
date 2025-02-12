@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import OfferDetails from "../../components/Offers/OfferDetails";
 import OfferEditForm from "../../components/Forms/OfferEditForm";
 import { fetchOfferDetailsPublic } from "../../services/OffersService/OffersService";
@@ -38,19 +38,24 @@ const PrivateOfferDetailsPage = () => {
 
     return (
         <div>
-            
+            <div className="edit-container" >
+                {isLoggedIn && (
+                    <>
+                    <button onClick={() => setEditMode(!editMode)} >
+                        {editMode ? "Cancel Edit" : "Edit Mode"}
+                    </button>
+                    <button onClick={() => (window.location.href = `/offers/${offerId}/applications`)}>
+                    Manage Applications
+                    </button>
+                  </>
+                )}
+            </div>
             {editMode && isLoggedIn ? (
                 <OfferEditForm offerDetails={offerDetails} onCancelEdit={() => setEditMode(false)} />
             ) : (
                 <OfferDetails offerDetails={offerDetails} />
             )}
-            <div className="edit-container" >
-                {isLoggedIn && (
-                    <button onClick={() => setEditMode(!editMode)} >
-                        {editMode ? "Cancel Edit" : "Edit Mode"}
-                    </button>
-                )}
-            </div>
+            
         </div>
     );
 };

@@ -26,10 +26,10 @@ const EditCompanyPage = () => {
                 }
                 if (company) {
                     setCompanyData({
-                        urlSegment: company.urlSegment || "",
-                        contactEmail: company.contactEmail || "",
-                        name: company.name || "",
-                        description: company.description || "",
+                        urlSegment: company.company.urlSegment || "",
+                        contactEmail: company.company.contactEmail || "",
+                        name: company.company.name || "",
+                        description: company.company.description || "",
                     });
                 }
             } catch (error) {
