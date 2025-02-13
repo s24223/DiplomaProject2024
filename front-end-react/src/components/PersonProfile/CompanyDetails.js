@@ -23,9 +23,6 @@ const CompanyDetails = ({ company, branchCount, activeOffersCount }) => {
             &nbsp;
             <button onClick={handleAddBranch}>Add Branch</button>
             &nbsp;
-            <button onClick={() => (window.location.href = "/companyRecruitment")}>
-                Manage Applications
-            </button>
         </div>
     );
 };

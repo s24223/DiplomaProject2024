@@ -12,7 +12,6 @@ import ProfileCreatePage from './pages/Profile/ProfileCreatePage';
 import ProfileEditPage from './pages/Profile/ProfileEditPage';
 import CompanyCreatePage from './pages/Company/CompanyCreatePage';
 import CompanyEditPage from './pages/Company/CompanyEditPage';
-import CompanyRecruitmentPage from './pages/Company/CompanyRecruitmentPage';
 import BranchCreatePage from './pages/Branch/BranchCreatePage';
 import BranchDetailPagePrivate from './pages/Branch/BranchDetailsPagePrivate';
 import NotificationPage from './pages/Notification/NotificationPage/NotificationPage';
@@ -82,7 +81,6 @@ function App() {
                     <Route path="test" element={<TestPage />} />
 
 
-                    <Route path="/companyRecruitment" element={<CompanyRecruitmentPage />} />
                     <Route path="/personRecruitment" element={<PersonRecruitmentPage />} />
 
 

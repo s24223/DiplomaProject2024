@@ -10,7 +10,7 @@ const OfferApplicationsPage = () => {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [filterStatus, setFilterStatus] = useState(""); // Filtr statusu aplikacji
+  const [filterStatus, setFilterStatus] = useState("pending");
 
   useEffect(() => {
     const fetchApplications = async () => {
@@ -24,8 +24,7 @@ const OfferApplicationsPage = () => {
             ascending: true,
             maxItems: 100,
             page: 1,
-            filterOfferId: offerId, // Filtrowanie po konkretnej ofercie
-            filterStatus: filterStatus || null,
+            filterOfferId: offerId,
           },
         });
         setApplications(response.data.items);
@@ -38,7 +37,7 @@ const OfferApplicationsPage = () => {
     };
 
     fetchApplications();
-  }, [offerId, filterStatus]);
+  }, [offerId]);
 
   const handleResponse = async (recruitmentId, isAccepted) => {
     const companyResponse = isAccepted ? "Your application has been accepted." : "Your application has been rejected.";
@@ -60,6 +59,14 @@ const OfferApplicationsPage = () => {
     }
   };
 
+  const filteredApplications = applications.filter((app) => {
+    if (filterStatus === "all") return true;
+    if (filterStatus === "accepted") return app.recruitment.isAccepted === true;
+    if (filterStatus === "rejected") return app.recruitment.isAccepted === false;
+    if (filterStatus === "pending") return app.recruitment.isAccepted === null;
+    return false;
+  });
+
   if (loading) return <p>Loading applications...</p>;
   if (error) return <p>{error}</p>;
 
@@ -69,14 +76,15 @@ const OfferApplicationsPage = () => {
       <div>
         <label>Filter by status: </label>
         <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
-          <option value="">All</option>
-          <option value="true">Accepted</option>
-          <option value="false">Rejected</option>
+          <option value="all">All</option>
+          <option value="accepted">Accepted</option>
+          <option value="rejected">Rejected</option>
+          <option value="pending">Pending</option>
         </select>
       </div>
-      {applications.length > 0 ? (
+      {filteredApplications.length > 0 ? (
         <ul>
-          {applications.map((app) => (
+          {filteredApplications.map((app) => (
             <li key={app.recruitment.id}>
               <h3>{app.person.name} {app.person.surname}</h3>
               <p>Email: {app.person.contactEmail}</p>
@@ -105,5 +113,4 @@ const OfferApplicationsPage = () => {
     </div>
   );
 };
-
 export default OfferApplicationsPage;
